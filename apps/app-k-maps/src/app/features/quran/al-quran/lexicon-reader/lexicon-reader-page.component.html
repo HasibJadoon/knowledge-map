@@ -102,19 +102,16 @@
         @if (ayahModalLoading()) {
           <p class="rdr-muted">جارٍ التحميل…</p>
         } @else if (ayahPreview(); as v) {
-          <header class="rdr-ayah-sheet__head">
-            <span class="rdr-ayah-sheet__ref">{{ v.surah }}:{{ v.ayah }}</span>
-            @if (v.page_number) {
-              <span class="rdr-ayah-sheet__page">ص {{ v.page_number }}</span>
-            }
-          </header>
-          <p class="rdr-ayah-sheet__ar" lang="ar">{{ v.text_display }}</p>
-          @if (v.translation) {
-            <p class="rdr-ayah-sheet__en" dir="ltr">{{ v.translation }}</p>
-          }
+          <km-verse-display variant="modal"
+                            [text]="v.text_display"
+                            [translation]="v.translation"
+                            [surah]="v.surah"
+                            [ayah]="v.ayah"
+                            [pageNumber]="v.page_number" />
           <ion-button class="rdr-ayah-sheet__nav"
                       expand="block" fill="outline" size="small"
                       (click)="goToAyah(v.surah, v.ayah)">
+            <ion-icon slot="start" name="book-outline" />
             افتح في المصحف
           </ion-button>
         } @else {
@@ -125,8 +122,57 @@
   </ng-template>
 </ion-modal>
 
+<!-- ── Footnote sheet ───────────────────────────────────────────────── -->
+<ion-modal
+  class="rdr-fn-modal"
+  [isOpen]="footnoteModalOpen()"
+  [breakpoints]="[0, 0.55, 0.92]"
+  [initialBreakpoint]="0.55"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeFootnoteModal()"
+>
+  <ng-template>
+    <ion-content class="rdr-fn-modal__content">
+      <div class="rdr-fn-sheet" dir="rtl">
+        <header class="rdr-fn-sheet__head">
+          <h3 class="rdr-fn-sheet__title">الحواشي</h3>
+          <span class="rdr-fn-sheet__count">{{ footnoteList().length }}</span>
+        </header>
+
+        @if (footnoteList().length === 0) {
+          <p class="rdr-muted">لا توجد حواشي.</p>
+        } @else {
+          <ol class="rdr-fn-list">
+            @for (fn of footnoteList(); track fn.num) {
+              <li class="rdr-fn-list__item"
+                  [class.rdr-fn-list__item--bare]="!fn.text"
+                  [class.rdr-fn-list__item--focused]="footnoteFocusedNum() === fn.num"
+                  [attr.data-fn-num]="fn.num">
+                <span class="rdr-fn-list__num">{{ fn.num }}</span>
+                <div class="rdr-fn-list__body">
+                  @if (fn.printed_page) {
+                    <span class="rdr-fn-list__page">ص {{ fn.printed_page }}</span>
+                  }
+                  @if (fn.text) {
+                    <span class="rdr-fn-list__text">{{ fn.text }}</span>
+                  } @else {
+                    <em class="rdr-fn-list__missing">(لا يوجد نص للحاشية في هذا المصدر)</em>
+                  }
+                </div>
+              </li>
+            }
+          </ol>
+        }
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
 <!-- ── Content ───────────────────────────────────────────────────────── -->
-<ion-content class="rdr-content" [fullscreen]="true">
+<ion-content class="rdr-content" [fullscreen]="true"
+             [scrollEvents]="true"
+             (ionScroll)="onContentScroll($any($event))">
 
   <!-- Live search results overlay — shown when the user is typing. -->
   @if (rootSearch().trim()) {
@@ -255,7 +301,11 @@
                         @case ('siglum')     { <span class="rdr-lane-sig" [title]="t.name_en">({{ t.raw }})</span> }
                         @case ('quran')      {
                           <a class="rdr-qref" (click)="openAyah(t.surah, t.ayah)" [title]="t.raw">
-                            <span class="rdr-qref__ref">{{ t.surah }}:{{ t.ayah }}</span>
+                            <span class="rdr-qref__bracket">﴿</span><span
+                              class="rdr-qref__surah">{{ t.surah }}</span><span
+                              class="rdr-qref__sep">:</span><span
+                              class="rdr-qref__ayah">{{ t.ayah }}</span><span
+                              class="rdr-qref__bracket">﴾</span>
                           </a>
                         }
                       }
@@ -287,7 +337,18 @@
                     @for (seg of bodySegments(p); track $index) {
                       @switch (seg.kind) {
                         @case ('qref') {
-                          <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">{{ seg.surah }}:{{ seg.ayah }}</a>
+                          <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
+                            <span class="rdr-qref__bracket">﴿</span><span
+                              class="rdr-qref__surah">{{ seg.surah }}</span><span
+                              class="rdr-qref__sep">:</span><span
+                              class="rdr-qref__ayah">{{ seg.ayah }}</span><span
+                              class="rdr-qref__bracket">﴾</span>
+                          </a>
+                        }
+                        @case ('fn') {
+                          <button class="rdr-fn rdr-fn--has-text" type="button"
+                                  [attr.aria-label]="'حاشية ' + seg.fn"
+                                  (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
                         }
                         @default { <span>{{ seg.value }}</span> }
                       }
@@ -295,7 +356,27 @@
                   </p>
                 }
               } @else if (s.text_ar) {
-                <p class="rdr-section__p" dir="rtl">{{ s.text_ar }}</p>
+                <p class="rdr-section__p" dir="rtl">
+                  @for (seg of bodySegments(s.text_ar); track $index) {
+                    @switch (seg.kind) {
+                      @case ('qref') {
+                        <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
+                          <span class="rdr-qref__bracket">﴿</span><span
+                            class="rdr-qref__surah">{{ seg.surah }}</span><span
+                            class="rdr-qref__sep">:</span><span
+                            class="rdr-qref__ayah">{{ seg.ayah }}</span><span
+                            class="rdr-qref__bracket">﴾</span>
+                        </a>
+                      }
+                      @case ('fn') {
+                        <button class="rdr-fn rdr-fn--has-text" type="button"
+                                [attr.aria-label]="'حاشية ' + seg.fn"
+                                (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
+                      }
+                      @default { <span>{{ seg.value }}</span> }
+                    }
+                  }
+                </p>
               }
             </section>
           }
@@ -326,11 +407,18 @@
                           @case ('paren_quote') { <span class="rdr-mufradat-paren">({{ t.value }})</span> }
                           @case ('quran')       {
                             <a class="rdr-qref" (click)="openAyah(t.surah_num ?? 0, t.ayah)" [title]="t.raw">
-                              <span class="rdr-qref__ref">{{ t.surah }} {{ t.ayah }}</span>
+                              <span class="rdr-qref__bracket">﴿</span><span
+                                class="rdr-qref__surah">{{ t.surah }}</span><span
+                                class="rdr-qref__sep">:</span><span
+                                class="rdr-qref__ayah">{{ t.ayah }}</span><span
+                                class="rdr-qref__bracket">﴾</span>
                             </a>
                           }
                           @case ('footnote')    {
-                            <sup class="rdr-fn" [class.rdr-fn--has-text]="t.has_text" [title]="t.text || ''">{{ t.num }}</sup>
+                            <button class="rdr-fn" type="button"
+                                    [class.rdr-fn--has-text]="t.has_text"
+                                    [attr.aria-label]="'حاشية ' + t.num"
+                                    (click)="openFootnotes(t.num)">{{ t.num }}</button>
                           }
                         }
                       }
@@ -406,7 +494,18 @@
                   @for (seg of bodySegments(n.body_plain || n.body_md); track $index) {
                     @switch (seg.kind) {
                       @case ('qref') {
-                        <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">{{ seg.surah }}:{{ seg.ayah }}</a>
+                        <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
+                          <span class="rdr-qref__bracket">﴿</span><span
+                            class="rdr-qref__surah">{{ seg.surah }}</span><span
+                            class="rdr-qref__sep">:</span><span
+                            class="rdr-qref__ayah">{{ seg.ayah }}</span><span
+                            class="rdr-qref__bracket">﴾</span>
+                        </a>
+                      }
+                      @case ('fn') {
+                        <button class="rdr-fn rdr-fn--has-text" type="button"
+                                [attr.aria-label]="'حاشية ' + seg.fn"
+                                (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
                       }
                       @default { <span>{{ seg.value }}</span> }
                     }

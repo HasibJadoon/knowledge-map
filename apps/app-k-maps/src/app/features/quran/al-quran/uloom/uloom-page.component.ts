@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal, computed, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, of } from 'rxjs';
 import { QuranResearchApiService, QrIrabSource, QrIrabEntry } from '../../../../shared/services/quran-research-api.service';
+import { BackendApiService } from '../../../../shared/services/backend-api.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
+import { QrefPillComponent } from '../../../../shared/components/qref-pill/qref-pill.component';
+import { VerseDisplayComponent } from '../../../../shared/components/verse-display/verse-display.component';
+import { bodySegments, ProseSegment } from '../../../../shared/utils/body-segments.util';
 
 interface AyahGroup {
   ayah: number;
@@ -10,17 +17,28 @@ interface AyahGroup {
   entries: QrIrabEntry[];
 }
 
+interface AyahPreview {
+  surah: number; ayah: number;
+  text_display: string;
+  translation: string | null;
+  verse_mark: string | null;
+  page_number: number | null;
+}
+
 @Component({
   selector: 'app-uloom-page',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, QrefPillComponent, VerseDisplayComponent],
   templateUrl: './uloom-page.component.html',
   styleUrl: './uloom-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class UloomPageComponent implements OnInit {
-  private readonly api    = inject(QuranResearchApiService);
-  private readonly search = inject(QuranResearchSearchService);
+  private readonly api        = inject(QuranResearchApiService);
+  private readonly backend    = inject(BackendApiService);
+  private readonly search     = inject(QuranResearchSearchService);
+  private readonly router     = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly sources        = signal<QrIrabSource[]>([]);
   readonly loading        = signal(true);
@@ -48,7 +66,7 @@ export class UloomPageComponent implements OnInit {
     return [...map.values()].sort((a, b) => a.ayah - b.ayah);
   });
 
-  readonly currentGroup = computed(() => this.ayahGroups()[this.currentAyahIdx()] ?? null);
+  readonly currentGroup = computed<AyahGroup | null>(() => this.ayahGroups()[this.currentAyahIdx()] ?? null);
 
   constructor() {
     effect(() => {
@@ -79,4 +97,32 @@ export class UloomPageComponent implements OnInit {
   goToAyahNum(ayah: number): void { const i = this.ayahGroups().findIndex(g => g.ayah === ayah); if (i >= 0) this.currentAyahIdx.set(i); }
 
   readonly surahs = Array.from({ length: 114 }, (_, i) => i + 1);
+  readonly skeletonRows = Array.from({ length: 3 });
+
+  segments(text: string | null | undefined): ProseSegment[] {
+    return bodySegments(text);
+  }
+
+  // ── Ayah preview modal (shared pattern with Tafseer/Lexicon)
+  readonly ayahModalOpen    = signal(false);
+  readonly ayahModalLoading = signal(false);
+  readonly ayahPreview      = signal<AyahPreview | null>(null);
+
+  openAyah(surah: number, ayah: number): void {
+    if (!surah || !ayah) return;
+    this.ayahPreview.set(null);
+    this.ayahModalOpen.set(true);
+    this.ayahModalLoading.set(true);
+    this.backend.getData<AyahPreview>('qr', ['ayahs', surah, ayah])
+      .pipe(catchError(() => of(null)), takeUntilDestroyed(this.destroyRef))
+      .subscribe(data => {
+        this.ayahPreview.set(data);
+        this.ayahModalLoading.set(false);
+      });
+  }
+  closeAyahModal(): void { this.ayahModalOpen.set(false); }
+  goToAyah(surah: number, ayah: number): void {
+    this.closeAyahModal();
+    this.router.navigate(['/quran/al-quran'], { queryParams: { surah, startingVerse: ayah } });
+  }
 }

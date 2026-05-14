@@ -1,8 +1,15 @@
-import { ChangeDetectionStrategy, Component, OnInit, inject, signal, computed, effect } from '@angular/core';
+import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, signal, computed, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { catchError, of } from 'rxjs';
 import { QuranResearchApiService, QrScholarWork, QrTafsirEntry } from '../../../../shared/services/quran-research-api.service';
+import { BackendApiService } from '../../../../shared/services/backend-api.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
+import { QrefPillComponent } from '../../../../shared/components/qref-pill/qref-pill.component';
+import { VerseDisplayComponent } from '../../../../shared/components/verse-display/verse-display.component';
+import { bodySegments, ProseSegment } from '../../../../shared/utils/body-segments.util';
 
 interface AyahGroup {
   ayah: number;
@@ -10,17 +17,28 @@ interface AyahGroup {
   entries: QrTafsirEntry[];
 }
 
+interface AyahPreview {
+  surah: number; ayah: number;
+  text_display: string;
+  translation: string | null;
+  verse_mark: string | null;
+  page_number: number | null;
+}
+
 @Component({
   selector: 'app-tafseer-page',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, QrefPillComponent, VerseDisplayComponent],
   templateUrl: './tafseer-page.component.html',
   styleUrl: './tafseer-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TafseerPageComponent implements OnInit {
-  private readonly api    = inject(QuranResearchApiService);
-  private readonly search = inject(QuranResearchSearchService);
+  private readonly api        = inject(QuranResearchApiService);
+  private readonly backend    = inject(BackendApiService);
+  private readonly search     = inject(QuranResearchSearchService);
+  private readonly router     = inject(Router);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly works          = signal<QrScholarWork[]>([]);
   readonly loading        = signal(true);
@@ -48,7 +66,7 @@ export class TafseerPageComponent implements OnInit {
     return [...map.values()].sort((a, b) => a.ayah - b.ayah);
   });
 
-  readonly currentGroup = computed(() => this.ayahGroups()[this.currentAyahIdx()] ?? null);
+  readonly currentGroup = computed<AyahGroup | null>(() => this.ayahGroups()[this.currentAyahIdx()] ?? null);
 
   readonly madhabLabel: Record<string, string> = {
     sunni: 'سني', maliki: 'مالكي', shafii: 'شافعي',
@@ -90,4 +108,37 @@ export class TafseerPageComponent implements OnInit {
   }
 
   readonly surahs = Array.from({ length: 114 }, (_, i) => i + 1);
+
+  // ── Skeleton placeholders (used by template *ngFor on loading)
+  readonly skeletonRows = Array.from({ length: 3 });
+
+  // ── Inline ref parsing: bodySegments without footnote awareness (tafsir
+  //    sources don't expose a structured footnote list).
+  segments(text: string | null | undefined): ProseSegment[] {
+    return bodySegments(text);
+  }
+
+  // ── Ayah preview modal — mirrors the lexicon reader pattern so users
+  //    get the same affordance everywhere they tap a Quran reference.
+  readonly ayahModalOpen    = signal(false);
+  readonly ayahModalLoading = signal(false);
+  readonly ayahPreview      = signal<AyahPreview | null>(null);
+
+  openAyah(surah: number, ayah: number): void {
+    if (!surah || !ayah) return;
+    this.ayahPreview.set(null);
+    this.ayahModalOpen.set(true);
+    this.ayahModalLoading.set(true);
+    this.backend.getData<AyahPreview>('qr', ['ayahs', surah, ayah])
+      .pipe(catchError(() => of(null)), takeUntilDestroyed(this.destroyRef))
+      .subscribe(data => {
+        this.ayahPreview.set(data);
+        this.ayahModalLoading.set(false);
+      });
+  }
+  closeAyahModal(): void { this.ayahModalOpen.set(false); }
+  goToAyah(surah: number, ayah: number): void {
+    this.closeAyahModal();
+    this.router.navigate(['/quran/al-quran'], { queryParams: { surah, startingVerse: ayah } });
+  }
 }

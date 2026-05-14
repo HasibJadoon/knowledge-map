@@ -1,1 +1,210 @@
 @use '../research-tab';
+
+// ── Notes page ────────────────────────────────────────────────────────
+.notes-page {
+  padding: 0.6rem 0 calc(7rem + var(--ion-safe-area-bottom, 0px));
+}
+
+// ── Empty state ───────────────────────────────────────────────────────
+.notes-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.85rem;
+  margin: 2.8rem auto 0;
+  padding: 0 1.5rem;
+  max-width: 28rem;
+
+  &__icon {
+    display: grid;
+    place-items: center;
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: 50%;
+    border: 1px solid rgba(232, 201, 106, 0.32);
+    background: radial-gradient(circle, rgba(232, 201, 106, 0.10), transparent 70%);
+    color: #e8c96a;
+    ion-icon { font-size: 1.85rem; }
+  }
+  &__title {
+    margin: 0.2rem 0 0;
+    font-family: var(--km-font-arabic-ui);
+    color: #f3d77a;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+  &__lede {
+    margin: 0;
+    color: rgba(245, 241, 231, 0.62);
+    font-family: var(--km-font-arabic-ui);
+    font-size: 0.92rem;
+    line-height: 1.65;
+  }
+  &__cta {
+    --background: rgba(232, 201, 106, 0.92);
+    --background-activated: #e8c96a;
+    --color: #1a1814;
+    --border-radius: 12px;
+    margin-top: 0.85rem;
+    font-family: var(--km-font-arabic-ui);
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    width: 100%;
+  }
+}
+
+// ── List header ──────────────────────────────────────────────────────
+.notes-head {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem 0.5rem;
+  &__title {
+    margin: 0;
+    color: #f3d77a;
+    font-family: var(--km-font-arabic-ui);
+    font-size: 1.18rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+  }
+  &__count {
+    font-size: 0.74rem;
+    color: rgba(245, 241, 231, 0.5);
+    background: rgba(232, 201, 106, 0.10);
+    border: 1px solid rgba(232, 201, 106, 0.22);
+    padding: 1px 9px;
+    border-radius: 999px;
+    margin-inline-start: auto;
+  }
+}
+
+// ── List ─────────────────────────────────────────────────────────────
+.notes-list {
+  background: transparent;
+  padding: 0.35rem 0.7rem;
+}
+
+.notes-item-sliding {
+  background: transparent;
+  margin-bottom: 0.5rem;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.notes-item {
+  --background: linear-gradient(160deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  --background-activated: rgba(232, 201, 106, 0.10);
+  --color: #f5f1e7;
+  --padding-start: 0.85rem;
+  --inner-padding-end: 0.85rem;
+  --min-height: 0;
+  --border-radius: 12px;
+  border: 1px solid rgba(232, 201, 106, 0.14);
+  border-radius: 12px;
+
+  &__body {
+    width: 100%;
+    padding: 0.7rem 0;
+  }
+  &__text {
+    margin: 0 0 0.4rem;
+    color: #f5f1e7;
+    font-family: var(--km-font-arabic-ui);
+    font-size: 0.98rem;
+    line-height: 1.65;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+  &__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    flex-wrap: wrap;
+    color: rgba(245, 241, 231, 0.46);
+    font-size: 0.72rem;
+  }
+  &__anchor {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    color: rgba(232, 201, 106, 0.78);
+    background: rgba(232, 201, 106, 0.08);
+    border: 1px solid rgba(232, 201, 106, 0.22);
+    border-radius: 999px;
+    padding: 1px 8px;
+    ion-icon { font-size: 0.85rem; }
+  }
+  &__when {
+    margin-inline-start: auto;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+// ── Floating action button ───────────────────────────────────────────
+.notes-fab {
+  margin: 0 0 calc(0.7rem + var(--ion-safe-area-bottom, 0px)) 0.7rem;
+  ion-fab-button {
+    --background: linear-gradient(160deg, #e8c96a 0%, #c9a84c 100%);
+    --background-activated: #c9a84c;
+    --color: #1a1814;
+    --box-shadow: 0 10px 28px -8px rgba(201, 168, 76, 0.55);
+  }
+}
+
+// ── Composer modal ───────────────────────────────────────────────────
+.notes-composer {
+  --background: #0a0908;
+  --border-radius: 18px 18px 0 0;
+  --backdrop-opacity: 0.52;
+  --handle-background: rgba(232, 201, 106, 0.42);
+}
+.notes-composer__content { --background: transparent; }
+.notes-composer__sheet {
+  padding: 0.4rem 1rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+.notes-composer__head {
+  padding: 0.35rem 0 0.7rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.16);
+  h3 {
+    margin: 0;
+    color: #f3d77a;
+    font-family: var(--km-font-arabic-ui);
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+  }
+}
+.notes-composer__field {
+  --background: rgba(255, 255, 255, 0.04);
+  --color: #f5f1e7;
+  --padding-start: 0.6rem;
+  --inner-padding-end: 0.6rem;
+  --border-radius: 10px;
+  border: 1px solid rgba(232, 201, 106, 0.20);
+  border-radius: 10px;
+
+  ion-textarea {
+    --color: #f5f1e7;
+    --placeholder-color: rgba(245, 241, 231, 0.32);
+    font-family: var(--km-font-arabic-ui);
+    font-size: 1rem;
+    line-height: 1.7;
+    text-align: right;
+  }
+}
+.notes-composer__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  ion-button { font-family: var(--km-font-arabic-ui); }
+  ion-button[fill='solid'] {
+    --background: rgba(232, 201, 106, 0.92);
+    --background-activated: #e8c96a;
+    --color: #1a1814;
+  }
+}

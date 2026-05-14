@@ -4,6 +4,8 @@
   [fullscreen]="false"
   [scrollX]="false"
   [scrollY]="true"
+  [scrollEvents]="true"
+  (ionScroll)="onContentScroll($any($event))"
 >
   <div class="al-quran-page">
     <div class="al-quran-page__inner">

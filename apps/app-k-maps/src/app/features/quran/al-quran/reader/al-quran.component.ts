@@ -26,6 +26,8 @@ import {
 import { QuranReaderService } from '../../../../shared/services/quran/quran-reader.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
 import { QuranReaderHeaderService } from './quran-reader-header.service';
+import { hapticTick } from '../../../../shared/utils/haptics.util';
+import { ImmersiveService } from '../immersive.service';
 
 const FIRST_PAGE = 1;
 const LAST_PAGE = 604;
@@ -50,7 +52,14 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly readerHeader = inject(QuranReaderHeaderService, { optional: true });
   private readonly gestureCtrl = inject(GestureController);
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
+  private readonly immersive = inject(ImmersiveService);
   private readonly loadedPageFonts = new Set<number>();
+
+  /** Forward scroll events to the shared immersive service so the shell's
+   *  tab bar hides on scroll-down and reappears on scroll-up. */
+  onContentScroll(ev: CustomEvent<{ scrollTop: number }>): void {
+    this.immersive.onScroll(ev.detail?.scrollTop ?? 0);
+  }
   private swipeGesture?: Gesture;
   private readerContent?: IonContent;
 
@@ -120,6 +129,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.swipeGesture?.destroy();
     this.readerHeader?.clearHandlers();
+    this.immersive.exit();
   }
 
   trackLine(_index: number, line: QuranLayoutLine): number {
@@ -180,6 +190,9 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
         onEnd: (detail) => {
           if (Math.abs(detail.deltaX) < SWIPE_MIN_DISTANCE_PX) return;
           if (Math.abs(detail.deltaY) > SWIPE_MAX_VERTICAL_DRIFT_PX) return;
+          // Light haptic tick on every successful page turn — Apple Books
+          // / Kindle parity. Safe on web (no-op).
+          void hapticTick();
           void this.navigateByPage(detail.deltaX > 0 ? 1 : -1);
         },
       },
@@ -442,6 +455,12 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  /** Cached once, so we don't re-query for every page-batch animation. */
+  private get reduceMotion(): boolean {
+    return typeof window !== 'undefined'
+      && window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches === true;
+  }
+
   private animateLoadedPages(reset = false): void {
     requestAnimationFrame(() => {
       const root = this.host.nativeElement;
@@ -452,6 +471,14 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       const pages = Array.from(root.querySelectorAll<HTMLElement>('.mushaf-page:not(.is-animated)'));
+      // Accessibility: honour OS-level "Reduce Motion". We still mark pages
+      // as animated (so we don't re-process them) but skip the GSAP tweens
+      // entirely — the page just appears at its final position. This is
+      // required for App Store accessibility compliance.
+      if (this.reduceMotion) {
+        for (const page of pages) page.classList.add('is-animated');
+        return;
+      }
       for (const page of pages) {
         page.classList.add('is-animated');
         const lines = Array.from(page.querySelectorAll<HTMLElement>('.mushaf-line'));

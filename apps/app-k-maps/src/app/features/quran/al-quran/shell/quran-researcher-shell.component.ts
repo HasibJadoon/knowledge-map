@@ -4,11 +4,15 @@ import { IonicModule } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { QuranResearchSearchService } from '../quran-research-search.service';
 import { QuranReaderHeaderService } from '../reader/quran-reader-header.service';
+import { ImmersiveService } from '../immersive.service';
+import { hapticTick } from '../../../../shared/utils/haptics.util';
 
 interface ResearchTab {
   id: string;
   labelAr: string;
   href: string;
+  /** Ionicon name (icon-top layout). */
+  icon: string;
 }
 
 @Component({
@@ -26,6 +30,7 @@ export class QuranResearcherShellComponent implements OnDestroy {
 
   readonly search = inject(QuranResearchSearchService);
   readonly readerHeader = inject(QuranReaderHeaderService);
+  readonly immersive = inject(ImmersiveService);
   readonly currentTab = signal('al-quran');
   readonly panelOpen = signal(false);
   // Pages that own a full-bleed header (book name + back arrow) hide the
@@ -33,11 +38,11 @@ export class QuranResearcherShellComponent implements OnDestroy {
   readonly hideShellHeader = signal(false);
 
   readonly tabs: ResearchTab[] = [
-    { id: 'al-quran', labelAr: 'قرآن',  href: '/quran/al-quran' },
-    { id: 'tafseer',  labelAr: 'تفسير', href: '/quran/al-quran/tafseer' },
-    { id: 'uloom',    labelAr: 'علوم',  href: '/quran/al-quran/uloom' },
-    { id: 'lexicon',  labelAr: 'معجم',  href: '/quran/al-quran/lexicon' },
-    { id: 'notes',    labelAr: 'حواشي', href: '/quran/al-quran/notes' },
+    { id: 'al-quran', labelAr: 'قرآن',  href: '/quran/al-quran',          icon: 'book-outline' },
+    { id: 'tafseer',  labelAr: 'تفسير', href: '/quran/al-quran/tafseer',  icon: 'reader-outline' },
+    { id: 'uloom',    labelAr: 'علوم',  href: '/quran/al-quran/uloom',    icon: 'school-outline' },
+    { id: 'lexicon',  labelAr: 'معجم',  href: '/quran/al-quran/lexicon',  icon: 'library-outline' },
+    { id: 'notes',    labelAr: 'حواشي', href: '/quran/al-quran/notes',    icon: 'bookmark-outline' },
   ];
 
   constructor() {
@@ -71,11 +76,16 @@ export class QuranResearcherShellComponent implements OnDestroy {
     this.search.setSearch(value);
   }
 
-  openTab(tab: ResearchTab, event?: Event): void {
-    event?.preventDefault();
-    event?.stopPropagation();
-    this.currentTab.set(tab.id);
-    void this.router.navigateByUrl(tab.href);
+  /** Driven by Ionic's `ionTabsDidChange` so we stay in sync with the
+   *  router-resolved active tab without manual click handling. Ionic emits
+   *  the payload directly (not wrapped in CustomEvent.detail) when bound
+   *  via Angular template (`(ionTabsDidChange)`). */
+  onTabsDidChange(event: { tab: string } | CustomEvent<{ tab: string }>): void {
+    const tab = 'detail' in event ? event.detail?.tab : event?.tab;
+    if (tab && tab !== this.currentTab()) {
+      this.currentTab.set(tab);
+      void hapticTick();
+    }
   }
 
   ngOnDestroy(): void {

@@ -1,5 +1,5 @@
 :host {
-  --qrs-tabbar-height: calc(3.05rem + var(--ion-safe-area-bottom, 0px));
+  --qrs-tabbar-height: calc(3.5rem + var(--ion-safe-area-bottom, 0px));
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -109,48 +109,64 @@
   margin: 0 auto;
 }
 
+// Reader controls: each is an `ion-item` shell wrapping `ion-select` /
+// `ion-input`. We zero-out Ionic's default item padding/borders so the
+// pill aesthetic survives, then re-apply our gold border + dark fill.
 .qrs-reader-control {
-  min-width: 0;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  gap: 0.42rem;
-  padding: 0 0.54rem;
+  --background: #0d0c0a;
+  --color: rgba(247, 245, 238, 0.58);
+  --padding-start: 0.54rem;
+  --inner-padding-end: 0.54rem;
+  --min-height: 46px;
+  --border-radius: 10px;
+  --highlight-height: 0;
+  margin: 0;
   background: #0d0c0a;
   border: 1px solid rgba(201, 168, 76, 0.28);
-  border-radius: 8px;
-  color: rgba(247, 245, 238, 0.58);
+  border-radius: 10px;
   font-family: var(--km-font-arabic-ui, serif);
   font-size: 0.74rem;
+  overflow: hidden;
+  transition: border-color 0.18s, box-shadow 0.18s;
 
-  select,
-  input {
-    min-width: 0;
-    flex: 1 1 auto;
-    height: 100%;
-    appearance: none;
-    background: transparent;
-    border: 0;
-    color: #f7f5ee;
-    font: inherit;
-    font-size: 0.82rem;
-    outline: none;
-    text-align: right;
-  }
-
-  select {
-    padding: 0;
-  }
-
-  input {
-    padding: 0;
-    text-align: center;
-  }
-
-  &:focus-within {
-    color: #d9bd62;
+  &:focus-within,
+  &.ion-focused {
     border-color: rgba(217, 189, 98, 0.72);
     box-shadow: 0 0 0 2px rgba(217, 189, 98, 0.08);
+  }
+
+  ion-label {
+    --color: rgba(232, 201, 106, 0.78);
+    color: rgba(232, 201, 106, 0.78);
+    font-size: 0.62rem !important;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 0;
+    transform: none !important;
+  }
+
+  ion-select, ion-input {
+    --color: #f7f5ee;
+    --placeholder-color: rgba(247, 245, 238, 0.32);
+    --padding-start: 0;
+    --padding-end: 0;
+    color: #f7f5ee;
+    font: inherit;
+    font-size: 0.86rem;
+    margin: 0;
+    min-height: 0;
+  }
+  ion-select { text-align: end; }
+  ion-input  { text-align: center; }
+}
+
+// Action-sheet for the surah picker — gold-on-black tone to match shell
+.qrs-select-sheet {
+  --background: #0a0908;
+  --color: #f5f1e7;
+  .action-sheet-title {
+    color: #e8c96a;
+    font-family: var(--km-font-arabic-ui);
   }
 }
 
@@ -185,35 +201,75 @@
   height: var(--qrs-tabbar-height);
   padding: 0.08rem 0.12rem max(0.1rem, var(--ion-safe-area-bottom, 0px));
   border-top: 1px solid rgba(201, 168, 76, 0.18);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1),
+              opacity   0.22s ease;
+  will-change: transform;
 }
 
+// Immersive reading — slide the tab bar off-screen while preserving its
+// space-claim is undesirable. We translateY by 100% so the content area
+// underneath stays the same height (Ionic's --background fills it).
+.qrs-tab-bar--hidden {
+  transform: translateY(100%);
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .qrs-tab-bar { transition: none; }
+}
+
+// Tab button — uses Ionic CSS variables exclusively so `--color-selected`
+// triggers automatically when the router resolves the active route to
+// the matching `tab` attribute. No manual `.--active` class needed.
 .qrs-tab {
   --background: transparent;
-  --background-focused: transparent;
-  --background-focused-opacity: 0;
-  --color: rgba(245, 241, 231, 0.58);
+  --background-focused: rgba(232, 201, 106, 0.08);
+  --background-focused-opacity: 1;
+  --color: rgba(245, 241, 231, 0.55);
   --color-selected: #e8c96a;
-  --padding-bottom: 0;
+  --color-focused: #e8c96a;
+  --ripple-color: rgba(232, 201, 106, 0.32);
+  --padding-bottom: 0.18rem;
   --padding-end: 0.18rem;
   --padding-start: 0.18rem;
-  --padding-top: 0;
+  --padding-top: 0.32rem;
   min-width: 0;
-  min-height: 2.55rem;
+  min-height: 3.05rem;
   margin: 0;
   border: 0;
   border-radius: 0;
-  color: rgba(245, 241, 231, 0.58);
   overflow: hidden;
+  transition: color 0.18s;
+
+  ion-icon {
+    font-size: 1.18rem;
+    margin-bottom: 0.16rem;
+    transition: transform 0.18s ease;
+  }
+  &.tab-selected ion-icon,
+  &.ion-color-selected ion-icon {
+    transform: translateY(-1px);
+  }
 }
 
 .qrs-tab::part(native) {
-  min-height: 2.55rem;
+  min-height: 3.05rem;
   overflow: hidden;
+  position: relative;
 }
 
-.qrs-tab--active {
-  color: #e8c96a;
-  background: transparent;
+// Gold underline on the selected tab — sits above the safe-area inset.
+.qrs-tab.tab-selected::part(native)::after,
+.qrs-tab[aria-selected='true']::part(native)::after {
+  content: '';
+  position: absolute;
+  left: 22%;
+  right: 22%;
+  top: 2px;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, #e8c96a, transparent);
 }
 
 .qrs-tab__arabic {
@@ -221,11 +277,11 @@
   align-items: center;
   justify-content: center;
   font-family: var(--km-font-arabic-ui, serif);
-  font-size: clamp(0.78rem, 2.8vw, 0.94rem);
-  line-height: 1.35;
+  font-size: clamp(0.72rem, 2.6vw, 0.86rem);
+  line-height: 1.25;
   max-width: 100%;
-  min-height: 1.45rem;
-  padding: 0.05rem 0.04rem 0.12rem;
+  min-height: 1.1rem;
+  padding: 0;
   overflow: hidden;
   text-overflow: clip;
   white-space: nowrap;

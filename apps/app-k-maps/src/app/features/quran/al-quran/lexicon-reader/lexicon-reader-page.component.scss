@@ -234,30 +234,53 @@
 // view-encapsulation to pierce the ion-content shadow DOM via ::part().
 
 // ── Quran reference chip (shared across kinds) ─────────────────────────
+// Renders with Mushaf ornate parens ﴿﴾ (U+FD3F / U+FD3E) — Naskh font on
+// the bracket spans so they render as proper ornaments (not ASCII '[]'),
+// numerals in EB Garamond for tabular-nums + Latin scrip.
 .rdr-qref {
   display: inline-flex;
   align-items: baseline;
+  gap: 0;
   color: var(--quran);
   font-weight: 600;
-  padding: 0 6px;
+  padding: 1px 6px;
   margin: 0 2px;
   border: 1px solid rgba(169, 210, 138, 0.32);
-  border-radius: 4px;
-  background: transparent;
-  font-family: 'EB Garamond', 'Times New Roman', serif;
-  font-size: 0.88em;
+  border-radius: 6px;
+  background: rgba(169, 210, 138, 0.05);
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   text-decoration: none;
   unicode-bidi: isolate;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.02em;
-  transition: background 0.15s, border-color 0.15s;
+  transition: background 0.15s, border-color 0.15s, transform 0.12s;
+  min-height: 22px;
   &:active {
-    background: rgba(169, 210, 138, 0.10);
+    background: rgba(169, 210, 138, 0.15);
     border-color: rgba(169, 210, 138, 0.55);
+    transform: scale(0.97);
   }
-  &__ref { padding: 0; }
+
+  // Mushaf bracket glyphs need an Arabic Naskh font with U+FD3E/U+FD3F
+  // coverage. Without this they fall back to ASCII '[]'.
+  &__bracket {
+    font-family: var(--rdr-font-arabic);
+    color: var(--quran);
+    opacity: 0.85;
+    font-size: 1.05em;
+    margin: 0 1px;
+  }
+  &__surah, &__ayah, &__sep {
+    font-family: 'EB Garamond', 'Times New Roman', serif;
+    font-size: 0.95em;
+  }
+  &__sep { opacity: 0.65; margin: 0 1px; }
+  // Legacy single-span fallback (lane/mufradat callouts not yet migrated)
+  &__ref {
+    padding: 0;
+    font-family: 'EB Garamond', 'Times New Roman', serif;
+  }
 }
 
 // ────────────────────────────────────────────────────────────────────────
@@ -444,17 +467,136 @@
   &::before { content: '['; color: rgba(182, 201, 138, 0.6); font-weight: 700; margin-inline-end: 4px; }
   &::after  { content: ']'; color: rgba(182, 201, 138, 0.6); font-weight: 700; margin-inline-start: 4px; }
 }
+// Footnote marker — rendered as a real <button> so it's tappable, with a
+// 32-min hit area that bigger than the visible numerals (mobile guideline).
 .rdr-fn {
-  display: inline-block;
+  appearance: none;
+  background: transparent;
+  border: 1px solid transparent;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-size: 0.65em;
   font-weight: 700;
   color: var(--ink-faint);
-  padding: 0 2px;
+  padding: 2px 8px;
+  margin: 0 1px;
+  min-width: 24px;
+  border-radius: 6px;
   vertical-align: super;
   font-variant-numeric: tabular-nums;
-  &::before { content: '['; opacity: 0.55; }
-  &::after  { content: ']'; opacity: 0.55; }
-  &--has-text { color: var(--gold); cursor: help; }
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  &::before { content: '['; opacity: 0.55; margin-inline-end: 1px; }
+  &::after  { content: ']'; opacity: 0.55; margin-inline-start: 1px; }
+  &:active  { background: rgba(232, 201, 106, 0.16); }
+  &--has-text {
+    color: var(--gold);
+    &::before, &::after { opacity: 0.8; }
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// FOOTNOTE BOTTOM SHEET
+// ────────────────────────────────────────────────────────────────────────
+.rdr-fn-modal {
+  --border-radius: 18px 18px 0 0;
+  --box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.65);
+  --background: var(--bg-radial, #050505);
+  --handle-background: rgba(232, 201, 106, 0.4);
+  --backdrop-opacity: 0.52;
+}
+.rdr-fn-modal__content {
+  --background: transparent;
+}
+.rdr-fn-sheet {
+  padding: 0.6rem 1rem 2rem;
+  font-family: var(--rdr-font-arabic);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    padding: 0.4rem 0 0.9rem;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 0.8rem;
+  }
+  &__title {
+    margin: 0;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--gold);
+    letter-spacing: 0.06em;
+  }
+  &__count {
+    font-size: 0.74rem;
+    font-weight: 600;
+    color: var(--ink-soft);
+    background: rgba(232, 201, 106, 0.10);
+    border: 1px solid rgba(232, 201, 106, 0.22);
+    padding: 1px 8px;
+    border-radius: 999px;
+    margin-inline-start: auto;
+  }
+}
+.rdr-fn-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.rdr-fn-list__item {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr;
+  gap: 0.55rem;
+  padding: 0.55rem 0.4rem;
+  border-bottom: 1px dashed var(--rule);
+  scroll-margin-block: 1rem;
+  border-radius: 8px;
+  transition: background 0.6s ease, box-shadow 0.6s ease;
+  &:last-child { border-bottom: none; }
+  &--bare { color: var(--ink-soft); }
+  &--focused {
+    background: rgba(232, 201, 106, 0.14);
+    box-shadow: 0 0 0 2px rgba(232, 201, 106, 0.45);
+    animation: rdr-fn-pulse 1s ease-in-out 2;
+  }
+}
+.rdr-fn-list__num {
+  font-weight: 700;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+  text-align: end;
+  font-size: 0.92rem;
+  &::before { content: '['; opacity: 0.6; margin-inline-end: 1px; }
+  &::after  { content: ']'; opacity: 0.6; margin-inline-start: 1px; }
+}
+.rdr-fn-list__body {
+  font-size: 0.96rem;
+  line-height: 1.75;
+  color: var(--ink);
+  word-break: break-word;
+}
+.rdr-fn-list__page {
+  display: inline-block;
+  font-size: 0.7rem;
+  color: var(--ink-faint);
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1px 7px;
+  border-radius: 999px;
+  margin-inline-end: 6px;
+  vertical-align: middle;
+}
+.rdr-fn-list__text {
+  font-family: var(--rdr-font-arabic);
+}
+.rdr-fn-list__missing {
+  color: var(--ink-faint);
+  font-style: normal;
+  font-size: 0.85rem;
+}
+@keyframes rdr-fn-pulse {
+  0%, 100% { box-shadow: 0 0 0 2px rgba(232, 201, 106, 0.45); }
+  50%      { box-shadow: 0 0 0 4px rgba(232, 201, 106, 0.65); }
 }
 
 // ────────────────────────────────────────────────────────────────────────

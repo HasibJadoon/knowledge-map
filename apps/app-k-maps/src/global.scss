@@ -130,15 +130,21 @@
   --app-font-size: 16px;
   --app-font-ar-size: 32px;
   --app-font-sans: "Poppins", "Helvetica Neue", Arial, sans-serif;
-  --app-font-ar: "Uthmanic Hafs", "Scheherazade New", serif;
+  // Default Arabic font for the app — Noto Naskh first. Hafs is reserved for
+  // explicit mushaf containers (see --km-font-quran / --km-font-arabic).
+  // Hafs is a Quran-only font without comma/semicolon/question-mark glyphs;
+  // using it as a global default broke punctuation across every Arabic page.
+  --app-font-ar: "Noto Naskh Arabic", "Scheherazade New", "Amiri", serif;
 
   // k-maps aliases — same names as desktop app
-  // Quran-only fonts (QPC V2 per-page fonts loaded dynamically at runtime)
+  // Quran-only fonts (QPC V2 per-page fonts loaded dynamically at runtime).
+  // Use --km-font-quran / --km-font-arabic ONLY on actual mushaf containers
+  // (full Quranic text). For general Arabic prose use --app-font-ar.
   --km-font-quran:        "Uthmanic Hafs", serif;
   --km-font-arabic:       "Uthmanic Hafs", serif;
   --km-font-arabic-amiri: "AmiriQuran", serif;
   // General Arabic UI — Naskh style (near synonyms, vocabulary, morphology, lemmas)
-  --km-font-arabic-ui:    "Scheherazade New", serif;
+  --km-font-arabic-ui:    "Noto Naskh Arabic", "Scheherazade New", serif;
   --km-font-urdu:         "Noto Nastaliq Urdu", "Scheherazade New", serif;
   --km-font-body: "Poppins", "Helvetica Neue", Arial, sans-serif;
   --km-font-heading: "Poppins", "Helvetica Neue", Arial, sans-serif;

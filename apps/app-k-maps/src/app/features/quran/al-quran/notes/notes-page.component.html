@@ -1,14 +1,108 @@
 <ion-content class="research-content" [fullscreen]="false">
-  <section class="research-page">
-    <div class="source-list">
-      <article class="source-card">
-        <div class="source-card__icon" aria-hidden="true">✎</div>
-        <div>
-          <h2>Running Notes</h2>
-          <p>Capture mobile notes while moving through Quran research tabs.</p>
-          <span>Ready for document integration</span>
+  <section class="research-page notes-page" dir="rtl">
+
+    @if (notes.recent().length === 0) {
+      <!-- Empty state — friendly invitation, not a stub -->
+      <div class="notes-empty">
+        <div class="notes-empty__icon" aria-hidden="true">
+          <ion-icon name="bookmark-outline" />
         </div>
-      </article>
-    </div>
+        <h2 class="notes-empty__title">لا حواشي بعد</h2>
+        <p class="notes-empty__lede">
+          سجّل ملاحظاتك أثناء قراءة القرآن أو التفسير أو المعجم —
+          ستبقى محفوظة على هذا الجهاز.
+        </p>
+        <ion-button class="notes-empty__cta"
+                    fill="solid" expand="block"
+                    (click)="openComposer()">
+          <ion-icon slot="start" name="add-outline" />
+          أضف أول حاشية
+        </ion-button>
+      </div>
+    } @else {
+      <header class="notes-head">
+        <h2 class="notes-head__title">الحواشي</h2>
+        <span class="notes-head__count">{{ notes.recent().length }}</span>
+      </header>
+
+      <ion-list class="notes-list" lines="none">
+        @for (n of notes.recent(); track n.id) {
+          <ion-item-sliding class="notes-item-sliding">
+            <ion-item class="notes-item"
+                      button
+                      detail="false"
+                      (click)="openEditor(n)">
+              <div class="notes-item__body">
+                <p class="notes-item__text">{{ n.text }}</p>
+                <div class="notes-item__meta">
+                  @if (anchorLabel(n); as a) {
+                    <span class="notes-item__anchor">
+                      <ion-icon name="link-outline" />
+                      {{ a }}
+                    </span>
+                  }
+                  <span class="notes-item__when">{{ formatWhen(n.updatedAt) }}</span>
+                </div>
+              </div>
+            </ion-item>
+
+            <ion-item-options side="start">
+              <ion-item-option color="danger" (click)="remove(n)">
+                <ion-icon slot="icon-only" name="trash-outline" />
+              </ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        }
+      </ion-list>
+    }
   </section>
+
+  <!-- Floating action button — quick capture from anywhere on the tab -->
+  <ion-fab slot="fixed" vertical="bottom" horizontal="start" class="notes-fab">
+    <ion-fab-button (click)="openComposer()" aria-label="أضف حاشية">
+      <ion-icon name="add-outline" />
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
+
+<!-- ── Composer / editor sheet ───────────────────────────────────────── -->
+<ion-modal
+  class="notes-composer"
+  [isOpen]="composerOpen()"
+  [breakpoints]="[0, 0.55, 0.95]"
+  [initialBreakpoint]="0.55"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeComposer()"
+>
+  <ng-template>
+    <ion-content class="notes-composer__content">
+      <div class="notes-composer__sheet" dir="rtl">
+        <header class="notes-composer__head">
+          <h3>{{ editingId() ? 'تحرير حاشية' : 'حاشية جديدة' }}</h3>
+        </header>
+
+        <ion-item class="notes-composer__field" lines="none">
+          <ion-textarea
+            [autoGrow]="true"
+            rows="4"
+            placeholder="اكتب ملاحظتك هنا…"
+            dir="rtl"
+            [value]="composerText()"
+            (ionInput)="composerText.set($any($event.detail.value) ?? '')"
+          />
+        </ion-item>
+
+        <div class="notes-composer__actions">
+          <ion-button fill="clear" (click)="closeComposer()">إلغاء</ion-button>
+          <ion-button fill="solid"
+                      [disabled]="!composerText().trim()"
+                      (click)="save()">
+            <ion-icon slot="start" name="checkmark-outline" />
+            {{ editingId() ? 'حفظ' : 'إضافة' }}
+          </ion-button>
+        </div>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

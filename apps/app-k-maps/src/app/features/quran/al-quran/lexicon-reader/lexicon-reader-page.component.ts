@@ -12,7 +12,7 @@
 // the title-bar icon (ion-popover). Entry text is selectable for copy.
 
 import {
-  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, ViewChild,
+  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, OnDestroy, ViewChild,
   computed, inject, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -29,6 +29,9 @@ import {
   ScholarshipShellView, ScholarshipRootRow,
 } from '../../../../shared/services/al-dictionary-api.service';
 import { BackendApiService } from '../../../../shared/services/backend-api.service';
+import { VerseDisplayComponent } from '../../../../shared/components/verse-display/verse-display.component';
+import { hapticTick, hapticTap } from '../../../../shared/utils/haptics.util';
+import { ImmersiveService } from '../immersive.service';
 
 interface AyahPreview {
   surah:        number;
@@ -81,12 +84,12 @@ interface SourceMeta {
 @Component({
   selector: 'app-lexicon-reader-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, FormsModule],
+  imports: [CommonModule, IonicModule, FormsModule, VerseDisplayComponent],
   templateUrl: './lexicon-reader-page.component.html',
   styleUrl: './lexicon-reader-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LexiconReaderPageComponent {
+export class LexiconReaderPageComponent implements OnDestroy {
   @ViewChild('content') contentRef?: ElementRef<HTMLElement>;
 
   private readonly api        = inject(AlDictionaryApiService);
@@ -95,11 +98,25 @@ export class LexiconReaderPageComponent {
   private readonly router     = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastCtrl  = inject(ToastController);
+  private readonly immersive  = inject(ImmersiveService);
+
+  /** Drive immersive-mode (auto-hide tab bar) from page scroll. */
+  onContentScroll(ev: CustomEvent<{ scrollTop: number }>): void {
+    this.immersive.onScroll(ev.detail?.scrollTop ?? 0);
+  }
+
+  ngOnDestroy(): void {
+    this.immersive.exit();
+  }
 
   // ── Ayah preview modal
   readonly ayahModalOpen    = signal(false);
   readonly ayahModalLoading = signal(false);
   readonly ayahPreview      = signal<AyahPreview | null>(null);
+
+  // ── Footnote sheet
+  readonly footnoteModalOpen   = signal(false);
+  readonly footnoteFocusedNum  = signal<number | null>(null);
 
   // ── Routing state
   readonly slug        = signal<string>('');
@@ -301,6 +318,7 @@ export class LexiconReaderPageComponent {
 
   // ── User interactions
   selectRoot(root_norm: string, replaceUrl = false): void {
+    if (!replaceUrl) void hapticTick();
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { root: root_norm },
@@ -327,9 +345,12 @@ export class LexiconReaderPageComponent {
     this.router.navigate(['/quran/al-quran/lexicon/books']);
   }
 
-  // Open the ayah in an inline preview modal.
+  // Open the ayah in an inline preview modal. Guards against re-opening
+  // when a modal is already presenting (Ionic otherwise stacks duplicates).
   openAyah(surah: number, ayah: number): void {
     if (!surah || !ayah) return;
+    if (this.ayahModalOpen()) return;
+    void hapticTap();
     this.ayahPreview.set(null);
     this.ayahModalOpen.set(true);
     this.ayahModalLoading.set(true);
@@ -342,6 +363,39 @@ export class LexiconReaderPageComponent {
   }
 
   closeAyahModal(): void { this.ayahModalOpen.set(false); }
+
+  // ── Footnote sheet ─────────────────────────────────────────────────────
+  // Unified footnote list across kinds. Mufradat surfaces them on the view;
+  // Classical lexicons store footnotes as blocks (block_type === 'footnote').
+  // Lane / Scholarship currently have none.
+  readonly footnoteList = computed<{ num: number; text: string | null; printed_page: number | null }[]>(() => {
+    const k = this.kind();
+    if (k === 'mufradat') {
+      return this.mufradatView()?.footnotes ?? [];
+    }
+    if (k === 'classical') {
+      const blocks = this.classicalView()?.blocks ?? [];
+      return blocks
+        .filter(b => b.block_type === 'footnote')
+        .map(b => ({
+          num: b.block_seq,
+          text: b.text_plain,
+          printed_page: b.printed_page,
+        }));
+    }
+    return [];
+  });
+
+  openFootnotes(num?: number): void {
+    if (!this.footnoteList().length) return;
+    this.footnoteFocusedNum.set(num ?? null);
+    this.footnoteModalOpen.set(true);
+  }
+
+  closeFootnoteModal(): void {
+    this.footnoteModalOpen.set(false);
+    this.footnoteFocusedNum.set(null);
+  }
 
   goToAyah(surah: number, ayah: number): void {
     this.closeAyahModal();
@@ -403,19 +457,37 @@ export class LexiconReaderPageComponent {
   // ── Body segmentation for inline "Q s:a" references (Mufradat / V2 /
   // scholarship plain-text bodies that mention Quran verses).
   bodySegments(text: string | null | undefined): {
-    kind: 'text' | 'qref'; value: string; surah?: number; ayah?: number;
+    kind: 'text' | 'qref' | 'fn'; value: string; surah?: number; ayah?: number; fn?: number;
   }[] {
     if (!text) return [];
-    const RX = /\bQ\.?\s*(\d{1,3})\s*[:\-–]\s*(\d{1,3})\b/g;
-    const out: { kind: 'text' | 'qref'; value: string; surah?: number; ayah?: number }[] = [];
+    // Match either a Quran ref (`Q.S:A`, `Q. S–A`) OR a footnote marker `(N)`.
+    // Footnote markers in classical Arabic lexicons are bare parenthesized
+    // numbers up to 3 digits, used inline like `إبابةً (69) .`. We restrict
+    // to 1-3 digits to avoid catching year numbers (which classical texts
+    // rarely embed mid-prose anyway).
+    const RX = /\bQ\.?\s*(\d{1,3})\s*[:\-–]\s*(\d{1,3})\b|\((\d{1,3})\)/g;
+    const out: { kind: 'text' | 'qref' | 'fn'; value: string; surah?: number; ayah?: number; fn?: number }[] = [];
+    const fnSet = new Set(this.footnoteList().map(f => f.num));
     let cur = 0;
     let m: RegExpExecArray | null;
     while ((m = RX.exec(text)) != null) {
-      const surah = parseInt(m[1], 10);
-      const ayah  = parseInt(m[2], 10);
-      if (!(surah >= 1 && surah <= 114 && ayah >= 1)) continue;
+      let token: { kind: 'qref' | 'fn'; value: string; surah?: number; ayah?: number; fn?: number } | null = null;
+      if (m[1] && m[2]) {
+        const surah = parseInt(m[1], 10);
+        const ayah  = parseInt(m[2], 10);
+        if (!(surah >= 1 && surah <= 114 && ayah >= 1)) continue;
+        token = { kind: 'qref', value: m[0], surah, ayah };
+      } else if (m[3]) {
+        const num = parseInt(m[3], 10);
+        // Only treat as a footnote if this number actually exists in the
+        // entry's footnote list — otherwise it's just a parenthesized
+        // number in the prose (e.g., a verse count) and should stay text.
+        if (!fnSet.has(num)) continue;
+        token = { kind: 'fn', value: m[0], fn: num };
+      }
+      if (!token) continue;
       if (m.index > cur) out.push({ kind: 'text', value: text.slice(cur, m.index) });
-      out.push({ kind: 'qref', value: m[0], surah, ayah });
+      out.push(token);
       cur = m.index + m[0].length;
     }
     if (cur < text.length) out.push({ kind: 'text', value: text.slice(cur) });

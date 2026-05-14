@@ -1,9 +1,9 @@
 @if (!hideShellHeader()) {
-  <ion-header class="qrs-header" [translucent]="false">
+  <ion-header class="qrs-header" [translucent]="true">
     <ion-toolbar class="qrs-toolbar">
       <ion-buttons slot="start">
         <ion-button class="qrs-icon-btn" aria-label="Home" (click)="goHome()">
-          <span class="qrs-grid-icon" aria-hidden="true">▦</span>
+          <ion-icon name="grid-outline" slot="icon-only" />
         </ion-button>
       </ion-buttons>
 
@@ -51,62 +51,71 @@
       @if (readerHeader.visible() && currentTab() === 'al-quran') {
         <div class="qrs-modal-divider"></div>
         <div class="qrs-reader-controls" aria-label="Quran navigation" dir="rtl">
-          <label class="qrs-reader-control">
-            <span>سورة</span>
-            <select
+          <ion-item class="qrs-reader-control" lines="none">
+            <ion-label position="stacked">سورة</ion-label>
+            <ion-select
+              interface="action-sheet"
+              [interfaceOptions]="{ cssClass: 'qrs-select-sheet', header: 'اختر السورة' }"
               [disabled]="readerHeader.disabled()"
               [value]="readerHeader.activeSurah()"
-              (change)="readerHeader.goToSurah($any($event.target).value)"
+              (ionChange)="readerHeader.goToSurah($any($event.detail.value))"
             >
               @for (surah of readerHeader.surahs(); track surah.surah) {
-                <option [value]="surah.surah">
+                <ion-select-option [value]="surah.surah">
                   {{ surah.surah }}. {{ surah.name_ar }}
-                </option>
+                </ion-select-option>
               }
-            </select>
-          </label>
+            </ion-select>
+          </ion-item>
 
-          <label class="qrs-reader-control">
-            <span>آية</span>
-            <input
+          <ion-item class="qrs-reader-control" lines="none">
+            <ion-label position="stacked">آية</ion-label>
+            <ion-input
               type="number"
+              inputmode="numeric"
               min="1"
               [disabled]="readerHeader.disabled()"
               [value]="readerHeader.activeVerse()"
-              (change)="readerHeader.goToVerse($any($event.target).value)"
+              (ionBlur)="readerHeader.goToVerse($any($event.target).value)"
+              (keydown.enter)="readerHeader.goToVerse($any($event.target).value)"
             />
-          </label>
+          </ion-item>
 
-          <label class="qrs-reader-control">
-            <span>صفحة</span>
-            <input
+          <ion-item class="qrs-reader-control" lines="none">
+            <ion-label position="stacked">صفحة</ion-label>
+            <ion-input
               type="number"
+              inputmode="numeric"
               min="1"
               max="604"
               [disabled]="readerHeader.disabled()"
               [value]="readerHeader.activePage()"
-              (change)="readerHeader.goToPage($any($event.target).value)"
+              (ionBlur)="readerHeader.goToPage($any($event.target).value)"
+              (keydown.enter)="readerHeader.goToPage($any($event.target).value)"
             />
-          </label>
+          </ion-item>
         </div>
       }
     </div>
   </ng-template>
 </ion-modal>
 
-<ion-tabs class="qrs-tabs-shell">
-  <ion-router-outlet class="qrs-content" />
-
-  <ion-tab-bar class="qrs-tab-bar" slot="bottom" dir="rtl">
+<ion-tabs class="qrs-tabs-shell"
+          [class.qrs-tabs-shell--immersive]="immersive.hidden()"
+          (ionTabsDidChange)="onTabsDidChange($event)">
+  <ion-tab-bar class="qrs-tab-bar" slot="bottom" dir="rtl"
+               [translucent]="true"
+               [selectedTab]="currentTab()"
+               [class.qrs-tab-bar--hidden]="immersive.hidden()">
     @for (tab of tabs; track tab.id) {
       <ion-tab-button
         class="qrs-tab"
         [tab]="tab.id"
         [href]="tab.href"
-        [class.qrs-tab--active]="currentTab() === tab.id"
+        layout="icon-top"
         [attr.aria-label]="tab.labelAr"
-        (click)="openTab(tab, $event)"
       >
+        <ion-icon [name]="tab.icon" aria-hidden="true" />
         <ion-label class="qrs-tab__arabic" lang="ar" dir="rtl">{{ tab.labelAr }}</ion-label>
       </ion-tab-button>
     }

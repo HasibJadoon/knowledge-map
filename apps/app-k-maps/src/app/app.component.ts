@@ -123,14 +123,22 @@ export class AppComponent {
   }
 
   private applyFontSettings() {
-    const arabic = localStorage.getItem('arabicFont') || 'uthmanic';
+    // `arabic` is a user preference: 'uthmanic' (Hafs, mushaf-style) or
+    // 'naskh' (general-purpose, default). Hafs has NO glyphs for Arabic
+    // punctuation (comma, semicolon, question mark) so making it the
+    // app-wide default breaks every classical lexicon entry — see the
+    // bug logged in lexicon-reader-page.component.scss header comment.
+    //
+    // Default = naskh. The mushaf reader still binds Hafs via
+    // `--km-font-arabic` / `--mushaf-font` regardless of this preference.
+    const arabic = localStorage.getItem('arabicFont') || 'naskh';
     const english = localStorage.getItem('englishFont') || 'poppins';
     const arabicSize = localStorage.getItem('arabicFontSize') || '32';
     const englishSize = localStorage.getItem('englishFontSize') || '18';
 
     const arabicStack = arabic === 'uthmanic'
-      ? 'Uthmanic Hafs, Scheherazade New, serif'
-      : 'Uthmanic Hafs, Scheherazade New, serif';
+      ? '"Uthmanic Hafs", "Noto Naskh Arabic", "Scheherazade New", serif'
+      : '"Noto Naskh Arabic", "Scheherazade New", "Amiri", serif';
     const englishStack = english === 'poppins'
       ? 'Poppins, Helvetica Neue, Arial, sans-serif'
       : 'Poppins, Helvetica Neue, Arial, sans-serif';
