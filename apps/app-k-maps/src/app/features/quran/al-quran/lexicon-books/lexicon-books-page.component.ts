@@ -7,7 +7,7 @@
 
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
+import { ActionSheetController, IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { forkJoin, catchError, of } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -39,8 +39,9 @@ type Filter = 'all' | 'lexicon' | 'scholarship';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LexiconBooksPageComponent {
-  private readonly api    = inject(AlDictionaryApiService);
-  private readonly router = inject(Router);
+  private readonly api          = inject(AlDictionaryApiService);
+  private readonly router       = inject(Router);
+  private readonly actionSheets = inject(ActionSheetController);
 
   readonly books = signal<BookCard[]>([]);
   readonly loading = signal(true);
@@ -104,8 +105,33 @@ export class LexiconBooksPageComponent {
     this.router.navigate(['/quran/al-quran/lexicon']);
   }
 
-  /** Set the active filter tab. */
   setFilter(f: Filter): void { this.filter.set(f); }
+
+  async openFilterSheet(): Promise<void> {
+    const current = this.filter();
+    const sheet = await this.actionSheets.create({
+      cssClass: 'lxb-filter-sheet',
+      buttons: [
+        {
+          text: 'الكل',
+          cssClass: current === 'all' ? 'lxb-sheet-active' : '',
+          handler: () => this.filter.set('all'),
+        },
+        {
+          text: 'المعاجم',
+          cssClass: current === 'lexicon' ? 'lxb-sheet-active' : '',
+          handler: () => this.filter.set('lexicon'),
+        },
+        {
+          text: 'أكاديمي',
+          cssClass: current === 'scholarship' ? 'lxb-sheet-active' : '',
+          handler: () => this.filter.set('scholarship'),
+        },
+        { text: 'إلغاء', role: 'cancel' },
+      ],
+    });
+    await sheet.present();
+  }
 
   /** Open a source in the unified rich reader. The reader dispatches by
    *  source kind (Lane / Classical / Mufradat / Scholarship) and loads

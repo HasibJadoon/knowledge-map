@@ -2,25 +2,17 @@
      automatically so the title is never clipped. -->
 <ion-header class="lxb-header">
   <ion-toolbar class="lxb-toolbar" dir="rtl">
-    <ion-buttons slot="start">
+    <ion-buttons slot="end">
       <ion-button (click)="goBack()" aria-label="الرجوع">
-        <ion-icon name="chevron-forward-outline" slot="icon-only"></ion-icon>
+        <ion-icon name="chevron-back-outline" slot="icon-only" class="lxb-back-icon"></ion-icon>
       </ion-button>
     </ion-buttons>
     <ion-title class="lxb-toolbar__title">المكتبة</ion-title>
-  </ion-toolbar>
-  <ion-toolbar class="lxb-toolbar-sub" dir="rtl">
-    <p class="lxb-toolbar__counts">
-      {{ books().length }} مصدرًا · {{ lexiconCount() }} معجمًا · {{ scholarshipCount() }} قراءة أكاديمية
-    </p>
-  </ion-toolbar>
-  <ion-toolbar class="lxb-toolbar-tabs" dir="rtl">
-    <!-- Filter tabs: All / Lexicons / Academic -->
-    <ion-segment class="lxb-filter" [value]="filter()" (ionChange)="setFilter($any($event.detail.value))" mode="md">
-      <ion-segment-button value="all"><ion-label>الكل</ion-label></ion-segment-button>
-      <ion-segment-button value="lexicon"><ion-label>المعاجم</ion-label></ion-segment-button>
-      <ion-segment-button value="scholarship"><ion-label>أكاديمي</ion-label></ion-segment-button>
-    </ion-segment>
+    <ion-buttons slot="start">
+      <ion-button (click)="openFilterSheet()" aria-label="تصفية" [class.lxb-filter-btn--active]="filter() !== 'all'">
+        <ion-icon name="options-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -47,7 +39,9 @@
               }
               <div class="lxb-card__head">
                 <h2 class="lxb-card__title">{{ b.title_ar }}</h2>
-                <p class="lxb-card__author">{{ b.author }}{{ b.year ? ' · ' + b.year : '' }}</p>
+                @if (b.kind !== 'scholarship') {
+                  <p class="lxb-card__author">{{ b.author }}{{ b.year ? ' · ' + b.year : '' }}</p>
+                }
               </div>
               <p class="lxb-card__stats">
                 @if (b.kind === 'scholarship') {

@@ -51,40 +51,13 @@
   --padding-start: 0;
   --padding-end:   0;
 }
-.lxb-toolbar-sub {
-  --background: #0b0a08;
-  --min-height: 28px;
+// chevron-back auto-flips in RTL — undo so it always points left (back).
+[dir='rtl'] .lxb-back-icon {
+  transform: scaleX(-1);
 }
-.lxb-toolbar__counts {
-  margin: 0;
-  padding: 0 14px 4px;
-  color: var(--ink-soft);
-  font-size: 0.78rem;
-  text-align: right;
-}
-.lxb-toolbar-tabs {
-  --background: #0b0a08;
-  --min-height: 44px;
-  --padding-start: 10px;
-  --padding-end:   10px;
-}
-.lxb-filter {
-  --background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--rule);
-  border-radius: 999px;
-  padding: 2px;
-  max-width: 100%;
-  ion-segment-button {
-    --color:          var(--ink-soft);
-    --color-checked:  var(--gold);
-    --indicator-color: rgba(232, 201, 106, 0.14);
-    --indicator-height: 100%;
-    --indicator-border-radius: 999px;
-    text-transform: none;
-    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
-    font-size: 0.88rem;
-    min-height: 30px;
-  }
+// Filter icon — gold tint when a non-default filter is active.
+.lxb-filter-btn--active {
+  --color: var(--gold) !important;
 }
 
 .lxb-muted { color: var(--ink-faint); text-align: center; padding: 1.4rem; }

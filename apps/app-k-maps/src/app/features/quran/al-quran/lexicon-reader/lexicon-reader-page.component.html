@@ -1,5 +1,5 @@
 <!-- ── Header ─────────────────────────────────────────────────────────── -->
-<ion-header class="rdr-header">
+<ion-header class="rdr-header" translucent>
   <ion-toolbar class="rdr-toolbar" dir="rtl">
     <ion-buttons slot="end">
       <ion-button (click)="goBack()" aria-label="الرجوع">
@@ -9,11 +9,6 @@
     @if (meta(); as m) {
       <ion-title class="rdr-toolbar__title">
         <span class="rdr-toolbar__name">{{ m.title_ar || m.title_en }}</span>
-        @if (m.author) {
-          <span class="rdr-toolbar__author">
-            {{ m.author }}@if (m.year) { · {{ m.year }} }@else if (m.period) { · {{ m.period }} }
-          </span>
-        }
       </ion-title>
     }
     <ion-buttons slot="start">
@@ -91,8 +86,47 @@
   </ng-template>
 </ion-popover>
 
+<!-- ── Ayah preview modal ────────────────────────────────────────────── -->
+<ion-modal
+  class="rdr-ayah-modal"
+  [isOpen]="ayahModalOpen()"
+  [breakpoints]="[0, 0.55]"
+  [initialBreakpoint]="0.55"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeAyahModal()"
+>
+  <ng-template>
+    <ion-content class="rdr-ayah-modal__content">
+      <div class="rdr-ayah-sheet" dir="rtl">
+        @if (ayahModalLoading()) {
+          <p class="rdr-muted">جارٍ التحميل…</p>
+        } @else if (ayahPreview(); as v) {
+          <header class="rdr-ayah-sheet__head">
+            <span class="rdr-ayah-sheet__ref">{{ v.surah }}:{{ v.ayah }}</span>
+            @if (v.page_number) {
+              <span class="rdr-ayah-sheet__page">ص {{ v.page_number }}</span>
+            }
+          </header>
+          <p class="rdr-ayah-sheet__ar" lang="ar">{{ v.text_display }}</p>
+          @if (v.translation) {
+            <p class="rdr-ayah-sheet__en" dir="ltr">{{ v.translation }}</p>
+          }
+          <ion-button class="rdr-ayah-sheet__nav"
+                      expand="block" fill="outline" size="small"
+                      (click)="goToAyah(v.surah, v.ayah)">
+            افتح في المصحف
+          </ion-button>
+        } @else {
+          <p class="rdr-muted">تعذّر تحميل الآية.</p>
+        }
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
 <!-- ── Content ───────────────────────────────────────────────────────── -->
-<ion-content class="rdr-content" [fullscreen]="false">
+<ion-content class="rdr-content" [fullscreen]="true">
 
   <!-- Live search results overlay — shown when the user is typing. -->
   @if (rootSearch().trim()) {
@@ -162,12 +196,20 @@
             @case ('mufradat')  { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h2> }
             @case ('scholarship'){ <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h2> }
           }
-          <button class="rdr-entry-head__copy"
-                  type="button"
-                  (click)="copyRoot($event, { root_norm: currentRoot(), root_text: laneView()?.entry?.root_text ?? classicalView()?.entry?.root_text ?? mufradatView()?.entry?.root_text ?? null })"
-                  aria-label="نسخ الجذر">
-            <ion-icon name="copy-outline"></ion-icon>
-          </button>
+          <div class="rdr-entry-head__btns">
+            <button class="rdr-entry-head__copy"
+                    type="button"
+                    (click)="copyRoot($event, { root_norm: currentRoot(), root_text: laneView()?.entry?.root_text ?? classicalView()?.entry?.root_text ?? mufradatView()?.entry?.root_text ?? null })"
+                    aria-label="نسخ الجذر">
+              <ion-icon name="copy-outline"></ion-icon>
+            </button>
+            <button class="rdr-entry-head__copy rdr-entry-head__copy--all"
+                    type="button"
+                    (click)="copyAll()"
+                    aria-label="نسخ المادة كاملة">
+              <ion-icon name="clipboard-outline"></ion-icon>
+            </button>
+          </div>
         </div>
         <p class="rdr-entry-head__stats">{{ statsLine() }}</p>
         <div class="rdr-entry-head__nav">

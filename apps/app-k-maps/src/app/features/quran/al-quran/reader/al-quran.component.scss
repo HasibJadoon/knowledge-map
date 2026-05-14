@@ -25,7 +25,13 @@
     #050505;
   color: #f7f5ee;
   font-family: var(--km-font-body, var(--ion-font-family, system-ui));
-  padding: 0.55rem 0.45rem 2.5rem;
+  // Wider horizontal padding so Arabic diacritics + word negative-margins
+  // don't clip at narrow viewport edges (was 0.45rem).
+  padding:
+    0.55rem
+    max(0.95rem, env(safe-area-inset-right, 0.95rem))
+    2.5rem
+    max(0.95rem, env(safe-area-inset-left, 0.95rem));
 }
 
 .al-quran-page__inner {

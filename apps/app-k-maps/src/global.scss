@@ -95,6 +95,37 @@
   src: url("assets/fonts/QCF_SurahHeader_COLOR-Regular.woff2") format("woff2");
 }
 
+// ── Noto Naskh Arabic — self-hosted, two subsets ────────────────────────
+// Subset 1: Arabic letters (U+0600..06FF and Arabic extensions).
+// Subset 2: Geometric shapes & math symbols (U+25A0..27BF, U+2299, U+29BF)
+//   — needed because Uthmanic Hafs / Amiri have no glyphs for the dotted-
+//   circle / fisheye / bullseye markers that classical lexicon sources use
+//   as separators. Same family name + unicode-range = browser auto-picks
+//   the right subset per glyph.
+@font-face {
+  font-family: "Noto Naskh Arabic";
+  font-style:   normal;
+  font-weight:  400 700;
+  font-display: swap;
+  src: url("assets/fonts/NotoNaskhArabic-Arabic.woff2") format("woff2");
+  unicode-range:
+    U+0600-06FF, U+0750-077F, U+0870-088E, U+0890-0891, U+0897-08E1,
+    U+08E3-08FF, U+200C-200E, U+2010-2011, U+204F, U+2E41,
+    U+FB50-FDFF, U+FE70-FE74, U+FE76-FEFC;
+}
+@font-face {
+  font-family: "Noto Naskh Arabic";
+  font-style:   normal;
+  font-weight:  400 700;
+  font-display: swap;
+  src: url("assets/fonts/NotoNaskhArabic-Symbols.woff2") format("woff2");
+  unicode-range:
+    U+2150-218F, U+2190, U+2192, U+2194-2199, U+21AF, U+21E6-21F0, U+21F3,
+    U+2218-2219, U+2299, U+22C4-22C6, U+2300-243F, U+2440-244A,
+    U+2460-24FF, U+25A0-27BF, U+2800-28FF, U+2921-2922, U+2981, U+29BF,
+    U+29EB, U+2B00-2BFF;
+}
+
 :root {
   --app-font-size: 16px;
   --app-font-ar-size: 32px;
@@ -3326,4 +3357,45 @@ ion-modal.km-note-workspace-modal::part(content) {
 .km-page-link__icon { font-size: 0.9rem; opacity: 0.7; }
 .km-page-link__title { flex: 1; font-size: 0.88rem; font-weight: 500; }
 .km-page-link__arrow { font-size: 0.85rem; color: rgba(255,255,255,0.3); }
+
+// ── Lexicon reader — text drag-selection and long-press copy ─────────────
+// MUST live in global.scss (not the component stylesheet) so the rules
+// are not transformed by Angular view-encapsulation and can pierce the
+// ion-content shadow DOM via ::part(scroll).
+//
+// Ionic adds `plt-mobile` (and friends) to <html> on mobile and Chrome's
+// device-mode emulation, then applies `user-select: none` at that level.
+// We prefix every selector with `html` so we tie the cascade. The
+// `html.plt-mobile` variant wins on emulated/real mobile.
+html app-lexicon-reader-page,
+html app-lexicon-reader-page *,
+html.plt-mobile app-lexicon-reader-page,
+html.plt-mobile app-lexicon-reader-page * {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+}
+html app-lexicon-reader-page ion-content::part(scroll),
+html.plt-mobile app-lexicon-reader-page ion-content::part(scroll) {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+  -webkit-touch-callout: default !important;
+  // pan-y keeps vertical scrolling while permitting selection-drag gestures.
+  touch-action: pan-y !important;
+}
+html app-lexicon-reader-page ion-content::part(background) {
+  -webkit-user-select: text !important;
+  user-select: text !important;
+}
+// Restore pointer cursor on interactive controls (selection still works on them).
+app-lexicon-reader-page button,
+app-lexicon-reader-page ion-button,
+app-lexicon-reader-page a {
+  cursor: pointer;
+}
+app-lexicon-reader-page .rdr-pane--content,
+app-lexicon-reader-page .rdr-pane--content p,
+app-lexicon-reader-page .rdr-pane--content span {
+  cursor: text;
+}
 

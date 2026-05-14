@@ -87,8 +87,8 @@ export class QuranResearcherShellComponent implements OnDestroy {
     // Match longest href first so '/quran/al-quran/tafseer' beats '/quran/al-quran'
     const match = this.tabs.slice().reverse().find((tab) => path.startsWith(tab.href));
     this.currentTab.set(match?.id ?? 'al-quran');
-    // The lexicon reader (`/lexicon/read/:slug`) shows its own book-name
-    // toolbar — hide the shared K-MAPS header to avoid stacking two.
-    this.hideShellHeader.set(/\/lexicon\/read\//.test(path));
+    // The lexicon reader and the library list both show their own toolbar —
+    // hide the shared K-MAPS header to avoid stacking two.
+    this.hideShellHeader.set(/\/lexicon\/(?:read\/|books)/.test(path));
   }
 }

@@ -13,10 +13,36 @@
   --quran:      #a9d28a;
   --rule:       rgba(255, 255, 255, 0.07);
   --bg-radial:  radial-gradient(ellipse 78% 54% at 50% 28%, rgba(18,16,10,0.92) 0%, rgba(6,6,6,0.98) 58%, #000 100%);
+
+  // Ionic-native toolbar theming — these are what Ionic's translucent system reads.
+  --ion-toolbar-background: #0a0908;
+  --ion-toolbar-color:      var(--ink);
+  --ion-background-color:   #000;
+
+  // Lexicon font stack — browser picks per-glyph from this list:
+  //   1. Uthmanic Hafs    — primary Arabic letters (matches Quran reader).
+  //   2. Noto Naskh Arabic — covers classical Arabic letterforms HAFS lacks
+  //                          AND the geometric-symbol markers (◉ ◌ ⊙)
+  //                          used as separators in classical lexicon
+  //                          source text. Self-hosted in two unicode-range
+  //                          subsets (Arabic + Symbols), see global.scss.
+  //   3. Scheherazade / Amiri / sans-serif — final fallbacks.
+  --rdr-font-arabic:
+    'Uthmanic Hafs',
+    'Noto Naskh Arabic',
+    'Scheherazade New',
+    'Amiri',
+    sans-serif;
+
+  // Override the app-wide UI variable so every element that reads
+  // `var(--km-font-arabic-ui)` (toolbar title, entry root, search bar,
+  // roots picker, stats line, section headings) uses the same stack.
+  --km-font-arabic-ui: var(--rdr-font-arabic);
 }
 
-// ── Header (title toolbar + search toolbar) ────────────────────────────
+// ── Header — translucent native Ionic header ───────────────────────────
 .rdr-header {
+  // Hairline only under the bottom toolbar (search bar).
   ion-toolbar:last-of-type {
     --border-style: solid;
     --border-color: var(--rule);
@@ -24,8 +50,6 @@
   }
 }
 .rdr-toolbar {
-  --background: #0a0908;
-  --color:      var(--ink);
   --min-height: 52px;
   ion-button { --color: var(--gold); }
 }
@@ -61,33 +85,34 @@
   margin-top: 1px;
 }
 
-// Searchbar row directly under the title. Mirrors the books-library look.
-// Tight against the title toolbar — no extra gap between them.
+// Searchbar row — compact pill, inherits toolbar background from :host var.
 .rdr-search-bar {
-  --background: #0a0908;
-  --min-height: 0;
-  --padding-top: 0;
-  --padding-bottom: 0;
-  --padding-start: 8px;
-  --padding-end:   8px;
-  padding-top: 0;
-  padding-bottom: 0;
+  --min-height:    0;
+  --padding-start: 12px;
+  --padding-end:   12px;
+  padding: 6px 0 10px;
 }
 .rdr-search {
-  --background:           rgba(255, 255, 255, 0.04);
-  --color:                var(--ink);
-  --placeholder-color:    var(--ink-faint);
-  --icon-color:           var(--gold-soft);
-  --clear-button-color:   var(--ink-soft);
-  --border-radius: 12px;
-  padding: 4px 0 6px;
+  --background:         rgba(255, 255, 255, 0.05);
+  --color:              var(--ink);
+  --placeholder-color:  var(--ink-faint);
+  --icon-color:         var(--gold-soft);
+  --clear-button-color: var(--ink-soft);
+  --border-radius:      999px;
+  --box-shadow:         none;
+  padding: 0;
   min-height: 0;
   font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 0.9rem;
 }
 .rdr-search::part(input) {
-  min-height: 36px;
+  min-height: 38px;
   padding-top: 0;
   padding-bottom: 0;
+}
+.rdr-search::part(container) {
+  border: 1px solid rgba(232, 201, 106, 0.20);
+  border-radius: 999px;
 }
 
 // ── Content background ─────────────────────────────────────────────────
@@ -157,6 +182,12 @@
     letter-spacing: 0.04em;
     line-height: 1.15;
   }
+  &__btns {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex-shrink: 0;
+  }
   &__copy {
     appearance: none;
     background: transparent;
@@ -176,6 +207,8 @@
       border-color: var(--gold-line);
     }
     ion-icon { font-size: 18px; }
+    // "copy all" button uses a subtler tint so the two icons read as different actions.
+    &--all { color: var(--ink-soft); }
   }
   &__stats {
     margin: 0;
@@ -193,13 +226,9 @@
   }
 }
 
-// ── Selectable text helper (overrides Ionic's default suppression) ──────
-.rdr-selectable,
-.rdr-selectable * {
-  user-select: text !important;
-  -webkit-user-select: text !important;
-  -webkit-touch-callout: default !important;
-}
+// Text selection rules now live in src/global.scss under the
+// `app-lexicon-reader-page` selector — they need to be outside Angular's
+// view-encapsulation to pierce the ion-content shadow DOM via ::part().
 
 // ── Quran reference chip (shared across kinds) ─────────────────────────
 .rdr-qref {
@@ -233,8 +262,8 @@
 // ────────────────────────────────────────────────────────────────────────
 .rdr-lane {
   font-family: 'Source Serif Pro', 'Amiri', 'Scheherazade New', Georgia, serif;
-  font-size: 1.02rem;
-  line-height: 1.78;
+  font-size: 0.93rem;
+  line-height: 1.72;
   color: var(--ink);
 
   &__form {
@@ -306,8 +335,8 @@
     unicode-bidi: plaintext;
   }
 }
-.rdr-lane-arabic   { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.06em; font-weight: 600; padding: 0 2px; }
-.rdr-lane-headword { color: var(--gold); font-family: 'Amiri', serif; font-size: 1.14em; font-weight: 800; padding: 0 2px; }
+.rdr-lane-arabic   { color: var(--gold); font-family: var(--rdr-font-arabic); font-size: 1.06em; font-weight: 600; padding: 0 2px; }
+.rdr-lane-headword { color: var(--gold); font-family: var(--rdr-font-arabic); font-size: 1.14em; font-weight: 800; padding: 0 2px; }
 .rdr-lane-sig {
   color: var(--ink-soft);
   font-style: italic;
@@ -328,9 +357,9 @@
 // CLASSICAL / MUFRADAT — section + paragraph rhythm
 // ────────────────────────────────────────────────────────────────────────
 .rdr-classical, .rdr-mufradat {
-  font-family: 'Amiri', 'Scheherazade New', 'Noto Naskh Arabic', serif;
-  font-size: 1.05rem;
-  line-height: 1.9;
+  font-family: var(--rdr-font-arabic);
+  font-size: 0.95rem;
+  line-height: 1.82;
   color: var(--ink);
 }
 .rdr-section {
@@ -691,5 +720,73 @@ ion-accordion {
       color: var(--gold);
     }
     ion-icon { font-size: 16px; }
+  }
+}
+
+// ────────────────────────────────────────────────────────────────────────
+// AYAH PREVIEW MODAL — bottom sheet showing the full verse + translation
+// ────────────────────────────────────────────────────────────────────────
+ion-modal.rdr-ayah-modal {
+  --background:       #0d0c0a;
+  --border-radius:    18px 18px 0 0;
+  --box-shadow:       0 -8px 40px rgba(0, 0, 0, 0.65);
+  --backdrop-opacity: 0.52;
+}
+.rdr-ayah-modal__content {
+  --background: #0d0c0a;
+  --color:      var(--ink);
+}
+.rdr-ayah-sheet {
+  padding: 1rem 1.3rem calc(2rem + var(--ion-safe-area-bottom, 0px));
+
+  &__head {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin-bottom: 1rem;
+  }
+  &__ref {
+    font-family: 'EB Garamond', serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: var(--quran);
+    background: rgba(169, 210, 138, 0.10);
+    border: 1px solid rgba(169, 210, 138, 0.30);
+    border-radius: 999px;
+    padding: 0.14rem 0.65rem;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.03em;
+  }
+  &__page {
+    color: var(--ink-faint);
+    font-size: 0.76rem;
+    font-variant-numeric: tabular-nums;
+  }
+  &__ar {
+    font-family: 'Amiri', 'Scheherazade New', serif;
+    font-size: 1.42rem;
+    line-height: 2.05;
+    color: var(--ink);
+    text-align: right;
+    margin: 0 0 0.85rem;
+    direction: rtl;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  &__en {
+    font-size: 0.86rem;
+    line-height: 1.65;
+    color: var(--ink-soft);
+    margin: 0 0 1.1rem;
+    direction: ltr;
+    text-align: left;
+    user-select: text;
+    -webkit-user-select: text;
+  }
+  &__nav {
+    --color:        var(--quran);
+    --border-color: rgba(169, 210, 138, 0.35);
+    width: 100%;
+    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
   }
 }

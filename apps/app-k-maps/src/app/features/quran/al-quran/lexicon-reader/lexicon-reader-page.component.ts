@@ -28,6 +28,16 @@ import {
   MufradatReadView, MufradatProseToken,
   ScholarshipShellView, ScholarshipRootRow,
 } from '../../../../shared/services/al-dictionary-api.service';
+import { BackendApiService } from '../../../../shared/services/backend-api.service';
+
+interface AyahPreview {
+  surah:        number;
+  ayah:         number;
+  text_display: string;
+  translation:  string | null;
+  verse_mark:   string | null;
+  page_number:  number | null;
+}
 
 export type SourceKind = 'lane' | 'classical' | 'mufradat' | 'scholarship';
 
@@ -80,10 +90,16 @@ export class LexiconReaderPageComponent {
   @ViewChild('content') contentRef?: ElementRef<HTMLElement>;
 
   private readonly api        = inject(AlDictionaryApiService);
+  private readonly backend    = inject(BackendApiService);
   private readonly route      = inject(ActivatedRoute);
   private readonly router     = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
   private readonly toastCtrl  = inject(ToastController);
+
+  // ── Ayah preview modal
+  readonly ayahModalOpen    = signal(false);
+  readonly ayahModalLoading = signal(false);
+  readonly ayahPreview      = signal<AyahPreview | null>(null);
 
   // ── Routing state
   readonly slug        = signal<string>('');
@@ -311,9 +327,24 @@ export class LexiconReaderPageComponent {
     this.router.navigate(['/quran/al-quran/lexicon/books']);
   }
 
-  // Open the ayah in the mushaf reader.
+  // Open the ayah in an inline preview modal.
   openAyah(surah: number, ayah: number): void {
     if (!surah || !ayah) return;
+    this.ayahPreview.set(null);
+    this.ayahModalOpen.set(true);
+    this.ayahModalLoading.set(true);
+    this.backend.getData<AyahPreview>('qr', ['ayahs', surah, ayah])
+      .pipe(catchError(() => of(null)), takeUntilDestroyed(this.destroyRef))
+      .subscribe(data => {
+        this.ayahPreview.set(data);
+        this.ayahModalLoading.set(false);
+      });
+  }
+
+  closeAyahModal(): void { this.ayahModalOpen.set(false); }
+
+  goToAyah(surah: number, ayah: number): void {
+    this.closeAyahModal();
     this.router.navigate(['/quran/al-quran'], {
       queryParams: { surah, startingVerse: ayah },
     });
@@ -345,6 +376,24 @@ export class LexiconReaderPageComponent {
     } catch {
       // Clipboard API may be unavailable (e.g. insecure contexts). Fail silently.
     }
+  }
+
+  // Copy the full rendered entry text (every form, sense, token) to clipboard.
+  async copyAll(): Promise<void> {
+    const el = this.contentRef?.nativeElement;
+    if (!el) return;
+    const text = (el as HTMLElement).innerText?.trim();
+    if (!text) return;
+    try {
+      await navigator.clipboard.writeText(text);
+      const t = await this.toastCtrl.create({
+        message: 'تم نسخ المادة كاملة',
+        duration: 1400,
+        position: 'bottom',
+        cssClass: 'rdr-toast',
+      });
+      await t.present();
+    } catch { /* fail silently */ }
   }
 
   clearSearch(): void {
