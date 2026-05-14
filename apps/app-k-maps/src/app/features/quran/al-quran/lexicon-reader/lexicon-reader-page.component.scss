@@ -56,12 +56,16 @@
 }
 
 // Searchbar row directly under the title. Mirrors the books-library look.
+// Tight against the title toolbar — no extra gap between them.
 .rdr-search-bar {
   --background: #0a0908;
-  --min-height: 52px;
+  --min-height: 0;
+  --padding-top: 0;
+  --padding-bottom: 0;
   --padding-start: 8px;
   --padding-end:   8px;
-  padding-bottom: 4px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .rdr-search {
   --background:           rgba(255, 255, 255, 0.04);
@@ -70,8 +74,14 @@
   --icon-color:           var(--gold-soft);
   --clear-button-color:   var(--ink-soft);
   --border-radius: 12px;
-  padding: 0;
+  padding: 4px 0 6px;
+  min-height: 0;
   font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+}
+.rdr-search::part(input) {
+  min-height: 36px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 // ── Content background ─────────────────────────────────────────────────
@@ -576,8 +586,8 @@
 ion-popover.rdr-roots-popover {
   --background: #0a0908;
   --color:      var(--ink);
-  --width:      min(92vw, 360px);
-  --max-height: 70vh;
+  --width:      min(94vw, 380px);
+  --max-height: 78vh;
   --box-shadow: 0 18px 40px rgba(0, 0, 0, 0.55);
   --border-radius: 14px;
   --backdrop-opacity: 0.45;
@@ -585,7 +595,7 @@ ion-popover.rdr-roots-popover {
 .rdr-picker {
   display: flex;
   flex-direction: column;
-  max-height: 70vh;
+  max-height: 78vh;
   overflow: hidden;
   font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
 
