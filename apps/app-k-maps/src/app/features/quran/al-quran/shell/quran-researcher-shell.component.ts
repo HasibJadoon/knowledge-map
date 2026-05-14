@@ -28,6 +28,9 @@ export class QuranResearcherShellComponent implements OnDestroy {
   readonly readerHeader = inject(QuranReaderHeaderService);
   readonly currentTab = signal('al-quran');
   readonly panelOpen = signal(false);
+  // Pages that own a full-bleed header (book name + back arrow) hide the
+  // shared K-MAPS title bar so we don't render two stacked headers.
+  readonly hideShellHeader = signal(false);
 
   readonly tabs: ResearchTab[] = [
     { id: 'al-quran', labelAr: 'قرآن',  href: '/quran/al-quran' },
@@ -84,5 +87,8 @@ export class QuranResearcherShellComponent implements OnDestroy {
     // Match longest href first so '/quran/al-quran/tafseer' beats '/quran/al-quran'
     const match = this.tabs.slice().reverse().find((tab) => path.startsWith(tab.href));
     this.currentTab.set(match?.id ?? 'al-quran');
+    // The lexicon reader (`/lexicon/read/:slug`) shows its own book-name
+    // toolbar — hide the shared K-MAPS header to avoid stacking two.
+    this.hideShellHeader.set(/\/lexicon\/read\//.test(path));
   }
 }
