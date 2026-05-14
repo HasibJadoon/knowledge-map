@@ -16,6 +16,7 @@ import {
   computed, inject, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { IonicModule, ToastController } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -298,27 +299,47 @@ export class LexiconReaderPageComponent implements OnDestroy {
       this.readingState.setLastLexicon(slug, m?.title_ar ?? null, root_norm);
     };
 
+    const onErr = (err: unknown) => {
+      this.error.set(this.errorMessageFor(err, root_norm));
+      return of(null);
+    };
+
     if (kind === 'lane') {
       this.api.getLaneRead(root_norm).pipe(
-        catchError(() => { this.error.set('تعذّر تحميل المادة'); return of(null); }),
+        catchError(onErr),
         takeUntilDestroyed(this.destroyRef),
       ).subscribe(v => { this.laneView.set(v); finish(); });
     } else if (kind === 'classical') {
       this.api.getV2Entry(slug, root_norm).pipe(
-        catchError(() => { this.error.set('تعذّر تحميل المادة'); return of(null); }),
+        catchError(onErr),
         takeUntilDestroyed(this.destroyRef),
       ).subscribe(v => { this.classicalView.set(v); finish(); });
     } else if (kind === 'mufradat') {
       this.api.getMufradatRead(root_norm).pipe(
-        catchError(() => { this.error.set('تعذّر تحميل المادة'); return of(null); }),
+        catchError(onErr),
         takeUntilDestroyed(this.destroyRef),
       ).subscribe(v => { this.mufradatView.set(v); finish(); });
     } else {
       this.api.getScholarshipBySource(slug, root_norm).pipe(
-        catchError(() => { this.error.set('تعذّر تحميل المادة'); return of(null); }),
+        catchError(onErr),
         takeUntilDestroyed(this.destroyRef),
       ).subscribe(v => { this.scholarshipView.set(v); finish(); });
     }
+  }
+
+  /** Map an API error to a user-readable Arabic message. The lexicon v2
+   *  backend returns 500 for both "root not in this lexicon" and "real
+   *  server fault" — we can't disambiguate from the client, but for
+   *  unusually short root strings (1 character) we surface a more
+   *  useful "no entry" message because that's the most common cause. */
+  private errorMessageFor(err: unknown, root: string): string {
+    const status = err instanceof HttpErrorResponse ? err.status : 0;
+    if (status === 404) return 'هذا الجذر غير موجود في هذا المصدر.';
+    if (status === 0)   return 'تعذّر الاتصال بالخادم.';
+    if (status >= 500 && root.length < 2) {
+      return 'لا توجد مادة لهذا الجذر في هذا المصدر.';
+    }
+    return 'تعذّر تحميل المادة';
   }
 
   // ── User interactions

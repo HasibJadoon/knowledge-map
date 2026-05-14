@@ -12,8 +12,13 @@
       </ion-title>
     }
     <ion-buttons slot="start">
-      <ion-button (click)="toggleBookmark()"
-                  [attr.aria-label]="isBookmarked() ? 'إزالة الإشارة' : 'إضافة إشارة'">
+      <!-- Note: aria-label is STATIC. A dynamic [attr.aria-label] binding
+           on ion-button trips Ionic's attributeChangedCallback (calls
+           `onAriaChanged` on an undefined internal controller) every
+           time the signal it depends on changes — see the lexicon
+           reader's bookmark toggle. The icon swap below conveys state
+           visually; the static label is a stable a11y announcement. -->
+      <ion-button (click)="toggleBookmark()" aria-label="إشارة الجذر">
         <ion-icon [name]="isBookmarked() ? 'bookmark' : 'bookmark-outline'"
                   slot="icon-only"
                   [class.rdr-bookmark--active]="isBookmarked()"></ion-icon>
