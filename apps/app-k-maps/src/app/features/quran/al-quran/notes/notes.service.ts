@@ -1,4 +1,5 @@
 import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { HttpErrorResponse } from '@angular/common/http';
 import { catchError, of } from 'rxjs';
 import { NotesApiService } from '../../../../shared/services/content/notes-api.service';
 
@@ -51,6 +52,9 @@ export interface ResearchNote {
 
 const STORAGE_KEY = 'kmaps.research.notes.v2';
 const LEGACY_KEY = 'kmaps.research.notes.v1';
+/** Once the backend has 404'd we stop hammering it for the rest of the
+ *  session. Cleared on a new browser session (sessionStorage). */
+const SYNC_DISABLED_KEY = 'kmaps.research.notes.syncDisabled';
 
 @Injectable({ providedIn: 'root' })
 export class NotesService {
@@ -83,33 +87,65 @@ export class NotesService {
     });
 
     // Best-effort one-shot pull on init. Failures (offline / unauth /
-    // 404) are silent; the local copy remains source-of-truth.
-    this.pullRemote();
+    // 404) are silent; the local copy remains source-of-truth. If the
+    // backend route doesn't exist in this environment (dev without the
+    // backend worker proxy, or unauthenticated production), the first
+    // 404 sets a session flag that suppresses all subsequent pushes —
+    // no more noisy console errors per user interaction.
+    if (!this.syncDisabled()) this.pullRemote();
+  }
+
+  /** Session-scoped: true once we've seen a 404/500 from the notes API,
+   *  so we stop calling it every time the user adds/edits a note. */
+  private syncDisabled(): boolean {
+    try { return sessionStorage.getItem(SYNC_DISABLED_KEY) === '1'; } catch { return true; }
+  }
+  private disableSync(): void {
+    try { sessionStorage.setItem(SYNC_DISABLED_KEY, '1'); } catch { /* */ }
+    this.online.set(false);
+  }
+  /** True for the kind of HTTP error that means "this endpoint isn't
+   *  available in this environment" — distinct from a transient network
+   *  blip. Only those errors disable sync; a 503 could be retried later. */
+  private isPermanentSyncFailure(err: unknown): boolean {
+    if (err instanceof HttpErrorResponse) {
+      return err.status === 0  // network down / CORS
+        || err.status === 404  // route not mounted
+        || err.status === 401  // unauthenticated
+        || err.status === 403; // forbidden
+    }
+    return false;
   }
 
   add(text: string, anchor?: NoteAnchor): ResearchNote {
     const now = Date.now();
+    const syncDisabled = this.syncDisabled();
     const note: ResearchNote = {
       id: this.newId(),
       text: text.trim(),
       anchor,
       createdAt: now,
       updatedAt: now,
-      sync: 'syncing',
+      sync: syncDisabled ? 'local' : 'syncing',
     };
     this.notes.update(list => [note, ...list]);
-    this.pushNew(note);
+    if (!syncDisabled) this.pushNew(note);
     return note;
   }
 
   update(id: string, patch: Partial<Pick<ResearchNote, 'text' | 'anchor'>>): void {
+    const syncDisabled = this.syncDisabled();
     this.notes.update(list =>
       list.map(n =>
         n.id === id
-          ? { ...n, ...patch, text: (patch.text ?? n.text).trim(), updatedAt: Date.now(), sync: n.remoteId ? 'syncing' : 'local' }
+          ? { ...n, ...patch,
+              text: (patch.text ?? n.text).trim(),
+              updatedAt: Date.now(),
+              sync: !syncDisabled && n.remoteId ? 'syncing' : (n.remoteId ? 'synced' : 'local') }
           : n,
       ),
     );
+    if (syncDisabled) return;
     const after = this.notes().find(n => n.id === id);
     if (after?.remoteId) this.pushUpdate(after);
   }
@@ -117,7 +153,7 @@ export class NotesService {
   remove(id: string): void {
     const target = this.notes().find(n => n.id === id);
     this.notes.update(list => list.filter(n => n.id !== id));
-    if (target?.remoteId) this.pushArchive(target.remoteId);
+    if (!this.syncDisabled() && target?.remoteId) this.pushArchive(target.remoteId);
   }
 
   clear(): void {
@@ -127,7 +163,11 @@ export class NotesService {
   // ── Backend sync (best-effort, silent failures) ─────────────────────
   private pullRemote(): void {
     this.api.listNotes('draft', '').pipe(
-      catchError(() => { this.online.set(false); return of([] as never[]); }),
+      catchError(err => {
+        if (this.isPermanentSyncFailure(err)) this.disableSync();
+        else this.online.set(false);
+        return of([] as never[]);
+      }),
     ).subscribe(remote => {
       if (!Array.isArray(remote) || remote.length === 0) return;
       this.online.set(true);
@@ -155,7 +195,11 @@ export class NotesService {
 
   private pushNew(note: ResearchNote): void {
     this.api.createNote({ body_md: note.text, status: 'draft' }).pipe(
-      catchError(() => { this.online.set(false); return of(null as any); }),
+      catchError(err => {
+        if (this.isPermanentSyncFailure(err)) this.disableSync();
+        else this.online.set(false);
+        return of(null as any);
+      }),
     ).subscribe(remote => {
       if (!remote?.id) {
         this.markSync(note.id, 'error');
@@ -176,7 +220,11 @@ export class NotesService {
   private pushUpdate(note: ResearchNote): void {
     if (!note.remoteId) return;
     this.api.updateNote(note.remoteId, { body_md: note.text }).pipe(
-      catchError(() => { this.online.set(false); return of(null); }),
+      catchError(err => {
+        if (this.isPermanentSyncFailure(err)) this.disableSync();
+        else this.online.set(false);
+        return of(null);
+      }),
     ).subscribe(remote => {
       this.markSync(note.id, remote ? 'synced' : 'error');
       if (remote) this.online.set(true);
@@ -184,7 +232,12 @@ export class NotesService {
   }
 
   private pushArchive(remoteId: string): void {
-    this.api.archiveNote(remoteId).pipe(catchError(() => of(null))).subscribe();
+    this.api.archiveNote(remoteId).pipe(
+      catchError(err => {
+        if (this.isPermanentSyncFailure(err)) this.disableSync();
+        return of(null);
+      }),
+    ).subscribe();
   }
 
   private anchorToLink(a: NoteAnchor | undefined): { target_type: 'quran_ayah' | 'ar_u_lexicon'; target_id: string } | null {
