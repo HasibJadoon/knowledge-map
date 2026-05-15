@@ -192,7 +192,7 @@ export class WordPopoverComponent {
   }
 
   emitOpenRoot(): void {
-    const lookup = this.word.root || this.word.simple || this.word.text;
+    const lookup = this.word.root ?? this.word.simple ?? this.word.text ?? '';
     this.onOpenRoot?.(lookup);
     void this.popoverCtrl.dismiss();
   }
