@@ -1,0 +1,41 @@
+-- ─── 0019_clean_lexicon_noise_blocks.sql ────────────────────────────────────
+-- Remove print-scan noise blocks from ar_ling_lexicon_blocks.
+--
+-- The chunker that produced ar_ling_lexicon_blocks for several sources
+-- preserved standalone punctuation/markers (`[`, `]`, `{`, `}`, `*`, `.`,
+-- `:`, `(`, `)`) as their own blocks. These render in the UI as empty
+-- callouts and create dozens of zero-content blocks per root.
+--
+-- Audit run before this migration:
+--
+--   source_slug                              noise_n
+--   ─────────────────────────────────────────────────
+--   ketabonline_al_zabidi_taj_al_arus        22,827
+--   saaid_maqayis_al_lugha                    3,292
+--   ketabonline_ibn_duraid_jamharat_al_lugha  2,999
+--   ketabonline_al_jawhari_al_sihah           1,171
+--   ketabonline_al_raghib_mufradat              844
+--   ketabonline_al_fayyumi_misbah_munir          87
+--   ketabonline_ibn_manzur_lisan_al_arab         28
+--   thahabi_al_khalil_kitab_al_ayn               11
+--   TOTAL                                     ~31,259
+--
+-- All noise blocks have block_type='definition' (verified) and text_plain
+-- that is a single bracket, brace, asterisk, period, colon, or paren.
+-- They were never associated with a parent definition — they're loose
+-- chunks emitted between content blocks.
+--
+-- Deleting them is safe:
+--   • block_seq stays a sort key, not a contiguous index; gaps OK.
+--   • parent_block_id references — none of these noise rows are parents
+--     (they have no text content for children to attach to). Verified
+--     with: SELECT COUNT(*) FROM ar_ling_lexicon_blocks WHERE
+--     parent_block_id IN (<noise ids>);  → 0
+--   • ar_ling_lexicon_block_links / _tags — none target these IDs either.
+--
+-- The composer (lexicon_lisan.ts) also has an isNoiseText() guard so any
+-- noise that creeps back in via a future re-ingest is filtered at render
+-- time before reaching the client.
+
+DELETE FROM ar_ling_lexicon_blocks
+WHERE text_plain IN ('[', ']', '{', '}', '*', '.', ':', '(', ')');

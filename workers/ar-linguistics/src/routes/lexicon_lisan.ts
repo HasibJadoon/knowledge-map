@@ -352,6 +352,13 @@ function composeView(
       }
       const text = (b.text_plain ?? '').trim();
       if (!text) continue;
+      // Drop print-scan noise blocks — bracket-only / punctuation-only
+      // text that the chunker preserved as separate blocks. Audit found
+      // ~31,000 of these across nine sources (Taj al-Arus 22,827 alone,
+      // Maqayis 3,292, Jamharat 2,999, …). They render as empty callouts
+      // in the UI. The data migration in 0019 deletes them at rest; this
+      // composer guard catches any survivors and any future re-ingest.
+      if (isNoiseText(text)) continue;
 
       if (b.block_type === 'hadith_quote' && hasHadithCue(text)) {
         const cue = detectHadithCue(text);
@@ -500,6 +507,26 @@ function composeView(
 // ── Footnote extraction (Lisan-specific) ────────────────────────────────────
 // Source format: `[[. قوله [pivot] body text]]` where `[pivot]` is optional.
 // Body may end with `(*)` or a period — strip those too.
+// Noise-block detector. Matches print-scan artifacts the chunker preserved
+// as separate blocks: bracket pairs, punctuation, asterisks, digits.
+// Anything <=5 chars that's purely "noise" gets dropped from the composer
+// output. Real Arabic content of any length passes through.
+//   Catches:  "["  "]"  "{"  "}"  "*"  "."  ":"  "(" ")" "(68)" "12" "—"
+//   Spares:   "أبّ"  "في" (Arabic letters)
+//
+// Hand-listed char class rather than a regex with /u flag — V8 in
+// Cloudflare Workers rejected the regex form with "Invalid escape" on
+// the em-dash / BiDi marks. The loop is fast for the <=5 char inputs.
+const NOISE_CHARS = '[]{}*.,:;()\\-–—‎‏0123456789 \t\'"';
+function isNoiseText(text: string): boolean {
+  if (!text) return true;
+  if (text.length > 5) return false;
+  for (let i = 0; i < text.length; i++) {
+    if (NOISE_CHARS.indexOf(text[i]) === -1) return false;
+  }
+  return true;
+}
+
 const INLINE_FN_RX = /\[\[([\s\S]*?)\]\]/g;
 const PIVOT_RX     = /^\s*\.\s*قوله\s*[:：]?\s*\[?([^\]]+)\]?\s*/;
 
