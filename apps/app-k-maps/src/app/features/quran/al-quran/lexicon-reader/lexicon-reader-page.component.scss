@@ -616,6 +616,153 @@
 // Renders with Mushaf ornate parens ﴿﴾ (U+FD3F / U+FD3E) — Naskh font on
 // the bracket spans so they render as proper ornaments (not ASCII '[]'),
 // numerals in EB Garamond for tabular-nums + Latin scrip.
+// ────────────────────────────────────────────────────────────────────────
+// Inline content callouts (Phase A: rich block rendering)
+// ────────────────────────────────────────────────────────────────────────
+// Each `.rdr-callout` is a kind-aware card that sits inline within section
+// prose: a Quran quote, a hadith, a poetic verse, a cross-reference, or a
+// definition. Kind tinting comes from the --lex-c-* semantic tokens added
+// in Phase 0; the base card chrome is shared (rounded, soft border, dense
+// vertical rhythm) so the eye groups them as "content I might want to skim
+// past or zoom in on" rather than primary prose.
+.rdr-callout {
+  display: block;
+  width: 100%;
+  margin: var(--lex-sp-md) 0;
+  padding: var(--lex-sp-md) var(--lex-sp-lg);
+  border: 1px solid var(--lex-rule);
+  border-inline-start: 3px solid var(--lex-gold-line);
+  border-radius: var(--lex-radius-md);
+  background: rgba(255, 255, 255, 0.012);
+  color: var(--lex-ink);
+  font-family: var(--rdr-font-arabic);
+
+  &__label {
+    display: inline-block;
+    margin-inline-end: var(--lex-sp-sm);
+    padding: 1px var(--lex-sp-sm);
+    border-radius: var(--lex-radius-pill);
+    background: var(--lex-gold-tint);
+    color: var(--lex-gold);
+    font-family: var(--lex-font-arabic-ui);
+    font-size: var(--lex-fs-xs);
+    font-weight: 600;
+    letter-spacing: var(--lex-tracking-wide);
+    vertical-align: middle;
+  }
+  &__icon {
+    color: var(--lex-gold-soft);
+    font-family: var(--rdr-font-arabic);
+    font-size: var(--lex-fs-md);
+    margin-inline-end: var(--lex-sp-sm);
+    user-select: none;
+  }
+  &__cue {
+    display: inline-block;
+    color: var(--lex-ink-soft);
+    font-size: var(--lex-fs-sm);
+    font-style: italic;
+    margin-inline-end: var(--lex-sp-xs);
+  }
+  &__body {
+    margin: var(--lex-sp-xs) 0 0;
+    color: var(--lex-ink);
+    font-size: var(--lex-fs-base);
+    line-height: var(--lex-lh-arabic);
+  }
+  &__title {
+    display: block;
+    color: var(--lex-gold);
+    font-size: var(--lex-fs-md);
+    font-weight: 600;
+    margin-bottom: var(--lex-sp-xs);
+  }
+  &__verses {
+    display: flex;
+    flex-direction: column;
+    gap: var(--lex-sp-xs);
+    margin: var(--lex-sp-sm) 0;
+    padding-inline-start: var(--lex-sp-md);
+    border-inline-start: 2px solid rgba(220, 160, 220, 0.30);
+  }
+  &__verse {
+    color: var(--lex-ink);
+    font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+    font-size: calc(var(--lex-fs-base) * 1.04);
+    line-height: var(--lex-lh-arabic);
+  }
+  &__attr {
+    display: block;
+    margin-top: var(--lex-sp-sm);
+    color: var(--lex-gold-soft);
+    font-family: var(--lex-font-arabic-ui);
+    font-size: var(--lex-fs-sm);
+    font-style: italic;
+    text-align: end;
+  }
+  &__ref {
+    display: inline-flex;
+    align-items: baseline;
+    margin-top: var(--lex-sp-xs);
+    color: var(--lex-c-quran);
+    font-family: var(--lex-font-latin);
+    font-size: var(--lex-fs-sm);
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    .rdr-qref__bracket { color: var(--lex-c-quran-soft); margin: 0 1px; font-family: var(--rdr-font-arabic); }
+    .rdr-qref__sep     { color: var(--lex-c-quran-soft); margin: 0 1px; }
+    &:active { color: var(--lex-c-quran); filter: brightness(1.15); }
+  }
+
+  // ── Kind-specific tinting ─────────────────────────────────────────────
+  &--quran {
+    border-inline-start-color: var(--lex-c-quran-soft);
+    background: var(--lex-c-quran-tint);
+    .rdr-callout__label { background: var(--lex-c-quran-tint); color: var(--lex-c-quran); }
+    .rdr-callout__icon  { color: var(--lex-c-quran-soft); }
+  }
+  &--hadith {
+    border-inline-start-color: rgba(232, 180, 80, 0.40);
+    background: var(--lex-c-hadith-tint);
+    .rdr-callout__label { background: rgba(232, 180, 80, 0.14); color: var(--lex-c-hadith); }
+  }
+  &--poetry {
+    border-inline-start-color: rgba(220, 160, 220, 0.40);
+    background: var(--lex-c-poetry-tint);
+    .rdr-callout__label { background: rgba(220, 160, 220, 0.14); color: var(--lex-c-poetry); }
+  }
+  &--xref {
+    appearance: none;
+    text-align: start;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    border-inline-start-color: var(--lex-gold-soft);
+    transition: background var(--lex-dur-fast) var(--lex-ease),
+                border-color var(--lex-dur-fast) var(--lex-ease);
+    &:active {
+      background: var(--lex-gold-tint);
+      border-color: var(--lex-gold-bright);
+    }
+    .rdr-callout__label { background: var(--lex-gold-tint); color: var(--lex-gold); }
+  }
+  &--def {
+    border-inline-start-color: var(--lex-gold-soft);
+    background: var(--lex-gold-tint);
+    .rdr-callout__title { color: var(--lex-gold-bright); }
+  }
+}
+
+// Inline mini-header inside a section body (entry_header / root_header /
+// chapter_header blocks rendered as <h3>). Smaller than section-head titles
+// since these are sub-divisions within an already-titled section.
+.rdr-section__subhead {
+  margin: var(--lex-sp-md) 0 var(--lex-sp-xs);
+  color: var(--lex-gold-soft);
+  font-family: var(--lex-font-arabic-ui);
+  font-size: var(--lex-fs-md);
+  font-weight: 600;
+}
+
 // Inline Quran-citation link. Flat — no border, no fill — so it reads as
 // part of the prose, not a chunky badge. A thin dotted underline keeps it
 // tappable without breaking the line. Active state nudges colour + thicker

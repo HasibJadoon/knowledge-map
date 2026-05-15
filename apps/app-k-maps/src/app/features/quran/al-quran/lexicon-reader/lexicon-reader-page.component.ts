@@ -25,7 +25,7 @@ import { combineLatest, of, catchError } from 'rxjs';
 import {
   AlDictionaryApiService,
   LaneReadView, LaneToken,
-  LexV2EntryDetail, LexV2RootRow, LexV2Section,
+  LexV2Block, LexV2EntryDetail, LexV2RootRow, LexV2Section,
   MufradatReadView, MufradatProseToken,
   ScholarshipShellView, ScholarshipRootRow,
 } from '../../../../shared/services/al-dictionary-api.service';
@@ -674,6 +674,104 @@ export class LexiconReaderPageComponent implements OnDestroy {
     }
     if (cur < text.length) out.push({ kind: 'text', value: text.slice(cur) });
     return out;
+  }
+
+  // ── Classical block-tree rendering (Phase A) ────────────────────────────
+  //
+  // The classical reader (Lisan / Taj / Sihah / Maqayis / Ubab / Misbah /
+  // Jamharat / Qamus / Kitab al-Ayn) hits /al/lex/v2/entry/<slug>/<root>
+  // which returns LexV2EntryDetail with both `sections[]` AND a flat
+  // `blocks[]` array. The previous template iterated `sections[].body.paragraphs[]`
+  // (plain strings) which lost every block-level callout. These helpers
+  // instead expose the per-section block stream so the template can switch on
+  // `block_type` and render quran_quote / hadith_quote / poetry_quote /
+  // cross_ref / definition / footnote as proper inline callout cards.
+  //
+  // Cache: blocks are bucketed once per classicalView() change so repeated
+  // template invocations don't re-sort. Memoisation keyed by the view ref.
+  private _classicalBlockBucketsView: unknown | null = null;
+  private _classicalBlockBuckets: Map<string, LexV2Block[]> = new Map();
+  blocksForSection(sectionId: string): LexV2Block[] {
+    const v = this.classicalView();
+    if (!v) return [];
+    if (this._classicalBlockBucketsView !== v) {
+      // Rebuild buckets. Top-level only (parent_block_id IS NULL) — child
+      // blocks render recursively inside their parent's callout, not as
+      // separate siblings. Footnote blocks are excluded from inline display
+      // (they're surfaced via the footnote modal sheet); their markers
+      // appear as inline (N) superscripts inside other blocks' text_plain.
+      const buckets = new Map<string, LexV2Block[]>();
+      for (const b of v.blocks ?? []) {
+        if (b.parent_block_id) continue;
+        if (b.block_type === 'footnote') continue;
+        if (b.block_type === 'page_break') continue;
+        const sid = b.section_id ?? '';
+        const arr = buckets.get(sid) ?? [];
+        arr.push(b);
+        buckets.set(sid, arr);
+      }
+      for (const arr of buckets.values()) {
+        arr.sort((a, b) => a.block_seq - b.block_seq);
+      }
+      this._classicalBlockBuckets = buckets;
+      this._classicalBlockBucketsView = v;
+    }
+    return this._classicalBlockBuckets.get(sectionId) ?? [];
+  }
+
+  /** Decode a block's data_json safely. Returns {} on parse failure so
+   *  templates can use `parseBlockData(b).cue ?? null` without guards. */
+  parseBlockData(b: LexV2Block): Record<string, unknown> {
+    if (!b.data_json) return {};
+    try { return JSON.parse(b.data_json) as Record<string, unknown>; }
+    catch { return {}; }
+  }
+
+  /** Extract a {surah, ayah} pair from a quran_quote block's data_json so
+   *  the template can render a tappable verse pill without type gymnastics.
+   *  Also looks up the entry's quran_refs[] for a matching block_id when
+   *  data_json doesn't carry the pointer directly. Returns null when no
+   *  ref is resolvable — the callout still shows the verse text, just
+   *  without the "open in mushaf" link. */
+  blockQuranRef(b: LexV2Block): { surah: number; ayah: number } | null {
+    // Primary path: data_json.surah / data_json.ayah from the ingester.
+    const data = this.parseBlockData(b);
+    const sRaw = data['surah'] ?? data['surah_num'];
+    const aRaw = data['ayah'];
+    const sNum = Number(sRaw);
+    const aNum = Number(aRaw);
+    if (Number.isFinite(sNum) && Number.isFinite(aNum) && sNum >= 1 && sNum <= 114 && aNum >= 1) {
+      return { surah: sNum, ayah: aNum };
+    }
+    // Fallback: scan quran_refs[] for a row anchored to this block.
+    const refs = this.classicalView()?.quran_refs ?? [];
+    const hit = refs.find(r => r.block_id === b.id);
+    return hit ? { surah: hit.surah, ayah: hit.ayah } : null;
+  }
+
+  /** Read a string field from a block's data_json. Returns null when the
+   *  key is missing or non-string — saves the template from `$any` casts
+   *  and string-coercion guards. */
+  blockField(b: LexV2Block, key: string): string | null {
+    const v = this.parseBlockData(b)[key];
+    return typeof v === 'string' && v.trim().length ? v : null;
+  }
+
+  /** Map a block_type to the simplified rendering bucket the template uses.
+   *  Unknown types fall through to 'prose'. */
+  classicalBlockKind(b: LexV2Block):
+    'prose' | 'quran' | 'hadith' | 'poetry' | 'xref' | 'definition' | 'header' {
+    switch (b.block_type) {
+      case 'quran_quote':  return 'quran';
+      case 'hadith_quote': return 'hadith';
+      case 'poetry_quote': return 'poetry';
+      case 'cross_ref':    return 'xref';
+      case 'definition':   return 'definition';
+      case 'entry_header': return 'header';
+      case 'root_header':  return 'header';
+      case 'chapter_header': return 'header';
+      default:             return 'prose';
+    }
   }
 
   // ── Stats line (under the entry header)

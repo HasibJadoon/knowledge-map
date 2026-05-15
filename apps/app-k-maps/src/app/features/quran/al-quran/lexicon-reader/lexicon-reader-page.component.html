@@ -564,7 +564,12 @@
         </article>
       }
 
-      <!-- ── Classical (V2) render ─────────────────────────────────── -->
+      <!-- ── Classical (V2) render — Phase A: block-tree rendering ─────────
+           Iterates cv.blocks[] grouped by section_id (top-level only), instead
+           of the old s.body.paragraphs[] string array. Each block becomes a
+           kind-aware inline callout (quran / hadith / poetry / xref) or a
+           prose <p>. Falls back to s.text_ar if the section has zero blocks
+           — covers legacy ingest paths and the brace-only sources. -->
       @if (kind() === 'classical' && classicalView(); as cv) {
         <article class="rdr-classical rdr-selectable" dir="rtl">
           @for (s of cv.sections; track s.id) {
@@ -577,18 +582,144 @@
                   }
                 </header>
               }
-              @if (s.body?.paragraphs?.length) {
+
+              @if (blocksForSection(s.id).length) {
+                @for (b of blocksForSection(s.id); track b.id) {
+                  @switch (classicalBlockKind(b)) {
+
+                    @case ('quran') {
+                      <!-- Quran-quote callout: verse text + parsed surah/ayah ref.
+                           blockQuranRef() picks the ref from data_json first, then
+                           falls back to quran_refs[] by block_id. -->
+                      <aside class="rdr-callout rdr-callout--quran" dir="rtl">
+                        <span class="rdr-callout__icon" aria-hidden="true">﴿﴾</span>
+                        @if (b.text_plain) {
+                          <p class="rdr-callout__body" lang="ar">{{ b.text_plain }}</p>
+                        }
+                        @if (blockQuranRef(b); as ref) {
+                          <a class="rdr-callout__ref"
+                             (click)="openAyah(ref.surah, ref.ayah)">
+                            <span class="rdr-qref__bracket">﴿</span>{{ ref.surah }}<span class="rdr-qref__sep">:</span>{{ ref.ayah }}<span class="rdr-qref__bracket">﴾</span>
+                          </a>
+                        }
+                      </aside>
+                    }
+
+                    @case ('hadith') {
+                      <!-- Hadith callout: cue (qaala…) + body + attribution chain. -->
+                      <aside class="rdr-callout rdr-callout--hadith" dir="rtl">
+                        <span class="rdr-callout__label">حديث</span>
+                        @if (blockField(b, 'cue'); as cue) {
+                          <span class="rdr-callout__cue">{{ cue }}</span>
+                        }
+                        @if (b.text_plain) {
+                          <p class="rdr-callout__body" lang="ar">{{ b.text_plain }}</p>
+                        }
+                        @if (blockField(b, 'attribution'); as attr) {
+                          <cite class="rdr-callout__attr">— {{ attr }}</cite>
+                        }
+                      </aside>
+                    }
+
+                    @case ('poetry') {
+                      <!-- Poetry-quote callout: indented verses + poet attribution. -->
+                      <aside class="rdr-callout rdr-callout--poetry" dir="rtl">
+                        <span class="rdr-callout__label">شعر</span>
+                        @if (blockField(b, 'cue'); as cue) {
+                          <span class="rdr-callout__cue">{{ cue }}</span>
+                        }
+                        @if (b.text_plain; as verses) {
+                          <div class="rdr-callout__verses">
+                            @for (line of verses.split('\n'); track $index) {
+                              <span class="rdr-callout__verse" lang="ar">{{ line }}</span>
+                            }
+                          </div>
+                        }
+                        @if (blockField(b, 'poet_name') || blockField(b, 'attribution'); as poet) {
+                          <cite class="rdr-callout__attr">— {{ poet }}</cite>
+                        }
+                      </aside>
+                    }
+
+                    @case ('xref') {
+                      <!-- Cross-reference callout: tap to navigate to target root. -->
+                      <button class="rdr-callout rdr-callout--xref" type="button"
+                              (click)="blockField(b, 'target_root') && selectRoot(blockField(b, 'target_root') || '')">
+                        <span class="rdr-callout__label">انظر</span>
+                        @if (b.text_plain) {
+                          <span class="rdr-callout__body">{{ b.text_plain }}</span>
+                        }
+                      </button>
+                    }
+
+                    @case ('header') {
+                      <!-- Inline mini-header from entry_header / root_header / chapter_header blocks. -->
+                      @if (b.title_ar || b.text_plain) {
+                        <h3 class="rdr-section__subhead" lang="ar" dir="rtl">{{ b.title_ar || b.text_plain }}</h3>
+                      }
+                    }
+
+                    @case ('definition') {
+                      <!-- Definition callout — soft card with the headword definition. -->
+                      <aside class="rdr-callout rdr-callout--def" dir="rtl">
+                        @if (b.title_ar) {
+                          <span class="rdr-callout__title">{{ b.title_ar }}</span>
+                        }
+                        @if (b.text_plain) {
+                          <p class="rdr-callout__body">
+                            @for (seg of bodySegments(b.text_plain); track $index) {
+                              @switch (seg.kind) {
+                                @case ('qref') {
+                                  <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
+                                    <span class="rdr-qref__bracket">﴿</span><span class="rdr-qref__surah">{{ seg.surah }}</span><span class="rdr-qref__sep">:</span><span class="rdr-qref__ayah">{{ seg.ayah }}</span><span class="rdr-qref__bracket">﴾</span>
+                                  </a>
+                                }
+                                @case ('fn') {
+                                  <button class="rdr-fn rdr-fn--has-text" type="button"
+                                          [attr.aria-label]="'حاشية ' + seg.fn"
+                                          (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
+                                }
+                                @default { <span>{{ seg.value }}</span> }
+                              }
+                            }
+                          </p>
+                        }
+                      </aside>
+                    }
+
+                    @default {
+                      <!-- prose: plain paragraph with inline qref/fn parsing -->
+                      @if (b.text_plain) {
+                        <p class="rdr-section__p" dir="rtl">
+                          @for (seg of bodySegments(b.text_plain); track $index) {
+                            @switch (seg.kind) {
+                              @case ('qref') {
+                                <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
+                                  <span class="rdr-qref__bracket">﴿</span><span class="rdr-qref__surah">{{ seg.surah }}</span><span class="rdr-qref__sep">:</span><span class="rdr-qref__ayah">{{ seg.ayah }}</span><span class="rdr-qref__bracket">﴾</span>
+                                </a>
+                              }
+                              @case ('fn') {
+                                <button class="rdr-fn rdr-fn--has-text" type="button"
+                                        [attr.aria-label]="'حاشية ' + seg.fn"
+                                        (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
+                              }
+                              @default { <span>{{ seg.value }}</span> }
+                            }
+                          }
+                        </p>
+                      }
+                    }
+                  }
+                }
+              } @else if (s.body?.paragraphs?.length) {
+                <!-- Fallback: section has no blocks but has computed paragraphs. -->
                 @for (p of s.body!.paragraphs; track $index) {
                   <p class="rdr-section__p" dir="rtl">
                     @for (seg of bodySegments(p); track $index) {
                       @switch (seg.kind) {
                         @case ('qref') {
                           <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
-                            <span class="rdr-qref__bracket">﴿</span><span
-                              class="rdr-qref__surah">{{ seg.surah }}</span><span
-                              class="rdr-qref__sep">:</span><span
-                              class="rdr-qref__ayah">{{ seg.ayah }}</span><span
-                              class="rdr-qref__bracket">﴾</span>
+                            <span class="rdr-qref__bracket">﴿</span><span class="rdr-qref__surah">{{ seg.surah }}</span><span class="rdr-qref__sep">:</span><span class="rdr-qref__ayah">{{ seg.ayah }}</span><span class="rdr-qref__bracket">﴾</span>
                           </a>
                         }
                         @case ('fn') {
@@ -607,11 +738,7 @@
                     @switch (seg.kind) {
                       @case ('qref') {
                         <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
-                          <span class="rdr-qref__bracket">﴿</span><span
-                            class="rdr-qref__surah">{{ seg.surah }}</span><span
-                            class="rdr-qref__sep">:</span><span
-                            class="rdr-qref__ayah">{{ seg.ayah }}</span><span
-                            class="rdr-qref__bracket">﴾</span>
+                          <span class="rdr-qref__bracket">﴿</span><span class="rdr-qref__surah">{{ seg.surah }}</span><span class="rdr-qref__sep">:</span><span class="rdr-qref__ayah">{{ seg.ayah }}</span><span class="rdr-qref__bracket">﴾</span>
                         </a>
                       }
                       @case ('fn') {
