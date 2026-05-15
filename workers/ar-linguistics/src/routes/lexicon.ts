@@ -447,19 +447,25 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
   // changes on ingest, so the response is edge-cached for 10 minutes
   // via the Workers Cache API. Cache key = full request URL.
   router.get('/al/lexicon/dict/sources', (req, env) => cached(req, async () => {
+    // Single source of truth: ar_ling_lexicon_root_entries. The legacy
+    // path joined ar_ling_source_chunks which double-misfires here —
+    //   • qomra_jamharat_al_lugha has 2,908 chunks but no root_entries
+    //     (legacy import never migrated to v2), so listing it sends
+    //     users to an empty reader.
+    //   • ketabonline_ibn_duraid_jamharat_al_lugha has 1,229 root_entries
+    //     but no chunks (newer pipeline writes straight to v2), so the
+    //     old query hid it entirely.
+    // Counting from root_entries matches what /al/lex/v2/sources does and
+    // what the reader actually loads.
     const { results } = await env.DB_AL
       .prepare(`
-        SELECT c.source_slug,
-               COUNT(*)                                              AS total,
-               COUNT(DISTINCT c.heading_norm)                       AS roots,
-               SUM(CASE WHEN c.is_embedded = 1 THEN 1 ELSE 0 END)  AS embedded
-        FROM   ar_ling_source_chunks c
-        LEFT JOIN ar_ling_sources s
-               ON s.id = c.source_id
-        WHERE  c.chunk_kind IN ('lexical_entry', 'lexical_word_entry', 'lexicon_entry', 'root_entry')
-          AND  c.source_slug IS NOT NULL
-          AND  (s.source_type IS NULL OR s.source_type IN ('lexicon', 'dictionary'))
-        GROUP BY c.source_slug
+        SELECT r.source_slug,
+               COUNT(*) AS total,
+               COUNT(*) AS roots,
+               0        AS embedded
+        FROM   ar_ling_lexicon_root_entries r
+        WHERE  r.source_slug IS NOT NULL
+        GROUP BY r.source_slug
         ORDER BY total DESC
       `)
       .all<{ source_slug: string; total: number; roots: number; embedded: number }>();
