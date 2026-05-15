@@ -714,7 +714,9 @@ export class LexiconReaderPageComponent implements OnDestroy {
       }
     };
     for (const raw of lines) {
-      const line = raw.trimEnd();
+      // .trimEnd() is ES2019; the worker tsconfig still targets ES2018.
+      // The regex variant is equivalent and compiles everywhere.
+      const line = raw.replace(/\s+$/, '');
       if (!line.trim()) { flushPara(); flushList(); continue; }
 
       // List items — consecutive lines starting with - or *
