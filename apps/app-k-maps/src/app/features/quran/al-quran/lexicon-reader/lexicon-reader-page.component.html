@@ -40,6 +40,56 @@
       [debounce]="120"
     ></ion-searchbar>
   </ion-toolbar>
+
+  <!-- Sticky chips toolbar — copy action + aggregated content (Quran cites,
+       footnotes, hadith, poetry, authorities) for the current entry. The
+       copy icon is always present; chips render only when their list has
+       at least one item. The whole toolbar shows whenever an entry is
+       loaded (not just when chips exist) so copy stays reachable. -->
+  @if (!rootSearch().trim() && !loading() && !error() && (
+        laneView() || classicalView() || mufradatView() || scholarshipView())) {
+    <ion-toolbar class="rdr-chips-bar" dir="rtl">
+      <div class="rdr-chips" dir="rtl">
+        <!-- Single copy action — copies the full rendered entry text. -->
+        <button class="rdr-chip rdr-chip--copy"
+                type="button"
+                (click)="copyAll()"
+                aria-label="Copy full entry">
+          <ion-icon name="copy-outline"></ion-icon>
+        </button>
+        @if (quranCitesList().length) {
+          <button class="rdr-chip" type="button" (click)="openQuranCites()">
+            <span class="rdr-chip__label">قرآن</span>
+            <span class="rdr-chip__count">{{ quranCitesList().length }}</span>
+          </button>
+        }
+        @if (footnoteList().length) {
+          <button class="rdr-chip" type="button" (click)="openFootnotes()">
+            <span class="rdr-chip__label">حواشي</span>
+            <span class="rdr-chip__count">{{ footnoteList().length }}</span>
+          </button>
+        }
+        @if (hadithList().length) {
+          <button class="rdr-chip" type="button" (click)="openHadith()">
+            <span class="rdr-chip__label">حديث</span>
+            <span class="rdr-chip__count">{{ hadithList().length }}</span>
+          </button>
+        }
+        @if (poetryList().length) {
+          <button class="rdr-chip" type="button" (click)="openPoetry()">
+            <span class="rdr-chip__label">شعر</span>
+            <span class="rdr-chip__count">{{ poetryList().length }}</span>
+          </button>
+        }
+        @if (authoritiesList().length) {
+          <button class="rdr-chip" type="button" (click)="openAuthorities()">
+            <span class="rdr-chip__label">أعلام</span>
+            <span class="rdr-chip__count">{{ authoritiesList().length }}</span>
+          </button>
+        }
+      </div>
+    </ion-toolbar>
+  }
 </ion-header>
 
 <!-- ── Roots picker (full alphabetical index) ──────────────────────────── -->
@@ -388,72 +438,16 @@
 
     <section #content class="rdr-pane rdr-pane--content" dir="rtl">
 
-      <!-- Entry head -->
+      <!-- Entry head — just the root headword, stats, and prev/next nav.
+           Copy moved to the toolbar; aggregated-content chips moved to the
+           sticky chips toolbar in the page header. -->
       <header class="rdr-entry-head">
-        <div class="rdr-entry-head__row">
-          @switch (kind()) {
-            @case ('lane')      { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ laneView()?.entry?.root_text }}</h2> }
-            @case ('classical') { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ classicalView()?.entry?.root_text }}</h2> }
-            @case ('mufradat')  { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h2> }
-            @case ('scholarship'){ <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h2> }
-          }
-          <div class="rdr-entry-head__btns">
-            <button class="rdr-entry-head__copy"
-                    type="button"
-                    (click)="copyRoot($event, { root_norm: currentRoot(), root_text: laneView()?.entry?.root_text ?? classicalView()?.entry?.root_text ?? mufradatView()?.entry?.root_text ?? null })"
-                    aria-label="نسخ الجذر">
-              <ion-icon name="copy-outline"></ion-icon>
-            </button>
-            <button class="rdr-entry-head__copy rdr-entry-head__copy--all"
-                    type="button"
-                    (click)="copyAll()"
-                    aria-label="نسخ المادة كاملة">
-              <ion-icon name="clipboard-outline"></ion-icon>
-            </button>
-          </div>
-        </div>
-
-        <!-- Aggregated-content chips — directly under the title for top-of-fold
-             visibility. Each chip opens a bottom-sheet modal listing all
-             instances of that kind in the current entry. Chips render only
-             when their list is non-empty so the row stays tight. -->
-        @if (quranCitesList().length || footnoteList().length
-             || hadithList().length || poetryList().length
-             || authoritiesList().length) {
-          <div class="rdr-chips" dir="rtl">
-            @if (quranCitesList().length) {
-              <button class="rdr-chip rdr-chip--qref" type="button" (click)="openQuranCites()">
-                <span class="rdr-chip__label">قرآن</span>
-                <span class="rdr-chip__count">{{ quranCitesList().length }}</span>
-              </button>
-            }
-            @if (footnoteList().length) {
-              <button class="rdr-chip rdr-chip--fn" type="button" (click)="openFootnotes()">
-                <span class="rdr-chip__label">حواشي</span>
-                <span class="rdr-chip__count">{{ footnoteList().length }}</span>
-              </button>
-            }
-            @if (hadithList().length) {
-              <button class="rdr-chip rdr-chip--hadith" type="button" (click)="openHadith()">
-                <span class="rdr-chip__label">حديث</span>
-                <span class="rdr-chip__count">{{ hadithList().length }}</span>
-              </button>
-            }
-            @if (poetryList().length) {
-              <button class="rdr-chip rdr-chip--poetry" type="button" (click)="openPoetry()">
-                <span class="rdr-chip__label">شعر</span>
-                <span class="rdr-chip__count">{{ poetryList().length }}</span>
-              </button>
-            }
-            @if (authoritiesList().length) {
-              <button class="rdr-chip rdr-chip--auth" type="button" (click)="openAuthorities()">
-                <span class="rdr-chip__label">أعلام</span>
-                <span class="rdr-chip__count">{{ authoritiesList().length }}</span>
-              </button>
-            }
-          </div>
+        @switch (kind()) {
+          @case ('lane')      { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ laneView()?.entry?.root_text }}</h2> }
+          @case ('classical') { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ classicalView()?.entry?.root_text }}</h2> }
+          @case ('mufradat')  { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h2> }
+          @case ('scholarship'){ <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h2> }
         }
-
         <p class="rdr-entry-head__stats">{{ statsLine() }}</p>
         <div class="rdr-entry-head__nav">
           <ion-button fill="clear" size="small" (click)="prevRoot()" [disabled]="currentRootIndex() <= 0" aria-label="السابق">

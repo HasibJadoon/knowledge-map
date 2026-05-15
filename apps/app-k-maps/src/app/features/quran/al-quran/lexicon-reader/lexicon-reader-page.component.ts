@@ -552,7 +552,7 @@ export class LexiconReaderPageComponent implements OnDestroy {
     try {
       await navigator.clipboard.writeText(text);
       const t = await this.toastCtrl.create({
-        message: `تم نسخ «${text}»`,
+        message: `Copied "${text}"`,
         duration: 1200,
         position: 'bottom',
         cssClass: 'rdr-toast',
@@ -572,7 +572,7 @@ export class LexiconReaderPageComponent implements OnDestroy {
     try {
       await navigator.clipboard.writeText(text);
       const t = await this.toastCtrl.create({
-        message: 'تم نسخ المادة كاملة',
+        message: 'Entry copied to clipboard',
         duration: 1400,
         position: 'bottom',
         cssClass: 'rdr-toast',
