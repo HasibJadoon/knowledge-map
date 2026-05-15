@@ -1,0 +1,909 @@
+You are working on my K-Maps Arabic Linguistics / Quran Researcher lexicon UI.
+
+Current route/page:
+http://localhost:4300/quran/al-quran/lexicon
+
+Current backend endpoint:
+GET /al/lexicon/dict/root/:rootText
+
+Example:
+GET /al/lexicon/dict/root/كتب
+
+The response already contains:
+- root
+- lemmas
+- sources
+- source entries
+
+IMPORTANT:
+Do not hardcode the UI data.
+The root hero, lemma chips, source tabs, source reader, and central meaning panel must come from the API/database.
+
+====================================================
+MAIN GOAL
+====================================================
+
+Build a clean mobile-first “Root Research Workspace” for the K-MAPS lexicon.
+
+The app should have 3 main mobile states/screens:
+
+1. Lexicon Home
+   - search
+   - suggested roots
+   - dictionary/source cards
+
+2. Root Workspace
+   - root hero
+   - central meaning
+   - lemma chips
+   - source selector tabs
+   - selected source preview/list
+
+3. Source Reader
+   - selected source only
+   - source header
+   - reader tabs
+   - selected source text only
+
+Do NOT render all sources as dropdowns.
+Do NOT show non-selected source cards inside the reader.
+Only the selected source should appear in the main reader.
+
+====================================================
+VISUAL STYLE
+====================================================
+
+Use K-MAPS dark/gold visual identity:
+
+Colors:
+--km-bg: #050505;
+--km-bg-soft: #0b0a07;
+--km-card: #111111;
+--km-card-2: #161411;
+--km-gold: #e7c75f;
+--km-gold-soft: rgba(231, 199, 95, 0.18);
+--km-border: rgba(231, 199, 95, 0.24);
+--km-text: #f1ead8;
+--km-muted: #8e897c;
+--km-danger: #d8a35d;
+
+Mobile style:
+- black/dark charcoal background
+- gold headings and borders
+- muted gray secondary text
+- rounded cards, 20–24px
+- elegant Arabic typography
+- bottom nav always visible
+- good spacing, no cramped text
+- page padding 16px
+- card padding 18–24px
+- Arabic body font size 22–26px
+- line-height 2.1–2.3
+
+Animation:
+Use GSAP only if already used in project:
+- root workspace slides/fades in from bottom
+- source reader transitions softly
+- tabs fade/slide gently
+- avoid heavy animation
+
+====================================================
+DATA CONTRACT
+====================================================
+
+Use this endpoint:
+
+GET /al/lexicon/dict/root/:rootText
+
+Expected response shape:
+
+{
+  ok: true,
+  data: {
+    root: {
+      text_ar: string,
+      letters: string | null,
+      type: string | null,
+      weak_pattern: string | null,
+      frequency_quran: number | null,
+      meaning_ar: string | null,
+      meaning_en: string | null,
+      norm: string
+    },
+    lemmas: [
+      {
+        id: string,
+        text_ar: string,
+        text_bare: string,
+        part_of_speech: string | null,
+        verb_form: string | null,
+        is_quran_word: boolean,
+        frequency_quran: number | null
+      }
+    ],
+    lemma_count: number,
+    sources: [
+      {
+        slug: string,
+        title_ar: string,
+        title_en: string,
+        author: string,
+        period: string,
+        entries: [
+          {
+            id: string,
+            source_slug: string,
+            heading_norm: string | null,
+            root_id: string | null,
+            text_ar: string | null,
+            text_en: string | null,
+            page_no: number | null,
+            volume_no: number | null,
+            chunk_seq: number,
+            source_url: string | null
+          }
+        ],
+        entry_count: number
+      }
+    ],
+    source_count: number,
+    total_entries: number
+  }
+}
+
+====================================================
+MOBILE SCREEN 1 — LEXICON HOME
+====================================================
+
+Create/refactor:
+
+LexiconHomeComponent
+
+Purpose:
+Entry page for lexicon search.
+
+Layout:
+
+Header:
+- K-MAPS
+- Quran Researcher
+- left grid/menu icon
+- search icon
+
+Search card:
+- input placeholder:
+  "اكتب جذرًا أو كلمة أو معنى"
+- supports Arabic root, Arabic word, English meaning
+
+Suggested roots:
+Title:
+"جذور مفتوحة" or "جذور مقترحة"
+
+Root chips:
+Use existing suggested list if available.
+If no backend list exists, temporary static chips are allowed only for suggestions:
+كتب، علم، قرأ، رحم، نزل، خلق، فتح، وحي
+
+Dictionary sections:
+1. المعاجم القرآنية
+2. المعاجم العربية الكبرى
+
+Source cards:
+Use source data from:
+GET /al/lexicon/dict/sources
+or existing source list if already available.
+
+Each card:
+- title_ar
+- author
+- root count
+- source type/category if available
+
+Clicking:
+- source card can filter source later
+- root chip/search navigates to Root Workspace for selected root
+
+Bottom nav:
+- قرآن
+- تفسير
+- علوم
+- معجم active
+- حواشي
+
+====================================================
+MOBILE SCREEN 2 — ROOT WORKSPACE
+====================================================
+
+Create/refactor:
+
+LexiconRootPageComponent
+
+This page fetches:
+
+GET /al/lexicon/dict/root/:rootText
+
+It holds the state:
+
+selectedSourceSlug: string | null
+selectedLemmaId: string | null
+readerTab: 'summary' | 'full' | 'evidence' | 'comparison'
+
+Default selected source:
+- prefer source slug containing raghib
+- otherwise first source
+
+Pseudo:
+
+selectedSource = computed(() => {
+  const sources = payload()?.sources ?? [];
+  const selected = selectedSourceSlug();
+
+  if (selected) {
+    return sources.find(s => s.slug === selected) ?? sources[0] ?? null;
+  }
+
+  return sources.find(s => s.slug.includes('raghib'))
+      ?? sources[0]
+      ?? null;
+});
+
+onSourceSelected(slug: string) {
+  selectedSourceSlug.set(slug);
+  readerTab.set('summary');
+}
+
+====================================================
+SECTION 1 — ROOT HERO
+====================================================
+
+Component:
+
+LexiconRootHeroComponent
+
+Input:
+- root
+
+Render:
+- back arrow
+- small title: العمل على الجذر
+- optional share icon
+- large root: root.text_ar
+- root letters: ك · ت · ب
+- Quran frequency badge
+- root type badge
+
+Data mapping:
+- root title = payload.root.text_ar
+- letters = parseRootLetters(payload.root.letters, payload.root.text_ar)
+- frequency badge = payload.root.frequency_quran
+- type badge = payload.root.type + payload.root.weak_pattern
+
+Helper:
+
+parseRootLetters(value: string | null, fallbackRoot: string): string[]
+
+Rules:
+- If value is JSON array string like "[\"ك\", \"ت\", \"ب\"]", parse it.
+- If value is plain Arabic text, split characters.
+- If null, fallback to fallbackRoot.
+- Render joined with " · ".
+
+Type mapping:
+trilateral -> ثلاثي
+quadriliteral -> رباعي
+sound -> صحيح
+weak -> معتل
+hollow -> أجوف
+defective -> ناقص
+assimilated -> مثال
+doubled -> مضعّف
+
+Examples:
+- frequency_quran = 319 -> "319× في القرآن"
+- type = trilateral and weak_pattern = sound -> "ثلاثي صحيح"
+
+====================================================
+SECTION 2 — CENTRAL MEANING CARD
+====================================================
+
+Component:
+
+LexiconCentralMeaningCardComponent
+
+Input:
+- root
+
+Important:
+Do NOT invent the central meaning in the frontend.
+Do NOT summarize raw source text live.
+
+Data source:
+Use:
+root.meaning_ar
+
+If root.meaning_ar exists:
+Show it.
+
+If root.meaning_ar is null:
+Show:
+"لم يُضَف المعنى المركزي لهذا الجذر بعد."
+
+Secondary line:
+"أضف ملخصًا محررًا من المعاجم."
+
+UI:
+- title: المعنى المركزي
+- small pen/quill icon
+- content in Arabic
+- card with gold border
+
+For كتب, data should later come from DB:
+ar_ling_roots.meaning_core_ar
+ar_ling_roots.meaning_core_en
+
+Do not hardcode this in frontend.
+
+====================================================
+SECTION 3 — LEMMA CHIPS / ألفاظ هذا الجذر
+====================================================
+
+Component:
+
+LexiconLemmaStripComponent
+
+Input:
+- lemmas
+
+Render title:
+"ألفاظ هذا الجذر"
+
+Use only:
+payload.lemmas
+
+Do not hardcode:
+كَتَبَ
+كِتَاب
+كَاتِب
+مَكْتُوب
+اكْتَتَبَ
+
+Each chip:
+- primary: lemma.text_ar
+- small POS label
+- Quran badge if lemma.is_quran_word = true
+- frequency if frequency_quran > 0
+
+Part of speech mapping:
+verb -> فعل
+noun -> اسم
+particle -> حرف
+root_entry -> جذر
+adjective -> صفة
+proper_noun -> علم
+
+Filters:
+- الكل
+- قرآني
+- أفعال
+- أسماء
+
+Filtering:
+- الكل: show all
+- قرآني: is_quran_word = true
+- أفعال: part_of_speech = verb
+- أسماء: part_of_speech = noun
+
+Layout:
+- horizontal scroll
+- RTL
+- active chip filled gold
+- inactive chip dark with gold outline
+- do not wrap too many rows on mobile
+
+Click:
+- set selectedLemmaId
+- visually select chip
+- no backend change required yet
+
+====================================================
+SECTION 4 — SOURCE SELECTOR TABS
+====================================================
+
+Component:
+
+LexiconSourceTabsComponent
+
+Input:
+- sources
+- selectedSourceSlug
+
+Output:
+- sourceSelected(slug)
+
+Render title:
+"المصادر والمعاجم"
+
+Render source tabs horizontally.
+
+Very important:
+These are source selectors, NOT dropdowns.
+
+When user selects a source:
+- update selectedSourceSlug
+- selected source preview/reader changes
+- do not render all sources below
+
+Short label helper:
+
+shortSourceTitle(source):
+- if source.slug includes raghib -> الراغب
+- if source.slug includes lane -> لين
+- if source.slug includes sihah or jawhari -> الصحاح
+- if source.slug includes lisan -> لسان
+- if source.slug includes taj -> تاج
+- if source.slug includes maqayis -> مقاييس
+- otherwise source.title_ar
+
+====================================================
+SECTION 5 — SELECTED SOURCE PREVIEW ON ROOT WORKSPACE
+====================================================
+
+Under the source tabs, show only the selected source preview.
+
+Component:
+
+LexiconSelectedSourcePreviewComponent
+
+Input:
+- selectedSource
+
+Render:
+- selectedSource.title_ar
+- selectedSource.author
+- first page badge
+- small arrow/open indicator
+
+Example if selected source = الراغب:
+
+مفردات القرآن
+الراغب الأصفهاني
+ج1 ص699
+
+Click preview:
+- navigate/open Source Reader screen for selected source
+
+Important:
+Do not show multiple source cards.
+Do not show Lane warning unless Lane is the selected source.
+
+Wrong:
+- showing Raghib selected, then Lane dropdown below it
+- showing all sources as accordion cards
+
+Correct:
+- only selected source preview appears
+
+====================================================
+MOBILE SCREEN 3 — SOURCE READER
+====================================================
+
+Create/refactor:
+
+LexiconSourceReaderPageComponent
+or LexiconSourceReaderComponent
+
+Input:
+- selectedSource
+- payload/root context
+- readerTab
+
+This screen shows exactly one selected source.
+
+Header:
+- back arrow
+- title: مصدر
+- bookmark icon
+- menu icon
+
+Source hero:
+- selectedSource.title_ar
+- selectedSource.author
+- page badge from first entry
+- optional source/book image if you have asset
+- source_url button if available
+
+Reader tabs:
+- مختصر
+- النص الكامل
+- شواهد
+- مقارنة
+
+Behavior:
+- tabs apply only to selectedSource
+- do not show other sources below
+- do not show comparison cards unless tab = comparison
+
+====================================================
+SOURCE READER TAB: مختصر
+====================================================
+
+For selected Arabic source:
+- show first clean excerpt from selectedSource.entries[0].text_ar
+- max height optional
+- show "اقرأ المزيد" if long
+
+For Lane dirty source:
+- show Lane cleanup warning only if Lane selected
+
+Do not show non-selected source cards.
+
+====================================================
+SOURCE READER TAB: النص الكامل
+====================================================
+
+Render all entries from selectedSource.entries only.
+
+For each entry:
+- entry.text_ar if clean Arabic source
+- entry.text_en if available
+- page/volume badge
+
+Do not render entries from other sources.
+
+====================================================
+SOURCE READER TAB: شواهد
+====================================================
+
+For now:
+- If Quran reference extraction exists, show chips.
+- Otherwise show empty state:
+"لم تُستخرج الشواهد بعد."
+
+Do not show comparison here.
+
+====================================================
+SOURCE READER TAB: مقارنة
+====================================================
+
+Only when readerTab = comparison, show comparison cards across all sources.
+
+Component:
+LexiconComparisonComponent
+
+Input:
+- payload.sources
+
+Each card:
+- source.title_ar
+- source.author
+- page badge
+- short clean excerpt
+
+If Lane is dirty:
+"هذا المصدر يحتاج إلى تنظيف قبل المقارنة."
+
+This comparison section must not appear under مختصر or النص الكامل.
+
+====================================================
+CRITICAL RULE — ONE SELECTED SOURCE ONLY
+====================================================
+
+This is the most important UI rule:
+
+The main reader must render exactly one source: selectedSource.
+
+Do this:
+
+<km-lexicon-source-reader
+  *ngIf="selectedSource() as source"
+  [source]="source"
+  [readerTab]="readerTab()"
+  [allSources]="payload.sources"
+  (readerTabChange)="readerTab.set($event)"
+/>
+
+Do NOT do this:
+
+@for (source of payload.sources) {
+  <km-lexicon-source-reader [source]="source" />
+}
+
+Do NOT render source accordions inside the reader.
+
+Other sources appear only as:
+- horizontal tabs on mobile root page
+- comparison cards only in comparison tab
+
+====================================================
+LANE DIRTY DATA HANDLING
+====================================================
+
+Current Lane source is dirty.
+It may contain Buckwalter/transliteration/noisy text inside text_ar, like:
+
+kat~aba
+A_ikotataba
+kitobapN
+A_ikotitaAbN
+AlfrD
+Alrzq
+
+Create helper:
+
+isProbablyDirtyLaneEntry(source, entry): boolean
+
+Return true if:
+- source.slug includes "lane"
+AND
+- entry.text_ar contains Buckwalter/noisy patterns
+
+Detection:
+- contains A_
+- contains kat~
+- contains kitob
+- contains Al
+- Latin letters count > Arabic letters count
+- regex /[A-Za-z][A-Za-z~_^$`FNKaui]+/
+
+Helpers:
+countArabicLetters(text)
+countLatinLetters(text)
+
+Dirty Lane UI:
+Only show this when selectedSource is Lane:
+
+"معجم لين"
+"المصدر يحتاج إلى تنظيف وتحويل قبل العرض العربي النظيف."
+
+Buttons:
+- عرض الخام
+- تشغيل المنظّف disabled if no action exists
+
+Raw text:
+- collapsed panel only
+- label: النص الخام
+- not styled as Arabic book text
+
+Important:
+Buckwalter must never appear as:
+- root heading
+- Arabic heading
+- Arabic body
+- lemma chip
+- central meaning
+
+Buckwalter can appear only in:
+- raw/debug panel
+- metadata
+- transliteration field later
+
+====================================================
+BACKEND/DATA TASK — CENTRAL MEANING
+====================================================
+
+Create script:
+
+scripts/lexicon/seed-root-meanings.ts
+
+Purpose:
+Seed manually curated central meanings for important roots.
+
+Start with root كتب:
+
+UPDATE ar_ling_roots
+SET
+  meaning_core_ar = 'الجمع والضمّ، ثم الكتابة والتدوين، ثم الإثبات والحكم والإلزام.',
+  meaning_core_en = 'The core sense is joining/gathering, then writing/inscription, then fixing, prescribing, or ordaining.'
+WHERE root_text = 'كتب';
+
+Also prepare structure for:
+علم
+قرأ
+رحم
+نزل
+خلق
+فتح
+وحي
+
+Do not use AI-generated summaries blindly.
+These are curated/reviewed values.
+
+Add npm script:
+"lexicon:seed-root-meanings": "tsx scripts/lexicon/seed-root-meanings.ts"
+
+Current route should then return:
+root.meaning_ar
+root.meaning_en
+
+====================================================
+TYPES
+====================================================
+
+Create or update TypeScript interfaces:
+
+export interface LexiconRootResponse {
+  ok: boolean;
+  data: LexiconRootPayload;
+}
+
+export interface LexiconRootPayload {
+  root: LexiconRootInfo;
+  lemmas: LexiconLemma[];
+  lemma_count: number;
+  sources: LexiconSourceGroup[];
+  source_count: number;
+  total_entries: number;
+}
+
+export interface LexiconRootInfo {
+  text_ar: string;
+  letters: string | null;
+  type: string | null;
+  weak_pattern: string | null;
+  frequency_quran: number | null;
+  meaning_ar: string | null;
+  meaning_en: string | null;
+  norm: string;
+}
+
+export interface LexiconLemma {
+  id: string;
+  text_ar: string;
+  text_bare: string;
+  part_of_speech: string | null;
+  verb_form: string | null;
+  is_quran_word: boolean;
+  frequency_quran: number | null;
+}
+
+export interface LexiconSourceGroup {
+  slug: string;
+  title_ar: string;
+  title_en: string;
+  author: string;
+  period: string;
+  entries: LexiconSourceEntry[];
+  entry_count: number;
+}
+
+export interface LexiconSourceEntry {
+  id: string;
+  source_slug: string;
+  heading_norm: string | null;
+  root_id: string | null;
+  text_ar: string | null;
+  text_en: string | null;
+  page_no: number | null;
+  volume_no: number | null;
+  chunk_seq: number;
+  source_url: string | null;
+}
+
+====================================================
+HELPER FUNCTIONS
+====================================================
+
+Implement:
+
+parseRootLetters(value: string | null, fallbackRoot: string): string[]
+
+formatRootType(type: string | null): string | null
+
+formatWeakPattern(pattern: string | null): string | null
+
+formatQuranFrequency(n: number | null): string | null
+
+shortSourceTitle(source: LexiconSourceGroup): string
+
+formatPage(entry: LexiconSourceEntry): string | null
+
+countArabicLetters(text: string): number
+
+countLatinLetters(text: string): number
+
+isLaneSource(source: LexiconSourceGroup): boolean
+
+isProbablyDirtyLaneEntry(source: LexiconSourceGroup, entry: LexiconSourceEntry): boolean
+
+cleanExcerpt(text: string, max = 320): string
+
+hasCleanArabicText(source, entry): boolean
+
+getDefaultSelectedSource(sources): LexiconSourceGroup | null
+
+====================================================
+ANGULAR COMPONENT PLAN
+====================================================
+
+Create/refactor:
+
+1. LexiconHomeComponent
+2. LexiconRootPageComponent
+3. LexiconRootHeroComponent
+4. LexiconCentralMeaningCardComponent
+5. LexiconLemmaStripComponent
+6. LexiconSourceTabsComponent
+7. LexiconSelectedSourcePreviewComponent
+8. LexiconSourceReaderComponent
+9. LexiconComparisonComponent
+10. LexiconRawSourcePanelComponent
+
+Use standalone components if the project uses standalone Angular.
+
+====================================================
+ACCEPTANCE TEST — MOBILE
+====================================================
+
+For root كتب:
+
+Screen 1 Home:
+- search visible
+- suggested root chips visible
+- source cards visible
+- bottom nav visible
+- معجم active
+
+Screen 2 Root Workspace:
+- root hero shows كتب
+- letters show ك · ت · ب
+- frequency shows 319× في القرآن
+- type shows ثلاثي صحيح
+- central meaning shows DB value if seeded
+- lemma chips come from payload.lemmas
+- source tabs come from payload.sources
+- selected source default is الراغب if available
+- only selected source preview appears
+
+Screen 3 Source Reader:
+If selected source = الراغب:
+- shows مفردات القرآن
+- shows الراغب الأصفهاني
+- shows ج1 ص699 if available
+- shows Raghib text only
+- does NOT show Lane warning
+- does NOT show Sihah/Lisan/Taj cards
+- comparison cards hidden unless مقارنة tab selected
+
+If selected source = لين:
+- shows معجم لين
+- shows Lane cleanup warning if dirty
+- raw text hidden until user opens raw panel
+- does NOT show Raghib text
+
+If selected source = الصحاح:
+- shows الصحاح only
+- does NOT show Raghib or Lane content
+
+Bottom nav remains visible.
+
+====================================================
+DO NOT DO
+====================================================
+
+Do not:
+- hardcode lemma chips
+- hardcode central meaning in frontend
+- show all sources expanded at once
+- render Lane Buckwalter as Arabic
+- render raw XML as normal content
+- create fake meanings in UI
+- make root page a long accordion
+- show Lane warning under Raghib
+- show comparison cards by default
+- break existing backend route
+- remove bottom navigation
+- change DB schema unnecessarily
+
+====================================================
+FINAL DELIVERABLES
+====================================================
+
+Please deliver:
+
+1. Updated Angular mobile lexicon UI.
+2. Clean 3-screen flow: Home → Root Workspace → Source Reader.
+3. Components listed above.
+4. Helper functions.
+5. Seed script for root central meanings.
+6. SCSS matching K-MAPS dark/gold design.
+7. Acceptance result for root كتب.

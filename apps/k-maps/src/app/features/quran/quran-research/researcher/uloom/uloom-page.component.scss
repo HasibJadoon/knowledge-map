@@ -310,3 +310,891 @@
   white-space: normal;
   direction: rtl;
 }
+
+// ── Split layout: main feed + left side rail ───────────────────────────────
+// Flexbox so the rail can animate its width inline via GSAP without fighting
+// a grid-template-columns transition. In RTL with flex-direction:row, the
+// FIRST child renders on the screen-right (content) and the LAST renders on
+// screen-left (rail) — matching the lexicon book reader's layout.
+// ── Book-style body: lexicon-shell geometry ────────────────────────────────
+// `.reader` host gets `--w-rail` CSS var (set on first paint, animated by
+// GSAP on toggleRail). All three children below — content, rail, rail-toggle
+// — read this var so they move in lockstep.
+.reader { --w-rail: 300px; }
+.reader.fs-sm { --fs-base: 0.95rem; --fs-lead: 1.6rem; }
+.reader      { --fs-base: 1.06rem; --fs-lead: 1.85rem; }
+.reader.fs-md { --fs-base: 1.06rem; --fs-lead: 1.85rem; }
+.reader.fs-lg { --fs-base: 1.22rem; --fs-lead: 2.15rem; }
+
+.reader__body {
+  position: relative;
+  min-height: calc(100vh - 220px);
+  overflow: hidden;
+}
+
+.content {
+  position: relative;
+  overflow-y: auto;
+  outline: none;
+  padding: 20px clamp(16px, 3vw, 32px) 60px;
+  padding-inline-end: calc(var(--w-rail) + 16px);
+  font-size: var(--fs-base);
+  line-height: var(--fs-lead);
+  min-height: calc(100vh - 220px);
+
+  @media (max-width: 1099px) {
+    padding-inline-end: clamp(16px, 3vw, 32px);
+  }
+}
+
+.reader__controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-inline-start: auto;
+
+  .ctrl {
+    appearance: none;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,.08);
+    color: rgba(232,221,196,.75);
+    padding: 6px 10px;
+    height: 32px;
+    border-radius: 8px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background .15s, color .15s, border-color .15s;
+    &:hover {
+      background: rgba(201,162,39,.10);
+      color: #E8DDC4;
+      border-color: rgba(201,162,39,.32);
+    }
+    &.active {
+      background: rgba(201,162,39,.18);
+      color: #C9A227;
+      border-color: rgba(201,162,39,.5);
+    }
+  }
+}
+
+// ── Side rail: flat collapsible column (no outer box) with edge toggle ─────
+// No own background, border, or radius — the rail sits transparent against
+// the page so the page reads as ONE workspace, not "rail card + content card"
+// side by side. Sections inside get their own row dividers (see ::ng-deep).
+.rail {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  inset-inline-end: 0;
+  width: var(--w-rail);
+  background: transparent;
+  border-inline-start: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+  overflow: visible;
+
+  // Inner-card visual reset via CSS custom props — cards become transparent
+  // rows separated by thin dividers (the lexicon book reader look).
+  --iapx-card-bg: transparent;
+  --iapx-card-border: transparent;
+  --tapx-card-bg: transparent;
+  --tapx-card-border: transparent;
+  --rpx-card-bg: transparent;
+  --rpx-card-border: transparent;
+  --rpx-bg: transparent;
+
+  km-iraab-analysis-panel,
+  km-tafsir-analysis-panel,
+  km-refs-panel { display: block; }
+
+  ::ng-deep .iapx,
+  ::ng-deep .tapx,
+  ::ng-deep .rpx { gap: 0; padding: 0; }
+
+  ::ng-deep .iapx-card,
+  ::ng-deep .tapx-card,
+  ::ng-deep .rpx-card {
+    border-radius: 0 !important;
+    border: 0 !important;
+    border-bottom: 1px solid rgba(255,255,255,.05) !important;
+  }
+  ::ng-deep .iapx-card:last-child,
+  ::ng-deep .tapx-card:last-child,
+  ::ng-deep .rpx-card:last-child { border-bottom: 0 !important; }
+
+  km-iraab-analysis-panel,
+  km-tafsir-analysis-panel {
+    ::ng-deep .iapx-card:last-child,
+    ::ng-deep .tapx-card:last-child { border-bottom: 1px solid rgba(255,255,255,.05) !important; }
+  }
+  km-refs-panel ::ng-deep .rpx-card:last-child { border-bottom: 0 !important; }
+
+  &.collapsed {
+    pointer-events: none;
+    border-color: transparent;
+  }
+
+  @media (max-width: 1099px) { display: none; }
+}
+
+.rail__scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 0 24px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(201,162,39,.2) transparent;
+}
+
+// (legacy .rp-detail__rail-inner removed — replaced by .rail__scroll above)
+
+// ── Edge toggle button — anchored at inline-end of body, offset by --w-rail
+// so it stays hugged to the rail's inner edge in any state.
+.rail-toggle {
+  position: absolute;
+  top: 14px;
+  inset-inline-end: calc(var(--w-rail) - 14px);
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 1px solid rgba(201,162,39,.32);
+  border-radius: 50%;
+  background: #15120e;
+  color: #C9A227;
+  cursor: pointer;
+  transition: background .15s ease, border-color .15s ease, transform .15s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,.5);
+
+  &:hover {
+    background: rgba(201,162,39,.18);
+    border-color: rgba(201,162,39,.55);
+    transform: scale(1.08);
+  }
+  &:focus-visible {
+    outline: 2px solid rgba(201,162,39,.6);
+    outline-offset: 2px;
+  }
+
+  @media (max-width: 1099px) { display: none; }
+}
+
+// (inner-panel flatten rules now live inside the .rail block above)
+
+// ── New display-layer additions ──────────────────────────────────────────────
+// Ayah-bar (per-ayah navigation; ayah count comes from /qr/menu)
+.rp-detail__ayah-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px;
+  margin-top: 8px;
+  background: rgba(255,255,255,.03);
+  border-radius: 14px;
+}
+.rp-detail__ayah-label {
+  color: #C9A227;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+// Group header above the display-block feed
+.rp-group-header {
+  font-family: "Amiri", serif;
+  font-size: 1.15rem;
+  color: #C9A227;
+  margin: 14px 0 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed rgba(201,162,39,.4);
+  direction: rtl;
+}
+
+// Per-source section wrapper inside the detail panel
+.rp-section {
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.06);
+  border-top: 3px solid var(--sec-accent, #C9A227);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 14px;
+}
+.rp-section-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  // Override display-block colors for dark theme
+  km-display-block {
+    --db-canvas: #0d0d0d;
+    --db-card: #14110D;
+    --db-card-border: #2B271F;
+    --db-text-primary: #F0EAD8;
+    --db-text-muted: #8C8472;
+  }
+}
+
+// ── Bead-on-thread collapsible sections ──────────────────────────────────────
+// Each section_kind (irab/sarf/balagha/fawaid/language) renders as a parent
+// card with its children indented under a vertical gold "thread" with dot
+// connectors. Click the header to collapse/expand.
+
+.bead-section {
+  background: rgba(255,255,255,.015);
+  border: 1px solid rgba(255,255,255,.05);
+  border-right: 3px solid var(--sec-accent, #C9A227);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color .15s ease;
+  km-display-block {
+    --db-canvas: #0d0d0d;
+    --db-card: #14110D;
+    --db-card-border: #2B271F;
+    --db-text-primary: #F0EAD8;
+    --db-text-muted: #8C8472;
+  }
+  &:hover { border-color: rgba(201,162,39,.18); }
+}
+
+.bead-section__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(to left, rgba(201,162,39,.04), transparent);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  direction: rtl;
+
+  &:hover { background: linear-gradient(to left, rgba(201,162,39,.08), transparent); }
+}
+.bead-section--collapsed .bead-section__head {
+  border-bottom: none;
+}
+
+.bead-section__chevron {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(201,162,39,.12);
+  color: #C9A227;
+  font-size: 0.85rem;
+  transition: transform .2s ease;
+  flex-shrink: 0;
+}
+.bead-section--collapsed .bead-section__chevron {
+  transform: rotate(-90deg);
+}
+
+.bead-section__titles {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.bead-section__title-ar {
+  font-family: "Amiri", serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #F0EAD8;
+  line-height: 1.1;
+}
+.bead-section__title-en {
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+  color: #8C8472;
+  letter-spacing: 0.04em;
+}
+
+.bead-section__count {
+  padding: 3px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: rgba(201,162,39,.12);
+  color: #C9A227;
+  font-family: system-ui, sans-serif;
+  flex-shrink: 0;
+}
+
+// ── Body: thread + children ──────────────────────────────────────────────────
+.bead-section__body {
+  position: relative;
+  padding: 16px 28px 16px 16px;          /* extra right pad for the thread */
+  direction: rtl;
+}
+
+// Vertical thread running down the right side (RTL)
+.bead-thread {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  right: 18px;                            /* aligns with the center of the dots */
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    var(--sec-accent, #C9A227) 12px,
+    var(--sec-accent, #C9A227) calc(100% - 12px),
+    transparent 100%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.bead-row {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  &:last-child { margin-bottom: 0; }
+}
+
+// The "bead" — circle on the thread aligned with the top of each child card
+.bead-dot {
+  position: absolute;
+  top: 14px;
+  right: -16px;                           /* sits ON the thread */
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--sec-accent, #C9A227);
+  box-shadow:
+    0 0 0 3px #0d0d0d,                    /* gap from background */
+    0 0 0 4px rgba(201,162,39,.3);        /* outer halo */
+  z-index: 1;
+}
+
+.bead-card {
+  flex: 1;
+  min-width: 0;
+  // Visual connector from the dot to the card edge (small horizontal nub)
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 19px;
+    right: -10px;
+    width: 8px;
+    height: 2px;
+    background: var(--sec-accent, #C9A227);
+    opacity: 0.4;
+  }
+
+  // Flatten the inner display-block — no nested card chrome.
+  // The bead/thread provides the visual structure; the child is just content.
+  km-display-block {
+    .db-block {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 4px 0 !important;
+      margin: 0 !important;
+    }
+    // The card-specific footer/header bottom borders look odd flattened —
+    // soften them to be inline dividers instead of card boundaries.
+    .db-head { border-bottom-color: rgba(255,255,255,.04); }
+    .db-footer { border-top-style: dotted; border-top-color: rgba(255,255,255,.05); }
+  }
+}
+
+.bead-empty {
+  color: #8C8472;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 12px;
+  font-style: italic;
+}
+
+// ── Detail header (flex layout: back button + banner row + toolbar row) ─────
+.rp-detail__header {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  gap: 12px 14px;
+  align-items: stretch;
+  margin-bottom: 18px;
+}
+.rp-detail__back {
+  grid-row: 1;
+  grid-column: 1;
+  align-self: stretch;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 14px;
+  height: auto;
+  min-height: 56px;
+  background: rgba(255,255,255,.02);
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 12px;
+  color: #B8AC93;
+  cursor: pointer;
+  font-family: "Amiri", serif;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all .12s ease;
+  &:hover { color: #C9A227; border-color: rgba(201,162,39,.35); background: rgba(201,162,39,.06); }
+  svg { transition: transform .15s ease; }
+  &:hover svg { transform: translateX(-2px); }
+}
+.rp-source-banner {
+  grid-row: 1;
+  grid-column: 2;
+}
+.picker-toolbar {
+  grid-row: 2;
+  grid-column: 1 / -1;
+}
+
+// ── Source identity banner ───────────────────────────────────────────────────
+.rp-source-banner {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px 14px 18px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,.02), transparent 60%),
+    linear-gradient(to left, color-mix(in srgb, var(--source-accent, #C9A227) 10%, transparent), transparent 50%);
+  border: 1px solid rgba(255,255,255,.06);
+  border-right: 3px solid var(--source-accent, #C9A227);
+  border-radius: 14px;
+  direction: rtl;
+}
+.rp-source-banner__avatar {
+  width: 56px; height: 56px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in srgb, var(--source-accent, #C9A227) 35%, transparent), color-mix(in srgb, var(--source-accent, #C9A227) 12%, transparent) 70%);
+  border: 1px solid color-mix(in srgb, var(--source-accent, #C9A227) 40%, transparent);
+  box-shadow:
+    inset 0 0 14px color-mix(in srgb, var(--source-accent, #C9A227) 15%, transparent),
+    0 0 0 1px rgba(0,0,0,.4);
+}
+.rp-source-banner__glyph {
+  font-family: "Amiri", serif;
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--source-accent, #C9A227);
+  line-height: 1;
+}
+.rp-source-banner__body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.rp-source-banner__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--source-accent, #C9A227);
+  text-transform: uppercase;
+  font-family: system-ui, sans-serif;
+  opacity: 0.85;
+  width: max-content;
+  svg { color: currentColor; }
+}
+.rp-source-banner__title {
+  margin: 0;
+  font-family: "Amiri", serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: #F0EAD8;
+  line-height: 1.2;
+}
+.rp-source-banner__author {
+  margin: 2px 0 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: "Amiri", serif;
+  font-size: 0.95rem;
+  color: #B8AC93;
+  width: max-content;
+  svg { color: #8C8472; }
+}
+.rp-source-banner__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.rp-stat-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 18px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  color: #B8AC93;
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  svg { color: #8C8472; }
+  &--primary {
+    background: color-mix(in srgb, var(--source-accent, #C9A227) 12%, transparent);
+    border-color: color-mix(in srgb, var(--source-accent, #C9A227) 35%, transparent);
+    color: var(--source-accent, #C9A227);
+    svg { color: currentColor; }
+  }
+}
+
+// ── Modern picker toolbar ────────────────────────────────────────────────────
+.picker-toolbar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: stretch;
+  margin-top: 14px;
+  padding: 6px;
+  background: rgba(0,0,0,.25);
+  border: 1px solid rgba(255,255,255,.05);
+  border-radius: 14px;
+  direction: rtl;
+  width: 100%;
+}
+
+.picker {
+  position: relative;
+}
+
+// ── Picker icon (left edge inside trigger / input) ──────────────────────────
+.picker__icon {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(201,162,39,.08);
+  color: #C9A227;
+  flex-shrink: 0;
+}
+
+// ── Surah trigger button ─────────────────────────────────────────────────────
+.picker__trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 260px;
+  height: 48px;
+  padding: 4px 10px 4px 12px;
+  background: #14110D;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  color: #F0EAD8;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color .15s ease, background .15s ease;
+  &:hover { border-color: rgba(201,162,39,.4); }
+  &--open {
+    border-color: #C9A227;
+    box-shadow: 0 0 0 2px rgba(201,162,39,.18);
+    .picker__icon { background: rgba(201,162,39,.16); }
+  }
+}
+.picker__field {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+  &--inline {
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+}
+.picker__label {
+  font-size: 0.62rem;
+  color: #8C8472;
+  font-family: system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 700;
+  line-height: 1;
+}
+.picker__value {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  min-width: 0;
+  width: 100%;
+  text-align: right;
+}
+.picker__value-num {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  min-width: 26px; height: 22px;
+  padding: 0 7px;
+  border-radius: 6px;
+  background: rgba(201,162,39,.18);
+  color: #C9A227;
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+.picker__value-name {
+  font-family: "Amiri", serif;
+  font-size: 1.05rem;
+  color: #F0EAD8;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.picker__value-placeholder {
+  color: #8C8472;
+  font-style: italic;
+  font-family: "Amiri", serif;
+  font-size: 1rem;
+}
+.picker__chevron {
+  color: #C9A227;
+  transition: transform .2s ease;
+  flex-shrink: 0;
+}
+.picker__trigger--open .picker__chevron { transform: rotate(180deg); }
+
+// ── Surah dropdown panel ─────────────────────────────────────────────────────
+.picker__backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.4);
+  z-index: 100;
+  cursor: default;
+}
+.picker__panel {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  width: 380px;
+  max-height: 480px;
+  background: #14110D;
+  border: 1px solid rgba(201,162,39,.25);
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.6);
+  z-index: 101;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.picker__search {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  background: rgba(255,255,255,.02);
+  position: relative;
+}
+.picker__search-icon {
+  position: absolute;
+  top: 50%;
+  right: 22px;
+  transform: translateY(-50%);
+  color: #8C8472;
+  pointer-events: none;
+}
+.picker__search-input {
+  width: 100%;
+  padding: 8px 36px 8px 12px;       /* right-pad to clear the search icon */
+  background: rgba(0,0,0,.4);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 8px;
+  color: #F0EAD8;
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  &:focus {
+    border-color: #C9A227;
+    box-shadow: 0 0 0 2px rgba(201,162,39,.15);
+    & + .picker__search-icon, ~ .picker__search-icon { color: #C9A227; }
+  }
+  &::placeholder { color: #6E665A; }
+}
+.picker__list {
+  list-style: none;
+  padding: 6px;
+  margin: 0;
+  overflow-y: auto;
+  flex: 1;
+}
+.picker__item {
+  display: grid;
+  grid-template-columns: 36px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background .12s ease;
+  &:hover { background: rgba(201,162,39,.08); }
+  &--active {
+    background: rgba(201,162,39,.15);
+    box-shadow: inset 2px 0 0 #C9A227;
+  }
+}
+.picker__item-num {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 32px; height: 26px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: rgba(201,162,39,.12);
+  color: #C9A227;
+  font-family: system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+.picker__item-names {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1px;
+  text-align: right;
+  min-width: 0;
+}
+.picker__item-name {
+  font-family: "Amiri", serif;
+  font-size: 1.05rem;
+  color: #F0EAD8;
+  font-weight: 600;
+  line-height: 1.1;
+}
+.picker__item-translit {
+  font-family: system-ui, sans-serif;
+  font-size: 0.66rem;
+  color: #8C8472;
+  letter-spacing: 0.04em;
+}
+.picker__item-ayahs {
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: #8C8472;
+  white-space: nowrap;
+  padding: 2px 7px;
+  background: rgba(255,255,255,.04);
+  border-radius: 8px;
+}
+.picker__empty {
+  padding: 18px;
+  text-align: center;
+  color: #6E665A;
+  font-style: italic;
+}
+
+// ── Ayah stepper ─────────────────────────────────────────────────────────────
+.picker--ayah {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 4px 8px;
+  height: 48px;
+  background: #14110D;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  transition: border-color .15s ease;
+  &:focus-within { border-color: #C9A227; box-shadow: 0 0 0 2px rgba(201,162,39,.15); }
+}
+.picker__ayah-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.picker__step {
+  width: 26px; height: 26px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: #C9A227;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all .12s ease;
+  &:hover:not(:disabled) { background: rgba(201,162,39,.12); border-color: rgba(201,162,39,.3); }
+  &:disabled { opacity: 0.25; cursor: not-allowed; }
+}
+.picker__ayah-input {
+  width: 50px;
+  padding: 4px 4px;
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.06);
+  border-radius: 6px;
+  color: #F0EAD8;
+  text-align: center;
+  font-family: system-ui, sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  outline: none;
+  &:focus { border-color: #C9A227; }
+  &::-webkit-inner-spin-button,
+  &::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  -moz-appearance: textfield;
+}
+.picker__ayah-total {
+  color: #8C8472;
+  font-family: system-ui, sans-serif;
+  font-size: 0.78rem;
+  letter-spacing: 0.02em;
+}
+
+// ── Quick-jump ───────────────────────────────────────────────────────────────
+.picker--goto {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: auto;
+  padding: 4px 6px 4px 12px;
+  height: 48px;
+  background: #14110D;
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 10px;
+  transition: border-color .15s ease;
+  &:focus-within { border-color: #C9A227; box-shadow: 0 0 0 2px rgba(201,162,39,.15); }
+  .picker__icon { color: #C9A227; background: transparent; width: 24px; height: 24px; }
+}
+.picker__goto-input {
+  width: 180px;
+  padding: 6px 4px;
+  background: transparent;
+  border: none;
+  color: #F0EAD8;
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  outline: none;
+  &::placeholder { color: #6E665A; }
+}
+.picker__goto-btn {
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  width: 36px; height: 36px;
+  padding: 0;
+  background: rgba(201,162,39,.12);
+  border: 1px solid rgba(201,162,39,.3);
+  border-radius: 8px;
+  color: #C9A227;
+  cursor: pointer;
+  transition: all .12s ease;
+  &:hover:not(:disabled) { background: #C9A227; color: #14110D; }
+  &:disabled { opacity: 0.3; cursor: not-allowed; }
+}

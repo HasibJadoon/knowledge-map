@@ -1,0 +1,38 @@
+[
+  {
+    "results": [
+      {
+        "entry_type": "explanation",
+        "n": 24139,
+        "has_en": 0,
+        "multi_ayah": 9586,
+        "has_page": 10295
+      },
+      {
+        "entry_type": "irab",
+        "n": 1526,
+        "has_en": 0,
+        "multi_ayah": 1225,
+        "has_page": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "ENAM",
+      "served_by_colo": "EWR",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 99.5545
+      },
+      "duration": 99.5545,
+      "changes": 0,
+      "last_row_id": 18397,
+      "changed_db": false,
+      "size_after": 869064704,
+      "rows_read": 51332,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

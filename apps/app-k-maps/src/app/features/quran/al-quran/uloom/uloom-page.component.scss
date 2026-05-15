@@ -1,1 +1,142 @@
 @use '../research-tab';
+
+// ── Bead-on-thread collapsible sections ──────────────────────────────────────
+// Each section_kind (irab/sarf/balagha/fawaid/language) renders as a parent
+// card with its children indented under a vertical accent "thread" with dot
+// connectors. Children are FLAT (no nested card chrome) — bead+thread carry
+// the visual hierarchy. Click the header to collapse/expand.
+
+.bead-section {
+  background: rgba(255,255,255,.015);
+  border: 1px solid rgba(255,255,255,.05);
+  border-right: 3px solid var(--sec-accent, #C9A227);
+  border-radius: 12px;
+  margin-bottom: 14px;
+  overflow: hidden;
+  transition: border-color .15s ease;
+  &:hover { border-color: rgba(201,162,39,.18); }
+}
+
+.bead-section__head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  user-select: none;
+  background: linear-gradient(to left, rgba(201,162,39,.04), transparent);
+  border-bottom: 1px solid rgba(255,255,255,.04);
+  direction: rtl;
+  &:hover { background: linear-gradient(to left, rgba(201,162,39,.08), transparent); }
+}
+.bead-section--collapsed .bead-section__head { border-bottom: none; }
+
+.bead-section__chevron {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 22px; height: 22px;
+  border-radius: 50%;
+  background: rgba(201,162,39,.12);
+  color: #C9A227;
+  font-size: 0.85rem;
+  transition: transform .2s ease;
+  flex-shrink: 0;
+}
+.bead-section--collapsed .bead-section__chevron { transform: rotate(-90deg); }
+
+.bead-section__titles {
+  flex: 1; min-width: 0;
+  display: flex; flex-direction: column; gap: 2px;
+}
+.bead-section__title-ar {
+  font-family: "Amiri", serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #F0EAD8;
+  line-height: 1.1;
+}
+.bead-section__title-en {
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: #8C8472;
+  letter-spacing: 0.04em;
+}
+.bead-section__count {
+  padding: 3px 12px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  border-radius: 12px;
+  background: rgba(201,162,39,.12);
+  color: #C9A227;
+  font-family: system-ui, sans-serif;
+  flex-shrink: 0;
+}
+
+.bead-section__body {
+  position: relative;
+  padding: 16px 28px 16px 14px;
+  direction: rtl;
+}
+.bead-thread {
+  position: absolute;
+  top: 6px; bottom: 6px;
+  right: 18px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    transparent 0,
+    var(--sec-accent, #C9A227) 12px,
+    var(--sec-accent, #C9A227) calc(100% - 12px),
+    transparent 100%
+  );
+  opacity: 0.5;
+  pointer-events: none;
+}
+.bead-row {
+  position: relative;
+  display: flex; align-items: flex-start;
+  margin-bottom: 10px;
+  &:last-child { margin-bottom: 0; }
+}
+.bead-dot {
+  position: absolute;
+  top: 14px;
+  right: -16px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--sec-accent, #C9A227);
+  box-shadow: 0 0 0 3px #0d0d0d, 0 0 0 4px rgba(201,162,39,.3);
+  z-index: 1;
+}
+.bead-card {
+  flex: 1; min-width: 0;
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 19px;
+    right: -10px;
+    width: 8px; height: 2px;
+    background: var(--sec-accent, #C9A227);
+    opacity: 0.4;
+  }
+
+  // Flatten the inner display-block — no nested card chrome.
+  km-display-block {
+    .db-block {
+      background: transparent !important;
+      border: none !important;
+      box-shadow: none !important;
+      padding: 4px 0 !important;
+      margin: 0 !important;
+    }
+    .db-head   { border-bottom-color: rgba(255,255,255,.04); }
+    .db-footer { border-top-style: dotted; border-top-color: rgba(255,255,255,.05); }
+  }
+}
+.bead-empty {
+  color: #8C8472;
+  font-size: 0.85rem;
+  text-align: center;
+  padding: 12px;
+  font-style: italic;
+}

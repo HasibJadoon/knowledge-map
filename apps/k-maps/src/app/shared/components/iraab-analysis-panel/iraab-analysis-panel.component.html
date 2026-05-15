@@ -1,0 +1,170 @@
+<div class="iapx" dir="rtl">
+
+  <!-- ── Word coverage ──────────────────────────────────────────────────── -->
+  <article class="iapx-card" [class.iapx-card--collapsed]="isCollapsed('words')" [class.iapx-card--empty]="wordCoverage().unique === 0">
+    <header class="iapx-card__head" (click)="toggle('words')" role="button" tabindex="0" (keydown.enter)="toggle('words')">
+      <span class="iapx-dot" [class.iapx-dot--on]="wordCoverage().unique > 0"></span>
+      <span class="iapx-card__title">تحليل الكلمات</span>
+      <span class="iapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="iapx-card__count">{{ wordCoverage().unique }}</span>
+      <span class="iapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('words') && wordCoverage().unique > 0) {
+      <div class="iapx-card__body">
+        <div class="iapx-sub">{{ wordCoverage().total }} موضع · {{ wordCoverage().unique }} كلمة فريدة</div>
+        <div class="iapx-words">
+          @for (w of wordCoverage().words; track w) {
+            <span class="iapx-word">{{ w }}</span>
+          }
+          @if (wordCoverage().unique > wordCoverage().words.length) {
+            <span class="iapx-word iapx-word--more">+{{ wordCoverage().unique - wordCoverage().words.length }}</span>
+          }
+        </div>
+      </div>
+    }
+    @if (!isCollapsed('words') && wordCoverage().unique === 0) {
+      <div class="iapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Grammar roles ──────────────────────────────────────────────────── -->
+  <article class="iapx-card" [class.iapx-card--collapsed]="isCollapsed('roles')" [class.iapx-card--empty]="!roles().length">
+    <header class="iapx-card__head" (click)="toggle('roles')" role="button" tabindex="0" (keydown.enter)="toggle('roles')">
+      <span class="iapx-dot" [class.iapx-dot--on]="roles().length"></span>
+      <span class="iapx-card__title">الوظائف النحوية</span>
+      <span class="iapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="iapx-card__count">{{ roles().length }}</span>
+      <span class="iapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('roles') && roles().length) {
+      <div class="iapx-card__body">
+        @for (r of roles(); track r.label; let i = $index) {
+          <div class="iapx-row">
+            <span class="iapx-row__num">[{{ i + 1 }}]</span>
+            <span class="iapx-row__label iapx-row__label--role">{{ r.label }}</span>
+            <span class="iapx-row__count">×{{ r.count }}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('roles') && !roles().length) {
+      <div class="iapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Cases ──────────────────────────────────────────────────────────── -->
+  <article class="iapx-card" [class.iapx-card--collapsed]="isCollapsed('cases')" [class.iapx-card--empty]="!cases().length">
+    <header class="iapx-card__head" (click)="toggle('cases')" role="button" tabindex="0" (keydown.enter)="toggle('cases')">
+      <span class="iapx-dot" [class.iapx-dot--on]="cases().length"></span>
+      <span class="iapx-card__title">الحالات الإعرابية</span>
+      <span class="iapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="iapx-card__count">{{ cases().length }}</span>
+      <span class="iapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('cases') && cases().length) {
+      <div class="iapx-card__body">
+        @for (c of cases(); track c.label; let i = $index) {
+          <div class="iapx-row" [attr.data-case]="c.label">
+            <span class="iapx-row__num">[{{ i + 1 }}]</span>
+            <span class="iapx-row__label iapx-row__label--case">{{ c.label }}</span>
+            <span class="iapx-row__count">×{{ c.count }}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('cases') && !cases().length) {
+      <div class="iapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Maḥall ─────────────────────────────────────────────────────────── -->
+  <article class="iapx-card" [class.iapx-card--collapsed]="isCollapsed('mahal')" [class.iapx-card--empty]="!mahalTypes().length">
+    <header class="iapx-card__head" (click)="toggle('mahal')" role="button" tabindex="0" (keydown.enter)="toggle('mahal')">
+      <span class="iapx-dot" [class.iapx-dot--on]="mahalTypes().length"></span>
+      <span class="iapx-card__title">المحل الإعرابي</span>
+      <span class="iapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="iapx-card__count">{{ mahalTypes().length }}</span>
+      <span class="iapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('mahal') && mahalTypes().length) {
+      <div class="iapx-card__body">
+        @for (m of mahalTypes(); track m.label; let i = $index) {
+          <div class="iapx-row">
+            <span class="iapx-row__num">[{{ i + 1 }}]</span>
+            <span class="iapx-row__label iapx-row__label--mahal">{{ m.label }}</span>
+            <span class="iapx-row__count">×{{ m.count }}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('mahal') && !mahalTypes().length) {
+      <div class="iapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Section coverage ───────────────────────────────────────────────── -->
+  <article class="iapx-card" [class.iapx-card--collapsed]="isCollapsed('sections')" [class.iapx-card--empty]="!sectionCoverage().length">
+    <header class="iapx-card__head" (click)="toggle('sections')" role="button" tabindex="0" (keydown.enter)="toggle('sections')">
+      <span class="iapx-dot" [class.iapx-dot--on]="sectionCoverage().length"></span>
+      <span class="iapx-card__title">تغطية الأقسام</span>
+      <span class="iapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="iapx-card__count">{{ sectionCoverage().length }}</span>
+      <span class="iapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('sections') && sectionCoverage().length) {
+      <div class="iapx-card__body">
+        @for (s of sectionCoverage(); track s.label; let i = $index) {
+          <div class="iapx-row">
+            <span class="iapx-row__num">[{{ i + 1 }}]</span>
+            <span class="iapx-row__label iapx-row__label--section">{{ s.label }}</span>
+            <span class="iapx-row__count">{{ s.count }} كتلة</span>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('sections') && !sectionCoverage().length) {
+      <div class="iapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+</div>

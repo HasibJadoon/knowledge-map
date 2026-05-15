@@ -1,0 +1,52 @@
+[
+  {
+    "results": [
+      {
+        "source_slug": "ketabonline_al_fayyumi_misbah_munir",
+        "n": 345
+      },
+      {
+        "source_slug": "ketabonline_al_raghib_mufradat",
+        "n": 1962
+      },
+      {
+        "source_slug": "ketabonline_ibn_duraid_jamharat_al_lugha",
+        "n": 2118
+      },
+      {
+        "source_slug": "ketabonline_ibn_manzur_lisan_al_arab",
+        "n": 1152
+      },
+      {
+        "source_slug": "lane_lexicon",
+        "n": 55726
+      },
+      {
+        "source_slug": "saaid_maqayis_al_lugha",
+        "n": 144
+      },
+      {
+        "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+        "n": 5747
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "ENAM",
+      "served_by_colo": "IAD",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 6.2979
+      },
+      "duration": 6.2979,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 2464083968,
+      "rows_read": 67194,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

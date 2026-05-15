@@ -1,0 +1,114 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>تفسير متعدد المصادر</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="navAyah(-1)" [disabled]="ayah() <= 1">السابقة</ion-button>
+      <ion-button (click)="navAyah(1)">التالية</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="true" class="tafsir-display-page">
+
+  <header class="td-head">
+    <h1>{{ groupHeader() }}</h1>
+    @if (payload(); as p) {
+      <div class="td-group-meta">
+        @if (p.ayah_keys.length > 1) {
+          <span>المجموعة تغطي {{ p.ayah_keys.length }} آيات</span>
+        }
+        <span>{{ p.blocks.length }} كتلة من {{ p.sources.length }} مصادر</span>
+      </div>
+    }
+  </header>
+
+  <!-- Filter bar: scholars, madhab, era -->
+  <section class="td-filters">
+    <div class="td-filter-group">
+      <label>المصادر</label>
+      <div class="td-pills">
+        @for (s of sources(); track s.id) {
+          <button
+            class="td-pill"
+            [class.td-pill-active]="isScholarSelected(s.scholar_id ?? '')"
+            [style.--pill-color]="s.badge_color"
+            (click)="toggleScholar(s.scholar_id ?? '')"
+          >
+            <span class="td-pill-glyph">{{ s.badge_glyph }}</span>
+            <span class="td-pill-name">{{ s.author_name_ar }}</span>
+            @if (s.death_year_hijri) { <span class="td-pill-meta">ت {{ s.death_year_hijri }}</span> }
+          </button>
+        }
+      </div>
+    </div>
+
+    <div class="td-filter-group td-filter-secondary">
+      <label>المذهب</label>
+      <div class="td-pills">
+        <button class="td-pill td-pill-sm" [class.td-pill-active]="madhabFilter() === null" (click)="setMadhab(null)">الكل</button>
+        @for (m of availableMadhabs(); track m) {
+          <button class="td-pill td-pill-sm" [class.td-pill-active]="madhabFilter() === m" (click)="setMadhab(m)">{{ m }}</button>
+        }
+      </div>
+    </div>
+
+    <div class="td-filter-group td-filter-secondary">
+      <label>الحقبة</label>
+      <div class="td-pills">
+        <button class="td-pill td-pill-sm" [class.td-pill-active]="eraFilter() === null" (click)="setEra(null)">الكل</button>
+        <button class="td-pill td-pill-sm" [class.td-pill-active]="eraFilter() === 'classical'" (click)="setEra('classical')">كلاسيكي</button>
+        <button class="td-pill td-pill-sm" [class.td-pill-active]="eraFilter() === 'modern'" (click)="setEra('modern')">حديث</button>
+      </div>
+    </div>
+  </section>
+
+  @if (loading()) {
+    <div class="td-loading">
+      <ion-spinner name="dots"></ion-spinner>
+      <span>جاري التحميل…</span>
+    </div>
+  }
+
+  @if (error(); as e) {
+    <div class="td-error">{{ e }}</div>
+  }
+
+  <!-- Multi-scholar columns -->
+  @if (!loading() && columns().length) {
+    <section class="td-grid">
+      @for (col of columns(); track col.source.id) {
+        <article class="td-col" [style.--col-accent]="col.source.badge_color">
+          <header class="td-col-head">
+            <div class="td-col-glyph">{{ col.source.badge_glyph }}</div>
+            <div class="td-col-meta">
+              <h2 class="td-col-title">{{ col.source.book_title_ar }}</h2>
+              <div class="td-col-author">
+                <span>{{ col.source.author_name_ar }}</span>
+                @if (col.source.death_year_hijri) {
+                  <span class="td-col-death">ت {{ col.source.death_year_hijri }} هـ</span>
+                }
+              </div>
+              <div class="td-col-chips">
+                @if (col.source.madhab) { <span class="td-mini-chip">{{ col.source.madhab }}</span> }
+                @if (col.source.era)    { <span class="td-mini-chip">{{ col.source.era === 'classical' ? 'كلاسيكي' : 'حديث' }}</span> }
+                <span class="td-mini-chip td-mini-chip-count">{{ col.blocks.length }} كتلة</span>
+              </div>
+            </div>
+          </header>
+
+          <div class="td-col-feed">
+            @for (b of col.blocks; track b.id) {
+              <km-display-block [block]="b" />
+            }
+          </div>
+        </article>
+      }
+    </section>
+  }
+
+  @if (!loading() && !columns().length && !error()) {
+    <div class="td-empty">
+      لم يتم العثور على تفسير للآية المطلوبة. جرّب آية أخرى أو تأكد أن المصدر مفتعل.
+    </div>
+  }
+</ion-content>

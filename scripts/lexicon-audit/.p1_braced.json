@@ -1,0 +1,44 @@
+[
+  {
+    "results": [
+      {
+        "source_slug": "ketabonline_al_fayyumi_misbah_munir",
+        "n_braced": 446
+      },
+      {
+        "source_slug": "ketabonline_al_jawhari_al_sihah",
+        "n_braced": 253
+      },
+      {
+        "source_slug": "ketabonline_al_zabidi_taj_al_arus",
+        "n_braced": 27627
+      },
+      {
+        "source_slug": "ketabonline_ibn_duraid_jamharat_al_lugha",
+        "n_braced": 298
+      },
+      {
+        "source_slug": "saaid_maqayis_al_lugha",
+        "n_braced": 109
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "ENAM",
+      "served_by_colo": "IAD",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 1567.299
+      },
+      "duration": 1567.299,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 2465734656,
+      "rows_read": 1036282,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

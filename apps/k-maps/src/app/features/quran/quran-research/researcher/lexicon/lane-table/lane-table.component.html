@@ -1,0 +1,225 @@
+<div class="lt-root" dir="rtl">
+
+  <!-- ── Header ─────────────────────────────────────────────────────────────── -->
+  <div class="lt-header">
+    <button class="lt-back" (click)="closed.emit()" type="button">
+      <span aria-hidden="true">›</span> العودة
+    </button>
+    <div class="lt-header-title">
+      <span class="lt-header-name">معجم لين العربي الإنجليزي</span>
+      <span class="lt-header-sub">Lane's Arabic-English Lexicon · Edward William Lane</span>
+    </div>
+    @if (totalCount() > 0) {
+      <span class="lt-total-badge">{{ totalCount() }} مدخل</span>
+    }
+  </div>
+
+  <!-- ── Search ─────────────────────────────────────────────────────────────── -->
+  <div class="lt-search-bar">
+    <label class="lt-search-label" aria-label="ابحث بجذر">
+      <span class="lt-search-icon" aria-hidden="true">⌕</span>
+      <input
+        class="lt-search-input"
+        type="search"
+        placeholder="ابحث بجذر عربي… مثل: علم، كتب"
+        [value]="searchTerm()"
+        (input)="setSearch($any($event.target).value)"
+        dir="rtl"
+        autocomplete="off"
+      />
+      @if (loading()) {
+        <span class="lt-spinner" aria-hidden="true">⟳</span>
+      }
+    </label>
+    <div class="lt-quick-chips">
+      @for (root of quickRoots; track root) {
+        <button class="lt-quick-chip" (click)="tryRoot(root)" type="button">{{ root }}</button>
+      }
+    </div>
+  </div>
+
+  <!-- ── Error ──────────────────────────────────────────────────────────────── -->
+  @if (error()) {
+    <div class="lt-error">{{ error() }}</div>
+  }
+
+  <!-- ── Empty / idle ───────────────────────────────────────────────────────── -->
+  @if (!loading() && !error() && entries().length === 0 && searchTerm()) {
+    <div class="lt-empty">لا توجد نتائج للجذر «{{ searchTerm() }}» في معجم لين</div>
+  }
+
+  <!-- ── Table ──────────────────────────────────────────────────────────────── -->
+  @if (entries().length > 0) {
+    <div class="lt-table-wrap">
+      <table class="lt-table">
+        <thead>
+          <tr>
+            <th class="lt-th lt-th--word">الكلمة</th>
+            <th class="lt-th lt-th--page">الصفحة</th>
+            <th class="lt-th lt-th--def">التعريف</th>
+            <th class="lt-th lt-th--forms">الصيغ</th>
+            <th class="lt-th lt-th--refs">المصادر</th>
+            <th class="lt-th lt-th--status">الحالة</th>
+            <th class="lt-th lt-th--actions">إجراءات</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (entry of entries(); track entry.id) {
+            <tr class="lt-row" [class.lt-row--needs-review]="entry.status === 'needs_review'"
+                [class.lt-row--broken]="entry.status === 'broken'">
+
+              <!-- الكلمة -->
+              <td class="lt-td lt-td--word">
+                <span class="lt-heading" dir="rtl" lang="ar">{{ entry.headingAr }}</span>
+              </td>
+
+              <!-- الصفحة -->
+              <td class="lt-td lt-td--page">
+                @if (entry.pageLabel) {
+                  <span class="lt-page-chip">{{ entry.pageLabel }}</span>
+                }
+              </td>
+
+              <!-- التعريف -->
+              <td class="lt-td lt-td--def">
+                <span class="lt-def-preview" dir="ltr">{{ entry.definitionPreview }}</span>
+              </td>
+
+              <!-- الصيغ -->
+              <td class="lt-td lt-td--forms">
+                <div class="lt-forms">
+                  @for (form of entry.forms; track form) {
+                    <span class="lt-form-chip" dir="rtl" lang="ar">{{ form }}</span>
+                  }
+                </div>
+              </td>
+
+              <!-- المصادر -->
+              <td class="lt-td lt-td--refs">
+                <div class="lt-refs">
+                  @for (ref of entry.sourceRefs; track ref) {
+                    <span class="lt-ref-chip">{{ ref }}</span>
+                  }
+                </div>
+              </td>
+
+              <!-- الحالة -->
+              <td class="lt-td lt-td--status">
+                <span [class]="statusClass(entry.status)">{{ entry.statusLabelAr }}</span>
+              </td>
+
+              <!-- إجراءات -->
+              <td class="lt-td lt-td--actions">
+                <div class="lt-actions">
+                  <button class="lt-btn lt-btn--view" (click)="openEntry(entry)" type="button">عرض</button>
+                  <button class="lt-btn lt-btn--copy" (click)="copyDef(entry)" type="button">
+                    {{ copiedId() === entry.id ? '✓' : 'نسخ' }}
+                  </button>
+                </div>
+              </td>
+
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+</div>
+
+<!-- ── Detail Drawer ───────────────────────────────────────────────────────── -->
+@if (selectedEntry(); as entry) {
+  <div class="lt-drawer-overlay" (click)="closeEntry()" aria-hidden="true"></div>
+  <aside class="lt-drawer" dir="rtl" role="dialog" aria-label="تفاصيل المدخل">
+
+    <!-- Drawer header -->
+    <div class="lt-drawer-header">
+      <button class="lt-drawer-close" (click)="closeEntry()" type="button" aria-label="إغلاق">✕</button>
+      <div class="lt-drawer-title">
+        <span class="lt-drawer-heading" dir="rtl" lang="ar">{{ entry.headingAr }}</span>
+        @if (entry.pageLabel) {
+          <span class="lt-drawer-page">{{ entry.pageLabel }}</span>
+        }
+      </div>
+      <span [class]="statusClass(entry.status)">{{ entry.statusLabelAr }}</span>
+    </div>
+
+    <!-- Source -->
+    <div class="lt-drawer-section">
+      <div class="lt-drawer-source">
+        <span class="lt-drawer-source-name">معجم لين العربي الإنجليزي</span>
+        <span class="lt-drawer-source-author">Edward William Lane · القرن التاسع عشر</span>
+      </div>
+    </div>
+
+    <!-- Warnings -->
+    @if (entry.warnings.length > 0) {
+      <div class="lt-drawer-section">
+        <div class="lt-drawer-warnings">
+          @for (w of entry.warnings; track w) {
+            <span class="lt-warning-chip">{{ warningLabel(w) }}</span>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Definition display -->
+    <div class="lt-drawer-section">
+      <div class="lt-drawer-label">التعريف</div>
+      <p class="lt-drawer-def" dir="ltr">{{ entry.definitionDisplay }}</p>
+    </div>
+
+    <!-- Forms -->
+    @if (entry.forms.length > 0) {
+      <div class="lt-drawer-section">
+        <div class="lt-drawer-label">الصيغ</div>
+        <div class="lt-drawer-forms">
+          @for (form of entry.forms; track form) {
+            <span class="lt-form-chip" dir="rtl" lang="ar">{{ form }}</span>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Source refs -->
+    @if (entry.sourceRefs.length > 0) {
+      <div class="lt-drawer-section">
+        <div class="lt-drawer-label">مصادر لين</div>
+        <div class="lt-drawer-refs">
+          @for (ref of entry.sourceRefs; track ref) {
+            <span class="lt-ref-chip">{{ ref }}</span>
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Raw / debug (collapsed) -->
+    <div class="lt-drawer-section lt-drawer-section--raw">
+      <button class="lt-raw-toggle" (click)="toggleRaw()" type="button">
+        <span>{{ rawOpen() ? '▴' : '▾' }}</span>
+        الخام والمصدر
+      </button>
+      @if (rawOpen()) {
+        <div class="lt-raw-body">
+          @if (entry.definitionRaw) {
+            <div class="lt-raw-label">definitionRaw</div>
+            <pre class="lt-raw-pre">{{ entry.definitionRaw }}</pre>
+          }
+          @if (entry.rawLabel) {
+            <div class="lt-raw-label">rawLabel</div>
+            <pre class="lt-raw-pre">{{ entry.rawLabel }}</pre>
+          }
+          @if (entry.cleanerJson) {
+            <div class="lt-raw-label">cleaner_json</div>
+            <pre class="lt-raw-pre">{{ prettifyJson(entry.cleanerJson) }}</pre>
+          }
+          @if (entry.uiJson) {
+            <div class="lt-raw-label">ui_json</div>
+            <pre class="lt-raw-pre">{{ prettifyJson(entry.uiJson) }}</pre>
+          }
+        </div>
+      }
+    </div>
+
+  </aside>
+}

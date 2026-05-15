@@ -1,95 +1,302 @@
 <div class="rp-page" dir="rtl">
 
-  <!-- ── Work Detail Panel ────────────────────────────────────────────── -->
-  @if (selectedWork(); as work) {
-    <div class="rp-detail">
+  <!-- ── Per-source deep view (uses /qr/tafsir/display) ─────────────────────── -->
+  @if (selectedSource(); as src) {
+    <section
+      class="reader rp-detail"
+      #reader
+      [class.dark]="darkMode()"
+      [class.fs-sm]="fontSize() === 0"
+      [class.fs-md]="fontSize() === 1"
+      [class.fs-lg]="fontSize() === 2"
+      dir="rtl"
+    >
 
-      <div class="rp-detail__header">
-        <button class="rp-detail__back" (click)="closeWork()" type="button">
-          <span aria-hidden="true">›</span>
+      <div class="rp-detail__header" [style.--source-accent]="src.badge_color || '#C9A227'">
+
+        <!-- Back button -->
+        <button class="rp-detail__back" (click)="closeSource()" type="button">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M6 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
           <span>العودة</span>
         </button>
-        <div class="rp-detail__meta">
-          <h1 class="rp-detail__title">{{ work.title_ar }}</h1>
-          <p class="rp-detail__scholar">{{ work.scholar_name_ar }}</p>
-          <div class="rp-detail__badges">
-            @if (work.volumes) {
-              <span class="rp-badge">{{ work.volumes }} جزء</span>
+
+        <!-- Source identity banner: glyph avatar + title + meta -->
+        <div class="rp-source-banner">
+          <div class="rp-source-banner__avatar" aria-hidden="true">
+            <span class="rp-source-banner__glyph">{{ src.badge_glyph || '◫' }}</span>
+          </div>
+          <div class="rp-source-banner__body">
+            <div class="rp-source-banner__kicker">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M4 19V5a2 2 0 0 1 2-2h10l4 4v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                <path d="M16 3v4h4M8 11h8M8 15h6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+              </svg>
+              مصدر تفسير
+            </div>
+            <h1 class="rp-source-banner__title">{{ src.book_title_ar }}</h1>
+            @if (src.author_name_ar) {
+              <p class="rp-source-banner__author">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <circle cx="12" cy="8" r="3.5" stroke="currentColor" stroke-width="1.7"/>
+                  <path d="M5 20c1-3.5 4-5.5 7-5.5s6 2 7 5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                </svg>
+                {{ src.author_name_ar }}
+              </p>
             }
-            <span class="rp-badge">{{ eraOf(work) }}</span>
-            <span class="rp-badge">{{ madhabOf(work) }}</span>
-            @if (deathYear(work)) {
-              <span class="rp-badge rp-badge--muted">{{ deathYear(work) }}</span>
-            }
-            <span class="rp-badge rp-badge--count">{{ work.entry_count | number }} مقطع</span>
+            <div class="rp-source-banner__chips">
+              @if (src.block_count !== undefined) {
+                <span class="rp-stat-chip rp-stat-chip--primary">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/>
+                    <rect x="14" y="3" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/>
+                    <rect x="3" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/>
+                    <rect x="14" y="14" width="7" height="7" rx="1" stroke="currentColor" stroke-width="1.8"/>
+                  </svg>
+                  {{ src.block_count | number }} كتلة
+                </span>
+              }
+              @if (src.madhab) {
+                <span class="rp-stat-chip">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                  </svg>
+                  {{ src.madhab }}
+                </span>
+              }
+              @if (src.era) {
+                <span class="rp-stat-chip">
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/>
+                    <path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+                  </svg>
+                  {{ src.era === 'classical' ? 'كلاسيكي' : 'حديث' }}
+                </span>
+              }
+              @if (src.death_year_hijri) {
+                <span class="rp-stat-chip">ت {{ src.death_year_hijri }} هـ</span>
+              }
+            </div>
           </div>
         </div>
 
-        <!-- Surah selector -->
-        <div class="rp-detail__surah-bar" dir="ltr">
-          <label class="rp-detail__surah-label" dir="rtl">السورة:</label>
-          <div class="rp-detail__surah-scroll">
-            @for (s of surahs; track s) {
-              <button
-                class="rp-detail__surah-btn"
-                [class.rp-detail__surah-btn--active]="selectedSurah() === s"
-                (click)="setSurah(s)"
-                type="button"
-              >{{ s }}</button>
+        <!-- Modern selector toolbar: surah dropdown + ayah stepper + quick jump -->
+        <div class="picker-toolbar" dir="rtl">
+
+          <!-- Surah selector — button trigger + dropdown -->
+          <div class="picker picker--surah">
+            <button
+              type="button"
+              class="picker__trigger"
+              (click)="surahPickerOpen() ? closeSurahPicker() : openSurahPicker()"
+              [class.picker__trigger--open]="surahPickerOpen()"
+            >
+              <span class="picker__icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M4 5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14a1 1 0 0 1-1.5.87L12 17l-6.5 2.87A1 1 0 0 1 4 19V5z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                </svg>
+              </span>
+              <span class="picker__field">
+                <span class="picker__label">السورة</span>
+                <span class="picker__value">
+                  @if (currentSurahMeta(); as meta) {
+                    <span class="picker__value-num">{{ meta.id }}</span>
+                    <span class="picker__value-name">{{ meta.name_ar }}</span>
+                  } @else {
+                    <span class="picker__value-placeholder">اختر السورة</span>
+                  }
+                </span>
+              </span>
+              <svg class="picker__chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+
+            @if (surahPickerOpen()) {
+              <div class="picker__backdrop" (click)="closeSurahPicker()"></div>
+              <div class="picker__panel">
+                <div class="picker__search">
+                  <svg class="picker__search-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+                    <path d="M20 20l-3-3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                  <input
+                    type="search"
+                    class="picker__search-input"
+                    placeholder="ابحث برقم السورة أو اسمها…"
+                    [value]="surahFilter()"
+                    (input)="surahFilter.set($any($event.target).value)"
+                    dir="rtl"
+                    autofocus
+                  />
+                </div>
+                <ul class="picker__list" role="listbox">
+                  @for (s of filteredSurahs(); track s.id) {
+                    <li
+                      class="picker__item"
+                      [class.picker__item--active]="selectedSurah() === s.id"
+                      (click)="pickSurah(s.id)"
+                      role="option"
+                      [attr.aria-selected]="selectedSurah() === s.id"
+                    >
+                      <span class="picker__item-num">{{ s.id }}</span>
+                      <span class="picker__item-names">
+                        <span class="picker__item-name">{{ s.name_ar }}</span>
+                        @if (s.name_transliteration) {
+                          <span class="picker__item-translit">{{ s.name_transliteration }}</span>
+                        }
+                      </span>
+                      <span class="picker__item-ayahs">{{ s.ayah_count }} آية</span>
+                    </li>
+                  }
+                  @if (!filteredSurahs().length) {
+                    <li class="picker__empty">لا توجد نتائج</li>
+                  }
+                </ul>
+              </div>
             }
           </div>
+
+          <!-- Ayah stepper with direct number input -->
+          @if (currentSurahMeta(); as meta) {
+            <div class="picker picker--ayah">
+              <span class="picker__icon" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 3v18M5 12h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                  <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/>
+                </svg>
+              </span>
+              <span class="picker__field picker__field--inline">
+                <span class="picker__label">آية</span>
+                <span class="picker__ayah-controls">
+                  <button class="picker__step" type="button"
+                          (click)="prevAyah()"
+                          [disabled]="selectedAyah() <= 1"
+                          aria-label="الآية السابقة">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                  </button>
+                  <input
+                    type="number"
+                    class="picker__ayah-input"
+                    min="1"
+                    [max]="meta.ayah_count"
+                    [value]="selectedAyah()"
+                    (change)="onAyahInput($any($event.target).value)"
+                  />
+                  <span class="picker__ayah-total">/ {{ meta.ayah_count }}</span>
+                  <button class="picker__step" type="button"
+                          (click)="nextAyah()"
+                          [disabled]="selectedAyah() >= meta.ayah_count"
+                          aria-label="الآية التالية">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
+                  </button>
+                </span>
+              </span>
+            </div>
+          }
+
+          <!-- Quick-jump "2:255" input -->
+          <div class="picker picker--goto">
+            <svg class="picker__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            <input
+              type="text"
+              class="picker__goto-input"
+              placeholder="اذهب… مثال 2:255"
+              [value]="goToInput()"
+              (input)="goToInput.set($any($event.target).value)"
+              (keydown.enter)="submitGoTo()"
+              dir="ltr"
+            />
+            <button class="picker__goto-btn" type="button" (click)="submitGoTo()" [disabled]="!goToInput().trim()" aria-label="انتقال">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+
+          <!-- Reader controls: font, dark, rail toggle -->
+          <div class="reader__controls">
+            <button class="ctrl" type="button" (click)="changeFont(-1)" title="تصغير الخط">A-</button>
+            <button class="ctrl" type="button" (click)="changeFont(+1)" title="تكبير الخط">A+</button>
+            <button class="ctrl" type="button" (click)="toggleDark()" [class.active]="darkMode()" title="الوضع الداكن">
+              <svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z" fill="currentColor"/></svg>
+            </button>
+            <button class="ctrl" type="button" (click)="toggleRail()" [class.active]="showRail()" title="هامش الروابط">⊟</button>
+          </div>
+
         </div>
       </div>
 
-      <!-- Verse-by-verse entries -->
-      <div class="rp-detail__entries" dir="rtl">
-        @if (entriesLoading()) {
-          <div class="rp-loading">جارٍ التحميل…</div>
-        } @else if (!ayahGroups().length) {
-          <div class="rp-empty">لا توجد مقاطع لهذه السورة في هذا التفسير</div>
-        } @else {
-          <!-- Ayah navigation -->
-          <div class="rp-verse-nav">
-            <button class="rp-verse-nav__btn" (click)="prevAyah()" [disabled]="currentAyahIdx() === 0" type="button">›</button>
-            <span class="rp-verse-nav__indicator">
-              آية {{ currentGroup()?.ayah }}
-              <span class="rp-verse-nav__total">{{ currentAyahIdx() + 1 }} / {{ ayahGroups().length }}</span>
-            </span>
-            <button class="rp-verse-nav__btn" (click)="nextAyah()" [disabled]="currentAyahIdx() >= ayahGroups().length - 1" type="button">‹</button>
-          </div>
+      <!-- ── Body: book-style content + citations rail ────────────────────── -->
+      <div class="reader__body">
 
-          @if (currentGroup(); as group) {
-            @if (group.text) {
-              <div class="rp-verse-text" dir="rtl">{{ group.text }}</div>
-            }
-            @for (entry of group.entries; track entry.id) {
-              <article class="rp-entry">
-                <div class="rp-entry__range">
-                  {{ entry.surah }}:{{ entry.ayah_from }}
-                  @if (entry.ayah_to !== entry.ayah_from) { — {{ entry.ayah_to }} }
+        <main class="content" tabindex="0">
+          @if (payloadLoading()) {
+            <div class="rp-loading">جارٍ التحميل…</div>
+          } @else if (payloadError()) {
+            <div class="rp-empty">{{ payloadError() }}</div>
+          } @else if (!columns().length) {
+            <div class="rp-empty">لا توجد بيانات تفسير لهذه الآية في هذا المصدر</div>
+          } @else {
+            <div class="rp-group-header">{{ groupHeader() }}</div>
+            @for (col of columns(); track col.source.id) {
+              <section class="rp-section" [style.--sec-accent]="col.source.badge_color">
+                <div class="rp-section-feed">
+                  @for (b of col.blocks; track b.id) {
+                    <km-display-block [block]="b" />
+                  }
                 </div>
-                <p class="rp-entry__text">{{ entry.content_ar }}</p>
-                @if (entry.source_page) {
-                  <span class="rp-entry__page">ص {{ entry.source_page }}</span>
-                }
-              </article>
+              </section>
             }
           }
-        }
+        </main>
+
+        <aside
+          class="rail rail--citations"
+          [class.collapsed]="!showRail()"
+          aria-label="الهامش"
+        >
+          <div class="rail__scroll rail__scroll--citations">
+            <km-tafsir-analysis-panel [payload]="payload()" />
+            <km-refs-panel
+              [payload]="$any(payload())"
+              [mode]="'tafsir'"
+              [currentAyahKey]="payload() ? (payload()!.surah_no + ':' + selectedAyah()) : null"
+            />
+          </div>
+        </aside>
+
+        <button
+          class="rail-toggle rail-toggle--citations"
+          type="button"
+          (click)="toggleRail()"
+          [attr.aria-label]="showRail() ? 'إخفاء الهامش' : 'إظهار الهامش'"
+          [title]="showRail() ? 'إخفاء الهامش' : 'إظهار الهامش'"
+        >
+          <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true">
+            <path
+              [attr.d]="showRail() ? 'M9 6l6 6-6 6' : 'M15 6l-6 6 6 6'"
+              fill="none" stroke="currentColor" stroke-width="2"
+              stroke-linecap="round" stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
       </div>
 
-    </div>
+    </section>
 
-  <!-- ── Works Catalog ─────────────────────────────────────────────────── -->
+  <!-- ── Source catalog ────────────────────────────────────────────────────── -->
   } @else {
 
     <div class="rp-filter">
-      <label class="rp-filter__search" aria-label="ابحث في التفاسير">
+      <label class="rp-filter__search" aria-label="ابحث في كتب التفسير">
         <span class="rp-filter__search-icon" aria-hidden="true">⌕</span>
         <input
           class="rp-filter__search-input"
           type="search"
-          placeholder="ابحث في التفاسير…"
+          placeholder="ابحث في كتب التفسير…"
           [value]="searchTerm()"
           (input)="setSearch($any($event.target).value)"
           dir="rtl"
@@ -98,30 +305,31 @@
     </div>
 
     @if (loading()) {
-      <div class="rp-loading">جارٍ تحميل التفاسير…</div>
+      <div class="rp-loading">جارٍ تحميل مصادر التفسير…</div>
     } @else {
       <div class="rp-grid" #grid>
-        @for (work of filteredWorks(); track work.id) {
-          <article class="source-card" (click)="selectWork(work)" role="button" tabindex="0"
-            (keydown.enter)="selectWork(work)" (keydown.space)="selectWork(work)">
+        @for (src of filteredSources(); track src.id) {
+          <article class="source-card" (click)="selectSource(src)" role="button" tabindex="0"
+            (keydown.enter)="selectSource(src)" (keydown.space)="selectSource(src)"
+            [style.--card-accent]="src.badge_color">
 
             <div class="source-card__body">
               <div class="source-card__icon-wrap" aria-hidden="true">
-                <span class="source-card__icon">◫</span>
+                <span class="source-card__icon">{{ src.badge_glyph || '⋆' }}</span>
               </div>
               <div class="source-card__info">
-                <h2 class="source-card__title">{{ work.title_ar }}</h2>
-                <p class="source-card__scholar">{{ work.scholar_name_ar }}</p>
-                @if (work.title_en) {
-                  <p class="source-card__subtitle">{{ work.title_en }}</p>
+                <h2 class="source-card__title">{{ src.book_title_ar || src.source_slug }}</h2>
+                @if (src.author_name_ar) {
+                  <p class="source-card__subtitle">{{ src.author_name_ar }}</p>
                 }
-                <div class="source-card__tags">
-                  <span class="rp-badge">{{ eraOf(work) }}</span>
-                  @if (work.madhab) {
-                    <span class="rp-badge rp-badge--muted">{{ madhabOf(work) }}</span>
-                  }
-                  @if (deathYear(work)) {
-                    <span class="rp-badge rp-badge--muted">{{ deathYear(work) }}</span>
+                @if (src.short_description) {
+                  <p class="source-card__desc">{{ src.short_description }}</p>
+                }
+                <div class="source-card__chips">
+                  @if (src.madhab) { <span class="source-card__chip">{{ src.madhab }}</span> }
+                  @if (src.era)    { <span class="source-card__chip">{{ src.era === 'classical' ? 'كلاسيكي' : 'حديث' }}</span> }
+                  @if (src.death_year_hijri) {
+                    <span class="source-card__chip">ت {{ src.death_year_hijri }} هـ</span>
                   }
                 </div>
               </div>
@@ -130,13 +338,16 @@
             <div class="source-card__footer">
               <span class="source-card__count">
                 <span class="source-card__count-gem" aria-hidden="true">≋</span>
-                {{ work.entry_count | number }} مقطع
-                @if (work.volumes) { · {{ work.volumes }} جزء }
+                @if (src.block_count !== undefined) {
+                  {{ src.block_count | number }} كتلة
+                } @else {
+                  مصدر تفسير
+                }
               </span>
               <div class="source-card__actions">
-                <button class="source-card__open-btn" type="button" (click)="selectWork(work)">
+                <button class="source-card__open-btn" type="button" (click)="selectSource(src)">
                   <span class="source-card__open-arrow" aria-hidden="true">‹</span>
-                  <span>عرض التفسير</span>
+                  <span>تصفح التفسير</span>
                 </button>
               </div>
             </div>
@@ -144,7 +355,7 @@
           </article>
         }
 
-        @if (!filteredWorks().length) {
+        @if (!filteredSources().length) {
           <div class="rp-empty" role="status">لا توجد نتائج مطابقة</div>
         }
       </div>

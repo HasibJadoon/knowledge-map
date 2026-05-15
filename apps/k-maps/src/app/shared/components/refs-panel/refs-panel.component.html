@@ -1,0 +1,203 @@
+<div class="rpx" dir="rtl">
+
+  <!-- ── Hadith sources ─────────────────────────────────────────────────── -->
+  <article class="rpx-card" [class.rpx-card--collapsed]="isCollapsed('hadith')" [class.rpx-card--empty]="!hadithRefs().length">
+    <header class="rpx-card__head" (click)="toggle('hadith')" role="button" tabindex="0" (keydown.enter)="toggle('hadith')">
+      <span class="rpx-dot" [class.rpx-dot--on]="hadithRefs().length"></span>
+      <span class="rpx-card__title">مصادر الحديث</span>
+      <span class="rpx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="rpx-card__count">{{ hadithRefs().length }}</span>
+      <span class="rpx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('hadith') && hadithRefs().length) {
+      <div class="rpx-card__body">
+        @for (h of hadithRefs(); track h.book + '|' + (h.volume_page ?? ''); let i = $index) {
+          <div class="rpx-row">
+            <span class="rpx-row__num">[{{ i + 1 }}]</span>
+            <span class="rpx-row__label rpx-row__label--hadith">{{ h.book }}</span>
+            @if (h.volume_page) { <span class="rpx-row__text">{{ h.volume_page }}</span> }
+            @if (h.count > 1) { <span class="rpx-row__mult">×{{ h.count }}</span> }
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('hadith') && !hadithRefs().length) {
+      <div class="rpx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Quran cross-references ─────────────────────────────────────────── -->
+  <article class="rpx-card" [class.rpx-card--collapsed]="isCollapsed('quran')" [class.rpx-card--empty]="!quranRefs().length">
+    <header class="rpx-card__head" (click)="toggle('quran')" role="button" tabindex="0" (keydown.enter)="toggle('quran')">
+      <span class="rpx-dot" [class.rpx-dot--on]="quranRefs().length"></span>
+      <span class="rpx-card__title">الاستشهادات القرآنية</span>
+      <span class="rpx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="rpx-card__count">{{ quranRefs().length }}</span>
+      <span class="rpx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('quran') && quranRefs().length) {
+      <div class="rpx-card__body">
+        @for (q of quranRefs(); track q.ayah_key; let i = $index) {
+          <div class="rpx-row rpx-row--clickable" (click)="goToAyah(q.ayah_key)">
+            <span class="rpx-row__num">[{{ i + 1 }}]</span>
+            <span class="rpx-row__label rpx-row__label--quran">{{ q.ayah_key }}</span>
+            @if (q.count > 1) { <span class="rpx-row__mult">×{{ q.count }}</span> }
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('quran') && !quranRefs().length) {
+      <div class="rpx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Footnotes / editorial notes ────────────────────────────────────── -->
+  <article class="rpx-card" [class.rpx-card--collapsed]="isCollapsed('notes')" [class.rpx-card--empty]="!footnotes().length">
+    <header class="rpx-card__head" (click)="toggle('notes')" role="button" tabindex="0" (keydown.enter)="toggle('notes')">
+      <span class="rpx-dot" [class.rpx-dot--on]="footnotes().length"></span>
+      <span class="rpx-card__title">الحواشي</span>
+      <span class="rpx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="rpx-card__count">{{ footnotes().length }}</span>
+      <span class="rpx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('notes') && footnotes().length) {
+      <div class="rpx-card__body">
+        @for (n of footnotes(); track n.id; let i = $index) {
+          <div class="rpx-row rpx-row--note" [attr.data-kind]="n.kind">
+            <span class="rpx-row__num">[{{ i + 1 }}]</span>
+            <p class="rpx-row__text rpx-row__text--note">{{ n.text_ar }}</p>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('notes') && !footnotes().length) {
+      <div class="rpx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Scholar refs (tafsir only) ─────────────────────────────────────── -->
+  @if (mode() === 'tafsir') {
+    <article class="rpx-card" [class.rpx-card--collapsed]="isCollapsed('scholars')" [class.rpx-card--empty]="!scholarRefs().length">
+      <header class="rpx-card__head" (click)="toggle('scholars')" role="button" tabindex="0" (keydown.enter)="toggle('scholars')">
+        <span class="rpx-dot" [class.rpx-dot--on]="scholarRefs().length"></span>
+        <span class="rpx-card__title">الأعلام</span>
+        <span class="rpx-card__expand" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="rpx-card__count">{{ scholarRefs().length }}</span>
+        <span class="rpx-card__chevron" aria-hidden="true">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </header>
+      @if (!isCollapsed('scholars') && scholarRefs().length) {
+        <div class="rpx-card__body">
+          @for (s of scholarRefs(); track s.scholar_id; let i = $index) {
+            <div class="rpx-row">
+              <span class="rpx-row__num">[{{ i + 1 }}]</span>
+              <span class="rpx-row__label rpx-row__label--scholar">{{ s.label }}</span>
+              @if (s.count > 1) { <span class="rpx-row__mult">×{{ s.count }}</span> }
+            </div>
+          }
+        </div>
+      }
+      @if (!isCollapsed('scholars') && !scholarRefs().length) {
+        <div class="rpx-card__empty">لا يوجد</div>
+      }
+    </article>
+  }
+
+  <!-- ── Paradigm chips (tafsir only) ───────────────────────────────────── -->
+  @if (mode() === 'tafsir') {
+    <article class="rpx-card" [class.rpx-card--collapsed]="isCollapsed('paradigm')" [class.rpx-card--empty]="!paradigmRefs().length">
+      <header class="rpx-card__head" (click)="toggle('paradigm')" role="button" tabindex="0" (keydown.enter)="toggle('paradigm')">
+        <span class="rpx-dot" [class.rpx-dot--on]="paradigmRefs().length"></span>
+        <span class="rpx-card__title">المدارس الكلامية</span>
+        <span class="rpx-card__expand" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="rpx-card__count">{{ paradigmRefs().length }}</span>
+        <span class="rpx-card__chevron" aria-hidden="true">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </header>
+      @if (!isCollapsed('paradigm') && paradigmRefs().length) {
+        <div class="rpx-card__body">
+          @for (p of paradigmRefs(); track p.label; let i = $index) {
+            <div class="rpx-row">
+              <span class="rpx-row__num">[{{ i + 1 }}]</span>
+              <span class="rpx-row__label rpx-row__label--paradigm">{{ p.label }}</span>
+              @if (p.count > 1) { <span class="rpx-row__mult">×{{ p.count }}</span> }
+            </div>
+          }
+        </div>
+      }
+      @if (!isCollapsed('paradigm') && !paradigmRefs().length) {
+        <div class="rpx-card__empty">لا يوجد</div>
+      }
+    </article>
+  }
+
+  <!-- ── Related sources on this ayah ───────────────────────────────────── -->
+  @if (relatedSources().length > 1) {
+    <article class="rpx-card" [class.rpx-card--collapsed]="isCollapsed('related')">
+      <header class="rpx-card__head" (click)="toggle('related')" role="button" tabindex="0" (keydown.enter)="toggle('related')">
+        <span class="rpx-dot rpx-dot--on"></span>
+        <span class="rpx-card__title">مصادر أخرى لهذه الآية</span>
+        <span class="rpx-card__expand" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="rpx-card__count">{{ relatedSources().length }}</span>
+        <span class="rpx-card__chevron" aria-hidden="true">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </header>
+      @if (!isCollapsed('related')) {
+        <div class="rpx-card__body">
+          @for (r of relatedSources(); track r.source_slug; let i = $index) {
+            <div class="rpx-row">
+              <span class="rpx-row__num">[{{ i + 1 }}]</span>
+              <span class="rpx-row__label rpx-row__label--related">{{ r.label }}</span>
+            </div>
+          }
+        </div>
+      }
+    </article>
+  }
+
+</div>

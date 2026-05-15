@@ -1,0 +1,209 @@
+// Tafsir analysis panel — same dense card-stack style as iraab/refs panels.
+
+:host {
+  display: block;
+  --tapx-card-bg:     #15120e;
+  --tapx-card-border: rgba(255,255,255,.05);
+  --tapx-text:        #E8DDC4;
+  --tapx-text-soft:   #B8AC93;
+  --tapx-muted:       #6E665A;
+  --tapx-accent:      #C9A227;
+  --tapx-accent-soft: rgba(201,162,39,.10);
+  --tapx-on:          #E59A2C;
+  --tapx-off:         #6E665A;
+}
+
+.tapx {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: system-ui, sans-serif;
+}
+
+.tapx-card {
+  background: var(--tapx-card-bg);
+  border: 1px solid var(--tapx-card-border);
+  border-radius: 7px;
+  overflow: hidden;
+  transition: border-color .15s ease;
+  &:hover { border-color: rgba(229,154,44,.18); }
+  &--empty { opacity: 0.55; }
+  &--empty:hover { opacity: 0.85; }
+}
+
+.tapx-card__head {
+  display: grid;
+  grid-template-columns: 8px 18px 18px 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(255,255,255,.012);
+  transition: background .12s ease;
+  &:hover { background: rgba(229,154,44,.04); }
+}
+
+.tapx-dot {
+  grid-column: 1;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--tapx-off);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.5);
+  &--on {
+    background: var(--tapx-on);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.5), 0 0 6px rgba(229,154,44,.45);
+  }
+}
+
+.tapx-card__chevron {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--tapx-muted);
+  transition: transform .15s ease, color .12s ease;
+}
+.tapx-card__head:hover .tapx-card__chevron { color: var(--tapx-accent); }
+.tapx-card--collapsed .tapx-card__chevron { transform: rotate(-90deg); }
+
+.tapx-card__expand {
+  grid-column: 3;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--tapx-muted);
+  opacity: 0.6;
+}
+
+.tapx-card__title {
+  grid-column: 4;
+  text-align: right;
+  font-family: "Amiri", serif;
+  font-size: 0.92rem;
+  color: var(--tapx-text);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.tapx-card__count {
+  grid-column: 5;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  min-width: 22px;
+  padding: 0 7px;
+  height: 18px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.04);
+  color: var(--tapx-text-soft);
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.tapx-card:not(.tapx-card--empty) .tapx-card__count {
+  background: var(--tapx-accent-soft);
+  color: var(--tapx-accent);
+}
+
+.tapx-card__body {
+  padding: 6px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid rgba(255,255,255,.03);
+  background: rgba(255,255,255,.008);
+}
+.tapx-card__empty {
+  padding: 8px 12px 10px;
+  color: var(--tapx-muted);
+  font-size: 0.78rem;
+  font-family: "Amiri", serif;
+  border-top: 1px solid rgba(255,255,255,.03);
+  background: rgba(255,255,255,.008);
+}
+
+.tapx-sub {
+  color: var(--tapx-text-soft);
+  font-family: "Amiri", serif;
+  font-size: 0.78rem;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(255,255,255,.03);
+}
+
+.tapx-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.tapx-word {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 11px;
+  background: rgba(201,162,39,.08);
+  border: 1px solid rgba(201,162,39,.18);
+  color: var(--tapx-accent);
+  font-family: "Amiri", serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tapx-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 0;
+  font-size: 0.85rem;
+  & + & { border-top: 1px dashed rgba(255,255,255,.03); padding-top: 6px; }
+}
+.tapx-row__num {
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: var(--tapx-muted);
+  flex-shrink: 0;
+  min-width: 22px;
+  letter-spacing: 0.02em;
+}
+.tapx-row__label {
+  flex: 1;
+  padding: 1px 8px;
+  background: rgba(255,255,255,.03);
+  border-radius: 4px;
+  font-family: "Amiri", serif;
+  color: var(--tapx-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  &--scholar { background: rgba(74,110,138,.14); color: #8FB3D1; }
+  &--era     { background: rgba(75,122,117,.14); color: #8AC9C0; }
+  &--type    { background: rgba(201,162,39,.10); color: var(--tapx-accent); }
+}
+.tapx-row__count {
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: var(--tapx-accent);
+  background: var(--tapx-accent-soft);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+// ── Per-madhab color coding ──────────────────────────────────────────────────
+.tapx-row[data-madhab="sunni"]    .tapx-row__label--madhab { background: rgba(74,110,138,.14);  color: #8FB3D1; }
+.tapx-row[data-madhab="maliki"]   .tapx-row__label--madhab { background: rgba(47,122,92,.14);   color: #76C49A; }
+.tapx-row[data-madhab="shafii"]   .tapx-row__label--madhab { background: rgba(142,110,30,.14);  color: #D7B65C; }
+.tapx-row[data-madhab="hanbali"]  .tapx-row__label--madhab { background: rgba(110,74,58,.14);   color: #C99876; }
+.tapx-row[data-madhab="hanafi"]   .tapx-row__label--madhab { background: rgba(122,74,142,.14);  color: #C098D1; }
+.tapx-row[data-madhab="mutazili"] .tapx-row__label--madhab { background: rgba(110,88,142,.18);  color: #B49AD1; }
+.tapx-row[data-madhab="ashari"]   .tapx-row__label--madhab { background: rgba(176,83,58,.14);   color: #DDA28C; }
+.tapx-row[data-madhab="athari"]   .tapx-row__label--madhab { background: rgba(63,110,90,.14);   color: #7BB89C; }
+
+// ── Per-type color coding on the content distribution ──────────────────────
+.tapx-row__label--type[data-type="isnad"]              { background: rgba(139,94,60,.14);  color: #C99876; }
+.tapx-row__label--type[data-type="voice_marker"]       { background: rgba(74,110,138,.12); color: #8FB3D1; }
+.tapx-row__label--type[data-type="poetry_quote"]       { background: rgba(176,83,58,.12);  color: #DDA28C; }
+.tapx-row__label--type[data-type="verse_anchor"]       { background: rgba(201,162,39,.12); color: var(--tapx-accent); }
+.tapx-row__label--type[data-type="paradigm_chip"]      { background: rgba(110,88,142,.14); color: #B49AD1; }
+.tapx-row__label--type[data-type="paragraph_section"]  { background: rgba(75,122,117,.12); color: #8AC9C0; }

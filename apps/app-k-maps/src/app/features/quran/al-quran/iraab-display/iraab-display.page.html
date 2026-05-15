@@ -1,0 +1,118 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>إعراب القرآن</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="navAyah(-1)" [disabled]="ayah() <= 1">السابقة</ion-button>
+      <ion-button (click)="navAyah(1)">التالية</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="true" class="iraab-display-page">
+
+  <header class="id-head">
+    <h1>{{ groupHeader() }}</h1>
+    @if (payload(); as p) {
+      <div class="id-group-meta">
+        @if (p.ayah_keys.length > 1) {
+          <span>المجموعة تغطي {{ p.ayah_keys.length }} آيات: {{ p.ayah_keys.join('، ') }}</span>
+        }
+        <span>{{ p.blocks.length }} كتلة من {{ p.sources.length }} مصادر</span>
+      </div>
+    }
+  </header>
+
+  <section class="id-source-bar">
+    <button
+      class="id-pill"
+      [class.id-pill-active]="selectedSourceSlug() === null"
+      (click)="selectSource(null)"
+    >
+      كل المصادر
+    </button>
+    @for (s of sources(); track s.source_slug) {
+      <button
+        class="id-pill"
+        [class.id-pill-active]="selectedSourceSlug() === s.source_slug"
+        [style.--pill-color]="s.badge_color"
+        (click)="selectSource(s.source_slug)"
+      >
+        @if (s.badge_glyph) { <span class="id-pill-glyph">{{ s.badge_glyph }}</span> }
+        <span class="id-pill-name">{{ s.book_title_ar || s.source_slug }}</span>
+      </button>
+    }
+  </section>
+
+  @if (loading()) {
+    <div class="id-loading">
+      <ion-spinner name="dots"></ion-spinner>
+      <span>جاري التحميل…</span>
+    </div>
+  }
+
+  @if (error(); as e) { <div class="id-error">{{ e }}</div> }
+
+  @if (!loading() && sections().length) {
+    @for (sec of sections(); track sec.source.source_slug) {
+      <section class="id-section" [style.--sec-accent]="sec.source.badge_color">
+        <header class="id-section-head">
+          @if (sec.source.badge_glyph) { <div class="id-section-glyph">{{ sec.source.badge_glyph }}</div> }
+          <div class="id-section-meta">
+            <h2>{{ sec.source.book_title_ar || sec.source.source_slug }}</h2>
+            @if (sec.source.author_name_ar) {
+              <span class="id-section-author">{{ sec.source.author_name_ar }}</span>
+            }
+            @if (sec.source.author_period) {
+              <span class="id-section-period">{{ sec.source.author_period }}</span>
+            }
+          </div>
+        </header>
+
+        @for (g of sec.groups; track g.key) {
+          <article
+            class="bead-section"
+            [class.bead-section--collapsed]="isCollapsed(sec.source.source_slug, g.key)"
+            [attr.data-section]="g.key"
+          >
+            <header
+              class="bead-section__head"
+              (click)="toggleSection(sec.source.source_slug, g.key)"
+              role="button"
+              tabindex="0"
+              (keydown.enter)="toggleSection(sec.source.source_slug, g.key)"
+            >
+              <span class="bead-section__chevron" aria-hidden="true">▾</span>
+              <div class="bead-section__titles">
+                <span class="bead-section__title-ar">{{ g.label_ar }}</span>
+                <span class="bead-section__title-en">{{ g.label_en }}</span>
+              </div>
+              <span class="bead-section__count">{{ g.children.length }}</span>
+            </header>
+            @if (!isCollapsed(sec.source.source_slug, g.key)) {
+              <div class="bead-section__body">
+                <div class="bead-thread" aria-hidden="true"></div>
+                @for (child of g.children; track child.id) {
+                  <div class="bead-row">
+                    <span class="bead-dot" aria-hidden="true"></span>
+                    <div class="bead-card">
+                      <km-display-block [block]="child" [compact]="true" />
+                    </div>
+                  </div>
+                }
+                @if (!g.children.length) {
+                  <div class="bead-empty">لا توجد كتل في هذا القسم</div>
+                }
+              </div>
+            }
+          </article>
+        }
+      </section>
+    }
+  }
+
+  @if (!loading() && !sections().length && !error()) {
+    <div class="id-empty">
+      لا يوجد إعراب للآية المطلوبة في هذا المصدر. جرّب آية أخرى أو ألغِ تصفية المصدر.
+    </div>
+  }
+</ion-content>

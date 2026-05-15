@@ -1,0 +1,72 @@
+[
+  {
+    "results": [
+      {
+        "source_slug": "qul_jadwal_irab_quran",
+        "chunks": 7000,
+        "distinct_ayah_keys": 3216,
+        "distinct_groups": 3216,
+        "null_groups": 0,
+        "null_ayah_keys": 0
+      },
+      {
+        "source_slug": "qul_irab_muyassar",
+        "chunks": 6236,
+        "distinct_ayah_keys": 6236,
+        "distinct_groups": 6236,
+        "null_groups": 0,
+        "null_ayah_keys": 0
+      },
+      {
+        "source_slug": "qul_irab_quran_daas",
+        "chunks": 3633,
+        "distinct_ayah_keys": 3633,
+        "distinct_groups": 3633,
+        "null_groups": 0,
+        "null_ayah_keys": 0
+      },
+      {
+        "source_slug": "qul_irab_darwish",
+        "chunks": 3586,
+        "distinct_ayah_keys": 1387,
+        "distinct_groups": 1387,
+        "null_groups": 0,
+        "null_ayah_keys": 0
+      },
+      {
+        "source_slug": "tibyan_ukbari_irab",
+        "chunks": 2901,
+        "distinct_ayah_keys": 2901,
+        "distinct_groups": 2901,
+        "null_groups": 0,
+        "null_ayah_keys": 0
+      },
+      {
+        "source_slug": "qul_dep_graphs",
+        "chunks": 2369,
+        "distinct_ayah_keys": 2369,
+        "distinct_groups": 2369,
+        "null_groups": 0,
+        "null_ayah_keys": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "ENAM",
+      "served_by_colo": "EWR",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 326.5974
+      },
+      "duration": 326.5974,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 834105344,
+      "rows_read": 25731,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

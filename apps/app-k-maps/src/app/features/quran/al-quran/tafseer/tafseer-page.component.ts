@@ -4,19 +4,29 @@ import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { catchError, of } from 'rxjs';
-import { QuranResearchApiService, QrScholarWork, QrTafsirEntry } from '../../../../shared/services/quran-research-api.service';
+import {
+  QuranResearchApiService,
+  QrTafsirDisplaySource,
+  QrTafsirGroupDisplayPayload,
+  QrTafsirDisplayBlock,
+} from '../../../../shared/services/quran-research-api.service';
 import { BackendApiService } from '../../../../shared/services/backend-api.service';
+import { QuranReaderService } from '../../../../shared/services/quran/quran-reader.service';
 import { QuranResearchSearchService } from '../quran-research-search.service';
-import { QrefPillComponent } from '../../../../shared/components/qref-pill/qref-pill.component';
-import { VerseDisplayComponent } from '../../../../shared/components/verse-display/verse-display.component';
-import { bodySegments, ProseSegment } from '../../../../shared/utils/body-segments.util';
 import { ReadingStateService } from '../reading-state.service';
 import { ContinueReadingCardComponent } from '../components/continue-reading-card/continue-reading-card.component';
+import { DisplayBlockComponent } from '../../../../shared/components/display-block/display-block.component';
 
-interface AyahGroup {
-  ayah: number;
-  text: string | null;
-  entries: QrTafsirEntry[];
+interface ScholarColumn {
+  source: QrTafsirDisplaySource;
+  blocks: QrTafsirDisplayBlock[];
+}
+
+/** Minimal surah-menu shape this page needs (mapped from QuranSurahListItem). */
+interface SurahListItem {
+  id: number;
+  name_ar: string;
+  ayah_count: number;
 }
 
 interface AyahPreview {
@@ -27,10 +37,22 @@ interface AyahPreview {
   page_number: number | null;
 }
 
+/**
+ * Ionic tafseer reader — rewritten to consume qr_tafsir_book_display_*
+ * (migration 012) via /qr/tafsir/display.
+ *
+ * All data from D1:
+ *   • source list ← /qr/tafsir/display/sources
+ *   • surahs + ayah counts ← /qr/menu (via QuranReaderService.getSurahs)
+ *   • display blocks ← /qr/tafsir/display
+ *
+ * Single-source deep view (selectedSource) OR multi-scholar (no selection).
+ * Madhab + era filters available either way.
+ */
 @Component({
   selector: 'app-tafseer-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, QrefPillComponent, VerseDisplayComponent, ContinueReadingCardComponent],
+  imports: [CommonModule, IonicModule, ContinueReadingCardComponent, DisplayBlockComponent],
   templateUrl: './tafseer-page.component.html',
   styleUrl: './tafseer-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -38,146 +60,187 @@ interface AyahPreview {
 export class TafseerPageComponent implements OnInit {
   private readonly api          = inject(QuranResearchApiService);
   private readonly backend      = inject(BackendApiService);
+  private readonly quranReader  = inject(QuranReaderService);
   private readonly search       = inject(QuranResearchSearchService);
   private readonly router       = inject(Router);
   private readonly destroyRef   = inject(DestroyRef);
   private readonly readingState = inject(ReadingStateService);
 
-  readonly works          = signal<QrScholarWork[]>([]);
+  readonly sources        = signal<QrTafsirDisplaySource[]>([]);
   readonly loading        = signal(true);
-  readonly selectedWork   = signal<QrScholarWork | null>(null);
-  readonly selectedSurah  = signal(1);
-  readonly entries        = signal<QrTafsirEntry[]>([]);
-  readonly entriesLoading = signal(false);
-  readonly currentAyahIdx = signal(0);
+  readonly selectedSource = signal<QrTafsirDisplaySource | null>(null);
 
-  readonly filteredWorks = computed(() => {
+  readonly surahMenu     = signal<SurahListItem[]>([]);
+  readonly selectedSurah = signal(1);
+  readonly selectedAyah  = signal(1);
+
+  readonly payload        = signal<QrTafsirGroupDisplayPayload | null>(null);
+  readonly payloadLoading = signal(false);
+  readonly payloadError   = signal<string | null>(null);
+
+  readonly madhabFilter = signal<string | null>(null);
+  readonly eraFilter    = signal<string | null>(null);
+
+  readonly filteredSources = computed(() => {
     const q = this.search.searchTerm().trim().toLowerCase();
-    if (!q) return this.works();
-    return this.works().filter(w =>
-      `${w.title_ar} ${w.title_en ?? ''} ${w.scholar_name_ar} ${w.scholar_name_en ?? ''}`.toLowerCase().includes(q)
+    if (!q) return this.sources();
+    return this.sources().filter(s =>
+      `${s.book_title_ar ?? ''} ${s.book_title_en ?? ''} ${s.author_name_ar ?? ''} ${s.author_name_en ?? ''} ${s.madhab ?? ''} ${s.era ?? ''}`.toLowerCase().includes(q),
     );
   });
 
-  readonly ayahGroups = computed<AyahGroup[]>(() => {
-    const map = new Map<number, AyahGroup>();
-    for (const e of this.entries()) {
-      const n = e.ayah_from;
-      if (!map.has(n)) map.set(n, { ayah: n, text: e.ayah_text ?? null, entries: [] });
-      map.get(n)!.entries.push(e);
+  readonly currentSurahMeta = computed<SurahListItem | null>(
+    () => this.surahMenu().find(s => s.id === this.selectedSurah()) ?? null,
+  );
+  readonly ayahCount = computed(() => this.currentSurahMeta()?.ayah_count ?? 1);
+
+  readonly columns = computed<ScholarColumn[]>(() => {
+    const p = this.payload();
+    if (!p) return [];
+    const sourceFilter = this.selectedSource()?.scholar_id;
+    const madhab = this.madhabFilter();
+    const era    = this.eraFilter();
+    const byScholar = new Map<string, QrTafsirDisplayBlock[]>();
+    for (const b of p.blocks) {
+      const sid = b.scholar_id ?? 'unknown';
+      if (sourceFilter && sid !== sourceFilter) continue;
+      if (madhab && b.madhab !== madhab) continue;
+      if (era && b.era !== era) continue;
+      if (!byScholar.has(sid)) byScholar.set(sid, []);
+      byScholar.get(sid)!.push(b);
     }
-    return [...map.values()].sort((a, b) => a.ayah - b.ayah);
+    return p.sources
+      .filter(s => byScholar.has(s.scholar_id ?? ''))
+      .map(s => ({ source: s, blocks: byScholar.get(s.scholar_id ?? '') ?? [] }));
   });
 
-  readonly currentGroup = computed<AyahGroup | null>(() => this.ayahGroups()[this.currentAyahIdx()] ?? null);
+  readonly groupHeader = computed(() => {
+    const p = this.payload();
+    if (!p) return '';
+    return p.ayah_keys.length > 1
+      ? `سورة ${p.surah_no} • ${p.ayah_group_key}`
+      : `سورة ${p.surah_no} • آية ${p.ayah_no}`;
+  });
 
-  readonly madhabLabel: Record<string, string> = {
-    sunni: 'سني', maliki: 'مالكي', shafii: 'شافعي',
-    hanbali: 'حنبلي', hanafi: 'حنفي', mutazili: 'معتزلي', ashari: 'أشعري',
-  };
+  readonly availableMadhabs = computed(() => {
+    const set = new Set<string>();
+    for (const s of this.sources()) if (s.madhab) set.add(s.madhab);
+    return [...set].sort();
+  });
 
   constructor() {
     effect(() => {
-      const work  = this.selectedWork();
+      const src = this.selectedSource();
       const surah = this.selectedSurah();
-      if (!work) return;
-      this.entriesLoading.set(true);
-      this.currentAyahIdx.set(0);
-      this.api.getTafsirEntries(surah, work.id).subscribe({
-        next: res => { this.entries.set(res.rows); this.entriesLoading.set(false); },
-        error: () => this.entriesLoading.set(false),
-      });
+      const ayah  = this.selectedAyah();
+      if (!src) return;
+      this.loadPayload(surah, ayah);
     });
 
-    // Persist last-read tafsir position whenever the user navigates to a
-    // verse inside a work. Stays out of the load effect so it fires on
-    // user-driven changes only, not on initial fetch.
+    // Persist last-read tafseer position.
     effect(() => {
-      const work = this.selectedWork();
-      const grp  = this.currentGroup();
-      if (!work || !grp) return;
-      this.readingState.setLastTafseer(work.id, work.title_ar, this.selectedSurah(), grp.ayah);
+      const src = this.selectedSource();
+      const surah = this.selectedSurah();
+      const ayah  = this.selectedAyah();
+      if (!src) return;
+      this.readingState.setLastTafseer(
+        src.work_id ?? src.id,
+        src.book_title_ar ?? src.source_slug,
+        surah,
+        ayah,
+      );
     });
 
-    // Broadcast cross-tab match count + previews to the shell's search
-    // modal. Reads the shared search term + our own filtered list.
+    // Cross-tab search broadcast.
     effect(() => {
       const term = this.search.searchTerm().trim();
       if (!term) { this.search.setMatch('tafseer', null); return; }
-      const matches = this.filteredWorks();
+      const matches = this.filteredSources();
       this.search.setMatch('tafseer', {
         tab: 'tafseer',
         label: 'تفسير',
         count: matches.length,
-        hits: matches.slice(0, 5).map(w => ({
-          id: w.id,
-          title: w.title_ar,
-          subtitle: w.scholar_name_ar,
-          resume: () => this.selectWork(w),
+        hits: matches.slice(0, 5).map(s => ({
+          id: s.id,
+          title: s.book_title_ar ?? s.source_slug,
+          subtitle: s.author_name_ar ?? null,
+          resume: () => this.selectSource(s),
         })),
       });
     });
   }
 
   ngOnInit(): void {
-    this.api.getWorks('tafsir').subscribe({
-      next: res => { this.works.set(res.works); this.loading.set(false); },
-      error: () => this.loading.set(false),
-    });
+    this.api.getTafsirDisplaySources()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: res => { this.sources.set(res.sources); this.loading.set(false); },
+        error: () => this.loading.set(false),
+      });
+
+    this.quranReader.getSurahs()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(res => this.surahMenu.set(
+        (res.surahs ?? []).map(s => ({
+          id: s.surahNumber,
+          name_ar: s.arabicName,
+          ayah_count: s.ayahCount,
+        })),
+      ));
   }
 
-  /** Expose `last-read` state to the template for the continue-reading card. */
   readonly lastReadTafseer = computed(() => {
     const last = this.readingState.last()['tafseer'];
     return last && last.kind === 'tafseer' ? last : null;
   });
 
-  /** Resume from a stored last-read tafseer position. Finds the work in
-   *  the loaded list and jumps to its verse. No-op if the work isn't in
-   *  the catalog (e.g., the source was removed). */
   resumeLast(): void {
     const last = this.lastReadTafseer();
     if (!last) return;
-    const work = this.works().find(w => w.id === last.workId);
-    if (!work) return;
-    this.selectedWork.set(work);
+    const src = this.sources().find(s => (s.work_id ?? s.id) === last.workId);
+    if (!src) return;
+    this.selectedSource.set(src);
     this.selectedSurah.set(last.surah);
-    // Set the ayah after entries load; effect will populate ayahGroups.
-    queueMicrotask(() => {
-      const i = this.ayahGroups().findIndex(g => g.ayah === last.ayah);
-      if (i >= 0) this.currentAyahIdx.set(i);
-    });
+    this.selectedAyah.set(last.ayah);
   }
 
-  selectWork(w: QrScholarWork): void { this.selectedWork.set(w); this.entries.set([]); this.currentAyahIdx.set(0); }
-  closeWork(): void { this.selectedWork.set(null); this.entries.set([]); this.currentAyahIdx.set(0); }
-  setSurah(s: number): void { this.selectedSurah.set(s); this.currentAyahIdx.set(0); }
-  prevAyah(): void { if (this.currentAyahIdx() > 0) this.currentAyahIdx.update(i => i - 1); }
-  nextAyah(): void { if (this.currentAyahIdx() < this.ayahGroups().length - 1) this.currentAyahIdx.update(i => i + 1); }
-  goToAyahNum(ayah: number): void { const i = this.ayahGroups().findIndex(g => g.ayah === ayah); if (i >= 0) this.currentAyahIdx.set(i); }
+  selectSource(s: QrTafsirDisplaySource): void {
+    this.selectedSource.set(s);
+    this.selectedSurah.set(1);
+    this.selectedAyah.set(1);
+    this.payload.set(null);
+  }
+  closeSource(): void { this.selectedSource.set(null); this.payload.set(null); }
+  setSurah(s: number): void { this.selectedSurah.set(s); this.selectedAyah.set(1); }
+  setAyah(a: number): void { this.selectedAyah.set(Math.max(1, Math.min(this.ayahCount(), a))); }
+  prevAyah(): void { this.setAyah(this.selectedAyah() - 1); }
+  nextAyah(): void { this.setAyah(this.selectedAyah() + 1); }
+  setMadhab(m: string | null): void { this.madhabFilter.set(m); }
+  setEra(e: string | null): void    { this.eraFilter.set(e); }
 
-  deathYear(w: QrScholarWork): string {
-    if (w.death_year_hijri) return `ت ${w.death_year_hijri} هـ`;
-    if (w.death_year_ce)    return `ت ${w.death_year_ce} م`;
-    return '';
+  private loadPayload(surah: number, ayah: number): void {
+    this.payloadLoading.set(true);
+    this.payloadError.set(null);
+    const src = this.selectedSource();
+    const opts: { scholar_id?: string } = {};
+    if (src?.scholar_id) opts.scholar_id = src.scholar_id;
+    this.api.getTafsirDisplay(surah, ayah, opts)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: p => { this.payload.set(p); this.payloadLoading.set(false); },
+        error: e => {
+          this.payload.set(null);
+          this.payloadError.set(e?.message ?? 'لا توجد بيانات للآية المطلوبة');
+          this.payloadLoading.set(false);
+        },
+      });
   }
 
-  readonly surahs = Array.from({ length: 114 }, (_, i) => i + 1);
-
-  // ── Skeleton placeholders (used by template *ngFor on loading)
-  readonly skeletonRows = Array.from({ length: 3 });
-
-  // ── Inline ref parsing: bodySegments without footnote awareness (tafsir
-  //    sources don't expose a structured footnote list).
-  segments(text: string | null | undefined): ProseSegment[] {
-    return bodySegments(text);
-  }
-
-  // ── Ayah preview modal — mirrors the lexicon reader pattern so users
-  //    get the same affordance everywhere they tap a Quran reference.
+  // ── Ayah preview modal (preserved)
   readonly ayahModalOpen    = signal(false);
   readonly ayahModalLoading = signal(false);
   readonly ayahPreview      = signal<AyahPreview | null>(null);
+  readonly skeletonRows     = Array.from({ length: 3 });
 
   openAyah(surah: number, ayah: number): void {
     if (!surah || !ayah) return;
@@ -186,10 +249,7 @@ export class TafseerPageComponent implements OnInit {
     this.ayahModalLoading.set(true);
     this.backend.getData<AyahPreview>('qr', ['ayahs', surah, ayah])
       .pipe(catchError(() => of(null)), takeUntilDestroyed(this.destroyRef))
-      .subscribe(data => {
-        this.ayahPreview.set(data);
-        this.ayahModalLoading.set(false);
-      });
+      .subscribe(data => { this.ayahPreview.set(data); this.ayahModalLoading.set(false); });
   }
   closeAyahModal(): void { this.ayahModalOpen.set(false); }
   goToAyah(surah: number, ayah: number): void {

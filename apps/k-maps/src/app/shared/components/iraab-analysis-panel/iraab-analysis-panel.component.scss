@@ -1,0 +1,211 @@
+// Iʿrāb analysis panel — same dense card-stack style as the refs panel.
+// Each section is its own collapsible card with status-dot + chevron + expand
+// + title + count, holding compact numbered rows underneath.
+
+:host {
+  display: block;
+  --iapx-card-bg:     #15120e;
+  --iapx-card-border: rgba(255,255,255,.05);
+  --iapx-text:        #E8DDC4;
+  --iapx-text-soft:   #B8AC93;
+  --iapx-muted:       #6E665A;
+  --iapx-accent:      #C9A227;
+  --iapx-accent-soft: rgba(201,162,39,.10);
+  --iapx-on:          #E59A2C;
+  --iapx-off:         #6E665A;
+}
+
+.iapx {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: system-ui, sans-serif;
+}
+
+.iapx-card {
+  background: var(--iapx-card-bg);
+  border: 1px solid var(--iapx-card-border);
+  border-radius: 7px;
+  overflow: hidden;
+  transition: border-color .15s ease;
+  &:hover { border-color: rgba(229,154,44,.18); }
+  &--empty { opacity: 0.55; }
+  &--empty:hover { opacity: 0.85; }
+}
+
+.iapx-card__head {
+  display: grid;
+  grid-template-columns: 8px 18px 18px 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(255,255,255,.012);
+  transition: background .12s ease;
+  &:hover { background: rgba(229,154,44,.04); }
+}
+
+.iapx-dot {
+  grid-column: 1;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--iapx-off);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.5);
+  &--on {
+    background: var(--iapx-on);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.5), 0 0 6px rgba(229,154,44,.45);
+  }
+}
+
+.iapx-card__chevron {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--iapx-muted);
+  transition: transform .15s ease, color .12s ease;
+}
+.iapx-card__head:hover .iapx-card__chevron { color: var(--iapx-accent); }
+.iapx-card--collapsed .iapx-card__chevron { transform: rotate(-90deg); }
+
+.iapx-card__expand {
+  grid-column: 3;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--iapx-muted);
+  opacity: 0.6;
+}
+
+.iapx-card__title {
+  grid-column: 4;
+  text-align: right;
+  font-family: "Amiri", serif;
+  font-size: 0.92rem;
+  color: var(--iapx-text);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.iapx-card__count {
+  grid-column: 5;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  min-width: 22px;
+  padding: 0 7px;
+  height: 18px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.04);
+  color: var(--iapx-text-soft);
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.iapx-card:not(.iapx-card--empty) .iapx-card__count {
+  background: var(--iapx-accent-soft);
+  color: var(--iapx-accent);
+}
+
+// ── Body ──────────────────────────────────────────────────────────────────────
+.iapx-card__body {
+  padding: 6px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid rgba(255,255,255,.03);
+  background: rgba(255,255,255,.008);
+}
+.iapx-card__empty {
+  padding: 8px 12px 10px;
+  color: var(--iapx-muted);
+  font-size: 0.78rem;
+  font-family: "Amiri", serif;
+  border-top: 1px solid rgba(255,255,255,.03);
+  background: rgba(255,255,255,.008);
+}
+
+.iapx-sub {
+  color: var(--iapx-text-soft);
+  font-family: "Amiri", serif;
+  font-size: 0.78rem;
+  margin-bottom: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px dashed rgba(255,255,255,.03);
+}
+
+.iapx-words {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.iapx-word {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 9px;
+  border-radius: 11px;
+  background: rgba(201,162,39,.08);
+  border: 1px solid rgba(201,162,39,.18);
+  color: var(--iapx-accent);
+  font-family: "Amiri", serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  &--more {
+    background: rgba(255,255,255,.03);
+    color: var(--iapx-muted);
+    border-color: rgba(255,255,255,.06);
+    font-family: system-ui, sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+  }
+}
+
+// ── Row ───────────────────────────────────────────────────────────────────────
+.iapx-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 0;
+  font-size: 0.85rem;
+  & + & { border-top: 1px dashed rgba(255,255,255,.03); padding-top: 6px; }
+}
+.iapx-row__num {
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: var(--iapx-muted);
+  flex-shrink: 0;
+  min-width: 22px;
+  letter-spacing: 0.02em;
+}
+.iapx-row__label {
+  flex: 1;
+  padding: 1px 8px;
+  background: rgba(255,255,255,.03);
+  border-radius: 4px;
+  font-family: "Amiri", serif;
+  color: var(--iapx-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  &--role    { background: rgba(74,110,138,.12);  color: #8FB3D1; }
+  &--mahal   { background: rgba(75,122,117,.12);  color: #8AC9C0; }
+  &--section { background: rgba(201,162,39,.10);  color: var(--iapx-accent); }
+  // case label is colorized per-case via parent data-case attr
+}
+.iapx-row__count {
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: var(--iapx-accent);
+  background: var(--iapx-accent-soft);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+// Color-coded case rows
+.iapx-row[data-case="مرفوع"] .iapx-row__label--case { background: rgba(74,110,138,.14);  color: #8FB3D1; }
+.iapx-row[data-case="منصوب"] .iapx-row__label--case { background: rgba(176,83,58,.14);   color: #DDA28C; }
+.iapx-row[data-case="مجرور"] .iapx-row__label--case { background: rgba(110,88,142,.14);  color: #B49AD1; }
+.iapx-row[data-case="مبني"]  .iapx-row__label--case { background: rgba(140,132,114,.14); color: #C7BEAA; }
+.iapx-row[data-case="مجزوم"] .iapx-row__label--case { background: rgba(75,122,117,.14);  color: #8AC9C0; }

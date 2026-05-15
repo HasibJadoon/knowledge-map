@@ -1,0 +1,376 @@
+// Modern scholarly notes — RTL Arabic, dark-mode friendly.
+// Token palette mirrors docs/iraab-display-ui.md.
+
+:host {
+  --db-canvas:           #FAFAF7;
+  --db-card:             #FFFFFF;
+  --db-card-border:      #E6E1D4;
+  --db-text-primary:     #1A1714;
+  --db-text-muted:       #6E665A;
+  --db-accent-gold:      #C9A227;
+  --db-accent-irab-blue: #4A6E8A;
+  --db-accent-sarf-teal: #4B7A75;
+  --db-accent-balagha:   #6E588E;
+  --db-accent-insight:   #B07A1A;
+  --db-accent-language:  #2F7A5C;
+  --db-accent-isnad:     #8B5E3C;
+  --db-accent-poetry:    #B0533A;
+  --db-accent-verse:     #8E6E1E;
+  --db-accent-paradigm:  #6E588E;
+  --db-status-ai:        #B8932E;
+  --db-status-approved:  #2F6E4F;
+  --db-status-review:    #B07A1A;
+  --db-status-rejected:  #9A4A3F;
+  --db-shadow:           0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --db-shadow-soft:      0 0 0 1px var(--db-card-border);
+  --db-radius:           14px;
+  --db-radius-sm:        8px;
+  --db-pad:              18px;
+  --db-arabic-font:      "Amiri","Scheherazade New","Adobe Arabic","Lateef",serif;
+  --db-mushaf-font:      "KFGQPC Uthman Taha Naskh","Amiri Quran",serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :host {
+    --db-canvas:           #14110D;
+    --db-card:             #1B1814;
+    --db-card-border:      #2B271F;
+    --db-text-primary:     #F0EAD8;
+    --db-text-muted:       #8C8472;
+    --db-accent-gold:      #E5C247;
+    --db-shadow:           0 2px 8px rgba(0,0,0,.5);
+  }
+}
+
+.db-block {
+  display: block;
+  background: var(--db-card);
+  border: 1px solid var(--db-card-border);
+  border-radius: var(--db-radius);
+  padding: var(--db-pad);
+  margin: 0 0 14px 0;
+  color: var(--db-text-primary);
+  box-shadow: var(--db-shadow);
+  font-family: var(--db-arabic-font);
+  &.db-compact { padding: 10px 14px; margin-bottom: 8px; }
+}
+
+.db-arabic {
+  font-family: var(--db-arabic-font);
+  font-size: 1.05rem;
+  line-height: 2.0;
+  word-spacing: 0.05em;
+}
+.db-mushaf {
+  font-family: var(--db-mushaf-font);
+  font-weight: 500;
+}
+
+// ─── tafsir_card ─────────────────────────────────────────────────────────────
+.db-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--db-card-border);
+}
+.db-scholar { display: flex; flex-direction: column; gap: 2px; }
+.db-scholar-name { font-weight: 600; font-size: 0.95rem; color: var(--db-text-primary); }
+.db-scholar-meta { font-size: 0.75rem; color: var(--db-text-muted); }
+
+.db-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.db-chip {
+  display: inline-flex; align-items: center;
+  padding: 2px 10px; border-radius: 12px;
+  font-size: 0.72rem; font-weight: 600; letter-spacing: 0.04em;
+  font-family: system-ui, sans-serif;
+}
+.db-chip-madhab {
+  background: var(--chip-color, var(--db-text-muted));
+  color: #fff;
+}
+.db-chip-era,
+.db-chip-info {
+  background: transparent;
+  color: var(--db-text-muted);
+  border: 1px solid var(--db-card-border);
+}
+
+.db-body {
+  color: var(--db-text-primary);
+  white-space: pre-wrap;
+}
+.db-expand {
+  margin-top: 10px;
+  padding: 6px 14px;
+  background: transparent;
+  border: 1px solid var(--db-accent-gold);
+  color: var(--db-accent-gold);
+  border-radius: 18px;
+  font-family: system-ui, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  &:hover { background: var(--db-accent-gold); color: #fff; }
+}
+
+.db-tagrow { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.db-tag {
+  padding: 2px 8px;
+  font-size: 0.7rem;
+  border-radius: 6px;
+  background: rgba(0,0,0,.04);
+  color: var(--db-text-muted);
+  font-family: system-ui, sans-serif;
+}
+.db-tag-grammar    { background: rgba(74,110,138,.10); color: var(--db-accent-irab-blue); }
+.db-tag-narration  { background: rgba(139,94,60,.10);  color: var(--db-accent-isnad); }
+.db-tag-theology   { background: rgba(110,88,142,.10); color: var(--db-accent-balagha); }
+
+.db-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 14px;
+  padding-top: 8px;
+  border-top: 1px dashed var(--db-card-border);
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+}
+.db-source { color: var(--db-text-muted); }
+.db-status {
+  padding: 2px 8px; border-radius: 10px; font-weight: 600;
+  &[data-status="approved"]    { background: rgba(47,110,79,.12); color: var(--db-status-approved); }
+  &[data-status="needs_review"]{ background: rgba(176,122,26,.12); color: var(--db-status-review); }
+  &[data-status="ai_candidate"]{ background: rgba(184,147,46,.12); color: var(--db-status-ai); }
+  &[data-status="rejected"]    { background: rgba(154,74,63,.12); color: var(--db-status-rejected); }
+}
+
+// ─── paragraph_section ───────────────────────────────────────────────────────
+.db-paragraph {
+  border-right: 3px solid var(--db-accent-gold);
+  padding-right: 12px;
+}
+.db-paragraph-meta {
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: var(--db-text-muted);
+  margin-bottom: 6px;
+}
+
+// ─── isnad ───────────────────────────────────────────────────────────────────
+.db-isnad {
+  background: rgba(139,94,60,.05);
+  border-right: 3px solid var(--db-accent-isnad);
+  border-radius: var(--db-radius-sm);
+  padding: 12px 16px;
+}
+.db-isnad-head {
+  font-weight: 600;
+  color: var(--db-accent-isnad);
+  margin-bottom: 8px;
+  font-family: system-ui, sans-serif;
+  font-size: 0.85rem;
+}
+.db-isnad-chain {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.db-isnad-link {
+  padding: 6px 12px;
+  background: var(--db-card);
+  border: 1px solid var(--db-card-border);
+  border-radius: var(--db-radius-sm);
+  font-size: 0.95rem;
+  position: relative;
+  &::after {
+    content: '↓';
+    position: absolute;
+    right: 50%;
+    bottom: -10px;
+    color: var(--db-accent-isnad);
+    font-size: 0.7rem;
+  }
+  &:last-child::after { display: none; }
+}
+
+// ─── voice_marker ────────────────────────────────────────────────────────────
+.db-voice {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 14px;
+  background: rgba(74,110,138,.08);
+  color: var(--db-accent-irab-blue);
+  border-radius: 18px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+// ─── poetry_quote ────────────────────────────────────────────────────────────
+.db-poetry {
+  text-align: center;
+  padding: 14px 18px;
+  margin: 0;
+  background: rgba(176,83,58,.04);
+  border: 1px dashed rgba(176,83,58,.3);
+  border-radius: var(--db-radius-sm);
+  font-style: italic;
+  font-size: 1.1rem;
+}
+.db-poetry-marker {
+  color: var(--db-accent-poetry);
+  font-size: 1.4rem;
+  display: block;
+  margin-bottom: 6px;
+}
+.db-poetry-line { font-family: var(--db-arabic-font); }
+
+// ─── verse_anchor ────────────────────────────────────────────────────────────
+.db-verse-anchor {
+  background: linear-gradient(to left, rgba(201,162,39,.06), transparent);
+  border-right: 4px solid var(--db-accent-gold);
+  padding: 10px 14px;
+  border-radius: var(--db-radius-sm);
+}
+.db-verse-anchor-label {
+  display: block;
+  font-size: 0.78rem;
+  color: var(--db-accent-verse);
+  font-weight: 600;
+  font-family: system-ui, sans-serif;
+}
+.db-verse-anchor-text { font-size: 1.2rem; color: var(--db-text-primary); display: block; margin-top: 4px; }
+
+// ─── paradigm_chip / hadith_source_chip / quran_ref_chip ────────────────────
+.db-paradigm-chip,
+.db-hadith-chip,
+.db-qref-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 4px 12px;
+  border-radius: 14px;
+  font-size: 0.85rem;
+  font-family: system-ui, sans-serif;
+  font-weight: 600;
+  border: 1px solid var(--db-card-border);
+  cursor: pointer;
+  margin: 4px 4px 4px 0;
+}
+.db-paradigm-chip { background: rgba(110,88,142,.10); color: var(--db-accent-paradigm); }
+.db-hadith-chip   { background: rgba(139,94,60,.08); color: var(--db-accent-isnad); }
+.db-qref-chip     { background: rgba(201,162,39,.10); color: var(--db-accent-gold); border-color: var(--db-accent-gold); }
+.db-qref-chip:hover { background: var(--db-accent-gold); color: #fff; }
+
+// ─── heading ─────────────────────────────────────────────────────────────────
+.db-heading {
+  font-family: var(--db-arabic-font);
+  font-size: 1.5rem;
+  margin: 4px 0 10px;
+  padding: 4px 0;
+  border-bottom: 2px solid var(--db-accent-gold);
+  display: flex;
+  flex-direction: column;
+}
+.db-heading-ar { color: var(--db-text-primary); }
+.db-heading-en {
+  font-family: system-ui, sans-serif;
+  font-size: 0.78rem;
+  color: var(--db-text-muted);
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+// ─── irab_card ───────────────────────────────────────────────────────────────
+.db-irab {
+  background: var(--db-card);
+}
+.db-irab-target {
+  display: inline-block;
+  padding: 4px 14px;
+  background: var(--db-accent-gold);
+  color: #fff;
+  border-radius: 10px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-family: var(--db-arabic-font);
+  font-size: 1.05rem;
+}
+
+// ─── notes (sarf / balagha / language) ───────────────────────────────────────
+.db-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 10px 12px;
+  border-radius: var(--db-radius-sm);
+  border-right: 3px solid currentColor;
+}
+.db-note-badge {
+  width: 26px; height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  color: #fff;
+  font-family: var(--db-arabic-font);
+}
+.db-note-sarf      { color: var(--db-accent-sarf-teal);  background: rgba(75,122,117,.05); }
+.db-note-sarf .db-note-badge      { background: var(--db-accent-sarf-teal); }
+.db-note-balagha   { color: var(--db-accent-balagha);    background: rgba(110,88,142,.05); }
+.db-note-balagha .db-note-badge   { background: var(--db-accent-balagha); }
+.db-note-language  { color: var(--db-accent-language);   background: rgba(47,122,92,.05); }
+.db-note-language .db-note-badge  { background: var(--db-accent-language); }
+.db-note .db-body { color: var(--db-text-primary); }
+
+// ─── key_insight ─────────────────────────────────────────────────────────────
+.db-insight {
+  background: linear-gradient(to left, rgba(176,122,26,.08), transparent);
+  border-right: 3px solid var(--db-accent-insight);
+  padding: 12px 14px;
+  border-radius: var(--db-radius-sm);
+  display: flex;
+  gap: 10px;
+  font-weight: 500;
+}
+.db-insight-icon { font-size: 1.2rem; }
+
+// ─── dependency_graph ────────────────────────────────────────────────────────
+.db-dep-graph {
+  margin: 0;
+  text-align: center;
+  background: var(--db-canvas);
+  border: 1px solid var(--db-card-border);
+  border-radius: var(--db-radius-sm);
+  padding: 14px;
+}
+.db-dep-graph-cap {
+  font-family: var(--db-arabic-font);
+  color: var(--db-text-muted);
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+.db-dep-graph img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+// ─── callout / warning ───────────────────────────────────────────────────────
+.db-callout {
+  padding: 12px 14px;
+  background: rgba(0,0,0,.03);
+  border-radius: var(--db-radius-sm);
+}
+.db-callout-warning {
+  background: rgba(176,83,58,.06);
+  border: 1px solid rgba(176,83,58,.3);
+  display: flex; gap: 10px; align-items: flex-start;
+}
+.db-callout-icon { font-size: 1.2rem; }
+
+// ─── generic fallback ────────────────────────────────────────────────────────
+.db-generic-title {
+  font-family: var(--db-arabic-font);
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}

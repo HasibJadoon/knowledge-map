@@ -29,7 +29,7 @@ interface BookCard {
   template: `
     <section class="lex-books" dir="rtl">
       <header>
-        <a class="back" [routerLink]="['/lexicon']">← الرجوع</a>
+        <a class="back" [routerLink]="['/quran/al-quran']">← الرجوع</a>
         <h1>المكتبة</h1>
         <p>اختر معجمًا أو قراءة أكاديمية للتصفّح كاملًا. <span class="stat">{{ books().length }} مصدرًا</span></p>
       </header>

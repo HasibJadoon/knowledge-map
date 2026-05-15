@@ -9,165 +9,181 @@
           <ion-icon slot="start" name="chevron-forward-outline" />
           العودة
         </ion-button>
-        <h2 class="rp-detail-title">{{ src.source_title_ar }}</h2>
-        @if (src.source_title_en) { <p class="rp-detail-scholar">{{ src.source_title_en }}</p> }
-        <span class="rp-badge rp-badge--count">{{ src.entry_count }} إعراب</span>
+        <h2 class="rp-detail-title">{{ src.book_title_ar }}</h2>
+        @if (src.author_name_ar) { <p class="rp-detail-scholar">{{ src.author_name_ar }}</p> }
+        <div class="rp-detail-badges">
+          @if (src.author_period) { <span class="rp-badge">{{ src.author_period }}</span> }
+          @if (src.block_count !== undefined) {
+            <span class="rp-badge rp-badge--count">{{ src.block_count | number }} كتلة</span>
+          }
+        </div>
       </div>
 
-      <!-- Verse navigation (surah + ayah selectors) -->
+      <!-- Verse navigation — surah selector + ayah stepper (mobile-clean) -->
       <div class="rp-verse-nav">
-        <ion-button class="rp-verse-nav__btn"
-                    fill="clear" shape="round" size="small"
-                    aria-label="الآية السابقة"
-                    [disabled]="currentAyahIdx() === 0"
-                    (click)="prevAyah()">
-          <ion-icon slot="icon-only" name="chevron-forward-outline" />
-        </ion-button>
+        <!-- Surah: full-width selector -->
+        <ion-item class="rp-verse-nav__pill rp-verse-nav__pill--surah" lines="none">
+          <ion-label position="stacked">السورة</ion-label>
+          <ion-select
+            interface="action-sheet"
+            [interfaceOptions]="{ cssClass: 'qrs-select-sheet', header: 'اختر السورة' }"
+            [value]="selectedSurah()"
+            (ionChange)="setSurah(+$any($event.detail.value))"
+          >
+            @for (s of surahMenu(); track s.id) {
+              <ion-select-option [value]="s.id">{{ s.id }} · {{ s.name_ar }}</ion-select-option>
+            }
+          </ion-select>
+        </ion-item>
 
-        <div class="rp-verse-nav__selectors">
-          <ion-item class="rp-verse-nav__pill" lines="none">
-            <ion-label position="stacked">سورة</ion-label>
-            <ion-select
-              interface="action-sheet"
-              [interfaceOptions]="{ cssClass: 'qrs-select-sheet', header: 'اختر السورة' }"
-              [value]="selectedSurah()"
-              (ionChange)="setSurah(+$any($event.detail.value))"
-            >
-              @for (s of surahs; track s) {
-                <ion-select-option [value]="s">سورة {{ s }}</ion-select-option>
-              }
-            </ion-select>
-          </ion-item>
+        <!-- Ayah stepper -->
+        <div class="rp-verse-nav__ayah">
+          <ion-button class="rp-verse-nav__btn" fill="clear" shape="round" size="small"
+                      aria-label="الآية السابقة"
+                      [disabled]="selectedAyah() <= 1"
+                      (click)="prevAyah()">
+            <ion-icon slot="icon-only" name="chevron-forward-outline" />
+          </ion-button>
 
-          <ion-item class="rp-verse-nav__pill" lines="none">
-            <ion-label position="stacked">آية</ion-label>
+          <ion-item class="rp-verse-nav__pill rp-verse-nav__pill--ayah" lines="none">
+            <ion-label position="stacked">الآية</ion-label>
             <ion-select
               interface="action-sheet"
               [interfaceOptions]="{ cssClass: 'qrs-select-sheet', header: 'اختر الآية' }"
-              [disabled]="!ayahGroups().length"
-              [value]="currentGroup()?.ayah"
-              (ionChange)="goToAyahNum(+$any($event.detail.value))"
+              [value]="selectedAyah()"
+              (ionChange)="setAyah(+$any($event.detail.value))"
             >
-              @for (g of ayahGroups(); track g.ayah) {
-                <ion-select-option [value]="g.ayah">آية {{ g.ayah }}</ion-select-option>
+              @for (a of [].constructor(ayahCount()); track $index) {
+                <ion-select-option [value]="$index + 1">آية {{ $index + 1 }} / {{ ayahCount() }}</ion-select-option>
               }
             </ion-select>
           </ion-item>
 
-          <span class="rp-verse-nav__total">{{ currentAyahIdx() + 1 }} / {{ ayahGroups().length }}</span>
+          <ion-button class="rp-verse-nav__btn" fill="clear" shape="round" size="small"
+                      aria-label="الآية التالية"
+                      [disabled]="selectedAyah() >= ayahCount()"
+                      (click)="nextAyah()">
+            <ion-icon slot="icon-only" name="chevron-back-outline" />
+          </ion-button>
         </div>
-
-        <ion-button class="rp-verse-nav__btn"
-                    fill="clear" shape="round" size="small"
-                    aria-label="الآية التالية"
-                    [disabled]="currentAyahIdx() >= ayahGroups().length - 1"
-                    (click)="nextAyah()">
-          <ion-icon slot="icon-only" name="chevron-back-outline" />
-        </ion-button>
       </div>
 
-      <!-- Verse-by-verse content -->
-      @if (entriesLoading()) {
-        <div class="rp-skel">
-          <ion-skeleton-text [animated]="true" style="height: 56px; border-radius: 10px; margin: 0 auto 1rem; width: 80%"></ion-skeleton-text>
-          @for (s of skeletonRows; track $index) {
-            <article class="rp-irab-entry">
-              <ion-skeleton-text [animated]="true" style="width: 24%; height: 14px; margin-bottom: 6px"></ion-skeleton-text>
-              <ion-skeleton-text [animated]="true" style="width: 60%; height: 10px; margin-bottom: 10px"></ion-skeleton-text>
-              <ion-skeleton-text [animated]="true" style="width: 100%; height: 14px"></ion-skeleton-text>
-              <ion-skeleton-text [animated]="true" style="width: 80%; height: 14px"></ion-skeleton-text>
-            </article>
-          }
-        </div>
-
-      } @else if (!ayahGroups().length) {
-        <div class="rp-empty">لا توجد بيانات إعراب لهذه السورة</div>
-
-      } @else {
-
-        @if (currentGroup(); as group) {
-          @if (group.text) {
-            <km-verse-display variant="header"
-                              [text]="group.text"
-                              [surah]="selectedSurah()"
-                              [ayah]="group.ayah" />
-          }
-
-          <!-- Irab entries for this ayah -->
-          <div class="rp-entries">
-            @for (entry of group.entries; track entry.id) {
-              <div class="rp-irab-entry">
-                @if (entry.target_text_ar) {
-                  <span class="rp-irab-word">{{ entry.target_text_ar }}</span>
-                }
-                <div class="rp-irab-tags">
-                  @if (entry.grammar_role_ar) {
-                    <span class="rp-irab-tag rp-irab-tag--role">{{ entry.grammar_role_ar }}</span>
-                  }
-                  @if (entry.grammar_case_ar) {
-                    <span class="rp-irab-tag rp-irab-tag--case">{{ entry.grammar_case_ar }}</span>
-                  }
-                  @if (entry.mahal_ar) {
-                    <span class="rp-irab-tag rp-irab-tag--mahal">{{ entry.mahal_ar }}</span>
-                  }
-                </div>
-                <p class="rp-irab-text" dir="rtl">
-                  @for (seg of segments(entry.irab_text_ar); track $index) {
-                    @switch (seg.kind) {
-                      @case ('qref') { <km-qref-pill [surah]="seg.surah" [ayah]="seg.ayah" (refTapped)="openAyah($event.surah, $event.ayah)" /> }
-                      @default       { <span>{{ seg.value }}</span> }
-                    }
-                  }
-                </p>
-              </div>
-            }
+      <!-- Display-block feed -->
+      <div class="rp-detail__entries">
+        @if (payloadLoading()) {
+          <div class="rp-loading">
+            @for (_ of skeletonRows; track $index) { <div class="rp-skeleton-row"></div> }
           </div>
+        } @else if (payloadError()) {
+          <div class="rp-empty">{{ payloadError() }}</div>
+        } @else if (!sections().length) {
+          <div class="rp-empty">لا توجد بيانات إعراب لهذه الآية في هذا المصدر</div>
+        } @else {
+          <div class="rp-group-header">{{ groupHeader() }}</div>
+          @for (sec of sections(); track sec.source.source_slug) {
+            <section class="rp-section" [style.--sec-accent]="sec.source.badge_color">
+              @for (g of sec.groups; track g.key) {
+                <article
+                  class="bead-section"
+                  [class.bead-section--collapsed]="isCollapsed(sec.source.source_slug, g.key)"
+                  [attr.data-section]="g.key"
+                >
+                  <header
+                    class="bead-section__head"
+                    (click)="toggleSection(sec.source.source_slug, g.key)"
+                    role="button"
+                    tabindex="0"
+                    (keydown.enter)="toggleSection(sec.source.source_slug, g.key)"
+                  >
+                    <span class="bead-section__chevron" aria-hidden="true">▾</span>
+                    <div class="bead-section__titles">
+                      <span class="bead-section__title-ar">{{ g.label_ar }}</span>
+                      <span class="bead-section__title-en">{{ g.label_en }}</span>
+                    </div>
+                    <span class="bead-section__count">{{ g.children.length }}</span>
+                  </header>
+                  @if (!isCollapsed(sec.source.source_slug, g.key)) {
+                    <div class="bead-section__body">
+                      <div class="bead-thread" aria-hidden="true"></div>
+                      @for (child of g.children; track child.id) {
+                        <div class="bead-row">
+                          <span class="bead-dot" aria-hidden="true"></span>
+                          <div class="bead-card">
+                            <km-display-block [block]="child" [compact]="true" />
+                          </div>
+                        </div>
+                      }
+                      @if (!g.children.length) {
+                        <div class="bead-empty">لا توجد كتل في هذا القسم</div>
+                      }
+                    </div>
+                  }
+                </article>
+              }
+            </section>
+          }
         }
-      }
+      </div>
 
     </section>
 
-  <!-- ── Sources List ──────────────────────────────────────────────────── -->
+  <!-- ── Sources Catalog ──────────────────────────────────────────────── -->
   } @else {
+
     <section class="research-page" dir="rtl">
 
+      @if (lastReadUloom(); as last) {
+        <km-continue-reading-card
+          icon="school-outline"
+          [headline]="last.sourceTitleAr"
+          [subtitle]="'سورة ' + last.surah + ' • آية ' + last.ayah"
+          [target]="last"
+          (resume)="resumeLast()"
+        />
+      }
+
       @if (loading()) {
-        <div class="source-list">
-          @for (s of skeletonRows; track $index) {
-            <article class="source-card source-card--skel">
-              <ion-skeleton-text [animated]="true" style="width: 2.3rem; height: 2.3rem; border-radius: 999px; flex: 0 0 2.3rem"></ion-skeleton-text>
-              <div style="flex: 1; min-width: 0">
-                <ion-skeleton-text [animated]="true" style="width: 70%; height: 16px; margin-bottom: 6px"></ion-skeleton-text>
-                <ion-skeleton-text [animated]="true" style="width: 40%; height: 12px"></ion-skeleton-text>
-              </div>
-            </article>
+        <div class="rp-grid">
+          @for (_ of skeletonRows; track $index) {
+            <div class="source-card source-card--skeleton"></div>
           }
         </div>
       } @else {
-        <div class="source-list">
-          @if (lastReadUloom(); as lr) {
-            <km-continue-reading-card
-              icon="school-outline"
-              [headline]="lr.sourceTitleAr"
-              [subtitle]="'سورة ' + lr.surah + ' · آية ' + lr.ayah"
-              [target]="lr"
-              (resume)="resumeLast()" />
-          }
+        <div class="rp-grid">
           @for (src of filteredSources(); track src.id) {
-            <article class="source-card" (click)="selectSource(src)">
-              <div class="source-card__icon" aria-hidden="true">
-                <ion-icon name="school-outline" />
-              </div>
+            <article class="source-card" (click)="selectSource(src)" role="button" tabindex="0"
+              (keydown.enter)="selectSource(src)" (keydown.space)="selectSource(src)"
+              [style.--card-accent]="src.badge_color">
+
               <div class="source-card__body">
-                <h2>{{ src.source_title_ar }}</h2>
-                @if (src.source_title_en) { <p class="source-card__sub">{{ src.source_title_en }}</p> }
-                <span class="rp-badge rp-badge--count">{{ src.entry_count }} إعراب</span>
+                <div class="source-card__icon-wrap" aria-hidden="true">
+                  <span class="source-card__icon">{{ src.badge_glyph || '⊤' }}</span>
+                </div>
+                <div class="source-card__info">
+                  <h2 class="source-card__title">{{ src.book_title_ar || src.source_slug }}</h2>
+                  @if (src.author_name_ar) {
+                    <p class="source-card__subtitle">{{ src.author_name_ar }}</p>
+                  }
+                  @if (src.short_description) {
+                    <p class="source-card__desc">{{ src.short_description }}</p>
+                  }
+                </div>
               </div>
-              <ion-ripple-effect></ion-ripple-effect>
+
+              <div class="source-card__footer">
+                <span class="source-card__count">
+                  @if (src.block_count !== undefined) {
+                    {{ src.block_count | number }} كتلة
+                  } @else {
+                    {{ src.author_period || 'مصدر إعراب' }}
+                  }
+                </span>
+              </div>
             </article>
           }
-          @if (!filteredSources().length && !loading()) {
-            <div class="rp-empty">لا توجد نتائج مطابقة</div>
+
+          @if (!filteredSources().length) {
+            <div class="rp-empty" role="status">لا توجد نتائج مطابقة</div>
           }
         </div>
       }
@@ -177,42 +193,20 @@
 
 </ion-content>
 
-<!-- ── Ayah preview modal ────────────────────────────────────────────── -->
-<ion-modal
-  class="rp-ayah-modal"
-  [isOpen]="ayahModalOpen()"
-  [breakpoints]="[0, 0.55, 0.92]"
-  [initialBreakpoint]="0.55"
-  [handle]="true"
-  [backdropDismiss]="true"
-  (ionModalDidDismiss)="closeAyahModal()"
->
+<!-- Ayah preview modal (preserved) -->
+<ion-modal [isOpen]="ayahModalOpen()" (didDismiss)="closeAyahModal()" class="ayah-preview-modal">
   <ng-template>
-    <ion-content class="rp-ayah-modal__content">
-      <div class="rp-ayah-sheet" dir="rtl">
-        @if (ayahModalLoading()) {
-          <div class="rp-ayah-sheet__skel">
-            <ion-skeleton-text [animated]="true" style="width: 30%; height: 16px"></ion-skeleton-text>
-            <ion-skeleton-text [animated]="true" style="width: 100%; height: 24px"></ion-skeleton-text>
-            <ion-skeleton-text [animated]="true" style="width: 90%; height: 24px"></ion-skeleton-text>
-          </div>
-        } @else if (ayahPreview(); as v) {
-          <km-verse-display variant="modal"
-                            [text]="v.text_display"
-                            [translation]="v.translation"
-                            [surah]="v.surah"
-                            [ayah]="v.ayah"
-                            [pageNumber]="v.page_number" />
-          <ion-button class="rp-ayah-sheet__nav"
-                      expand="block" fill="outline" size="small"
-                      (click)="goToAyah(v.surah, v.ayah)">
-            <ion-icon slot="start" name="book-outline" />
-            افتح في المصحف
-          </ion-button>
-        } @else {
-          <p class="rp-muted">تعذّر تحميل الآية.</p>
-        }
-      </div>
+    <ion-content class="ion-padding" dir="rtl">
+      @if (ayahModalLoading()) {
+        <div class="rp-loading">جارٍ التحميل…</div>
+      } @else if (ayahPreview(); as p) {
+        <div class="ayah-preview">
+          <h3>{{ p.surah }}:{{ p.ayah }}</h3>
+          <p class="ayah-preview__text">{{ p.text_display }}</p>
+          @if (p.translation) { <p class="ayah-preview__translation">{{ p.translation }}</p> }
+          <ion-button (click)="goToAyah(p.surah, p.ayah)">انتقل إلى الآية</ion-button>
+        </div>
+      }
     </ion-content>
   </ng-template>
 </ion-modal>

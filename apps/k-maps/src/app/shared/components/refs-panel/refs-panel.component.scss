@@ -1,0 +1,214 @@
+// References panel — dense card-stack style matching the lexicon viewer.
+// Each section is its own card with: ● status-dot + ▾ chevron + ⊞ expand
+// + title + count. Compact numbered rows inside.
+
+:host {
+  display: block;
+  --rpx-bg:           #0f0d0a;
+  --rpx-card-bg:      #15120e;
+  --rpx-card-border:  rgba(255,255,255,.05);
+  --rpx-text:         #E8DDC4;
+  --rpx-text-soft:    #B8AC93;
+  --rpx-muted:        #6E665A;
+  --rpx-accent:       #C9A227;
+  --rpx-accent-soft:  rgba(201,162,39,.10);
+  --rpx-on:           #E59A2C;
+  --rpx-off:          #6E665A;
+}
+
+.rpx {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: system-ui, sans-serif;
+}
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+.rpx-card {
+  background: var(--rpx-card-bg);
+  border: 1px solid var(--rpx-card-border);
+  border-radius: 7px;
+  overflow: hidden;
+  transition: border-color .15s ease;
+  &:hover { border-color: rgba(229,154,44,.18); }
+  &--empty { opacity: 0.55; }
+  &--empty:hover { opacity: 0.85; }
+}
+
+// ── Header bar ────────────────────────────────────────────────────────────────
+.rpx-card__head {
+  display: grid;
+  grid-template-columns: 8px 18px 18px 1fr auto auto;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  user-select: none;
+  background: rgba(255,255,255,.012);
+  transition: background .12s ease;
+  &:hover { background: rgba(229,154,44,.04); }
+}
+
+// Status dot — lit (orange) when content present, dim grey otherwise
+.rpx-dot {
+  grid-column: 1;
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--rpx-off);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.5);
+  &--on {
+    background: var(--rpx-on);
+    box-shadow: 0 0 0 1px rgba(0,0,0,.5), 0 0 6px rgba(229,154,44,.45);
+  }
+}
+
+// Chevron — collapse/expand
+.rpx-card__chevron {
+  grid-column: 2;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--rpx-muted);
+  transition: transform .15s ease, color .12s ease;
+}
+.rpx-card__head:hover .rpx-card__chevron { color: var(--rpx-accent); }
+.rpx-card--collapsed .rpx-card__chevron { transform: rotate(-90deg); }
+
+// Expand icon (decorative — corners pointing outward)
+.rpx-card__expand {
+  grid-column: 3;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  color: var(--rpx-muted);
+  opacity: 0.6;
+}
+
+// Title
+.rpx-card__title {
+  grid-column: 4;
+  text-align: right;
+  font-family: "Amiri", serif;
+  font-size: 0.92rem;
+  color: var(--rpx-text);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Count badge
+.rpx-card__count {
+  grid-column: 5;
+  display: inline-flex;
+  align-items: center; justify-content: center;
+  min-width: 22px;
+  padding: 0 7px;
+  height: 18px;
+  border-radius: 9px;
+  background: rgba(255,255,255,.04);
+  color: var(--rpx-text-soft);
+  font-family: system-ui, sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.rpx-card:not(.rpx-card--empty) .rpx-card__count {
+  background: var(--rpx-accent-soft);
+  color: var(--rpx-accent);
+}
+
+// Reorder: chevron should be LEFT (start) of header in RTL = visually right edge.
+// The grid-column assignments above hold for RTL because container is dir=rtl.
+
+// ── Body ──────────────────────────────────────────────────────────────────────
+.rpx-card__body {
+  padding: 6px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-top: 1px solid rgba(255,255,255,.03);
+  background: rgba(255,255,255,.008);
+}
+.rpx-card__empty {
+  padding: 8px 12px 10px;
+  color: var(--rpx-muted);
+  font-size: 0.78rem;
+  font-family: "Amiri", serif;
+  border-top: 1px solid rgba(255,255,255,.03);
+  background: rgba(255,255,255,.008);
+}
+
+// ── Row ───────────────────────────────────────────────────────────────────────
+.rpx-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  padding: 4px 0;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  & + & { border-top: 1px dashed rgba(255,255,255,.03); padding-top: 6px; }
+  &--clickable {
+    cursor: pointer;
+    transition: background .12s ease;
+    padding: 4px 6px;
+    margin: 0 -6px;
+    &:hover { background: rgba(201,162,39,.05); }
+  }
+  &--note { align-items: flex-start; padding: 6px 0; flex-wrap: wrap; }
+}
+.rpx-row__num {
+  font-family: system-ui, sans-serif;
+  font-size: 0.7rem;
+  color: var(--rpx-muted);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+  min-width: 22px;
+}
+.rpx-row__label {
+  flex-shrink: 0;
+  padding: 1px 8px;
+  background: rgba(255,255,255,.03);
+  border-radius: 4px;
+  font-family: "Amiri", serif;
+  color: var(--rpx-text);
+  font-size: 0.88rem;
+  font-weight: 600;
+  &--quran    { background: rgba(229,154,44,.12); color: var(--rpx-on);
+                font-family: system-ui, sans-serif; font-size: 0.78rem; font-weight: 700;
+                .rpx-row--clickable:hover & { background: var(--rpx-on); color: #14110D; } }
+  &--hadith   { background: rgba(139,94,60,.14);  color: #C99876; }
+  &--scholar  { background: rgba(74,110,138,.14); color: #8FB3D1; }
+  &--paradigm { background: rgba(110,88,142,.14); color: #B49AD1; }
+  &--related  { background: rgba(75,122,117,.14); color: #8AC9C0; }
+}
+.rpx-row__text {
+  flex: 1;
+  min-width: 0;
+  color: var(--rpx-text-soft);
+  font-family: "Amiri", serif;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  &--note {
+    flex: 1 0 100%;
+    margin: 4px 0 0;
+    padding-right: 28px;          /* align under label */
+    padding-inline-start: 6px;
+    border-right: 2px solid rgba(229,154,44,.4);
+    direction: rtl;
+    color: var(--rpx-text);
+  }
+}
+.rpx-row__mult {
+  font-family: system-ui, sans-serif;
+  font-size: 0.65rem;
+  color: var(--rpx-accent);
+  background: var(--rpx-accent-soft);
+  padding: 1px 6px;
+  border-radius: 5px;
+  font-weight: 700;
+  margin-inline-start: auto;
+}
+
+// Per-kind note border colors
+.rpx-row[data-kind="mutazili_rebuttal"] .rpx-row__text--note { border-right-color: rgba(110,88,142,.65); }
+.rpx-row[data-kind="source_citation"]   .rpx-row__text--note { border-right-color: rgba(139,94,60,.65); }
+.rpx-row[data-kind="editorial"]         .rpx-row__text--note { border-right-color: rgba(75,122,117,.65); }

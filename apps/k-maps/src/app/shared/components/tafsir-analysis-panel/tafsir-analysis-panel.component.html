@@ -1,0 +1,170 @@
+<div class="tapx" dir="rtl">
+
+  <!-- ── Block-type distribution ───────────────────────────────────────── -->
+  <article class="tapx-card" [class.tapx-card--collapsed]="isCollapsed('types')" [class.tapx-card--empty]="!blockTypes().length">
+    <header class="tapx-card__head" (click)="toggle('types')" role="button" tabindex="0" (keydown.enter)="toggle('types')">
+      <span class="tapx-dot" [class.tapx-dot--on]="blockTypes().length"></span>
+      <span class="tapx-card__title">تحليل المحتوى</span>
+      <span class="tapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="tapx-card__count">{{ blockTypes().length }}</span>
+      <span class="tapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('types') && blockTypes().length) {
+      <div class="tapx-card__body">
+        @for (t of blockTypes(); track t.meta; let i = $index) {
+          <div class="tapx-row">
+            <span class="tapx-row__num">[{{ i + 1 }}]</span>
+            <span class="tapx-row__label tapx-row__label--type" [attr.data-type]="t.meta">{{ t.label }}</span>
+            <span class="tapx-row__count">×{{ t.count }}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('types') && !blockTypes().length) {
+      <div class="tapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Scholars present in this view ─────────────────────────────────── -->
+  <article class="tapx-card" [class.tapx-card--collapsed]="isCollapsed('scholars')" [class.tapx-card--empty]="!scholarsPresent().length">
+    <header class="tapx-card__head" (click)="toggle('scholars')" role="button" tabindex="0" (keydown.enter)="toggle('scholars')">
+      <span class="tapx-dot" [class.tapx-dot--on]="scholarsPresent().length"></span>
+      <span class="tapx-card__title">العلماء الحاضرون</span>
+      <span class="tapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="tapx-card__count">{{ scholarsPresent().length }}</span>
+      <span class="tapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('scholars') && scholarsPresent().length) {
+      <div class="tapx-card__body">
+        @for (s of scholarsPresent(); track s.label; let i = $index) {
+          <div class="tapx-row">
+            <span class="tapx-row__num">[{{ i + 1 }}]</span>
+            <span class="tapx-row__label tapx-row__label--scholar">{{ s.label }}</span>
+            <span class="tapx-row__count">×{{ s.count }}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('scholars') && !scholarsPresent().length) {
+      <div class="tapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Madhab distribution ───────────────────────────────────────────── -->
+  <article class="tapx-card" [class.tapx-card--collapsed]="isCollapsed('madhabs')" [class.tapx-card--empty]="!madhabs().length">
+    <header class="tapx-card__head" (click)="toggle('madhabs')" role="button" tabindex="0" (keydown.enter)="toggle('madhabs')">
+      <span class="tapx-dot" [class.tapx-dot--on]="madhabs().length"></span>
+      <span class="tapx-card__title">توزّع المذاهب</span>
+      <span class="tapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="tapx-card__count">{{ madhabs().length }}</span>
+      <span class="tapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('madhabs') && madhabs().length) {
+      <div class="tapx-card__body">
+        @for (m of madhabs(); track m.meta; let i = $index) {
+          <div class="tapx-row" [attr.data-madhab]="m.meta">
+            <span class="tapx-row__num">[{{ i + 1 }}]</span>
+            <span class="tapx-row__label tapx-row__label--madhab">{{ m.label }}</span>
+            <span class="tapx-row__count">×{{ m.count }}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('madhabs') && !madhabs().length) {
+      <div class="tapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Era distribution ──────────────────────────────────────────────── -->
+  <article class="tapx-card" [class.tapx-card--collapsed]="isCollapsed('eras')" [class.tapx-card--empty]="!eras().length">
+    <header class="tapx-card__head" (click)="toggle('eras')" role="button" tabindex="0" (keydown.enter)="toggle('eras')">
+      <span class="tapx-dot" [class.tapx-dot--on]="eras().length"></span>
+      <span class="tapx-card__title">الحقبة الزمنية</span>
+      <span class="tapx-card__expand" aria-hidden="true">
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+          <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="tapx-card__count">{{ eras().length }}</span>
+      <span class="tapx-card__chevron" aria-hidden="true">
+        <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
+    </header>
+    @if (!isCollapsed('eras') && eras().length) {
+      <div class="tapx-card__body">
+        @for (e of eras(); track e.label; let i = $index) {
+          <div class="tapx-row">
+            <span class="tapx-row__num">[{{ i + 1 }}]</span>
+            <span class="tapx-row__label tapx-row__label--era">{{ e.label }}</span>
+            <span class="tapx-row__count">×{{ e.count }}</span>
+          </div>
+        }
+      </div>
+    }
+    @if (!isCollapsed('eras') && !eras().length) {
+      <div class="tapx-card__empty">لا يوجد</div>
+    }
+  </article>
+
+  <!-- ── Long-form coverage ────────────────────────────────────────────── -->
+  @if (longFormCoverage(); as lfc) {
+    <article class="tapx-card" [class.tapx-card--collapsed]="isCollapsed('longform')">
+      <header class="tapx-card__head" (click)="toggle('longform')" role="button" tabindex="0" (keydown.enter)="toggle('longform')">
+        <span class="tapx-dot" [class.tapx-dot--on]="lfc.count > 0"></span>
+        <span class="tapx-card__title">المداخل المطوّلة</span>
+        <span class="tapx-card__expand" aria-hidden="true">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none">
+            <path d="M3 9V3h6M21 9V3h-6M3 15v6h6M21 15v6h-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </span>
+        <span class="tapx-card__count">{{ lfc.count }}</span>
+        <span class="tapx-card__chevron" aria-hidden="true">
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none">
+            <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </header>
+      @if (!isCollapsed('longform')) {
+        <div class="tapx-card__body">
+          <div class="tapx-sub">
+            {{ lfc.count }} مدخل · {{ lfc.paragraphs }} فقرة مفصّلة
+          </div>
+          @if (lfc.scholars.length) {
+            <div class="tapx-words">
+              @for (s of lfc.scholars; track s) {
+                <span class="tapx-word">{{ s }}</span>
+              }
+            </div>
+          }
+        </div>
+      }
+    </article>
+  }
+
+</div>

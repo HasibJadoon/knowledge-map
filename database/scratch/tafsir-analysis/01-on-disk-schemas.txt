@@ -1,0 +1,32 @@
+=== al-bahr-al-muhit ===
+CREATE TABLE tafsir (ayah_key TEXT, group_ayah_key TEXT, from_ayah TEXT, to_ayah TEXT, ayah_keys TEXT, text TEXT);
+--- counts:
+  tafsir: 6236
+=== al-kashshaf-al-zamakhshari ===
+CREATE TABLE tafsir (ayah_key TEXT, group_ayah_key TEXT, from_ayah TEXT, to_ayah TEXT, ayah_keys TEXT, text TEXT);
+--- counts:
+  tafsir: 6236
+=== al-muharrar-al-wajiz-ibn-atiyyah ===
+CREATE TABLE tafsir (ayah_key TEXT, group_ayah_key TEXT, from_ayah TEXT, to_ayah TEXT, ayah_keys TEXT, text TEXT);
+--- counts:
+  tafsir: 6236
+=== ar-tafseer-tahrir-al-tanwir ===
+CREATE TABLE tafsir (ayah_key TEXT, group_ayah_key TEXT, from_ayah TEXT, to_ayah TEXT, ayah_keys TEXT, text TEXT);
+--- counts:
+  tafsir: 6236
+=== ar-tafsir-al-tabari ===
+CREATE TABLE tafsir (ayah_key TEXT, group_ayah_key TEXT, from_ayah TEXT, to_ayah TEXT, ayah_keys TEXT, text TEXT);
+--- counts:
+  tafsir: 6236
+=== ar-tafsir-ibn-kathir ===
+CREATE TABLE tafsir (ayah_key TEXT, group_ayah_key TEXT, from_ayah TEXT, to_ayah TEXT, ayah_keys TEXT, text TEXT);
+--- counts:
+  tafsir: 6236
+=== tafsir-al-alusi ===
+CREATE TABLE tafsir (ayah_key TEXT, group_ayah_key TEXT, from_ayah TEXT, to_ayah TEXT, ayah_keys TEXT, text TEXT);
+--- counts:
+  tafsir: 6236
+=== tafsir-al-razi ===
+CREATE TABLE tafsir (ayah_key TEXT, group_ayah_key TEXT, from_ayah TEXT, to_ayah TEXT, ayah_keys TEXT, text TEXT);
+--- counts:
+  tafsir: 6236

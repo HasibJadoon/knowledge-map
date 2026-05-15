@@ -1,0 +1,144 @@
+[
+  {
+    "results": [
+      {
+        "id": "QR:SCH:TABARI",
+        "name_ar": "محمد بن جرير الطبري",
+        "name_en": "al-Tabari",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": 310,
+        "death_year_ce": 923,
+        "era": "classical",
+        "madhab": "sunni",
+        "specialization": "tafsir"
+      },
+      {
+        "id": "QR:SCH:ZAMAKHSHARI",
+        "name_ar": "محمود بن عمر الزمخشري",
+        "name_en": "al-Zamakhshari",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": 538,
+        "death_year_ce": 1144,
+        "era": "classical",
+        "madhab": "mutazili",
+        "specialization": "tafsir"
+      },
+      {
+        "id": "QR:SCH:IBN_ATIYYA",
+        "name_ar": "عبد الحق بن غالب ابن عطية",
+        "name_en": "Ibn Atiyya al-Andalusi",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": 542,
+        "death_year_ce": 1147,
+        "era": "classical",
+        "madhab": "maliki",
+        "specialization": "tafsir"
+      },
+      {
+        "id": "QR:SCH:RAZI",
+        "name_ar": "فخر الدين الرازي",
+        "name_en": "Fakhr al-Din al-Razi",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": 606,
+        "death_year_ce": 1210,
+        "era": "classical",
+        "madhab": "ashari",
+        "specialization": "tafsir"
+      },
+      {
+        "id": "QR:SCH:ABU_HAYYAN",
+        "name_ar": "أبو حيان الأندلسي",
+        "name_en": "Abu Hayyan al-Andalusi",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": 745,
+        "death_year_ce": 1344,
+        "era": "classical",
+        "madhab": "sunni",
+        "specialization": "tafsir"
+      },
+      {
+        "id": "QR:SCH:IBN_KATHIR",
+        "name_ar": "إسماعيل بن عمر بن كثير",
+        "name_en": "Ibn Kathir",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": 774,
+        "death_year_ce": 1373,
+        "era": "classical",
+        "madhab": "sunni",
+        "specialization": "tafsir"
+      },
+      {
+        "id": "QR:SCH:ALUSI",
+        "name_ar": "شهاب الدين الآلوسي",
+        "name_en": "al-Alusi",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": 1270,
+        "death_year_ce": 1854,
+        "era": "modern",
+        "madhab": "sunni",
+        "specialization": "tafsir"
+      },
+      {
+        "id": "QR:SCH:IBN_ASHUR",
+        "name_ar": "محمد الطاهر بن عاشور",
+        "name_en": "Ibn Ashur",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": null,
+        "death_year_ce": 1973,
+        "era": "modern",
+        "madhab": "maliki",
+        "specialization": "tafsir"
+      },
+      {
+        "id": "QR:SCH:SAFI",
+        "name_ar": "محمود صافي",
+        "name_en": "Mahmud Safi",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": null,
+        "death_year_ce": 1980,
+        "era": "modern",
+        "madhab": "sunni",
+        "specialization": "irab"
+      },
+      {
+        "id": "QR:SCH:DARWISH",
+        "name_ar": "محيي الدين درويش",
+        "name_en": "Muhyi al-Din Darwish",
+        "kunya": null,
+        "laqab": null,
+        "death_year_hijri": null,
+        "death_year_ce": 2012,
+        "era": "modern",
+        "madhab": "sunni",
+        "specialization": "irab"
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "ENAM",
+      "served_by_colo": "EWR",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 0.424
+      },
+      "duration": 0.424,
+      "changes": 0,
+      "last_row_id": 16474,
+      "changed_db": false,
+      "size_after": 879976448,
+      "rows_read": 20,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

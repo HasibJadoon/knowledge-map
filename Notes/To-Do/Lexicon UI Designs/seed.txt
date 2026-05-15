@@ -1,0 +1,19 @@
+Add this seed to the DB for root كتب:
+
+UPDATE ar_ling_roots
+SET
+  meaning_core_ar = 'الجمع والضمّ، ثم الكتابة والتدوين، ثم الإثبات والحكم والإلزام.',
+  meaning_core_en = 'The core sense is joining/gathering, then writing/inscription, then fixing, prescribing, or ordaining.'
+WHERE root_text = 'كتب';
+
+Then verify:
+
+GET /al/lexicon/dict/root/كتب
+
+must return:
+
+root.meaning_ar:
+الجمع والضمّ، ثم الكتابة والتدوين، ثم الإثبات والحكم والإلزام.
+
+root.meaning_en:
+The core sense is joining/gathering, then writing/inscription, then fixing, prescribing, or ordaining.

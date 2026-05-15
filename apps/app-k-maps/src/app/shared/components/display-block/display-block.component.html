@@ -1,0 +1,197 @@
+<!-- Modern card with per-block-type variants. RTL Arabic body. -->
+<article
+  class="db-block"
+  [class.db-compact]="compact()"
+  [attr.data-type]="block().block_type"
+  [attr.data-subtype]="block().block_subtype"
+  [attr.dir]="'rtl'"
+>
+  @switch (block().block_type) {
+
+    @case ('tafsir_card') {
+      <header class="db-head">
+        @if ($any(block()).scholar_name_ar) {
+          <div class="db-scholar">
+            <span class="db-scholar-name">{{ $any(block()).scholar_name_ar }}</span>
+            @if ($any(block()).death_year_hijri) {
+              <span class="db-scholar-meta">ت {{ $any(block()).death_year_hijri }} هـ</span>
+            }
+          </div>
+        }
+        <div class="db-chips">
+          @if (madhabChip(); as m) {
+            <span class="db-chip db-chip-madhab" [style.--chip-color]="m.color">{{ m.label }}</span>
+          }
+          @if ($any(block()).era) { <span class="db-chip db-chip-era">{{ $any(block()).era === 'classical' ? 'كلاسيكي' : 'حديث' }}</span> }
+          @if (block().is_long_form) { <span class="db-chip db-chip-info">{{ block().paragraph_count }} فقرات</span> }
+        </div>
+      </header>
+      <div class="db-body db-arabic">{{ previewText() }}</div>
+      @if (block().is_long_form && (block().text_ar?.length ?? 0) > 800) {
+        <button class="db-expand" (click)="toggleExpand()">
+          {{ expanded() ? 'إخفاء' : 'متابعة القراءة' }}
+        </button>
+      }
+      @if (hasNarrationTags()) {
+        <div class="db-tagrow">
+          @for (t of $any(block()).narration_tags; track t) {
+            <span class="db-tag db-tag-narration">{{ t }}</span>
+          }
+        </div>
+      }
+      @if (hasTheologyTags()) {
+        <div class="db-tagrow">
+          @for (t of $any(block()).theology_tags; track t) {
+            <span class="db-tag db-tag-theology">{{ t }}</span>
+          }
+        </div>
+      }
+      <footer class="db-footer">
+        <span class="db-source">{{ block().book_title }}</span>
+        <span class="db-status" [attr.data-status]="block().review_status">{{ statusChipLabel() }}</span>
+      </footer>
+    }
+
+    @case ('paragraph_section') {
+      <div class="db-paragraph">
+        <div class="db-paragraph-meta">
+          فقرة {{ (block().paragraph_index ?? 0) + 1 }}
+          @if (block().paragraph_count) { / {{ block().paragraph_count }} }
+        </div>
+        <div class="db-body db-arabic">{{ block().text_ar }}</div>
+      </div>
+    }
+
+    @case ('isnad') {
+      <div class="db-isnad">
+        <div class="db-isnad-head">⁕ سلسلة الإسناد</div>
+        <ol class="db-isnad-chain">
+          @for (link of isnadLinks(); track link.position) {
+            <li class="db-isnad-link">{{ link.narrator_text }}</li>
+          }
+        </ol>
+        @if (!isnadLinks().length) {
+          <div class="db-body db-arabic">{{ block().text_ar }}</div>
+        }
+      </div>
+    }
+
+    @case ('voice_marker') {
+      <div class="db-voice">
+        <span class="db-voice-icon">🗣</span>
+        <span class="db-voice-speaker">{{ block().text_ar }}</span>
+      </div>
+    }
+
+    @case ('poetry_quote') {
+      <blockquote class="db-poetry">
+        <span class="db-poetry-marker">؎</span>
+        <div class="db-poetry-line">{{ block().text_ar }}</div>
+      </blockquote>
+    }
+
+    @case ('verse_anchor') {
+      <div class="db-verse-anchor">
+        <span class="db-verse-anchor-label">قَوْلُهُ تَعَالَى:</span>
+        <span class="db-verse-anchor-text db-mushaf">﴿{{ block().text_ar }}﴾</span>
+      </div>
+    }
+
+    @case ('paradigm_chip') {
+      <span class="db-paradigm-chip">
+        🏛 {{ block().text_ar }}
+      </span>
+    }
+
+    @case ('hadith_source_chip') {
+      <span class="db-hadith-chip">
+        📚 {{ block().text_ar }}
+      </span>
+    }
+
+    @case ('quran_ref_chip') {
+      <button class="db-qref-chip" (click)="onRefClick(block().quran_refs[0])">
+        {{ block().text_ar }}
+      </button>
+    }
+
+    @case ('heading') {
+      <h2 class="db-heading">
+        @if (block().title_ar) { <span class="db-heading-ar">{{ block().title_ar }}</span> }
+        @if (block().title_en) { <span class="db-heading-en">{{ block().title_en }}</span> }
+      </h2>
+    }
+
+    @case ('irab_card') {
+      <div class="db-irab">
+        @if (block().word_text) {
+          <div class="db-irab-target">({{ block().word_text }})</div>
+        }
+        <div class="db-body db-arabic">{{ block().text_ar }}</div>
+        @if (hasGrammarTags()) {
+          <div class="db-tagrow">
+            @for (t of block().grammar_tags; track t) {
+              <span class="db-tag db-tag-grammar">{{ t }}</span>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @case ('sarf_note') {
+      <div class="db-note db-note-sarf">
+        <span class="db-note-badge">ص</span>
+        <div class="db-body db-arabic">{{ block().text_ar }}</div>
+      </div>
+    }
+
+    @case ('balagha_note') {
+      <div class="db-note db-note-balagha">
+        <span class="db-note-badge">ب</span>
+        <div class="db-body db-arabic">{{ block().text_ar }}</div>
+      </div>
+    }
+
+    @case ('language_note') {
+      <div class="db-note db-note-language">
+        <span class="db-note-badge">ل</span>
+        <div class="db-body db-arabic">{{ block().text_ar }}</div>
+      </div>
+    }
+
+    @case ('key_insight') {
+      <div class="db-insight">
+        <span class="db-insight-icon">💡</span>
+        <div class="db-body db-arabic">{{ block().text_ar }}</div>
+      </div>
+    }
+
+    @case ('dependency_graph') {
+      <figure class="db-dep-graph">
+        <figcaption class="db-dep-graph-cap">{{ block().title_ar }}</figcaption>
+        @if (externalSvgUrl()) {
+          <img [src]="externalSvgUrl()" alt="dependency tree" loading="lazy" />
+        }
+      </figure>
+    }
+
+    @case ('callout') {
+      <div class="db-callout"><div class="db-body db-arabic">{{ block().text_ar }}</div></div>
+    }
+
+    @case ('warning') {
+      <div class="db-callout db-callout-warning">
+        <span class="db-callout-icon">⚠</span>
+        <div class="db-body db-arabic">{{ block().text_ar }}</div>
+      </div>
+    }
+
+    @default {
+      <!-- generic prose card for any unrecognized block_type -->
+      <div class="db-generic">
+        @if (block().title_ar) { <h3 class="db-generic-title">{{ block().title_ar }}</h3> }
+        <div class="db-body db-arabic">{{ block().text_ar }}</div>
+      </div>
+    }
+  }
+</article>

@@ -59,6 +59,18 @@ export const QURAN_ROUTES: Routes = [
           import('./al-quran/tafseer/tafseer-page.component').then(m => m.TafseerPageComponent),
       },
       {
+        // New display-tier multi-scholar tafsir reader (migration 012).
+        path: 'tafsir-display',
+        loadComponent: () =>
+          import('./al-quran/tafsir-display/tafsir-display.page').then(m => m.TafsirDisplayPageComponent),
+      },
+      {
+        // New display-tier iʿrāb reader (migration 011).
+        path: 'iraab-display',
+        loadComponent: () =>
+          import('./al-quran/iraab-display/iraab-display.page').then(m => m.IraabDisplayPageComponent),
+      },
+      {
         path: 'uloom',
         loadComponent: () =>
           import('./al-quran/uloom/uloom-page.component').then(m => m.UloomPageComponent),

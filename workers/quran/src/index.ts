@@ -21,6 +21,8 @@ import { vocabularyRoutes } from './routes/vocabulary';
 import { worldviewRoutes } from './routes/worldview';
 import { tafsirRoutes } from './routes/tafsir';
 import { irabRoutes } from './routes/irab';
+import { iraabDisplayRoutes } from './routes/iraab-display';
+import { tafsirDisplayRoutes } from './routes/tafsir-display';
 import { lexiconRoutes } from './routes/lexicon';
 import { depGraphRoutes } from './routes/dep-graphs';
 import { mushafRoutes } from './routes/mushaf';
@@ -47,7 +49,9 @@ pageRoutes(router);          // GET /qr/pages/:page, /qr/surahs/:id/pages
 mushafRoutes(router);        // GET /qr/mushaf/pages/:page — Quran.com-style Mushaf layout
 srsRoutes(router);           // GET /qr/srs?filter=due|upcoming|all|suspended
 tafsirRoutes(router);        // GET /qr/tafsir, /qr/scholars, /qr/works
+tafsirDisplayRoutes(router); // GET /qr/tafsir/display, /qr/tafsir/display/sources, /search, /compare
 irabRoutes(router);          // GET /qr/irab/book-sources, /qr/irab/book-entries
+iraabDisplayRoutes(router);  // GET /qr/iraab/display, /qr/iraab/display/sources, /qr/iraab/display/search
 lexiconRoutes(router);       // GET /qr/lexicon/lemmas, /qr/lexicon/roots
 depGraphRoutes(router);      // GET /qr/irab/dep-graph/:surah/:ayah — SVG from R2; /meta — D1 metadata
 

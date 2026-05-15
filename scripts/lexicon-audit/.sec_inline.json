@@ -1,0 +1,79 @@
+[
+  {
+    "results": [
+      {
+        "source_slug": "ketabonline_al_fayyumi_misbah_munir",
+        "n_inline_fn": 0,
+        "n_sections": 2288
+      },
+      {
+        "source_slug": "ketabonline_al_jawhari_al_sihah",
+        "n_inline_fn": 0,
+        "n_sections": 5638
+      },
+      {
+        "source_slug": "ketabonline_al_raghib_mufradat",
+        "n_inline_fn": 0,
+        "n_sections": 1547
+      },
+      {
+        "source_slug": "ketabonline_al_zabidi_taj_al_arus",
+        "n_inline_fn": 0,
+        "n_sections": 9461
+      },
+      {
+        "source_slug": "ketabonline_ibn_duraid_jamharat_al_lugha",
+        "n_inline_fn": 0,
+        "n_sections": 1232
+      },
+      {
+        "source_slug": "ketabonline_ibn_manzur_lisan_al_arab",
+        "n_inline_fn": 2865,
+        "n_sections": 9526
+      },
+      {
+        "source_slug": "lane_lexicon",
+        "n_inline_fn": 0,
+        "n_sections": 47919
+      },
+      {
+        "source_slug": "qomra_al_qamus_al_muhit",
+        "n_inline_fn": 0,
+        "n_sections": 9801
+      },
+      {
+        "source_slug": "qomra_al_ubab_al_zakhir",
+        "n_inline_fn": 0,
+        "n_sections": 1528
+      },
+      {
+        "source_slug": "saaid_maqayis_al_lugha",
+        "n_inline_fn": 0,
+        "n_sections": 4823
+      },
+      {
+        "source_slug": "thahabi_al_khalil_kitab_al_ayn",
+        "n_inline_fn": 0,
+        "n_sections": 3277
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "ENAM",
+      "served_by_colo": "IAD",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 310.6827
+      },
+      "duration": 310.6827,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 2464083968,
+      "rows_read": 97040,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

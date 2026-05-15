@@ -1,0 +1,74 @@
+[
+  {
+    "results": [
+      {
+        "source_slug": "qul_irab_quran_daas",
+        "entries": 59160,
+        "has_target": 59160,
+        "has_role": 45096,
+        "has_case": 10268,
+        "has_mahal": 7882,
+        "has_alts": 0,
+        "has_inline_note": 0
+      },
+      {
+        "source_slug": "qul_jadwal_irab_quran",
+        "entries": 36180,
+        "has_target": 36180,
+        "has_role": 34360,
+        "has_case": 9041,
+        "has_mahal": 26334,
+        "has_alts": 3098,
+        "has_inline_note": 2769
+      },
+      {
+        "source_slug": "qul_irab_muyassar",
+        "entries": 20348,
+        "has_target": 20348,
+        "has_role": 18640,
+        "has_case": 12412,
+        "has_mahal": 8329,
+        "has_alts": 0,
+        "has_inline_note": 0
+      },
+      {
+        "source_slug": "tibyan_ukbari_irab",
+        "entries": 5735,
+        "has_target": 5735,
+        "has_role": 2664,
+        "has_case": 247,
+        "has_mahal": 0,
+        "has_alts": 0,
+        "has_inline_note": 0
+      },
+      {
+        "source_slug": "qul_irab_darwish",
+        "entries": 3351,
+        "has_target": 3351,
+        "has_role": 3165,
+        "has_case": 1491,
+        "has_mahal": 990,
+        "has_alts": 0,
+        "has_inline_note": 0
+      }
+    ],
+    "success": true,
+    "meta": {
+      "served_by": "v3-prod",
+      "served_by_region": "ENAM",
+      "served_by_colo": "EWR",
+      "served_by_primary": true,
+      "timings": {
+        "sql_duration_ms": 360.853
+      },
+      "duration": 360.853,
+      "changes": 0,
+      "last_row_id": 0,
+      "changed_db": false,
+      "size_after": 834105344,
+      "rows_read": 124779,
+      "rows_written": 0,
+      "total_attempts": 1
+    }
+  }
+]

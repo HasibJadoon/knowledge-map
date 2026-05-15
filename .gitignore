@@ -81,3 +81,6 @@ tmp/
 .env
 .env
 .env
+
+# Local import-output artifacts (large generated SQL, not source)
+out/
