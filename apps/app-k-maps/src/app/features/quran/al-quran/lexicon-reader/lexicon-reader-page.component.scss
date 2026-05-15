@@ -1558,9 +1558,21 @@ ion-modal.rdr-ayah-modal {
 .rdr-ayah-modal__content {
   --background: #0d0c0a;
   --color:      var(--ink);
+  // Force ion-content to use the auto-scroll fallback explicitly so
+  // long verses (e.g. Q 2:143) can scroll inside the sheet at the 0.55
+  // breakpoint without the drag gesture stealing the scroll.
+  --overflow: auto;
 }
 .rdr-ayah-sheet {
-  padding: 1rem 1.3rem calc(2rem + var(--ion-safe-area-bottom, 0px));
+  // Flex column matching the aggregated-sheet pattern so the inner block
+  // can scroll on its own when content overflows the sheet height.
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  padding: var(--lex-sp-md) var(--lex-sp-lg) calc(var(--lex-sp-2xl) + var(--ion-safe-area-bottom, 0px));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 
   &__head {
     display: flex;

@@ -168,11 +168,16 @@
   </ng-template>
 </ion-popover>
 
-<!-- ── Ayah preview modal ────────────────────────────────────────────── -->
+<!-- ── Ayah preview modal ──────────────────────────────────────────────
+     Breakpoints aligned with every other sheet in this view (0 / 0.55 / 0.92).
+     The previous [0, 0.55] cap meant users couldn't drag the sheet up to
+     read longer verses (e.g. Q 2:143 + translation overflows 55% on every
+     reasonable phone). 0.92 lets the sheet expand to nearly full height
+     and lets ion-content's scroll engage when content exceeds the sheet. -->
 <ion-modal
   class="rdr-ayah-modal"
   [isOpen]="ayahModalOpen()"
-  [breakpoints]="[0, 0.55]"
+  [breakpoints]="[0, 0.55, 0.92]"
   [initialBreakpoint]="0.55"
   [handle]="true"
   [backdropDismiss]="true"
