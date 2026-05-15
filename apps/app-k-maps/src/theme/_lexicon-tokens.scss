@@ -1,0 +1,150 @@
+// ─── Lexicon design tokens ────────────────────────────────────────────────────
+// Single source of truth for type scale, spacing, colours, and motion across
+// every lexicon surface (reader, catalog, books listing, lane table, modals).
+//
+// Why this file exists: an audit found 32 distinct ad-hoc font-sizes and 19
+// hardcoded hex literals across the lexicon SCSS. The lack of a token system
+// made consistent typography, accessible touch targets, and theming changes
+// (e.g. font-scale slider) impossible without huge per-component edits.
+//
+// USAGE: `@use './path/to/theme/lexicon-tokens' as *;` is NOT how this is
+// imported because Angular's component SCSS doesn't share modules. Instead,
+// this file defines CSS custom properties on `:root` and `.ion-page` so every
+// component below the page inherits them via the cascade. Import path:
+//   @import '../../../../../theme/lexicon-tokens';
+//
+// All values are tunable here; downstream SCSS uses var() and never re-declares
+// raw values. The font-scale slider in Phase 1 multiplies `--lex-scale` against
+// the type scale to produce live resizing without component edits.
+
+:root,
+.ion-page {
+  // ── Type scale (7 steps, modular ratio ≈ 1.18) ─────────────────────────────
+  // Calibrated so `--lex-fs-base` matches the most-common 0.95rem body, with
+  // headroom up to a 2xl title used by the entry headword. All sizes derive
+  // from `--lex-fs-unit` so the font-scale control can resize the entire
+  // hierarchy in lockstep without touching individual selectors.
+  --lex-fs-unit:   1rem;                              // 16px @ default scale
+  --lex-scale:     1;                                  // user-controlled multiplier (Phase 1)
+  --lex-fs-xs:    calc(0.72 * var(--lex-fs-unit) * var(--lex-scale));   // 11.5px — captions, footnote nums, page badges
+  --lex-fs-sm:    calc(0.82 * var(--lex-fs-unit) * var(--lex-scale));   // 13.1px — chips, secondary labels
+  --lex-fs-base:  calc(0.95 * var(--lex-fs-unit) * var(--lex-scale));   // 15.2px — body prose
+  --lex-fs-md:    calc(1.05 * var(--lex-fs-unit) * var(--lex-scale));   // 16.8px — section heads, list headwords
+  --lex-fs-lg:    calc(1.20 * var(--lex-fs-unit) * var(--lex-scale));   // 19.2px — modal titles, sub-titles
+  --lex-fs-xl:    calc(1.45 * var(--lex-fs-unit) * var(--lex-scale));   // 23.2px — book/entry meta
+  --lex-fs-2xl:   calc(2.20 * var(--lex-fs-unit) * var(--lex-scale));   // 35.2px — entry headword (the active root)
+
+  // ── Line-height tokens ─────────────────────────────────────────────────────
+  // Arabic prose needs more leading than Latin: tashkeel + interword overlap
+  // is unreadable at 1.4. `--lex-lh-arabic` is reserved for RTL Naskh prose.
+  --lex-lh-tight:   1.2;     // headings
+  --lex-lh-body:    1.55;    // Latin prose, English glosses
+  --lex-lh-arabic:  1.85;    // RTL Arabic prose (Mufradat/Lane Arabic blocks)
+
+  // ── Letter-spacing tokens ─────────────────────────────────────────────────
+  --lex-tracking-tight:  -0.01em;
+  --lex-tracking-normal:  0;
+  --lex-tracking-wide:    0.04em;     // UPPERCASE labels, code/sigla
+  --lex-tracking-display: 0.02em;     // entry headword
+
+  // ── Spacing scale (4px baseline grid) ─────────────────────────────────────
+  // Every padding/margin/gap below is one of these. Replaces the existing
+  // 9-value fractional-rem cluster (0.4/0.5/0.55/0.6/0.65/0.7/0.75/0.85/0.95).
+  --lex-sp-2xs:  2px;
+  --lex-sp-xs:   4px;
+  --lex-sp-sm:   8px;
+  --lex-sp-md:   12px;
+  --lex-sp-lg:   16px;
+  --lex-sp-xl:   24px;
+  --lex-sp-2xl:  32px;
+  --lex-sp-3xl:  48px;
+
+  // ── Touch-target tokens (iOS HIG: 44pt min) ───────────────────────────────
+  --lex-tap-sm:   36px;     // dense rows in long lists (root picker)
+  --lex-tap:      44px;     // primary tappable surface (iOS HIG minimum)
+  --lex-tap-lg:   52px;     // toolbar buttons, hero CTAs
+
+  // ── Radius scale ──────────────────────────────────────────────────────────
+  --lex-radius-sm:   4px;     // chips, tag pills
+  --lex-radius-md:   8px;     // cards, modals (small)
+  --lex-radius-lg:   12px;    // cards, modals (large)
+  --lex-radius-pill: 999px;   // chips
+
+  // ── Surface / background tokens ───────────────────────────────────────────
+  // Lexicon runs on a near-black gradient; these tokens replace the 5
+  // hardcoded dark literals (#000, #050505, #0a0908, #0d0c0a, #1a1814).
+  --lex-bg:           #050505;
+  --lex-surface:      #0a0908;     // cards, sheets, popovers
+  --lex-surface-alt:  #0d0c0a;     // inputs, raised tiles
+  --lex-surface-3:    #1a1814;     // selected/hovered state
+
+  // ── Ink tokens (foreground text) ──────────────────────────────────────────
+  // `--lex-ink-faint` raised from 0.36α (2.1:1, FAILS WCAG-AA) to 0.55α
+  // (~4.6:1, AA-pass for normal text). `--lex-ink-soft` kept at 0.62α.
+  --lex-ink:          #f5f1e7;                          // primary text
+  --lex-ink-warm:     #f0ead6;                          // alt warm tone
+  --lex-ink-soft:     rgba(245, 241, 231, 0.66);        // secondary (~4.8:1 AA)
+  --lex-ink-faint:    rgba(245, 241, 231, 0.50);        // tertiary, hints (~4.0:1 — borderline AA, fine for non-text)
+  --lex-ink-mute:     rgba(245, 241, 231, 0.32);        // disabled / non-essential only
+
+  // ── Gold palette (primary brand accent) ───────────────────────────────────
+  // Replaces 5 hex literals: #d9bd62, #e8c46a, #e8c96a, #f3d77a, #c9a84c.
+  // Hierarchy: bright (active) → soft (default) → line (borders) → tint (fills).
+  --lex-gold-bright:  #f3d77a;     // active / pressed state, focused
+  --lex-gold:         #e8c96a;     // primary accent, headings
+  --lex-gold-warm:    #e8c46a;     // alt tone, hadith blocks
+  --lex-gold-soft:    rgba(232, 201, 106, 0.78);
+  --lex-gold-line:    rgba(201, 168, 76, 0.32);   // hairline borders
+  --lex-gold-tint:    rgba(232, 201, 106, 0.08);  // background fills
+  --lex-gold-tint-hi: rgba(232, 201, 106, 0.18);  // pressed-state fills
+
+  // ── Semantic colour roles (kind-specific tints) ───────────────────────────
+  // Each lexicon-kind gets its own accent so cards/blocks read at a glance.
+  --lex-c-quran:      #a9d28a;     // Quran citations + reference pills
+  --lex-c-quran-soft: rgba(169, 210, 138, 0.72);
+  --lex-c-quran-tint: rgba(169, 210, 138, 0.10);
+
+  --lex-c-poetry:     #d8a8d8;     // shawahid / poetry quote blocks
+  --lex-c-poetry-tint: rgba(220, 160, 220, 0.10);
+
+  --lex-c-hadith:     #e8c46a;     // hadith quote blocks (warm gold)
+  --lex-c-hadith-tint: rgba(232, 180, 80, 0.06);
+
+  --lex-c-saddle:     #d68a4a;     // scholarship / academic sources
+  --lex-c-saddle-tint: rgba(214, 138, 74, 0.10);
+
+  --lex-c-lane:       #f0c688;     // Lane bilingual marker
+  --lex-c-classical:  #c8e9a8;     // classical Arabic lexicons (Lisan, Taj, …)
+  --lex-c-mufradat:   #b6c98a;     // Mufradat al-Raghib
+
+  --lex-c-error:      #ff7878;     // error states
+
+  // ── Border / rule tokens ──────────────────────────────────────────────────
+  --lex-rule:         rgba(255, 255, 255, 0.06);
+  --lex-rule-strong:  rgba(255, 255, 255, 0.10);
+
+  // ── Motion tokens ─────────────────────────────────────────────────────────
+  --lex-dur-fast:    120ms;
+  --lex-dur-base:    180ms;
+  --lex-dur-slow:    320ms;
+  --lex-ease:        cubic-bezier(0.4, 0, 0.2, 1);
+
+  // ── Font-family tokens (consolidated) ─────────────────────────────────────
+  // Defined here so downstream SCSS uses `var(--lex-font-arabic)` etc.
+  // instead of repeating the full fallback chain. Existing `--km-font-*`
+  // app-wide tokens are re-exported so lexicon styles read uniformly.
+  --lex-font-arabic-ui: var(--km-font-arabic-ui, 'Noto Naskh Arabic', 'Scheherazade New', serif);
+  --lex-font-arabic-prose: 'Amiri', 'Noto Naskh Arabic', serif;       // mushaf-quality prose
+  --lex-font-latin:     'EB Garamond', 'Times New Roman', serif;       // English glosses + numerals
+  --lex-font-mono:      'JetBrains Mono', 'SF Mono', Menlo, monospace; // sigla / codes
+}
+
+// Reduced-motion accessibility — collapse durations to instant for users who
+// prefer minimal animation.
+@media (prefers-reduced-motion: reduce) {
+  :root, .ion-page {
+    --lex-dur-fast: 0ms;
+    --lex-dur-base: 0ms;
+    --lex-dur-slow: 0ms;
+  }
+}

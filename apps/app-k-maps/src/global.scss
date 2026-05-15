@@ -3194,6 +3194,7 @@ ion-modal.km-note-workspace-modal::part(content) {
 }
 
 @include meta.load-css("./theme/app-foundation");
+@include meta.load-css("./theme/lexicon-tokens");
 
 // ── Docs: kill Ionic primary-colour focus ring on contenteditable ──────────
 // Ionic sets --highlight-color-focused = primary (gold) which draws a gold
