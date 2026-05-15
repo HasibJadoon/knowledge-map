@@ -194,13 +194,11 @@ export class WordPopoverComponent {
   }
 
   /** word.text is QPC PUA-encoded (only renders with the per-page QPC font);
-   *  Amiri/Noto Naskh can't render those glyphs and would show tofu. Only show
-   *  word.simple when it's a real readable word (>1 char). If simple is missing
-   *  or just a stray character, return empty so the header hides the word span
-   *  — the user already sees the actual word in the reader behind the popover. */
+   *  Amiri/Noto Naskh can't render those glyphs. Prefer word.simple — populated
+   *  by the worker from qr_word_occurrences.word_text — and fall back to empty
+   *  so the header hides the word span if the morphology row is missing. */
   displayText(): string {
-    const simple = (this.word.simple ?? '').trim();
-    return simple.length > 1 ? simple : '';
+    return (this.word.simple ?? '').trim();
   }
 
   emitOpenRoot(): void {

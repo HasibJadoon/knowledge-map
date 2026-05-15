@@ -29,6 +29,19 @@ interface SurahRow {
   page_start: number | null;
 }
 
+interface WordOccurrenceRow {
+  surah: number;
+  ayah: number;
+  word_index: number;
+  word_text: string;
+  word_text_bare: string | null;
+  root: string | null;
+  lemma: string | null;
+  pos: string | null;
+  morphology_tag: string | null;
+  morphology_tag_json: string | null;
+}
+
 const BISMILLAH = '﷽';
 
 export class MushafRepo {
@@ -66,6 +79,13 @@ export class MushafRepo {
         )
       : [];
 
+    // Bulk-fetch morphology+plain text for every word token on this page.
+    // tokens_json only carries QPC PUA codepoints — the human-readable
+    // Arabic + root/lemma live in qr_word_occurrences, keyed by
+    // (surah, ayah, word_index). One query for the whole page beats N queries.
+    const wordTokens = allTokens.filter(t => t.char_type === 'word');
+    const wordMap = await this.fetchWordOccurrences(wordTokens);
+
     const ayahMap = new Map<string, { surah: number; ayah: number; marker: string | null; words: QrMushafLineAyah['words'] }>();
     for (const token of allTokens) {
       const key = `${token.surah}:${token.ayah}`;
@@ -73,7 +93,7 @@ export class MushafRepo {
       if (token.char_type === 'end') {
         entry.marker = token.text_qpc_hafs;
       } else {
-        entry.words.push(this.toWord(token));
+        entry.words.push(this.toWord(token, wordMap));
       }
       ayahMap.set(key, entry);
     }
@@ -106,11 +126,38 @@ export class MushafRepo {
         translation: null,
         words: ayah.words,
       })),
-      layout_lines: rows.map(row => this.toLine(row)),
+      layout_lines: rows.map(row => this.toLine(row, wordMap)),
     };
   }
 
-  private toLine(row: MushafLineRow) {
+  private async fetchWordOccurrences(
+    wordTokens: QrMushafToken[],
+  ): Promise<Map<string, WordOccurrenceRow>> {
+    if (!wordTokens.length) return new Map();
+
+    // Distinct ayahs on the page — typically 1-15. Fetch all words for
+    // those ayahs in a single query, then index by surah:ayah:word_index.
+    const ayahKeys = new Set<string>();
+    for (const t of wordTokens) ayahKeys.add(`${t.surah}:${t.ayah}`);
+    const ayahPairs = [...ayahKeys].map(k => k.split(':').map(Number) as [number, number]);
+
+    const conds = ayahPairs.map(() => '(surah = ? AND ayah = ?)').join(' OR ');
+    const params = ayahPairs.flat();
+    const rows = await query<WordOccurrenceRow>(
+      this.db,
+      `SELECT surah, ayah, word_index, word_text, word_text_bare,
+              root, lemma, pos, morphology_tag, morphology_tag_json
+       FROM qr_word_occurrences
+       WHERE ${conds}`,
+      params,
+    );
+
+    const map = new Map<string, WordOccurrenceRow>();
+    for (const row of rows) map.set(`${row.surah}:${row.ayah}:${row.word_index}`, row);
+    return map;
+  }
+
+  private toLine(row: MushafLineRow, wordMap: Map<string, WordOccurrenceRow>) {
     const tokens = this.parseTokens(row.tokens_json);
     const grouped = new Map<string, QrMushafLineAyah>();
 
@@ -125,7 +172,7 @@ export class MushafRepo {
       };
 
       if (token.char_type === 'end') ayah.marker = token.text_qpc_hafs;
-      else ayah.words.push(this.toWord(token));
+      else ayah.words.push(this.toWord(token, wordMap));
       grouped.set(key, ayah);
     }
 
@@ -142,19 +189,23 @@ export class MushafRepo {
     };
   }
 
-  private toWord(token: QrMushafToken): QrMushafLineAyah['words'][number] {
+  private toWord(
+    token: QrMushafToken,
+    wordMap: Map<string, WordOccurrenceRow>,
+  ): QrMushafLineAyah['words'][number] {
+    const occ = wordMap.get(`${token.surah}:${token.ayah}:${token.position}`);
     return {
       id: String(token.token_id),
       surah: token.surah,
       ayah: token.ayah,
       word_position: token.position,
       text_uthmani: token.text_qpc_hafs,
-      text_clean: null,
-      lx_lemma_ref: null,
-      root_text: null,
-      pos_tag: null,
-      morphology_tag: null,
-      morphology_tag_json: null,
+      text_clean: occ?.word_text ?? null,
+      lx_lemma_ref: occ?.lemma ?? null,
+      root_text: occ?.root ?? null,
+      pos_tag: occ?.pos ?? null,
+      morphology_tag: occ?.morphology_tag ?? null,
+      morphology_tag_json: occ?.morphology_tag_json ?? null,
     };
   }
 
