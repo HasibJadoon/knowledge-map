@@ -707,16 +707,50 @@ CREATE TABLE ar_ling_source_toc (
 );
 
 CREATE TABLE ar_ling_sources (
-  id              TEXT PRIMARY KEY,
-  title_ar        TEXT NOT NULL,
-  title_en        TEXT,
-  source_type     TEXT NOT NULL DEFAULT 'classical_grammar',
-  author_ref      TEXT,
-  author_name     TEXT,
-  period_label    TEXT,
-  note_md         TEXT,
-  created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+  id                  TEXT PRIMARY KEY,
+  title_ar            TEXT NOT NULL,
+  title_en            TEXT,
+  source_type         TEXT NOT NULL DEFAULT 'classical_grammar',
+  author_ref          TEXT,
+  author_name         TEXT,
+  period_label        TEXT,
+  note_md             TEXT,
+  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  -- `genre` is set by scholarship/non-lexicon ingest paths and used by the
+  -- catalog UI to colour-tint per-genre cards. Always TEXT — no enum.
+  genre               TEXT,
+  -- ─── Lexicon-source metadata (migration 0016) ────────────────────────
+  -- The next six columns make ar_ling_sources the single source of truth
+  -- for everything the worker's lexicon routes used to hardcode in TS
+  -- Record<slug,{…}> maps. See SourcesRepo for the read API and
+  -- migrations 0016 + 0017 + 0018 for the column adds and the data seed.
+  --
+  -- slug: TS-side stable identifier, also the URL path segment for the
+  -- per-source /al/lex/v2/read/<slug>/:root endpoints. NULL for orphan
+  -- duplicate rows that pre-date the ketabonline→qomra migration.
+  slug                TEXT,
+  -- origin: publisher pipeline that produced the source chunks. One of
+  -- lane / ketabonline / thahabi / saaid / qomra. Two editions of the
+  -- same book (e.g. al-Qamus from qomra and ketabonline) share a title
+  -- but have different parsing characteristics; origin disambiguates.
+  origin              TEXT,
+  -- bilingual: Lane only. Drives two-column reader layouts.
+  bilingual           INTEGER NOT NULL DEFAULT 0,
+  -- Parser hints used by the lisan composer (lexicon_lisan.ts) to decide
+  -- HOW to extract footnote text and Quran citations from each source.
+  footnote_source     TEXT,   -- 'inline_brackets' | 'footnote_blocks' | 'none'
+  quran_block_shape   TEXT,   -- 'inline_verse' | 'cue_only_verse_in_braces'
+  -- source_order: catalogue display rank (lower = earlier). NULL sorts
+  -- to the end so newly imported sources stay visible until ranked.
+  source_order        INTEGER
 );
+
+CREATE UNIQUE INDEX idx_ar_ling_sources_slug
+  ON ar_ling_sources(slug) WHERE slug IS NOT NULL;
+CREATE INDEX idx_ar_ling_sources_origin
+  ON ar_ling_sources(origin);
+CREATE INDEX idx_ar_ling_sources_source_order
+  ON ar_ling_sources(source_order) WHERE source_order IS NOT NULL;
 
 CREATE TABLE ar_ling_syntax_relation_types (
   id              TEXT PRIMARY KEY,
