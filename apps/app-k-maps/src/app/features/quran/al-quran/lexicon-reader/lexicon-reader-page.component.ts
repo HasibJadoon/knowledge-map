@@ -676,6 +676,25 @@ export class LexiconReaderPageComponent implements OnDestroy {
     return out;
   }
 
+  // ── Empty-classical detection ────────────────────────────────────────
+  // Some classical-source roots ingest with only a section header and no
+  // body content — al-Qamus al-Muhit and the qomra brace-only sources hit
+  // this for several thousand roots. Without an explicit empty-state the
+  // user sees just the root title + stats chips, no body, and assumes the
+  // page didn't load. This helper flags those cases so the template can
+  // surface a "no content in this source" card with a suggestion to try
+  // another lexicon.
+  classicalEntryIsEmpty(): boolean {
+    const v = this.classicalView();
+    if (!v || !v.sections?.length) return false;  // no entry at all → not "empty body", a different error
+    for (const s of v.sections) {
+      if (this.blocksForSection(s.id).length > 0) return false;
+      if (s.body?.paragraphs?.some(p => p.trim().length > 0)) return false;
+      if (s.text_ar && s.text_ar.trim().length > 0) return false;
+    }
+    return true;
+  }
+
   // ── Scholarship body_md → structured blocks (Phase D) ──────────────────
   //
   // Academic scholarship notes (Al-Jallad's archaeological hermeneutic,
@@ -772,16 +791,24 @@ export class LexiconReaderPageComponent implements OnDestroy {
     const v = this.classicalView();
     if (!v) return [];
     if (this._classicalBlockBucketsView !== v) {
-      // Rebuild buckets. Top-level only (parent_block_id IS NULL) — child
-      // blocks render recursively inside their parent's callout, not as
-      // separate siblings. Footnote blocks are excluded from inline display
-      // (they're surfaced via the footnote modal sheet); their markers
-      // appear as inline (N) superscripts inside other blocks' text_plain.
+      // Rebuild buckets. Include nested blocks because some ingest paths
+      // (notably al-Qamus al-Muhit / qomra_*) emit the actual definition
+      // block as a CHILD of a root_header wrapper — filtering on
+      // parent_block_id IS NULL hides every definition in those sources.
+      // The block_seq ordering is global within a section so the visual
+      // sequence stays correct.
+      //
+      // Skipped block types:
+      //   footnote       — surfaced via the footnote modal sheet
+      //   page_break     — has no body meaning
+      //   root_header    — wrapper carrying just the root; H1 already shows it
+      //   chapter_header — page/chapter wrapper from book ingest
       const buckets = new Map<string, LexV2Block[]>();
       for (const b of v.blocks ?? []) {
-        if (b.parent_block_id) continue;
         if (b.block_type === 'footnote') continue;
         if (b.block_type === 'page_break') continue;
+        if (b.block_type === 'root_header') continue;
+        if (b.block_type === 'chapter_header') continue;
         const sid = b.section_id ?? '';
         const arr = buckets.get(sid) ?? [];
         arr.push(b);

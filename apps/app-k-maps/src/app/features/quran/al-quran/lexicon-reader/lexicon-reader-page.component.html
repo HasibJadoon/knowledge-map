@@ -613,16 +613,42 @@
            — covers legacy ingest paths and the brace-only sources. -->
       @if (kind() === 'classical' && classicalView(); as cv) {
         <article class="rdr-classical rdr-selectable" dir="rtl">
+
+          <!-- Empty-state card: section headings exist but no body content
+               was ingested for this root in this source. Surfaces an
+               explicit message instead of showing a blank article. -->
+          @if (classicalEntryIsEmpty()) {
+            <aside class="rdr-empty-entry" dir="rtl">
+              <ion-icon class="rdr-empty-entry__icon" name="document-outline" aria-hidden="true"></ion-icon>
+              <h2 class="rdr-empty-entry__title">No body content for this root in this source</h2>
+              <p class="rdr-empty-entry__hint">
+                This lexicon has the root indexed but no entry text was ingested.
+                Try opening the same root in another source — Lisan al-Arab,
+                Taj al-Arus, or Mufradat usually have rich entries for common roots.
+              </p>
+              <ion-button class="rdr-empty-entry__cta"
+                          fill="outline" size="small"
+                          (click)="goBack()">
+                <ion-icon slot="start" name="library-outline"></ion-icon>
+                Browse other lexicons
+              </ion-button>
+            </aside>
+          }
+
           @for (s of cv.sections; track s.id) {
-            <section class="rdr-section">
-              @if (s.heading_ar) {
-                <header class="rdr-section__head">
-                  <h2 class="rdr-section__title" lang="ar" dir="rtl">{{ s.heading_ar }}</h2>
-                  @if (s.page_no) {
-                    <span class="rdr-section__page">ص {{ s.page_no }}</span>
-                  }
-                </header>
-              }
+            <!-- When the entry is wholly empty the heading-only sections would
+                 just echo the root text under the H1 — suppress them; the
+                 empty-state card above tells the full story. -->
+            @if (!classicalEntryIsEmpty()) {
+              <section class="rdr-section">
+                @if (s.heading_ar) {
+                  <header class="rdr-section__head">
+                    <h2 class="rdr-section__title" lang="ar" dir="rtl">{{ s.heading_ar }}</h2>
+                    @if (s.page_no) {
+                      <span class="rdr-section__page">ص {{ s.page_no }}</span>
+                    }
+                  </header>
+                }
 
               @if (blocksForSection(s.id).length) {
                 @for (b of blocksForSection(s.id); track b.id) {
