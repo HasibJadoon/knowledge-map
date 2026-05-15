@@ -197,9 +197,19 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 4px;
-    margin-top: 0.4rem;
-    ion-button { --color: var(--gold-soft); }
+    gap: var(--lex-sp-sm);
+    margin-top: var(--lex-sp-xs);
+    // Prev/next root is primary navigation — give it the full --lex-tap
+    // (44pt iOS HIG minimum) instead of inheriting ion-button size="small".
+    ion-button {
+      --color: var(--lex-gold-soft);
+      --padding-start: 0;
+      --padding-end: 0;
+      width: var(--lex-tap);
+      height: var(--lex-tap);
+      margin: 0;
+      ion-icon { font-size: 1.25rem; }
+    }
   }
 }
 
@@ -234,50 +244,54 @@
 .rdr-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--lex-sp-sm);
   flex: 0 0 auto;
-  height: 28px;
-  padding: 0 0.7rem;
+  // Lifted from 28px → 36px (--lex-tap-sm). The chip strip is dense and a
+  // full 44pt target would crowd the row; 36 still clears the typical
+  // thumb hit zone for in-flow controls per Material/HIG dense-row guidance.
+  height: var(--lex-tap-sm);
+  padding: 0 var(--lex-sp-md);
   background: transparent;
-  border: 1px solid rgba(201, 168, 76, 0.22);
-  border-radius: 999px;
-  color: rgba(245, 241, 231, 0.78);
-  font-family: var(--km-font-arabic-ui, serif);
-  font-size: 0.8rem;
+  border: 1px solid var(--lex-gold-line);
+  border-radius: var(--lex-radius-pill);
+  color: var(--lex-ink);
+  font-family: var(--lex-font-arabic-ui);
+  font-size: var(--lex-fs-sm);
   line-height: 1;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.12s ease, color 0.12s ease;
+  transition: border-color var(--lex-dur-fast) var(--lex-ease),
+              color var(--lex-dur-fast) var(--lex-ease);
 
   &:active {
-    border-color: rgba(232, 201, 106, 0.6);
-    color: #f3d77a;
+    border-color: var(--lex-gold-soft);
+    color: var(--lex-gold-bright);
   }
 
   &__label {
     font-weight: 500;
-    letter-spacing: 0.01em;
+    letter-spacing: var(--lex-tracking-normal);
   }
 
-  // Subtle inline numeral — same gold tone but lighter weight so the label
-  // remains the primary read. Tabular-nums keeps widths stable.
+  // Subtle inline numeral — same gold tone but tabular for stable widths.
   &__count {
-    color: rgba(232, 201, 106, 0.78);
-    font-family: 'EB Garamond', serif;
+    color: var(--lex-gold-soft);
+    font-family: var(--lex-font-latin);
     font-variant-numeric: tabular-nums;
-    font-size: 0.82rem;
+    font-size: var(--lex-fs-sm);
     font-weight: 600;
   }
 
   // Icon-only chip variant (copy button, font-scale steppers). Same pill
   // shape as labelled chips so they sit flush in the row, but square aspect.
+  // Width matches --lex-tap-sm so the icon stays centred in a 36×36 hit area.
   &--icon,
   &--copy {
-    width: 28px;
+    width: var(--lex-tap-sm);
     padding: 0;
     justify-content: center;
     color: var(--lex-gold-soft);
-    ion-icon { font-size: 1rem; }
+    ion-icon { font-size: 1.05rem; }
     &:active { color: var(--lex-gold-bright); }
 
     &[disabled] {
@@ -1175,41 +1189,54 @@ ion-accordion {
   appearance: none;
   background: transparent;
   border: 1px solid transparent;
-  border-radius: 8px;
+  border-radius: var(--lex-radius-md);
   width: 100%;
-  padding: 8px 12px;
+  // Picker rows lifted to --lex-tap-sm (36px) min-height so every root in
+  // the alphabetical index hits the dense-row thumb target. Padding bumps
+  // from 8/12 to 10/14 to keep the visual airiness while honouring the floor.
+  min-height: var(--lex-tap-sm);
+  padding: 10px 14px;
   display: flex;
   align-items: center;
-  gap: 8px;
-  color: var(--ink);
+  gap: var(--lex-sp-sm);
+  color: var(--lex-ink);
   font: inherit;
   text-align: right;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
-  &:active { background: rgba(232, 201, 106, 0.10); color: var(--gold); }
-  &.active { background: rgba(232, 201, 106, 0.18); color: var(--gold); border-color: var(--gold-line); font-weight: 700; }
-  &__ar    { flex: 1; font-family: 'Amiri', 'Scheherazade New', serif; font-size: 1.05rem; }
-  &__page  { color: var(--ink-faint); font-size: 0.74rem; font-variant-numeric: tabular-nums; }
+  transition: background var(--lex-dur-fast) var(--lex-ease),
+              color var(--lex-dur-fast) var(--lex-ease),
+              border-color var(--lex-dur-fast) var(--lex-ease);
+  &:active { background: var(--lex-gold-tint); color: var(--lex-gold); }
+  &.active {
+    background: var(--lex-gold-tint-hi);
+    color: var(--lex-gold);
+    border-color: var(--lex-gold-line);
+    font-weight: 700;
+  }
+  &__ar    { flex: 1; font-family: 'Amiri', 'Scheherazade New', serif; font-size: var(--lex-fs-md); }
+  &__page  { color: var(--lex-ink-faint); font-size: var(--lex-fs-xs); font-variant-numeric: tabular-nums; }
   &__copy {
     appearance: none;
     background: transparent;
     border: 1px solid transparent;
-    border-radius: 6px;
-    width: 30px;
-    height: 30px;
+    border-radius: var(--lex-radius-md);
+    width: var(--lex-tap-sm);
+    height: var(--lex-tap-sm);
     display: inline-grid;
     place-items: center;
-    color: var(--gold-soft);
+    color: var(--lex-gold-soft);
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
-    transition: background 0.15s, border-color 0.15s, color 0.15s;
+    transition: background var(--lex-dur-fast) var(--lex-ease),
+                border-color var(--lex-dur-fast) var(--lex-ease),
+                color var(--lex-dur-fast) var(--lex-ease);
     &:active {
-      background: rgba(232, 201, 106, 0.14);
-      border-color: var(--gold-line);
-      color: var(--gold);
+      background: var(--lex-gold-tint);
+      border-color: var(--lex-gold-line);
+      color: var(--lex-gold);
     }
-    ion-icon { font-size: 16px; }
+    ion-icon { font-size: 1rem; }
   }
 }
 
