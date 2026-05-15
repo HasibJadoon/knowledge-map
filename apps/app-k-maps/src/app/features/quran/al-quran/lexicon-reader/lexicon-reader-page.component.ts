@@ -676,6 +676,81 @@ export class LexiconReaderPageComponent implements OnDestroy {
     return out;
   }
 
+  // ── Scholarship body_md → structured blocks (Phase D) ──────────────────
+  //
+  // Academic scholarship notes (Al-Jallad's archaeological hermeneutic,
+  // comparative-Semitic readings, epigraphic studies) ship as `body_md`
+  // markdown strings on each note. The previous template flattened these
+  // into a single <p> with qref/fn inline segments — no headings, no
+  // blockquotes, no lists. This minimal markdown parser carves the body
+  // into a typed block stream the template can render with proper
+  // hierarchy:
+  //
+  //   heading       lines starting with one or more "#" — level = count
+  //   blockquote    lines starting with "> " — usually a primary source quote
+  //   list          consecutive lines starting with "- " or "* "
+  //   paragraph     everything else, separated by blank lines
+  //
+  // Only block structure is parsed here; inline formatting (qref/fn, bold,
+  // italic) stays in the bodySegments() pipeline used in templates.
+  parseScholarshipBody(text: string | null | undefined):
+    Array<{ kind: 'heading' | 'paragraph' | 'blockquote'; level?: number; text: string } |
+          { kind: 'list'; items: string[] }> {
+    if (!text) return [];
+    const lines = text.replace(/\r\n/g, '\n').split('\n');
+    const out: ReturnType<typeof this.parseScholarshipBody> = [];
+    let para: string[] = [];
+    let list: string[] | null = null;
+    const flushPara = () => {
+      if (para.length) {
+        out.push({ kind: 'paragraph', text: para.join(' ').trim() });
+        para = [];
+      }
+    };
+    const flushList = () => {
+      if (list && list.length) {
+        out.push({ kind: 'list', items: list });
+        list = null;
+      }
+    };
+    for (const raw of lines) {
+      const line = raw.trimEnd();
+      if (!line.trim()) { flushPara(); flushList(); continue; }
+
+      // List items — consecutive lines starting with - or *
+      const liMatch = line.match(/^\s*[-*]\s+(.*)$/);
+      if (liMatch) {
+        flushPara();
+        list ??= [];
+        list.push(liMatch[1]);
+        continue;
+      } else {
+        flushList();
+      }
+
+      // Heading — leading #'s. Level 1-6, capped.
+      const hMatch = line.match(/^\s*(#{1,6})\s+(.*)$/);
+      if (hMatch) {
+        flushPara();
+        out.push({ kind: 'heading', level: hMatch[1].length, text: hMatch[2] });
+        continue;
+      }
+
+      // Blockquote — leading "> "
+      if (/^\s*>\s+/.test(line)) {
+        flushPara();
+        out.push({ kind: 'blockquote', text: line.replace(/^\s*>\s+/, '') });
+        continue;
+      }
+
+      // Otherwise collect into the current paragraph
+      para.push(line);
+    }
+    flushPara();
+    flushList();
+    return out;
+  }
+
   // ── Classical block-tree rendering (Phase A) ────────────────────────────
   //
   // The classical reader (Lisan / Taj / Sihah / Maqayis / Ubab / Misbah /

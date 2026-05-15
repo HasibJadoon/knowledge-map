@@ -878,28 +878,86 @@
                   <span class="rdr-note__page">ص {{ n.page_range || n.page_no }}</span>
                 }
               </header>
-              @if (n.body_plain || n.body_md) {
-                <p class="rdr-note__body" dir="ltr">
-                  @for (seg of bodySegments(n.body_plain || n.body_md); track $index) {
-                    @switch (seg.kind) {
-                      @case ('qref') {
-                        <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
-                          <span class="rdr-qref__bracket">﴿</span><span
-                            class="rdr-qref__surah">{{ seg.surah }}</span><span
-                            class="rdr-qref__sep">:</span><span
-                            class="rdr-qref__ayah">{{ seg.ayah }}</span><span
-                            class="rdr-qref__bracket">﴾</span>
-                        </a>
+              @if (n.body_md || n.body_plain) {
+                <!-- Phase D: parse the markdown body into a typed block stream
+                     (headings / blockquotes / lists / paragraphs). Each block
+                     gets its own renderer with inline qref + footnote parsing
+                     on text content. body_md is preferred; falls back to
+                     body_plain when only the plain version exists. -->
+                <div class="rdr-note__body" dir="ltr">
+                  @for (block of parseScholarshipBody(n.body_md || n.body_plain); track $index) {
+                    @switch (block.kind) {
+                      @case ('heading') {
+                        @switch (block.level) {
+                          @case (1) { <h3 class="rdr-note__h" data-level="1">{{ block.text }}</h3> }
+                          @case (2) { <h4 class="rdr-note__h" data-level="2">{{ block.text }}</h4> }
+                          @default  { <h5 class="rdr-note__h" data-level="3">{{ block.text }}</h5> }
+                        }
                       }
-                      @case ('fn') {
-                        <button class="rdr-fn rdr-fn--has-text" type="button"
-                                [attr.aria-label]="'حاشية ' + seg.fn"
-                                (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
+                      @case ('blockquote') {
+                        <blockquote class="rdr-note__quote">
+                          @for (seg of bodySegments(block.text); track $index) {
+                            @switch (seg.kind) {
+                              @case ('qref') {
+                                <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
+                                  <span class="rdr-qref__bracket">﴿</span><span class="rdr-qref__surah">{{ seg.surah }}</span><span class="rdr-qref__sep">:</span><span class="rdr-qref__ayah">{{ seg.ayah }}</span><span class="rdr-qref__bracket">﴾</span>
+                                </a>
+                              }
+                              @case ('fn') {
+                                <button class="rdr-fn rdr-fn--has-text" type="button"
+                                        [attr.aria-label]="'footnote ' + seg.fn"
+                                        (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
+                              }
+                              @default { <span>{{ seg.value }}</span> }
+                            }
+                          }
+                        </blockquote>
                       }
-                      @default { <span>{{ seg.value }}</span> }
+                      @case ('list') {
+                        <ul class="rdr-note__list">
+                          @for (item of block.items; track $index) {
+                            <li>
+                              @for (seg of bodySegments(item); track $index) {
+                                @switch (seg.kind) {
+                                  @case ('qref') {
+                                    <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
+                                      <span class="rdr-qref__bracket">﴿</span><span class="rdr-qref__surah">{{ seg.surah }}</span><span class="rdr-qref__sep">:</span><span class="rdr-qref__ayah">{{ seg.ayah }}</span><span class="rdr-qref__bracket">﴾</span>
+                                    </a>
+                                  }
+                                  @case ('fn') {
+                                    <button class="rdr-fn rdr-fn--has-text" type="button"
+                                            [attr.aria-label]="'footnote ' + seg.fn"
+                                            (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
+                                  }
+                                  @default { <span>{{ seg.value }}</span> }
+                                }
+                              }
+                            </li>
+                          }
+                        </ul>
+                      }
+                      @default {
+                        <p class="rdr-note__p">
+                          @for (seg of bodySegments(block.text); track $index) {
+                            @switch (seg.kind) {
+                              @case ('qref') {
+                                <a class="rdr-qref" (click)="openAyah(seg.surah!, seg.ayah!)">
+                                  <span class="rdr-qref__bracket">﴿</span><span class="rdr-qref__surah">{{ seg.surah }}</span><span class="rdr-qref__sep">:</span><span class="rdr-qref__ayah">{{ seg.ayah }}</span><span class="rdr-qref__bracket">﴾</span>
+                                </a>
+                              }
+                              @case ('fn') {
+                                <button class="rdr-fn rdr-fn--has-text" type="button"
+                                        [attr.aria-label]="'footnote ' + seg.fn"
+                                        (click)="openFootnotes(seg.fn!)">{{ seg.fn }}</button>
+                              }
+                              @default { <span>{{ seg.value }}</span> }
+                            }
+                          }
+                        </p>
+                      }
                     }
                   }
-                </p>
+                </div>
               }
             </article>
           }

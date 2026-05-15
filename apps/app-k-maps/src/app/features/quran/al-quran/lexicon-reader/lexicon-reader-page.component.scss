@@ -1197,12 +1197,53 @@
     font-size: 0.76rem;
     font-family: 'Amiri', serif;
   }
+  // Phase D: body is now a block stream parsed from body_md. Each child
+  // (headings, blockquote, list, paragraph) renders with its own rhythm
+  // via the rules below; the wrapper drops `text-align: justify` because
+  // headings/lists shouldn't justify, only paragraph text should.
   &__body {
     margin: 0;
-    font-size: 0.96rem;
-    line-height: 1.75;
-    color: var(--ink);
+    font-size: var(--lex-fs-base);
+    line-height: var(--lex-lh-body);
+    color: var(--lex-ink);
+  }
+  &__p {
+    margin: 0 0 var(--lex-sp-md);
+    line-height: var(--lex-lh-body);
     text-align: justify;
+    hyphens: auto;
+    &:last-child { margin-bottom: 0; }
+  }
+  &__h {
+    margin: var(--lex-sp-md) 0 var(--lex-sp-sm);
+    color: var(--lex-gold);
+    font-family: var(--lex-font-latin);
+    font-weight: 600;
+    letter-spacing: var(--lex-tracking-tight);
+    &[data-level="1"] { font-size: var(--lex-fs-lg);  }
+    &[data-level="2"] { font-size: var(--lex-fs-md);  color: var(--lex-gold-soft); }
+    &[data-level="3"] { font-size: var(--lex-fs-base); color: var(--lex-ink-soft); text-transform: uppercase; letter-spacing: var(--lex-tracking-wide); }
+    &:first-child { margin-top: 0; }
+  }
+  &__quote {
+    margin: var(--lex-sp-md) 0;
+    padding: var(--lex-sp-sm) var(--lex-sp-md);
+    border-inline-start: 3px solid var(--lex-c-saddle);
+    background: var(--lex-c-saddle-tint);
+    border-radius: 0 var(--lex-radius-md) var(--lex-radius-md) 0;
+    color: var(--lex-ink);
+    font-family: 'Source Serif Pro', Georgia, serif;
+    font-style: italic;
+    line-height: var(--lex-lh-body);
+  }
+  &__list {
+    margin: var(--lex-sp-sm) 0 var(--lex-sp-md);
+    padding-inline-start: var(--lex-sp-xl);
+    li {
+      margin-bottom: var(--lex-sp-xs);
+      line-height: var(--lex-lh-body);
+      &::marker { color: var(--lex-gold-soft); }
+    }
   }
 }
 
