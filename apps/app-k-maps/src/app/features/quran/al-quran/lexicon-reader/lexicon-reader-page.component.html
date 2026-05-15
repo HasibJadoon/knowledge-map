@@ -412,6 +412,48 @@
             </button>
           </div>
         </div>
+
+        <!-- Aggregated-content chips — directly under the title for top-of-fold
+             visibility. Each chip opens a bottom-sheet modal listing all
+             instances of that kind in the current entry. Chips render only
+             when their list is non-empty so the row stays tight. -->
+        @if (quranCitesList().length || footnoteList().length
+             || hadithList().length || poetryList().length
+             || authoritiesList().length) {
+          <div class="rdr-chips" dir="rtl">
+            @if (quranCitesList().length) {
+              <button class="rdr-chip rdr-chip--qref" type="button" (click)="openQuranCites()">
+                <span class="rdr-chip__label">قرآن</span>
+                <span class="rdr-chip__count">{{ quranCitesList().length }}</span>
+              </button>
+            }
+            @if (footnoteList().length) {
+              <button class="rdr-chip rdr-chip--fn" type="button" (click)="openFootnotes()">
+                <span class="rdr-chip__label">حواشي</span>
+                <span class="rdr-chip__count">{{ footnoteList().length }}</span>
+              </button>
+            }
+            @if (hadithList().length) {
+              <button class="rdr-chip rdr-chip--hadith" type="button" (click)="openHadith()">
+                <span class="rdr-chip__label">حديث</span>
+                <span class="rdr-chip__count">{{ hadithList().length }}</span>
+              </button>
+            }
+            @if (poetryList().length) {
+              <button class="rdr-chip rdr-chip--poetry" type="button" (click)="openPoetry()">
+                <span class="rdr-chip__label">شعر</span>
+                <span class="rdr-chip__count">{{ poetryList().length }}</span>
+              </button>
+            }
+            @if (authoritiesList().length) {
+              <button class="rdr-chip rdr-chip--auth" type="button" (click)="openAuthorities()">
+                <span class="rdr-chip__label">أعلام</span>
+                <span class="rdr-chip__count">{{ authoritiesList().length }}</span>
+              </button>
+            }
+          </div>
+        }
+
         <p class="rdr-entry-head__stats">{{ statsLine() }}</p>
         <div class="rdr-entry-head__nav">
           <ion-button fill="clear" size="small" (click)="prevRoot()" [disabled]="currentRootIndex() <= 0" aria-label="السابق">
@@ -420,47 +462,6 @@
           <ion-button fill="clear" size="small" (click)="nextRoot()" [disabled]="currentRootIndex() >= rootList().length - 1" aria-label="التالي">
             <ion-icon name="chevron-up-outline" slot="icon-only"></ion-icon>
           </ion-button>
-        </div>
-
-        <!-- Aggregated-content chips. Each chip opens a bottom-sheet modal
-             listing all instances of that kind in the current entry. Chips
-             are conditional — they appear only when the list is non-empty. -->
-        <div class="rdr-chips" dir="rtl">
-          @if (quranCitesList().length) {
-            <button class="rdr-chip rdr-chip--qref" type="button" (click)="openQuranCites()">
-              <ion-icon name="book-outline"></ion-icon>
-              <span class="rdr-chip__label">قرآن</span>
-              <span class="rdr-chip__count">{{ quranCitesList().length }}</span>
-            </button>
-          }
-          @if (footnoteList().length) {
-            <button class="rdr-chip rdr-chip--fn" type="button" (click)="openFootnotes()">
-              <ion-icon name="document-text-outline"></ion-icon>
-              <span class="rdr-chip__label">حواشي</span>
-              <span class="rdr-chip__count">{{ footnoteList().length }}</span>
-            </button>
-          }
-          @if (hadithList().length) {
-            <button class="rdr-chip rdr-chip--hadith" type="button" (click)="openHadith()">
-              <ion-icon name="chatbubble-outline"></ion-icon>
-              <span class="rdr-chip__label">حديث</span>
-              <span class="rdr-chip__count">{{ hadithList().length }}</span>
-            </button>
-          }
-          @if (poetryList().length) {
-            <button class="rdr-chip rdr-chip--poetry" type="button" (click)="openPoetry()">
-              <ion-icon name="musical-notes-outline"></ion-icon>
-              <span class="rdr-chip__label">شعر</span>
-              <span class="rdr-chip__count">{{ poetryList().length }}</span>
-            </button>
-          }
-          @if (authoritiesList().length) {
-            <button class="rdr-chip rdr-chip--auth" type="button" (click)="openAuthorities()">
-              <ion-icon name="people-outline"></ion-icon>
-              <span class="rdr-chip__label">أعلام</span>
-              <span class="rdr-chip__count">{{ authoritiesList().length }}</span>
-            </button>
-          }
         </div>
       </header>
 

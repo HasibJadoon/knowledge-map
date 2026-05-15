@@ -234,70 +234,55 @@
 }
 
 // ── Aggregated-content chips (Quran cites / Hadith / Poetry / Authorities)
-// Sit under the entry head as a horizontal scroll. Each chip opens a
-// bottom-sheet modal listing all instances of its kind in the current entry.
+// Sit directly under the entry title. Each chip opens a bottom-sheet modal
+// listing all instances of its kind in the current entry. Minimal pill
+// design: no icons, hairline border, tight padding — reads as metadata,
+// not a primary CTA. Tap target is still 32px tall for thumb accessibility.
 .rdr-chips {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
-  margin-top: 0.65rem;
-  padding-top: 0.55rem;
-  border-top: 1px solid rgba(201, 168, 76, 0.10);
+  justify-content: center;
+  gap: 0.34rem;
+  margin: 0.55rem 0 0.65rem;
 }
 
 .rdr-chip {
   display: inline-flex;
   align-items: center;
-  gap: 0.32rem;
-  padding: 0.28rem 0.55rem 0.28rem 0.62rem;
-  background: rgba(201, 168, 76, 0.06);
+  gap: 0.42rem;
+  height: 26px;
+  padding: 0 0.62rem;
+  background: transparent;
   border: 1px solid rgba(201, 168, 76, 0.22);
   border-radius: 999px;
-  color: var(--gold-soft, #d9bd62);
+  color: rgba(232, 201, 106, 0.82);
   font-family: var(--km-font-arabic-ui, serif);
   font-size: 0.78rem;
   line-height: 1;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
-  transition: background 0.12s, border-color 0.12s;
+  transition: background 0.12s ease, border-color 0.12s ease, color 0.12s ease;
 
   &:active {
-    background: rgba(232, 201, 106, 0.16);
+    background: rgba(232, 201, 106, 0.10);
     border-color: rgba(232, 201, 106, 0.46);
+    color: #f3d77a;
   }
-
-  ion-icon { font-size: 0.92rem; opacity: 0.88; }
 
   &__label {
     font-weight: 500;
     letter-spacing: 0.01em;
   }
 
+  // Plain inline numeral — no badge background, just a subtle tone shift.
+  // Tabular-nums keeps the chip width stable as counts grow.
   &__count {
-    display: inline-grid;
-    place-items: center;
-    min-width: 1.25rem;
-    padding: 0 0.35rem;
-    height: 1.1rem;
-    background: rgba(232, 201, 106, 0.16);
-    border-radius: 999px;
-    color: #f5f0de;
+    color: rgba(245, 241, 231, 0.58);
     font-family: 'EB Garamond', serif;
     font-variant-numeric: tabular-nums;
-    font-size: 0.74rem;
-    font-weight: 600;
+    font-size: 0.78rem;
+    font-weight: 500;
   }
-
-  // Subtle per-kind tinting so the chips are scannable at a glance.
-  &--qref   { border-color: rgba(169, 210, 138, 0.32); color: #b3d99a; }
-  &--qref   ion-icon { color: #b3d99a; }
-  &--fn     { border-color: rgba(160, 210, 255, 0.30); color: #a8c8f0; }
-  &--fn     ion-icon { color: #a8c8f0; }
-  &--hadith { border-color: rgba(232, 180, 80, 0.34); color: #e8c46a; }
-  &--poetry { border-color: rgba(220, 160, 220, 0.32); color: #d8a8d8; }
-  &--poetry ion-icon { color: #d8a8d8; }
-  &--auth   { border-color: rgba(180, 180, 180, 0.32); color: #c8c8c8; }
-  &--auth   ion-icon { color: #c8c8c8; }
 }
 
 // ── Shared sheet container for the four aggregated-content modals.
