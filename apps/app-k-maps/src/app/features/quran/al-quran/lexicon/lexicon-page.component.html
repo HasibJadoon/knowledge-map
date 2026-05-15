@@ -52,8 +52,11 @@
           @if (searching()) {
             <span class="lx-spinner" aria-hidden="true">⟳</span>
           } @else if (searchTerm()) {
-            <button class="lx-clear" type="button" (click)="clearSearch()" aria-label="مسح">
-              <ion-icon name="close-circle"></ion-icon>
+            <button class="lx-clear" type="button" (click)="clearSearch()" aria-label="Clear search">
+              <!-- Standardised on close-outline across all lexicon surfaces
+                   (matches lane-lexicon-page.html:113). The solid -circle
+                   variant was the only non-outline glyph in the suite. -->
+              <ion-icon name="close-outline"></ion-icon>
             </button>
           }
         </label>
@@ -86,12 +89,19 @@
               <button
                 class="lx-hit-card"
                 [class.lx-hit-card--lane]="src.slug === 'lane_lexicon'"
+                [attr.data-kind]="cardKind(src.slug)"
                 (click)="openSourceAtRoot(src)"
                 type="button"
               >
                 <header class="lx-hit-card__head">
+                  <!-- Leading kind glyph: distinguishes Lane / Mufradat /
+                       classical at a glance. Decorative — aria-hidden so the
+                       title still reads first to screen readers. -->
+                  <span class="lx-hit-card__kind" [attr.data-kind]="cardKind(src.slug)" aria-hidden="true">
+                    <ion-icon [name]="cardIcon(src.slug)"></ion-icon>
+                  </span>
                   <h3 class="lx-hit-card__title">{{ src.title_ar }}</h3>
-                  <span class="lx-hit-card__count" aria-label="عدد المدخلات">{{ h.count }}</span>
+                  <span class="lx-hit-card__count" aria-label="Number of entries">{{ h.count }}</span>
                 </header>
                 <p class="lx-hit-card__author">{{ src.author }} · {{ src.period }}</p>
 
@@ -128,13 +138,17 @@
             @for (c of scholarshipCards(); track c.source_id) {
               <button
                 class="lx-hit-card lx-hit-card--academic"
+                data-kind="academic"
                 [attr.data-genre]="c.genre"
                 (click)="openScholarshipAtRoot(c.source_slug)"
                 type="button"
               >
                 <header class="lx-hit-card__head">
+                  <span class="lx-hit-card__kind" data-kind="academic" aria-hidden="true">
+                    <ion-icon name="school-outline"></ion-icon>
+                  </span>
                   <h3 class="lx-hit-card__title">{{ c.title_ar || c.title_en }}</h3>
-                  <span class="lx-hit-card__count" aria-label="عدد الجذور">{{ c.notes.length }}</span>
+                  <span class="lx-hit-card__count" aria-label="Number of roots">{{ c.notes.length }}</span>
                 </header>
                 <p class="lx-hit-card__author">
                   {{ c.author }}@if (c.year) { · {{ c.year }} } · <span class="lx-hit-card__genre">{{ c.genre_label.ar }}</span>

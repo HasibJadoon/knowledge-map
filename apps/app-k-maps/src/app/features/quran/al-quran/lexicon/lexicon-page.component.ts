@@ -324,4 +324,27 @@ export class LexiconPageComponent implements OnInit {
   hasResults(): boolean {
     return this.hitsBySlug().size > 0 && this.hitSources().length > 0;
   }
+
+  /** Source-kind classification — drives the per-card glyph and the
+   *  data-kind CSS hook for kind-tinted accents (Phase 5). Keep this in
+   *  one place so the icon and the colour token always agree. */
+  cardKind(slug: string): 'lane' | 'mufradat' | 'classical' {
+    if (slug === 'lane_lexicon' || slug === 'lane_quranic_research_perseus') return 'lane';
+    if (slug === 'ketabonline_al_raghib_mufradat') return 'mufradat';
+    return 'classical';
+  }
+
+  /** Leading icon glyph in catalog cards. Picked from the Ionicons set so
+   *  every entry is visually distinguishable at a glance:
+   *    Lane (bilingual scholarly)   → language-outline
+   *    Mufradat (Quran-focused)     → book-outline
+   *    Classical Arabic lexicons    → library-outline
+   *    Academic scholarship         → school-outline (set inline in template
+   *                                   for academic cards) */
+  cardIcon(slug: string): string {
+    const kind = this.cardKind(slug);
+    if (kind === 'lane') return 'language-outline';
+    if (kind === 'mufradat') return 'book-outline';
+    return 'library-outline';
+  }
 }

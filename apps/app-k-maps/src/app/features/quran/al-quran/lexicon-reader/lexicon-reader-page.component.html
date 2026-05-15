@@ -476,11 +476,14 @@
         }
         <p class="rdr-entry-head__stats">{{ statsLine() }}</p>
         <div class="rdr-entry-head__nav">
-          <ion-button fill="clear" size="small" (click)="prevRoot()" [disabled]="currentRootIndex() <= 0" aria-label="السابق">
-            <ion-icon name="chevron-down-outline" slot="icon-only"></ion-icon>
-          </ion-button>
-          <ion-button fill="clear" size="small" (click)="nextRoot()" [disabled]="currentRootIndex() >= rootList().length - 1" aria-label="التالي">
+          <!-- prev/next match the alphabetical root index (vertical list).
+               Up arrow = earlier root, down arrow = later root. Aligns with
+               the user's mental model of scrolling the picker. -->
+          <ion-button fill="clear" size="small" (click)="prevRoot()" [disabled]="currentRootIndex() <= 0" aria-label="Previous root">
             <ion-icon name="chevron-up-outline" slot="icon-only"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" size="small" (click)="nextRoot()" [disabled]="currentRootIndex() >= rootList().length - 1" aria-label="Next root">
+            <ion-icon name="chevron-down-outline" slot="icon-only"></ion-icon>
           </ion-button>
         </div>
       </header>

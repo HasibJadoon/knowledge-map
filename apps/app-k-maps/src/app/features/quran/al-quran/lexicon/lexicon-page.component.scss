@@ -247,19 +247,42 @@
 
   &__head {
     display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 0.5rem;
+    align-items: center;
+    justify-content: flex-start;
+    gap: var(--lex-sp-sm, 8px);
+  }
+  // Leading kind glyph — circular badge with a soft kind-tint so the user
+  // can scan the catalog at a glance and tell Lane vs Mufradat vs classical
+  // vs academic apart without reading the Arabic title. Tinted via
+  // [data-kind] to match the card's bordering palette.
+  &__kind {
+    flex: 0 0 auto;
+    display: inline-grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    border: 1px solid var(--lex-gold-line);
+    background: var(--lex-gold-tint);
+    color: var(--lex-gold);
+    ion-icon { font-size: 1.05rem; }
+
+    &[data-kind='lane']      { color: var(--lex-c-lane);      border-color: rgba(240, 198, 136, 0.40); background: rgba(240, 198, 136, 0.10); }
+    &[data-kind='mufradat']  { color: var(--lex-c-mufradat);  border-color: rgba(182, 201, 138, 0.40); background: rgba(182, 201, 138, 0.10); }
+    &[data-kind='classical'] { color: var(--lex-c-classical); border-color: rgba(200, 233, 168, 0.32); background: rgba(200, 233, 168, 0.08); }
+    &[data-kind='academic']  { color: var(--lex-c-saddle);    border-color: rgba(214, 138, 74, 0.40);  background: rgba(214, 138, 74, 0.10); }
   }
   &__title {
     margin: 0;
-    color: var(--gold);
-    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
-    font-size: 1.05rem;
+    flex: 1;
+    min-width: 0;
+    color: var(--lex-gold);
+    font-family: var(--lex-font-arabic-ui);
+    font-size: var(--lex-fs-md);
     font-weight: 700;
-    line-height: 1.3;
+    line-height: var(--lex-lh-tight);
   }
-  &--lane &__title { color: var(--quran); }
+  &--lane &__title { color: var(--lex-c-quran); }
   &__count {
     flex: 0 0 auto;
     padding: 0.10rem 0.5rem;
