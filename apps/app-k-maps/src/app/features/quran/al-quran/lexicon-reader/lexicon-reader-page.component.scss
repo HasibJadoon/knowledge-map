@@ -342,33 +342,62 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  padding: 0.85rem 0.95rem 0;
-  font-family: var(--km-font-arabic-ui, serif);
+  padding: var(--lex-sp-md) var(--lex-sp-md) 0;
+  font-family: var(--lex-font-arabic-ui);
 
   &__head {
     flex: 0 0 auto;
     display: flex;
-    align-items: baseline;
-    gap: 0.55rem;
-    padding-bottom: 0.45rem;
-    border-bottom: 1px solid rgba(232, 201, 106, 0.18);
-    margin-bottom: 0.75rem;
+    align-items: center;
+    gap: var(--lex-sp-sm);
+    padding-bottom: var(--lex-sp-sm);
+    border-bottom: 1px solid var(--lex-gold-line);
+    margin-bottom: var(--lex-sp-md);
   }
   &__title {
     margin: 0;
-    color: #f3d77a;
-    font-size: 1.05rem;
+    color: var(--lex-gold-bright);
+    font-size: var(--lex-fs-md);
     font-weight: 600;
   }
   &__count {
-    margin-inline-start: auto;
-    padding: 1px 8px;
-    border: 1px solid rgba(232, 201, 106, 0.32);
-    border-radius: 999px;
-    color: rgba(232, 201, 106, 0.85);
-    font-family: 'EB Garamond', serif;
+    margin-inline-start: var(--lex-sp-2xs);
+    padding: 1px var(--lex-sp-sm);
+    border: 1px solid var(--lex-gold-line);
+    border-radius: var(--lex-radius-pill);
+    color: var(--lex-gold-soft);
+    font-family: var(--lex-font-latin);
     font-variant-numeric: tabular-nums;
-    font-size: 0.78rem;
+    font-size: var(--lex-fs-xs);
+  }
+}
+
+// Shared explicit-close button for every sheet header. Sits at the
+// leading edge of the dir="rtl" header (visually right in RTL, left in
+// LTR — flex naturally inverts). 36×36 hits --lex-tap-sm so the close
+// gesture is reachable for users who don't realise the sheet is also
+// swipe-to-dismiss / backdrop-tap-dismiss.
+.rdr-sheet-close {
+  appearance: none;
+  margin-inline-start: auto;
+  width: var(--lex-tap-sm);
+  height: var(--lex-tap-sm);
+  display: inline-grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid var(--lex-gold-line);
+  border-radius: var(--lex-radius-pill);
+  color: var(--lex-gold-soft);
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--lex-dur-fast) var(--lex-ease),
+              color var(--lex-dur-fast) var(--lex-ease),
+              border-color var(--lex-dur-fast) var(--lex-ease);
+  ion-icon { font-size: 1.15rem; }
+  &:active {
+    background: var(--lex-gold-tint);
+    border-color: var(--lex-gold-soft);
+    color: var(--lex-gold-bright);
   }
 }
 
@@ -869,33 +898,35 @@
   --background: transparent;
 }
 .rdr-fn-sheet {
-  padding: 0.6rem 1rem 2rem;
+  padding: var(--lex-sp-md) var(--lex-sp-lg) var(--lex-sp-2xl);
   font-family: var(--rdr-font-arabic);
 
   &__head {
     display: flex;
-    align-items: baseline;
-    gap: 0.5rem;
-    padding: 0.4rem 0 0.9rem;
-    border-bottom: 1px solid var(--rule);
-    margin-bottom: 0.8rem;
+    align-items: center;
+    gap: var(--lex-sp-sm);
+    padding: var(--lex-sp-xs) 0 var(--lex-sp-md);
+    border-bottom: 1px solid var(--lex-rule);
+    margin-bottom: var(--lex-sp-md);
   }
   &__title {
     margin: 0;
-    font-size: 1.05rem;
+    font-size: var(--lex-fs-md);
     font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 0.06em;
+    color: var(--lex-gold);
+    letter-spacing: var(--lex-tracking-wide);
   }
   &__count {
-    font-size: 0.74rem;
+    font-size: var(--lex-fs-xs);
     font-weight: 600;
-    color: var(--ink-soft);
-    background: rgba(232, 201, 106, 0.10);
-    border: 1px solid rgba(232, 201, 106, 0.22);
-    padding: 1px 8px;
-    border-radius: 999px;
-    margin-inline-start: auto;
+    color: var(--lex-ink-soft);
+    background: var(--lex-gold-tint);
+    border: 1px solid var(--lex-gold-line);
+    padding: 1px var(--lex-sp-sm);
+    border-radius: var(--lex-radius-pill);
+    // Count sits right after the title (gap), not at the far end —
+    // .rdr-sheet-close takes margin-inline-start: auto to anchor the
+    // close button at the trailing edge.
   }
 }
 .rdr-fn-list {

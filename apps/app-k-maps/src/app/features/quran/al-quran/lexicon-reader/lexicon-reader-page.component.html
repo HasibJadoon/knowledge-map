@@ -225,6 +225,9 @@
         <header class="rdr-fn-sheet__head">
           <h3 class="rdr-fn-sheet__title">الحواشي</h3>
           <span class="rdr-fn-sheet__count">{{ footnoteList().length }}</span>
+          <button class="rdr-sheet-close" type="button" (click)="closeFootnoteModal()" aria-label="Close">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
         </header>
 
         @if (footnoteList().length === 0) {
@@ -272,6 +275,9 @@
         <header class="rdr-cites-sheet__head">
           <h3 class="rdr-cites-sheet__title">آيات قرآنية مذكورة</h3>
           <span class="rdr-cites-sheet__count">{{ quranCitesList().length }}</span>
+          <button class="rdr-sheet-close" type="button" (click)="closeQuranCitesModal()" aria-label="Close">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
         </header>
         <ul class="rdr-cites-list">
           @for (c of quranCitesList(); track $index) {
@@ -309,6 +315,9 @@
         <header class="rdr-hadith-sheet__head">
           <h3 class="rdr-hadith-sheet__title">أحاديث مذكورة</h3>
           <span class="rdr-hadith-sheet__count">{{ hadithList().length }}</span>
+          <button class="rdr-sheet-close" type="button" (click)="closeHadithModal()" aria-label="Close">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
         </header>
         <ul class="rdr-hadith-list">
           @for (h of hadithList(); track $index) {
@@ -341,6 +350,9 @@
         <header class="rdr-poetry-sheet__head">
           <h3 class="rdr-poetry-sheet__title">شواهد شعرية</h3>
           <span class="rdr-poetry-sheet__count">{{ poetryList().length }}</span>
+          <button class="rdr-sheet-close" type="button" (click)="closePoetryModal()" aria-label="Close">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
         </header>
         <ul class="rdr-poetry-list">
           @for (p of poetryList(); track $index) {
@@ -380,6 +392,9 @@
         <header class="rdr-auth-sheet__head">
           <h3 class="rdr-auth-sheet__title">المراجع والأعلام</h3>
           <span class="rdr-auth-sheet__count">{{ authoritiesList().length }}</span>
+          <button class="rdr-sheet-close" type="button" (click)="closeAuthoritiesModal()" aria-label="Close">
+            <ion-icon name="close-outline"></ion-icon>
+          </button>
         </header>
         <ul class="rdr-auth-list">
           @for (a of authoritiesList(); track a.code) {
