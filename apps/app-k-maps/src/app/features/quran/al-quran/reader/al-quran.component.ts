@@ -12,7 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GestureController, IonicModule, IonContent, PopoverController, ToastController } from '@ionic/angular';
+import { GestureController, IonicModule, IonContent, NavController, PopoverController, ToastController } from '@ionic/angular';
 import type { Gesture } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
@@ -57,6 +57,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly host: ElementRef<HTMLElement> = inject(ElementRef);
   private readonly immersive = inject(ImmersiveService);
   private readonly readingState = inject(ReadingStateService);
+  private readonly navCtrl = inject(NavController);
   private readonly popoverCtrl = inject(PopoverController);
   private readonly toastCtrl = inject(ToastController);
   private readonly loadedPageFonts = new Set<number>();
@@ -199,8 +200,12 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
       componentProps: {
         word,
         onOpenRoot: (root: string) => {
-          void this.router.navigate(['/quran/al-quran/lexicon'], {
+          // NavController.navigateRoot is required here — plain router.navigate
+          // falls through to the app-level wildcard and lands on /home instead
+          // of switching tabs (same reason the shell uses navCtrl for tab clicks).
+          void this.navCtrl.navigateRoot(['/quran/al-quran/lexicon'], {
             queryParams: { root },
+            animated: false,
           });
         },
         onOpenTafsir: (surah: number, ayah: number) => {

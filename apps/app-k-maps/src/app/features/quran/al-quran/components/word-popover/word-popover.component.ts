@@ -80,10 +80,12 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
     .wp {
       padding: 0.55rem 0.75rem 0.4rem;
       font-family: var(--km-font-arabic-ui, 'Noto Naskh Arabic', serif);
+      direction: ltr;
     }
     .wp__head {
       display: flex;
       align-items: baseline;
+      flex-direction: row-reverse;
       gap: 0.55rem;
       padding-bottom: 0.45rem;
       border-bottom: 1px solid rgba(232, 201, 106, 0.18);
@@ -96,6 +98,7 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
       color: #f3d77a;
       font-weight: 600;
       line-height: 1.3;
+      text-align: right;
     }
     .wp__ref {
       font-family: 'EB Garamond', 'Times New Roman', serif;
