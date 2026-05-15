@@ -12,8 +12,8 @@
 // the title-bar icon (ion-popover). Entry text is selectable for copy.
 
 import {
-  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, OnDestroy, ViewChild,
-  computed, inject, signal,
+  ChangeDetectionStrategy, Component, DestroyRef, ElementRef, HostBinding,
+  OnDestroy, ViewChild, computed, effect, inject, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -111,6 +111,57 @@ export class LexiconReaderPageComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.immersive.exit();
   }
+
+  // ── Font-scale control ──────────────────────────────────────────────────
+  // Five-step scale (0.85, 0.95, 1.0, 1.10, 1.25) bound to the --lex-scale
+  // CSS custom property on the host. _lexicon-tokens.scss multiplies every
+  // --lex-fs-* value by --lex-scale, so this single signal resizes the
+  // entire type hierarchy (title + body + chips + sheet text) in lockstep.
+  // Persisted in localStorage under FONT_SCALE_KEY so the choice survives
+  // navigation and app restarts. Renders A−/A·/A+ chips in the chips bar.
+  private static readonly FONT_SCALE_KEY = 'km:lex:fontscale';
+  private static readonly FONT_SCALE_STEPS = [0.85, 0.95, 1.0, 1.10, 1.25] as const;
+  readonly fontScaleIndex = signal<number>(this.loadInitialFontScaleIndex());
+  readonly fontScale = computed(() =>
+    LexiconReaderPageComponent.FONT_SCALE_STEPS[this.fontScaleIndex()] ?? 1.0,
+  );
+
+  /** Bind the chosen scale to the host as a CSS variable. The tokens
+   *  partial reads --lex-scale via calc() for every font-size token, so
+   *  this single binding propagates to every descendant. */
+  @HostBinding('style.--lex-scale')
+  get fontScaleVar(): string { return String(this.fontScale()); }
+
+  /** Persist scale changes; effect runs in injection context so it cleans
+   *  up automatically when the component is destroyed. */
+  private readonly persistFontScale = effect(() => {
+    const idx = this.fontScaleIndex();
+    try { localStorage.setItem(LexiconReaderPageComponent.FONT_SCALE_KEY, String(idx)); }
+    catch { /* private mode / storage disabled — ignore */ }
+  });
+
+  private loadInitialFontScaleIndex(): number {
+    try {
+      const raw = localStorage.getItem(LexiconReaderPageComponent.FONT_SCALE_KEY);
+      if (raw == null) return 2; // default: 1.0×
+      const n = Number(raw);
+      if (!Number.isFinite(n)) return 2;
+      const max = LexiconReaderPageComponent.FONT_SCALE_STEPS.length - 1;
+      return Math.max(0, Math.min(max, Math.trunc(n)));
+    } catch { return 2; }
+  }
+
+  /** Step the scale by ±1; clamped to the scale array bounds. */
+  bumpFontScale(delta: -1 | 1): void {
+    const max = LexiconReaderPageComponent.FONT_SCALE_STEPS.length - 1;
+    this.fontScaleIndex.update(i => Math.max(0, Math.min(max, i + delta)));
+  }
+  resetFontScale(): void { this.fontScaleIndex.set(2); }
+
+  readonly canShrinkFont = computed(() => this.fontScaleIndex() > 0);
+  readonly canGrowFont   = computed(() =>
+    this.fontScaleIndex() < LexiconReaderPageComponent.FONT_SCALE_STEPS.length - 1,
+  );
 
   // ── Ayah preview modal
   readonly ayahModalOpen    = signal(false);

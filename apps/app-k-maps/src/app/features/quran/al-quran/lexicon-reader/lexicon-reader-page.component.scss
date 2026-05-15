@@ -178,18 +178,20 @@
 
   &__title {
     margin: 0 0 0.45rem;
-    font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
-    font-size: 2.4rem;
+    font-family: var(--lex-font-arabic-ui);
+    // Headword scales with --lex-scale via the tokens partial. clamp() also
+    // gives a viewport-aware ceiling/floor so narrow phones don't overflow.
+    font-size: clamp(1.65rem, 7.2vw, var(--lex-fs-2xl));
     font-weight: 700;
-    color: var(--gold);
-    letter-spacing: 0.04em;
-    line-height: 1.15;
+    color: var(--lex-gold);
+    letter-spacing: var(--lex-tracking-display);
+    line-height: var(--lex-lh-tight);
   }
   &__stats {
     margin: 0;
-    color: var(--ink-soft);
-    font-size: 0.82rem;
-    font-family: var(--km-font-arabic-ui, serif);
+    color: var(--lex-ink-soft);
+    font-size: var(--lex-fs-sm);
+    font-family: var(--lex-font-arabic-ui);
   }
   &__nav {
     display: flex;
@@ -267,15 +269,47 @@
     font-weight: 600;
   }
 
-  // Icon-only copy chip — same pill shape as the labelled chips so it sits
-  // flush in the row, but square aspect and gold-toned icon.
+  // Icon-only chip variant (copy button, font-scale steppers). Same pill
+  // shape as labelled chips so they sit flush in the row, but square aspect.
+  &--icon,
   &--copy {
     width: 28px;
     padding: 0;
     justify-content: center;
-    color: rgba(232, 201, 106, 0.82);
+    color: var(--lex-gold-soft);
     ion-icon { font-size: 1rem; }
-    &:active { color: #f3d77a; }
+    &:active { color: var(--lex-gold-bright); }
+
+    &[disabled] {
+      opacity: 0.35;
+      pointer-events: none;
+    }
+  }
+}
+
+// ── Font-scale group ──────────────────────────────────────────────────────
+// Three icon-chips (A−/A·/A+) treated as a single visual unit. Glyphs use
+// the same letter "A" at three sizes so the affordance is immediately
+// readable without text labels — works in any UI language.
+.rdr-font-scale {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+  flex: 0 0 auto;
+
+  // Pull the three buttons tight so they read as one segmented control.
+  > .rdr-chip + .rdr-chip { margin-inline-start: -1px; }
+
+  &__glyph {
+    display: inline-block;
+    font-family: var(--lex-font-latin);
+    line-height: 1;
+    font-weight: 600;
+    color: var(--lex-gold-soft);
+    font-size: 0.92rem;
+
+    &--sm { font-size: 0.74rem; }
+    &--lg { font-size: 1.10rem; }
   }
 }
 
@@ -595,9 +629,11 @@
 // ────────────────────────────────────────────────────────────────────────
 .rdr-lane {
   font-family: 'Source Serif Pro', 'Amiri', 'Scheherazade New', Georgia, serif;
-  font-size: 0.93rem;
-  line-height: 1.72;
-  color: var(--ink);
+  // Lane is bilingual (Latin scholarly prose interleaved with Arabic terms).
+  // Use the Latin body line-height; the Arabic spans bump up via their own rule.
+  font-size: var(--lex-fs-base);
+  line-height: var(--lex-lh-body);
+  color: var(--lex-ink);
 
   &__form {
     margin-bottom: 2rem;
@@ -691,32 +727,34 @@
 // ────────────────────────────────────────────────────────────────────────
 .rdr-classical, .rdr-mufradat {
   font-family: var(--rdr-font-arabic);
-  font-size: 0.95rem;
-  line-height: 1.82;
-  color: var(--ink);
+  // Arabic prose — larger size + the dedicated --lex-lh-arabic leading
+  // (1.85) to clear tashkeel + interword overlap.
+  font-size: var(--lex-fs-base);
+  line-height: var(--lex-lh-arabic);
+  color: var(--lex-ink);
 }
 .rdr-section {
-  margin-bottom: 1.6rem;
+  margin-bottom: var(--lex-sp-xl);
   &:last-child { margin-bottom: 0; }
 
   &__head {
     display: flex;
     align-items: baseline;
-    gap: 0.6rem;
-    margin-bottom: 0.7rem;
-    padding-bottom: 0.4rem;
-    border-bottom: 1px solid var(--rule);
+    gap: var(--lex-sp-sm);
+    margin-bottom: var(--lex-sp-sm);
+    padding-bottom: var(--lex-sp-xs);
+    border-bottom: 1px solid var(--lex-rule);
   }
   &__title {
     margin: 0;
-    color: var(--gold);
-    font-size: 1.15rem;
+    color: var(--lex-gold);
+    font-size: var(--lex-fs-md);
     font-weight: 700;
     flex: 1;
   }
   &__page {
-    color: var(--ink-faint);
-    font-size: 0.74rem;
+    color: var(--lex-ink-faint);
+    font-size: var(--lex-fs-xs);
     font-family: 'Amiri', serif;
   }
   &__p {
