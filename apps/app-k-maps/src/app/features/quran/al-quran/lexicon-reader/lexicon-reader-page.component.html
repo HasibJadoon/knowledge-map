@@ -484,10 +484,10 @@
            sticky chips toolbar in the page header. -->
       <header class="rdr-entry-head">
         @switch (kind()) {
-          @case ('lane')      { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ laneView()?.entry?.root_text }}</h2> }
-          @case ('classical') { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ classicalView()?.entry?.root_text }}</h2> }
-          @case ('mufradat')  { <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h2> }
-          @case ('scholarship'){ <h2 class="rdr-entry-head__title rdr-selectable" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h2> }
+          @case ('lane')      { <h1 class="rdr-entry-head__title rdr-selectable" lang="ar" dir="rtl">{{ laneView()?.entry?.root_text }}</h1> }
+          @case ('classical') { <h1 class="rdr-entry-head__title rdr-selectable" lang="ar" dir="rtl">{{ classicalView()?.entry?.root_text }}</h1> }
+          @case ('mufradat')  { <h1 class="rdr-entry-head__title rdr-selectable" lang="ar" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h1> }
+          @case ('scholarship'){ <h1 class="rdr-entry-head__title rdr-selectable" lang="ar" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h1> }
         }
         <p class="rdr-entry-head__stats">{{ statsLine() }}</p>
         <div class="rdr-entry-head__nav">
@@ -560,7 +560,7 @@
             <section class="rdr-section">
               @if (s.heading_ar) {
                 <header class="rdr-section__head">
-                  <h3 class="rdr-section__title" dir="rtl">{{ s.heading_ar }}</h3>
+                  <h2 class="rdr-section__title" lang="ar" dir="rtl">{{ s.heading_ar }}</h2>
                   @if (s.page_no) {
                     <span class="rdr-section__page">ص {{ s.page_no }}</span>
                   }
@@ -625,7 +625,7 @@
             <section class="rdr-section">
               @if (s.heading_ar) {
                 <header class="rdr-section__head">
-                  <h3 class="rdr-section__title" dir="rtl">{{ s.heading_ar }}</h3>
+                  <h2 class="rdr-section__title" lang="ar" dir="rtl">{{ s.heading_ar }}</h2>
                   @if (s.page_no) {
                     <span class="rdr-section__page">ص {{ s.page_no }}</span>
                   }
