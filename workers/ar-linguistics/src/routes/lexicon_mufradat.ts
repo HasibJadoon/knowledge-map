@@ -28,16 +28,32 @@ import { ok, notFound, badRequest } from '../../../shared/src/response';
 import { cached } from '../../../shared/src/cache';
 import type { ArLinguisticsEnv } from '../env';
 import { normalizeSurahName } from '../data/surah_names';
+import { SourcesRepo } from '../repositories/sources.repo';
 
+// Slug stays in code — URL path segment, not metadata. SOURCE_META object
+// retired in favour of D1-backed metadata via SourcesRepo.bySlug(SOURCE_SLUG).
 const SOURCE_SLUG = 'ketabonline_al_raghib_mufradat';
-const SOURCE_META = {
-  slug: SOURCE_SLUG,
-  title_ar: 'مفردات القرآن',
-  title_en: 'Mufradat al-Quran',
-  author: 'الراغب الأصفهاني',
-  period: 'كلاسيكي',
-  origin: 'ketabonline' as const,
-};
+
+interface MufradatSourceMeta {
+  slug:      string;
+  title_ar:  string;
+  title_en:  string;
+  author:    string;
+  period:    string;
+  origin:    'ketabonline';
+}
+
+async function fetchMufradatMeta(db: D1Database): Promise<MufradatSourceMeta> {
+  const row = await new SourcesRepo(db).bySlug(SOURCE_SLUG);
+  return {
+    slug:     SOURCE_SLUG,
+    title_ar: row?.title_ar ?? 'مفردات القرآن',
+    title_en: row?.title_en ?? 'Mufradat al-Quran',
+    author:   row?.author_name ?? 'الراغب الأصفهاني',
+    period:   row?.period_label ?? 'كلاسيكي',
+    origin:   'ketabonline',
+  };
+}
 
 // ── Response shape ───────────────────────────────────────────────────────────
 
@@ -80,7 +96,7 @@ interface MufradatSection {
 
 interface MufradatReadView {
   kind: 'mufradat';
-  meta: typeof SOURCE_META;
+  meta: MufradatSourceMeta;
   entry: {
     id: string; root_text: string; root_norm: string;
     page_start: number | null; page_end: number | null; volume_no: number | null;
@@ -144,7 +160,8 @@ export function lexiconMufradatRoutes(router: Router<ArLinguisticsEnv>) {
           ).bind(entry.root_id).first()
         : null;
 
-      const view = composeView(entry, sectionsRaw, blocks, canonical);
+      const meta = await fetchMufradatMeta(env.DB_AL);
+      const view = composeView(entry, sectionsRaw, blocks, canonical, meta);
       return ok(view);
     }),
   );
@@ -157,6 +174,7 @@ function composeView(
   rawSections: any[],
   rawBlocks: any[],
   canonical: any | null,
+  meta: MufradatSourceMeta,
 ): MufradatReadView {
   // Footnote backing text from `block_type='footnote'` blocks, if any.
   const fnBacking = collectFootnoteBacking(rawBlocks);
@@ -243,7 +261,7 @@ function composeView(
 
   return {
     kind: 'mufradat',
-    meta: SOURCE_META,
+    meta,
     entry: {
       id: entry.id, root_text: entry.root_text, root_norm: entry.root_norm,
       page_start: entry.page_start, page_end: entry.page_end, volume_no: entry.volume_no,

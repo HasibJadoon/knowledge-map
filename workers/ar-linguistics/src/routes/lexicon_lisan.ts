@@ -15,13 +15,15 @@
 // parser. Lane has its own rich XML structure (bilingual, 47K sections)
 // and isn't routed through here.
 //
-// Per-source variation is encoded in SOURCE_CONFIGS below. The shape
+// Per-source variation (titles, authors, parser hints) lives in D1's
+// ar_ling_sources and is loaded per-request via SourcesRepo. The shape
 // returned is identical for all sources (single LisanReadView type) so
 // the front-end can use one shell for all of them.
 
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, badRequest } from '../../../shared/src/response';
 import type { ArLinguisticsEnv } from '../env';
+import { SourcesRepo } from '../repositories/sources.repo';
 
 // ── Source registry — one entry per supported classical lexicon ─────────
 type FootnoteSource = 'inline_brackets' | 'footnote_blocks' | 'none';
@@ -41,85 +43,31 @@ interface SourceConfig {
   quran_block_shape: QuranBlockShape;
 }
 
-const SOURCE_CONFIGS: SourceConfig[] = [
-  {
-    slug: 'ketabonline_ibn_manzur_lisan_al_arab',
-    title_ar: 'لسان العرب', title_en: 'Lisan al-Arab',
-    author: 'ابن منظور', period: 'كلاسيكي', origin: 'ketabonline',
-    footnote_source: 'inline_brackets',
-    quran_block_shape: 'inline_verse',
-  },
-  {
-    slug: 'ketabonline_al_jawhari_al_sihah',
-    title_ar: 'الصحاح', title_en: 'al-Sihah',
-    author: 'الجوهري', period: 'كلاسيكي', origin: 'ketabonline',
-    footnote_source: 'none',
-    quran_block_shape: 'cue_only_verse_in_braces',
-  },
-  {
-    slug: 'thahabi_al_khalil_kitab_al_ayn',
-    title_ar: 'كتاب العين', title_en: "Kitab al-'Ayn",
-    author: 'الخليل بن أحمد الفراهيدي', period: 'كلاسيكي مبكر', origin: 'thahabi',
-    footnote_source: 'footnote_blocks',
-    quran_block_shape: 'inline_verse',
-  },
-  {
-    slug: 'saaid_maqayis_al_lugha',
-    title_ar: 'مقاييس اللغة', title_en: 'Maqayis al-Lugha',
-    author: 'ابن فارس', period: 'كلاسيكي', origin: 'saaid',
-    footnote_source: 'none',
-    quran_block_shape: 'inline_verse',
-  },
-  {
-    slug: 'qomra_al_ubab_al_zakhir',
-    title_ar: 'العباب الزاخر', title_en: 'al-Ubab al-Zakhir',
-    author: 'الصاغاني', period: 'كلاسيكي', origin: 'qomra',
-    footnote_source: 'none',
-    quran_block_shape: 'inline_verse',
-  },
-  // ── Sources whose chunker emitted {…} brace blocks instead of typed
-  // quran_quote/definition blocks. We resolved their Qur'ān citations
-  // offline via the 5-gram matcher against the {…}-stripped text, and
-  // stored them in `ar_ling_lexicon_quran_refs`. The composer reads
-  // those refs by block_id when rendering. The remaining {…} blocks
-  // (mostly al-Qamus matn for Taj al-Arus) render as headword callouts
-  // via the cue_only_verse_in_braces path — when a quran_quote block
-  // doesn't precede a brace, it falls back to prose tokens.
-  {
-    slug: 'ketabonline_al_zabidi_taj_al_arus',
-    title_ar: 'تاج العروس', title_en: 'Taj al-Arus',
-    author: 'الزبيدي', period: 'كلاسيكي', origin: 'ketabonline',
-    footnote_source: 'none',
-    quran_block_shape: 'inline_verse',
-  },
-  {
-    slug: 'ketabonline_al_fayyumi_misbah_munir',
-    title_ar: 'المصباح المنير', title_en: 'al-Misbah al-Munir',
-    author: 'الفيومي', period: 'كلاسيكي متأخر', origin: 'ketabonline',
-    footnote_source: 'footnote_blocks',
-    quran_block_shape: 'inline_verse',
-  },
-  {
-    slug: 'ketabonline_ibn_duraid_jamharat_al_lugha',
-    title_ar: 'جمهرة اللغة', title_en: 'Jamharat al-Lugha',
-    author: 'ابن دريد', period: 'كلاسيكي', origin: 'ketabonline',
-    footnote_source: 'none',
-    quran_block_shape: 'inline_verse',
-  },
-  // 9,567 roots, only 36 quran_quote blocks at ingestion — minimal
-  // Quran content but the rich panel UI still adds value (authorities,
-  // poetry shawahid will populate where the source has them).
-  {
-    slug: 'qomra_al_qamus_al_muhit',
-    title_ar: 'القاموس المحيط', title_en: 'al-Qamus al-Muhit',
-    author: 'الفيروزآبادي', period: 'كلاسيكي', origin: 'qomra',
-    footnote_source: 'none',
-    quran_block_shape: 'inline_verse',
-  },
-];
-
-const CONFIG_BY_SLUG: Record<string, SourceConfig> =
-  Object.fromEntries(SOURCE_CONFIGS.map(c => [c.slug, c]));
+// Slug list — URLs registered at module load; one route per slug. The full
+// per-source metadata (title_ar / title_en / author / period / origin /
+// footnote_source / quran_block_shape) was retired from this file in favour
+// of D1-backed lookups via SourcesRepo.bySlug(). Migrations 0017 + 0018
+// seeded every slug below. Parser hints (footnote_source, quran_block_shape)
+// live in ar_ling_sources columns of the same name.
+//
+// Some books are richly Quran-quoted (Lisan, Mufradat), others have only a
+// handful (al-Qamus: ~36 quran_quote blocks across 9,567 roots) — the rich
+// composer is registered for all of them anyway; the rare-citation cases
+// just produce sparse panels rather than failing.
+const LISAN_SLUGS: readonly string[] = [
+  'ketabonline_ibn_manzur_lisan_al_arab',
+  'ketabonline_al_jawhari_al_sihah',
+  'thahabi_al_khalil_kitab_al_ayn',
+  'saaid_maqayis_al_lugha',
+  'qomra_al_ubab_al_zakhir',
+  // Brace-block sources (cue_only_verse_in_braces) — Qur'ān citations were
+  // resolved offline via the 5-gram matcher and stored in
+  // ar_ling_lexicon_quran_refs. The composer reads those refs by block_id.
+  'ketabonline_al_zabidi_taj_al_arus',
+  'ketabonline_al_fayyumi_misbah_munir',
+  'ketabonline_ibn_duraid_jamharat_al_lugha',
+  'qomra_al_qamus_al_muhit',
+] as const;
 
 
 // ── Response shape ───────────────────────────────────────────────────────────
@@ -204,17 +152,43 @@ interface LisanReadView {
 // ── Route registration: one endpoint per configured source ─────────────────
 
 export function lexiconLisanRoutes(router: Router<ArLinguisticsEnv>) {
-  for (const cfg of SOURCE_CONFIGS) {
-    registerSourceRoute(router, cfg);
+  for (const slug of LISAN_SLUGS) {
+    registerSourceRoute(router, slug);
   }
 }
 
-function registerSourceRoute(router: Router<ArLinguisticsEnv>, cfg: SourceConfig) {
+/**
+ * Resolve a SourceConfig at request time from D1, with a TS-side fallback
+ * for the parser-hint defaults so the handler can run even on a cold DB.
+ * D1 row reads add ~10ms but the entire endpoint is edge-cached, so the
+ * cost is amortised across cache hits.
+ */
+async function resolveSourceConfig(db: D1Database, slug: string): Promise<SourceConfig> {
+  const row = await new SourcesRepo(db).bySlug(slug);
+  return {
+    slug,
+    title_ar: row?.title_ar ?? slug,
+    title_en: row?.title_en ?? slug,
+    author:   row?.author_name ?? '',
+    period:   row?.period_label ?? '',
+    origin:   (row?.origin as Origin) ?? 'ketabonline',
+    footnote_source:   (row?.footnote_source as FootnoteSource) ?? 'none',
+    quran_block_shape: (row?.quran_block_shape as QuranBlockShape) ?? 'inline_verse',
+  };
+}
+
+function registerSourceRoute(router: Router<ArLinguisticsEnv>, slug: string) {
   router.get(
-    `/al/lex/v2/read/${cfg.slug}/:root_norm`,
+    `/al/lex/v2/read/${slug}/:root_norm`,
     async (_req, env, params) => {
       const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
       if (!root_norm) return badRequest('root_norm required');
+
+      // Pull the per-source config (title, parser hints) from D1 instead of
+      // a closed-over TS constant. The slug is what gets bound into queries
+      // below; everything else (display meta + footnote_source +
+      // quran_block_shape) flows from ar_ling_sources via SourcesRepo.
+      const cfg = await resolveSourceConfig(env.DB_AL, slug);
 
       const entry = await env.DB_AL.prepare(
         `SELECT id, root_text, root_norm, root_id, raw_text,

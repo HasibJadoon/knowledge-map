@@ -22,17 +22,40 @@ import type { Router } from '../../../shared/src/router';
 import { ok, notFound, badRequest } from '../../../shared/src/response';
 import { cached } from '../../../shared/src/cache';
 import type { ArLinguisticsEnv } from '../env';
+import { SourcesRepo } from '../repositories/sources.repo';
 
+// Slug stays in code — it's the URL path segment, not metadata. The SOURCE_META
+// object that used to live here was deleted in favour of D1-backed metadata
+// resolved per-request via SourcesRepo.bySlug(SOURCE_SLUG); see fetchLaneMeta().
 const SOURCE_SLUG = 'lane_lexicon';
-const SOURCE_META = {
-  slug: SOURCE_SLUG,
-  title_ar: 'معجم لين العربي الإنجليزي',
-  title_en: "Lane's Arabic-English Lexicon",
-  author: 'إدوارد وليم لين',
-  period: 'القرن التاسع عشر',
-  origin: 'lane' as const,
-  bilingual: true,
-};
+
+interface LaneSourceMeta {
+  slug:      string;
+  title_ar:  string;
+  title_en:  string;
+  author:    string;
+  period:    string;
+  origin:    'lane';
+  bilingual: true;
+}
+
+/** Resolve the Lane display metadata from ar_ling_sources. The route is
+ *  edge-cached, so this runs once per cache miss and the result is included
+ *  in the cached response body — no per-request hit in the steady state. */
+async function fetchLaneMeta(db: D1Database): Promise<LaneSourceMeta> {
+  const row = await new SourcesRepo(db).bySlug(SOURCE_SLUG);
+  // Fallback shape ensures the response type stays stable even if the row
+  // somehow disappears from D1 (post-migration regression, dev sandbox).
+  return {
+    slug:      SOURCE_SLUG,
+    title_ar:  row?.title_ar ?? 'معجم لين العربي الإنجليزي',
+    title_en:  row?.title_en ?? "Lane's Arabic-English Lexicon",
+    author:    row?.author_name ?? 'Edward William Lane',
+    period:    row?.period_label ?? '19th century',
+    origin:    'lane',
+    bilingual: true,
+  };
+}
 
 // ── Scholar / source sigla used throughout Lane (Table IV expansion) ────
 const SIGLA: Record<string, { ar: string; en: string }> = {
@@ -111,7 +134,7 @@ interface LaneVerbForm {
 
 interface LaneReadView {
   kind: 'lane';
-  meta: typeof SOURCE_META;
+  meta: LaneSourceMeta;
   entry: {
     id: string; root_text: string; root_norm: string;
     page_start: number | null; page_end: number | null; volume_no: number | null;
@@ -207,8 +230,9 @@ export function lexiconLaneRoutes(router: Router<ArLinguisticsEnv>) {
           ).bind(entry.root_id).first()
         : null;
 
+      const meta = await fetchLaneMeta(env.DB_AL);
       const view = composeView(entry, sectionsRaw, blocks, quranRefs,
-                               authorityLinks, rootLinks, canonical);
+                               authorityLinks, rootLinks, canonical, meta);
       return ok(view);
     }),
   );
@@ -220,6 +244,7 @@ function composeView(
   entry: any, rawSections: any[], rawBlocks: any[],
   quranRefs: any[], authorityLinks: any[], rootLinks: any[],
   canonical: any | null,
+  meta: LaneSourceMeta,
 ): LaneReadView {
   // refs by block_id for inline placement
   const refsByBlock = new Map<string, { surah: number; ayah: number; raw: string }[]>();
@@ -330,7 +355,7 @@ function composeView(
 
   return {
     kind: 'lane',
-    meta: SOURCE_META,
+    meta,
     entry: {
       id: entry.id, root_text: entry.root_text, root_norm: entry.root_norm,
       page_start: entry.page_start, page_end: entry.page_end, volume_no: entry.volume_no,
