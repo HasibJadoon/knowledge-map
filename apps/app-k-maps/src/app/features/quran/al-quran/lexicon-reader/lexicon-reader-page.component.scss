@@ -218,41 +218,44 @@
 
   &__chip {
     display: inline-flex;
-    align-items: baseline;
-    gap: 4px;
-    padding: 3px var(--lex-sp-sm);
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px 3px 8px;
     background: var(--lex-gold-tint);
     border: 1px solid var(--lex-gold-line);
     border-radius: var(--lex-radius-pill);
-    color: var(--lex-ink-soft);
-    line-height: 1.4;
+    color: var(--lex-gold);
+    line-height: 1;
     transition: background var(--lex-dur-fast) var(--lex-ease),
                 border-color var(--lex-dur-fast) var(--lex-ease);
 
     // Per-kind tint so the eye reads the modal-trigger chips (Quran refs,
     // hadith, poetry, authorities) as the same family as the body chips.
-    &[data-kind='qref']    { border-color: rgba(169, 210, 138, 0.30); background: var(--lex-c-quran-tint);  }
-    &[data-kind='qref']    .rdr-stats__value { color: var(--lex-c-quran); }
-    &[data-kind='poetry']  { border-color: rgba(220, 160, 220, 0.30); background: var(--lex-c-poetry-tint); }
-    &[data-kind='poetry']  .rdr-stats__value { color: var(--lex-c-poetry); }
-    &[data-kind='hadith']  { border-color: rgba(232, 180, 80, 0.34);  background: var(--lex-c-hadith-tint); }
-    &[data-kind='hadith']  .rdr-stats__value { color: var(--lex-c-hadith); }
-    &[data-kind='auth']    { border-color: rgba(180, 180, 180, 0.30); background: rgba(255,255,255,0.04); }
-    &[data-kind='auth']    .rdr-stats__value { color: #c8c8c8; }
+    // Color cascades to the icon (currentColor) and the value (via &__value).
+    &[data-kind='qref']    { border-color: rgba(169, 210, 138, 0.32); background: var(--lex-c-quran-tint);  color: var(--lex-c-quran); }
+    &[data-kind='poetry']  { border-color: rgba(220, 160, 220, 0.32); background: var(--lex-c-poetry-tint); color: var(--lex-c-poetry); }
+    &[data-kind='hadith']  { border-color: rgba(232, 180, 80, 0.34);  background: var(--lex-c-hadith-tint); color: var(--lex-c-hadith); }
+    &[data-kind='auth']    { border-color: rgba(180, 180, 180, 0.32); background: rgba(255,255,255,0.045); color: #c8c8c8; }
+    &[data-kind='sense']   { border-color: rgba(232, 201, 106, 0.28); background: var(--lex-gold-tint);    color: var(--lex-gold-bright); }
+    &[data-kind='form']    { border-color: var(--lex-gold-line);      background: var(--lex-gold-tint);    color: var(--lex-gold); }
+    &[data-kind='section']    { color: var(--lex-ink); }
+    &[data-kind='paragraph']  { color: var(--lex-ink); }
+    &[data-kind='reading']    { color: var(--lex-c-saddle); border-color: rgba(214, 138, 74, 0.32); background: var(--lex-c-saddle-tint); }
+
+    .rdr-stats__icon { color: currentColor; }
+    .rdr-stats__value { color: currentColor; }
+  }
+  &__icon {
+    font-size: 0.95rem;
+    flex: 0 0 auto;
+    opacity: 0.88;
   }
   &__value {
-    color: var(--lex-gold-bright);
     font-family: var(--lex-font-latin);
     font-variant-numeric: tabular-nums;
-    font-size: calc(var(--lex-fs-sm) * 1.05);
-    font-weight: 600;
-  }
-  &__label {
-    color: var(--lex-ink-soft);
-    font-family: var(--lex-font-latin);
-    font-size: calc(var(--lex-fs-xs) * 1.06);
-    font-style: italic;
-    letter-spacing: 0;
+    font-size: calc(var(--lex-fs-sm) * 1.08);
+    font-weight: 700;
+    line-height: 1;
   }
 }
 

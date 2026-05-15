@@ -857,43 +857,42 @@ export class LexiconReaderPageComponent implements OnDestroy {
   // headword is incidental (counts, not content) and the previous Arabic
   // labels added noise next to the Arabic-script root in the H1 above.
   // Counts use tabular-nums via the surrounding rule for stable widths.
-  statsChips(): Array<{ value: number; label: string; kind?: string }> {
+  statsChips(): Array<{ value: number; icon: string; ariaLabel: string; kind: string }> {
     const k = this.kind();
-    // Pluralise the label so a chip reads "1 form" / "5 forms" without an
-    // awkward "(s)". `kind` drives subtle per-chip tinting in SCSS (matches
-    // the modal-trigger chip palette).
-    const p = (n: number, singular: string, plural?: string, kind?: string) =>
-      ({ value: n, label: n === 1 ? singular : (plural ?? singular + 's'), kind });
-
+    // Each chip is now icon + number only — no inline label text. ionicons
+    // glyph + tabular-nums value renders compact and language-neutral
+    // (the row stays readable at any --lex-scale). `kind` drives the
+    // per-chip tint via [data-kind] in SCSS. `ariaLabel` carries the
+    // human-readable name for screen readers since the visual is icon-only.
     if (k === 'lane' && this.laneView()) {
       const s = this.laneView()!.stats;
       return [
-        p(s.forms, 'form'),
-        p(s.senses, 'sense'),
-        p(s.quran_citations, 'Quran ref', 'Quran refs', 'qref'),
-        p(s.authorities, 'authority', 'authorities', 'auth'),
+        { value: s.forms,           icon: 'layers-outline',     ariaLabel: 'forms',        kind: 'form'   },
+        { value: s.senses,          icon: 'bulb-outline',       ariaLabel: 'senses',       kind: 'sense'  },
+        { value: s.quran_citations, icon: 'book-outline',       ariaLabel: 'Quran refs',   kind: 'qref'   },
+        { value: s.authorities,     icon: 'people-outline',     ariaLabel: 'authorities',  kind: 'auth'   },
       ];
     }
     if (k === 'classical' && this.classicalView()) {
       const s = this.classicalView()!.stats;
       return [
-        p(s.sections, 'section'),
-        p(s.blocks, 'paragraph'),
-        p(s.quran_refs, 'Quran ref', 'Quran refs', 'qref'),
+        { value: s.sections,    icon: 'reader-outline',         ariaLabel: 'sections',    kind: 'section'   },
+        { value: s.blocks,      icon: 'document-text-outline',  ariaLabel: 'paragraphs',  kind: 'paragraph' },
+        { value: s.quran_refs,  icon: 'book-outline',           ariaLabel: 'Quran refs',  kind: 'qref'      },
       ];
     }
     if (k === 'mufradat' && this.mufradatView()) {
       const s = this.mufradatView()!.stats;
       return [
-        p(s.paragraphs, 'paragraph'),
-        p(s.poetry, 'verse', 'verses', 'poetry'),
-        p(s.hadith, 'hadith', 'hadiths', 'hadith'),
-        p(s.quran_citations, 'Quran ref', 'Quran refs', 'qref'),
+        { value: s.paragraphs,       icon: 'document-text-outline', ariaLabel: 'paragraphs',  kind: 'paragraph' },
+        { value: s.poetry,           icon: 'musical-notes-outline', ariaLabel: 'verses',      kind: 'poetry'    },
+        { value: s.hadith,           icon: 'chatbubble-outline',    ariaLabel: 'hadiths',     kind: 'hadith'    },
+        { value: s.quran_citations,  icon: 'book-outline',          ariaLabel: 'Quran refs',  kind: 'qref'      },
       ];
     }
     if (k === 'scholarship' && this.scholarshipView()) {
       const v = this.scholarshipView()!;
-      return [p(v.notes.length, 'reading')];
+      return [{ value: v.notes.length, icon: 'school-outline', ariaLabel: 'readings', kind: 'reading' }];
     }
     return [];
   }

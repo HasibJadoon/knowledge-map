@@ -505,16 +505,19 @@
           @case ('mufradat')  { <h1 class="rdr-entry-head__title rdr-selectable" lang="ar" dir="rtl">{{ mufradatView()?.entry?.root_text }}</h1> }
           @case ('scholarship'){ <h1 class="rdr-entry-head__title rdr-selectable" lang="ar" dir="rtl">{{ scholarshipView()?.notes?.[0]?.root_text || scholarshipView()?.root_norm }}</h1> }
         }
-        <!-- Stats chips — count + label per metric. Replaces the previous
-             interpolated string that wrapped awkwardly mid-phrase. Each chip
-             is a small pill matching the modal-trigger chips above so the
-             entire header reads as one visual system. -->
+        <!-- Stats chips — icon + number per metric. The icon set is language-
+             neutral and the tabular-nums value keeps the row tight. ariaLabel
+             on each chip carries the human-readable metric name for screen
+             readers since there's no visible label text. -->
         @if (statsChips().length) {
           <ul class="rdr-stats" aria-label="Entry statistics">
-            @for (s of statsChips(); track s.label) {
-              <li class="rdr-stats__chip" [attr.data-kind]="s.kind ?? 'count'">
+            @for (s of statsChips(); track s.kind) {
+              <li class="rdr-stats__chip"
+                  [attr.data-kind]="s.kind"
+                  [attr.aria-label]="s.value + ' ' + s.ariaLabel"
+                  [title]="s.value + ' ' + s.ariaLabel">
+                <ion-icon class="rdr-stats__icon" [name]="s.icon" aria-hidden="true"></ion-icon>
                 <span class="rdr-stats__value">{{ s.value }}</span>
-                <span class="rdr-stats__label">{{ s.label }}</span>
               </li>
             }
           </ul>
