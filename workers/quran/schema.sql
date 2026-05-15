@@ -137,8 +137,7 @@ CREATE TABLE qr_irab_book_entries (
   al_mapping_confidence REAL,
   al_mapping_note TEXT,
   created_at TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(source_slug, ayah_key)
+  updated_at TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE TABLE qr_irab_sources (
@@ -1381,18 +1380,21 @@ CREATE TABLE qr_translations (
 );
 
 CREATE TABLE qr_word_occurrences (
-  id                TEXT PRIMARY KEY,
-  surah             INTEGER NOT NULL,
-  ayah              INTEGER NOT NULL,
-  word_index        INTEGER NOT NULL,
-  word_text         TEXT NOT NULL,
-  word_text_bare    TEXT,
-  root              TEXT,
-  lemma             TEXT,
-  pos               TEXT,
-  morphology_tag    TEXT,
+  id                  TEXT PRIMARY KEY,
+  surah               INTEGER NOT NULL,
+  ayah                INTEGER NOT NULL,
+  word_index          INTEGER NOT NULL,
+  word_text           TEXT NOT NULL,
+  word_text_bare      TEXT,
+  root                TEXT,
+  lemma               TEXT,
+  pos                 TEXT,
+  morphology_tag      TEXT,
+  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
+  -- morphology_tag_json was added later via ALTER TABLE so it appears
+  -- after created_at in live D1; ordering matters here only insofar as
+  -- this file should reflect the deployed shape verbatim.
   morphology_tag_json JSON CHECK (morphology_tag_json IS NULL OR json_valid(morphology_tag_json)),
-  created_at        TEXT NOT NULL DEFAULT (datetime('now')),
   UNIQUE (surah, ayah, word_index),
   FOREIGN KEY (surah) REFERENCES qr_surahs(id)
 );
@@ -1540,13 +1542,10 @@ CREATE INDEX idx_qrsen_surah ON qr_ss_occ_sentence(surah, ayah_from);
 
 CREATE INDEX idx_qrsgl_scope ON qr_ss_scope_grammar_link(scope_type, scope_id);
 
-CREATE INDEX idx_qr_irab_source ON qr_irab_book_entries(source_slug);
-
-CREATE INDEX idx_qr_irab_ayah ON qr_irab_book_entries(surah, ayah_from, ayah_to);
-
-CREATE INDEX idx_qr_irab_concept ON qr_irab_book_entries(grammar_concept_ref);
-
-CREATE INDEX idx_qr_irab_status ON qr_irab_book_entries(al_mapping_status);
+-- qr_irab_book_entries is already covered by idx_qr_irab_book_entries_chunk
+-- and idx_qr_irab_book_entries_mapping (declared near the table); the four
+-- duplicate idx_qr_irab_* indexes that used to live here were never applied
+-- to live D1 and have been removed to keep this file in sync.
 
 CREATE INDEX idx_qrsmc_surah ON qr_surah_motif_clusters(surah);
 
@@ -1633,3 +1632,58 @@ CREATE INDEX idx_qrwo_surah_ayah ON qr_word_occurrences(surah, ayah);
 CREATE INDEX idx_qrwvn_surah ON qr_worldview_nodes(surah);
 
 CREATE INDEX idx_qrwvn_type  ON qr_worldview_nodes(node_type);
+
+-- ─── FTS5 virtual tables ──────────────────────────────────────────────────────
+-- Full-text search indexes mirroring source tables. SQLite auto-creates the
+-- shadow tables (_config, _content, _data, _docsize, _idx) when these are
+-- created; do not list them here. These FTS tables are populated from
+-- application code (no auto-sync triggers — searches across analysis_claims,
+-- evidence_items, scholar_profiles, scholar_positions, and the surah-study
+-- scope nuance/reading tables).
+
+CREATE VIRTUAL TABLE qr_analysis_claims_fts USING fts5(
+  scope_id UNINDEXED,
+  claim_type,
+  claim_text,
+  claim_text_ar
+);
+
+CREATE VIRTUAL TABLE qr_evidence_items_fts USING fts5(
+  evidence_type,
+  provenance,
+  content_text,
+  content_text_ar
+);
+
+CREATE VIRTUAL TABLE qr_scholar_positions_fts USING fts5(
+  scholar_id UNINDEXED,
+  surah UNINDEXED,
+  position_type,
+  position_text_ar,
+  position_text_en,
+  position_summary
+);
+
+CREATE VIRTUAL TABLE qr_scholar_profiles_fts USING fts5(
+  name_ar,
+  name_en,
+  laqab,
+  nisba,
+  biography_md
+);
+
+CREATE VIRTUAL TABLE qr_ss_scope_nuance_fts USING fts5(
+  scope_type UNINDEXED,
+  scope_id UNINDEXED,
+  nuance_type,
+  nuance_text,
+  nuance_text_ar
+);
+
+CREATE VIRTUAL TABLE qr_ss_scope_reading_fts USING fts5(
+  scope_type UNINDEXED,
+  scope_id UNINDEXED,
+  reading_type,
+  reading_text,
+  reading_text_ar
+);

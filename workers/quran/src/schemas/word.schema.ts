@@ -1,15 +1,18 @@
 // ─── Word occurrence schemas & types ──────────────────────────────────────────
+// Field names mirror the qr_word_occurrences D1 columns exactly. Older names
+// (word_position, text_uthmani, text_clean, lx_lemma_ref, root_text, pos_tag)
+// were retired during the morphology import; do not reintroduce them here.
 
 export interface WordOccurrence {
-  id: string;           // QR:ULID
+  id: string;
   surah: number;
   ayah: number;
-  word_position: number;
-  text_uthmani: string;
-  text_clean: string | null;
-  lx_lemma_ref: string | null;   // AL:ULID → ar_ling_lemmas
-  root_text: string | null;
-  pos_tag: string | null;        // part-of-speech
+  word_index: number;
+  word_text: string;
+  word_text_bare: string | null;
+  root: string | null;
+  lemma: string | null;
+  pos: string | null;
   morphology_tag: string | null;
   morphology_tag_json: string | null;
 }
@@ -17,6 +20,6 @@ export interface WordOccurrence {
 export interface WordQuery {
   surah?: number;
   ayah?: number;
-  lx_lemma_ref?: string;         // filter by lemma
-  root_text?: string;
+  lemma?: string;
+  root?: string;
 }
