@@ -21,52 +21,50 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
   imports: [CommonModule, IonicModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
-    <div class="wp" dir="rtl">
+    <div class="wp">
       <header class="wp__head">
-        <span class="wp__text" lang="ar">{{ word.text }}</span>
+        <span class="wp__text" lang="ar" dir="rtl">{{ word.text }}</span>
         <span class="wp__ref">{{ word.surah }}:{{ word.ayah }}<span class="wp__pos">·{{ word.position }}</span></span>
       </header>
 
       <dl class="wp__grid">
         @if (word.root) {
-          <dt>الجذر</dt>
-          <dd class="wp__val wp__val--ar">{{ word.root }}</dd>
+          <dt>Root</dt>
+          <dd class="wp__val wp__val--ar" dir="rtl">{{ word.root }}</dd>
         }
         @if (word.lemma) {
-          <dt>اللمَّة</dt>
-          <dd class="wp__val wp__val--ar">{{ word.lemma }}</dd>
+          <dt>Lemma</dt>
+          <dd class="wp__val wp__val--ar" dir="rtl">{{ word.lemma }}</dd>
         }
         @if (word.simple && word.simple !== word.text) {
-          <dt>الإملاء</dt>
-          <dd class="wp__val wp__val--ar">{{ word.simple }}</dd>
+          <dt>Simple</dt>
+          <dd class="wp__val wp__val--ar" dir="rtl">{{ word.simple }}</dd>
         }
         @if (word.translation) {
-          <dt>الترجمة</dt>
+          <dt>Meaning</dt>
           <dd class="wp__val wp__val--en">{{ word.translation }}</dd>
         }
         @if (!hasAnyData()) {
-          <dt class="wp__missing">لا توجد بيانات صرفية</dt>
+          <dt class="wp__missing">No morphological data</dt>
           <dd></dd>
         }
       </dl>
 
       <div class="wp__actions">
-        @if (word.root) {
-          <ion-button class="wp__btn" fill="clear" size="small"
-                      (click)="emitOpenRoot()">
-            <ion-icon slot="start" name="library-outline" />
-            افتح الجذر في المعجم
-          </ion-button>
-        }
+        <ion-button class="wp__btn" fill="clear" size="small"
+                    (click)="emitOpenRoot()">
+          <ion-icon slot="start" name="library-outline" />
+          Open in Lexicon{{ word.root ? ' · ' + word.root : '' }}
+        </ion-button>
         <ion-button class="wp__btn" fill="clear" size="small"
                     (click)="emitOpenTafsir()">
           <ion-icon slot="start" name="reader-outline" />
-          افتح الآية في التفسير
+          Open verse in Tafseer
         </ion-button>
         <ion-button class="wp__btn" fill="clear" size="small"
                     (click)="emitCopy()">
           <ion-icon slot="start" name="copy-outline" />
-          نسخ
+          Copy
         </ion-button>
       </div>
     </div>
@@ -191,8 +189,8 @@ export class WordPopoverComponent {
   }
 
   emitOpenRoot(): void {
-    if (!this.word.root) return;
-    this.onOpenRoot?.(this.word.root);
+    const lookup = this.word.root || this.word.simple || this.word.text;
+    this.onOpenRoot?.(lookup);
     void this.popoverCtrl.dismiss();
   }
   emitOpenTafsir(): void {
