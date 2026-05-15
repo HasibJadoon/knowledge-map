@@ -544,7 +544,11 @@
                         @case ('headword')   { <strong class="rdr-lane-headword" dir="rtl">{{ t.value }}</strong> }
                         @case ('figurative') { <span class="rdr-lane-fig" title="figurative">‡</span> }
                         @case ('cross_ref')  { <a class="rdr-lane-xref" (click)="selectRoot(t.target)">{{ t.target }}</a> }
-                        @case ('siglum')     { <span class="rdr-lane-sig" [title]="t.name_en">({{ t.raw }})</span> }
+                        @case ('siglum')     {
+                          <!-- Phase C: chip badge. Drop the legacy parens —
+                               the chip itself signals "this is an attribution". -->
+                          <span class="rdr-lane-sig" [title]="t.name_en">{{ t.code || t.raw }}</span>
+                        }
                         @case ('quran')      {
                           <a class="rdr-qref" (click)="openAyah(t.surah, t.ayah)" [title]="t.raw">
                             <span class="rdr-qref__bracket">﴿</span><span

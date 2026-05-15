@@ -833,19 +833,26 @@
   line-height: var(--lex-lh-body);
   color: var(--lex-ink);
 
+  // Phase C: each verb form reads as a soft card so the eye groups the
+  // header (form number + Arabic headword + page) with its senses below.
+  // The previous dashed-bottom separator left adjacent forms looking like
+  // continuations of the same paragraph stream; the inset background tint
+  // marks them as discrete "units of meaning" the way the desktop does.
   &__form {
-    margin-bottom: 2rem;
-    padding-bottom: 1.2rem;
-    border-bottom: 1px dashed var(--rule);
-    &:last-child { border-bottom: 0; }
+    margin-bottom: var(--lex-sp-xl);
+    padding: var(--lex-sp-md) var(--lex-sp-md) var(--lex-sp-sm);
+    border: 1px solid var(--lex-rule);
+    border-radius: var(--lex-radius-md);
+    background: rgba(255, 255, 255, 0.012);
+    &:last-child { margin-bottom: 0; }
   }
   &__form-head {
     display: flex;
     align-items: baseline;
-    gap: 10px;
-    margin-bottom: 0.8em;
-    padding-bottom: 0.4em;
-    border-bottom: 1px solid var(--rule);
+    gap: var(--lex-sp-sm);
+    margin-bottom: var(--lex-sp-sm);
+    padding-bottom: var(--lex-sp-sm);
+    border-bottom: 1px solid var(--lex-rule);
   }
   &__form-num {
     display: inline-grid;
@@ -904,11 +911,28 @@
 }
 .rdr-lane-arabic   { color: var(--gold); font-family: var(--rdr-font-arabic); font-size: 1.06em; font-weight: 600; padding: 0 2px; }
 .rdr-lane-headword { color: var(--gold); font-family: var(--rdr-font-arabic); font-size: 1.14em; font-weight: 800; padding: 0 2px; }
+// Phase C: authority sigla render as small uppercase chips instead of dim
+// italic parentheticals. Each siglum (TA, K, S, Msb, M, …) gets the same
+// chip treatment so the eye can scan them as discrete attributions —
+// matching the desktop's badge treatment. Tap-target stays small because
+// these are typographical hints, not primary controls; users open the
+// Authorities sheet from the chips toolbar for the full list.
 .rdr-lane-sig {
-  color: var(--ink-soft);
-  font-style: italic;
-  font-size: 0.92em;
-  font-weight: 500;
+  display: inline-block;
+  margin: 0 1px;
+  padding: 0 var(--lex-sp-xs);
+  border: 1px solid var(--lex-gold-line);
+  border-radius: var(--lex-radius-sm);
+  background: var(--lex-gold-tint);
+  color: var(--lex-gold-soft);
+  font-family: var(--lex-font-latin);
+  font-size: 0.74em;
+  font-weight: 600;
+  letter-spacing: var(--lex-tracking-wide);
+  font-style: normal;
+  text-transform: uppercase;
+  cursor: help;
+  vertical-align: 1px;
 }
 .rdr-lane-fig { color: var(--saddle); font-weight: 700; margin: 0 2px; }
 .rdr-lane-xref {
