@@ -7,20 +7,23 @@
 // ═══════════════════════════════════════════════════════════
 
 :host {
-  --ink:        #f5f1e7;
-  --ink-soft:   rgba(245, 241, 231, 0.62);
-  --ink-faint:  rgba(245, 241, 231, 0.36);
-  --gold:       #e8c96a;
-  --gold-soft:  rgba(232, 201, 106, 0.72);
-  --gold-line:  rgba(232, 201, 106, 0.22);
-  --gold-tint:  rgba(232, 201, 106, 0.10);
-  --quran:      #a9d28a;
-  --rule:       rgba(255, 255, 255, 0.07);
+  // Component-local aliases for the legacy --ink/--gold/--quran/--rule
+  // names used by every rule below. All resolve to Phase 0 tokens — no
+  // raw hex/rgba anywhere in this file's palette.
+  --ink:        var(--lex-ink);
+  --ink-soft:   var(--lex-ink-soft);
+  --ink-faint:  var(--lex-ink-faint);
+  --gold:       var(--lex-gold);
+  --gold-soft:  var(--lex-gold-soft);
+  --gold-line:  var(--lex-gold-line);
+  --gold-tint:  var(--lex-gold-tint);
+  --quran:      var(--lex-c-quran);
+  --rule:       var(--lex-rule);
   --card-bg:    linear-gradient(155deg, rgba(255,255,255,0.045), rgba(255,255,255,0.012));
 }
 
 .lx-content {
-  --background: #050505;
+  --background: var(--lex-bg);
 }
 
 .lx-page {
@@ -390,21 +393,21 @@
   border-color: rgba(214, 138, 74, 0.30);
   background: linear-gradient(155deg, rgba(214,138,74,0.10), rgba(255,255,255,0.015));
   &:active {
-    border-color: #d68a4a;
+    border-color: var(--lex-c-saddle);
     background: linear-gradient(155deg, rgba(214,138,74,0.18), rgba(255,255,255,0.02));
   }
-  .lx-hit-card__title { color: #d68a4a; }
+  .lx-hit-card__title { color: var(--lex-c-saddle); }
   .lx-hit-card__count {
     border-color: rgba(214,138,74, 0.40);
     background: rgba(214,138,74, 0.12);
-    color: #d68a4a;
+    color: var(--lex-c-saddle);
   }
-  .lx-hit-card__cta   { color: #d68a4a; }
-  .lx-hit-card__genre { color: #d68a4a; font-weight: 600; }
+  .lx-hit-card__cta   { color: var(--lex-c-saddle); }
+  .lx-hit-card__genre { color: var(--lex-c-saddle); font-weight: 600; }
 
-  &[data-genre='epigraphic']           { border-color: rgba(182,201,138, 0.40); .lx-hit-card__title { color: #b6c98a; } }
-  &[data-genre='qur_anic_hermeneutic'] { border-color: rgba(169,210,138, 0.40); .lx-hit-card__title { color: #a9d28a; } }
-  &[data-genre='comparative_semitic']  { border-color: rgba(146,190,225, 0.40); .lx-hit-card__title { color: #92bee1; } }
+  &[data-genre='epigraphic']           { border-color: rgba(182,201,138, 0.40); .lx-hit-card__title { color: var(--lex-c-mufradat); } }
+  &[data-genre='qur_anic_hermeneutic'] { border-color: rgba(169,210,138, 0.40); .lx-hit-card__title { color: var(--lex-c-quran); } }
+  &[data-genre='comparative_semitic']  { border-color: rgba(146,190,225, 0.40); .lx-hit-card__title { color: var(--lex-c-blue); } }
 }
 
 // ─── Empty state ───────────────────────────────────────────────────────

@@ -3,14 +3,17 @@
 // while keeping the 2-line content layout the catalog needs.
 
 :host {
-  --ink:        #f5f1e7;
-  --ink-soft:   rgba(245, 241, 231, 0.62);
-  --ink-faint:  rgba(245, 241, 231, 0.36);
-  --gold:       #e8c96a;
-  --gold-line:  rgba(201, 168, 76, 0.40);
+  // Component-local aliases backed by Phase 0 tokens. The saddle-* trio is
+  // unique to this surface (academic-scholarship hover glow) but the base
+  // saddle hue is the shared --lex-c-saddle.
+  --ink:        var(--lex-ink);
+  --ink-soft:   var(--lex-ink-soft);
+  --ink-faint:  var(--lex-ink-faint);
+  --gold:       var(--lex-gold);
+  --gold-line:  var(--lex-gold-line);
   --gold-glow:  rgba(201, 168, 76, 0.16);
-  --rule:       rgba(255, 255, 255, 0.08);
-  --saddle:     #d68a4a;
+  --rule:       var(--lex-rule);
+  --saddle:     var(--lex-c-saddle);
   --saddle-line:rgba(214, 138, 74, 0.45);
   --saddle-glow:rgba(214, 138, 74, 0.18);
 }
@@ -18,7 +21,7 @@
 // Match the home page's deep radial background so the books page feels
 // like a continuation of the same shelf, not a separate flat screen.
 .lxb-content {
-  --background: radial-gradient(ellipse 78% 54% at 50% 28%, rgba(18,16,10,0.88) 0%, rgba(6,6,6,0.98) 58%, #000 100%);
+  --background: radial-gradient(ellipse 78% 54% at 50% 28%, rgba(18,16,10,0.88) 0%, rgba(6,6,6,0.98) 58%, var(--lex-bg) 100%);
 }
 
 .lxb-page {
@@ -38,7 +41,7 @@
   }
 }
 .lxb-toolbar {
-  --background: #0b0a08;
+  --background: var(--lex-surface);
   --color:      var(--ink);
   --min-height: 48px;
   ion-button { --color: var(--gold); }
@@ -139,7 +142,7 @@
     right: 10%;
     height: 1.5px;
     border-radius: 1px;
-    background: linear-gradient(90deg, transparent, #c9a84c, transparent);
+    background: linear-gradient(90deg, transparent, var(--lex-gold), transparent);
     opacity: 0.35;
     transition: opacity 0.3s;
     pointer-events: none;
@@ -186,9 +189,9 @@
     }
 
     // Per-genre hue shift on the bottom glow + title colour.
-    &[data-genre='epigraphic']           { .lxb-card__title { color: #b6c98a; } .lxb-card__stats { color: #b6c98a; filter: drop-shadow(0 0 6px rgba(182,201,138,0.30)); } .lxb-card__bottom-glow { background: linear-gradient(90deg, transparent, #b6c98a, transparent); } }
-    &[data-genre='qur_anic_hermeneutic'] { .lxb-card__title { color: #a9d28a; } .lxb-card__stats { color: #a9d28a; filter: drop-shadow(0 0 6px rgba(169,210,138,0.30)); } .lxb-card__bottom-glow { background: linear-gradient(90deg, transparent, #a9d28a, transparent); } }
-    &[data-genre='comparative_semitic']  { .lxb-card__title { color: #92bee1; } .lxb-card__stats { color: #92bee1; filter: drop-shadow(0 0 6px rgba(146,190,225,0.30)); } .lxb-card__bottom-glow { background: linear-gradient(90deg, transparent, #92bee1, transparent); } }
+    &[data-genre='epigraphic']           { .lxb-card__title { color: var(--lex-c-mufradat); } .lxb-card__stats { color: var(--lex-c-mufradat); filter: drop-shadow(0 0 6px rgba(182,201,138,0.30)); } .lxb-card__bottom-glow { background: linear-gradient(90deg, transparent, var(--lex-c-mufradat), transparent); } }
+    &[data-genre='qur_anic_hermeneutic'] { .lxb-card__title { color: var(--lex-c-quran); } .lxb-card__stats { color: var(--lex-c-quran); filter: drop-shadow(0 0 6px rgba(169,210,138,0.30)); } .lxb-card__bottom-glow { background: linear-gradient(90deg, transparent, var(--lex-c-quran), transparent); } }
+    &[data-genre='comparative_semitic']  { .lxb-card__title { color: var(--lex-c-blue); } .lxb-card__stats { color: var(--lex-c-blue); filter: drop-shadow(0 0 6px rgba(146,190,225,0.30)); } .lxb-card__bottom-glow { background: linear-gradient(90deg, transparent, var(--lex-c-blue), transparent); } }
   }
 
   // Genre badge sits inline above the title — was absolutely positioned
