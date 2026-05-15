@@ -23,7 +23,7 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
   template: `
     <div class="wp">
       <header class="wp__head">
-        <span class="wp__text" lang="ar" dir="rtl">{{ word.text }}</span>
+        <span class="wp__text" lang="ar" dir="rtl">{{ displayText() }}</span>
         <span class="wp__ref">{{ word.surah }}:{{ word.ayah }}<span class="wp__pos">·{{ word.position }}</span></span>
       </header>
 
@@ -35,10 +35,6 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
         @if (word.lemma) {
           <dt>Lemma</dt>
           <dd class="wp__val wp__val--ar" dir="rtl">{{ word.lemma }}</dd>
-        }
-        @if (word.simple && word.simple !== word.text) {
-          <dt>Simple</dt>
-          <dd class="wp__val wp__val--ar" dir="rtl">{{ word.simple }}</dd>
         }
         @if (word.translation) {
           <dt>Meaning</dt>
@@ -189,6 +185,13 @@ export class WordPopoverComponent {
 
   hasAnyData(): boolean {
     return !!(this.word.root || this.word.lemma || this.word.translation);
+  }
+
+  /** word.text is QPC PUA-encoded (only renders with the per-page QPC font);
+   *  word.simple is the human-readable Arabic. The popover header uses Amiri,
+   *  which doesn't have the PUA glyphs — prefer simple, fall back to text. */
+  displayText(): string {
+    return this.word.simple || this.word.text || '';
   }
 
   emitOpenRoot(): void {
