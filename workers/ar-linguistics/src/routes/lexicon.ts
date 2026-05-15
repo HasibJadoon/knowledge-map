@@ -19,41 +19,31 @@ import { cached } from '../../../shared/src/cache';
 import { parsePagination } from '../../../shared/src/validate';
 import type { ArLinguisticsEnv } from '../env';
 import { LexiconRepo } from '../repositories/lexicon.repo';
+import { SourcesRepo, toResponseMeta, type LexiconSource } from '../repositories/sources.repo';
 
-// ── display metadata for each source slug ────────────────────────────────────
-const SOURCE_META: Record<string, { title_ar: string; title_en: string; author: string; period: string }> = {
-  // Lane: new clean import (src_lane_lexicon / lane_lexicon)
-  'lane_lexicon':                         { title_ar: 'معجم لين العربي الإنجليزي', title_en: "Lane's Arabic-English Lexicon", author: 'Edward William Lane', period: '19th century' },
-  // Lane: legacy slug (lane_quranic_research_perseus) — kept for backward compat until removed
-  'lane_quranic_research_perseus':        { title_ar: 'معجم لين',       title_en: "Lane's Arabic-English Lexicon", author: 'Edward William Lane',   period: '19th century' },
-  'ketabonline_ibn_manzur_lisan_al_arab': { title_ar: 'لسان العرب',      title_en: 'Lisan al-Arab',                 author: 'ابن منظور',              period: 'classical'    },
-  'ketabonline_al_zabidi_taj_al_arus':    { title_ar: 'تاج العروس',      title_en: 'Taj al-Arus',                   author: 'الزبيدي',                period: 'classical'    },
-  'ketabonline_al_jawhari_al_sihah':      { title_ar: 'الصحاح',          title_en: 'al-Sihah',                      author: 'الجوهري',                period: 'classical'    },
-  'ketabonline_al_raghib_mufradat':       { title_ar: 'مفردات القرآن',   title_en: 'Mufradat al-Quran',             author: 'الراغب الأصفهاني',       period: 'classical'    },
-  'saaid_maqayis_al_lugha':               { title_ar: 'مقاييس اللغة',   title_en: 'Maqayis al-Lugha',              author: 'ابن فارس',               period: 'classical'    },
-  'qomra_al_qamus_al_muhit':              { title_ar: 'القاموس المحيط',  title_en: 'Al-Qamus al-Muhit',             author: 'الفيروزآبادي',           period: 'classical'    },
-  'qomra_al_ubab_al_zakhir':              { title_ar: 'العباب الزاخر',   title_en: 'Al-Ubab al-Zakhir',             author: 'الصاغاني',               period: 'classical'    },
-  'qomra_al_misbah_al_munir':             { title_ar: 'المصباح المنير',  title_en: 'Al-Misbah al-Munir',            author: 'الفيومي',                period: 'classical'    },
-  'qomra_jamharat_al_lugha':              { title_ar: 'جمهرة اللغة',     title_en: 'Jamharat al-Lugha',             author: 'ابن دريد',               period: 'classical'    },
-};
-
-// Raghib first — most Quran-focused; Lane (clean) second for English readers
-const SOURCE_ORDER = [
-  'ketabonline_al_raghib_mufradat',
-  'lane_lexicon',
-  'lane_quranic_research_perseus',
-  'ketabonline_al_jawhari_al_sihah',
-  'ketabonline_ibn_manzur_lisan_al_arab',
-  'ketabonline_al_zabidi_taj_al_arus',
-  'saaid_maqayis_al_lugha',
-  'qomra_al_misbah_al_munir',
-  'qomra_al_ubab_al_zakhir',
-  'qomra_jamharat_al_lugha',
-  'qomra_al_qamus_al_muhit',
-];
-
-function srcMeta(slug: string) {
-  return SOURCE_META[slug] ?? { title_ar: slug, title_en: slug, author: '', period: '' };
+// ── Source-meta helpers (D1-backed) ──────────────────────────────────────────
+// Source titles / author / period / catalogue ordering used to live in two
+// hardcoded constants here (SOURCE_META + SOURCE_ORDER). Both are now columns
+// on ar_ling_sources, queried via SourcesRepo. Migrations 0016 + 0017 added
+// the slug / origin / source_order columns and seeded every row that
+// corresponds to a TS slug.
+//
+// metaFromSources(repo) builds the per-request lookup helpers — a Map keyed
+// by slug for O(1) enrichment, and the ordered slug list for grouping. It's
+// called once at the top of each handler that needs source metadata; the
+// returned helpers close over the repo result so we don't re-query D1 for
+// every row in a results loop.
+async function metaFromSources(repo: SourcesRepo) {
+  const sources = await repo.inDisplayOrder();
+  const bySlug  = new Map(sources.map(s => [s.slug, s]));
+  const order   = sources.map(s => s.slug);
+  const meta    = (slug: string) => {
+    const s = bySlug.get(slug);
+    return s
+      ? toResponseMeta(s)
+      : { slug, title_ar: slug, title_en: slug, author: '', period: '' };
+  };
+  return { sources, bySlug, order, meta };
 }
 
 function extractUrl(metaJson: string | null): string | null {
@@ -474,9 +464,9 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       `)
       .all<{ source_slug: string; total: number; roots: number; embedded: number }>();
 
+    const { meta } = await metaFromSources(new SourcesRepo(env.DB_AL));
     const sources = results.map(r => ({
-      ...srcMeta(r.source_slug),
-      slug:     r.source_slug,
+      ...meta(r.source_slug),
       total:    r.total,
       roots:    r.roots,
       embedded: r.embedded,
@@ -500,6 +490,14 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
     const ph    = slugFilter.length ? `AND source_slug IN (${slugFilter.map(() => '?').join(',')})` : '';
     const params2 = [rootNorm, ...slugFilter];
 
+    // Pull source metadata + ordering from D1 in one query before the chunk
+    // scan. We need the count for the LIMIT (safety bound) and the ordered
+    // slug list for the groupings below.
+    const { meta, order: canonicalOrder } = await metaFromSources(new SourcesRepo(env.DB_AL));
+    // The +6 floor preserves the previous behaviour for cases where the
+    // sources table is still being populated (cold ingest, dev environments).
+    const sourceCount = Math.max(canonicalOrder.length, 6);
+
     const { results } = await env.DB_AL
       .prepare(`
         SELECT id, source_slug, heading_norm, root_id,
@@ -509,7 +507,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
           AND  heading_norm = ?
           ${ph}
         ORDER BY source_slug, chunk_seq
-        LIMIT ${perSource * Math.max(SOURCE_ORDER.length, 6)}
+        LIMIT ${perSource * sourceCount}
       `)
       .bind(...params2)
       .all<Record<string, unknown>>();
@@ -521,14 +519,14 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       (bySlug[slug] ??= []).push(toEntry(r));
     }
 
+    const canonicalSet = new Set(canonicalOrder);
     const ordered = [
-      ...SOURCE_ORDER.filter(s => bySlug[s]),
-      ...Object.keys(bySlug).filter(s => !SOURCE_ORDER.includes(s)),
+      ...canonicalOrder.filter(s => bySlug[s]),
+      ...Object.keys(bySlug).filter(s => !canonicalSet.has(s)),
     ];
 
     const sources = ordered.map(slug => ({
-      slug,
-      ...srcMeta(slug),
+      ...meta(slug),
       entries:     bySlug[slug].slice(0, perSource),
       entry_count: bySlug[slug].length,
     }));
@@ -610,7 +608,13 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
 
     if (!row) return notFound(`Entry not found: ${chunkId}`);
     const entry = toEntry(row);
-    return ok({ ...entry, source: srcMeta(entry.source_slug) });
+    const sourceMeta = await new SourcesRepo(env.DB_AL).bySlug(entry.source_slug);
+    return ok({
+      ...entry,
+      source: sourceMeta
+        ? toResponseMeta(sourceMeta)
+        : { slug: entry.source_slug, title_ar: entry.source_slug, title_en: entry.source_slug, author: '', period: '' },
+    });
   });
 
   // GET /al/lexicon/dict/search?q=
@@ -805,13 +809,14 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       .bind(...binds)
       .all<Record<string, unknown>>();
 
+    const { meta } = await metaFromSources(new SourcesRepo(env.DB_AL));
     return ok({
       q,
       source:  source || null,
       total:   results.length,
       entries: results.map(row => ({
         ...toUiEntry(row),
-        lexicon: srcMeta(row.source_slug as string),
+        lexicon: meta(row.source_slug as string),
       })),
     });
   });
@@ -841,10 +846,13 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
     let mj: Record<string, unknown> = {};
     try { mj = JSON.parse(row.meta_json as string ?? '{}') as Record<string, unknown>; } catch { /* */ }
 
+    const sourceRow = await new SourcesRepo(env.DB_AL).bySlug(row.source_slug as string);
     return ok({
       ...toUiEntry(row),
       root:     row.root_text ?? null,
-      lexicon:  srcMeta(row.source_slug as string),
+      lexicon:  sourceRow
+        ? toResponseMeta(sourceRow)
+        : { slug: row.source_slug as string, title_ar: row.source_slug as string, title_en: row.source_slug as string, author: '', period: '' },
       // Scholarly layer — shown in detail drawer only
       definition_scholarly: (mj.definition_original as string) ?? null,
     });
