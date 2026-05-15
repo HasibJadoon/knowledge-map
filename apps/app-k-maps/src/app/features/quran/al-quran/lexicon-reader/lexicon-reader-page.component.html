@@ -180,6 +180,150 @@
   </ng-template>
 </ion-modal>
 
+<!-- ── Quran citations sheet ────────────────────────────────────────── -->
+<ion-modal
+  class="rdr-cites-modal"
+  [isOpen]="quranCitesModalOpen()"
+  [breakpoints]="[0, 0.55, 0.92]"
+  [initialBreakpoint]="0.55"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeQuranCitesModal()"
+>
+  <ng-template>
+    <ion-content class="rdr-cites-modal__content">
+      <div class="rdr-cites-sheet" dir="rtl">
+        <header class="rdr-cites-sheet__head">
+          <h3 class="rdr-cites-sheet__title">آيات قرآنية مذكورة</h3>
+          <span class="rdr-cites-sheet__count">{{ quranCitesList().length }}</span>
+        </header>
+        <ul class="rdr-cites-list">
+          @for (c of quranCitesList(); track $index) {
+            <li class="rdr-cites-list__item">
+              <button class="rdr-cites-list__btn" type="button"
+                      (click)="closeQuranCitesModal(); openAyah(c.surah, c.ayah)">
+                <span class="rdr-cites-list__ref">
+                  <span class="rdr-qref__bracket">﴿</span>{{ c.surah }}:{{ c.ayah }}<span class="rdr-qref__bracket">﴾</span>
+                </span>
+                @if (c.snippet) {
+                  <span class="rdr-cites-list__snippet" dir="rtl">{{ c.snippet }}</span>
+                }
+              </button>
+            </li>
+          }
+        </ul>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- ── Hadith quotes sheet ──────────────────────────────────────────── -->
+<ion-modal
+  class="rdr-hadith-modal"
+  [isOpen]="hadithModalOpen()"
+  [breakpoints]="[0, 0.55, 0.92]"
+  [initialBreakpoint]="0.55"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeHadithModal()"
+>
+  <ng-template>
+    <ion-content class="rdr-hadith-modal__content">
+      <div class="rdr-hadith-sheet" dir="rtl">
+        <header class="rdr-hadith-sheet__head">
+          <h3 class="rdr-hadith-sheet__title">أحاديث مذكورة</h3>
+          <span class="rdr-hadith-sheet__count">{{ hadithList().length }}</span>
+        </header>
+        <ul class="rdr-hadith-list">
+          @for (h of hadithList(); track $index) {
+            <li class="rdr-hadith-list__item">
+              @if (h.cue) {
+                <span class="rdr-hadith-list__cue">{{ h.cue }}</span>
+              }
+              <p class="rdr-hadith-list__text">{{ h.text }}</p>
+            </li>
+          }
+        </ul>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- ── Poetry shawahid sheet ────────────────────────────────────────── -->
+<ion-modal
+  class="rdr-poetry-modal"
+  [isOpen]="poetryModalOpen()"
+  [breakpoints]="[0, 0.55, 0.92]"
+  [initialBreakpoint]="0.55"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closePoetryModal()"
+>
+  <ng-template>
+    <ion-content class="rdr-poetry-modal__content">
+      <div class="rdr-poetry-sheet" dir="rtl">
+        <header class="rdr-poetry-sheet__head">
+          <h3 class="rdr-poetry-sheet__title">شواهد شعرية</h3>
+          <span class="rdr-poetry-sheet__count">{{ poetryList().length }}</span>
+        </header>
+        <ul class="rdr-poetry-list">
+          @for (p of poetryList(); track $index) {
+            <li class="rdr-poetry-list__item">
+              @if (p.cue) {
+                <span class="rdr-poetry-list__cue">{{ p.cue }}</span>
+              }
+              <div class="rdr-poetry-list__verses">
+                @for (v of p.verses; track $index) {
+                  <span class="rdr-poetry-list__verse">{{ v }}</span>
+                }
+              </div>
+              @if (p.attribution) {
+                <cite class="rdr-poetry-list__attr">— {{ p.attribution }}</cite>
+              }
+            </li>
+          }
+        </ul>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
+<!-- ── Authorities sheet (Lane) ─────────────────────────────────────── -->
+<ion-modal
+  class="rdr-auth-modal"
+  [isOpen]="authoritiesModalOpen()"
+  [breakpoints]="[0, 0.55, 0.92]"
+  [initialBreakpoint]="0.55"
+  [handle]="true"
+  [backdropDismiss]="true"
+  (ionModalDidDismiss)="closeAuthoritiesModal()"
+>
+  <ng-template>
+    <ion-content class="rdr-auth-modal__content">
+      <div class="rdr-auth-sheet" dir="rtl">
+        <header class="rdr-auth-sheet__head">
+          <h3 class="rdr-auth-sheet__title">المراجع والأعلام</h3>
+          <span class="rdr-auth-sheet__count">{{ authoritiesList().length }}</span>
+        </header>
+        <ul class="rdr-auth-list">
+          @for (a of authoritiesList(); track a.code) {
+            <li class="rdr-auth-list__item">
+              <span class="rdr-auth-list__code">{{ a.code }}</span>
+              <div class="rdr-auth-list__body">
+                <span class="rdr-auth-list__name-ar" dir="rtl">{{ a.name_ar || a.name_en }}</span>
+                @if (a.name_en && a.name_ar) {
+                  <span class="rdr-auth-list__name-en" dir="ltr">{{ a.name_en }}</span>
+                }
+              </div>
+              <span class="rdr-auth-list__count">{{ a.count }}</span>
+            </li>
+          }
+        </ul>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>
+
 <!-- ── Content ───────────────────────────────────────────────────────── -->
 <ion-content class="rdr-content" [fullscreen]="true"
              [scrollEvents]="true"
@@ -276,6 +420,47 @@
           <ion-button fill="clear" size="small" (click)="nextRoot()" [disabled]="currentRootIndex() >= rootList().length - 1" aria-label="التالي">
             <ion-icon name="chevron-up-outline" slot="icon-only"></ion-icon>
           </ion-button>
+        </div>
+
+        <!-- Aggregated-content chips. Each chip opens a bottom-sheet modal
+             listing all instances of that kind in the current entry. Chips
+             are conditional — they appear only when the list is non-empty. -->
+        <div class="rdr-chips" dir="rtl">
+          @if (quranCitesList().length) {
+            <button class="rdr-chip rdr-chip--qref" type="button" (click)="openQuranCites()">
+              <ion-icon name="book-outline"></ion-icon>
+              <span class="rdr-chip__label">قرآن</span>
+              <span class="rdr-chip__count">{{ quranCitesList().length }}</span>
+            </button>
+          }
+          @if (footnoteList().length) {
+            <button class="rdr-chip rdr-chip--fn" type="button" (click)="openFootnotes()">
+              <ion-icon name="document-text-outline"></ion-icon>
+              <span class="rdr-chip__label">حواشي</span>
+              <span class="rdr-chip__count">{{ footnoteList().length }}</span>
+            </button>
+          }
+          @if (hadithList().length) {
+            <button class="rdr-chip rdr-chip--hadith" type="button" (click)="openHadith()">
+              <ion-icon name="chatbubble-outline"></ion-icon>
+              <span class="rdr-chip__label">حديث</span>
+              <span class="rdr-chip__count">{{ hadithList().length }}</span>
+            </button>
+          }
+          @if (poetryList().length) {
+            <button class="rdr-chip rdr-chip--poetry" type="button" (click)="openPoetry()">
+              <ion-icon name="musical-notes-outline"></ion-icon>
+              <span class="rdr-chip__label">شعر</span>
+              <span class="rdr-chip__count">{{ poetryList().length }}</span>
+            </button>
+          }
+          @if (authoritiesList().length) {
+            <button class="rdr-chip rdr-chip--auth" type="button" (click)="openAuthorities()">
+              <ion-icon name="people-outline"></ion-icon>
+              <span class="rdr-chip__label">أعلام</span>
+              <span class="rdr-chip__count">{{ authoritiesList().length }}</span>
+            </button>
+          }
         </div>
       </header>
 

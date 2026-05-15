@@ -449,6 +449,85 @@ export class LexiconReaderPageComponent implements OnDestroy {
     this.footnoteFocusedNum.set(null);
   }
 
+  // ── Aggregated-content modals (Quran cites / Hadith / Poetry / Authorities)
+  // Bottom-sheet modals that surface the per-entry aggregations the API
+  // already returns. Triggered by chips in the entry header — chips only
+  // appear when their list has at least one item.
+  readonly quranCitesModalOpen  = signal(false);
+  readonly hadithModalOpen      = signal(false);
+  readonly poetryModalOpen      = signal(false);
+  readonly authoritiesModalOpen = signal(false);
+
+  /** Unified Quran citation list across the three source kinds that expose
+   *  them. Field shapes differ on the wire (lane.context_snippet vs
+   *  mufradat.raw) so we normalise to a single display row. */
+  readonly quranCitesList = computed<{ surah: number; ayah: number; snippet: string | null }[]>(() => {
+    const k = this.kind();
+    if (k === 'lane') {
+      return (this.laneView()?.quran_citations ?? []).map(c => ({
+        surah: c.surah, ayah: c.ayah, snippet: c.context_snippet,
+      }));
+    }
+    if (k === 'classical') {
+      return (this.classicalView()?.quran_refs ?? []).map(c => ({
+        surah: c.surah, ayah: c.ayah, snippet: c.context_snippet,
+      }));
+    }
+    if (k === 'mufradat') {
+      return (this.mufradatView()?.quran_citations ?? []).map(c => ({
+        surah: c.surah_num ?? 0, ayah: c.ayah, snippet: c.raw,
+      }));
+    }
+    return [];
+  });
+
+  /** Hadith quotes — Mufradat surfaces them as paragraph kind='hadith'. */
+  readonly hadithList = computed<{ cue: string | null; text: string }[]>(() => {
+    if (this.kind() !== 'mufradat') return [];
+    const out: { cue: string | null; text: string }[] = [];
+    for (const s of this.mufradatView()?.sections ?? []) {
+      for (const p of s.paragraphs) {
+        if (p.kind === 'hadith') {
+          const text = (p.tokens ?? []).map(t => ('value' in t ? t.value : '')).join('').trim();
+          out.push({ cue: p.cue, text });
+        }
+      }
+    }
+    return out;
+  });
+
+  /** Poetry shawahid — Mufradat surfaces them as paragraph kind='poetry'
+   *  with cue + verses[] + attribution. */
+  readonly poetryList = computed<{ cue: string | null; verses: string[]; attribution: string | null }[]>(() => {
+    if (this.kind() !== 'mufradat') return [];
+    const out: { cue: string | null; verses: string[]; attribution: string | null }[] = [];
+    for (const s of this.mufradatView()?.sections ?? []) {
+      for (const p of s.paragraphs) {
+        if (p.kind === 'poetry') {
+          out.push({ cue: p.cue, verses: p.verses, attribution: p.attribution });
+        }
+      }
+    }
+    return out;
+  });
+
+  /** Authorities (sigla) — Lane only; the bilingual XML carries them as
+   *  scholarly attribution codes mapped to full names. */
+  readonly authoritiesList = computed<{ code: string; name_en: string; name_ar: string; count: number }[]>(() => {
+    if (this.kind() !== 'lane') return [];
+    return this.laneView()?.authorities ?? [];
+  });
+
+  openQuranCites():   void { if (this.quranCitesList().length)   this.quranCitesModalOpen.set(true); }
+  openHadith():       void { if (this.hadithList().length)       this.hadithModalOpen.set(true); }
+  openPoetry():       void { if (this.poetryList().length)       this.poetryModalOpen.set(true); }
+  openAuthorities():  void { if (this.authoritiesList().length)  this.authoritiesModalOpen.set(true); }
+
+  closeQuranCitesModal():  void { this.quranCitesModalOpen.set(false); }
+  closeHadithModal():      void { this.hadithModalOpen.set(false); }
+  closePoetryModal():      void { this.poetryModalOpen.set(false); }
+  closeAuthoritiesModal(): void { this.authoritiesModalOpen.set(false); }
+
   goToAyah(surah: number, ayah: number): void {
     this.closeAyahModal();
     this.router.navigate(['/quran/al-quran'], {

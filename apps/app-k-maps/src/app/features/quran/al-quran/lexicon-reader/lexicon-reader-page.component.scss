@@ -233,6 +233,292 @@
   }
 }
 
+// ── Aggregated-content chips (Quran cites / Hadith / Poetry / Authorities)
+// Sit under the entry head as a horizontal scroll. Each chip opens a
+// bottom-sheet modal listing all instances of its kind in the current entry.
+.rdr-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 0.65rem;
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(201, 168, 76, 0.10);
+}
+
+.rdr-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.28rem 0.55rem 0.28rem 0.62rem;
+  background: rgba(201, 168, 76, 0.06);
+  border: 1px solid rgba(201, 168, 76, 0.22);
+  border-radius: 999px;
+  color: var(--gold-soft, #d9bd62);
+  font-family: var(--km-font-arabic-ui, serif);
+  font-size: 0.78rem;
+  line-height: 1;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.12s, border-color 0.12s;
+
+  &:active {
+    background: rgba(232, 201, 106, 0.16);
+    border-color: rgba(232, 201, 106, 0.46);
+  }
+
+  ion-icon { font-size: 0.92rem; opacity: 0.88; }
+
+  &__label {
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+
+  &__count {
+    display: inline-grid;
+    place-items: center;
+    min-width: 1.25rem;
+    padding: 0 0.35rem;
+    height: 1.1rem;
+    background: rgba(232, 201, 106, 0.16);
+    border-radius: 999px;
+    color: #f5f0de;
+    font-family: 'EB Garamond', serif;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.74rem;
+    font-weight: 600;
+  }
+
+  // Subtle per-kind tinting so the chips are scannable at a glance.
+  &--qref   { border-color: rgba(169, 210, 138, 0.32); color: #b3d99a; }
+  &--qref   ion-icon { color: #b3d99a; }
+  &--fn     { border-color: rgba(160, 210, 255, 0.30); color: #a8c8f0; }
+  &--fn     ion-icon { color: #a8c8f0; }
+  &--hadith { border-color: rgba(232, 180, 80, 0.34); color: #e8c46a; }
+  &--poetry { border-color: rgba(220, 160, 220, 0.32); color: #d8a8d8; }
+  &--poetry ion-icon { color: #d8a8d8; }
+  &--auth   { border-color: rgba(180, 180, 180, 0.32); color: #c8c8c8; }
+  &--auth   ion-icon { color: #c8c8c8; }
+}
+
+// ── Shared sheet container for the four aggregated-content modals.
+// Mirrors .rdr-fn-sheet conventions (gold-on-black, RTL, scrollable list).
+.rdr-cites-sheet,
+.rdr-hadith-sheet,
+.rdr-poetry-sheet,
+.rdr-auth-sheet {
+  padding: 0.85rem 0.95rem 1.4rem;
+  font-family: var(--km-font-arabic-ui, serif);
+
+  &__head {
+    display: flex;
+    align-items: baseline;
+    gap: 0.55rem;
+    padding-bottom: 0.45rem;
+    border-bottom: 1px solid rgba(232, 201, 106, 0.18);
+    margin-bottom: 0.75rem;
+  }
+  &__title {
+    margin: 0;
+    color: #f3d77a;
+    font-size: 1.05rem;
+    font-weight: 600;
+  }
+  &__count {
+    margin-inline-start: auto;
+    padding: 1px 8px;
+    border: 1px solid rgba(232, 201, 106, 0.32);
+    border-radius: 999px;
+    color: rgba(232, 201, 106, 0.85);
+    font-family: 'EB Garamond', serif;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78rem;
+  }
+}
+
+// Quran citations list — one ref per row, tap navigates to the verse.
+.rdr-cites-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+  gap: 0;
+
+  &__item { border-bottom: 1px solid rgba(255,255,255,0.04); }
+  &__item:last-child { border-bottom: 0; }
+
+  &__btn {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    width: 100%;
+    padding: 0.7rem 0.2rem;
+    background: transparent;
+    border: 0;
+    color: #f0ead6;
+    text-align: right;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    &:active { background: rgba(232, 201, 106, 0.05); }
+  }
+  &__ref {
+    flex: 0 0 auto;
+    color: var(--gold-soft, #d9bd62);
+    font-family: 'EB Garamond', serif;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.86rem;
+    font-weight: 600;
+    .rdr-qref__bracket {
+      font-family: 'Noto Naskh Arabic', serif;
+      color: rgba(201, 168, 76, 0.7);
+      margin: 0 1px;
+    }
+  }
+  &__snippet {
+    flex: 1;
+    color: rgba(245, 241, 231, 0.74);
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+}
+
+// Hadith list — cue badge + body text.
+.rdr-hadith-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+  gap: 0.85rem;
+
+  &__item {
+    padding: 0.65rem 0.75rem;
+    background: rgba(232, 180, 80, 0.05);
+    border: 1px solid rgba(232, 180, 80, 0.18);
+    border-radius: 8px;
+  }
+  &__cue {
+    display: inline-block;
+    margin-bottom: 0.4rem;
+    padding: 0.1rem 0.45rem;
+    background: rgba(232, 180, 80, 0.14);
+    border-radius: 4px;
+    color: #e8c46a;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+  &__text {
+    margin: 0;
+    color: #f0ead6;
+    font-size: 1rem;
+    line-height: 1.85;
+  }
+}
+
+// Poetry list — distinct card per poetic citation, indented verses + byline.
+.rdr-poetry-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+  gap: 0.85rem;
+
+  &__item {
+    padding: 0.7rem 0.85rem;
+    background: rgba(220, 160, 220, 0.04);
+    border: 1px solid rgba(220, 160, 220, 0.20);
+    border-radius: 8px;
+  }
+  &__cue {
+    display: inline-block;
+    margin-bottom: 0.4rem;
+    padding: 0.1rem 0.45rem;
+    background: rgba(220, 160, 220, 0.14);
+    border-radius: 4px;
+    color: #d8a8d8;
+    font-size: 0.72rem;
+  }
+  &__verses {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-inline-start: 0.6rem;
+    border-inline-start: 2px solid rgba(220, 160, 220, 0.25);
+  }
+  &__verse {
+    color: #f0ead6;
+    font-size: 1.05rem;
+    line-height: 1.95;
+    font-family: 'Amiri', 'Noto Naskh Arabic', serif;
+  }
+  &__attr {
+    display: block;
+    margin-top: 0.4rem;
+    color: rgba(232, 201, 106, 0.72);
+    font-size: 0.82rem;
+    font-style: italic;
+    text-align: end;
+  }
+}
+
+// Authorities — sigla row: code · name · usage count.
+.rdr-auth-list {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column;
+
+  &__item {
+    display: flex;
+    align-items: baseline;
+    gap: 0.7rem;
+    padding: 0.65rem 0.2rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+  &__item:last-child { border-bottom: 0; }
+
+  &__code {
+    flex: 0 0 auto;
+    min-width: 2.4rem;
+    padding: 0.12rem 0.4rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    color: #d9d9d9;
+    font-family: 'EB Garamond', serif;
+    font-size: 0.78rem;
+    text-align: center;
+  }
+  &__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+  }
+  &__name-ar {
+    color: #f0ead6;
+    font-size: 0.94rem;
+    line-height: 1.4;
+  }
+  &__name-en {
+    color: rgba(245, 241, 231, 0.5);
+    font-family: 'EB Garamond', serif;
+    font-size: 0.78rem;
+    font-style: italic;
+  }
+  &__count {
+    flex: 0 0 auto;
+    padding: 0.08rem 0.42rem;
+    background: rgba(201, 168, 76, 0.10);
+    border-radius: 999px;
+    color: var(--gold-soft, #d9bd62);
+    font-family: 'EB Garamond', serif;
+    font-variant-numeric: tabular-nums;
+    font-size: 0.76rem;
+  }
+}
+
+// Sheet skins — match the existing footnote modal aesthetic.
+.rdr-cites-modal, .rdr-hadith-modal,
+.rdr-poetry-modal, .rdr-auth-modal {
+  --border-radius: 18px 18px 0 0;
+  --background: #0a0908;
+  --backdrop-opacity: 0.52;
+  --handle-background: rgba(232, 201, 106, 0.42);
+
+  &__content { --background: transparent; }
+}
+
 // Text selection rules now live in src/global.scss under the
 // `app-lexicon-reader-page` selector — they need to be outside Angular's
 // view-encapsulation to pierce the ion-content shadow DOM via ::part().
