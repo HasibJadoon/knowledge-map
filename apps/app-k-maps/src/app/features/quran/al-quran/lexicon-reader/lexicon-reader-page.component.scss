@@ -306,29 +306,16 @@
 }
 
 // ── Font-scale group ──────────────────────────────────────────────────────
-// Three icon-chips (A−/A·/A+) treated as a single visual unit. Glyphs use
-// the same letter "A" at three sizes so the affordance is immediately
-// readable without text labels — works in any UI language.
+// Two icon-chips (minus / plus) treated as a single visual unit. Universal
+// affordance — works in any UI language without a letter label.
 .rdr-font-scale {
   display: inline-flex;
   align-items: center;
   gap: 2px;
   flex: 0 0 auto;
 
-  // Pull the three buttons tight so they read as one segmented control.
+  // Pull the two buttons tight so they read as one segmented control.
   > .rdr-chip + .rdr-chip { margin-inline-start: -1px; }
-
-  &__glyph {
-    display: inline-block;
-    font-family: var(--lex-font-latin);
-    line-height: 1;
-    font-weight: 600;
-    color: var(--lex-gold-soft);
-    font-size: 0.92rem;
-
-    &--sm { font-size: 0.74rem; }
-    &--lg { font-size: 1.10rem; }
-  }
 }
 
 // ── Shared sheet container for the four aggregated-content modals.

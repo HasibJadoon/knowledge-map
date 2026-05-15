@@ -147,11 +147,15 @@
                   <span class="lx-hit-card__kind" data-kind="academic" aria-hidden="true">
                     <ion-icon name="school-outline"></ion-icon>
                   </span>
-                  <h3 class="lx-hit-card__title">{{ c.title_ar || c.title_en }}</h3>
-                  <span class="lx-hit-card__count" aria-label="Number of roots">{{ c.notes.length }}</span>
+                  <!-- Academic sources are catalogued in English by their
+                       publishers; prefer title_en so the card reads to
+                       Latin-script audiences first. Arabic title falls back
+                       when no English exists. -->
+                  <h3 class="lx-hit-card__title" dir="ltr">{{ c.title_en || c.title_ar }}</h3>
+                  <span class="lx-hit-card__count" aria-label="Number of readings">{{ c.notes.length }}</span>
                 </header>
-                <p class="lx-hit-card__author">
-                  {{ c.author }}@if (c.year) { · {{ c.year }} } · <span class="lx-hit-card__genre">{{ c.genre_label.ar }}</span>
+                <p class="lx-hit-card__author" dir="ltr">
+                  {{ c.author }}@if (c.year) { · {{ c.year }} } · <span class="lx-hit-card__genre">{{ c.genre_label.en || c.genre_label.ar }}</span>
                 </p>
 
                 @if (c.samples.length) {
@@ -163,8 +167,8 @@
                 }
 
                 <span class="lx-hit-card__cta">
-                  <span>افتح القراءة</span>
-                  <ion-icon name="chevron-back-outline" aria-hidden="true"></ion-icon>
+                  <span>Open reading</span>
+                  <ion-icon name="chevron-forward-outline" aria-hidden="true"></ion-icon>
                 </span>
               </button>
             }

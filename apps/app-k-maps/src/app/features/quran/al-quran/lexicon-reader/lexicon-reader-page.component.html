@@ -50,29 +50,24 @@
         laneView() || classicalView() || mufradatView() || scholarshipView())) {
     <ion-toolbar class="rdr-chips-bar" dir="rtl">
       <div class="rdr-chips" dir="rtl">
-        <!-- Font-scale group (A− / A· / A+). Persists via localStorage under
+        <!-- Font-scale group — minus / plus. Persists via localStorage under
              km:lex:fontscale. Drives --lex-scale on the host, which the
-             tokens partial multiplies into every --lex-fs-* size. -->
+             tokens partial multiplies into every --lex-fs-* size. Long-press
+             on either button still works (single tap = one step). -->
         <div class="rdr-font-scale" role="group" aria-label="Font size">
           <button class="rdr-chip rdr-chip--icon"
                   type="button"
                   (click)="bumpFontScale(-1)"
                   [disabled]="!canShrinkFont()"
                   aria-label="Decrease font size">
-            <span class="rdr-font-scale__glyph rdr-font-scale__glyph--sm">A</span>
-          </button>
-          <button class="rdr-chip rdr-chip--icon"
-                  type="button"
-                  (click)="resetFontScale()"
-                  aria-label="Reset font size">
-            <span class="rdr-font-scale__glyph">A</span>
+            <ion-icon name="remove-outline"></ion-icon>
           </button>
           <button class="rdr-chip rdr-chip--icon"
                   type="button"
                   (click)="bumpFontScale(1)"
                   [disabled]="!canGrowFont()"
                   aria-label="Increase font size">
-            <span class="rdr-font-scale__glyph rdr-font-scale__glyph--lg">A</span>
+            <ion-icon name="add-outline"></ion-icon>
           </button>
         </div>
 

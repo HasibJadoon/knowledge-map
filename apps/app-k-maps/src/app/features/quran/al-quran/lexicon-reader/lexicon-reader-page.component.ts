@@ -677,23 +677,44 @@ export class LexiconReaderPageComponent implements OnDestroy {
   }
 
   // ── Stats line (under the entry header)
+  //
+  // English labels with simple pluralisation. The metadata under the
+  // headword is incidental (counts, not content) and the previous Arabic
+  // labels added noise next to the Arabic-script root in the H1 above.
+  // Counts use tabular-nums via the surrounding rule for stable widths.
   statsLine(): string {
     const k = this.kind();
+    const p = (n: number, singular: string, plural?: string) =>
+      `${n} ${n === 1 ? singular : (plural ?? singular + 's')}`;
     if (k === 'lane' && this.laneView()) {
       const s = this.laneView()!.stats;
-      return `${s.forms} صيغة · ${s.senses} معنى · ${s.quran_citations} استشهاد قرآني · ${s.authorities} مرجعًا`;
+      return [
+        p(s.forms, 'form'),
+        p(s.senses, 'sense'),
+        p(s.quran_citations, 'Quran citation'),
+        p(s.authorities, 'authority', 'authorities'),
+      ].join(' · ');
     }
     if (k === 'classical' && this.classicalView()) {
       const s = this.classicalView()!.stats;
-      return `${s.sections} قسمًا · ${s.blocks} فقرة · ${s.quran_refs} استشهاد قرآني`;
+      return [
+        p(s.sections, 'section'),
+        p(s.blocks, 'paragraph'),
+        p(s.quran_refs, 'Quran citation'),
+      ].join(' · ');
     }
     if (k === 'mufradat' && this.mufradatView()) {
       const s = this.mufradatView()!.stats;
-      return `${s.paragraphs} فقرة · ${s.poetry} شاهد شعري · ${s.hadith} حديث · ${s.quran_citations} آية`;
+      return [
+        p(s.paragraphs, 'paragraph'),
+        p(s.poetry, 'poetic verse', 'poetic verses'),
+        p(s.hadith, 'hadith'),
+        p(s.quran_citations, 'Quran citation'),
+      ].join(' · ');
     }
     if (k === 'scholarship' && this.scholarshipView()) {
       const v = this.scholarshipView()!;
-      return `${v.notes.length} قراءة`;
+      return p(v.notes.length, 'reading');
     }
     return '';
   }
