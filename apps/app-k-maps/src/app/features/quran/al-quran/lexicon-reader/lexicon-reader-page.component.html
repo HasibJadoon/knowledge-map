@@ -279,21 +279,25 @@
             <ion-icon name="close-outline"></ion-icon>
           </button>
         </header>
-        <ul class="rdr-cites-list">
-          @for (c of quranCitesList(); track $index) {
-            <li class="rdr-cites-list__item">
-              <button class="rdr-cites-list__btn" type="button"
-                      (click)="closeQuranCitesModal(); openAyah(c.surah, c.ayah)">
-                <span class="rdr-cites-list__ref">
-                  <span class="rdr-qref__bracket">﴿</span>{{ c.surah }}:{{ c.ayah }}<span class="rdr-qref__bracket">﴾</span>
-                </span>
-                @if (c.snippet) {
-                  <span class="rdr-cites-list__snippet" dir="rtl">{{ c.snippet }}</span>
-                }
-              </button>
-            </li>
-          }
-        </ul>
+        @if (quranCitesList().length === 0) {
+          <p class="rdr-sheet-empty">No Quran citations in this entry.</p>
+        } @else {
+          <ul class="rdr-cites-list">
+            @for (c of quranCitesList(); track $index) {
+              <li class="rdr-cites-list__item">
+                <button class="rdr-cites-list__btn" type="button"
+                        (click)="closeQuranCitesModal(); openAyah(c.surah, c.ayah)">
+                  <span class="rdr-cites-list__ref">
+                    <span class="rdr-qref__bracket">﴿</span>{{ c.surah }}:{{ c.ayah }}<span class="rdr-qref__bracket">﴾</span>
+                  </span>
+                  @if (c.snippet) {
+                    <span class="rdr-cites-list__snippet" lang="ar" dir="rtl">{{ c.snippet }}</span>
+                  }
+                </button>
+              </li>
+            }
+          </ul>
+        }
       </div>
     </ion-content>
   </ng-template>
@@ -319,16 +323,20 @@
             <ion-icon name="close-outline"></ion-icon>
           </button>
         </header>
-        <ul class="rdr-hadith-list">
-          @for (h of hadithList(); track $index) {
-            <li class="rdr-hadith-list__item">
-              @if (h.cue) {
-                <span class="rdr-hadith-list__cue">{{ h.cue }}</span>
-              }
-              <p class="rdr-hadith-list__text">{{ h.text }}</p>
-            </li>
-          }
-        </ul>
+        @if (hadithList().length === 0) {
+          <p class="rdr-sheet-empty">No hadith citations in this entry.</p>
+        } @else {
+          <ul class="rdr-hadith-list">
+            @for (h of hadithList(); track $index) {
+              <li class="rdr-hadith-list__item">
+                @if (h.cue) {
+                  <span class="rdr-hadith-list__cue">{{ h.cue }}</span>
+                }
+                <p class="rdr-hadith-list__text">{{ h.text }}</p>
+              </li>
+            }
+          </ul>
+        }
       </div>
     </ion-content>
   </ng-template>
@@ -354,23 +362,27 @@
             <ion-icon name="close-outline"></ion-icon>
           </button>
         </header>
-        <ul class="rdr-poetry-list">
-          @for (p of poetryList(); track $index) {
-            <li class="rdr-poetry-list__item">
-              @if (p.cue) {
-                <span class="rdr-poetry-list__cue">{{ p.cue }}</span>
-              }
-              <div class="rdr-poetry-list__verses">
-                @for (v of p.verses; track $index) {
-                  <span class="rdr-poetry-list__verse">{{ v }}</span>
+        @if (poetryList().length === 0) {
+          <p class="rdr-sheet-empty">No poetry shawahid in this entry.</p>
+        } @else {
+          <ul class="rdr-poetry-list">
+            @for (p of poetryList(); track $index) {
+              <li class="rdr-poetry-list__item">
+                @if (p.cue) {
+                  <span class="rdr-poetry-list__cue">{{ p.cue }}</span>
                 }
-              </div>
-              @if (p.attribution) {
-                <cite class="rdr-poetry-list__attr">— {{ p.attribution }}</cite>
-              }
-            </li>
-          }
-        </ul>
+                <div class="rdr-poetry-list__verses">
+                  @for (v of p.verses; track $index) {
+                    <span class="rdr-poetry-list__verse">{{ v }}</span>
+                  }
+                </div>
+                @if (p.attribution) {
+                  <cite class="rdr-poetry-list__attr">— {{ p.attribution }}</cite>
+                }
+              </li>
+            }
+          </ul>
+        }
       </div>
     </ion-content>
   </ng-template>
@@ -396,20 +408,24 @@
             <ion-icon name="close-outline"></ion-icon>
           </button>
         </header>
-        <ul class="rdr-auth-list">
-          @for (a of authoritiesList(); track a.code) {
-            <li class="rdr-auth-list__item">
-              <span class="rdr-auth-list__code">{{ a.code }}</span>
-              <div class="rdr-auth-list__body">
-                <span class="rdr-auth-list__name-ar" dir="rtl">{{ a.name_ar || a.name_en }}</span>
-                @if (a.name_en && a.name_ar) {
-                  <span class="rdr-auth-list__name-en" dir="ltr">{{ a.name_en }}</span>
-                }
-              </div>
-              <span class="rdr-auth-list__count">{{ a.count }}</span>
-            </li>
-          }
-        </ul>
+        @if (authoritiesList().length === 0) {
+          <p class="rdr-sheet-empty">No authority sigla recorded for this entry.</p>
+        } @else {
+          <ul class="rdr-auth-list">
+            @for (a of authoritiesList(); track a.code) {
+              <li class="rdr-auth-list__item">
+                <span class="rdr-auth-list__code">{{ a.code }}</span>
+                <div class="rdr-auth-list__body">
+                  <span class="rdr-auth-list__name-ar" lang="ar" dir="rtl">{{ a.name_ar || a.name_en }}</span>
+                  @if (a.name_en && a.name_ar) {
+                    <span class="rdr-auth-list__name-en" dir="ltr">{{ a.name_en }}</span>
+                  }
+                </div>
+                <span class="rdr-auth-list__count">{{ a.count }}</span>
+              </li>
+            }
+          </ul>
+        }
       </div>
     </ion-content>
   </ng-template>

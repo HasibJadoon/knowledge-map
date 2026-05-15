@@ -376,6 +376,23 @@
   }
 }
 
+// Shared empty-state message for the aggregated-content sheets. Renders
+// when a sheet opens with zero items (defensive — the chip→sheet flow
+// already guards the open path, but data can shift mid-flight when the
+// user navigates to a new root while a sheet is open).
+.rdr-sheet-empty {
+  margin: var(--lex-sp-xl) auto;
+  padding: var(--lex-sp-md) var(--lex-sp-lg);
+  max-width: 28ch;
+  color: var(--lex-ink-faint);
+  font-size: var(--lex-fs-sm);
+  font-style: italic;
+  text-align: center;
+  border: 1px dashed var(--lex-rule-strong);
+  border-radius: var(--lex-radius-md);
+  font-family: var(--lex-font-latin);
+}
+
 // Shared explicit-close button for every sheet header. Sits at the
 // leading edge of the dir="rtl" header (visually right in RTL, left in
 // LTR — flex naturally inverts). 36×36 hits --lex-tap-sm so the close
