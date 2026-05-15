@@ -5,10 +5,16 @@
     <section class="research-page" dir="rtl">
 
       <div class="rp-detail-header">
-        <ion-button class="rp-back-btn" fill="clear" size="small" (click)="closeSource()">
-          <ion-icon slot="start" name="chevron-forward-outline" />
-          العودة
-        </ion-button>
+        <div class="rp-detail-header__top">
+          <ion-button class="rp-back-btn" fill="clear" size="small" (click)="closeSource()">
+            <ion-icon slot="start" name="chevron-forward-outline" />
+            العودة
+          </ion-button>
+          <ion-button class="rp-refs-btn" fill="clear" size="small"
+                      (click)="openRefs()" aria-label="المراجع والروابط">
+            <ion-icon slot="icon-only" name="link-outline" />
+          </ion-button>
+        </div>
         <h2 class="rp-detail-title">{{ src.book_title_ar }}</h2>
         @if (src.author_name_ar) { <p class="rp-detail-scholar">{{ src.author_name_ar }}</p> }
         <div class="rp-detail-badges">
@@ -19,47 +25,45 @@
         </div>
       </div>
 
-      <!-- Verse navigation — surah selector + ayah stepper (mobile-clean) -->
+      <!-- Verse navigation — slim surah selector + ayah stepper -->
       <div class="rp-verse-nav">
-        <!-- Surah: full-width selector -->
-        <ion-item class="rp-verse-nav__pill rp-verse-nav__pill--surah" lines="none">
-          <ion-label position="stacked">السورة</ion-label>
-          <ion-select
-            interface="action-sheet"
-            [interfaceOptions]="{ cssClass: 'qrs-select-sheet', header: 'اختر السورة' }"
-            [value]="selectedSurah()"
-            (ionChange)="setSurah(+$any($event.detail.value))"
-          >
-            @for (s of surahMenu(); track s.id) {
-              <ion-select-option [value]="s.id">{{ s.id }} · {{ s.name_ar }}</ion-select-option>
-            }
-          </ion-select>
-        </ion-item>
+        <ion-select
+          class="rp-verse-nav__select rp-verse-nav__select--surah"
+          label="السورة"
+          labelPlacement="start"
+          interface="action-sheet"
+          [interfaceOptions]="{ cssClass: 'qrs-select-sheet', header: 'اختر السورة' }"
+          [value]="selectedSurah()"
+          (ionChange)="setSurah(+$any($event.detail.value))"
+        >
+          @for (s of surahMenu(); track s.id) {
+            <ion-select-option [value]="s.id">{{ s.id }} · {{ s.name_ar }}</ion-select-option>
+          }
+        </ion-select>
 
-        <!-- Ayah stepper -->
         <div class="rp-verse-nav__ayah">
-          <ion-button class="rp-verse-nav__btn" fill="clear" shape="round" size="small"
+          <ion-button class="rp-verse-nav__btn" fill="clear" size="small"
                       aria-label="الآية السابقة"
                       [disabled]="selectedAyah() <= 1"
                       (click)="prevAyah()">
             <ion-icon slot="icon-only" name="chevron-forward-outline" />
           </ion-button>
 
-          <ion-item class="rp-verse-nav__pill rp-verse-nav__pill--ayah" lines="none">
-            <ion-label position="stacked">الآية</ion-label>
-            <ion-select
-              interface="action-sheet"
-              [interfaceOptions]="{ cssClass: 'qrs-select-sheet', header: 'اختر الآية' }"
-              [value]="selectedAyah()"
-              (ionChange)="setAyah(+$any($event.detail.value))"
-            >
-              @for (a of [].constructor(ayahCount()); track $index) {
-                <ion-select-option [value]="$index + 1">آية {{ $index + 1 }} / {{ ayahCount() }}</ion-select-option>
-              }
-            </ion-select>
-          </ion-item>
+          <ion-select
+            class="rp-verse-nav__select rp-verse-nav__select--ayah"
+            label="الآية"
+            labelPlacement="start"
+            interface="action-sheet"
+            [interfaceOptions]="{ cssClass: 'qrs-select-sheet', header: 'اختر الآية' }"
+            [value]="selectedAyah()"
+            (ionChange)="setAyah(+$any($event.detail.value))"
+          >
+            @for (a of [].constructor(ayahCount()); track $index) {
+              <ion-select-option [value]="$index + 1">{{ $index + 1 }} / {{ ayahCount() }}</ion-select-option>
+            }
+          </ion-select>
 
-          <ion-button class="rp-verse-nav__btn" fill="clear" shape="round" size="small"
+          <ion-button class="rp-verse-nav__btn" fill="clear" size="small"
                       aria-label="الآية التالية"
                       [disabled]="selectedAyah() >= ayahCount()"
                       (click)="nextAyah()">
@@ -192,6 +196,14 @@
   }
 
 </ion-content>
+
+<!-- References & backlinks modal — tabbed (قرآن / علماء / روابط) -->
+<km-refs-modal
+  [payload]="payload()"
+  [open]="refsModalOpen()"
+  (dismiss)="closeRefs()"
+  (openAyah)="openAyah($event.surah, $event.ayah)"
+/>
 
 <!-- Ayah preview modal (preserved) -->
 <ion-modal [isOpen]="ayahModalOpen()" (didDismiss)="closeAyahModal()" class="ayah-preview-modal">

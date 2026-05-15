@@ -100,7 +100,12 @@
 
 .db-body {
   color: var(--db-text-primary);
-  white-space: pre-wrap;
+  // pre-line (not pre-wrap): keep paragraph breaks from the parsed text but
+  // collapse stray runs of spaces/indentation so prose doesn't render ragged.
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  text-align: start;
 }
 .db-expand {
   margin-top: 10px;

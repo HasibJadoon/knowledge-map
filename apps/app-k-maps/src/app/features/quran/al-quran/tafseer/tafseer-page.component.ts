@@ -16,6 +16,7 @@ import { QuranResearchSearchService } from '../quran-research-search.service';
 import { ReadingStateService } from '../reading-state.service';
 import { ContinueReadingCardComponent } from '../components/continue-reading-card/continue-reading-card.component';
 import { DisplayBlockComponent } from '../../../../shared/components/display-block/display-block.component';
+import { RefsModalComponent } from '../../../../shared/components/refs-modal/refs-modal.component';
 
 interface ScholarColumn {
   source: QrTafsirDisplaySource;
@@ -52,7 +53,7 @@ interface AyahPreview {
 @Component({
   selector: 'app-tafseer-page',
   standalone: true,
-  imports: [CommonModule, IonicModule, ContinueReadingCardComponent, DisplayBlockComponent],
+  imports: [CommonModule, IonicModule, ContinueReadingCardComponent, DisplayBlockComponent, RefsModalComponent],
   templateUrl: './tafseer-page.component.html',
   styleUrl: './tafseer-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -235,6 +236,11 @@ export class TafseerPageComponent implements OnInit {
         },
       });
   }
+
+  // ── References & backlinks modal ──────────────────────────────────────────
+  readonly refsModalOpen = signal(false);
+  openRefs(): void  { this.refsModalOpen.set(true); }
+  closeRefs(): void { this.refsModalOpen.set(false); }
 
   // ── Ayah preview modal (preserved)
   readonly ayahModalOpen    = signal(false);
