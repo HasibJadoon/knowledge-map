@@ -972,26 +972,13 @@
   margin: 0 1px;
   font-style: italic;
 }
-.rdr-mufradat-poetry {
-  margin: 1.4em 0;
-  padding: 12px 18px;
-  border-inline-end: 2px solid #f0c688;
-  background: linear-gradient(180deg, rgba(240, 198, 136, 0.05), transparent);
-  text-align: center;
-  font-style: italic;
-  line-height: 2;
-  &__cue   { display: block; color: #f0c688; font-style: normal; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; }
-  &__verse { display: block; margin: 4px 0; }
-  &__attr  { display: block; color: var(--ink-faint); font-style: normal; font-size: 0.82rem; margin-top: 6px; }
-}
-.rdr-mufradat-hadith {
-  margin: 1.4em 0;
-  padding: 12px 16px;
-  border-inline-end: 2px solid #92bee1;
-  background: linear-gradient(180deg, rgba(146, 190, 225, 0.06), transparent);
-  border-radius: 6px;
-  &__cue { display: inline-block; color: #92bee1; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; padding: 2px 9px; border-radius: 999px; border: 1px solid rgba(146, 190, 225, 0.30); }
-}
+// Mufradat poetry + hadith blocks now reuse the shared .rdr-callout
+// primitives defined above (Phase A / Phase B unification). The two
+// per-kind styling rules previously here (.rdr-mufradat-poetry,
+// .rdr-mufradat-hadith) were dropped — markup is identical to classical
+// quran_quote / hadith_quote / poetry_quote callouts so a reader can't
+// tell which source kind they're looking at from chrome alone, only from
+// the actual content.
 .rdr-mufradat-qira {
   margin: 1.2em 0;
   padding: 10px 14px;

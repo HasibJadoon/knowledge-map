@@ -798,25 +798,37 @@
                     </p>
                   }
                   @case ('poetry') {
-                    <blockquote class="rdr-mufradat-poetry" dir="rtl">
-                      @if (p.cue) { <span class="rdr-mufradat-poetry__cue">{{ p.cue }}</span> }
-                      @for (v of p.verses; track $index) {
-                        <span class="rdr-mufradat-poetry__verse">{{ v }}</span>
+                    <!-- Phase B: re-use the shared .rdr-callout primitive so Mufradat
+                         poetry reads identically to classical poetry_quote blocks. -->
+                    <aside class="rdr-callout rdr-callout--poetry" dir="rtl">
+                      <span class="rdr-callout__label">شعر</span>
+                      @if (p.cue) { <span class="rdr-callout__cue">{{ p.cue }}</span> }
+                      @if (p.verses.length) {
+                        <div class="rdr-callout__verses">
+                          @for (v of p.verses; track $index) {
+                            <span class="rdr-callout__verse" lang="ar">{{ v }}</span>
+                          }
+                        </div>
                       }
-                      @if (p.attribution) { <cite class="rdr-mufradat-poetry__attr">— {{ p.attribution }}</cite> }
-                    </blockquote>
+                      @if (p.attribution) {
+                        <cite class="rdr-callout__attr">— {{ p.attribution }}</cite>
+                      }
+                    </aside>
                   }
                   @case ('hadith') {
-                    <blockquote class="rdr-mufradat-hadith" dir="rtl">
-                      @if (p.cue) { <span class="rdr-mufradat-hadith__cue">{{ p.cue }}</span> }
-                      @for (t of p.tokens; track $index) {
-                        @switch (t.kind) {
-                          @case ('text') { <span>{{ t.value }}</span> }
-                          @case ('br')   { <br /> }
-                          @default { <span>{{ $any(t).value || '' }}</span> }
+                    <aside class="rdr-callout rdr-callout--hadith" dir="rtl">
+                      <span class="rdr-callout__label">حديث</span>
+                      @if (p.cue) { <span class="rdr-callout__cue">{{ p.cue }}</span> }
+                      <p class="rdr-callout__body" lang="ar">
+                        @for (t of p.tokens; track $index) {
+                          @switch (t.kind) {
+                            @case ('text') { <span>{{ t.value }}</span> }
+                            @case ('br')   { <br /> }
+                            @default { <span>{{ $any(t).value || '' }}</span> }
+                          }
                         }
-                      }
-                    </blockquote>
+                      </p>
+                    </aside>
                   }
                   @case ('qira_variant') {
                     <p class="rdr-mufradat-qira" dir="rtl">
