@@ -126,7 +126,8 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
         }
         this.searching.set(true);
         return forkJoin({
-          structured:  this.api.getStructuredRootEntries(t).pipe(catchError(() => of(null))),
+          // v2 cross-source compare — same endpoint the dedicated reader uses.
+          compare:     this.api.getV2RootCompare(t).pipe(catchError(() => of(null))),
           dict:        this.api.getRootEntries(t, 20).pipe(catchError(() => of(null))),
           scholarship: this.api.getRootScholarship(t).pipe(
             catchError(() => of({ root_norm: t, notes: [], total: 0 })),
@@ -142,7 +143,7 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
         return;
       }
 
-      const { structured, dict, scholarship, q } = res;
+      const { compare, dict, scholarship, q } = res;
       this.scholarship.set(scholarship?.notes ?? []);
 
       // Root metadata block (showed above the result grid).
@@ -152,32 +153,27 @@ export class LexiconPageComponent implements OnInit, AfterViewInit {
           meaning_ar: dict.root.meaning_ar,
           frequency_quran: dict.root.frequency_quran,
         });
-      } else if (structured) {
-        this.rootMeta.set({ text_ar: structured.root, meaning_ar: null, frequency_quran: null });
+      } else if (compare?.canonical) {
+        this.rootMeta.set({
+          text_ar: compare.canonical.root_text,
+          meaning_ar: null,
+          frequency_quran: compare.canonical.frequency_quran,
+        });
       } else {
         this.rootMeta.set({ text_ar: q, meaning_ar: null, frequency_quran: null });
       }
 
-      // Build per-source hit map for inline card decoration.
-      // Structured response covers Lane + a few v2-aware sources with rich
-      // heading metadata; the dict response covers the rest with text_ar
-      // chunks. Merge: prefer structured headings when present.
+      // Build per-source hit map for inline card decoration. v2 compare lists
+      // one row per (root, source) with section/block counts; dict adds any
+      // sources without a root_entries row yet.
       const hits = new Map<string, SourceHit>();
       const SAMPLE_CAP = 6;
 
-      for (const lex of structured?.lexicons ?? []) {
+      for (const src of compare?.sources ?? []) {
         const samples: string[] = [];
-        for (const e of lex.entries) {
-          const head = (e.heading_ar ?? '').trim();
-          if (head && !samples.includes(head)) samples.push(head);
-          for (const f of e.arabic_forms ?? []) {
-            if (samples.length >= SAMPLE_CAP) break;
-            const fc = f.trim();
-            if (fc && !samples.includes(fc)) samples.push(fc);
-          }
-          if (samples.length >= SAMPLE_CAP) break;
-        }
-        hits.set(lex.slug, { count: lex.count ?? lex.entries.length, samples });
+        const head = (src.root_text ?? '').trim();
+        if (head) samples.push(head);
+        hits.set(src.source_slug, { count: src.sections || 1, samples });
       }
 
       for (const src of dict?.sources ?? []) {

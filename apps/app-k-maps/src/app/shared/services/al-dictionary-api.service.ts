@@ -48,44 +48,6 @@ export interface AlRootResult {
   lemma_count: number;
 }
 
-// ─── Types — structured lexicon entries (/al/lexicon/entries/*) ──────────────
-
-export interface CitationChip {
-  abbr:     string;
-  label:    string;
-  label_ar: string;
-  author:   string;
-}
-
-export interface LexEntry {
-  id:           string;
-  heading_ar:   string | null;
-  page_label:   string | null;
-  page:         number | null;
-  type:         string;
-  definition:   string | null;
-  has_gaps:     boolean;
-  arabic_forms: string[];
-  ref_sources:  CitationChip[];
-}
-
-export interface LexLexicon {
-  slug:     string;
-  title:    string;
-  title_ar: string;
-  author:   string;
-  period:   string;
-  count:    number;
-  entries:  LexEntry[];
-}
-
-export interface LexRootResult {
-  root:     string;
-  source:   string | null;
-  total:    number;
-  lexicons: LexLexicon[];
-}
-
 // ─── Types — Lane grouped rows (/al/lexicon/entries/lane/*) ──────────────────
 
 export interface LaneGroupedRow {
@@ -126,9 +88,11 @@ export class AlDictionaryApiService {
     return this.api.getData('al', ['lexicon', 'dict', 'root', root], { params });
   }
 
-  getStructuredRootEntries(root: string, limit = 50): Observable<LexRootResult> {
-    const params = new HttpParams().set('limit', String(limit));
-    return this.api.getData<LexRootResult>('al', ['lexicon', 'entries', 'root', root], { params });
+  /** Cross-source compare: which lexicons have entries for this root, plus
+   *  per-source metadata (page range, sections, blocks). Mirrors the
+   *  desktop reader — both apps now use the same v2 endpoint. */
+  getV2RootCompare(root_norm: string): Observable<LexV2RootCompare> {
+    return this.api.getData<LexV2RootCompare>('al', ['lex', 'v2', 'roots', root_norm]);
   }
 
   getLaneTableEntries(root: string, limit = 100): Observable<LaneTableResult> {
@@ -265,6 +229,26 @@ export interface LexV2RootRow {
   page_start:   number | null;
   page_end:     number | null;
   volume_no:    number | null;
+}
+
+/** Shape returned by GET /al/lex/v2/roots/:root_norm. Lists every source
+ *  that has an entry for this root, with section/block counts. Mirrors the
+ *  desktop type by name + fields. */
+export interface LexV2RootCompare {
+  root_norm: string;
+  canonical: {
+    id: string;
+    root_text: string;
+    root_letters: string;
+    root_type: string;
+    frequency_quran: number | null;
+    meaning_core_en: string | null;
+  } | null;
+  sources: (LexV2RootRow & LexV2SourceMeta & {
+    sections:   number;
+    blocks:     number;
+    quran_refs: number;
+  })[];
 }
 
 export interface LexV2Block {

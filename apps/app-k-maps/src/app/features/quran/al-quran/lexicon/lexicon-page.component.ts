@@ -149,7 +149,10 @@ export class LexiconPageComponent implements OnInit {
         }
         this.searching.set(true);
         return forkJoin({
-          structured:  this.api.getStructuredRootEntries(t).pipe(catchError(() => of(null))),
+          // v2 cross-source compare — same endpoint the desktop reader uses.
+          // Returns canonical root metadata + per-source row counts so the
+          // catalog can light up which lexicons have entries for this root.
+          compare:     this.api.getV2RootCompare(t).pipe(catchError(() => of(null))),
           dict:        this.api.getRootEntries(t, 20).pipe(catchError(() => of(null))),
           scholarship: this.api.getRootScholarship(t).pipe(
             catchError(() => of({ root_norm: t, notes: [], total: 0 })),
@@ -165,7 +168,7 @@ export class LexiconPageComponent implements OnInit {
         return;
       }
 
-      const { structured, dict, scholarship, q } = res;
+      const { compare, dict, scholarship, q } = res;
       this.scholarship.set(scholarship?.notes ?? []);
 
       if (dict) {
@@ -174,30 +177,28 @@ export class LexiconPageComponent implements OnInit {
           meaning_ar: dict.root.meaning_ar,
           frequency_quran: dict.root.frequency_quran,
         });
-      } else if (structured) {
-        this.rootMeta.set({ text_ar: structured.root, meaning_ar: null, frequency_quran: null });
+      } else if (compare?.canonical) {
+        this.rootMeta.set({
+          text_ar: compare.canonical.root_text,
+          meaning_ar: null,
+          frequency_quran: compare.canonical.frequency_quran,
+        });
       } else {
         this.rootMeta.set({ text_ar: q, meaning_ar: null, frequency_quran: null });
       }
 
       // Build per-source hit map for inline card decoration.
-      // Prefer structured headings; fall back to dict text_ar tokens.
+      // Prefer v2 compare rows (one per (root, source)); fall back to dict tokens.
       const hits = new Map<string, SourceHit>();
       const CAP = 6;
 
-      for (const lex of structured?.lexicons ?? []) {
+      for (const src of compare?.sources ?? []) {
         const samples: string[] = [];
-        for (const e of lex.entries) {
-          const head = (e.heading_ar ?? '').trim();
-          if (head && !samples.includes(head)) samples.push(head);
-          for (const f of e.arabic_forms ?? []) {
-            if (samples.length >= CAP) break;
-            const fc = f.trim();
-            if (fc && !samples.includes(fc)) samples.push(fc);
-          }
-          if (samples.length >= CAP) break;
-        }
-        hits.set(lex.slug, { count: lex.count ?? lex.entries.length, samples });
+        const head = (src.root_text ?? '').trim();
+        if (head) samples.push(head);
+        // src.sections is the count of distinct sections within this lexicon
+        // entry — a richer signal than just "1 entry per source".
+        hits.set(src.source_slug, { count: src.sections || 1, samples });
       }
       for (const src of dict?.sources ?? []) {
         if (hits.has(src.slug)) continue;

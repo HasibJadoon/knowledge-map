@@ -48,44 +48,6 @@ export interface AlRootResult {
   lemma_count: number;
 }
 
-// ─── Types — structured lexicon entries (/al/lexicon/entries/*) ──────────────
-
-export interface CitationChip {
-  abbr:     string;
-  label:    string;
-  label_ar: string;
-  author:   string;
-}
-
-export interface LexEntry {
-  id:           string;
-  heading_ar:   string | null;
-  page_label:   string | null;
-  page:         number | null;
-  type:         string;
-  definition:   string | null;
-  has_gaps:     boolean;
-  arabic_forms: string[];
-  ref_sources:  CitationChip[];
-}
-
-export interface LexLexicon {
-  slug:     string;
-  title:    string;
-  title_ar: string;
-  author:   string;
-  period:   string;
-  count:    number;
-  entries:  LexEntry[];
-}
-
-export interface LexRootResult {
-  root:     string;
-  source:   string | null;
-  total:    number;
-  lexicons: LexLexicon[];
-}
-
 // ─── Types — Lane grouped table (/al/lexicon/entries/lane/*) ─────────────────
 
 export interface LaneGroupedRow {
@@ -126,11 +88,6 @@ export class AlDictionaryApiService {
   getRootEntries(root: string, limit = 10): Observable<AlRootResult> {
     const params = new HttpParams().set('limit', String(limit));
     return this.api.getData('al', ['lexicon', 'dict', 'root', root], { params });
-  }
-
-  getStructuredRootEntries(root: string, limit = 50): Observable<LexRootResult> {
-    const params = new HttpParams().set('limit', String(limit));
-    return this.api.getData<LexRootResult>('al', ['lexicon', 'entries', 'root', root], { params });
   }
 
   getLaneTableEntries(root: string, limit = 100): Observable<LaneTableResult> {

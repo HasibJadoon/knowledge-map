@@ -762,76 +762,12 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
     return ok({ root: rootRaw, total: results.length, entries: results });
   });
 
-  // GET /al/lexicon/entries/root/:rootText
-  // Returns all structured entries for a root, grouped by lexicon source.
-  // ?source=lane_lexicon  — filter to one lexicon (optional)
-  // ?limit=50             — max entries per source (default 50, max 200)
-  router.get('/al/lexicon/entries/root/:rootText', async (req, env, params) => {
-    const rootRaw = decodeURIComponent((params as Record<string, string>).rootText ?? '');
-    if (!rootRaw) return badRequest('rootText required');
-
-    const url    = new URL(req.url);
-    const source = url.searchParams.get('source') ?? '';
-    const limit  = Math.min(parseInt(url.searchParams.get('limit') || '50'), 200);
-
-    const sourceCond = source ? 'AND e.source_slug = ?' : '';
-    const binds: unknown[] = source
-      ? [rootRaw, rootRaw, source, limit]
-      : [rootRaw, rootRaw, limit];
-
-    const { results } = await env.DB_AL
-      .prepare(`
-        SELECT e.id, e.source_slug, e.page_no, e.cleaner_json,
-               MAX(CASE WHEN b.block_type = 'heading'     THEN b.text_ar END) AS heading_ar,
-               MAX(CASE WHEN b.block_type = 'arabic_form' THEN b.text_ar END) AS arabic_forms_raw,
-               MAX(CASE WHEN b.block_type = 'page_ref'    THEN b.text_en END) AS page_label
-        FROM   ar_ling_lexicon_entries e
-        LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
-        LEFT JOIN ar_ling_lemmas l ON l.id = e.lemma_id
-        LEFT JOIN ar_ling_roots  r ON r.id = e.root_id
-        WHERE  (r.root_text = ? OR l.lemma_text = ?)
-          ${sourceCond}
-        GROUP BY e.id
-        ORDER BY e.page_no ASC, e.source_entry_seq ASC
-        LIMIT ?
-      `)
-      .bind(...binds)
-      .all<Record<string, unknown>>();
-
-    if (!results.length) return notFound(`No entries for root: ${rootRaw}`);
-
-    // Group by source, preserve canonical order
-    const bySlug: Record<string, LexEntry[]> = {};
-    for (const row of results) {
-      const slug = (row.source_slug as string) ?? 'unknown';
-      (bySlug[slug] ??= []).push(toUiEntry(row));
-    }
-
-    const ordered = [
-      ...SOURCE_ORDER.filter(s => bySlug[s]),
-      ...Object.keys(bySlug).filter(s => !SOURCE_ORDER.includes(s)),
-    ];
-
-    const lexicons = ordered.map(slug => {
-      const m = srcMeta(slug);
-      return {
-        slug,
-        title:    m.title_en,
-        title_ar: m.title_ar,
-        author:   m.author,
-        period:   m.period,
-        count:    bySlug[slug].length,
-        entries:  bySlug[slug],
-      };
-    });
-
-    return ok({
-      root:         rootRaw,
-      source:       source || null,
-      total:        results.length,
-      lexicons,
-    });
-  });
+  // GET /al/lexicon/entries/root/:rootText — REMOVED.
+  // Both apps (Ionic + desktop) now call /al/lex/v2/roots/:root_norm
+  // (handled by lexiconV2Routes). The old route queried the retired
+  // ar_ling_lexicon_entries table and produced a parallel response shape;
+  // removing it prevents accidental re-use and forces a single code path
+  // through ar_ling_lexicon_root_entries.
 
   // GET /al/lexicon/entries/search?q=&source=&limit=
   // Searches heading_ar and definition_clean.
