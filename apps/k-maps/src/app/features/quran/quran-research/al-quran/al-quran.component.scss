@@ -12,7 +12,10 @@
     var(--km-bg);
   color: var(--km-text);
   font-family: var(--km-font-body);
-  padding: 2rem 2rem 4rem;
+  padding: 2rem
+    calc(2rem + env(safe-area-inset-right, 0px))
+    4rem
+    calc(2rem + env(safe-area-inset-left, 0px));
 
   &__inner {
     max-width: 1040px;
@@ -289,7 +292,10 @@
 
 @media (max-width: 760px) {
   .al-quran-page {
-    padding: 1.25rem 1rem 3rem;
+    padding: 1.25rem
+      calc(1rem + env(safe-area-inset-right, 0px))
+      3rem
+      calc(1rem + env(safe-area-inset-left, 0px));
   }
 
   .top-nav,

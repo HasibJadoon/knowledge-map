@@ -387,7 +387,11 @@
   }
 
   .al-quran-page {
-    padding: 0.55rem 0.65rem 3rem;
+    padding:
+      0.55rem
+      max(0.65rem, env(safe-area-inset-right, 0px))
+      3rem
+      max(0.65rem, env(safe-area-inset-left, 0px));
   }
 
   .mushaf-page {

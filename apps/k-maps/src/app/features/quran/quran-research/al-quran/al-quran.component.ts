@@ -244,7 +244,12 @@ export class AlQuranComponent implements OnInit {
   private async fetchPages(pageNumbers: number[]): Promise<QrPagePayload[]> {
     if (!pageNumbers.length) return [];
     this.ensureQpcFonts(pageNumbers);
-    const responses = await Promise.all(pageNumbers.map((page) => firstValueFrom(this.qrApi.getMushafPage(page, MUSHAF_LAYOUT))));
+    // Fetch page data and wait for fonts in parallel — both must be ready
+    // before GSAP animates pages in, eliminating FOUT entirely.
+    const [responses] = await Promise.all([
+      Promise.all(pageNumbers.map((page) => firstValueFrom(this.qrApi.getMushafPage(page, MUSHAF_LAYOUT)))),
+      this.waitForQpcFonts(pageNumbers),
+    ]);
     return responses.map((response) => response.data).sort((a, b) => a.page.number - b.page.number);
   }
 
@@ -261,16 +266,30 @@ export class AlQuranComponent implements OnInit {
 
       const style = doc.createElement('style');
       style.id = styleId;
+      // font-display: block keeps text invisible while the font downloads
+      // instead of flashing a fallback (swap). Combined with waitForQpcFonts()
+      // below, pages only become visible once the correct font is confirmed ready.
       style.textContent = `
 @font-face {
   font-family: 'QPCV2Page${page}';
   font-style: normal;
   font-weight: 400;
-  font-display: swap;
+  font-display: block;
   src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2');
 }`;
       doc.head.appendChild(style);
     }
+  }
+
+  private waitForQpcFonts(pageNumbers: number[]): Promise<void> {
+    const fonts = globalThis.document?.fonts;
+    if (!fonts) return Promise.resolve();
+    const loads = pageNumbers.map((page) =>
+      fonts.load(`400 1em 'QPCV2Page${page}'`).catch(() => undefined),
+    );
+    // Cap at 2.5s so a slow network never blocks the reader indefinitely.
+    const timeout = new Promise<void>((resolve) => setTimeout(resolve, 2500));
+    return Promise.race([Promise.all(loads).then(() => undefined), timeout]);
   }
 
   private animateLoadedPages(reset = false): void {
