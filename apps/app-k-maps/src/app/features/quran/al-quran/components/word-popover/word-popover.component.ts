@@ -22,8 +22,10 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div class="wp">
-      <header class="wp__head">
-        <span class="wp__text" lang="ar" dir="rtl">{{ displayText() }}</span>
+      <header class="wp__head" [class.wp__head--ref-only]="!displayText()">
+        @if (displayText(); as txt) {
+          <span class="wp__text" lang="ar" dir="rtl">{{ txt }}</span>
+        }
         <span class="wp__ref">{{ word.surah }}:{{ word.ayah }}<span class="wp__pos">·{{ word.position }}</span></span>
       </header>
 
@@ -86,6 +88,10 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
       padding-bottom: 0.45rem;
       border-bottom: 1px solid rgba(232, 201, 106, 0.18);
       margin-bottom: 0.55rem;
+    }
+    .wp__head--ref-only {
+      flex-direction: row;
+      justify-content: flex-start;
     }
     .wp__text {
       flex: 1;
@@ -188,10 +194,13 @@ export class WordPopoverComponent {
   }
 
   /** word.text is QPC PUA-encoded (only renders with the per-page QPC font);
-   *  word.simple is the human-readable Arabic. The popover header uses Amiri,
-   *  which doesn't have the PUA glyphs — prefer simple, fall back to text. */
+   *  Amiri/Noto Naskh can't render those glyphs and would show tofu. Only show
+   *  word.simple when it's a real readable word (>1 char). If simple is missing
+   *  or just a stray character, return empty so the header hides the word span
+   *  — the user already sees the actual word in the reader behind the popover. */
   displayText(): string {
-    return this.word.simple || this.word.text || '';
+    const simple = (this.word.simple ?? '').trim();
+    return simple.length > 1 ? simple : '';
   }
 
   emitOpenRoot(): void {
