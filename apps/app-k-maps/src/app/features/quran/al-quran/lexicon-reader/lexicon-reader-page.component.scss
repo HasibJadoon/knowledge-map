@@ -191,29 +191,91 @@
     letter-spacing: var(--lex-tracking-display);
     line-height: var(--lex-lh-tight);
   }
+  // Legacy stats line kept for backward-compat with any consumer that still
+  // queries the class — the new chip-grid below is what actually renders.
   &__stats {
     margin: 0;
     color: var(--lex-ink-soft);
     font-size: var(--lex-fs-sm);
     font-family: var(--lex-font-arabic-ui);
   }
-  &__nav {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--lex-sp-sm);
-    margin-top: var(--lex-sp-xs);
-    // Prev/next root is primary navigation — give it the full --lex-tap
-    // (44pt iOS HIG minimum) instead of inheriting ion-button size="small".
-    ion-button {
-      --color: var(--lex-gold-soft);
-      --padding-start: 0;
-      --padding-end: 0;
-      width: var(--lex-tap);
-      height: var(--lex-tap);
-      margin: 0;
-      ion-icon { font-size: 1.25rem; }
-    }
+}
+
+// ── Entry stats chips ──────────────────────────────────────────────────
+// Centered row of compact chips that shows entry metrics (forms, senses,
+// Quran refs, authorities, …) under the headword. Replaces a single
+// interpolated string that wrapped mid-phrase at narrow widths. Each chip
+// is a value+label pair with tabular-nums on the value so the chips align
+// visually even when counts change between roots.
+.rdr-stats {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--lex-sp-xs);
+
+  &__chip {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 4px;
+    padding: 3px var(--lex-sp-sm);
+    background: var(--lex-gold-tint);
+    border: 1px solid var(--lex-gold-line);
+    border-radius: var(--lex-radius-pill);
+    color: var(--lex-ink-soft);
+    line-height: 1.4;
+    transition: background var(--lex-dur-fast) var(--lex-ease),
+                border-color var(--lex-dur-fast) var(--lex-ease);
+
+    // Per-kind tint so the eye reads the modal-trigger chips (Quran refs,
+    // hadith, poetry, authorities) as the same family as the body chips.
+    &[data-kind='qref']    { border-color: rgba(169, 210, 138, 0.30); background: var(--lex-c-quran-tint);  }
+    &[data-kind='qref']    .rdr-stats__value { color: var(--lex-c-quran); }
+    &[data-kind='poetry']  { border-color: rgba(220, 160, 220, 0.30); background: var(--lex-c-poetry-tint); }
+    &[data-kind='poetry']  .rdr-stats__value { color: var(--lex-c-poetry); }
+    &[data-kind='hadith']  { border-color: rgba(232, 180, 80, 0.34);  background: var(--lex-c-hadith-tint); }
+    &[data-kind='hadith']  .rdr-stats__value { color: var(--lex-c-hadith); }
+    &[data-kind='auth']    { border-color: rgba(180, 180, 180, 0.30); background: rgba(255,255,255,0.04); }
+    &[data-kind='auth']    .rdr-stats__value { color: #c8c8c8; }
+  }
+  &__value {
+    color: var(--lex-gold-bright);
+    font-family: var(--lex-font-latin);
+    font-variant-numeric: tabular-nums;
+    font-size: calc(var(--lex-fs-sm) * 1.05);
+    font-weight: 600;
+  }
+  &__label {
+    color: var(--lex-ink-soft);
+    font-family: var(--lex-font-latin);
+    font-size: calc(var(--lex-fs-xs) * 1.06);
+    font-style: italic;
+    letter-spacing: 0;
+  }
+}
+
+// Prev/next root nav — formerly nested under .rdr-entry-head__nav; restored
+// here as a top-level rule after the .rdr-stats block was inserted between
+// .rdr-entry-head and this rule. Selector compiles to the same .rdr-entry-head__nav
+// the template uses.
+.rdr-entry-head__nav {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--lex-sp-sm);
+  margin-top: var(--lex-sp-xs);
+  // Prev/next root is primary navigation — give it the full --lex-tap
+  // (44pt iOS HIG minimum) instead of inheriting ion-button size="small".
+  ion-button {
+    --color: var(--lex-gold-soft);
+    --padding-start: 0;
+    --padding-end: 0;
+    width: var(--lex-tap);
+    height: var(--lex-tap);
+    margin: 0;
+    ion-icon { font-size: 1.25rem; }
   }
 }
 
@@ -763,57 +825,63 @@
   font-weight: 600;
 }
 
-// Inline Quran-citation link. Flat — no border, no fill — so it reads as
-// part of the prose, not a chunky badge. A thin dotted underline keeps it
-// tappable without breaking the line. Active state nudges colour + thicker
-// underline (no transform, no fill flash). Brackets are kept but softened
-// to ~0.6 opacity so the surah-name + ayah-num are the primary read.
+// Modern inline Quran-citation pill. The previous design rendered the
+// ornate ﴿﴾ (U+FD3F / U+FD3E) brackets in a Naskh font — read as a heavy
+// decorative box. The new design drops the brackets entirely (hidden via
+// display:none on .rdr-qref__bracket below) and uses a slim pill with a
+// soft green tint, hairline border, and a tabular-nums separator. The
+// pill reads as a clickable reference without intruding on the prose
+// baseline. The class names stay so the existing templates don't change.
 .rdr-qref {
-  display: inline;
-  color: var(--quran);
+  display: inline-flex;
+  align-items: baseline;
+  vertical-align: baseline;
+  gap: 0;
+  margin: 0 2px;
+  padding: 1px 8px 1px 7px;
+  background: var(--lex-c-quran-tint);
+  border: 1px solid rgba(169, 210, 138, 0.30);
+  border-radius: var(--lex-radius-pill);
+  color: var(--lex-c-quran);
   font-weight: 500;
-  padding: 0 1px;
-  margin: 0 1px;
-  border: 0;
-  background: transparent;
-  border-bottom: 1px dotted rgba(169, 210, 138, 0.42);
-  border-radius: 0;
-  cursor: pointer;
-  -webkit-tap-highlight-color: rgba(169, 210, 138, 0.10);
   text-decoration: none;
   unicode-bidi: isolate;
   font-variant-numeric: tabular-nums;
-  transition: color 0.12s, border-bottom-color 0.12s;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: background var(--lex-dur-fast) var(--lex-ease),
+              border-color var(--lex-dur-fast) var(--lex-ease),
+              color var(--lex-dur-fast) var(--lex-ease);
 
   &:active {
+    background: rgba(169, 210, 138, 0.16);
+    border-color: rgba(169, 210, 138, 0.62);
     color: #c8e9a8;
-    border-bottom-color: rgba(169, 210, 138, 0.85);
   }
 
-  // Mushaf bracket glyphs (U+FD3F / U+FD3E) need a Naskh font with that
-  // coverage. Softened opacity so they frame without competing.
-  &__bracket {
-    font-family: var(--rdr-font-arabic);
-    color: var(--quran);
-    opacity: 0.6;
-    font-size: 0.92em;
-    margin: 0 1px;
-  }
-  // Surah cell is either Arabic name (Mufradat) or number (Lane/Classical).
-  // Use the Arabic UI font so Arabic names render in proper Naskh; numeric
-  // values still display cleanly via tabular-nums on the parent.
+  // Drop the ornate ﴿﴾ brackets — they read as heavy decoration. The pill
+  // chrome itself signals "this is a reference"; brackets are redundant.
+  &__bracket { display: none; }
+
+  // Surah cell is either an Arabic name (Mufradat) or a number (Lane/
+  // Classical). Use the Arabic UI font so Arabic names render in proper
+  // Naskh; numeric values inherit the parent's tabular-nums.
   &__surah {
-    font-family: var(--km-font-arabic-ui, 'Noto Naskh Arabic', serif);
-    font-size: 0.96em;
+    font-family: var(--lex-font-arabic-ui);
+    font-size: 0.92em;
+    margin-inline-end: 4px;
   }
   &__ayah {
-    font-family: 'EB Garamond', 'Times New Roman', serif;
-    font-size: 0.96em;
+    font-family: var(--lex-font-latin);
+    font-size: 0.94em;
+    font-weight: 600;
   }
+  // Colon separator — slim, dimmed.
   &__sep {
-    color: rgba(169, 210, 138, 0.5);
+    color: rgba(169, 210, 138, 0.50);
     margin: 0 1px;
-    font-family: 'EB Garamond', serif;
+    font-family: var(--lex-font-latin);
+    font-weight: 400;
   }
   // Legacy single-span fallback (lane/mufradat callouts not yet migrated).
   &__ref {

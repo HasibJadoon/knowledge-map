@@ -855,41 +855,45 @@ export class LexiconReaderPageComponent implements OnDestroy {
   // headword is incidental (counts, not content) and the previous Arabic
   // labels added noise next to the Arabic-script root in the H1 above.
   // Counts use tabular-nums via the surrounding rule for stable widths.
-  statsLine(): string {
+  statsChips(): Array<{ value: number; label: string; kind?: string }> {
     const k = this.kind();
-    const p = (n: number, singular: string, plural?: string) =>
-      `${n} ${n === 1 ? singular : (plural ?? singular + 's')}`;
+    // Pluralise the label so a chip reads "1 form" / "5 forms" without an
+    // awkward "(s)". `kind` drives subtle per-chip tinting in SCSS (matches
+    // the modal-trigger chip palette).
+    const p = (n: number, singular: string, plural?: string, kind?: string) =>
+      ({ value: n, label: n === 1 ? singular : (plural ?? singular + 's'), kind });
+
     if (k === 'lane' && this.laneView()) {
       const s = this.laneView()!.stats;
       return [
         p(s.forms, 'form'),
         p(s.senses, 'sense'),
-        p(s.quran_citations, 'Quran citation'),
-        p(s.authorities, 'authority', 'authorities'),
-      ].join(' · ');
+        p(s.quran_citations, 'Quran ref', 'Quran refs', 'qref'),
+        p(s.authorities, 'authority', 'authorities', 'auth'),
+      ];
     }
     if (k === 'classical' && this.classicalView()) {
       const s = this.classicalView()!.stats;
       return [
         p(s.sections, 'section'),
         p(s.blocks, 'paragraph'),
-        p(s.quran_refs, 'Quran citation'),
-      ].join(' · ');
+        p(s.quran_refs, 'Quran ref', 'Quran refs', 'qref'),
+      ];
     }
     if (k === 'mufradat' && this.mufradatView()) {
       const s = this.mufradatView()!.stats;
       return [
         p(s.paragraphs, 'paragraph'),
-        p(s.poetry, 'poetic verse', 'poetic verses'),
-        p(s.hadith, 'hadith'),
-        p(s.quran_citations, 'Quran citation'),
-      ].join(' · ');
+        p(s.poetry, 'verse', 'verses', 'poetry'),
+        p(s.hadith, 'hadith', 'hadiths', 'hadith'),
+        p(s.quran_citations, 'Quran ref', 'Quran refs', 'qref'),
+      ];
     }
     if (k === 'scholarship' && this.scholarshipView()) {
       const v = this.scholarshipView()!;
-      return p(v.notes.length, 'reading');
+      return [p(v.notes.length, 'reading')];
     }
-    return '';
+    return [];
   }
 
   // Type-narrowing helpers for template
