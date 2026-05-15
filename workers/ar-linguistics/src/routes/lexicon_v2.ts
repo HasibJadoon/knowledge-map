@@ -22,58 +22,31 @@ import type { Router } from '../../../shared/src/router';
 import { ok, notFound, badRequest } from '../../../shared/src/response';
 import { cached } from '../../../shared/src/cache';
 import type { ArLinguisticsEnv } from '../env';
+import { SourcesRepo, type LexiconSource } from '../repositories/sources.repo';
 
-// ── Per-source display metadata ───────────────────────────────────────────────
-const SOURCES: Record<string, {
-  title_ar: string; title_en: string; author: string; period: string;
-  origin: 'thahabi' | 'ketabonline' | 'saaid' | 'qomra' | 'lane';
-  bilingual?: boolean;
-}> = {
-  lane_lexicon: {
-    title_ar: 'معجم لين العربي الإنجليزي', title_en: "Lane's Arabic-English Lexicon",
-    author: 'إدوارد وليم لين', period: 'القرن التاسع عشر', origin: 'lane', bilingual: true,
-  },
-  thahabi_al_khalil_kitab_al_ayn: {
-    title_ar: 'كتاب العين', title_en: "Kitab al-'Ayn",
-    author: 'الخليل بن أحمد الفراهيدي', period: 'كلاسيكي مبكر', origin: 'thahabi',
-  },
-  ketabonline_al_fayyumi_misbah_munir: {
-    title_ar: 'المصباح المنير', title_en: 'Al-Misbah al-Munir',
-    author: 'الفيومي', period: 'كلاسيكي متأخر', origin: 'ketabonline',
-  },
-  ketabonline_ibn_duraid_jamharat_al_lugha: {
-    title_ar: 'جمهرة اللغة', title_en: 'Jamharat al-Lugha',
-    author: 'ابن دريد', period: 'كلاسيكي', origin: 'ketabonline',
-  },
-  ketabonline_al_raghib_mufradat: {
-    title_ar: 'مفردات القرآن', title_en: 'Mufradat al-Quran',
-    author: 'الراغب الأصفهاني', period: 'كلاسيكي', origin: 'ketabonline',
-  },
-  ketabonline_al_jawhari_al_sihah: {
-    title_ar: 'الصحاح', title_en: 'al-Sihah',
-    author: 'الجوهري', period: 'كلاسيكي', origin: 'ketabonline',
-  },
-  ketabonline_ibn_manzur_lisan_al_arab: {
-    title_ar: 'لسان العرب', title_en: 'Lisan al-Arab',
-    author: 'ابن منظور', period: 'كلاسيكي', origin: 'ketabonline',
-  },
-  ketabonline_al_zabidi_taj_al_arus: {
-    title_ar: 'تاج العروس', title_en: 'Taj al-Arus',
-    author: 'الزبيدي', period: 'كلاسيكي', origin: 'ketabonline',
-  },
-  saaid_maqayis_al_lugha: {
-    title_ar: 'مقاييس اللغة', title_en: 'Maqayis al-Lugha',
-    author: 'ابن فارس', period: 'كلاسيكي', origin: 'saaid',
-  },
-  qomra_al_qamus_al_muhit: {
-    title_ar: 'القاموس المحيط', title_en: 'al-Qamus al-Muhit',
-    author: 'الفيروزآبادي', period: 'كلاسيكي', origin: 'qomra',
-  },
-  qomra_al_ubab_al_zakhir: {
-    title_ar: 'العباب الزاخر', title_en: 'al-Ubab al-Zakhir',
-    author: 'الصاغاني', period: 'كلاسيكي', origin: 'qomra',
-  },
-};
+// ── Per-source display metadata (D1-backed) ──────────────────────────────────
+// SOURCES (a hardcoded Record<slug, {…}>) used to live here. The same data
+// now lives in ar_ling_sources after migrations 0016 + 0017, accessed via
+// SourcesRepo. v2RouteMeta() below builds the projection v2 callers expect:
+// { slug, title_ar, title_en, author, period, origin, bilingual? }.
+//
+// Two fields beyond the base toResponseMeta() shape:
+//   - origin: pipeline producer (lane / ketabonline / thahabi / saaid / qomra)
+//   - bilingual: optional flag — true only when the source has English columns
+function v2RouteMeta(s: import('../repositories/sources.repo').LexiconSource) {
+  const base = {
+    slug:     s.slug,
+    title_ar: s.title_ar,
+    title_en: s.title_en ?? s.title_ar,
+    author:   s.author_name ?? '',
+    period:   s.period_label ?? '',
+    origin:   s.origin ?? '',
+  };
+  // Match the previous behaviour: include `bilingual: true` ONLY when set.
+  // Callers downstream check `if (meta.bilingual)` so an absent key signals
+  // monolingual; emitting `bilingual: false` would be a noisier API change.
+  return s.bilingual ? { ...base, bilingual: true } : base;
+}
 
 // ── Helpers — body normalization & footnote extraction ───────────────────────
 
@@ -147,19 +120,13 @@ function collectFootnotes(blocks: any[]): { num: number; text: string; block_id:
   return out.sort((a, b) => a.num - b.num);
 }
 
-const SOURCE_ORDER = [
-  'lane_lexicon',
-  'ketabonline_al_raghib_mufradat',
-  'saaid_maqayis_al_lugha',
-  'thahabi_al_khalil_kitab_al_ayn',
-  'ketabonline_al_jawhari_al_sihah',
-  'ketabonline_al_fayyumi_misbah_munir',
-  'ketabonline_ibn_duraid_jamharat_al_lugha',
-  'ketabonline_ibn_manzur_lisan_al_arab',
-  'ketabonline_al_zabidi_taj_al_arus',
-  'qomra_al_qamus_al_muhit',
-  'qomra_al_ubab_al_zakhir',
-];
+// SOURCE_ORDER (the v2-specific catalogue ordering) used to live here as
+// a hardcoded array. The same ordering now lives in ar_ling_sources.source_order
+// (seeded by 0017). Note: lexicon.ts uses a slightly different order — qomra
+// editions appear later because lexicon.ts targets the classical/source-chunk
+// reader, while v2 prefers the cleanly imported ketabonline editions. Both
+// orderings come from the same column now; the ordering is opinionated about
+// v2-relevant sources via the seed migration.
 
 export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
 
@@ -173,12 +140,12 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
     ).all<{ source_slug: string; roots: number }>()).results ?? [];
 
     const counts = new Map(rows.map(r => [r.source_slug, Number(r.roots)]));
-    const sources = SOURCE_ORDER
-      .filter(slug => counts.get(slug)! > 0)
-      .map(slug => ({
-        slug,
-        ...SOURCES[slug],
-        roots: counts.get(slug) ?? 0,
+    const allSources = await new SourcesRepo(env.DB_AL).inDisplayOrder();
+    const sources = allSources
+      .filter(s => (counts.get(s.slug) ?? 0) > 0)
+      .map(s => ({
+        ...v2RouteMeta(s),
+        roots: counts.get(s.slug) ?? 0,
       }));
 
     return ok({ sources, total: sources.length });
@@ -253,14 +220,20 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
        FROM ar_ling_roots WHERE root_text = ? LIMIT 1`
     ).bind(root_norm).first()) ?? null;
 
+    // Resolve every source's meta in one bulk D1 query, then map by slug.
+    const slugs = entries.map((e: any) => e.source_slug as string);
+    const sourceRows = await new SourcesRepo(env.DB_AL).bySlugs(slugs);
+    const sourceBySlug = new Map(sourceRows.map(s => [s.slug, s]));
+
     return ok({
       root_norm,
       canonical,
       sources: entries.map((e: any) => {
         const c = counts.find((x: any) => x.source_slug === e.source_slug) ?? {};
+        const sourceRow = sourceBySlug.get(e.source_slug as string);
         return {
           ...e,
-          ...SOURCES[e.source_slug as string],
+          ...(sourceRow ? v2RouteMeta(sourceRow) : {}),
           sections: Number((c as any).sections ?? 0),
           blocks:   Number((c as any).blocks ?? 0),
           quran_refs: Number((c as any).quran_refs ?? 0),
@@ -372,8 +345,9 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
     // ── Collect footnote backing text (when ingestion preserved it) ────
     const footnotes = collectFootnotes(blocks);
 
+    const sourceRow = await new SourcesRepo(env.DB_AL).bySlug(slug);
     return ok({
-      meta: { ...SOURCES[slug] ?? null, slug },
+      meta: sourceRow ? v2RouteMeta(sourceRow) : { slug },
       entry,
       canonical,
       sections: sectionsWithBody,
@@ -393,6 +367,23 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
       },
     });
   }));
+
+  // ── /al/lex/v2/search rows → meta enrichment ──────────────────────────
+  // Three search modes (root / word / fts) all return rows tagged with
+  // source_slug. Centralise the metadata-bulk-fetch + map so each mode
+  // stays a single `rows.map(... meta: bySlug.get(r.source_slug))`.
+  async function enrichRowsWithMeta(env: ArLinguisticsEnv, rows: any[]) {
+    if (!rows.length) return [];
+    const slugs = Array.from(new Set(rows.map(r => r.source_slug as string)));
+    const sourceRows = await new SourcesRepo(env.DB_AL).bySlugs(slugs);
+    const bySlug = new Map(sourceRows.map(s => [s.slug, s]));
+    return rows.map(r => ({
+      ...r,
+      meta: bySlug.get(r.source_slug as string)
+        ? v2RouteMeta(bySlug.get(r.source_slug as string) as LexiconSource)
+        : undefined,
+    }));
+  }
 
   // ── GET /al/lex/v2/search?q=&mode=root|word|fts&sources=&limit= ─────────
   router.get('/al/lex/v2/search', async (req, env) => {
@@ -417,7 +408,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
       binds.push(limit);
       const rows = (await env.DB_AL.prepare(sql).bind(...binds).all()).results ?? [];
       return ok({
-        results: rows.map((r: any) => ({ ...r, meta: SOURCES[r.source_slug] })),
+        results: await enrichRowsWithMeta(env, rows),
         total: rows.length, mode, q,
       });
     }
@@ -438,7 +429,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
       binds.push(limit);
       const rows = (await env.DB_AL.prepare(sql).bind(...binds).all()).results ?? [];
       return ok({
-        results: rows.map((r: any) => ({ ...r, meta: SOURCES[r.source_slug] })),
+        results: await enrichRowsWithMeta(env, rows),
         total: rows.length, mode, q,
       });
     }
@@ -460,7 +451,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
         binds.push(limit);
         const rows = (await env.DB_AL.prepare(sql).bind(...binds).all()).results ?? [];
         return ok({
-          results: rows.map((r: any) => ({ ...r, meta: SOURCES[r.source_slug] })),
+          results: await enrichRowsWithMeta(env, rows),
           total: rows.length, mode, q,
         });
       } catch (e) {
