@@ -245,6 +245,24 @@
     .rdr-stats__icon { color: currentColor; }
     .rdr-stats__value { color: currentColor; }
   }
+  // Actionable variant — renders as <button>. Hover/active states lift
+  // the border tint and brighten the icon, signalling tappability without
+  // breaking the visual family with the info-only chips next to it.
+  &__chip--tap {
+    appearance: none;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    font: inherit;
+    &:hover { border-color: currentColor; filter: brightness(1.15); }
+    &:active {
+      transform: scale(0.96);
+      filter: brightness(1.30);
+      transition: transform var(--lex-dur-fast) var(--lex-ease),
+                  filter var(--lex-dur-fast) var(--lex-ease);
+    }
+    .rdr-stats__icon { opacity: 1; }
+  }
+
   &__icon {
     font-size: 0.95rem;
     flex: 0 0 auto;

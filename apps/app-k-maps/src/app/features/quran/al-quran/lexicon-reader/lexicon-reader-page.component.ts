@@ -857,6 +857,27 @@ export class LexiconReaderPageComponent implements OnDestroy {
   // headword is incidental (counts, not content) and the previous Arabic
   // labels added noise next to the Arabic-script root in the H1 above.
   // Counts use tabular-nums via the surrounding rule for stable widths.
+  /** Dispatch a chip tap → the right modal. Returns true if the chip
+   *  triggered a modal (so the template can flag it as actionable);
+   *  false for info-only kinds (forms/senses/sections/paragraphs) that
+   *  count body content with no separate aggregation modal. */
+  onStatsChipTap(kind: string): boolean {
+    switch (kind) {
+      case 'qref':    if (this.quranCitesList().length)  { this.openQuranCites();  return true; } break;
+      case 'hadith':  if (this.hadithList().length)      { this.openHadith();      return true; } break;
+      case 'poetry':  if (this.poetryList().length)      { this.openPoetry();      return true; } break;
+      case 'auth':    if (this.authoritiesList().length) { this.openAuthorities(); return true; } break;
+    }
+    return false;
+  }
+
+  /** Whether a chip kind has a corresponding modal (drives template
+   *  affordance: actionable chips render as <button> with hover/active
+   *  states; info-only chips render as <li> static pills). */
+  chipIsActionable(kind: string): boolean {
+    return kind === 'qref' || kind === 'hadith' || kind === 'poetry' || kind === 'auth';
+  }
+
   statsChips(): Array<{ value: number; icon: string; ariaLabel: string; kind: string }> {
     const k = this.kind();
     // Each chip is now icon + number only — no inline label text. ionicons
