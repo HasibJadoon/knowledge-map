@@ -1,0 +1,62 @@
+name: Upload Dependency Graphs to R2
+
+# Manual one-shot job: pull the QUL ayah dependency-graph SVG database and
+# load every SVG into the production R2 bucket `km-quran-dep-graphs`, which the
+# quran worker serves at /qr/irab/dep-graph/:surah/:ayah.
+#
+# Needed because the dependency_graph display blocks already exist in D1, but
+# the SVGs themselves were never pushed to the remote bucket — so the endpoint
+# 404s for every ayah.
+
+on:
+  workflow_dispatch:
+    inputs:
+      qul_db_url:
+        description: "Direct download URL for the QUL dependency-graphs SQLite DB (.db, .sqlite, or a .zip containing one)"
+        required: true
+        type: string
+      surah:
+        description: "Optional: limit the upload to a single surah number (blank = all)"
+        required: false
+        type: string
+
+jobs:
+  upload:
+    name: Backfill km-quran-dep-graphs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install wrangler
+        run: npm install -g wrangler
+
+      - name: Download dependency-graph DB from QUL
+        env:
+          QUL_DB_URL: ${{ inputs.qul_db_url }}
+        run: |
+          set -euo pipefail
+          curl -fSL --retry 4 --retry-delay 3 -o qul-download "$QUL_DB_URL"
+          if file qul-download | grep -qi 'zip archive'; then
+            unzip -o qul-download -d qul-extracted
+            db=$(find qul-extracted \( -name '*.db' -o -name '*.sqlite' \) | head -n1)
+            [ -n "$db" ] || { echo "::error::No .db/.sqlite file found inside the zip"; exit 1; }
+          else
+            db=qul-download
+          fi
+          mv "$db" ayah-dependency-graphs.db
+          echo "tafsir rows: $(sqlite3 ayah-dependency-graphs.db 'SELECT COUNT(*) FROM tafsir;')"
+
+      - name: Upload SVGs to production R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          SURAH: ${{ inputs.surah }}
+        run: |
+          set -euo pipefail
+          args=(--apply --input ayah-dependency-graphs.db)
+          if [ -n "${SURAH}" ]; then args+=(--surah "${SURAH}"); fi
+          node scripts/irab-ingestion/upload-dep-graphs-r2.mjs "${args[@]}"
