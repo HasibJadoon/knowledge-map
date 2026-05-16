@@ -2,6 +2,9 @@
 // Uploads ayah dependency-graph SVGs from local SQLite to R2 bucket km-quran-dep-graphs.
 // Key format: dep-graphs/{surah}/{surah}:{ayah}.svg
 // After upload, patches clean_text in qr_irab_source_chunks with the r2_key.
+//
+// Uploads target the *remote* (production) bucket — `wrangler r2 object put`
+// defaults to the local simulated store, which the deployed worker never reads.
 
 import { execFileSync, spawn } from 'node:child_process';
 import { readFileSync } from 'node:fs';
@@ -60,7 +63,7 @@ function uploadToR2Once(key, svgContent) {
   return new Promise((resolve, reject) => {
     const proc = spawn(
       'npx',
-      ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--pipe', '--content-type', 'image/svg+xml'],
+      ['wrangler', 'r2', 'object', 'put', `${BUCKET}/${key}`, '--remote', '--pipe', '--content-type', 'image/svg+xml'],
       { cwd: QR_CWD_PATH },
     );
     proc.stdin.end(Buffer.from(svgContent, 'utf8'));
