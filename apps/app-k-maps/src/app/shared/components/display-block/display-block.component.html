@@ -167,12 +167,18 @@
     }
 
     @case ('dependency_graph') {
-      <figure class="db-dep-graph">
-        <figcaption class="db-dep-graph-cap">{{ block().title_ar }}</figcaption>
-        @if (externalSvgUrl()) {
-          <img [src]="externalSvgUrl()" alt="dependency tree" loading="lazy" />
-        }
-      </figure>
+      @if (block().surah_no && block().ayah_no) {
+        <app-iraab-tree-viewer
+          [surah]="block().surah_no!"
+          [ayah]="block().ayah_no!"
+          [caption]="block().title_ar"
+          [compact]="compact()"
+        />
+      } @else {
+        <div class="db-dep-graph db-dep-graph--na">
+          {{ block().title_ar || 'الشجرة الإعرابية' }} — غير متاحة
+        </div>
+      }
     }
 
     @case ('callout') {

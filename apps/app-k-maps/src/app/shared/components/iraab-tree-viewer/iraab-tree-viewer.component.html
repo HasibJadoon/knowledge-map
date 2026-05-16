@@ -1,0 +1,123 @@
+<div class="tv" [class.tv--compact]="compact()" [class.tv--fullscreen]="fullscreen()">
+
+  <header class="tv__bar">
+    <div class="tv__title">
+      <svg class="tv__icon tv__icon--brand" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M12 4.5v4M12 8.5l-5 5M12 8.5l5 5" />
+        <circle cx="12" cy="4.5" r="2" />
+        <circle cx="7" cy="15.5" r="2" />
+        <circle cx="17" cy="15.5" r="2" />
+      </svg>
+      <span class="tv__title-ar">{{ caption() || 'الشجرة الإعرابية' }}</span>
+      <span class="tv__ayah">سورة {{ surah() }} · آية {{ ayah() }}</span>
+    </div>
+    @if (status() === 'ready') {
+      <span class="tv__zoom" aria-live="polite">{{ zoomPct() }}%</span>
+    }
+  </header>
+
+  <div class="tv__canvas">
+
+    @if (status() === 'ready') {
+      <div
+        class="tv__viewport"
+        #viewport
+        (wheel)="onWheel($event)"
+        (pointerdown)="onPointerDown($event)"
+        (pointermove)="onPointerMove($event)"
+        (pointerup)="onPointerUp($event)"
+        (pointercancel)="onPointerUp($event)"
+      >
+        <div
+          class="tv__stage"
+          [style.transform]="stageTransform()"
+          [style.width.px]="natW()"
+          [style.height.px]="natH()"
+        >
+          <div class="tv__svg" [innerHTML]="svgHtml()"></div>
+        </div>
+      </div>
+
+      <div class="tv__toolbar" role="toolbar" aria-label="أدوات العرض">
+        <button type="button" class="tv__btn" (click)="zoomIn()" aria-label="تكبير" title="تكبير">
+          <svg class="tv__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" />
+          </svg>
+        </button>
+        <button type="button" class="tv__btn" (click)="zoomOut()" aria-label="تصغير" title="تصغير">
+          <svg class="tv__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 12h14" />
+          </svg>
+        </button>
+        <button type="button" class="tv__btn" (click)="resetView()" aria-label="ملاءمة الشاشة" title="ملاءمة الشاشة">
+          <svg class="tv__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" />
+            <circle cx="12" cy="12" r="2.4" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          class="tv__btn"
+          (click)="toggleFullscreen()"
+          [attr.aria-label]="fullscreen() ? 'إنهاء العرض الكامل' : 'عرض كامل'"
+          [attr.title]="fullscreen() ? 'إنهاء العرض الكامل' : 'عرض كامل'"
+        >
+          @if (fullscreen()) {
+            <svg class="tv__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 9h5V4M20 9h-5V4M4 15h5v5M20 15h-5v5" />
+            </svg>
+          } @else {
+            <svg class="tv__icon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5" />
+            </svg>
+          }
+        </button>
+      </div>
+
+      <span class="tv__hint">اسحب للتحريك · قرّب بإصبعين أو بالعجلة للتكبير</span>
+    }
+
+    @if (status() === 'loading') {
+      <div class="tv__state tv__state--loading">
+        <div class="tv__skeleton">
+          <span class="tv__sk-node tv__sk-node--root"></span>
+          <span class="tv__sk-edge tv__sk-edge--l"></span>
+          <span class="tv__sk-edge tv__sk-edge--r"></span>
+          <span class="tv__sk-node tv__sk-node--l"></span>
+          <span class="tv__sk-node tv__sk-node--r"></span>
+        </div>
+        <span class="tv__state-text">جارٍ تحميل الشجرة الإعرابية…</span>
+      </div>
+    }
+
+    @if (status() === 'empty') {
+      <div class="tv__state tv__state--empty">
+        <svg class="tv__state-glyph" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 4.5v4M12 8.5l-5 5M12 8.5l5 5" />
+          <circle cx="12" cy="4.5" r="2" />
+          <circle cx="7" cy="15.5" r="2" />
+          <circle cx="17" cy="15.5" r="2" />
+        </svg>
+        <span class="tv__state-text">لا تتوفر شجرة إعرابية لهذه الآية</span>
+        <span class="tv__state-sub">جرّب آية أخرى — الشجرة متاحة لجزء من الآيات.</span>
+      </div>
+    }
+
+    @if (status() === 'error') {
+      <div class="tv__state tv__state--error">
+        <svg class="tv__state-glyph" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 8v5M12 16.5v.5" />
+          <path d="M10.3 4.3 2.6 18a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 4.3a2 2 0 0 0-3.4 0Z" />
+        </svg>
+        <span class="tv__state-text">تعذّر تحميل الشجرة الإعرابية</span>
+        <button type="button" class="tv__retry" (click)="reload()">
+          <svg class="tv__icon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M20 11.5a8 8 0 1 1-2.3-5.4M20 3.5v4h-4" />
+          </svg>
+          إعادة المحاولة
+        </button>
+      </div>
+    }
+
+  </div>
+</div>

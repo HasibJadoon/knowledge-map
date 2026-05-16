@@ -1,0 +1,289 @@
+// Miro-style infinite-canvas viewer for ayah iʿrāb dependency trees.
+// Self-contained dark-gold skin so it reads consistently on any page theme:
+// a dark dotted canvas with a light "parchment" frame holding the SVG.
+
+:host {
+  --tv-gold: #c9a227;
+  --tv-gold-soft: rgba(201, 162, 39, 0.16);
+  --tv-canvas: #15120b;
+  --tv-shell: #1b1710;
+  --tv-border: rgba(201, 162, 39, 0.20);
+  --tv-text: #efe7d2;
+  --tv-text-dim: #9a8f73;
+  --tv-paper: #faf7ed;
+  --tv-radius: 16px;
+  --tv-h: 360px;
+  display: block;
+}
+
+:host(.tv-host--fullscreen) {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+}
+
+// ── Shell ────────────────────────────────────────────────────────────────────
+.tv {
+  display: flex;
+  flex-direction: column;
+  height: var(--tv-h);
+  border: 1px solid var(--tv-border);
+  border-radius: var(--tv-radius);
+  background: var(--tv-shell);
+  overflow: hidden;
+  direction: rtl;
+  font-family: "Amiri", serif;
+}
+.tv--compact { --tv-h: 280px; }
+.tv--fullscreen {
+  height: 100%;
+  border-radius: 0;
+  border: none;
+}
+
+// ── Header bar ───────────────────────────────────────────────────────────────
+.tv__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-shrink: 0;
+  padding: 10px 14px;
+  background: linear-gradient(to left, var(--tv-gold-soft), transparent);
+  border-bottom: 1px solid var(--tv-border);
+}
+.tv__title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.tv__title-ar {
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--tv-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tv__ayah {
+  flex-shrink: 0;
+  font-size: 0.74rem;
+  color: var(--tv-text-dim);
+  background: var(--tv-gold-soft);
+  padding: 2px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.tv__zoom {
+  flex-shrink: 0;
+  font-family: system-ui, sans-serif;
+  font-size: 0.74rem;
+  font-variant-numeric: tabular-nums;
+  color: var(--tv-gold);
+}
+
+// ── Canvas ───────────────────────────────────────────────────────────────────
+.tv__canvas {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.tv__viewport {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: none;
+  background-color: var(--tv-canvas);
+  background-image: radial-gradient(circle, rgba(201, 162, 39, 0.13) 1.1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+.tv__viewport:active { cursor: grabbing; }
+
+.tv__stage {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  padding: 14px;
+  transform-origin: 0 0;
+  background: var(--tv-paper);
+  border-radius: 10px;
+  box-shadow:
+    0 0 0 1px rgba(201, 162, 39, 0.25),
+    0 18px 50px -12px rgba(0, 0, 0, 0.7);
+  will-change: transform;
+}
+.tv__svg {
+  width: 100%;
+  height: 100%;
+  line-height: 0;
+}
+.tv__svg svg {
+  width: 100%;
+  height: 100%;
+}
+
+// ── Floating toolbar ─────────────────────────────────────────────────────────
+.tv__toolbar {
+  position: absolute;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(20, 17, 10, 0.82);
+  border: 1px solid var(--tv-border);
+  box-shadow: 0 8px 24px -8px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+}
+.tv__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--tv-text);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.1s ease;
+}
+.tv__btn:hover { background: var(--tv-gold-soft); color: var(--tv-gold); }
+.tv__btn:active { transform: scale(0.92); }
+
+.tv__hint {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  padding: 4px 10px;
+  font-size: 0.68rem;
+  color: var(--tv-text-dim);
+  background: rgba(20, 17, 10, 0.7);
+  border: 1px solid var(--tv-border);
+  border-radius: 999px;
+  pointer-events: none;
+  backdrop-filter: blur(6px);
+}
+
+// ── Icons ────────────────────────────────────────────────────────────────────
+.tv__icon {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tv__icon--brand {
+  width: 1.05rem;
+  height: 1.05rem;
+  color: var(--tv-gold);
+  flex-shrink: 0;
+}
+
+// ── Loading / empty / error states ───────────────────────────────────────────
+.tv__state {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 24px;
+  text-align: center;
+  background-color: var(--tv-canvas);
+  background-image: radial-gradient(circle, rgba(201, 162, 39, 0.10) 1px, transparent 1.2px);
+  background-size: 22px 22px;
+}
+.tv__state-text {
+  color: var(--tv-text);
+  font-size: 0.98rem;
+}
+.tv__state-sub {
+  max-width: 280px;
+  color: var(--tv-text-dim);
+  font-size: 0.8rem;
+}
+.tv__state-glyph {
+  width: 46px;
+  height: 46px;
+  fill: none;
+  stroke: var(--tv-gold);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0.9;
+}
+.tv__state--error .tv__state-glyph { stroke: #d98b6a; }
+
+.tv__retry {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 7px 16px;
+  border: 1px solid var(--tv-border);
+  border-radius: 999px;
+  background: var(--tv-gold-soft);
+  color: var(--tv-gold);
+  font-family: "Amiri", serif;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.tv__retry:hover { background: rgba(201, 162, 39, 0.26); }
+.tv__retry .tv__icon { width: 1rem; height: 1rem; }
+
+// ── Loading skeleton (mini dependency tree) ──────────────────────────────────
+.tv__skeleton {
+  position: relative;
+  width: 150px;
+  height: 86px;
+}
+.tv__sk-node {
+  position: absolute;
+  width: 40px;
+  height: 22px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    rgba(201, 162, 39, 0.10),
+    rgba(201, 162, 39, 0.28),
+    rgba(201, 162, 39, 0.10)
+  );
+  background-size: 200% 100%;
+  animation: tv-shimmer 1.3s ease-in-out infinite;
+}
+.tv__sk-node--root { top: 0; left: 55px; }
+.tv__sk-node--l { bottom: 0; left: 8px; }
+.tv__sk-node--r { bottom: 0; right: 8px; }
+.tv__sk-edge {
+  position: absolute;
+  top: 24px;
+  width: 2px;
+  height: 40px;
+  background: rgba(201, 162, 39, 0.2);
+  transform-origin: top center;
+}
+.tv__sk-edge--l { left: 62px; transform: rotate(38deg); }
+.tv__sk-edge--r { right: 62px; transform: rotate(-38deg); }
+
+@keyframes tv-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@media (max-width: 360px) {
+  .tv__hint { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .tv__sk-node { animation: none; }
+  .tv__btn:active { transform: none; }
+}

@@ -8,6 +8,7 @@ import type {
   QrDisplayMadhab,
   QrDisplayQuranRef,
 } from '../../services/quran-research-api.service';
+import { IraabTreeViewerComponent } from '../iraab-tree-viewer/iraab-tree-viewer.component';
 
 /**
  * Modern, rich block renderer for the qr_*_book_display_blocks rows.
@@ -33,7 +34,7 @@ const MADHAB_COLORS: Record<QrDisplayMadhab, string> = {
 @Component({
   selector: 'km-display-block',
   standalone: true,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule, IonicModule, IraabTreeViewerComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './display-block.component.html',
   styleUrl: './display-block.component.scss',
@@ -97,13 +98,5 @@ export class DisplayBlockComponent {
   readonly isnadLinks = computed(() => {
     const meta = this.block().meta as { isnad?: { links?: Array<{ narrator_text: string; position?: number }> } } | undefined;
     return meta?.isnad?.links ?? [];
-  });
-  readonly externalSvgUrl = computed(() => {
-    const er = this.block().external_resource;
-    if (!er || er.kind !== 'svg') return null;
-    // Routes through the existing /qr/irab/dep-graph/:surah/:ayah endpoint.
-    const b = this.block();
-    if (b.surah_no && b.ayah_no) return `/api/qr/irab/dep-graph/${b.surah_no}/${b.ayah_no}`;
-    return null;
   });
 }

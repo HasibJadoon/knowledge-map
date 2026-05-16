@@ -345,21 +345,18 @@
 .db-insight-icon { font-size: 1.2rem; }
 
 // ─── dependency_graph ────────────────────────────────────────────────────────
-.db-dep-graph {
-  margin: 0;
-  text-align: center;
+// The interactive tree itself is rendered by <app-iraab-tree-viewer>; this is
+// only the fallback chip shown when the block lacks an ayah address.
+.db-dep-graph--na {
+  font-family: var(--db-arabic-font);
+  color: var(--db-text-muted);
   background: var(--db-canvas);
   border: 1px solid var(--db-card-border);
   border-radius: var(--db-radius-sm);
   padding: 14px;
-}
-.db-dep-graph-cap {
-  font-family: var(--db-arabic-font);
-  color: var(--db-text-muted);
-  margin-bottom: 8px;
+  text-align: center;
   font-size: 0.9rem;
 }
-.db-dep-graph img { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
 // ─── callout / warning ───────────────────────────────────────────────────────
 .db-callout {
