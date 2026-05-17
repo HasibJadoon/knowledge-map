@@ -194,6 +194,21 @@
   background: none;
 }
 
+// ── Image ─────────────────────────────────────────────────────────────────────
+.km-editor-el .ProseMirror img.km-doc-image {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 0.9em 0;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.km-editor-el .ProseMirror img.km-doc-image.ProseMirror-selectednode {
+  outline: 2px solid rgba(201, 168, 76, 0.65);
+  outline-offset: 1px;
+}
+
 // ── Inline code ───────────────────────────────────────────────────────────────
 .km-editor-el .ProseMirror code {
   font-family: 'SFMono-Regular', 'Menlo', 'Consolas', monospace;

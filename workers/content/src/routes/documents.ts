@@ -108,9 +108,24 @@ export function documentRoutes(router: Router<ContentEnv>) {
   });
 
   router.post('/cm/documents', async (req, env) => {
-    const parsed = await readValidatedJson(req, validateCmDocumentCreate);
-    if ('response' in parsed) return parsed.response;
-    return created(await new DocumentRepo(env.DB_CM).create(parsed.data));
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return badRequest('Request body must be valid JSON');
+    }
+
+    // Ownership is taken from the authenticated gateway header (X-KM-User-Id),
+    // never trusted from the client body. A body-supplied core_user_ref is kept
+    // only as a fallback for direct (non-gateway) calls such as integration tests.
+    if (body !== null && typeof body === 'object' && !Array.isArray(body)) {
+      const headerUser = req.headers.get('X-KM-User-Id');
+      if (headerUser) (body as Record<string, unknown>).core_user_ref = headerUser;
+    }
+
+    const result = validateCmDocumentCreate(body);
+    if ('error' in result) return badRequest(result.error);
+    return created(await new DocumentRepo(env.DB_CM).create(result.data));
   });
 
   router.put('/cm/documents/:id', async (req, env, { id }) => {

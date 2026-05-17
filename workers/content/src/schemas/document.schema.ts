@@ -101,6 +101,7 @@ export interface CmDocumentAggregate extends CmDocument {
 }
 
 export interface CmDocumentBlockCreate {
+  block_id?: string;
   parent_block_id?: string | null;
   block_type?: string;
   seq_order?: number;
@@ -272,6 +273,13 @@ function assignIfPresent<T extends object, K extends keyof T>(
 function validateBlockPayload(body: unknown, requireAny = false): SchemaValidationResult<CmDocumentBlockCreate> {
   if (!isRecord(body)) return { error: 'Block body must be an object' };
   const data: CmDocumentBlockCreate = {};
+
+  // Client-supplied block_id keeps parent/child references resolvable across a
+  // bulk replaceBlocks() write. When omitted the repository mints a typed id.
+  const blockId = readOptionalString(body, 'block_id', false);
+  if (isValidationError(blockId)) return blockId;
+  if (blockId !== undefined && !blockId) return { error: 'block_id must be non-empty when provided' };
+  assignIfPresent(data, 'block_id', blockId);
 
   const parentBlockId = readOptionalString(body, 'parent_block_id');
   if (isValidationError(parentBlockId)) return parentBlockId;

@@ -7,7 +7,6 @@ import { map, distinctUntilChanged } from 'rxjs/operators';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { IonicModule, NavController } from '@ionic/angular';
-import { HttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
 import { Editor } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
@@ -24,13 +23,15 @@ import { Callout } from '../../doc-editor/tiptap-extensions/callout.extension';
 import { SlashCommandExtension } from '../../doc-editor/tiptap-extensions/slash-command.extension';
 import { PageLink } from '../../doc-editor/tiptap-extensions/page-link.extension';
 import { AyahEmbed } from '../../doc-editor/tiptap-extensions/ayah-embed.extension';
+import { ImageBlock } from '../../doc-editor/tiptap-extensions/image.extension';
 import { VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock } from '../../doc-editor/tiptap-extensions/arabic-blocks.extension';
 import {
   ClaimBlock, EvidenceBlock, ReflectionBlock,
   TaskBlock, SceneBlock, TimelineBlock,
   ComprehensionBlock, ChildrenBlock, PassageEmbed,
 } from '../../doc-editor/tiptap-extensions/worldview-blocks.extension';
-import { environment } from '../../../../../environments/environment';
+import { DocsApiService } from '../../../../shared/services/content/docs-api.service';
+import { TiptapDoc } from '../../../../shared/models/content/document.model';
 import { mobilePrompt } from '../../doc-editor/mobile-prompt';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
@@ -51,11 +52,10 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   @ViewChild('imageInput') imageInput?: ElementRef<HTMLInputElement>;
 
   private route      = inject(ActivatedRoute);
-  private http       = inject(HttpClient);
+  private docsApi    = inject(DocsApiService);
   private cdr        = inject(ChangeDetectorRef);
   private destroyRef = inject(DestroyRef);
   private navCtrl    = inject(NavController);
-  private readonly API = `${environment.apiBase}/docs`;
 
   // ── Signals ────────────────────────────────────────────────────────────────
   docTitle        = signal('');
@@ -156,14 +156,9 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     this.loading.set(true);
     this.cdr.markForCheck();
     try {
-      const doc = await firstValueFrom(
-        this.http.get<{ title?: string; document_json?: unknown }>(`${this.API}/${id}`)
-      );
+      const doc = await firstValueFrom(this.docsApi.getDoc(id));
       this.docTitle.set(doc.title ?? '');
-      const json = typeof doc.document_json === 'string'
-        ? JSON.parse(doc.document_json as string)
-        : doc.document_json;
-      this.mountEditor(json);
+      this.mountEditor(doc.content);
     } catch { /* ignore */ }
     this.loading.set(false);
     this.cdr.markForCheck();
@@ -171,7 +166,7 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
 
   // ── Editor mount ───────────────────────────────────────────────────────────
 
-  private mountEditor(content: unknown): void {
+  private mountEditor(content: TiptapDoc): void {
     this.editor?.destroy();
     this.editor = null;
     // Small delay so Angular can render the host element before TipTap mounts
@@ -199,13 +194,14 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
             },
           }),
           AyahEmbed,
+          ImageBlock,
           VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock,
           ClaimBlock, EvidenceBlock, ReflectionBlock,
           TaskBlock, SceneBlock, TimelineBlock,
           ComprehensionBlock, ChildrenBlock, PassageEmbed,
         ],
         editable: true,
-        content: (content ?? { type: 'doc', content: [] }) as never,
+        content: content as never,
         onUpdate: ({ editor }) => {
           this.pendingDoc = editor.getJSON();
           this.scheduleSave();
@@ -265,9 +261,10 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     this.cdr.markForCheck();
     try {
       await firstValueFrom(
-        this.http.patch<unknown>(`${this.API}/${this.docId}`, {
+        this.docsApi.updateDoc(this.docId, {
           title: this.docTitle(),
-          document_json: JSON.stringify(this.pendingDoc),
+          content: this.pendingDoc as TiptapDoc,
+          word_count: this.computeWordCount(),
         })
       );
       this.pendingDoc = null;
@@ -285,6 +282,11 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     }
   }
 
+  private computeWordCount(): number {
+    const text = this.editor?.getText().trim() ?? '';
+    return text ? text.split(/\s+/).length : 0;
+  }
+
   // ── Title ──────────────────────────────────────────────────────────────────
 
   async onTitleBlur(e: Event): Promise<void> {
@@ -292,9 +294,7 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     if (!newTitle || !this.docId) return;
     this.docTitle.set(newTitle);
     try {
-      await firstValueFrom(
-        this.http.patch<unknown>(`${this.API}/${this.docId}`, { title: newTitle })
-      );
+      await firstValueFrom(this.docsApi.updateDoc(this.docId, { title: newTitle }));
     } catch { /* ignore */ }
   }
 
@@ -445,21 +445,17 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   triggerImage(): void { this.imageInput?.nativeElement.click(); }
 
   async onImageSelected(e: Event): Promise<void> {
-    const file = (e.target as HTMLInputElement).files?.[0];
-    if (!file || !this.docId) return;
-    const form = new FormData();
-    form.append('file', file);
-    form.append('resource_type', 'image');
-    try {
-      const res = await firstValueFrom(
-        this.http.post<{ ok: boolean; url: string }>(`${this.API}/${this.docId}/upload`, form)
-      );
-      if (res.ok && this.editor) {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (this.editor.chain().focus() as any).setImage({ src: res.url, alt: file.name }).run();
-      }
-    } catch { /* ignore */ }
-    (e.target as HTMLInputElement).value = '';
+    const input = e.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (file && this.editor) {
+      try {
+        const src = await this.docsApi.uploadImage(file);
+        this.editor.chain().focus()
+          .insertContent({ type: 'image', attrs: { src, alt: file.name } })
+          .run();
+      } catch { /* ignore */ }
+    }
+    input.value = '';
   }
 
   // ── Back ───────────────────────────────────────────────────────────────────

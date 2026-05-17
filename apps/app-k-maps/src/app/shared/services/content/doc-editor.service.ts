@@ -1,5 +1,4 @@
 import { Injectable, inject, signal, computed } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Editor, Extension, InputRule } from '@tiptap/core';
@@ -27,7 +26,7 @@ import { SlashCommandExtension } from '../../../features/docs/doc-editor/tiptap-
 import { Callout } from '../../../features/docs/doc-editor/tiptap-extensions/callout.extension';
 import { PageLink } from '../../../features/docs/doc-editor/tiptap-extensions/page-link.extension';
 import { TaskList, TaskItem } from '@tiptap/extension-list';
-import { environment } from '../../../../environments/environment';
+import { DocsApiService } from './docs-api.service';
 
 export interface DocContext {
   domain: 'general' | 'quran' | 'arabic' | 'worldview' | 'workspace';
@@ -41,8 +40,6 @@ export interface DocContext {
   unitId: number | null;
   workspaceId: number | null;
 }
-
-const API = `${environment.apiBase}/docs`;
 
 /**
  * Custom HorizontalRule that fires on `--- ` (space after three dashes)
@@ -65,7 +62,7 @@ const KmHorizontalRule = HorizontalRule.extend({
 
 @Injectable({ providedIn: 'root' })
 export class DocEditorService {
-  private readonly http = inject(HttpClient);
+  private readonly docsApi = inject(DocsApiService);
   private readonly router = inject(Router);
   private _editor: Editor | null = null;
   private _wordCountTimer: ReturnType<typeof setTimeout> | null = null;
@@ -203,18 +200,16 @@ export class DocEditorService {
   /** Creates a new child document and inserts a PageLink block at afterPos. */
   async createPageBlock(afterPos: number): Promise<void> {
     const ctx = this.context();
-    const payload = {
-      title: 'Untitled',
-      domain: ctx.domain,
-      doc_type: 'note',
-      parent_doc_id: this.docId(),
-      surah: ctx.surah,
-      workspace_id: ctx.workspaceId,
-    };
-
     try {
       const res = await firstValueFrom(
-        this.http.post<{ id: string; title: string }>(API, payload)
+        this.docsApi.createDoc({
+          title: 'Untitled',
+          domain: ctx.domain,
+          doc_type: 'note',
+          parent_doc_id: this.docId(),
+          surah: ctx.surah,
+          workspace_id: ctx.workspaceId,
+        })
       );
       this._editor?.chain()
         .focus()
