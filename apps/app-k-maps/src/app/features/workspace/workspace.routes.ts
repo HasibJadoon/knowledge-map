@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AdminGuard } from '../../core/auth/admin.guard';
 
 export const WORKSPACE_ROUTES: Routes = [
   {
@@ -10,6 +11,7 @@ export const WORKSPACE_ROUTES: Routes = [
     path: 'admin',
     loadComponent: () => import('./pages/workspace-admin/workspace-admin.page').then(m => m.WorkspaceAdminPage),
     title: 'Administration — K-MAPS',
+    canActivate: [AdminGuard],
   },
   {
     path: ':id',

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { WorkspaceApiService } from '../../workspace-api.service';
 import { WorkspaceSummary } from '../../workspace.model';
+import { isAdminToken } from '../../../../core/auth/auth.utils';
 
 @Component({
   selector: 'app-workspace-home',
@@ -15,9 +16,11 @@ import { WorkspaceSummary } from '../../workspace.model';
       <ion-toolbar>
         <ion-title>Workspaces</ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="goAdmin()" aria-label="Administration">
-            <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
-          </ion-button>
+          @if (isAdmin()) {
+            <ion-button (click)="goAdmin()" aria-label="Administration">
+              <ion-icon slot="icon-only" name="settings-outline"></ion-icon>
+            </ion-button>
+          }
           <ion-button (click)="newWorkspace()" aria-label="New workspace">
             <ion-icon slot="icon-only" name="add-outline"></ion-icon>
           </ion-button>
@@ -83,8 +86,10 @@ export class WorkspaceHomePage implements OnInit {
   readonly workspaces = signal<WorkspaceSummary[]>([]);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
+  readonly isAdmin = signal(false);
 
   ngOnInit(): void {
+    this.isAdmin.set(isAdminToken(localStorage.getItem('auth_token')));
     void this.load();
   }
 

@@ -24,10 +24,13 @@ export interface WorkspaceDetail {
 }
 
 export interface WorkspaceMember {
-  id: string;
+  id: string;          // user id (CORE:ULID)
+  member_id: string;   // membership row id — used for member mutations
   name: string;
-  role: string;
+  role: string;        // membership role: owner | admin | member | guest
+  status: string;      // active | invited | suspended
   email: string;
+  avatar_url: string;
   joined_at: string;
 }
 
@@ -64,4 +67,23 @@ export interface NewUserInput {
   display_name: string;
   role: string;
   password?: string;
+}
+
+export interface WorkspacePatch {
+  title?: string;
+  description_md?: string | null;
+  workspace_type?: string;
+  status?: string;
+}
+
+export interface NewMemberInput {
+  email: string;
+  membership_role: string;
+}
+
+// ─── OAuth provider configuration (from /core/auth/providers) ─────────────────
+
+export interface OAuthProvidersConfig {
+  google: { enabled: boolean; client_id: string };
+  apple: { enabled: boolean; client_id: string; redirect_uri: string; scope: string };
 }

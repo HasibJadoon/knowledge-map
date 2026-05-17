@@ -54,6 +54,18 @@ import {
   folderOpen,
   informationCircleOutline,
   linkOutline,
+  logoApple,
+  peopleOutline,
+  businessOutline,
+  keyOutline,
+  trashOutline,
+  archiveOutline,
+  settingsOutline,
+  personAddOutline,
+  saveOutline,
+  refreshOutline,
+  mailOutline,
+  shieldCheckmarkOutline,
 } from 'ionicons/icons';
 
 @Component({
@@ -122,6 +134,18 @@ export class AppComponent {
       folderOpen,
       informationCircleOutline,
       linkOutline,
+      logoApple,
+      peopleOutline,
+      businessOutline,
+      keyOutline,
+      trashOutline,
+      archiveOutline,
+      settingsOutline,
+      personAddOutline,
+      saveOutline,
+      refreshOutline,
+      mailOutline,
+      shieldCheckmarkOutline,
     });
   }
 

@@ -8,9 +8,11 @@ import { ok } from '../../shared/src/response';
 import type { CoreEnv } from './env';
 
 import { authRoutes } from './routes/auth';
+import { oauthRoutes } from './routes/oauth';
 import { userRoutes } from './routes/users';
 import { workspaceRoutes } from './routes/workspaces';
 import { workspaceRoleRoutes } from './routes/workspace-roles';
+import { activityRoutes } from './routes/activity';
 import { grantRoutes } from './routes/grants';
 
 const router = new Router<CoreEnv>();
@@ -22,9 +24,11 @@ router.get('/health', async (_req, env) =>
 
 // Domain routes
 authRoutes(router);
+oauthRoutes(router);
 userRoutes(router);
 workspaceRoutes(router);
 workspaceRoleRoutes(router);
+activityRoutes(router);
 grantRoutes(router);
 
 export default {

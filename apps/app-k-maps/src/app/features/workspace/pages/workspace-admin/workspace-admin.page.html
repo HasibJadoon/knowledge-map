@@ -1,0 +1,372 @@
+<ion-header class="wa-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" aria-label="Back">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Administration</ion-title>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-segment [value]="tab()" (ionChange)="switchTab($any($event.detail.value))" scrollable>
+      <ion-segment-button value="users">
+        <ion-icon name="people-outline"></ion-icon>
+        <ion-label>Users</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="workspaces">
+        <ion-icon name="business-outline"></ion-icon>
+        <ion-label>Workspaces</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="roles">
+        <ion-icon name="key-outline"></ion-icon>
+        <ion-label>Roles</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="wa-content">
+
+  <!-- ─── USERS ─────────────────────────────────────────────────────────── -->
+  @if (tab() === 'users') {
+    <div class="wa-section">
+      <div class="wa-toolbar">
+        <ion-searchbar
+          class="wa-search"
+          placeholder="Search users"
+          [value]="userSearch()"
+          (ionInput)="userSearch.set($any($event.detail.value) || '')"
+        ></ion-searchbar>
+        <ion-button size="small" (click)="showUserForm.set(!showUserForm())">
+          <ion-icon slot="start" [name]="showUserForm() ? 'close-outline' : 'person-add-outline'"></ion-icon>
+          {{ showUserForm() ? 'Cancel' : 'New' }}
+        </ion-button>
+      </div>
+
+      @if (showUserForm()) {
+        <div class="wa-card wa-form">
+          <ion-input fill="outline" label="Email" labelPlacement="stacked" type="email"
+                     [(ngModel)]="newEmail" name="email"></ion-input>
+          <ion-input fill="outline" label="Display name" labelPlacement="stacked"
+                     [(ngModel)]="newName" name="name"></ion-input>
+          <ion-select fill="outline" label="Platform role" labelPlacement="stacked"
+                      [(ngModel)]="newRole" name="role" interface="popover">
+            <ion-select-option value="member">member</ion-select-option>
+            <ion-select-option value="admin">admin</ion-select-option>
+            <ion-select-option value="guest">guest</ion-select-option>
+          </ion-select>
+          <ion-input fill="outline" label="Password (optional)" labelPlacement="stacked" type="password"
+                     [(ngModel)]="newPassword" name="pw"></ion-input>
+          <ion-button expand="block" (click)="addUser()" [disabled]="creatingUser()">
+            @if (creatingUser()) { <ion-spinner name="dots"></ion-spinner> } @else { Create user }
+          </ion-button>
+        </div>
+      }
+
+      @if (usersError()) { <ion-note color="danger" class="wa-note">{{ usersError() }}</ion-note> }
+
+      @if (usersLoading()) {
+        <div class="wa-center"><ion-spinner name="dots"></ion-spinner></div>
+      } @else {
+        <ion-list lines="full" class="wa-list">
+          @for (u of filteredUsers(); track u.id) {
+            <ion-item-sliding>
+              <ion-item>
+                <div class="wa-avatar" slot="start">{{ (u.display_name || u.email || '?').charAt(0).toUpperCase() }}</div>
+                <ion-label>
+                  <h3>{{ u.display_name }}</h3>
+                  <p>{{ u.email }}</p>
+                </ion-label>
+                <ion-select slot="end" interface="popover" [value]="u.role"
+                            (ionChange)="changeUserRole(u, $any($event.detail.value))">
+                  <ion-select-option value="member">member</ion-select-option>
+                  <ion-select-option value="admin">admin</ion-select-option>
+                  <ion-select-option value="guest">guest</ion-select-option>
+                </ion-select>
+                <ion-badge slot="end" [color]="u.status === 'active' ? 'success' : 'medium'">{{ u.status }}</ion-badge>
+              </ion-item>
+              <ion-item-options side="end">
+                <ion-item-option (click)="toggleUserStatus(u)">
+                  {{ u.status === 'active' ? 'Suspend' : 'Activate' }}
+                </ion-item-option>
+                <ion-item-option color="tertiary" (click)="resetPassword(u)">Password</ion-item-option>
+              </ion-item-options>
+            </ion-item-sliding>
+          }
+          @if (filteredUsers().length === 0) {
+            <ion-item lines="none"><ion-label color="medium">No users found.</ion-label></ion-item>
+          }
+        </ion-list>
+      }
+    </div>
+  }
+
+  <!-- ─── WORKSPACES ────────────────────────────────────────────────────── -->
+  @if (tab() === 'workspaces') {
+    @if (!selectedWs()) {
+      <div class="wa-section">
+        <div class="wa-toolbar">
+          <h2 class="wa-heading">All workspaces</h2>
+          <ion-button size="small" (click)="showWsForm.set(!showWsForm())">
+            <ion-icon slot="start" [name]="showWsForm() ? 'close-outline' : 'add-outline'"></ion-icon>
+            {{ showWsForm() ? 'Cancel' : 'New' }}
+          </ion-button>
+        </div>
+
+        @if (showWsForm()) {
+          <div class="wa-card wa-form">
+            <ion-input fill="outline" label="Workspace name" labelPlacement="stacked"
+                       [(ngModel)]="newWsName" name="wsname"></ion-input>
+            <ion-button expand="block" (click)="createWorkspace()">Create workspace</ion-button>
+          </div>
+        }
+
+        @if (wsError()) { <ion-note color="danger" class="wa-note">{{ wsError() }}</ion-note> }
+
+        @if (wsLoading()) {
+          <div class="wa-center"><ion-spinner name="dots"></ion-spinner></div>
+        } @else {
+          <ion-list lines="full" class="wa-list">
+            @for (w of workspaces(); track w.id) {
+              <ion-item button detail (click)="selectWorkspace(w)">
+                <div class="wa-avatar" slot="start">{{ (w.name || '?').charAt(0).toUpperCase() }}</div>
+                <ion-label>
+                  <h3>{{ w.name || 'Untitled' }}</h3>
+                  <p>{{ w.type }} · {{ w.member_count }} {{ w.member_count === 1 ? 'member' : 'members' }}</p>
+                </ion-label>
+                @if (w.status !== 'active') {
+                  <ion-badge slot="end" color="medium">{{ w.status }}</ion-badge>
+                }
+              </ion-item>
+            }
+            @if (workspaces().length === 0) {
+              <ion-item lines="none"><ion-label color="medium">No workspaces yet.</ion-label></ion-item>
+            }
+          </ion-list>
+        }
+      </div>
+    } @else {
+      <!-- Selected workspace management panel -->
+      <div class="wa-section">
+        <div class="wa-panel-head">
+          <ion-button fill="clear" size="small" (click)="closeWorkspacePanel()">
+            <ion-icon slot="start" name="chevron-back-outline"></ion-icon>
+            All workspaces
+          </ion-button>
+          <h2 class="wa-heading">{{ selectedWs()!.name }}</h2>
+        </div>
+
+        <ion-segment [value]="panelTab()" (ionChange)="setPanelTab($any($event.detail.value))">
+          <ion-segment-button value="settings"><ion-label>Settings</ion-label></ion-segment-button>
+          <ion-segment-button value="members"><ion-label>Members</ion-label></ion-segment-button>
+          <ion-segment-button value="activity"><ion-label>Activity</ion-label></ion-segment-button>
+        </ion-segment>
+
+        <!-- Settings -->
+        @if (panelTab() === 'settings') {
+          <div class="wa-card wa-form">
+            <ion-input fill="outline" label="Name" labelPlacement="stacked"
+                       [(ngModel)]="editTitle" name="etitle"></ion-input>
+            <ion-select fill="outline" label="Type" labelPlacement="stacked"
+                        [(ngModel)]="editType" name="etype" interface="popover">
+              @for (t of workspaceTypes; track t) {
+                <ion-select-option [value]="t">{{ t }}</ion-select-option>
+              }
+            </ion-select>
+            <ion-select fill="outline" label="Status" labelPlacement="stacked"
+                        [(ngModel)]="editStatus" name="estatus" interface="popover">
+              <ion-select-option value="active">active</ion-select-option>
+              <ion-select-option value="archived">archived</ion-select-option>
+            </ion-select>
+            <ion-textarea fill="outline" label="Description" labelPlacement="stacked" [autoGrow]="true"
+                          [(ngModel)]="editDescription" name="edesc"></ion-textarea>
+            <ion-button expand="block" (click)="saveWorkspace()" [disabled]="savingWs()">
+              <ion-icon slot="start" name="save-outline"></ion-icon>
+              @if (savingWs()) { <ion-spinner name="dots"></ion-spinner> } @else { Save changes }
+            </ion-button>
+            @if (settingsMsg()) {
+              <ion-note [color]="settingsMsg() === 'Saved.' ? 'success' : 'danger'">{{ settingsMsg() }}</ion-note>
+            }
+          </div>
+        }
+
+        <!-- Members -->
+        @if (panelTab() === 'members') {
+          <div class="wa-card wa-form">
+            <ion-input fill="outline" label="Add member by email" labelPlacement="stacked" type="email"
+                       [(ngModel)]="newMemberEmail" name="memail"></ion-input>
+            <ion-select fill="outline" label="Membership role" labelPlacement="stacked"
+                        [(ngModel)]="newMemberRole" name="mrole" interface="popover">
+              @for (r of membershipRoles; track r) {
+                <ion-select-option [value]="r">{{ r }}</ion-select-option>
+              }
+            </ion-select>
+            <ion-button expand="block" (click)="addMember()" [disabled]="addingMember()">
+              @if (addingMember()) { <ion-spinner name="dots"></ion-spinner> } @else { Add member }
+            </ion-button>
+          </div>
+
+          @if (membersMsg()) { <ion-note color="danger" class="wa-note">{{ membersMsg() }}</ion-note> }
+
+          @if (membersLoading()) {
+            <div class="wa-center"><ion-spinner name="dots"></ion-spinner></div>
+          } @else {
+            <ion-list lines="full" class="wa-list">
+              @for (m of members(); track m.member_id) {
+                <ion-item>
+                  <div class="wa-avatar" slot="start">{{ (m.name || '?').charAt(0).toUpperCase() }}</div>
+                  <ion-label>
+                    <h3>{{ m.name }}</h3>
+                    <p>{{ m.email }}</p>
+                  </ion-label>
+                  <ion-select slot="end" interface="popover" [value]="m.role"
+                              (ionChange)="changeMemberRole(m, $any($event.detail.value))">
+                    @for (r of membershipRoles; track r) {
+                      <ion-select-option [value]="r">{{ r }}</ion-select-option>
+                    }
+                  </ion-select>
+                  <ion-button slot="end" fill="clear" size="small" (click)="toggleMemberRoles(m)">
+                    {{ expandedMember() === m.member_id ? 'Hide roles' : 'Roles' }}
+                  </ion-button>
+                  @if (m.role !== 'owner') {
+                    <ion-button slot="end" fill="clear" color="danger" size="small" (click)="removeMember(m)">
+                      <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                    </ion-button>
+                  }
+                </ion-item>
+                @if (expandedMember() === m.member_id) {
+                  <div class="wa-subpanel">
+                    @if (memberRolesLoading()) {
+                      <ion-spinner name="dots"></ion-spinner>
+                    } @else {
+                      <div class="wa-chips">
+                        @for (r of memberRoles(); track r.id) {
+                          <ion-chip (click)="revokeRoleFromMember(m, r)">
+                            <ion-label>{{ r.title }}</ion-label>
+                            <ion-icon name="close-outline"></ion-icon>
+                          </ion-chip>
+                        }
+                        @if (memberRoles().length === 0) {
+                          <span class="wa-muted-inline">No custom roles assigned.</span>
+                        }
+                      </div>
+                      @if (assignableRoles().length > 0) {
+                        <ion-select placeholder="Assign a role…" interface="popover"
+                                    (ionChange)="assignRoleToMember(m, $any($event.detail.value))">
+                          @for (r of assignableRoles(); track r.id) {
+                            <ion-select-option [value]="r.id">{{ r.title }}</ion-select-option>
+                          }
+                        </ion-select>
+                      } @else {
+                        <span class="wa-muted-inline">All roles assigned. Define more in the Roles tab.</span>
+                      }
+                    }
+                  </div>
+                }
+              }
+              @if (members().length === 0) {
+                <ion-item lines="none"><ion-label color="medium">No members yet.</ion-label></ion-item>
+              }
+            </ion-list>
+          }
+        }
+
+        <!-- Activity -->
+        @if (panelTab() === 'activity') {
+          @if (activityLoading()) {
+            <div class="wa-center"><ion-spinner name="dots"></ion-spinner></div>
+          } @else if (activity().length === 0) {
+            <p class="wa-muted">No activity recorded for this workspace yet.</p>
+          } @else {
+            <ion-list lines="full" class="wa-list">
+              @for (a of activity(); track a.id) {
+                <ion-item>
+                  <ion-label>
+                    <h3>{{ activityLabel(a.action) }}</h3>
+                    <p>{{ userName(a.actor) }} · {{ formatDate(a.created_at) }}</p>
+                  </ion-label>
+                </ion-item>
+              }
+            </ion-list>
+          }
+        }
+      </div>
+    }
+  }
+
+  <!-- ─── ROLES ─────────────────────────────────────────────────────────── -->
+  @if (tab() === 'roles') {
+    <div class="wa-section">
+      <ion-select fill="outline" label="Workspace" labelPlacement="stacked"
+                  [value]="roleWorkspace()" interface="popover"
+                  (ionChange)="onRoleWorkspaceChange($any($event.detail.value))">
+        @for (w of workspaces(); track w.id) {
+          <ion-select-option [value]="w.id">{{ w.name }}</ion-select-option>
+        }
+      </ion-select>
+
+      @if (!roleWorkspace()) {
+        <p class="wa-muted">Select a workspace to manage its roles.</p>
+      } @else {
+        <div class="wa-toolbar wa-toolbar--top">
+          <h2 class="wa-heading">Roles</h2>
+          <ion-button size="small" (click)="showRoleForm.set(!showRoleForm())">
+            <ion-icon slot="start" [name]="showRoleForm() ? 'close-outline' : 'add-outline'"></ion-icon>
+            {{ showRoleForm() ? 'Cancel' : 'New' }}
+          </ion-button>
+        </div>
+
+        @if (showRoleForm()) {
+          <div class="wa-card wa-form">
+            <ion-input fill="outline" label="Role key" labelPlacement="stacked"
+                       [(ngModel)]="newRoleKey" name="rkey"></ion-input>
+            <ion-input fill="outline" label="Role title" labelPlacement="stacked"
+                       [(ngModel)]="newRoleTitle" name="rtitle"></ion-input>
+            <ion-button expand="block" (click)="addRole()">Create role</ion-button>
+          </div>
+        }
+
+        @if (rolesLoading()) {
+          <div class="wa-center"><ion-spinner name="dots"></ion-spinner></div>
+        } @else {
+          <ion-list lines="full" class="wa-list">
+            @for (r of roles(); track r.id) {
+              <ion-item>
+                <ion-label>
+                  <h3>{{ r.title }}</h3>
+                  <p>{{ r.role_key }}</p>
+                </ion-label>
+                @if (r.is_system_role) {
+                  <ion-badge slot="end" color="medium">system</ion-badge>
+                }
+                <ion-button slot="end" fill="clear" size="small" (click)="toggleRoleEditor(r)">
+                  {{ expandedRole() === r.id ? 'Close' : 'Permissions' }}
+                </ion-button>
+                @if (!r.is_system_role) {
+                  <ion-button slot="end" fill="clear" color="danger" size="small" (click)="removeRole(r)">
+                    <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+                  </ion-button>
+                }
+              </ion-item>
+              @if (expandedRole() === r.id) {
+                <div class="wa-subpanel">
+                  <ion-textarea fill="outline" label="Permissions (JSON)" labelPlacement="stacked"
+                                [autoGrow]="true" class="wa-json"
+                                [(ngModel)]="roleDraft" [name]="'rd-' + r.id"></ion-textarea>
+                  @if (roleDraftError()) { <ion-note color="danger">{{ roleDraftError() }}</ion-note> }
+                  <ion-button expand="block" size="small" (click)="saveRolePermissions(r)" [disabled]="savingRole()">
+                    @if (savingRole()) { <ion-spinner name="dots"></ion-spinner> } @else { Save permissions }
+                  </ion-button>
+                </div>
+              }
+            }
+            @if (roles().length === 0) {
+              <ion-item lines="none"><ion-label color="medium">No roles defined.</ion-label></ion-item>
+            }
+          </ion-list>
+        }
+      }
+    </div>
+  }
+
+</ion-content>
