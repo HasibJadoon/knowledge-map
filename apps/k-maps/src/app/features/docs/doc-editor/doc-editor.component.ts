@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild,
          inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { DocEditorService } from '../services/doc-editor.service';
 import { DocSaveService } from '../services/doc-save.service';
+import { DocsApiService } from '../services/docs-api.service';
 import { DocRightPanelComponent } from '../doc-right-panel/doc-right-panel.component';
 import gsap from 'gsap';
 
@@ -23,7 +23,7 @@ export class DocEditorComponent implements OnInit, OnDestroy {
   readonly editorSvc = inject(DocEditorService);
   private saveSvc    = inject(DocSaveService);
   private route      = inject(ActivatedRoute);
-  private http       = inject(HttpClient);
+  private docsApi    = inject(DocsApiService);
   private cdr        = inject(ChangeDetectorRef);
 
   titleModel = '';
@@ -48,17 +48,13 @@ export class DocEditorComponent implements OnInit, OnDestroy {
 
       if (docId) {
         this.editorSvc.docId.set(docId);
-        this.http.get<Record<string, unknown>>(`/api/docs/${docId}`).subscribe(doc => {
-          const title = doc['title'] as string ?? 'Untitled';
-          this.editorSvc.title.set(title);
-          this.titleModel = title;
+        this.docsApi.getDoc(docId).subscribe(doc => {
+          this.editorSvc.title.set(doc.title || 'Untitled');
+          this.titleModel = doc.title || 'Untitled';
           this.editorSvc.initEditor(this.editorEl.nativeElement);
           try {
-            const json = typeof doc['document_json'] === 'string'
-              ? JSON.parse(doc['document_json'] as string)
-              : doc['document_json'];
-            this.editorSvc.editor?.commands.setContent(json);
-          } catch { /* empty doc */ }
+            this.editorSvc.editor?.commands.setContent(doc.content as never);
+          } catch { /* unknown node type — leave the editor empty */ }
           this.cdr.markForCheck();
           requestAnimationFrame(() => {
             this.animateContentIn();

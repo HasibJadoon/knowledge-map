@@ -1,9 +1,9 @@
 import { Component, OnInit, inject, signal, effect, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 import { DocEditorService } from '../services/doc-editor.service';
+import { DocsApiService } from '../services/docs-api.service';
 
 interface HeadingNode { text: string; level: number; }
 interface BlockLink { id: number; block_id: string; entity_type?: string; entity_id?: number; surah?: number; ayah_from?: number; ayah_to?: number; }
@@ -224,7 +224,7 @@ interface AyahItem { surah: number; ayah: number; text: string; }
 })
 export class DocRightPanelComponent implements OnInit {
   private editorSvc = inject(DocEditorService);
-  private http      = inject(HttpClient);
+  private docsApi   = inject(DocsApiService);
   private cdr       = inject(ChangeDetectorRef);
 
   readonly tabs = ['Outline', 'Links', 'Metadata'] as const;
@@ -232,7 +232,7 @@ export class DocRightPanelComponent implements OnInit {
   headings   = signal<HeadingNode[]>([]);
   pageLinks  = signal<PageLinkItem[]>([]);
   ayahItems  = signal<AyahItem[]>([]);
-  quranLinks = signal<BlockLink[]>([]);
+  // DB-backed cross-resource links await the CM links feature; populated empty.
   wvLinks    = signal<BlockLink[]>([]);
 
   metaDomain   = 'general';
@@ -250,7 +250,6 @@ export class DocRightPanelComponent implements OnInit {
         editor.on('update', this.boundBuild);
         this.buildOutline();
         this.buildLinks();
-        this.loadDbLinks();
         this.loadMeta();
         this.cdr.markForCheck();
       }
@@ -300,20 +299,13 @@ export class DocRightPanelComponent implements OnInit {
     this.ayahItems.set(ayahs);
   }
 
-  loadDbLinks(): void {
-    const id = this.editorSvc.docId();
-    if (!id) return;
-    this.http.get<{ links: BlockLink[] }>(`/api/docs/${id}/links/quran`).subscribe(r => this.quranLinks.set(r.links ?? []));
-    this.http.get<{ links: BlockLink[] }>(`/api/docs/${id}/links/wv`).subscribe(r => this.wvLinks.set(r.links ?? []));
-  }
-
   loadMeta(): void {
     const id = this.editorSvc.docId();
     if (!id) return;
-    this.http.get<Record<string, unknown>>(`/api/docs/${id}`).subscribe(doc => {
-      this.metaDomain   = (doc['domain']           as string) || 'general';
-      this.metaDocType  = (doc['doc_type']          as string) || 'note';
-      this.metaAudience = (doc['target_audience']   as string) || '';
+    this.docsApi.getDoc(id).subscribe(doc => {
+      this.metaDomain   = doc.domain || 'general';
+      this.metaDocType  = doc.doc_type || 'note';
+      this.metaAudience = doc.meta.target_audience || '';
       this.cdr.markForCheck();
     });
   }
@@ -333,7 +325,7 @@ export class DocRightPanelComponent implements OnInit {
   saveMeta(): void {
     const id = this.editorSvc.docId();
     if (!id) return;
-    this.http.patch(`/api/docs/${id}`, {
+    this.docsApi.patchMeta(id, {
       domain: this.metaDomain,
       doc_type: this.metaDocType,
       target_audience: this.metaAudience,

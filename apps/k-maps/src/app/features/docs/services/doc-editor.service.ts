@@ -1,5 +1,4 @@
 import { Injectable, signal, computed, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Editor, Extension } from '@tiptap/core';
@@ -28,7 +27,9 @@ import {
 } from '../doc-editor/tiptap-extensions/worldview-blocks.extension';
 import { SlashCommandExtension } from '../doc-editor/tiptap-extensions/slash-command.extension';
 import { Callout } from '../doc-editor/tiptap-extensions/callout.extension';
+import { ImageBlock } from '../doc-editor/tiptap-extensions/image.extension';
 import { DocExtractService } from './doc-extract.service';
+import { DocsApiService } from './docs-api.service';
 
 export interface DocContext {
   domain: 'general' | 'quran' | 'arabic' | 'worldview' | 'workspace';
@@ -61,7 +62,7 @@ export class DocEditorService {
   private _bubbleUpdateRaf: number | null = null;
   readonly isMobile = isMobile();
 
-  private http       = inject(HttpClient);
+  private docsApi    = inject(DocsApiService);
   private router     = inject(Router);
   private extractSvc = inject(DocExtractService);
 
@@ -181,6 +182,8 @@ export class DocEditorService {
         // Quran
         AyahEmbed,
         PassageEmbed,
+        // Media
+        ImageBlock,
         // Arabic
         VocabBlock,
         MorphologyBlock,
@@ -256,20 +259,19 @@ export class DocEditorService {
 
   async createPageBlock(afterPos: number): Promise<void> {
     const ctx = this.context();
-    const payload = {
-      title: 'Untitled',
-      domain: ctx.domain,
-      doc_type: 'note',
-      parent_doc_id: this.docId(),
-      surah: ctx.surah,
-      ayah_from: ctx.ayahFrom,
-      ayah_to: ctx.ayahTo,
-      source_id: ctx.sourceId,
-      workspace_id: ctx.workspaceId,
-    };
     try {
       const res = await firstValueFrom(
-        this.http.post<{ id: string; title: string }>('/api/docs', payload)
+        this.docsApi.createDoc({
+          title: 'Untitled',
+          domain: ctx.domain,
+          doc_type: 'note',
+          parent_doc_id: this.docId(),
+          surah: ctx.surah,
+          ayah_from: ctx.ayahFrom,
+          ayah_to: ctx.ayahTo,
+          source_id: ctx.sourceId,
+          workspace_id: ctx.workspaceId,
+        })
       );
       this._editor?.chain()
         .focus()
