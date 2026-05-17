@@ -12,14 +12,16 @@ migrations_dir = "migrations"
 [vars]
 JWT_EXPIRY_SECONDS = "3600"
 
-# OAuth (optional) — set these to enable social sign-in. Each provider is
-# reported as disabled by /core/auth/providers until its vars are present,
-# so the login screen only shows buttons that will actually work.
-# Client IDs are not secret; add them here (comma-separated for multiple
-# audiences, e.g. an Apple services-id plus a native bundle-id):
-#   GOOGLE_CLIENT_ID   = "xxxx.apps.googleusercontent.com"
-#   APPLE_CLIENT_ID    = "com.kmaps.web"
-#   APPLE_REDIRECT_URI = "https://app.k-maps.com/login"
+# OAuth (optional) — uncomment and fill with REAL values to enable social
+# sign-in. Each provider stays disabled in /core/auth/providers until its
+# vars are present, so the login screen only shows buttons that will work.
+# Client IDs are not secret, so they belong here in [vars] (use a
+# comma-separated list for multiple audiences, e.g. an Apple services-id
+# plus a native bundle-id). Apple also needs a registered redirect URI for
+# the web popup. Values below are PLACEHOLDERS — replace before uncommenting:
+#   GOOGLE_CLIENT_ID   = "REPLACE.apps.googleusercontent.com"
+#   APPLE_CLIENT_ID    = "com.your-domain.web"
+#   APPLE_REDIRECT_URI = "https://app.your-domain.com/login"
 
 # Secrets (set via wrangler secret put):
 #   JWT_SECRET      — shared with km-backend-worker
