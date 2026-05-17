@@ -30,7 +30,7 @@ export interface AuthToken {
   id: string;                                           // CORE:ULID
   user_id: string;                                      // CORE:ULID → core_users
   token_hash: string;                                   // SHA-256 hash of raw token
-  token_type: 'api_key' | 'invitation' | 'password_reset' | 'email_verify' | 'link_share';
+  token_type: 'api_key' | 'invitation' | 'password_reset' | 'email_verify' | 'link_share' | 'password';
   name: string | null;
   scopes_json: string | null;                           // JSON [string] — granted scopes
   workspace_id: string | null;
