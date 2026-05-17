@@ -1,4 +1,5 @@
 import { Node, mergeAttributes } from '@tiptap/core';
+import { environment } from '../../../../../environments/environment';
 
 interface PageLinkOptions {
   onOpen: (docId: string) => void;
@@ -169,16 +170,21 @@ export const PageLink = Node.create<PageLinkOptions>({
         // Defer by one frame so we don't fire during setContent hydration
         const tid = setTimeout(() => {
           if (controller.signal.aborted) return;
-          fetch(`/api/docs/${docId}`, { signal: controller.signal })
-            .then(r => r.json() as Promise<{ title?: string }>)
-            .then(data => {
+          const token = localStorage.getItem('auth_token');
+          fetch(`${environment.apiBase}/cm/documents/${docId}`, {
+            signal: controller.signal,
+            headers: token ? { Authorization: `Bearer ${token}` } : {},
+          })
+            .then(r => r.json() as Promise<{ data?: { title?: string } }>)
+            .then(res => {
               if (editor.isDestroyed || controller.signal.aborted) return;
-              if (data.title && data.title !== title.textContent) {
-                title.textContent = data.title;
+              const fetchedTitle = res.data?.title;
+              if (fetchedTitle && fetchedTitle !== title.textContent) {
+                title.textContent = fetchedTitle;
                 const pos = typeof getPos === 'function' ? getPos() : null;
                 if (pos != null && !editor.isDestroyed) {
                   editor.chain().command(({ tr }) => {
-                    tr.setNodeAttribute(pos, 'title', data.title);
+                    tr.setNodeAttribute(pos, 'title', fetchedTitle);
                     return true;
                   }).run();
                 }

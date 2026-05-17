@@ -349,7 +349,7 @@ export class DocumentRepo {
   }
 
   async createBlock(docId: string, input: CmDocumentBlockCreate): Promise<CmDocumentBlock> {
-    const blockId = typedId('CM');
+    const blockId = input.block_id ?? typedId('CM');
     const now = new Date().toISOString();
     await execute(
       this.db,
@@ -450,7 +450,7 @@ export class DocumentRepo {
            created_at, updated_at)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         params: [
-          typedId('CM'),
+          block.block_id ?? typedId('CM'),
           docId,
           block.parent_block_id ?? null,
           block.block_type ?? 'paragraph',

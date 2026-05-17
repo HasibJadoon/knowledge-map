@@ -4,11 +4,10 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { filter, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
-import { environment } from '../../../../../environments/environment';
+import { DocsApiService } from '../../../../shared/services/content/docs-api.service';
 
 interface DocSummary {
   id: string;
@@ -309,11 +308,9 @@ const DOMAINS = [
   `]
 })
 export class DocsListPage implements OnInit, OnDestroy {
-  private http   = inject(HttpClient);
-  private router = inject(Router);
-  private cdr    = inject(ChangeDetectorRef);
-  private readonly API = `${environment.apiBase}/docs`;
-  private readonly SEARCH_API = `${environment.apiBase}/docs/search`;
+  private docsApi = inject(DocsApiService);
+  private router  = inject(Router);
+  private cdr     = inject(ChangeDetectorRef);
 
   docsByDomain = signal<Record<string, DocSummary[]>>({});
   loading = signal(false);
@@ -447,9 +444,9 @@ export class DocsListPage implements OnInit, OnDestroy {
       return next;
     });
 
-    this.http.get<{ docs: DocSummary[] }>(`${this.API}?status=all&domain=${domain}&limit=200`).subscribe({
-      next: res => {
-        this.docsByDomain.update(current => ({ ...current, [domain]: res.docs ?? [] }));
+    this.docsApi.listDocs(domain).subscribe({
+      next: docs => {
+        this.docsByDomain.update(current => ({ ...current, [domain]: docs }));
         this.loadedDomains.update(s => {
           const next = new Set(s);
           next.add(domain);
@@ -486,11 +483,9 @@ export class DocsListPage implements OnInit, OnDestroy {
 
     this.searching.set(true);
     this.searchTimer = setTimeout(() => {
-      this.http.get<{ results: DocSearchResult[] }>(
-        `${this.SEARCH_API}?q=${encodeURIComponent(q)}&limit=50`
-      ).subscribe({
-        next: res => {
-          this.searchResults.set(res.results ?? []);
+      this.docsApi.searchDocs(q).subscribe({
+        next: results => {
+          this.searchResults.set(results);
           this.searching.set(false);
           this.cdr.markForCheck();
         },
@@ -534,7 +529,7 @@ export class DocsListPage implements OnInit, OnDestroy {
   }
 
   newDoc(): void {
-    this.http.post<{ id: string }>(this.API, { title: 'Untitled', domain: 'general', doc_type: 'note' })
+    this.docsApi.createDoc({ title: 'Untitled', domain: 'general', doc_type: 'note' })
       .subscribe(({ id }) => {
         this.loadDomain('general', true);
         this.openDomains.update(s => {
