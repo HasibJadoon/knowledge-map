@@ -1,4 +1,5 @@
 import { Node, mergeAttributes } from '@tiptap/core';
+import { environment } from '../../../../../environments/environment';
 
 interface PageLinkOptions {
   onOpen: (docId: string) => void;
@@ -152,20 +153,21 @@ export const PageLink = Node.create<PageLinkOptions>({
       });
       editBtn.addEventListener('click', navigate);
 
-      // Sync latest title from the API so renames are reflected
+      // Sync latest title from the CM API so renames are reflected
       const docId = node.attrs['doc_id'];
       if (docId) {
-        fetch(`/api/docs/${docId}`)
-          .then(r => r.json() as Promise<{ title?: string }>)
-          .then(data => {
+        fetch(`${environment.apiBase}/cm/documents/${docId}`)
+          .then(r => r.json() as Promise<{ data?: { title?: string } }>)
+          .then(res => {
             if (editor.isDestroyed) return;
-            if (data.title && data.title !== title.textContent) {
-              title.textContent = data.title;
+            const fetchedTitle = res.data?.title;
+            if (fetchedTitle && fetchedTitle !== title.textContent) {
+              title.textContent = fetchedTitle;
               // Update stored attr so it persists on next save
               const pos = typeof getPos === 'function' ? getPos() : null;
               if (pos != null) {
                 editor.chain().command(({ tr }) => {
-                  tr.setNodeAttribute(pos, 'title', data.title);
+                  tr.setNodeAttribute(pos, 'title', fetchedTitle);
                   return true;
                 }).run();
               }

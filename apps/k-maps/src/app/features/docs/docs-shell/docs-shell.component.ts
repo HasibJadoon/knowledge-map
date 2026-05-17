@@ -4,8 +4,8 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { filter, Subscription } from 'rxjs';
+import { DocsApiService } from '../services/docs-api.service';
 
 interface DocSummary {
   id: string;
@@ -295,9 +295,9 @@ const DOMAINS = [
   `]
 })
 export class DocsShellComponent implements OnInit, OnDestroy {
-  private http   = inject(HttpClient);
-  private router = inject(Router);
-  private cdr    = inject(ChangeDetectorRef);
+  private docsApi = inject(DocsApiService);
+  private router  = inject(Router);
+  private cdr     = inject(ChangeDetectorRef);
 
   docs    = signal<DocSummary[]>([]);
   loading = signal(true);
@@ -382,9 +382,9 @@ export class DocsShellComponent implements OnInit, OnDestroy {
   }
 
   private loadDocs(): void {
-    this.http.get<{ docs: DocSummary[] }>('/api/docs?status=all&limit=200').subscribe({
-      next: res => {
-        this.docs.set(res.docs ?? []);
+    this.docsApi.listAll().subscribe({
+      next: docs => {
+        this.docs.set(docs);
         this.loading.set(false);
         this.cdr.markForCheck();
       },
@@ -406,7 +406,7 @@ export class DocsShellComponent implements OnInit, OnDestroy {
   onDocClick(id: string): void { this.activeDocId.set(id); }
 
   newDoc(): void {
-    this.http.post<{ id: string }>('/api/docs', { title: 'Untitled', domain: 'general', doc_type: 'note' })
+    this.docsApi.createDoc({ title: 'Untitled', domain: 'general', doc_type: 'note' })
       .subscribe(({ id }) => { this.loadDocs(); this.router.navigate(['/docs', id]); });
   }
 }

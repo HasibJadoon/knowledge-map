@@ -115,12 +115,14 @@ export function documentRoutes(router: Router<ContentEnv>) {
       return badRequest('Request body must be valid JSON');
     }
 
-    // Ownership is taken from the authenticated gateway header (X-KM-User-Id),
-    // never trusted from the client body. A body-supplied core_user_ref is kept
-    // only as a fallback for direct (non-gateway) calls such as integration tests.
+    // Ownership comes from the authenticated gateway header (X-KM-User-Id) when
+    // present. Auth is currently disabled, so requests without that header fall
+    // back to a shared local identity rather than being rejected.
     if (body !== null && typeof body === 'object' && !Array.isArray(body)) {
+      const record = body as Record<string, unknown>;
       const headerUser = req.headers.get('X-KM-User-Id');
-      if (headerUser) (body as Record<string, unknown>).core_user_ref = headerUser;
+      if (headerUser) record.core_user_ref = headerUser;
+      else if (!record.core_user_ref) record.core_user_ref = 'CORE:local';
     }
 
     const result = validateCmDocumentCreate(body);

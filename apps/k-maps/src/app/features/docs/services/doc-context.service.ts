@@ -1,13 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { DocEditorService, DocContext } from './doc-editor.service';
+import { DocsApiService } from './docs-api.service';
 
 @Injectable({ providedIn: 'root' })
 export class DocContextService {
-  private editor = inject(DocEditorService);
-  private http   = inject(HttpClient);
-  private router = inject(Router);
+  private editor  = inject(DocEditorService);
+  private docsApi = inject(DocsApiService);
+  private router  = inject(Router);
 
   buildFromUrl(url: string, queryParams: Record<string, string> = {}): Partial<DocContext> {
     if (url.startsWith('quran')) {
@@ -37,9 +37,14 @@ export class DocContextService {
 
   openNewDocWithContext(originUrl: string, queryParams: Record<string, string> = {}): void {
     const ctx = this.buildFromUrl(originUrl, queryParams);
-    this.http.post<{ id: string }>('/api/docs', {
-      ...ctx,
-      title: 'Untitled'
+    this.docsApi.createDoc({
+      title: 'Untitled',
+      domain: ctx.domain ?? 'general',
+      doc_type: ctx.docType ?? 'note',
+      surah: ctx.surah ?? null,
+      ayah_from: ctx.ayahFrom ?? null,
+      ayah_to: ctx.ayahTo ?? null,
+      unit_id: ctx.unitId ?? null,
     }).subscribe(({ id }) => {
       this.editor.applyContext(ctx);
       this.router.navigate(['/docs', id]);
