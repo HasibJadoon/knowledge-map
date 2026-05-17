@@ -1,6 +1,7 @@
 type TokenPayload = {
   exp?: number;
   role?: string;
+  mcp?: number;
 };
 
 const base64ToJson = (value: string): TokenPayload | null => {
@@ -47,3 +48,20 @@ export const getTokenRole = (token: string | null): string | null => {
 };
 
 export const isAdminToken = (token: string | null): boolean => getTokenRole(token) === 'admin';
+
+/**
+ * True when the token carries the `mcp` claim — the holder was issued a
+ * temporary password and must set a new one before using the app.
+ */
+export const tokenRequiresPasswordChange = (token: string | null): boolean => {
+  if (!token) {
+    return false;
+  }
+
+  const parts = token.split('.');
+  if (parts.length !== 3) {
+    return false;
+  }
+
+  return base64ToJson(parts[1])?.mcp === 1;
+};

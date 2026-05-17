@@ -12,6 +12,10 @@ const SELECT = `
   platform_role AS role, account_status AS status, created_at
 FROM core_users`;
 
+// Legacy auto-seeded admin. It does not count as a "real" admin, so first-run
+// setup stays available until an operator-created admin exists.
+const LEGACY_ADMIN_EMAIL = 'admin@k-maps.local';
+
 export class UserRepo {
   constructor(private db: D1Database) {}
 
@@ -29,13 +33,30 @@ export class UserRepo {
     return queryOne<User>(this.db, `SELECT ${SELECT} WHERE id = ?`, [id]);
   }
 
-  /** True once any administrator account exists — gates first-run setup. */
+  /**
+   * True once a real (operator-created) administrator exists. The legacy
+   * auto-seeded admin@k-maps.local is excluded, so first-run setup remains
+   * available on databases that still carry the old placeholder account.
+   */
   async adminExists(): Promise<boolean> {
     const row = await queryOne<{ n: number }>(
       this.db,
-      `SELECT COUNT(*) AS n FROM core_users WHERE platform_role = 'admin'`,
+      `SELECT COUNT(*) AS n FROM core_users
+       WHERE platform_role = 'admin' AND email != ?`,
+      [LEGACY_ADMIN_EMAIL],
     );
     return (row?.n ?? 0) > 0;
+  }
+
+  /** Neutralise the legacy seeded admin once a real admin has been created. */
+  async retireLegacyAdmin(): Promise<void> {
+    await execute(
+      this.db,
+      `UPDATE core_users
+         SET account_status = 'suspended', updated_at = ?
+       WHERE email = ? AND account_status = 'active'`,
+      [new Date().toISOString(), LEGACY_ADMIN_EMAIL],
+    );
   }
 
   findByEmail(email: string): Promise<User | null> {
@@ -97,6 +118,45 @@ export class UserRepo {
       ],
     );
     return (await this.findById(id))!;
+  }
+
+  // ── Forced password change ──
+  // Stored in meta_json so no schema migration is needed. Set when an admin
+  // provisions a user with a password; cleared when the user picks their own.
+
+  async getMustChangePassword(userId: string): Promise<boolean> {
+    const row = await queryOne<{ meta_json: string | null }>(
+      this.db,
+      `SELECT meta_json FROM core_users WHERE id = ?`,
+      [userId],
+    );
+    if (!row?.meta_json) return false;
+    try {
+      return (JSON.parse(row.meta_json) as Record<string, unknown>)['must_change_password'] === true;
+    } catch {
+      return false;
+    }
+  }
+
+  async setMustChangePassword(userId: string, value: boolean): Promise<void> {
+    const row = await queryOne<{ meta_json: string | null }>(
+      this.db,
+      `SELECT meta_json FROM core_users WHERE id = ?`,
+      [userId],
+    );
+    let meta: Record<string, unknown> = {};
+    try {
+      meta = row?.meta_json ? (JSON.parse(row.meta_json) as Record<string, unknown>) : {};
+    } catch {
+      meta = {};
+    }
+    if (value) meta['must_change_password'] = true;
+    else delete meta['must_change_password'];
+    await execute(
+      this.db,
+      `UPDATE core_users SET meta_json = ?, updated_at = ? WHERE id = ?`,
+      [JSON.stringify(meta), new Date().toISOString(), userId],
+    );
   }
 
   /** Record a provider linkage on an existing account (idempotent). */

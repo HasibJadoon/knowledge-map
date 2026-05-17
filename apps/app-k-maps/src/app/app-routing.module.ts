@@ -11,6 +11,7 @@ const routes: Routes = [
   {
     path: 'home',
     loadComponent: () => import('./core/home/pages/home/home.page').then(m => m.HomePage),
+    canActivate: [AuthGuard],
   },
   {
     path: 'landing',
@@ -20,6 +21,12 @@ const routes: Routes = [
   {
     path: 'login',
     loadChildren: () => import('./core/login/login.module').then(m => m.LoginPageModule)
+  },
+  {
+    path: 'change-password',
+    loadComponent: () =>
+      import('./core/auth/pages/change-password/change-password.page').then(m => m.ChangePasswordPage),
+    canActivate: [AuthGuard],
   },
   // ── Arabic ──────────────────────────────────────────────────────────────────
   {
@@ -31,6 +38,7 @@ const routes: Routes = [
   {
     path: 'worldview',
     loadChildren: () => import('./features/worldview/worldview.routes').then((m) => m.WORLDVIEW_ROUTES),
+    canActivate: [AuthGuard]
   },
   {
     path: 'wv',
@@ -41,6 +49,7 @@ const routes: Routes = [
   {
     path: 'quran',
     loadChildren: () => import('./features/quran/quran.routes').then(m => m.QURAN_ROUTES),
+    canActivate: [AuthGuard]
   },
   
   
@@ -59,6 +68,7 @@ const routes: Routes = [
   {
     path: 'docs',
     loadChildren: () => import('./features/docs/docs.routes').then((m) => m.DOCS_ROUTES),
+    canActivate: [AuthGuard]
   },
   // ── Content ──────────────────────────────────────────────────────────────────
   {

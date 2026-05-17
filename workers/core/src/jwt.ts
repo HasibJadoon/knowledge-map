@@ -31,11 +31,17 @@ export async function issueSessionToken(
   user: { id: string; role: string },
   secret: string,
   expirySeconds: number,
+  opts: { mustChangePassword?: boolean } = {},
 ): Promise<{ token: string; expires_in: number }> {
   const now = Math.floor(Date.now() / 1000);
-  const token = await signJwt(
-    { sub: user.id, role: user.role, iat: now, exp: now + expirySeconds },
-    secret,
-  );
+  const payload: Record<string, unknown> = {
+    sub: user.id,
+    role: user.role,
+    iat: now,
+    exp: now + expirySeconds,
+  };
+  // `mcp` — the holder must set a new password before using the app.
+  if (opts.mustChangePassword) payload['mcp'] = 1;
+  const token = await signJwt(payload, secret);
   return { token, expires_in: expirySeconds };
 }
