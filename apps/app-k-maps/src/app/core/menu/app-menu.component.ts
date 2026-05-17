@@ -12,6 +12,7 @@ import {
   homeOutline,
   layersOutline,
   libraryOutline,
+  lockClosedOutline,
   micOutline,
   peopleOutline,
   repeatOutline,
@@ -36,6 +37,7 @@ const MENU_ENTRIES: ReadonlyArray<MenuEntry> = [
   { title: 'Content',    icon: filmOutline,         route: ['/content'] },
   { title: 'Reaction',   icon: micOutline,          route: ['/arabic', 'reaction'] },
   { title: 'Library',    icon: libraryOutline,      route: ['/worldview', 'library'] },
+  { title: 'Change Password', icon: lockClosedOutline, route: ['/change-password'] },
 ];
 
 @Component({

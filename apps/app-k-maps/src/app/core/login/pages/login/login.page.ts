@@ -10,7 +10,7 @@ import {
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
-import { isTokenValid } from '../../../auth/auth.utils';
+import { isTokenValid, tokenRequiresPasswordChange } from '../../../auth/auth.utils';
 import { OAuthService } from '../../../auth/oauth.service';
 import { environment } from '../../../../../environments/environment';
 
@@ -294,6 +294,9 @@ export class LoginPage implements AfterViewInit {
     this.loading = false;
     this.oauthBusy = false;
 
+    // A temporary-password account must set a new one before continuing.
+    const dest = tokenRequiresPasswordChange(token) ? '/change-password' : '/home';
+
     const target = this.card?.nativeElement;
     if (target) {
       gsap.to(target, {
@@ -304,11 +307,11 @@ export class LoginPage implements AfterViewInit {
         duration: 0.4,
         ease: 'power2.in',
         onComplete: () => {
-          void this.router.navigateByUrl('/home', { replaceUrl: true });
+          void this.router.navigateByUrl(dest, { replaceUrl: true });
         },
       });
     } else {
-      void this.router.navigateByUrl('/home', { replaceUrl: true });
+      void this.router.navigateByUrl(dest, { replaceUrl: true });
     }
   }
 

@@ -57,6 +57,7 @@
           </ion-select>
           <ion-input fill="outline" label="Password (optional)" labelPlacement="stacked" type="password"
                      [(ngModel)]="newPassword" name="pw"></ion-input>
+          <ion-note class="wa-hint">If set, the user must choose a new password on first sign-in.</ion-note>
           <ion-button expand="block" (click)="addUser()" [disabled]="creatingUser()">
             @if (creatingUser()) { <ion-spinner name="dots"></ion-spinner> } @else { Create user }
           </ion-button>

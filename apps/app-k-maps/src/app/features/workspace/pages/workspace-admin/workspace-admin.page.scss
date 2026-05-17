@@ -116,3 +116,10 @@
   font-family: 'SF Mono', ui-monospace, Menlo, Consolas, monospace;
   font-size: 0.82rem;
 }
+
+.wa-hint {
+  display: block;
+  margin-top: -2px;
+  font-size: 0.76rem;
+  color: var(--km-text-3, rgba(255, 255, 255, 0.45));
+}

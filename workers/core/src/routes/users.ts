@@ -46,9 +46,12 @@ export function userRoutes(router: Router<CoreEnv>) {
     const result = validateUserCreate(body);
     if ('error' in result) return badRequest(result.error);
 
-    const user = await new UserRepo(env.DB_CORE).create(result.data);
+    const userRepo = new UserRepo(env.DB_CORE);
+    const user = await userRepo.create(result.data);
     if (result.data.password) {
       await new AuthRepo(env.DB_CORE).setPassword(user.id, await hashPassword(result.data.password));
+      // An admin-chosen password is temporary — force a change on first login.
+      await userRepo.setMustChangePassword(user.id, true);
     }
     return created(user);
   });
@@ -83,9 +86,12 @@ export function userRoutes(router: Router<CoreEnv>) {
     if (typeof password !== 'string' || password.length < 6) {
       return badRequest('password must be at least 6 characters');
     }
-    const user = await new UserRepo(env.DB_CORE).findById(id);
+    const userRepo = new UserRepo(env.DB_CORE);
+    const user = await userRepo.findById(id);
     if (!user) return notFound(`user ${id}`);
     await new AuthRepo(env.DB_CORE).setPassword(id, await hashPassword(password));
+    // An admin-set password is temporary — force a change on next login.
+    await userRepo.setMustChangePassword(id, true);
     return ok({ ok: true });
   });
 }
