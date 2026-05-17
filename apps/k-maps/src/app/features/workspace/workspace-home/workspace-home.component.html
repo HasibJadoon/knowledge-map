@@ -18,7 +18,10 @@
           <h1 class="wh__title">Workspace</h1>
           <div class="wh__rule"></div>
         </div>
-        <button class="wh__new-btn" (click)="goToHub()" aria-label="Create new workspace">
+        <button class="wh__back" (click)="goToAdmin()" aria-label="User administration">
+          <span>⚙ Admin</span>
+        </button>
+        <button class="wh__new-btn" (click)="newWorkspace()" aria-label="Create new workspace">
           <span>＋ New Workspace</span>
         </button>
       </header>
@@ -45,7 +48,7 @@
             <span class="wh__state-icon">⊞</span>
             <p class="wh__state-title">No Workspaces Yet</p>
             <p class="wh__state-text">Create your first workspace to start collaborating.</p>
-            <button class="wh__new-btn wh__new-btn--lg" (click)="goToHub()">＋ New Workspace</button>
+            <button class="wh__new-btn wh__new-btn--lg" (click)="newWorkspace()">＋ New Workspace</button>
           </div>
         }
 

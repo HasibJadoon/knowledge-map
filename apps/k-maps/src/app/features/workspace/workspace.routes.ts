@@ -15,6 +15,14 @@ export const WORKSPACE_ROUTES: Routes = [
         title: 'Workspace — K-MAPS',
       },
       {
+        path: 'admin',
+        loadComponent: () =>
+          import('./workspace-admin/workspace-admin.component').then(
+            (m) => m.WorkspaceAdminComponent,
+          ),
+        title: 'Administration — K-MAPS',
+      },
+      {
         path: ':id',
         loadComponent: () =>
           import('./workspace-detail/workspace-detail.component').then(

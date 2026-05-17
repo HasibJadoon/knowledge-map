@@ -9,7 +9,10 @@ import {
   signal,
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
+
+import { WorkspaceApiService } from '../workspace-api.service';
 
 interface Workspace {
   id: string;
@@ -31,6 +34,7 @@ interface Workspace {
 })
 export class WorkspaceHomeComponent implements OnInit, AfterViewInit {
   private readonly router = inject(Router);
+  private readonly api = inject(WorkspaceApiService);
 
   @ViewChild('page') pageRef!: ElementRef<HTMLElement>;
   @ViewChild('header') headerRef!: ElementRef<HTMLElement>;
@@ -56,10 +60,7 @@ export class WorkspaceHomeComponent implements OnInit, AfterViewInit {
     this.loading.set(true);
     this.error.set(null);
     try {
-      const res = await fetch('/workspaces?limit=20');
-      if (!res.ok) throw new Error(`HTTP ${res.status}`);
-      const data = await res.json() as { ok: boolean; workspaces: Workspace[] };
-      this.workspaces.set(data.workspaces ?? []);
+      this.workspaces.set(await firstValueFrom(this.api.listWorkspaces()));
     } catch (e) {
       this.error.set(e instanceof Error ? e.message : 'Failed to load workspaces');
     } finally {
@@ -82,8 +83,19 @@ export class WorkspaceHomeComponent implements OnInit, AfterViewInit {
     void this.router.navigateByUrl('/landing');
   }
 
-  goToHub(): void {
-    void this.router.navigateByUrl('/hub/workspace/workspaces');
+  async newWorkspace(): Promise<void> {
+    const name = window.prompt('Workspace name')?.trim();
+    if (!name) return;
+    try {
+      const ws = await firstValueFrom(this.api.createWorkspace(name));
+      void this.router.navigate(['/workspace', ws.id]);
+    } catch {
+      this.error.set('Could not create workspace.');
+    }
+  }
+
+  goToAdmin(): void {
+    void this.router.navigateByUrl('/workspace/admin');
   }
 
   openWorkspace(id: string): void {
