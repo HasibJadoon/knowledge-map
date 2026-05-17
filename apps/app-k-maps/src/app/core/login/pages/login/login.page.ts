@@ -20,6 +20,11 @@ type LoginResponse = {
   error?: { code?: string; message?: string };
 };
 
+type BootstrapStatus = {
+  ok?: boolean;
+  data?: { needs_setup?: boolean };
+};
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -47,6 +52,9 @@ export class LoginPage implements AfterViewInit {
   errorMessage = '';
   loading = false;
 
+  // First-run setup: shown only while no administrator account exists.
+  setupMode = false;
+
   googleEnabled = false;
   appleEnabled = false;
   oauthBusy = false;
@@ -58,14 +66,18 @@ export class LoginPage implements AfterViewInit {
     password: ['', [Validators.required]],
   });
 
+  setupForm = this.formBuilder.group({
+    display_name: ['', [Validators.required]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
+    confirm: ['', [Validators.required]],
+  });
+
   ngAfterViewInit(): void {
     this.runEntrance();
   }
 
   ionViewWillEnter(): void {
-    // Ensure the bootstrap admin account exists (idempotent, public).
-    this.http.post(`${this.apiBase}/core/users/seed-admin`, {}).subscribe({ error: () => {} });
-
     const token = localStorage.getItem(this.tokenKey);
     if (isTokenValid(token)) {
       this.router.navigateByUrl('/home', { replaceUrl: true });
@@ -75,6 +87,19 @@ export class LoginPage implements AfterViewInit {
     if (token) {
       localStorage.removeItem(this.tokenKey);
     }
+
+    // When no administrator exists yet, swap to the one-time setup form.
+    this.http
+      .get<BootstrapStatus>(`${this.apiBase}/core/auth/bootstrap`)
+      .subscribe({
+        next: (res) => {
+          if (res?.data?.needs_setup) {
+            this.setupMode = true;
+            setTimeout(() => this.animateSwap(), 0);
+          }
+        },
+        error: () => {},
+      });
 
     void this.oauth.loadConfig().then((config) => {
       this.googleEnabled = config.google.enabled;
@@ -127,8 +152,22 @@ export class LoginPage implements AfterViewInit {
     }
   }
 
+  /** Re-stagger the card body when it swaps into setup mode. */
+  private animateSwap(): void {
+    const el = this.card?.nativeElement;
+    if (!el) return;
+    const kids = gsap.utils.toArray<HTMLElement>(el.querySelectorAll('.login__anim'));
+    gsap.from(kids, {
+      opacity: 0,
+      y: 16,
+      duration: 0.45,
+      stagger: 0.07,
+      ease: 'power3.out',
+    });
+  }
+
   private tryRenderGoogle(): void {
-    if (!this.googleEnabled || this.googleRendered || !this.googleBtn) return;
+    if (this.setupMode || !this.googleEnabled || this.googleRendered || !this.googleBtn) return;
     this.googleRendered = true;
     void this.oauth
       .renderGoogleButton(this.googleBtn.nativeElement, (idToken) =>
@@ -172,6 +211,43 @@ export class LoginPage implements AfterViewInit {
         this.fail(error?.error?.error?.message || 'Login failed');
       },
     });
+  }
+
+  /** First-run setup — create the initial administrator account. */
+  onSetupSubmit(): void {
+    if (this.setupForm.invalid) {
+      this.setupForm.markAllAsTouched();
+      this.shakeCard();
+      return;
+    }
+    const v = this.setupForm.value;
+    if (v.password !== v.confirm) {
+      this.fail('Passwords do not match');
+      return;
+    }
+
+    this.errorMessage = '';
+    this.loading = true;
+
+    this.http
+      .post<LoginResponse>(`${this.apiBase}/core/auth/bootstrap`, {
+        display_name: v.display_name ?? '',
+        email: v.email ?? '',
+        password: v.password ?? '',
+      })
+      .subscribe({
+        next: (response) => {
+          const token = response.data?.token;
+          if (response.ok && token) {
+            this.completeLogin(token);
+            return;
+          }
+          this.fail(response.error?.message || 'Setup failed');
+        },
+        error: (error) => {
+          this.fail(error?.error?.error?.message || 'Setup failed');
+        },
+      });
   }
 
   async appleSignIn(): Promise<void> {

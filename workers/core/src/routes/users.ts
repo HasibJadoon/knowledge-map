@@ -10,9 +10,6 @@ import { AuthRepo } from '../repositories/auth.repo';
 import { validateUserCreate, validateUserPatch } from '../schemas/user.schema';
 import { hashPassword } from '../password';
 
-const TEMP_ADMIN_EMAIL = 'admin@k-maps.local';
-const TEMP_ADMIN_PASSWORD = 'kmaps-admin';
-
 export function userRoutes(router: Router<CoreEnv>) {
 
   // GET /core/users — list users (admin only)
@@ -90,25 +87,5 @@ export function userRoutes(router: Router<CoreEnv>) {
     if (!user) return notFound(`user ${id}`);
     await new AuthRepo(env.DB_CORE).setPassword(id, await hashPassword(password));
     return ok({ ok: true });
-  });
-
-  // POST /core/users/seed-admin — idempotently ensure the bootstrap admin exists
-  // (public — this is the auth bootstrap, so it cannot itself require auth)
-  router.post('/core/users/seed-admin', async (_req, env) => {
-    const userRepo = new UserRepo(env.DB_CORE);
-    const authRepo = new AuthRepo(env.DB_CORE);
-
-    let user = await userRepo.findByEmail(TEMP_ADMIN_EMAIL);
-    if (!user) {
-      user = await userRepo.create({
-        email: TEMP_ADMIN_EMAIL,
-        display_name: 'Admin (temporary)',
-        role: 'admin',
-        username: 'admin',
-      });
-    }
-    // Always (re)apply the known default password so login is predictable.
-    await authRepo.setPassword(user.id, await hashPassword(TEMP_ADMIN_PASSWORD));
-    return ok(user);
   });
 }

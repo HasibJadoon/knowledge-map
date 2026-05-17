@@ -129,11 +129,10 @@ export default {
     }
 
     // ── Auth ───────────────────────────────────────────────────────────────────
-    // Auth endpoints (login, token issuance, the bootstrap admin seed) must be
+    // Auth endpoints (login, token issuance, OAuth, first-run setup) must be
     // reachable without a token. Everything else requires a valid Bearer JWT
     // unless the module marks GET requests as public.
-    const isAuthEndpoint =
-      remainder.startsWith('core/auth/') || remainder === 'core/users/seed-admin';
+    const isAuthEndpoint = remainder.startsWith('core/auth/');
     const isPublic = isAuthEndpoint || (mod.publicGet && request.method === 'GET');
     const authCtx  = await authenticate(request, env.JWT_SECRET ?? '');
 
