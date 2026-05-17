@@ -1,61 +1,56 @@
-// ─── ReviewRepo — pl_tasks (SRS review queue) ─────────────────────────────────
+// ─── ReviewRepo — pl_tasks review queue ───────────────────────────────────────
 // Drives the /pl/review endpoints — surfacing due tasks and recording feedback.
+// The review score is kept in the task meta_json (pl_tasks has no SRS columns).
 
-import { query, execute } from '../../../shared/src/db';
+import { query, queryOne, execute } from '../../../shared/src/db';
+import type { Task } from '../schemas/task.schema';
+import { TASK_COLS } from './task.repo';
 
-export interface DueTask {
-  id: string;
-  plan_id: string;
-  title: string;
-  task_type: string;
-  status: string;
-  priority: string | null;
-  resource_ref: string | null;
-  due_date: string | null;
-  next_review_at: string | null;
-  srs_quality: number | null;
-}
-
-export interface SrsFeedback {
+export interface ReviewFeedback {
   task_id: string;
-  next_review_at: string;
+  quality: number;
+  reviewed_at: string;
 }
-
-const DUE_COLS = `id, plan_id, title, task_type, status, priority,
-                  resource_ref, due_date, next_review_at, srs_quality`;
 
 export class ReviewRepo {
   constructor(private db: D1Database) {}
 
-  /** Tasks due for review today (due_date <= today OR next_review_at <= now). */
-  due(planId: string | null, limit = 50): Promise<DueTask[]> {
+  /** Open tasks that are due on or before today (tasks with no due date too). */
+  due(planId: string | null, limit = 50): Promise<Task[]> {
     const today = new Date().toISOString().slice(0, 10);
-    const now   = new Date().toISOString();
-    const and   = planId ? 'AND plan_id = ?' : '';
-    const params: unknown[] = planId ? [today, now, planId] : [today, now];
-    return query<DueTask>(
+    const cap = Math.max(1, Math.min(Math.trunc(limit) || 50, 200));
+    const and = planId ? 'AND plan_id = ?' : '';
+    const params: unknown[] = planId ? [today, planId] : [today];
+    return query<Task>(
       this.db,
-      `SELECT ${DUE_COLS} FROM pl_tasks
+      `SELECT ${TASK_COLS} FROM pl_tasks
        WHERE status IN ('pending', 'in_progress')
-         AND (due_date <= ? OR next_review_at <= ? OR (due_date IS NULL AND next_review_at IS NULL))
+         AND (due_date IS NULL OR due_date <= ?)
          ${and}
-       ORDER BY due_date NULLS LAST, priority
-       LIMIT ${limit}`,
+       ORDER BY due_date IS NULL, due_date, priority
+       LIMIT ${cap}`,
       params,
     );
   }
 
-  /** Record SRS quality (0-5) and schedule next review via 2^quality days. */
-  async feedback(taskId: string, quality: number): Promise<SrsFeedback> {
-    const now        = new Date();
-    const nextReview = new Date(now);
-    nextReview.setDate(nextReview.getDate() + Math.pow(2, quality));
+  /** Record a review score (0-5) onto the task's meta_json. */
+  async feedback(taskId: string, quality: number): Promise<ReviewFeedback> {
+    const row = await queryOne<{ meta_json: string | null }>(
+      this.db, `SELECT meta_json FROM pl_tasks WHERE id = ?`, [taskId],
+    );
+    let meta: Record<string, unknown> = {};
+    try {
+      meta = row?.meta_json ? (JSON.parse(row.meta_json) as Record<string, unknown>) : {};
+    } catch {
+      meta = {};
+    }
+    const reviewed_at = new Date().toISOString();
+    meta['review'] = { quality, reviewed_at };
     await execute(
       this.db,
-      `UPDATE pl_tasks SET last_reviewed_at = ?, next_review_at = ?, srs_quality = ?
-       WHERE id = ?`,
-      [now.toISOString(), nextReview.toISOString(), quality, taskId],
+      `UPDATE pl_tasks SET meta_json = ?, updated_at = ? WHERE id = ?`,
+      [JSON.stringify(meta), reviewed_at, taskId],
     );
-    return { task_id: taskId, next_review_at: nextReview.toISOString() };
+    return { task_id: taskId, quality, reviewed_at };
   }
 }

@@ -5,10 +5,19 @@ import { ok, notFound, created, badRequest, paginated } from '../../../shared/sr
 import { parsePagination } from '../../../shared/src/validate';
 import type { PlannerEnv } from '../env';
 import { TaskRepo } from '../repositories/task.repo';
+import { validateTaskCreate, validateTaskPatch } from '../schemas/task.schema';
+
+async function readJson(req: Request): Promise<unknown> {
+  try {
+    return await req.json();
+  } catch {
+    return undefined;
+  }
+}
 
 export function taskRoutes(router: Router<PlannerEnv>) {
 
-  // GET /pl/tasks?status=pending&plan=PL:ULID
+  // GET /pl/tasks?status=pending&plan=PL:ULID&due_before=YYYY-MM-DD
   router.get('/pl/tasks', async (req, env) => {
     const url = new URL(req.url);
     return paginated(
@@ -16,6 +25,7 @@ export function taskRoutes(router: Router<PlannerEnv>) {
         {
           status: url.searchParams.get('status'),
           planId: url.searchParams.get('plan'),
+          dueBefore: url.searchParams.get('due_before'),
         },
         parsePagination(url),
       ),
@@ -30,16 +40,11 @@ export function taskRoutes(router: Router<PlannerEnv>) {
 
   // POST /pl/tasks — create a new task under a plan
   router.post('/pl/tasks', async (req, env) => {
-    const b = await req.json() as Record<string, unknown>;
-    if (!b.plan_id || !b.title) return badRequest('plan_id and title required');
-    return created(await new TaskRepo(env.DB_PL).create({
-      plan_id:      String(b.plan_id),
-      title:        String(b.title),
-      task_type:    b.task_type  ? String(b.task_type)  : undefined,
-      priority:     (b.priority  as string | null) ?? null,
-      due_date:     (b.due_date  as string | null) ?? null,
-      resource_ref: (b.resource_ref as string | null) ?? null,
-    }));
+    const body = await readJson(req);
+    if (body === undefined) return badRequest('Request body must be valid JSON');
+    const result = validateTaskCreate(body);
+    if ('error' in result) return badRequest(result.error);
+    return created(await new TaskRepo(env.DB_PL).create(result.data));
   });
 
   // PATCH /pl/tasks/:id/complete
@@ -48,15 +53,13 @@ export function taskRoutes(router: Router<PlannerEnv>) {
     return row ? ok(row) : notFound(`task ${id}`);
   });
 
-  // PATCH /pl/tasks/:id — update status, priority, due_date, title
+  // PATCH /pl/tasks/:id — update any task field
   router.patch('/pl/tasks/:id', async (req, env, { id }) => {
-    const b = await req.json() as Record<string, unknown>;
-    const row = await new TaskRepo(env.DB_PL).patch(id, {
-      status:   b.status   as string | undefined,
-      priority: b.priority as string | undefined,
-      due_date: b.due_date as string | undefined,
-      title:    b.title    as string | undefined,
-    });
+    const body = await readJson(req);
+    if (body === undefined) return badRequest('Request body must be valid JSON');
+    const result = validateTaskPatch(body);
+    if ('error' in result) return badRequest(result.error);
+    const row = await new TaskRepo(env.DB_PL).patch(id, result.data);
     return row ? ok(row) : notFound(`task ${id}`);
   });
 }
