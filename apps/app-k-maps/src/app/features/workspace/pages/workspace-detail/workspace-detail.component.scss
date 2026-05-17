@@ -20,29 +20,30 @@
     /* Header */
     .wd__header {
       position: relative; z-index: 10;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.5rem 2rem 1rem;
+      display: flex; flex-direction: column; align-items: flex-start;
+      gap: .8rem;
+      padding: 1rem 1.25rem .9rem;
       border-bottom: 1px solid rgba(255,255,255,.06);
-      flex-shrink: 0; gap: 1rem;
+      flex-shrink: 0;
     }
 
     .wd__back {
-      display: flex; align-items: center; gap: .5rem;
+      display: inline-flex; align-items: center; gap: .4rem;
       background: transparent; border: 1px solid rgba(255,255,255,.1);
-      border-radius: 8px; padding: .5rem 1rem;
-      color: var(--km-text-2); font-size: .8rem; letter-spacing: .06em;
+      border-radius: 8px; padding: .45rem .85rem;
+      color: var(--km-text-2); font-size: .78rem; letter-spacing: .04em;
       cursor: pointer; transition: border-color .2s, color .2s; white-space: nowrap;
       font-family: var(--km-font-body);
       &:hover { border-color: var(--km-gold); color: var(--km-gold); }
     }
 
     .wd__title-group {
-      flex: 1; text-align: center;
-      display: flex; flex-direction: column; align-items: center; gap: .3rem;
+      width: 100%; min-width: 0;
+      display: flex; flex-direction: column; align-items: flex-start; gap: .4rem;
     }
 
     .wd__skeleton-title {
-      width: 200px; height: 2rem;
+      width: min(200px, 100%); height: 2rem;
       background: linear-gradient(90deg, rgba(255,255,255,.05), rgba(255,255,255,.1), rgba(255,255,255,.05));
       background-size: 200% 100%;
       animation: wd-shimmer 1.5s infinite;
@@ -61,10 +62,10 @@
 
     .wd__title {
       font-family: var(--km-font-heading);
-      font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: .06em;
+      font-size: clamp(1.5rem, 6vw, 2rem); font-weight: 700; letter-spacing: .04em;
       background: linear-gradient(135deg, var(--km-gold-bright) 0%, var(--km-gold) 55%, #a07830 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      line-height: 1.1;
+      line-height: 1.15; max-width: 100%; overflow-wrap: anywhere;
     }
 
     .wd__status {
@@ -76,19 +77,23 @@
     .wd__status--completed { background: rgba(30,64,175,.3); color: #93c5fd; }
     .wd__status--paused { background: rgba(120,53,15,.3); color: #fcd34d; }
 
-    .wd__header-actions { display: flex; align-items: center; gap: .8rem; }
+    .wd__badges {
+      display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+    }
 
     .wd__type-badge {
-      font-size: .65rem; font-weight: 700; letter-spacing: .18em;
-      text-transform: uppercase; color: var(--km-gold); opacity: .6;
+      font-size: .6rem; font-weight: 700; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--km-gold);
+      background: rgba(201,168,76,.1); border: 1px solid rgba(201,168,76,.25);
+      padding: .2rem .55rem; border-radius: 4px;
       font-family: var(--km-font-body);
     }
 
     /* Tabs */
     .wd__tabs {
       position: relative; z-index: 10;
-      display: flex; align-items: center; gap: .25rem;
-      padding: 0 2rem;
+      display: flex; align-items: stretch;
+      padding: 0 .4rem;
       border-bottom: 1px solid rgba(255,255,255,.06);
       flex-shrink: 0;
       overflow-x: auto; scrollbar-width: none;
@@ -96,10 +101,11 @@
     }
 
     .wd__tab {
-      display: flex; align-items: center; gap: .5rem;
-      padding: .9rem 1.2rem;
+      flex: 1 1 0; min-width: 0;
+      display: flex; align-items: center; justify-content: center; gap: .35rem;
+      padding: .8rem .35rem;
       background: transparent; border: none;
-      color: var(--km-text-3); font-size: .82rem; letter-spacing: .06em;
+      color: var(--km-text-3); font-size: .74rem; letter-spacing: .01em;
       cursor: pointer; white-space: nowrap; position: relative;
       transition: color .2s;
       font-family: var(--km-font-body);
@@ -120,7 +126,7 @@
       }
     }
 
-    .wd__tab-icon { font-size: .9rem; opacity: .7; }
+    .wd__tab-icon { font-size: .8rem; opacity: .7; }
     .wd__tab-indicator { display: none; }
 
     /* Content */
@@ -130,14 +136,16 @@
 
     .wd__panel {
       position: absolute; inset: 0;
-      overflow-y: auto; padding: 2rem;
+      overflow-y: auto; padding: 1.25rem;
+      display: flex; flex-direction: column;
       scrollbar-width: thin; scrollbar-color: rgba(201,168,76,.3) transparent;
     }
 
     /* States */
     .wd__state {
+      flex: 1;
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 1rem; min-height: 40vh; text-align: center;
+      gap: 1rem; min-height: 50vh; text-align: center; padding: 1.5rem 0;
     }
 
     .wd__state-icon {
@@ -208,7 +216,7 @@
 
     .wd__info-value {
       font-size: .9rem; color: var(--km-text); font-family: var(--km-font-body);
-      text-align: right;
+      text-align: right; min-width: 0; overflow-wrap: anywhere;
     }
 
     .wd__info-status {
@@ -231,10 +239,10 @@
     }
 
     .wd__member-row {
-      display: flex; align-items: center; gap: 1rem;
+      display: flex; align-items: center; gap: .8rem;
       background: rgba(255,255,255,.03);
       border: 1px solid rgba(255,255,255,.06);
-      border-radius: 10px; padding: .9rem 1.2rem;
+      border-radius: 10px; padding: .85rem 1rem;
       transition: border-color .2s;
       &:hover { border-color: rgba(201,168,76,.2); }
     }
@@ -255,10 +263,12 @@
     .wd__member-name {
       font-size: .9rem; color: var(--km-text); font-weight: 500;
       font-family: var(--km-font-body);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;
     }
 
     .wd__member-email {
       font-size: .72rem; color: var(--km-text-3); font-family: var(--km-font-body);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 100%;
     }
 
     .wd__member-role {
@@ -319,5 +329,14 @@
     .wd__activity-date {
       font-size: .68rem; color: var(--km-text-3); font-family: var(--km-font-body);
       margin-top: .1rem;
+    }
+
+    /* Roomier layout on tablets / desktop */
+    @media (min-width: 720px) {
+      .wd__header { padding: 1.5rem 2rem 1.1rem; }
+      .wd__tabs { padding: 0 1.5rem; }
+      .wd__tab { flex: 0 0 auto; padding: .9rem 1.35rem; font-size: .82rem; gap: .5rem; }
+      .wd__tab-icon { font-size: .9rem; }
+      .wd__panel { padding: 2rem; }
     }
   

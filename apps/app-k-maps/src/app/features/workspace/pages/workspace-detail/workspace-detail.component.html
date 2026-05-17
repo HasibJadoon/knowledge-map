@@ -8,7 +8,7 @@
       <!-- Header -->
       <header class="wd__header" #header>
         <button class="wd__back" (click)="goBack()" aria-label="Back to workspaces">
-          <span>←</span>
+          <span aria-hidden="true">←</span>
           <span>Workspaces</span>
         </button>
 
@@ -18,17 +18,16 @@
           } @else {
             <p class="wd__eyebrow">Workspace</p>
             <h1 class="wd__title">{{ workspace()?.name ?? 'Workspace' }}</h1>
-            @if (workspace()?.status) {
-              <span class="wd__status" [class]="'wd__status--' + workspace()!.status">
-                {{ workspace()!.status }}
-              </span>
-            }
-          }
-        </div>
-
-        <div class="wd__header-actions">
-          @if (workspace()?.type) {
-            <span class="wd__type-badge">{{ workspace()!.type }}</span>
+            <div class="wd__badges">
+              @if (workspace()?.status) {
+                <span class="wd__status" [class]="'wd__status--' + workspace()!.status">
+                  {{ workspace()!.status }}
+                </span>
+              }
+              @if (workspace()?.type) {
+                <span class="wd__type-badge">{{ workspace()!.type }}</span>
+              }
+            </div>
           }
         </div>
       </header>
@@ -92,7 +91,7 @@
                     @if (workspace()!.owner) {
                       <div class="wd__info-row">
                         <span class="wd__info-label">Owner</span>
-                        <span class="wd__info-value">{{ workspace()!.owner }}</span>
+                        <span class="wd__info-value">{{ ownerName() }}</span>
                       </div>
                     }
                     @if (workspace()!.created_at) {
