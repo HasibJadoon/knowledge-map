@@ -3,6 +3,7 @@
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, created, badRequest, paginated } from '../../../shared/src/response';
 import { parsePagination } from '../../../shared/src/validate';
+import { requireAdmin } from '../../../shared/src/auth';
 import type { CoreEnv } from '../env';
 import { UserRepo } from '../repositories/user.repo';
 import { AuthRepo } from '../repositories/auth.repo';
@@ -14,8 +15,10 @@ const TEMP_ADMIN_PASSWORD = 'kmaps-admin';
 
 export function userRoutes(router: Router<CoreEnv>) {
 
-  // GET /core/users — list users
+  // GET /core/users — list users (admin only)
   router.get('/core/users', async (req, env) => {
+    const ctx = await requireAdmin(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     return paginated(await new UserRepo(env.DB_CORE).list(parsePagination(new URL(req.url))));
   });
 
@@ -33,8 +36,10 @@ export function userRoutes(router: Router<CoreEnv>) {
     return user ? ok(user) : notFound(`user ${id}`);
   });
 
-  // POST /core/users — create a user (with an optional initial password)
+  // POST /core/users — create a user (admin only)
   router.post('/core/users', async (req, env) => {
+    const ctx = await requireAdmin(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     let body: unknown;
     try {
       body = await req.json();
@@ -51,8 +56,10 @@ export function userRoutes(router: Router<CoreEnv>) {
     return created(user);
   });
 
-  // PATCH /core/users/:id — update role / status / display name
+  // PATCH /core/users/:id — update role / status / display name (admin only)
   router.patch('/core/users/:id', async (req, env, { id }) => {
+    const ctx = await requireAdmin(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     let body: unknown;
     try {
       body = await req.json();
@@ -65,8 +72,10 @@ export function userRoutes(router: Router<CoreEnv>) {
     return user ? ok(user) : notFound(`user ${id}`);
   });
 
-  // POST /core/users/:id/password — set or reset a user's password
+  // POST /core/users/:id/password — set or reset a user's password (admin only)
   router.post('/core/users/:id/password', async (req, env, { id }) => {
+    const ctx = await requireAdmin(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     let body: unknown;
     try {
       body = await req.json();
@@ -84,6 +93,7 @@ export function userRoutes(router: Router<CoreEnv>) {
   });
 
   // POST /core/users/seed-admin — idempotently ensure the bootstrap admin exists
+  // (public — this is the auth bootstrap, so it cannot itself require auth)
   router.post('/core/users/seed-admin', async (_req, env) => {
     const userRepo = new UserRepo(env.DB_CORE);
     const authRepo = new AuthRepo(env.DB_CORE);

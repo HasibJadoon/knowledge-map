@@ -1,14 +1,19 @@
-import { Injectable } from '@angular/core';
-import { CanActivate } from '@angular/router';
+import { Injectable, inject } from '@angular/core';
+import { CanActivate, Router, UrlTree } from '@angular/router';
+import { isTokenValid } from './auth.utils';
 
-/**
- * Authentication is disabled for now — every route is accessible without a
- * login. Kept as a no-op so existing `canActivate: [AuthGuard]` route configs
- * continue to compile; restore the token check here to re-enable auth.
- */
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
-  canActivate(): boolean {
-    return true;
+  private readonly router = inject(Router);
+
+  canActivate(): boolean | UrlTree {
+    const token = localStorage.getItem('auth_token');
+    if (isTokenValid(token)) {
+      return true;
+    }
+    if (token) {
+      localStorage.removeItem('auth_token');
+    }
+    return this.router.parseUrl('/login');
   }
 }

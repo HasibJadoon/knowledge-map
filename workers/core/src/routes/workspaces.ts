@@ -3,28 +3,19 @@
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, created, badRequest, paginated } from '../../../shared/src/response';
 import { parsePagination } from '../../../shared/src/validate';
+import { requireAuth } from '../../../shared/src/auth';
 import type { CoreEnv } from '../env';
 import { WorkspaceRepo } from '../repositories/workspace.repo';
 import { validateWorkspaceCreate } from '../schemas/workspace.schema';
 
-/**
- * Resolve the acting user. Authentication is currently disabled, so the
- * gateway-injected X-KM-User-Id header is used when present, otherwise a
- * shared local identity is assumed.
- */
-function currentUser(req: Request): string {
-  return req.headers.get('X-KM-User-Id') ?? 'CORE:local';
-}
-
 export function workspaceRoutes(router: Router<CoreEnv>) {
 
-  // GET /core/workspaces/mine — workspaces for the acting user
+  // GET /core/workspaces/mine — workspaces for the authenticated user
   router.get('/core/workspaces/mine', async (req, env) => {
+    const ctx = await requireAuth(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     return paginated(
-      await new WorkspaceRepo(env.DB_CORE).byUser(
-        currentUser(req),
-        parsePagination(new URL(req.url)),
-      ),
+      await new WorkspaceRepo(env.DB_CORE).byUser(ctx.userId, parsePagination(new URL(req.url))),
     );
   });
 
@@ -47,6 +38,8 @@ export function workspaceRoutes(router: Router<CoreEnv>) {
 
   // POST /core/workspaces — create a workspace
   router.post('/core/workspaces', async (req, env) => {
+    const ctx = await requireAuth(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     let body: unknown;
     try {
       body = await req.json();
@@ -55,6 +48,6 @@ export function workspaceRoutes(router: Router<CoreEnv>) {
     }
     const result = validateWorkspaceCreate(body);
     if ('error' in result) return badRequest(result.error);
-    return created(await new WorkspaceRepo(env.DB_CORE).create(result.data, currentUser(req)));
+    return created(await new WorkspaceRepo(env.DB_CORE).create(result.data, ctx.userId));
   });
 }

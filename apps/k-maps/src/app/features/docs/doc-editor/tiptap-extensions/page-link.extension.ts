@@ -156,7 +156,9 @@ export const PageLink = Node.create<PageLinkOptions>({
       // Sync latest title from the CM API so renames are reflected
       const docId = node.attrs['doc_id'];
       if (docId) {
-        fetch(`${environment.apiBase}/cm/documents/${docId}`)
+        const token = localStorage.getItem('km_token');
+        fetch(`${environment.apiBase}/cm/documents/${docId}`,
+          token ? { headers: { Authorization: `Bearer ${token}` } } : {})
           .then(r => r.json() as Promise<{ data?: { title?: string } }>)
           .then(res => {
             if (editor.isDestroyed) return;

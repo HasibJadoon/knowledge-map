@@ -7,10 +7,8 @@ import { environment } from '../../../../../environments/environment';
 
 type LoginResponse = {
   ok?: boolean;
-  token?: string;
-  expiresAt?: string;
-  error?: string;
-  message?: string;
+  data?: { token?: string; expires_in?: number };
+  error?: { code?: string; message?: string };
 };
 
 @Component({
@@ -34,6 +32,9 @@ export class LoginPage {
   });
 
   ionViewWillEnter(): void {
+    // Ensure the bootstrap admin account exists (idempotent, public).
+    this.http.post(`${this.apiBase}/core/users/seed-admin`, {}).subscribe({ error: () => {} });
+
     const token = localStorage.getItem(this.tokenKey);
     if (isTokenValid(token)) {
       this.router.navigateByUrl('/home', { replaceUrl: true });
@@ -59,15 +60,16 @@ export class LoginPage {
       password: this.form.value.password ?? '',
     };
 
-    this.http.post<LoginResponse>(`${this.apiBase}/login`, payload).subscribe({
+    this.http.post<LoginResponse>(`${this.apiBase}/core/auth/login`, payload).subscribe({
       next: (response) => {
-        if (response.ok && response.token) {
-          localStorage.setItem(this.tokenKey, response.token);
+        const token = response.data?.token;
+        if (response.ok && token) {
+          localStorage.setItem(this.tokenKey, token);
           this.router.navigateByUrl('/home', { replaceUrl: true });
           return;
         }
 
-        this.errorMessage = response.message || response.error || 'Login failed';
+        this.errorMessage = response.error?.message || 'Login failed';
         this.loading = false;
       },
       error: (error) => {
@@ -75,8 +77,7 @@ export class LoginPage {
           localStorage.removeItem(this.tokenKey);
         }
 
-        const apiError = error?.error?.message || error?.error?.error;
-        this.errorMessage = apiError || 'Login failed';
+        this.errorMessage = error?.error?.error?.message || 'Login failed';
         this.loading = false;
       },
     });

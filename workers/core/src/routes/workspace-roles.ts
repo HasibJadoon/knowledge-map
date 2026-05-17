@@ -2,6 +2,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, created, badRequest, noContent, notFound } from '../../../shared/src/response';
+import { requireAuth } from '../../../shared/src/auth';
 import type { CoreEnv } from '../env';
 import { WorkspaceRoleRepo } from '../repositories/workspace-role.repo';
 
@@ -25,6 +26,8 @@ export function workspaceRoleRoutes(router: Router<CoreEnv>) {
 
   // POST /core/workspaces/:id/roles — define a role
   router.post('/core/workspaces/:id/roles', async (req, env, { id }) => {
+    const ctx = await requireAuth(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     const body = await readJson(req);
     if (!body) return badRequest('Request body must be a JSON object');
     const roleKey = typeof body['role_key'] === 'string' ? body['role_key'].trim() : '';
@@ -46,6 +49,8 @@ export function workspaceRoleRoutes(router: Router<CoreEnv>) {
 
   // PATCH /core/workspaces/:id/roles/:roleId — update role permissions
   router.patch('/core/workspaces/:id/roles/:roleId', async (req, env, { roleId }) => {
+    const ctx = await requireAuth(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     const body = await readJson(req);
     if (!body || typeof body['permissions_json'] !== 'string') {
       return badRequest('permissions_json (a JSON string) is required');
@@ -57,7 +62,9 @@ export function workspaceRoleRoutes(router: Router<CoreEnv>) {
   });
 
   // DELETE /core/workspaces/:id/roles/:roleId
-  router.delete('/core/workspaces/:id/roles/:roleId', async (_req, env, { roleId }) => {
+  router.delete('/core/workspaces/:id/roles/:roleId', async (req, env, { roleId }) => {
+    const ctx = await requireAuth(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     await new WorkspaceRoleRepo(env.DB_CORE).delete(roleId);
     return noContent();
   });
@@ -69,6 +76,8 @@ export function workspaceRoleRoutes(router: Router<CoreEnv>) {
 
   // POST /core/workspaces/:id/members/:memberId/roles — assign a role to a member
   router.post('/core/workspaces/:id/members/:memberId/roles', async (req, env, { memberId }) => {
+    const ctx = await requireAuth(req, env.JWT_SECRET);
+    if (ctx instanceof Response) return ctx;
     const body = await readJson(req);
     const roleId = body && typeof body['role_id'] === 'string' ? body['role_id'] : '';
     if (!roleId) return badRequest('role_id is required');
@@ -80,7 +89,9 @@ export function workspaceRoleRoutes(router: Router<CoreEnv>) {
   // DELETE /core/workspaces/:id/members/:memberId/roles/:roleId — revoke a role
   router.delete(
     '/core/workspaces/:id/members/:memberId/roles/:roleId',
-    async (_req, env, { memberId, roleId }) => {
+    async (req, env, { memberId, roleId }) => {
+      const ctx = await requireAuth(req, env.JWT_SECRET);
+      if (ctx instanceof Response) return ctx;
       await new WorkspaceRoleRepo(env.DB_CORE).revokeFromMember(memberId, roleId);
       return noContent();
     },
