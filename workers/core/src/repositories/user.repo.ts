@@ -29,6 +29,15 @@ export class UserRepo {
     return queryOne<User>(this.db, `SELECT ${SELECT} WHERE id = ?`, [id]);
   }
 
+  /** True once any administrator account exists — gates first-run setup. */
+  async adminExists(): Promise<boolean> {
+    const row = await queryOne<{ n: number }>(
+      this.db,
+      `SELECT COUNT(*) AS n FROM core_users WHERE platform_role = 'admin'`,
+    );
+    return (row?.n ?? 0) > 0;
+  }
+
   findByEmail(email: string): Promise<User | null> {
     return queryOne<User>(this.db, `SELECT ${SELECT} WHERE email = ?`, [email]);
   }

@@ -39,68 +39,123 @@
 
       <!-- Card -->
       <div class="login__card" #card>
-        <div class="login__card-head login__anim">
-          <h2>Welcome back</h2>
-          <p>Sign in to continue your study</p>
-        </div>
 
-        <div class="login__error" *ngIf="errorMessage">
-          <ion-icon name="alert-circle-outline"></ion-icon>
-          <span>{{ errorMessage }}</span>
-        </div>
+        <!-- ── First-run setup ────────────────────────────────────────────── -->
+        <ng-container *ngIf="setupMode">
+          <div class="login__card-head login__anim">
+            <h2>Welcome to K-MAPS</h2>
+            <p>Create the first administrator account</p>
+          </div>
 
-        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login__form">
-          <label class="login__field login__anim">
-            <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
-            <input
-              type="email"
-              placeholder="Email address"
-              formControlName="email"
-              autocomplete="email"
-              inputmode="email"
-            />
-          </label>
+          <div class="login__error" *ngIf="errorMessage">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
 
-          <label class="login__field login__anim">
-            <ion-icon name="lock-closed-outline" aria-hidden="true"></ion-icon>
-            <input
-              type="password"
-              placeholder="Password"
-              formControlName="password"
-              autocomplete="current-password"
-            />
-          </label>
+          <form [formGroup]="setupForm" (ngSubmit)="onSetupSubmit()" class="login__form">
+            <label class="login__field login__anim">
+              <ion-icon name="person-outline" aria-hidden="true"></ion-icon>
+              <input type="text" placeholder="Full name" formControlName="display_name"
+                     autocomplete="name" />
+            </label>
 
-          <button
-            type="submit"
-            class="login__submit login__anim"
-            [disabled]="loading || oauthBusy"
-          >
-            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
-            <span *ngIf="!loading">Sign In</span>
-          </button>
-        </form>
+            <label class="login__field login__anim">
+              <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+              <input type="email" placeholder="Email address" formControlName="email"
+                     autocomplete="email" inputmode="email" />
+            </label>
 
-        <div class="login__divider login__anim" *ngIf="googleEnabled || appleEnabled">
-          <span>or continue with</span>
-        </div>
+            <label class="login__field login__anim">
+              <ion-icon name="lock-closed-outline" aria-hidden="true"></ion-icon>
+              <input type="password" placeholder="Password (min 8 characters)"
+                     formControlName="password" autocomplete="new-password" />
+            </label>
 
-        <div class="login__oauth login__anim">
-          <div #googleBtn class="login__google" [hidden]="!googleEnabled"></div>
+            <label class="login__field login__anim">
+              <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+              <input type="password" placeholder="Confirm password" formControlName="confirm"
+                     autocomplete="new-password" />
+            </label>
 
-          <button
-            *ngIf="appleEnabled"
-            type="button"
-            class="login__apple"
-            (click)="appleSignIn()"
-            [disabled]="loading || oauthBusy"
-          >
-            <ion-icon name="logo-apple" aria-hidden="true"></ion-icon>
-            <span>Continue with Apple</span>
-          </button>
+            <button type="submit" class="login__submit login__anim" [disabled]="loading">
+              <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+              <span *ngIf="!loading">Create administrator</span>
+            </button>
+          </form>
 
-          <ion-spinner *ngIf="oauthBusy" name="crescent" class="login__oauth-spinner"></ion-spinner>
-        </div>
+          <p class="login__setup-note login__anim">
+            One-time setup. This screen disables itself automatically once an
+            administrator exists — afterwards all accounts are created from
+            the admin panel.
+          </p>
+        </ng-container>
+
+        <!-- ── Sign in ────────────────────────────────────────────────────── -->
+        <ng-container *ngIf="!setupMode">
+          <div class="login__card-head login__anim">
+            <h2>Welcome back</h2>
+            <p>Sign in to continue your study</p>
+          </div>
+
+          <div class="login__error" *ngIf="errorMessage">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>{{ errorMessage }}</span>
+          </div>
+
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login__form">
+            <label class="login__field login__anim">
+              <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+              <input
+                type="email"
+                placeholder="Email address"
+                formControlName="email"
+                autocomplete="email"
+                inputmode="email"
+              />
+            </label>
+
+            <label class="login__field login__anim">
+              <ion-icon name="lock-closed-outline" aria-hidden="true"></ion-icon>
+              <input
+                type="password"
+                placeholder="Password"
+                formControlName="password"
+                autocomplete="current-password"
+              />
+            </label>
+
+            <button
+              type="submit"
+              class="login__submit login__anim"
+              [disabled]="loading || oauthBusy"
+            >
+              <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+              <span *ngIf="!loading">Sign In</span>
+            </button>
+          </form>
+
+          <div class="login__divider login__anim" *ngIf="googleEnabled || appleEnabled">
+            <span>or continue with</span>
+          </div>
+
+          <div class="login__oauth login__anim">
+            <div #googleBtn class="login__google" [hidden]="!googleEnabled"></div>
+
+            <button
+              *ngIf="appleEnabled"
+              type="button"
+              class="login__apple"
+              (click)="appleSignIn()"
+              [disabled]="loading || oauthBusy"
+            >
+              <ion-icon name="logo-apple" aria-hidden="true"></ion-icon>
+              <span>Continue with Apple</span>
+            </button>
+
+            <ion-spinner *ngIf="oauthBusy" name="crescent" class="login__oauth-spinner"></ion-spinner>
+          </div>
+        </ng-container>
+
       </div>
 
       <p class="login__foot" #foot>Islamic Knowledge Platform</p>
