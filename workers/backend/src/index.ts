@@ -14,7 +14,7 @@ import type { BackendEnv } from './env';
 import { MODULE_MAP, type ModuleKey } from './modules';
 import { preflight, withCors, corsHeaders } from './cors';
 import { authenticate } from '../../shared/src/auth';
-import { err, internalError } from '../../shared/src/response';
+import { unauthorized, err, internalError } from '../../shared/src/response';
 import { json } from '../../shared/src/http';
 
 export default {
@@ -129,10 +129,17 @@ export default {
     }
 
     // ── Auth ───────────────────────────────────────────────────────────────────
-    // Authentication is currently disabled — requests without a token are
-    // still forwarded. When a valid token IS present, its user context is
-    // propagated below so writes can attribute ownership.
-    const authCtx = await authenticate(request, env.JWT_SECRET ?? '');
+    // Auth endpoints (login, token issuance, the bootstrap admin seed) must be
+    // reachable without a token. Everything else requires a valid Bearer JWT
+    // unless the module marks GET requests as public.
+    const isAuthEndpoint =
+      remainder.startsWith('core/auth/') || remainder === 'core/users/seed-admin';
+    const isPublic = isAuthEndpoint || (mod.publicGet && request.method === 'GET');
+    const authCtx  = await authenticate(request, env.JWT_SECRET ?? '');
+
+    if (!isPublic && !authCtx) {
+      return withCors(unauthorized('Valid Bearer token required'), origin, co);
+    }
 
     // ── Build forwarded request ────────────────────────────────────────────────
     // Rewrite hostname so the internal worker sees /qr/menu, not /api/qr/menu.

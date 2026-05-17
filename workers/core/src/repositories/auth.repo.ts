@@ -33,7 +33,7 @@ export interface AuthToken {
   id: string;
   user_id: string;
   token_hash: string;
-  token_type: 'api_key' | 'invitation' | 'password_reset' | 'email_verify' | 'link_share';
+  token_type: 'api_key' | 'invitation' | 'password_reset' | 'email_verify' | 'link_share' | 'password';
   name: string | null;
   scopes_json: string | null;
   workspace_id: string | null;
@@ -200,6 +200,37 @@ export class AuthRepo {
       `SELECT ${TOKEN_COLS}
        WHERE user_id = ? AND revoked_at IS NULL ORDER BY created_at DESC`,
       [userId],
+    );
+  }
+
+  // ── Password credentials ──
+  // A user's password is stored as a single token_type='password' row.
+
+  async findPasswordHash(userId: string): Promise<string | null> {
+    const row = await queryOne<{ token_hash: string }>(
+      this.db,
+      `SELECT token_hash FROM core_auth_tokens
+       WHERE user_id = ? AND token_type = 'password' AND revoked_at IS NULL
+       ORDER BY created_at DESC LIMIT 1`,
+      [userId],
+    );
+    return row?.token_hash ?? null;
+  }
+
+  /** Replace any existing password credential for the user. */
+  async setPassword(userId: string, passwordHash: string): Promise<void> {
+    await execute(
+      this.db,
+      `DELETE FROM core_auth_tokens WHERE user_id = ? AND token_type = 'password'`,
+      [userId],
+    );
+    await execute(
+      this.db,
+      `INSERT INTO core_auth_tokens
+         (id, user_id, token_hash, token_type, name, scopes_json, workspace_id,
+          expires_at, used_at, revoked_at, created_at)
+       VALUES (?, ?, ?, 'password', 'password', NULL, NULL, NULL, NULL, NULL, ?)`,
+      [typedId('CORE'), userId, passwordHash, new Date().toISOString()],
     );
   }
 }

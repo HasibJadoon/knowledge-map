@@ -10,6 +10,7 @@ import type { CoreEnv } from './env';
 import { authRoutes } from './routes/auth';
 import { userRoutes } from './routes/users';
 import { workspaceRoutes } from './routes/workspaces';
+import { workspaceRoleRoutes } from './routes/workspace-roles';
 import { grantRoutes } from './routes/grants';
 
 const router = new Router<CoreEnv>();
@@ -23,6 +24,7 @@ router.get('/health', async (_req, env) =>
 authRoutes(router);
 userRoutes(router);
 workspaceRoutes(router);
+workspaceRoleRoutes(router);
 grantRoutes(router);
 
 export default {

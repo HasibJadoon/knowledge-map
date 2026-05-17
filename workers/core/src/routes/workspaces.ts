@@ -36,15 +36,18 @@ export function workspaceRoutes(router: Router<CoreEnv>) {
     return ok(await new WorkspaceRepo(env.DB_CORE).members(id));
   });
 
-  // POST /core/workspaces — create workspace
+  // POST /core/workspaces — create a workspace
   router.post('/core/workspaces', async (req, env) => {
     const ctx = await requireAuth(req, env.JWT_SECRET);
     if (ctx instanceof Response) return ctx;
-
-    const body   = await req.json();
+    let body: unknown;
+    try {
+      body = await req.json();
+    } catch {
+      return badRequest('Request body must be valid JSON');
+    }
     const result = validateWorkspaceCreate(body);
     if ('error' in result) return badRequest(result.error);
-
     return created(await new WorkspaceRepo(env.DB_CORE).create(result.data, ctx.userId));
   });
 }

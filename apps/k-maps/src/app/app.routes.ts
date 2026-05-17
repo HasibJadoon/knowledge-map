@@ -17,6 +17,11 @@ export const routes: Routes = [
       import('./core/landing/landing.routes').then((m) => m.LANDING_ROUTES),
   },
   {
+    path: 'login',
+    loadComponent: () =>
+      import('./core/login/login.component').then((m) => m.LoginComponent),
+  },
+  {
     path: 'hub',
     loadChildren: () =>
       import('./features/hub/hub.routes').then((m) => m.HUB_ROUTES),
