@@ -46,6 +46,85 @@ export class UserRepo {
     return (await this.findById(id))!;
   }
 
+  // ── OAuth provisioning ──
+  // Provider linkage is kept in core_users.meta_json under `oauth.<provider>`,
+  // so no extra table is needed. Email remains the primary identity key.
+
+  findByOAuthSubject(provider: 'google' | 'apple', subject: string): Promise<User | null> {
+    return queryOne<User>(
+      this.db,
+      `SELECT ${SELECT} WHERE json_extract(meta_json, ?) = ?`,
+      [`$.oauth.${provider}`, subject],
+    );
+  }
+
+  async createOAuthUser(input: {
+    email: string;
+    display_name: string;
+    avatar_url?: string | null;
+    email_verified?: boolean;
+    provider: 'google' | 'apple';
+    subject: string;
+  }): Promise<User> {
+    const id = typedId('CORE');
+    const now = new Date().toISOString();
+    const meta = JSON.stringify({ oauth: { [input.provider]: input.subject } });
+    await execute(
+      this.db,
+      `INSERT INTO core_users
+         (id, email, display_name, username, avatar_url, platform_role,
+          account_status, email_verified, meta_json, last_active_at, created_at, updated_at)
+       VALUES (?, ?, ?, NULL, ?, 'member', 'active', ?, ?, ?, ?, ?)`,
+      [
+        id,
+        input.email,
+        input.display_name,
+        input.avatar_url ?? null,
+        input.email_verified ? 1 : 0,
+        meta,
+        now,
+        now,
+        now,
+      ],
+    );
+    return (await this.findById(id))!;
+  }
+
+  /** Record a provider linkage on an existing account (idempotent). */
+  async linkOAuth(
+    userId: string,
+    provider: 'google' | 'apple',
+    subject: string,
+    avatarUrl?: string | null,
+  ): Promise<void> {
+    const row = await queryOne<{ meta_json: string | null }>(
+      this.db,
+      `SELECT meta_json FROM core_users WHERE id = ?`,
+      [userId],
+    );
+    let meta: Record<string, unknown> = {};
+    try {
+      meta = row?.meta_json ? (JSON.parse(row.meta_json) as Record<string, unknown>) : {};
+    } catch {
+      meta = {};
+    }
+    const oauth =
+      meta['oauth'] && typeof meta['oauth'] === 'object'
+        ? (meta['oauth'] as Record<string, string>)
+        : {};
+    oauth[provider] = subject;
+    meta['oauth'] = oauth;
+    const now = new Date().toISOString();
+    await execute(
+      this.db,
+      `UPDATE core_users
+         SET meta_json = ?, last_active_at = ?, updated_at = ?,
+             avatar_url = COALESCE(avatar_url, ?)
+       WHERE id = ?`,
+      [JSON.stringify(meta), now, now, avatarUrl ?? null, userId],
+    );
+  }
+
   async update(id: string, patch: UserPatch): Promise<User | null> {
     const sets: string[] = [];
     const vals: unknown[] = [];

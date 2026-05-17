@@ -6,29 +6,7 @@ import type { CoreEnv } from '../env';
 import { UserRepo } from '../repositories/user.repo';
 import { AuthRepo } from '../repositories/auth.repo';
 import { verifyPassword } from '../password';
-
-// ── Minimal HS256 JWT sign (SubtleCrypto) ─────────────────────────────────────
-
-function base64url(bytes: Uint8Array): string {
-  let str = '';
-  for (const b of bytes) str += String.fromCharCode(b);
-  return btoa(str).replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-}
-
-async function signJwt(payload: Record<string, unknown>, secret: string): Promise<string> {
-  const enc = new TextEncoder();
-  const header = base64url(enc.encode(JSON.stringify({ alg: 'HS256', typ: 'JWT' })));
-  const body = base64url(enc.encode(JSON.stringify(payload)));
-  const key = await crypto.subtle.importKey(
-    'raw',
-    enc.encode(secret),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign'],
-  );
-  const sig = await crypto.subtle.sign('HMAC', key, enc.encode(`${header}.${body}`));
-  return `${header}.${body}.${base64url(new Uint8Array(sig))}`;
-}
+import { signJwt } from '../jwt';
 
 // ── Routes ────────────────────────────────────────────────────────────────────
 

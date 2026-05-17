@@ -10,10 +10,12 @@ import { map, catchError } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   AdminUser,
+  NewMemberInput,
   NewUserInput,
   WorkspaceActivity,
   WorkspaceDetail,
   WorkspaceMember,
+  WorkspacePatch,
   WorkspaceRole,
   WorkspaceSummary,
 } from './workspace.model';
@@ -42,6 +44,7 @@ interface CoreMember {
   joined_at: string | null;
   display_name: string | null;
   email: string | null;
+  avatar_url: string | null;
 }
 
 interface CoreUser {
@@ -64,6 +67,17 @@ interface CoreRole {
   created_at: string;
 }
 
+interface CoreActivity {
+  id: string;
+  workspace_id: string | null;
+  actor_user_ref: string;
+  event_type: string;
+  resource_ref: string | null;
+  resource_type: string | null;
+  payload_json: string | null;
+  created_at: string;
+}
+
 @Injectable({ providedIn: 'root' })
 export class WorkspaceApiService {
   private readonly http = inject(HttpClient);
@@ -74,6 +88,13 @@ export class WorkspaceApiService {
   listWorkspaces(): Observable<WorkspaceSummary[]> {
     return this.http
       .get<Paged<CoreWorkspace>>(`${this.base}/core/workspaces/mine?per_page=100`)
+      .pipe(map((res) => (res.data ?? []).map(toSummary)));
+  }
+
+  /** Every workspace on the platform — admin only. */
+  listAllWorkspaces(): Observable<WorkspaceSummary[]> {
+    return this.http
+      .get<Paged<CoreWorkspace>>(`${this.base}/core/workspaces?per_page=100`)
       .pipe(map((res) => (res.data ?? []).map(toSummary)));
   }
 
@@ -95,16 +116,47 @@ export class WorkspaceApiService {
       .pipe(map((res) => toDetail(res.data)));
   }
 
-  /** Activity lives outside CORE; degrade to empty if the endpoint is absent. */
+  updateWorkspace(id: string, patch: WorkspacePatch): Observable<WorkspaceDetail> {
+    return this.http
+      .patch<Envelope<CoreWorkspace>>(`${this.base}/core/workspaces/${id}`, patch)
+      .pipe(map((res) => toDetail(res.data)));
+  }
+
+  /** Workspace audit feed (recent activity events). */
   getActivity(id: string): Observable<WorkspaceActivity[]> {
     return this.http
-      .get<{ data?: WorkspaceActivity[]; activity?: WorkspaceActivity[] }>(
-        `${this.base}/wv/activity?workspace_id=${id}`,
-      )
+      .get<Paged<CoreActivity>>(`${this.base}/core/workspaces/${id}/activity?per_page=50`)
       .pipe(
-        map((res) => res.activity ?? res.data ?? []),
+        map((res) => (res.data ?? []).map(toActivity)),
         catchError(() => of([])),
       );
+  }
+
+  // ── Members ─────────────────────────────────────────────────────────────────
+
+  addMember(workspaceId: string, input: NewMemberInput): Observable<WorkspaceMember> {
+    return this.http
+      .post<Envelope<CoreMember>>(`${this.base}/core/workspaces/${workspaceId}/members`, input)
+      .pipe(map((res) => toMember(res.data)));
+  }
+
+  updateMember(
+    workspaceId: string,
+    memberId: string,
+    patch: { membership_role?: string; status?: string },
+  ): Observable<WorkspaceMember> {
+    return this.http
+      .patch<Envelope<CoreMember>>(
+        `${this.base}/core/workspaces/${workspaceId}/members/${memberId}`,
+        patch,
+      )
+      .pipe(map((res) => toMember(res.data)));
+  }
+
+  removeMember(workspaceId: string, memberId: string): Observable<void> {
+    return this.http
+      .delete<void>(`${this.base}/core/workspaces/${workspaceId}/members/${memberId}`)
+      .pipe(map(() => undefined));
   }
 
   // ── Users (admin) ───────────────────────────────────────────────────────────
@@ -147,9 +199,49 @@ export class WorkspaceApiService {
       .pipe(map((res) => toRole(res.data)));
   }
 
+  updateRolePermissions(
+    workspaceId: string,
+    roleId: string,
+    permissionsJson: string,
+  ): Observable<WorkspaceRole> {
+    return this.http
+      .patch<Envelope<CoreRole>>(
+        `${this.base}/core/workspaces/${workspaceId}/roles/${roleId}`,
+        { permissions_json: permissionsJson },
+      )
+      .pipe(map((res) => toRole(res.data)));
+  }
+
   deleteRole(workspaceId: string, roleId: string): Observable<void> {
     return this.http
       .delete<void>(`${this.base}/core/workspaces/${workspaceId}/roles/${roleId}`)
+      .pipe(map(() => undefined));
+  }
+
+  // ── Member role assignment ──────────────────────────────────────────────────
+
+  getMemberRoles(workspaceId: string, memberId: string): Observable<WorkspaceRole[]> {
+    return this.http
+      .get<Envelope<CoreRole[]>>(
+        `${this.base}/core/workspaces/${workspaceId}/members/${memberId}/roles`,
+      )
+      .pipe(map((res) => (res.data ?? []).map(toRole)));
+  }
+
+  assignRole(workspaceId: string, memberId: string, roleId: string): Observable<void> {
+    return this.http
+      .post<Envelope<unknown>>(
+        `${this.base}/core/workspaces/${workspaceId}/members/${memberId}/roles`,
+        { role_id: roleId },
+      )
+      .pipe(map(() => undefined));
+  }
+
+  revokeRole(workspaceId: string, memberId: string, roleId: string): Observable<void> {
+    return this.http
+      .delete<void>(
+        `${this.base}/core/workspaces/${workspaceId}/members/${memberId}/roles/${roleId}`,
+      )
       .pipe(map(() => undefined));
   }
 }
@@ -184,9 +276,12 @@ function toDetail(w: CoreWorkspace): WorkspaceDetail {
 function toMember(m: CoreMember): WorkspaceMember {
   return {
     id: m.user_id,
+    member_id: m.id,
     name: m.display_name ?? m.user_id,
     role: m.membership_role ?? 'member',
+    status: m.status ?? 'active',
     email: m.email ?? '',
+    avatar_url: m.avatar_url ?? '',
     joined_at: m.joined_at ?? '',
   };
 }
@@ -212,5 +307,15 @@ function toRole(r: CoreRole): WorkspaceRole {
     permissions_json: r.permissions_json ?? '{}',
     is_system_role: !!r.is_system_role,
     created_at: r.created_at ?? '',
+  };
+}
+
+function toActivity(a: CoreActivity): WorkspaceActivity {
+  return {
+    id: a.id,
+    action: a.event_type ?? '',
+    actor: a.actor_user_ref ?? '',
+    created_at: a.created_at ?? '',
+    details: a.payload_json ?? '',
   };
 }

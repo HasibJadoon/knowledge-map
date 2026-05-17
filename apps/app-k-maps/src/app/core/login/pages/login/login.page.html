@@ -1,46 +1,110 @@
-<ion-content fullscreen class="login-page">
-  <div class="login-wrap">
-    <div class="title-block">
-      <h1>Login</h1>
-      <p>Sign in to your account</p>
+<ion-content [fullscreen]="true" class="login-page">
+  <div class="login">
+
+    <!-- Ambient gold motes -->
+    <div class="login__particles" aria-hidden="true">
+      @for (i of particles; track i) {
+        <span class="login__particle" [style.--i]="i"></span>
+      }
     </div>
 
-    <div class="error-banner" *ngIf="errorMessage">{{ errorMessage }}</div>
+    <!-- Soft radial glow behind the card -->
+    <div class="login__glow" aria-hidden="true"></div>
 
-    <ion-card class="login-card km-ion-card">
-      <ion-card-content>
-        <form [formGroup]="form" (ngSubmit)="onSubmit()">
-          <ion-item class="input-item" lines="none">
-            <ion-icon name="person-outline" slot="start"></ion-icon>
-            <ion-input
+    <div class="login__wrap">
+
+      <!-- Brand -->
+      <header class="login__brand" #brand>
+        <div class="login__emblem" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="24" cy="24" r="22" stroke="url(#lgr)" stroke-width="1" />
+            <path d="M24 8 L28 18 L38 18 L30 26 L33 36 L24 30 L15 36 L18 26 L10 18 L20 18 Z"
+                  fill="url(#lgs)" opacity="0.92" />
+            <defs>
+              <linearGradient id="lgr" x1="0" y1="0" x2="48" y2="48">
+                <stop offset="0%" stop-color="#c9a84c" stop-opacity="0.4" />
+                <stop offset="50%" stop-color="#e8c96a" />
+                <stop offset="100%" stop-color="#c9a84c" stop-opacity="0.4" />
+              </linearGradient>
+              <linearGradient id="lgs" x1="10" y1="8" x2="38" y2="36">
+                <stop offset="0%" stop-color="#e8c96a" />
+                <stop offset="100%" stop-color="#c9a84c" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <h1 class="login__wordmark">K-MAPS</h1>
+        <p class="login__tagline">Knowledge Command Center</p>
+      </header>
+
+      <!-- Card -->
+      <div class="login__card" #card>
+        <div class="login__card-head login__anim">
+          <h2>Welcome back</h2>
+          <p>Sign in to continue your study</p>
+        </div>
+
+        <div class="login__error" *ngIf="errorMessage">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+
+        <form [formGroup]="form" (ngSubmit)="onSubmit()" class="login__form">
+          <label class="login__field login__anim">
+            <ion-icon name="mail-outline" aria-hidden="true"></ion-icon>
+            <input
               type="email"
-              placeholder="Email"
+              placeholder="Email address"
               formControlName="email"
               autocomplete="email"
-            ></ion-input>
-          </ion-item>
+              inputmode="email"
+            />
+          </label>
 
-          <ion-item class="input-item" lines="none">
-            <ion-icon name="lock-closed-outline" slot="start"></ion-icon>
-            <ion-input
+          <label class="login__field login__anim">
+            <ion-icon name="lock-closed-outline" aria-hidden="true"></ion-icon>
+            <input
               type="password"
               placeholder="Password"
               formControlName="password"
               autocomplete="current-password"
-            ></ion-input>
-          </ion-item>
+            />
+          </label>
 
-          <ion-button
-            expand="block"
+          <button
             type="submit"
-            class="login-button"
-            [disabled]="loading"
+            class="login__submit login__anim"
+            [disabled]="loading || oauthBusy"
           >
-            <ion-spinner *ngIf="loading" name="dots"></ion-spinner>
-            <span *ngIf="!loading">Login</span>
-          </ion-button>
+            <ion-spinner *ngIf="loading" name="crescent"></ion-spinner>
+            <span *ngIf="!loading">Sign In</span>
+          </button>
         </form>
-      </ion-card-content>
-    </ion-card>
+
+        <div class="login__divider login__anim" *ngIf="googleEnabled || appleEnabled">
+          <span>or continue with</span>
+        </div>
+
+        <div class="login__oauth login__anim">
+          <div #googleBtn class="login__google" [hidden]="!googleEnabled"></div>
+
+          <button
+            *ngIf="appleEnabled"
+            type="button"
+            class="login__apple"
+            (click)="appleSignIn()"
+            [disabled]="loading || oauthBusy"
+          >
+            <ion-icon name="logo-apple" aria-hidden="true"></ion-icon>
+            <span>Continue with Apple</span>
+          </button>
+
+          <ion-spinner *ngIf="oauthBusy" name="crescent" class="login__oauth-spinner"></ion-spinner>
+        </div>
+      </div>
+
+      <p class="login__foot" #foot>Islamic Knowledge Platform</p>
+
+    </div>
   </div>
 </ion-content>
