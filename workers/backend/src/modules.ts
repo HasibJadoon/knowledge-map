@@ -6,7 +6,9 @@
 
 import type { BackendEnv } from './env';
 
-export type ModuleKey = 'qr' | 'wv' | 'worldview' | 'ar' | 'al' | 'cm' | 'pl' | 'core';
+export type ModuleKey =
+  | 'qr' | 'wv' | 'worldview' | 'ar' | 'al' | 'cm' | 'pl' | 'core'
+  | 'planner' | 'week';
 
 export interface ModuleConfig {
   binding:   keyof Pick<BackendEnv, 'QURAN' | 'WORLDVIEW' | 'ARABIC' | 'AR_LINGUISTICS' | 'CONTENT' | 'PLANNER' | 'CORE'>;
@@ -22,4 +24,7 @@ export const MODULE_MAP: Record<ModuleKey, ModuleConfig> = {
   cm:   { binding: 'CONTENT',        publicGet: false },
   pl:   { binding: 'PLANNER',        publicGet: false },
   core: { binding: 'CORE',           publicGet: true  }, // login / register are public
+  // Weekly-sprint planner API (sp_planner) — same worker as `pl`.
+  planner: { binding: 'PLANNER',     publicGet: false },
+  week:    { binding: 'PLANNER',     publicGet: false },
 };

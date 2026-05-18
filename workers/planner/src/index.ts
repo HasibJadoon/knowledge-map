@@ -11,6 +11,7 @@ import { planRoutes } from './routes/plans';
 import { taskRoutes } from './routes/tasks';
 import { reviewRoutes } from './routes/review';
 import { laneRoutes } from './routes/lanes';
+import { sprintRoutes } from './routes/sprint';
 
 const router = new Router<PlannerEnv>();
 
@@ -22,6 +23,7 @@ planRoutes(router);    // GET/POST/PATCH /pl/plans, /pl/plans/:id/tasks
 taskRoutes(router);    // GET/POST/PATCH /pl/tasks — full task CRUD including POST
 reviewRoutes(router);  // GET /pl/review/due, POST /pl/review/feedback
 laneRoutes(router);    // GET/POST/PATCH /pl/plans/:id/lanes, reorder, /pl/lanes/:id
+sprintRoutes(router);  // GET/POST/PUT /planner/week, /planner/task, /week/* — sprint API
 
 export default {
   fetch: (request: Request, env: PlannerEnv) => router.handle(request, env),

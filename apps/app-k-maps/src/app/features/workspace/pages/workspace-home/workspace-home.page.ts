@@ -14,6 +14,11 @@ import { isAdminToken } from '../../../../core/auth/auth.utils';
   template: `
     <ion-header>
       <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-button (click)="goHome()" aria-label="Home">
+            <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
         <ion-title>Workspaces</ion-title>
         <ion-buttons slot="end">
           @if (isAdmin()) {
@@ -107,6 +112,10 @@ export class WorkspaceHomePage implements OnInit {
 
   open(id: string): void {
     void this.router.navigate(['/workspace', id]);
+  }
+
+  goHome(): void {
+    void this.router.navigateByUrl('/home');
   }
 
   goAdmin(): void {

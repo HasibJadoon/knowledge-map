@@ -5,6 +5,7 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
+  computed,
   inject,
   signal,
 } from '@angular/core';
@@ -73,6 +74,13 @@ export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
   readonly membersLoading = signal(false);
   readonly activityLoading = signal(false);
   readonly activeTab = signal<TabId>('overview');
+
+  /** Owner resolved to a display name — the owner is always a workspace member. */
+  readonly ownerName = computed(() => {
+    const ws = this.workspace();
+    if (!ws?.owner) return '';
+    return this.members().find((m) => m.id === ws.owner)?.name ?? ws.owner;
+  });
 
   private workspaceId = '';
 
