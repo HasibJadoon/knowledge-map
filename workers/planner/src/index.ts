@@ -18,6 +18,7 @@ import { calendarRoutes } from './routes/calendar';
 import { planScopeRoutes } from './routes/plan-scopes';
 import { reviewCycleRoutes } from './routes/review-cycles';
 import { templateRoutes } from './routes/templates';
+import { captureRoutes } from './routes/captures';
 
 const router = new Router<PlannerEnv>();
 
@@ -35,6 +36,7 @@ calendarRoutes(router);    // GET/POST/PATCH /pl/calendar, /pl/plans/:id/calenda
 planScopeRoutes(router);   // GET/POST/PATCH /pl/plans/:id/scopes, /pl/scopes/:id
 reviewCycleRoutes(router); // GET/POST/PATCH /pl/plans/:id/review-cycles, events
 templateRoutes(router);    // GET/POST/PATCH /pl/templates
+captureRoutes(router);     // GET/POST/PATCH /pl/captures — quick-capture TipTap notes
 sprintRoutes(router);      // GET/POST/PUT /planner/week, /planner/task, /week/* — sprint API
 
 export default {
