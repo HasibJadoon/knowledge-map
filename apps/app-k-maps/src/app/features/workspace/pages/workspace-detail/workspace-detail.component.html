@@ -1,166 +1,213 @@
+<ion-header class="wsd-header">
+  <ion-toolbar class="wsd-toolbar">
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()" aria-label="Back to workspaces">
+        <ion-icon slot="icon-only" name="chevron-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Workspace</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        (click)="loadWorkspace()"
+        [disabled]="loading()"
+        aria-label="Refresh workspace"
+      >
+        <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
 
-    <div class="wd" #page>
-      <!-- Ambient background -->
-      <div class="wd__bg" aria-hidden="true">
-        <div class="wd__bg-glow"></div>
-      </div>
+<ion-content class="wsd-content">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
 
-      <!-- Header -->
-      <header class="wd__header" #header>
-        <button class="wd__back" (click)="goBack()" aria-label="Back to workspaces">
-          <span aria-hidden="true">←</span>
-          <span>Workspaces</span>
-        </button>
+  <div class="wsd">
 
-        <div class="wd__title-group">
-          @if (loading()) {
-            <div class="wd__skeleton-title"></div>
-          } @else {
-            <p class="wd__eyebrow">Workspace</p>
-            <h1 class="wd__title">{{ workspace()?.name ?? 'Workspace' }}</h1>
-            <div class="wd__badges">
-              @if (workspace()?.status) {
-                <span class="wd__status" [class]="'wd__status--' + workspace()!.status">
-                  {{ workspace()!.status }}
-                </span>
-              }
-              @if (workspace()?.type) {
-                <span class="wd__type-badge">{{ workspace()!.type }}</span>
-              }
+    <!-- Hero -->
+    <section class="wsd-hero">
+      @if (loading()) {
+        <div class="wsd-hero__skeleton" aria-hidden="true">
+          <div class="wsd-skel wsd-skel--avatar"></div>
+          <div class="wsd-skel wsd-skel--title"></div>
+          <div class="wsd-skel wsd-skel--chips"></div>
+        </div>
+      } @else if (error()) {
+        <div class="wsd-state wsd-state--error">
+          <ion-icon class="wsd-state__icon" name="alert-circle-outline"></ion-icon>
+          <p class="wsd-state__title">Couldn't load workspace</p>
+          <p class="wsd-state__text">{{ error() }}</p>
+          <ion-button fill="outline" size="small" (click)="loadWorkspace()">
+            <ion-icon slot="start" name="refresh-outline"></ion-icon>
+            Retry
+          </ion-button>
+        </div>
+      } @else if (workspace(); as ws) {
+        <div class="wsd-hero__avatar" aria-hidden="true">{{ initials() }}</div>
+        <p class="wsd-hero__eyebrow">Workspace</p>
+        <h1 class="wsd-hero__title">{{ ws.name || 'Untitled workspace' }}</h1>
+
+        <div class="wsd-hero__badges">
+          @if (ws.status) {
+            <span class="wsd-pill" [class]="'wsd-pill--' + ws.status">
+              <span class="wsd-pill__dot"></span>{{ ws.status }}
+            </span>
+          }
+          @if (ws.type) {
+            <span class="wsd-pill wsd-pill--type">{{ ws.type }}</span>
+          }
+        </div>
+
+        <div class="wsd-hero__stats">
+          <div class="wsd-stat">
+            <ion-icon name="people-outline"></ion-icon>
+            <span class="wsd-stat__value">{{ memberCount() }}</span>
+            <span class="wsd-stat__label">{{ memberCount() === 1 ? 'Member' : 'Members' }}</span>
+          </div>
+          @if (ws.created_at) {
+            <div class="wsd-stat">
+              <ion-icon name="calendar-clear-outline"></ion-icon>
+              <span class="wsd-stat__value">{{ formatDate(ws.created_at) }}</span>
+              <span class="wsd-stat__label">Created</span>
             </div>
           }
         </div>
-      </header>
+      }
+    </section>
 
-      <!-- Tabs -->
-      <nav class="wd__tabs" #tabs>
-        @for (tab of tabDefs; track tab.id) {
-          <button
-            class="wd__tab"
-            [class.wd__tab--active]="activeTab() === tab.id"
-            (click)="switchTab(tab.id)"
-            [attr.aria-current]="activeTab() === tab.id ? 'page' : null"
-          >
-            <span class="wd__tab-icon">{{ tab.icon }}</span>
-            <span>{{ tab.label }}</span>
-          </button>
-        }
-        <div class="wd__tab-indicator" #tabIndicator></div>
-      </nav>
+    @if (!loading() && !error() && workspace(); as ws) {
+      <!-- Tab switcher -->
+      <div class="wsd-tabs">
+        <ion-segment
+          class="wsd-segment"
+          [value]="activeTab()"
+          (ionChange)="onSegmentChange($event)"
+        >
+          @for (tab of tabDefs; track tab.id) {
+            <ion-segment-button class="wsd-segment__btn" [value]="tab.id">
+              <ion-icon [name]="tab.icon"></ion-icon>
+              <ion-label>{{ tab.label }}</ion-label>
+            </ion-segment-button>
+          }
+        </ion-segment>
+      </div>
 
-      <!-- Tab content -->
-      <main class="wd__content" #content>
+      <!-- Panels -->
+      <main class="wsd-panel">
 
         <!-- Overview -->
         @if (activeTab() === 'overview') {
-          <div class="wd__panel wd__panel--overview" #panel>
-            @if (loading()) {
-              <div class="wd__state">
-                <div class="wd__spinner"></div>
-                <p class="wd__state-text">Loading workspace…</p>
-              </div>
-            } @else if (error()) {
-              <div class="wd__state wd__state--error">
-                <span class="wd__state-icon">⚠</span>
-                <p class="wd__state-text">{{ error() }}</p>
-                <button class="wd__retry-btn" (click)="loadWorkspace()">Retry</button>
-              </div>
-            } @else if (workspace()) {
-              <div class="wd__overview-grid">
-                <div class="wd__info-card">
-                  <h3 class="wd__info-card-title">Details</h3>
-                  <div class="wd__info-rows">
-                    <div class="wd__info-row">
-                      <span class="wd__info-label">Name</span>
-                      <span class="wd__info-value">{{ workspace()!.name }}</span>
-                    </div>
-                    @if (workspace()!.type) {
-                      <div class="wd__info-row">
-                        <span class="wd__info-label">Type</span>
-                        <span class="wd__info-value">{{ workspace()!.type }}</span>
-                      </div>
-                    }
-                    @if (workspace()!.status) {
-                      <div class="wd__info-row">
-                        <span class="wd__info-label">Status</span>
-                        <span class="wd__info-value wd__info-status" [class]="'wd__info-status--' + workspace()!.status">
-                          {{ workspace()!.status }}
-                        </span>
-                      </div>
-                    }
-                    @if (workspace()!.owner) {
-                      <div class="wd__info-row">
-                        <span class="wd__info-label">Owner</span>
-                        <span class="wd__info-value">{{ ownerName() }}</span>
-                      </div>
-                    }
-                    @if (workspace()!.created_at) {
-                      <div class="wd__info-row">
-                        <span class="wd__info-label">Created</span>
-                        <span class="wd__info-value">{{ formatDate(workspace()!.created_at!) }}</span>
-                      </div>
-                    }
-                  </div>
+          <div class="wsd-tabview">
+            <article class="wsd-card">
+              <header class="wsd-card__head">
+                <ion-icon name="information-circle-outline"></ion-icon>
+                <h2 class="wsd-card__title">Details</h2>
+              </header>
+              <dl class="wsd-deflist">
+                <div class="wsd-def">
+                  <dt>Name</dt>
+                  <dd>{{ ws.name || '—' }}</dd>
                 </div>
-                @if (workspace()!.description) {
-                  <div class="wd__info-card wd__info-card--full">
-                    <h3 class="wd__info-card-title">Description</h3>
-                    <p class="wd__description">{{ workspace()!.description }}</p>
+                @if (ws.type) {
+                  <div class="wsd-def">
+                    <dt>Type</dt>
+                    <dd class="wsd-cap">{{ ws.type }}</dd>
                   </div>
                 }
-              </div>
-            }
+                @if (ws.status) {
+                  <div class="wsd-def">
+                    <dt>Status</dt>
+                    <dd>
+                      <span
+                        class="wsd-pill wsd-pill--sm"
+                        [class]="'wsd-pill--' + ws.status"
+                      >
+                        <span class="wsd-pill__dot"></span>{{ ws.status }}
+                      </span>
+                    </dd>
+                  </div>
+                }
+                @if (ws.owner) {
+                  <div class="wsd-def">
+                    <dt>Owner</dt>
+                    <dd>{{ ownerName() }}</dd>
+                  </div>
+                }
+                @if (ws.created_at) {
+                  <div class="wsd-def">
+                    <dt>Created</dt>
+                    <dd>{{ formatDate(ws.created_at) }}</dd>
+                  </div>
+                }
+                @if (ws.updated_at) {
+                  <div class="wsd-def">
+                    <dt>Updated</dt>
+                    <dd>{{ formatDate(ws.updated_at) }}</dd>
+                  </div>
+                }
+              </dl>
+            </article>
+
+            <article class="wsd-card">
+              <header class="wsd-card__head">
+                <ion-icon name="reader-outline"></ion-icon>
+                <h2 class="wsd-card__title">Description</h2>
+              </header>
+              @if (ws.description) {
+                <p class="wsd-prose">{{ ws.description }}</p>
+              } @else {
+                <p class="wsd-prose wsd-prose--muted">No description has been added yet.</p>
+              }
+            </article>
           </div>
         }
 
         <!-- Members -->
         @if (activeTab() === 'members') {
-          <div class="wd__panel" #panel>
+          <div class="wsd-tabview">
             @if (membersLoading()) {
-              <div class="wd__state">
-                <div class="wd__spinner"></div>
-                <p class="wd__state-text">Loading members…</p>
+              <div class="wsd-state">
+                <ion-spinner name="dots"></ion-spinner>
+                <p class="wsd-state__text">Loading members…</p>
               </div>
             } @else if (members().length === 0) {
-              <div class="wd__state">
-                <span class="wd__state-icon">◉</span>
-                <p class="wd__state-title">No Members</p>
-                <p class="wd__state-text">This workspace has no members yet.</p>
+              <div class="wsd-state">
+                <ion-icon class="wsd-state__icon" name="people-outline"></ion-icon>
+                <p class="wsd-state__title">No members yet</p>
+                <p class="wsd-state__text">People added to this workspace will appear here.</p>
               </div>
             } @else {
-              <div class="wd__members-list">
-                @for (m of members(); track m.id) {
-                  <div class="wd__member-row">
-                    <div class="wd__member-avatar">
+              <ul class="wsd-members">
+                @for (m of members(); track m.member_id) {
+                  <li class="wsd-member">
+                    <div class="wsd-member__avatar">
                       {{ (m.name || 'U').charAt(0).toUpperCase() }}
                     </div>
-                    <div class="wd__member-info">
-                      <span class="wd__member-name">{{ m.name }}</span>
+                    <div class="wsd-member__body">
+                      <span class="wsd-member__name">{{ m.name }}</span>
                       @if (m.email) {
-                        <span class="wd__member-email">{{ m.email }}</span>
+                        <span class="wsd-member__email">{{ m.email }}</span>
                       }
                     </div>
                     @if (m.role) {
-                      <span class="wd__member-role">{{ m.role }}</span>
+                      <span class="wsd-role">{{ m.role }}</span>
                     }
-                    @if (m.joined_at) {
-                      <span class="wd__member-date">{{ formatDate(m.joined_at) }}</span>
-                    }
-                  </div>
+                  </li>
                 }
-              </div>
+              </ul>
             }
           </div>
         }
 
         <!-- Documents -->
         @if (activeTab() === 'documents') {
-          <div class="wd__panel" #panel>
-            <div class="wd__state wd__state--placeholder">
-              <span class="wd__state-icon">◈</span>
-              <p class="wd__state-title">Documents Coming Soon</p>
-              <p class="wd__state-text">
-                Document management and collaborative editing will be available in an upcoming release.
+          <div class="wsd-tabview">
+            <div class="wsd-state wsd-state--soft">
+              <ion-icon class="wsd-state__icon" name="document-text-outline"></ion-icon>
+              <p class="wsd-state__title">Documents coming soon</p>
+              <p class="wsd-state__text">
+                Document management and collaborative editing will arrive in an upcoming release.
               </p>
             </div>
           </div>
@@ -168,43 +215,44 @@
 
         <!-- Activity -->
         @if (activeTab() === 'activity') {
-          <div class="wd__panel" #panel>
+          <div class="wsd-tabview">
             @if (activityLoading()) {
-              <div class="wd__state">
-                <div class="wd__spinner"></div>
-                <p class="wd__state-text">Loading activity…</p>
+              <div class="wsd-state">
+                <ion-spinner name="dots"></ion-spinner>
+                <p class="wsd-state__text">Loading activity…</p>
               </div>
             } @else if (activities().length === 0) {
-              <div class="wd__state">
-                <span class="wd__state-icon">◎</span>
-                <p class="wd__state-title">No Activity Yet</p>
-                <p class="wd__state-text">Activity for this workspace will appear here.</p>
+              <div class="wsd-state">
+                <ion-icon class="wsd-state__icon" name="pulse-outline"></ion-icon>
+                <p class="wsd-state__title">No activity yet</p>
+                <p class="wsd-state__text">Recent events for this workspace will appear here.</p>
               </div>
             } @else {
-              <div class="wd__activity-list">
+              <ul class="wsd-activity">
                 @for (a of activities(); track a.id) {
-                  <div class="wd__activity-row">
-                    <div class="wd__activity-dot"></div>
-                    <div class="wd__activity-line"></div>
-                    <div class="wd__activity-body">
-                      <span class="wd__activity-action">{{ a.action }}</span>
-                      @if (a.actor) {
-                        <span class="wd__activity-actor">by {{ a.actor }}</span>
-                      }
-                      @if (a.details) {
-                        <p class="wd__activity-details">{{ a.details }}</p>
-                      }
-                      @if (a.created_at) {
-                        <span class="wd__activity-date">{{ formatDate(a.created_at) }}</span>
-                      }
+                  <li class="wsd-activity__row">
+                    <div class="wsd-activity__rail">
+                      <span class="wsd-activity__dot"></span>
                     </div>
-                  </div>
+                    <div class="wsd-activity__body">
+                      <span class="wsd-activity__action">{{ formatAction(a.action) }}</span>
+                      <div class="wsd-activity__meta">
+                        @if (a.actor) {
+                          <span class="wsd-activity__actor">{{ a.actor }}</span>
+                        }
+                        @if (a.created_at) {
+                          <span class="wsd-activity__date">{{ formatDate(a.created_at) }}</span>
+                        }
+                      </div>
+                    </div>
+                  </li>
                 }
-              </div>
+              </ul>
             }
           </div>
         }
 
       </main>
-    </div>
-  
+    }
+  </div>
+</ion-content>

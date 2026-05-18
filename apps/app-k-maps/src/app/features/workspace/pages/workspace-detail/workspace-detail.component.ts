@@ -1,50 +1,25 @@
 import {
-  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
-  ElementRef,
   OnInit,
-  ViewChild,
   computed,
   inject,
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import gsap from 'gsap';
 
 import { WorkspaceApiService } from '../../workspace-api.service';
+import {
+  WorkspaceActivity,
+  WorkspaceDetail,
+  WorkspaceMember,
+} from '../../workspace.model';
 
 type TabId = 'overview' | 'members' | 'documents' | 'activity';
 
-interface WorkspaceDetail {
-  id: string;
-  name: string;
-  description?: string;
-  type?: string;
-  status?: string;
-  created_at?: string;
-  updated_at?: string;
-  owner?: string;
-}
-
-interface Member {
-  id: string;
-  name: string;
-  role?: string;
-  email?: string;
-  joined_at?: string;
-}
-
-interface Activity {
-  id: string;
-  action: string;
-  actor?: string;
-  created_at?: string;
-  details?: string;
-}
-
-interface Tab {
+interface TabDef {
   id: TabId;
   label: string;
   icon: string;
@@ -53,22 +28,19 @@ interface Tab {
 @Component({
   selector: 'km-workspace-detail',
   standalone: true,
-  imports: [],
+  imports: [IonicModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './workspace-detail.component.html',
   styleUrl: './workspace-detail.component.scss',
 })
-export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
+export class WorkspaceDetailComponent implements OnInit {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
   private readonly api = inject(WorkspaceApiService);
 
-  @ViewChild('header') headerRef!: ElementRef<HTMLElement>;
-  @ViewChild('tabs') tabsRef!: ElementRef<HTMLElement>;
-
   readonly workspace = signal<WorkspaceDetail | null>(null);
-  readonly members = signal<Member[]>([]);
-  readonly activities = signal<Activity[]>([]);
+  readonly members = signal<WorkspaceMember[]>([]);
+  readonly activities = signal<WorkspaceActivity[]>([]);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly membersLoading = signal(false);
@@ -82,31 +54,33 @@ export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
     return this.members().find((m) => m.id === ws.owner)?.name ?? ws.owner;
   });
 
+  /** Up to two initials drawn from the workspace name for the hero avatar. */
+  readonly initials = computed(() => {
+    const name = this.workspace()?.name?.trim() ?? '';
+    if (!name) return 'W';
+    return (
+      name
+        .split(/\s+/)
+        .slice(0, 2)
+        .map((part) => part.charAt(0).toUpperCase())
+        .join('') || 'W'
+    );
+  });
+
+  readonly memberCount = computed(() => this.members().length);
+
   private workspaceId = '';
 
-  readonly tabDefs: Tab[] = [
-    { id: 'overview', label: 'Overview', icon: '◎' },
-    { id: 'members', label: 'Members', icon: '◉' },
-    { id: 'documents', label: 'Documents', icon: '◈' },
-    { id: 'activity', label: 'Activity', icon: '◆' },
+  readonly tabDefs: TabDef[] = [
+    { id: 'overview', label: 'Overview', icon: 'information-circle-outline' },
+    { id: 'members', label: 'Members', icon: 'people-outline' },
+    { id: 'documents', label: 'Docs', icon: 'document-text-outline' },
+    { id: 'activity', label: 'Activity', icon: 'pulse-outline' },
   ];
 
   ngOnInit(): void {
     this.workspaceId = this.route.snapshot.paramMap.get('id') ?? '';
     void this.loadWorkspace();
-  }
-
-  ngAfterViewInit(): void {
-    gsap.fromTo(
-      this.headerRef.nativeElement,
-      { opacity: 0, y: -20, filter: 'blur(4px)' },
-      { opacity: 1, y: 0, filter: 'blur(0px)', duration: .8, ease: 'power3.out', clearProps: 'filter' }
-    );
-    gsap.fromTo(
-      this.tabsRef.nativeElement,
-      { opacity: 0, y: 12 },
-      { opacity: 1, y: 0, duration: .6, ease: 'power3.out', delay: .3 }
-    );
   }
 
   async loadWorkspace(): Promise<void> {
@@ -128,6 +102,11 @@ export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
+  async onRefresh(ev: CustomEvent): Promise<void> {
+    await this.loadWorkspace();
+    (ev.target as HTMLIonRefresherElement | null)?.complete();
+  }
+
   private async loadMembers(): Promise<void> {
     this.membersLoading.set(true);
     try {
@@ -140,26 +119,21 @@ export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
   }
 
   private async loadActivity(): Promise<void> {
+    this.activityLoading.set(true);
     try {
       this.activities.set(await firstValueFrom(this.api.getActivity(this.workspaceId)));
     } catch {
       // Activity load failure is silent; placeholder shown
+    } finally {
+      this.activityLoading.set(false);
     }
   }
 
-  switchTab(tab: TabId): void {
-    const panel = document.querySelector('.wd__panel');
-    if (panel) {
-      gsap.fromTo(panel, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: .35, ease: 'power2.out' });
+  onSegmentChange(ev: CustomEvent<{ value?: string | number }>): void {
+    const value = ev.detail?.value;
+    if (typeof value === 'string') {
+      this.activeTab.set(value as TabId);
     }
-    this.activeTab.set(tab);
-    // Animate new panel in after change detection
-    setTimeout(() => {
-      const newPanel = document.querySelector('.wd__panel');
-      if (newPanel) {
-        gsap.fromTo(newPanel, { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: .38, ease: 'power3.out' });
-      }
-    }, 0);
   }
 
   goBack(): void {
@@ -167,10 +141,22 @@ export class WorkspaceDetailComponent implements OnInit, AfterViewInit {
   }
 
   formatDate(dateStr: string): string {
+    if (!dateStr) return '';
     try {
-      return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      return new Date(dateStr).toLocaleDateString('en-GB', {
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      });
     } catch {
       return dateStr;
     }
+  }
+
+  /** Turns wire event keys like `workspace.member_added` into readable text. */
+  formatAction(action: string): string {
+    if (!action) return 'Activity';
+    const text = action.replace(/[._]+/g, ' ').trim();
+    return text.charAt(0).toUpperCase() + text.slice(1);
   }
 }
