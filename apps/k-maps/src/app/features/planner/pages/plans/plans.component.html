@@ -1,0 +1,103 @@
+<div class="kp-page">
+  <header class="kp-page-head">
+    <div>
+      <p class="kp-page-eyebrow">Workspace</p>
+      <h1 class="kp-page-title">Plans</h1>
+      <p class="kp-page-sub">Quran, Arabic, Worldview and Content initiatives.</p>
+    </div>
+    <div class="kp-page-actions">
+      <button type="button" class="kp-btn" (click)="toggleArchived()">
+        {{ showArchived() ? 'Hide archived' : 'Show archived' }}
+      </button>
+      <button type="button" class="kp-btn kp-btn--primary" (click)="openCreate()">＋ New plan</button>
+    </div>
+  </header>
+
+  <div class="kp-segment" style="margin-bottom: 1.3rem">
+    <button
+      type="button"
+      class="kp-segment-btn"
+      [class.kp-segment-btn--active]="domainFilter() === 'all'"
+      (click)="setDomainFilter('all')"
+    >All</button>
+    @for (domain of domains; track domain.id) {
+      <button
+        type="button"
+        class="kp-segment-btn"
+        [class.kp-segment-btn--active]="domainFilter() === domain.id"
+        (click)="setDomainFilter(domain.id)"
+      >{{ domain.label }}</button>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="kp-card"><div class="kp-skeleton" style="height: 8rem"></div></div>
+  } @else if (error()) {
+    <div class="kp-card kp-empty">
+      <h3>Something went wrong</h3>
+      <p class="kp-muted">{{ error() }}</p>
+      <button type="button" class="kp-btn kp-btn--primary" style="margin-top: 0.8rem" (click)="retry()">Retry</button>
+    </div>
+  } @else if (visiblePlans().length) {
+    <div class="kp-plan-grid">
+      @for (plan of visiblePlans(); track plan.id) {
+        <button type="button" class="kp-plan-card" [style.--kp-domain]="domainColor(planDomainOf(plan))" (click)="openPlan(plan)">
+          <div class="kp-plan-card-head">
+            <span class="kp-domain-chip" [style.--kp-domain]="domainColor(planDomainOf(plan))">
+              {{ domainLabel(planDomainOf(plan)) }}
+            </span>
+            <span class="kp-muted" style="font-size: 0.7rem">{{ statusLabels[plan.status] }}</span>
+          </div>
+          <p class="kp-plan-card-title">{{ plan.title }}</p>
+          @if (plan.description_md) {
+            <p class="kp-plan-card-desc">{{ plan.description_md }}</p>
+          }
+          <div class="kp-plan-card-foot">
+            <span>{{ plan.plan_type }}</span>
+            <span>P{{ plan.priority }}</span>
+          </div>
+        </button>
+      }
+    </div>
+  } @else {
+    <div class="kp-card kp-empty">
+      <h3>No plans yet</h3>
+      <p class="kp-muted">Create a plan for Quran, Arabic, Worldview or Content work.</p>
+      <button type="button" class="kp-btn kp-btn--primary" style="margin-top: 0.8rem" (click)="openCreate()">New plan</button>
+    </div>
+  }
+</div>
+
+@if (createOpen()) {
+  <div class="kp-modal-backdrop" (click)="closeCreate()">
+    <div class="kp-modal" (click)="$event.stopPropagation()">
+      <h2 class="kp-modal-title">New plan</h2>
+
+      <div class="kp-field">
+        <label class="kp-label" for="kp-new-title">Title</label>
+        <input id="kp-new-title" class="kp-input" [(ngModel)]="newTitle" placeholder="e.g. Memorise Juz 30" />
+      </div>
+
+      <div class="kp-field">
+        <label class="kp-label" for="kp-new-domain">Domain</label>
+        <select id="kp-new-domain" class="kp-select" [(ngModel)]="newDomain">
+          @for (domain of domains; track domain.id) {
+            <option [value]="domain.id">{{ domain.label }}</option>
+          }
+        </select>
+      </div>
+
+      <div class="kp-field">
+        <label class="kp-label" for="kp-new-desc">Description</label>
+        <textarea id="kp-new-desc" class="kp-textarea" [(ngModel)]="newDescription" placeholder="Optional summary"></textarea>
+      </div>
+
+      <div class="kp-modal-actions">
+        <button type="button" class="kp-btn kp-btn--ghost" (click)="closeCreate()">Cancel</button>
+        <button type="button" class="kp-btn kp-btn--primary" [disabled]="saving() || !newTitle.trim()" (click)="submitCreate()">
+          {{ saving() ? 'Creating…' : 'Create plan' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

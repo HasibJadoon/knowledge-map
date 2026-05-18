@@ -1,0 +1,626 @@
+// ══════════════════════════════════════════════════════════
+// Planner — modern workspace UI (feature: features/planner)
+// ══════════════════════════════════════════════════════════
+
+km-planner-shell,
+km-planner-today,
+km-planner-plans,
+km-planner-plan-detail,
+km-planner-task-detail,
+km-planner-capture {
+  display: block;
+}
+
+.kp-shell {
+  display: grid;
+  grid-template-columns: 250px 1fr;
+  height: 100vh;
+  background: var(--km-bg);
+  color: var(--km-text);
+  font-family: var(--km-font-body);
+}
+
+// ── Sidebar ───────────────────────────────────────────────
+.kp-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 1.4rem 1rem;
+  background: var(--km-surface);
+  border-right: 1px solid var(--km-border);
+}
+
+.kp-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0 0.5rem 1.1rem;
+  margin-bottom: 0.5rem;
+  border-bottom: 1px solid var(--km-border);
+}
+
+.kp-brand-mark {
+  width: 2rem;
+  height: 2rem;
+  border-radius: var(--km-radius-sm);
+  display: grid;
+  place-items: center;
+  background: linear-gradient(135deg, var(--km-gold) 0%, var(--km-gold-dim) 100%);
+  color: #1a1407;
+  font-weight: 800;
+  font-size: 0.95rem;
+}
+
+.kp-brand-text {
+  font-family: var(--km-font-heading);
+  font-size: 1.02rem;
+  letter-spacing: 0.04em;
+  color: var(--km-text);
+}
+
+.kp-brand-text small {
+  display: block;
+  font-family: var(--km-font-body);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--km-text-3);
+}
+
+.kp-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+}
+
+.kp-nav-link {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.62rem 0.7rem;
+  border-radius: var(--km-radius-sm);
+  color: var(--km-text-2);
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  width: 100%;
+  text-align: start;
+  transition: background var(--km-duration-fast) var(--km-ease),
+    color var(--km-duration-fast) var(--km-ease);
+}
+
+.kp-nav-link:hover {
+  background: var(--km-surface-2);
+  color: var(--km-text);
+}
+
+.kp-nav-link--active {
+  background: var(--km-gold-glow);
+  color: var(--km-gold-bright);
+}
+
+.kp-nav-link .kp-nav-glyph {
+  font-size: 1.05rem;
+  width: 1.2rem;
+  text-align: center;
+}
+
+.kp-nav-section {
+  margin-top: 1.1rem;
+  padding: 0 0.7rem 0.35rem;
+  font-size: 0.62rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--km-text-3);
+}
+
+.kp-sidebar-foot {
+  margin-top: auto;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--km-border);
+}
+
+// ── Main / page ───────────────────────────────────────────
+.kp-main {
+  overflow-y: auto;
+  min-width: 0;
+}
+
+.kp-page {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 2rem 2.4rem 4rem;
+}
+
+.kp-page-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.6rem;
+}
+
+.kp-page-eyebrow {
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--km-text-gold);
+  margin-bottom: 0.34rem;
+}
+
+.kp-page-title {
+  font-family: var(--km-font-heading);
+  font-size: 1.7rem;
+  color: var(--km-text);
+  margin: 0;
+}
+
+.kp-page-sub {
+  margin: 0.35rem 0 0;
+  color: var(--km-text-2);
+  font-size: 0.9rem;
+}
+
+.kp-page-actions {
+  display: flex;
+  gap: 0.55rem;
+  flex-shrink: 0;
+}
+
+// ── Cards / sections ──────────────────────────────────────
+.kp-card {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius);
+  padding: 1.1rem 1.2rem;
+}
+
+.kp-section {
+  margin-bottom: 1.5rem;
+}
+
+.kp-section-title {
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--km-text-2);
+  margin: 0 0 0.7rem;
+}
+
+// ── Buttons ───────────────────────────────────────────────
+.kp-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.95rem;
+  border-radius: var(--km-radius-sm);
+  border: 1px solid var(--km-border);
+  background: var(--km-surface-2);
+  color: var(--km-text);
+  font-size: 0.84rem;
+  font-weight: 600;
+  font-family: var(--km-font-body);
+  cursor: pointer;
+  transition: background var(--km-duration-fast) var(--km-ease),
+    border-color var(--km-duration-fast) var(--km-ease);
+}
+
+.kp-btn:hover {
+  background: var(--km-surface-3);
+}
+
+.kp-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.kp-btn--primary {
+  background: linear-gradient(135deg, var(--km-gold) 0%, var(--km-gold-dim) 100%);
+  border-color: var(--km-border-gold-bright);
+  color: #1a1407;
+}
+
+.kp-btn--primary:hover {
+  background: linear-gradient(135deg, var(--km-gold-bright) 0%, var(--km-gold) 100%);
+}
+
+.kp-btn--ghost {
+  background: transparent;
+}
+
+.kp-btn--sm {
+  padding: 0.34rem 0.62rem;
+  font-size: 0.76rem;
+}
+
+// ── Chips ─────────────────────────────────────────────────
+.kp-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  padding: 0.2rem 0.56rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--km-surface-2);
+  border: 1px solid var(--km-border);
+  color: var(--km-text-2);
+}
+
+.kp-domain-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.34rem;
+  padding: 0.18rem 0.54rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--kp-domain, #94a3b8);
+  background: color-mix(in srgb, var(--kp-domain, #94a3b8) 15%, transparent);
+  border: 1px solid color-mix(in srgb, var(--kp-domain, #94a3b8) 38%, transparent);
+}
+
+.kp-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: var(--kp-domain, #94a3b8);
+  flex-shrink: 0;
+}
+
+// ── Segmented control ─────────────────────────────────────
+.kp-segment {
+  display: inline-flex;
+  gap: 0.2rem;
+  padding: 0.22rem;
+  background: var(--km-surface-2);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-sm);
+}
+
+.kp-segment-btn {
+  padding: 0.34rem 0.85rem;
+  border: 0;
+  background: transparent;
+  border-radius: 6px;
+  color: var(--km-text-2);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.kp-segment-btn--active {
+  background: var(--km-surface-3);
+  color: var(--km-gold-bright);
+}
+
+// ── Forms ─────────────────────────────────────────────────
+.kp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+  margin-bottom: 0.85rem;
+}
+
+.kp-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--km-text-2);
+}
+
+.kp-input,
+.kp-textarea,
+.kp-select {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  background: var(--km-surface-2);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-sm);
+  color: var(--km-text);
+  font-size: 0.88rem;
+  font-family: var(--km-font-body);
+}
+
+.kp-input:focus,
+.kp-textarea:focus,
+.kp-select:focus {
+  outline: none;
+  border-color: var(--km-border-gold);
+}
+
+.kp-textarea {
+  resize: vertical;
+  min-height: 4.5rem;
+  line-height: 1.5;
+}
+
+.kp-field-row {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+}
+
+// ── Task rows ─────────────────────────────────────────────
+.kp-task {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.85rem;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-sm);
+  margin-bottom: 0.45rem;
+}
+
+.kp-task-check {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 999px;
+  border: 1.5px solid var(--km-text-3);
+  background: transparent;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.kp-task-check:hover {
+  border-color: var(--km-gold);
+}
+
+.kp-task-check--done {
+  background: var(--km-gold);
+  border-color: var(--km-gold);
+}
+
+.kp-task-body {
+  flex: 1;
+  min-width: 0;
+  cursor: pointer;
+}
+
+.kp-task-title {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--km-text);
+}
+
+.kp-task--done .kp-task-title {
+  text-decoration: line-through;
+  color: var(--km-text-2);
+}
+
+.kp-task-meta {
+  margin: 0.18rem 0 0;
+  font-size: 0.74rem;
+  color: var(--km-text-2);
+  text-transform: capitalize;
+}
+
+.kp-task-meta--overdue {
+  color: #ff8f8f;
+}
+
+.kp-status-pill {
+  padding: 0.26rem 0.5rem;
+  border-radius: 6px;
+  background: var(--km-surface-2);
+  border: 1px solid var(--km-border);
+  color: var(--km-text);
+  font-size: 0.76rem;
+  font-family: var(--km-font-body);
+}
+
+// ── Plan grid ─────────────────────────────────────────────
+.kp-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(248px, 1fr));
+  gap: 0.85rem;
+}
+
+.kp-plan-card {
+  position: relative;
+  text-align: start;
+  padding: 1.05rem 1.1rem;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius);
+  cursor: pointer;
+  overflow: hidden;
+  transition: border-color var(--km-duration-fast) var(--km-ease),
+    transform var(--km-duration-fast) var(--km-ease);
+}
+
+.kp-plan-card:hover {
+  border-color: var(--km-border-gold);
+  transform: translateY(-2px);
+}
+
+.kp-plan-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--kp-domain, #94a3b8);
+}
+
+.kp-plan-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.kp-plan-card-title {
+  margin: 0.55rem 0 0;
+  font-size: 1.02rem;
+  font-weight: 600;
+  color: var(--km-text);
+}
+
+.kp-plan-card-desc {
+  margin: 0.35rem 0 0;
+  font-size: 0.82rem;
+  color: var(--km-text-2);
+  line-height: 1.45;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.kp-plan-card-foot {
+  margin-top: 0.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--km-text-3);
+  text-transform: capitalize;
+}
+
+// ── Board ─────────────────────────────────────────────────
+.kp-board {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: minmax(232px, 1fr);
+  gap: 0.85rem;
+  overflow-x: auto;
+  padding-bottom: 0.6rem;
+}
+
+.kp-board-col {
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius);
+  padding: 0.75rem;
+}
+
+.kp-board-col-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.6rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--km-text);
+}
+
+.kp-board-card {
+  background: var(--km-surface-2);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-sm);
+  padding: 0.6rem 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.kp-board-card-title {
+  margin: 0;
+  font-size: 0.84rem;
+  color: var(--km-text);
+  cursor: pointer;
+}
+
+.kp-board-card-meta {
+  margin: 0.26rem 0 0.5rem;
+  font-size: 0.7rem;
+  color: var(--km-text-2);
+  text-transform: capitalize;
+}
+
+// ── Progress ──────────────────────────────────────────────
+.kp-progress {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--km-surface-3);
+  overflow: hidden;
+}
+
+.kp-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--km-gold-dim), var(--km-gold-bright));
+}
+
+// ── Misc ──────────────────────────────────────────────────
+.kp-empty {
+  text-align: center;
+  padding: 2.4rem 1rem;
+  color: var(--km-text-2);
+}
+
+.kp-empty h3 {
+  margin: 0 0 0.35rem;
+  color: var(--km-text);
+  font-family: var(--km-font-heading);
+}
+
+.kp-muted {
+  color: var(--km-text-2);
+  font-size: 0.84rem;
+}
+
+.kp-skeleton {
+  background: linear-gradient(90deg, var(--km-surface-2), var(--km-surface-3), var(--km-surface-2));
+  background-size: 200% 100%;
+  border-radius: var(--km-radius-sm);
+  animation: kp-shimmer 1.3s linear infinite;
+}
+
+@keyframes kp-shimmer {
+  to { background-position: -200% 0; }
+}
+
+// ── Modal ─────────────────────────────────────────────────
+.kp-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.kp-modal {
+  width: 100%;
+  max-width: 460px;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border-gold);
+  border-radius: var(--km-radius-lg);
+  box-shadow: var(--km-shadow-card);
+  padding: 1.5rem;
+}
+
+.kp-modal-title {
+  font-family: var(--km-font-heading);
+  font-size: 1.15rem;
+  margin: 0 0 1.1rem;
+  color: var(--km-text);
+}
+
+.kp-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.55rem;
+  margin-top: 1.2rem;
+}
+
+@media (max-width: 720px) {
+  .kp-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .kp-sidebar {
+    display: none;
+  }
+
+  .kp-page {
+    padding: 1.4rem 1.1rem 3rem;
+  }
+}

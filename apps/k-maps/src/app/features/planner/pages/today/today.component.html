@@ -1,0 +1,90 @@
+<div class="kp-page">
+  <header class="kp-page-head">
+    <div>
+      <p class="kp-page-eyebrow">{{ todayLabel }}</p>
+      <h1 class="kp-page-title">Today</h1>
+      <p class="kp-page-sub">Focus tasks due now across every K-MAPS domain.</p>
+    </div>
+    <div class="kp-page-actions">
+      <button type="button" class="kp-btn" (click)="goPlans()">All plans</button>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="kp-card"><div class="kp-skeleton" style="height: 9rem"></div></div>
+  } @else if (error()) {
+    <div class="kp-card kp-empty">
+      <h3>Something went wrong</h3>
+      <p class="kp-muted">{{ error() }}</p>
+      <button type="button" class="kp-btn kp-btn--primary" style="margin-top: 0.8rem" (click)="retry()">Retry</button>
+    </div>
+  } @else {
+    @if (domainCounts().length) {
+      <section class="kp-section">
+        <h2 class="kp-section-title">Domains</h2>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem">
+          @for (entry of domainCounts(); track entry.domain) {
+            <span class="kp-domain-chip" [style.--kp-domain]="entry.color">
+              <span class="kp-dot"></span>{{ entry.label }} · {{ entry.count }}
+            </span>
+          }
+        </div>
+      </section>
+    }
+
+    @if (overdue().length) {
+      <section class="kp-section">
+        <h2 class="kp-section-title">Overdue</h2>
+        @for (task of overdue(); track task.id) {
+          <div class="kp-task">
+            <button type="button" class="kp-task-check" (click)="completeTask(task, $event)" aria-label="Complete"></button>
+            <div class="kp-task-body" (click)="openTask(task)">
+              <p class="kp-task-title">{{ task.title }}</p>
+              <p class="kp-task-meta kp-task-meta--overdue">
+                {{ planTitle(task.plan_id) }} · due {{ task.due_date | date:'d MMM' }}
+              </p>
+            </div>
+          </div>
+        }
+      </section>
+    }
+
+    <section class="kp-section">
+      <h2 class="kp-section-title">Focus — due now</h2>
+      @if (dueToday().length) {
+        @for (task of dueToday(); track task.id) {
+          <div class="kp-task">
+            <button type="button" class="kp-task-check" (click)="completeTask(task, $event)" aria-label="Complete"></button>
+            <div class="kp-task-body" (click)="openTask(task)">
+              <p class="kp-task-title">{{ task.title }}</p>
+              <p class="kp-task-meta">
+                {{ planTitle(task.plan_id) }}
+                @if (task.due_date) { · due {{ task.due_date | date:'d MMM' }} }
+              </p>
+            </div>
+          </div>
+        }
+      } @else {
+        <p class="kp-muted">Nothing due — open a plan to schedule work.</p>
+      }
+    </section>
+
+    <section class="kp-section">
+      <h2 class="kp-section-title">Active plans</h2>
+      @if (plans().length) {
+        <div class="kp-plan-grid">
+          @for (plan of plans(); track plan.id) {
+            <button type="button" class="kp-plan-card" [style.--kp-domain]="planDomainColor(plan)" (click)="openPlan(plan)">
+              <div class="kp-plan-card-head">
+                <span class="kp-chip">{{ plan.plan_type }}</span>
+              </div>
+              <p class="kp-plan-card-title">{{ plan.title }}</p>
+            </button>
+          }
+        </div>
+      } @else {
+        <p class="kp-muted">No active plans. Create one from the Plans tab.</p>
+      }
+    </section>
+  }
+</div>
