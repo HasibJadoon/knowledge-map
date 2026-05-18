@@ -8,12 +8,25 @@
   display: flex;
   align-items: center;
   gap: 0.85rem;
+  width: 100%;
   margin: 0 0 0.6rem;
   padding: 0.95rem 1rem;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
   background: var(--km-ion-card-background);
   border: 1px solid var(--km-ion-card-border-color);
   border-radius: var(--km-ion-card-radius);
   box-shadow: var(--km-ion-card-shadow);
+  transition: transform 0.12s ease, border-color 0.12s ease;
+}
+
+.km-hub-card:active {
+  transform: scale(0.985);
+  border-color: color-mix(in srgb, var(--km-accent, #4f96ff) 55%, transparent);
 }
 
 .km-hub-icon {
@@ -36,17 +49,18 @@
 .km-hub-body {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
 }
 
-.km-hub-body h2 {
-  margin: 0;
+.km-hub-title {
   font-size: 1.04rem;
   font-weight: 650;
   color: #ecf5ff;
 }
 
-.km-hub-body p {
-  margin: 0.22rem 0 0;
+.km-hub-caption {
   font-size: 0.82rem;
   color: var(--km-text-dim);
 }
