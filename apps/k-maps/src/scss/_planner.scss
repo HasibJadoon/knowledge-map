@@ -2,8 +2,7 @@
 // Planner — modern workspace UI (feature: features/planner)
 // ══════════════════════════════════════════════════════════
 
-km-planner-shell,
-km-planner-today,
+km-planner-home,
 km-planner-plans,
 km-planner-plan-detail,
 km-planner-task-detail,
@@ -12,6 +11,91 @@ km-planner-goals,
 km-planner-review,
 km-planner-capture {
   display: block;
+  min-height: 100vh;
+  background: var(--km-bg);
+  color: var(--km-text);
+  font-family: var(--km-font-body);
+}
+
+// ── Card hub ──────────────────────────────────────────────
+.kp-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.85rem;
+}
+
+.kp-hub-card {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  padding: 1.1rem 1.2rem;
+  background: var(--km-surface);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius);
+  cursor: pointer;
+  transition: border-color var(--km-duration-fast) var(--km-ease),
+    transform var(--km-duration-fast) var(--km-ease);
+}
+
+.kp-hub-card:hover {
+  border-color: color-mix(in srgb, var(--kp-accent, #4f96ff) 55%, transparent);
+  transform: translateY(-2px);
+}
+
+.kp-hub-glyph {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.85rem;
+  font-size: 1.4rem;
+  color: var(--kp-accent, #4f96ff);
+  background: color-mix(in srgb, var(--kp-accent, #4f96ff) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--kp-accent, #4f96ff) 38%, transparent);
+}
+
+.kp-hub-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.kp-hub-title {
+  font-size: 1.05rem;
+  font-weight: 650;
+  color: var(--km-text);
+}
+
+.kp-hub-caption {
+  font-size: 0.84rem;
+  color: var(--km-text-2);
+}
+
+.kp-hub-arrow {
+  flex-shrink: 0;
+  color: var(--km-text-3);
+  font-size: 1.1rem;
+}
+
+.kp-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-bottom: 0.6rem;
+  background: transparent;
+  border: 0;
+  color: var(--km-text-2);
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: var(--km-font-body);
+  cursor: pointer;
+}
+
+.kp-back:hover {
+  color: var(--km-text-gold);
 }
 
 .kp-shell {
@@ -669,6 +753,68 @@ km-planner-capture {
   min-width: 0;
   font-size: 0.86rem;
   color: var(--km-text);
+}
+
+.kp-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.34rem;
+}
+
+.kp-cal-grid--head {
+  margin-bottom: 0.4rem;
+}
+
+.kp-cal-weekday {
+  text-align: center;
+  color: var(--km-text-3);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.kp-cal-cell {
+  position: relative;
+  aspect-ratio: 1.2;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0.3rem 0.42rem;
+  background: var(--km-surface-2);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-sm);
+  color: var(--km-text);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.kp-cal-cell:hover {
+  border-color: var(--km-border-gold);
+}
+
+.kp-cal-cell--muted {
+  opacity: 0.4;
+}
+
+.kp-cal-cell--today {
+  border-color: var(--km-border-gold-bright);
+  box-shadow: inset 0 0 0 1px var(--km-border-gold);
+}
+
+.kp-cal-cell-dot {
+  position: absolute;
+  left: 0.36rem;
+  bottom: 0.32rem;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  padding: 0 0.22rem;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--km-gold), var(--km-gold-dim));
+  color: #1a1407;
+  font-size: 0.64rem;
+  font-weight: 700;
 }
 
 @media (max-width: 720px) {

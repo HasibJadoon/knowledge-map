@@ -1,0 +1,58 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.km-hub-card {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin: 0 0 0.6rem;
+  padding: 0.95rem 1rem;
+  background: var(--km-ion-card-background);
+  border: 1px solid var(--km-ion-card-border-color);
+  border-radius: var(--km-ion-card-radius);
+  box-shadow: var(--km-ion-card-shadow);
+}
+
+.km-hub-icon {
+  flex-shrink: 0;
+  width: 3rem;
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.85rem;
+  color: var(--km-accent, #4f96ff);
+  background: color-mix(in srgb, var(--km-accent, #4f96ff) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--km-accent, #4f96ff) 38%, transparent);
+}
+
+.km-hub-icon ion-icon {
+  font-size: 1.5rem;
+}
+
+.km-hub-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.km-hub-body h2 {
+  margin: 0;
+  font-size: 1.04rem;
+  font-weight: 650;
+  color: #ecf5ff;
+}
+
+.km-hub-body p {
+  margin: 0.22rem 0 0;
+  font-size: 0.82rem;
+  color: var(--km-text-dim);
+}
+
+.km-hub-chevron {
+  flex-shrink: 0;
+  font-size: 1.15rem;
+  color: var(--km-text-dim);
+}

@@ -1,0 +1,22 @@
+<div class="kp-page">
+  <header class="kp-page-head">
+    <div>
+      <p class="kp-page-eyebrow">{{ todayLabel }}</p>
+      <h1 class="kp-page-title">Planner</h1>
+      <p class="kp-page-sub">Plan, schedule and review across every K-MAPS domain.</p>
+    </div>
+  </header>
+
+  <div class="kp-hub-grid">
+    @for (card of cards(); track card.key) {
+      <a class="kp-hub-card" [routerLink]="card.route" [style.--kp-accent]="card.accent">
+        <span class="kp-hub-glyph">{{ card.glyph }}</span>
+        <span class="kp-hub-body">
+          <span class="kp-hub-title">{{ card.title }}</span>
+          <span class="kp-hub-caption">{{ card.caption }}</span>
+        </span>
+        <span class="kp-hub-arrow">→</span>
+      </a>
+    }
+  </div>
+</div>

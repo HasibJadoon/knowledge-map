@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { PlanTask } from '../../planner.models';
 import { PlannerApiService } from '../../planner-api.service';
@@ -19,7 +19,7 @@ const SCORE_OPTIONS: ReadonlyArray<ScoreOption> = [
 @Component({
   selector: 'km-planner-review',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink],
   templateUrl: './review.component.html',
 })
 export class ReviewComponent {
