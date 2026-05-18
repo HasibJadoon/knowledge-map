@@ -1,0 +1,118 @@
+app-planner-capture-note {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+
+  .km-save-state {
+    margin-right: 0.6rem;
+    font-size: 0.78rem;
+    color: var(--km-text-dim, rgba(214, 226, 240, 0.55));
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .km-save-state--on {
+    opacity: 1;
+  }
+
+  // ── Formatting toolbar ─────────────────────────────────────────────────────
+  .km-note-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    padding: 0.55rem 0.85rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .km-note-tool {
+    min-width: 2.1rem;
+    height: 2.1rem;
+    padding: 0 0.45rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.88rem;
+    color: #d6e2f0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  .km-note-tool:active {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  // ── Document surface ───────────────────────────────────────────────────────
+  .km-note-loading {
+    display: flex;
+    justify-content: center;
+    padding: 2.5rem 0;
+  }
+
+  .km-note-doc--hidden {
+    display: none;
+  }
+
+  .km-note-doc .ProseMirror {
+    outline: none;
+    min-height: 70vh;
+    padding: 1rem 1.1rem 6rem;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #eaf1fa;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  .km-note-doc .ProseMirror > * + * {
+    margin-top: 0.55rem;
+  }
+
+  .km-note-doc .ProseMirror h1 { font-size: 1.5rem; font-weight: 650; }
+  .km-note-doc .ProseMirror h2 { font-size: 1.25rem; font-weight: 650; }
+  .km-note-doc .ProseMirror h3 { font-size: 1.08rem; font-weight: 650; }
+
+  .km-note-doc .ProseMirror ul,
+  .km-note-doc .ProseMirror ol {
+    padding-left: 1.3rem;
+  }
+
+  .km-note-doc .ProseMirror ul[data-type='taskList'] {
+    list-style: none;
+    padding-left: 0.2rem;
+  }
+
+  .km-note-doc .ProseMirror ul[data-type='taskList'] li {
+    display: flex;
+    gap: 0.45rem;
+    align-items: flex-start;
+  }
+
+  .km-note-doc .ProseMirror blockquote {
+    padding-left: 0.8rem;
+    border-left: 3px solid rgba(201, 168, 76, 0.6);
+    color: #c4cedb;
+  }
+
+  .km-note-doc .ProseMirror code {
+    padding: 0.05rem 0.3rem;
+    font-size: 0.85em;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.3rem;
+  }
+
+  .km-note-doc .ProseMirror hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    margin: 0.85rem 0;
+  }
+
+  .km-note-doc .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: rgba(214, 226, 240, 0.4);
+    pointer-events: none;
+  }
+}

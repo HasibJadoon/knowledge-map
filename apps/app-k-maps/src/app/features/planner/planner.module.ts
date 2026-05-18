@@ -7,6 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { PlannerRoutingModule } from './planner-routing.module';
 import { CalendarPage } from './pages/calendar/calendar.page';
 import { CapturePage } from './pages/capture/capture.page';
+import { CaptureNotePage } from './pages/capture-note/capture-note.page';
 import { GoalsPage } from './pages/goals/goals.page';
 import { HomePage } from './pages/home/home.page';
 import { PlanDetailPage } from './pages/plan-detail/plan-detail.page';
@@ -32,6 +33,7 @@ import { TaskDetailPage } from './pages/task-detail/task-detail.page';
     GoalsPage,
     ReviewQueuePage,
     CapturePage,
+    CaptureNotePage,
   ],
 })
 export class PlannerModule {}
