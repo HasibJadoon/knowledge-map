@@ -1,0 +1,36 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="goBack()" aria-label="Back to notes">
+        <ion-icon name="chevron-back-outline" slot="start"></ion-icon>
+        Notes
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Note</ion-title>
+    <ion-buttons slot="end">
+      <span class="km-save-state" [class.km-save-state--on]="saveState() !== 'idle'">
+        {{ saveState() === 'saving' ? 'Saving…' : saveState() === 'saved' ? 'Saved' : '' }}
+      </span>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+  <div class="km-note-toolbar" role="toolbar" aria-label="Formatting">
+    <button type="button" class="km-note-tool" (click)="format('bold')" aria-label="Bold"><strong>B</strong></button>
+    <button type="button" class="km-note-tool" (click)="format('italic')" aria-label="Italic"><em>I</em></button>
+    <button type="button" class="km-note-tool" (click)="format('heading')" aria-label="Heading">H</button>
+    <button type="button" class="km-note-tool" (click)="format('bullet')" aria-label="Bullet list">&bull;</button>
+    <button type="button" class="km-note-tool" (click)="format('ordered')" aria-label="Numbered list">1.</button>
+    <button type="button" class="km-note-tool" (click)="format('checklist')" aria-label="Checklist">&#10003;</button>
+    <button type="button" class="km-note-tool" (click)="format('divider')" aria-label="Divider">&mdash;</button>
+  </div>
+
+  @if (loading()) {
+    <div class="km-note-loading">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  }
+
+  <div #editorHost class="km-note-doc" [class.km-note-doc--hidden]="loading()"></div>
+</ion-content>

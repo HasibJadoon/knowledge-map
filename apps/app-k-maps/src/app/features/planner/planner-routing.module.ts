@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CalendarPage } from './pages/calendar/calendar.page';
 import { CapturePage } from './pages/capture/capture.page';
+import { CaptureNotePage } from './pages/capture-note/capture-note.page';
 import { GoalsPage } from './pages/goals/goals.page';
 import { HomePage } from './pages/home/home.page';
 import { PlanDetailPage } from './pages/plan-detail/plan-detail.page';
@@ -18,6 +19,7 @@ const routes: Routes = [
   { path: 'goals', component: GoalsPage },
   { path: 'review', component: ReviewQueuePage },
   { path: 'capture', component: CapturePage },
+  { path: 'capture/:id', component: CaptureNotePage },
 ];
 
 @NgModule({

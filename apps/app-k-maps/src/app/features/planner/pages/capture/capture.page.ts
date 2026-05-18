@@ -1,33 +1,8 @@
-import {
-  AfterViewInit, Component, ElementRef, OnDestroy, ViewChild,
-  ViewEncapsulation, computed, inject, signal,
-} from '@angular/core';
-import { IonItemSliding, NavController, ToastController } from '@ionic/angular';
+import { Component, computed, inject, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { IonItemSliding, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { Editor } from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
-import { HorizontalRule } from '@tiptap/extension-horizontal-rule';
-import Placeholder from '@tiptap/extension-placeholder';
-import Link from '@tiptap/extension-link';
-import Underline from '@tiptap/extension-underline';
-import { TextStyle } from '@tiptap/extension-text-style';
-import Color from '@tiptap/extension-color';
-import Highlight from '@tiptap/extension-highlight';
-import { TaskList, TaskItem } from '@tiptap/extension-list';
-import { AutoDirection } from '../../../quran/surah-study/surah-notes-page/auto-direction.extension';
-import { Callout } from '../../../docs/doc-editor/tiptap-extensions/callout.extension';
-import { SlashCommandExtension } from '../../../docs/doc-editor/tiptap-extensions/slash-command.extension';
-import { PageLink } from '../../../docs/doc-editor/tiptap-extensions/page-link.extension';
-import { AyahEmbed } from '../../../docs/doc-editor/tiptap-extensions/ayah-embed.extension';
-import { ImageBlock } from '../../../docs/doc-editor/tiptap-extensions/image.extension';
-import {
-  VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock,
-} from '../../../docs/doc-editor/tiptap-extensions/arabic-blocks.extension';
-import {
-  ClaimBlock, EvidenceBlock, ReflectionBlock, TaskBlock, SceneBlock,
-  TimelineBlock, ComprehensionBlock, ChildrenBlock, PassageEmbed,
-} from '../../../docs/doc-editor/tiptap-extensions/worldview-blocks.extension';
-import { CaptureNote, TiptapJson } from '../../../../shared/models/planner/planner-extras.models';
+import { CaptureNote } from '../../../../shared/models/planner/planner-extras.models';
 import { Plan } from '../../../../shared/models/planner/plan.models';
 import { CaptureNotesService } from '../../../../shared/services/planner/capture-notes.service';
 import { PlannerApiService } from '../../../../shared/services/planner/planner-api.service';
@@ -37,16 +12,13 @@ import { PlannerApiService } from '../../../../shared/services/planner/planner-a
   standalone: false,
   templateUrl: './capture.page.html',
   styleUrl: './capture.page.scss',
-  encapsulation: ViewEncapsulation.None,
   host: { class: 'ion-page' },
 })
-export class CapturePage implements AfterViewInit, OnDestroy {
-  @ViewChild('composerHost') composerHost?: ElementRef<HTMLDivElement>;
-
+export class CapturePage {
   private readonly notes = inject(CaptureNotesService);
   private readonly api = inject(PlannerApiService);
   private readonly toastController = inject(ToastController);
-  private readonly navCtrl = inject(NavController);
+  private readonly router = inject(Router);
 
   readonly loading = signal(true);
   readonly saving = signal(false);
@@ -68,7 +40,7 @@ export class CapturePage implements AfterViewInit, OnDestroy {
     }
     const cutoff = Date.now() - RANGE_DAYS[range] * 86_400_000;
     return this.items().filter((note) => {
-      const stamp = Date.parse(note.created_at ?? note.updated_at);
+      const stamp = Date.parse(note.updated_at ?? note.created_at);
       return Number.isFinite(stamp) && stamp >= cutoff;
     });
   });
@@ -77,95 +49,26 @@ export class CapturePage implements AfterViewInit, OnDestroy {
   readonly triageNote = signal<CaptureNote | null>(null);
   readonly triagePlanId = signal<string>('');
 
-  private editor: Editor | null = null;
-
-  constructor() {
+  /** Refresh whenever the page is (re)entered — e.g. back from the editor. */
+  ionViewWillEnter(): void {
     void this.load();
   }
 
-  // ── Editor lifecycle ─────────────────────────────────────────────────────────
-
-  ngAfterViewInit(): void {
-    // Defer so Angular paints the host element before TipTap mounts into it.
-    setTimeout(() => {
-      if (this.editor || !this.composerHost?.nativeElement) return;
-      this.editor = new Editor({
-        element: this.composerHost.nativeElement,
-        editable: true,
-        extensions: [
-          StarterKit.configure({ horizontalRule: false }),
-          HorizontalRule,
-          Placeholder.configure({ placeholder: 'Catch a thought — type / for blocks' }),
-          Link.configure({ openOnClick: false }),
-          Underline,
-          TextStyle,
-          Color,
-          Highlight.configure({ multicolor: true }),
-          TaskList,
-          TaskItem.configure({ nested: true }),
-          AutoDirection,
-          Callout,
-          SlashCommandExtension,
-          PageLink.configure({
-            onOpen: (docId: string) => {
-              void this.navCtrl.navigateForward(`/docs/${docId}`);
-            },
-          }),
-          AyahEmbed,
-          ImageBlock,
-          VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock,
-          ClaimBlock, EvidenceBlock, ReflectionBlock,
-          TaskBlock, SceneBlock, TimelineBlock,
-          ComprehensionBlock, ChildrenBlock, PassageEmbed,
-        ],
-      });
-    }, 60);
+  preview(note: CaptureNote): string {
+    const body = (note.text ?? '').replace(/\s+/g, ' ').trim();
+    const title = (note.title ?? '').trim();
+    if (body && title && body.startsWith(title)) {
+      return body.slice(title.length).trim() || 'No additional text';
+    }
+    return body || 'Empty note';
   }
 
-  ngOnDestroy(): void {
-    this.editor?.destroy();
-    this.editor = null;
+  newNote(): void {
+    void this.router.navigate(['/planner/capture/new']);
   }
 
-  // ── Composer toolbar ─────────────────────────────────────────────────────────
-
-  format(action: ComposerAction): void {
-    const chain = this.editor?.chain().focus();
-    if (!chain) return;
-    switch (action) {
-      case 'bold':      chain.toggleBold().run();                  break;
-      case 'italic':    chain.toggleItalic().run();                break;
-      case 'heading':   chain.toggleHeading({ level: 2 }).run();   break;
-      case 'bullet':    chain.toggleBulletList().run();            break;
-      case 'ordered':   chain.toggleOrderedList().run();           break;
-      case 'checklist': chain.toggleTaskList().run();              break;
-      case 'divider':   chain.setHorizontalRule().run();           break;
-    }
-  }
-
-  // ── Capture ──────────────────────────────────────────────────────────────────
-
-  async capture(): Promise<void> {
-    if (!this.editor || this.saving()) return;
-    const text = this.editor.getText().trim();
-    if (!text) {
-      await this.presentToast('Write something to capture.');
-      return;
-    }
-    const doc = this.editor.getJSON() as TiptapJson;
-
-    this.saving.set(true);
-    try {
-      const note = await firstValueFrom(this.notes.create({ doc, text, title: summarize(text) }));
-      this.items.update((rows) => [note, ...rows]);
-      this.editor.commands.clearContent(true);
-      this.editor.commands.focus('start');
-      await this.presentToast('Captured.');
-    } catch {
-      await this.presentToast('Could not capture the note.');
-    } finally {
-      this.saving.set(false);
-    }
+  openNote(note: CaptureNote): void {
+    void this.router.navigate(['/planner/capture', note.id]);
   }
 
   setRange(value: string | number | null | undefined): void {
@@ -223,7 +126,7 @@ export class CapturePage implements AfterViewInit, OnDestroy {
     try {
       await firstValueFrom(this.api.createTask({
         plan_id: planId,
-        title: note.title || summarize(note.text),
+        title: note.title || 'Capture note',
         task_type: 'note',
         description_md: note.text || null,
       }));
@@ -248,7 +151,7 @@ export class CapturePage implements AfterViewInit, OnDestroy {
     this.loading.set(true);
     try {
       const [notes, plans] = await Promise.all([
-        firstValueFrom(this.notes.list('inbox', 60)),
+        firstValueFrom(this.notes.list('inbox', 100)),
         firstValueFrom(this.api.listPlans({ status: 'active' })),
       ]);
       this.items.set(notes);
@@ -266,16 +169,7 @@ export class CapturePage implements AfterViewInit, OnDestroy {
   }
 }
 
-function summarize(text: string): string {
-  const normalized = (text ?? '').replace(/\s+/g, ' ').trim();
-  if (!normalized) {
-    return 'Capture note';
-  }
-  return normalized.length <= 60 ? normalized : `${normalized.slice(0, 57).replace(/\s+$/, '')}...`;
-}
-
 type CaptureRange = 'all' | 'today' | 'week' | 'month';
-type ComposerAction = 'bold' | 'italic' | 'heading' | 'bullet' | 'ordered' | 'checklist' | 'divider';
 
 const RANGE_DAYS: Record<Exclude<CaptureRange, 'all'>, number> = {
   today: 1,

@@ -4,34 +4,21 @@
       <ion-back-button defaultHref="/planner" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Capture</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" aria-label="New note" (click)="newNote()">
+        <ion-icon name="create-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="study-content" [fullscreen]="true">
   <div class="study-shell ion-padding km-planner-wrap">
-    <section class="km-panel km-panel--composer">
-      <header class="km-panel-header"><h2>Quick Capture</h2></header>
-
-      <div class="km-capture-toolbar" role="toolbar" aria-label="Formatting">
-        <button type="button" class="km-capture-tool" (click)="format('bold')" aria-label="Bold"><strong>B</strong></button>
-        <button type="button" class="km-capture-tool" (click)="format('italic')" aria-label="Italic"><em>I</em></button>
-        <button type="button" class="km-capture-tool" (click)="format('heading')" aria-label="Heading">H</button>
-        <button type="button" class="km-capture-tool" (click)="format('bullet')" aria-label="Bullet list">&bull;</button>
-        <button type="button" class="km-capture-tool" (click)="format('ordered')" aria-label="Numbered list">1.</button>
-        <button type="button" class="km-capture-tool" (click)="format('checklist')" aria-label="Checklist">&#10003;</button>
-        <button type="button" class="km-capture-tool" (click)="format('divider')" aria-label="Divider">&mdash;</button>
-      </div>
-
-      <div #composerHost class="km-capture-doc"></div>
-
-      <ion-button class="km-btn km-primary-btn" expand="block" (click)="capture()" [disabled]="saving()">
-        {{ saving() ? 'Saving...' : 'Capture' }}
-      </ion-button>
-    </section>
-
     <ng-container *ngIf="loading(); else captureLoaded">
       <section class="km-panel">
-        <ion-skeleton-text animated style="width: 100%; height: 7rem"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 4.4rem; margin-bottom: 0.5rem"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 4.4rem; margin-bottom: 0.5rem"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 4.4rem"></ion-skeleton-text>
       </section>
     </ng-container>
 
@@ -45,14 +32,14 @@
       </section>
 
       <section class="km-panel" *ngIf="visibleItems().length > 0; else emptyCapture">
-        <header class="km-panel-header"><h2>Inbox</h2></header>
+        <header class="km-panel-header"><h2>Notes</h2></header>
         <ion-list class="km-entry-list">
           <ion-item-sliding *ngFor="let note of visibleItems()" #sliding>
-            <ion-item class="km-entry-row" lines="none">
+            <ion-item class="km-entry-row" button lines="none" detail="false" (click)="openNote(note)">
               <ion-label>
-                <h3>{{ note.title || 'Capture note' }}</h3>
-                <p class="km-entry-meta">{{ note.text }}</p>
-                <p class="km-entry-time">{{ note.updated_at | date:'EEE h:mm a' }}</p>
+                <h3>{{ note.title || 'New note' }}</h3>
+                <p class="km-entry-meta">{{ preview(note) }}</p>
+                <p class="km-entry-time">{{ note.updated_at | date:'EEE d MMM, h:mm a' }}</p>
               </ion-label>
             </ion-item>
             <ion-item-options side="end">
@@ -65,12 +52,18 @@
 
       <ng-template #emptyCapture>
         <section class="km-panel km-empty-state">
-          <h3>Inbox is clear</h3>
-          <p>Captured notes appear here, ready to triage into plans.</p>
+          <h3>No notes yet</h3>
+          <p>Tap the pencil to start a note — capture a thought, then triage it into a plan.</p>
         </section>
       </ng-template>
     </ng-template>
   </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button aria-label="New note" (click)="newNote()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>
 
 <ion-modal class="km-source-metadata-modal" [isOpen]="triageOpen()" (ionModalDidDismiss)="closeTriage()">
