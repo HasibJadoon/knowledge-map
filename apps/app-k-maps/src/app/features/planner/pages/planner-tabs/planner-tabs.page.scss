@@ -9,17 +9,6 @@
   --background: var(--app-page-background);
 }
 
-.planner-tabs-page__toolbar--search {
-  --min-height: 3.8rem;
-  --padding-start: 0.6rem;
-  --padding-end: 0.6rem;
-  --padding-bottom: 0.35rem;
-}
-
-.planner-tabs-page__toolbar--search ion-searchbar {
-  padding: 0;
-}
-
 .planner-tabs-page__footer app-planner-tab-bar {
   --km-tabs-selected: var(--ion-color-primary-tint);
 }

@@ -14,26 +14,16 @@
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
-
-  <ion-toolbar class="study-toolbar planner-tabs-page__toolbar--search" *ngIf="showSearch()">
-    <ion-searchbar
-      class="km-searchbar"
-      [value]="searchValue()"
-      debounce="300"
-      [placeholder]="searchPlaceholder()"
-      show-clear-button="focus"
-      (ionInput)="onSearchInput($event.detail.value)"
-    ></ion-searchbar>
-  </ion-toolbar>
 </ion-header>
 
 <ion-content class="study-content" [fullscreen]="true">
   <ng-container [ngSwitch]="activeTab()">
     <app-weekly-plan *ngSwitchCase="'week'"></app-weekly-plan>
+    <app-planner-capture-page *ngSwitchCase="'capture'"></app-planner-capture-page>
+    <app-planner-plan-page *ngSwitchCase="'plan'"></app-planner-plan-page>
     <app-planner-kanban-page *ngSwitchCase="'kanban'"></app-planner-kanban-page>
-    <app-planner-inbox-page *ngSwitchCase="'inbox'"></app-planner-inbox-page>
-    <app-planner-lessons-page *ngSwitchCase="'lessons'"></app-planner-lessons-page>
-    <app-planner-podcast-page *ngSwitchCase="'podcast'"></app-planner-podcast-page>
+    <app-planner-calendar-page *ngSwitchCase="'calendar'"></app-planner-calendar-page>
+    <app-planner-timeline-page *ngSwitchCase="'timeline'"></app-planner-timeline-page>
     <app-planner-review-page *ngSwitchCase="'review'"></app-planner-review-page>
   </ng-container>
 </ion-content>

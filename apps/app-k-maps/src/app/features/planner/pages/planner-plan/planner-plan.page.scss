@@ -1,0 +1,105 @@
+:host {
+  display: block;
+}
+
+.km-panel--composer {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.km-plan-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.km-plan-head h2 {
+  margin: 0;
+}
+
+.km-plan-close {
+  --color: var(--km-text-dim);
+  margin: 0;
+}
+
+.km-plan-sections {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.km-plan-section {
+  padding: 0.55rem 0.65rem;
+  display: grid;
+  gap: 0.34rem;
+}
+
+.km-plan-section-title {
+  width: 100%;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid rgba(146, 178, 224, 0.24);
+  padding: 0.18rem 0;
+  color: #edf6ff;
+  font-size: 0.88rem;
+  font-weight: 650;
+}
+
+.km-plan-section-title:focus {
+  outline: none;
+  border-bottom-color: var(--km-accent-border, #79a6ff);
+}
+
+.km-plan-section-body {
+  --background: transparent;
+  --color: var(--km-text);
+  --padding-start: 0;
+  font-size: 0.84rem;
+}
+
+.km-plan-add {
+  --color: #7bc5ff;
+  margin: 0;
+  justify-self: start;
+}
+
+.km-plan-notes {
+  display: grid;
+  gap: 0.42rem;
+}
+
+.km-plan-accordion {
+  overflow: hidden;
+}
+
+.km-plan-accordion-head {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.55rem 0.65rem;
+  background: transparent;
+  border: 0;
+  color: #edf6ff;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.km-plan-accordion-head ion-icon {
+  color: var(--km-text-dim);
+  font-size: 1rem;
+}
+
+.km-plan-accordion-body {
+  --background: rgba(9, 16, 30, 0.6);
+  --color: var(--km-text);
+  --padding-start: 0.6rem;
+  --padding-end: 0.6rem;
+  font-size: 0.84rem;
+  border-top: 1px solid rgba(146, 178, 224, 0.18);
+}
+
+.km-plan-meta {
+  margin: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}

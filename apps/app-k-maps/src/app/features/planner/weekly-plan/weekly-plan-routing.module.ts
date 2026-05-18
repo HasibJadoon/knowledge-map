@@ -12,19 +12,23 @@ const routes: Routes = [
     component: PlannerTabsPage,
   },
   {
+    path: 'capture',
+    component: PlannerTabsPage,
+  },
+  {
+    path: 'plan',
+    component: PlannerTabsPage,
+  },
+  {
     path: 'kanban',
     component: PlannerTabsPage,
   },
   {
-    path: 'inbox',
+    path: 'calendar',
     component: PlannerTabsPage,
   },
   {
-    path: 'lessons',
-    component: PlannerTabsPage,
-  },
-  {
-    path: 'podcast',
+    path: 'timeline',
     component: PlannerTabsPage,
   },
   {
