@@ -1,0 +1,59 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-title>Review</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="refresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="study-shell ion-padding km-planner-wrap">
+    <section class="km-panel km-panel--hero">
+      <div>
+        <p class="km-panel-kicker">Reflect</p>
+        <h1>Review queue</h1>
+        <p class="km-panel-subtitle">Score tasks that are due or overdue, then move on.</p>
+      </div>
+      <div class="km-hero-chips">
+        <span class="km-chip">{{ remaining() }} to review</span>
+      </div>
+    </section>
+
+    <ng-container *ngIf="loading(); else reviewLoaded">
+      <section class="km-panel"><ion-skeleton-text animated style="width:100%;height:8rem"></ion-skeleton-text></section>
+    </ng-container>
+
+    <ng-template #reviewLoaded>
+      <section class="km-panel km-review-card" *ngFor="let task of tasks()">
+        <div (click)="openTask(task)">
+          <h3 class="km-review-title">{{ task.title }}</h3>
+          <p class="km-task-meta">
+            {{ task.task_type }} · P{{ task.priority }}
+            <span *ngIf="task.due_date"> · due {{ task.due_date | date:'d MMM' }}</span>
+          </p>
+        </div>
+        <div class="km-review-actions">
+          <ion-button
+            *ngFor="let option of scoreOptions"
+            size="small"
+            fill="outline"
+            [color]="option.tone"
+            (click)="score(task, option, $event)"
+            [disabled]="saving()"
+          >{{ option.label }}</ion-button>
+        </div>
+      </section>
+
+      <section class="km-panel km-empty-state" *ngIf="tasks().length === 0">
+        <h3>Review queue is clear</h3>
+        <p>Nothing is due for review right now.</p>
+      </section>
+    </ng-template>
+  </div>
+</ion-content>
+
+<ion-footer class="study-footer">
+  <app-planner-bottom-nav active="review"></app-planner-bottom-nav>
+</ion-footer>

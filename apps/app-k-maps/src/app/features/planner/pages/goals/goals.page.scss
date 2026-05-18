@@ -1,0 +1,42 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.km-goal-card {
+  display: grid;
+  gap: 0.5rem;
+  margin-bottom: 0.7rem;
+}
+
+.km-goal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.km-goal-title {
+  margin: 0;
+  color: #ecf5ff;
+  font-size: 1rem;
+  font-weight: 650;
+}
+
+.km-goal-meta {
+  margin: 0.22rem 0 0;
+  color: var(--km-text-dim);
+  font-size: 0.76rem;
+  text-transform: capitalize;
+}
+
+.km-goal-check {
+  --color: #7bc5ff;
+  margin: 0;
+}
+
+.km-task-done {
+  text-decoration: line-through;
+  opacity: 0.62;
+}
