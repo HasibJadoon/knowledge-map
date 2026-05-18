@@ -1,7 +1,9 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
+import { PlanTask } from '../../../../shared/models/planner/plan.models';
 import {
   CALENDAR_ENTRY_LABELS,
   CALENDAR_ENTRY_TYPES,
@@ -10,11 +12,28 @@ import {
 } from '../../../../shared/models/planner/planner-extras.models';
 import { PlannerApiService } from '../../../../shared/services/planner/planner-api.service';
 
+type CalendarMode = 'today' | 'week' | 'month' | 'quarter';
+
 interface CalendarDay {
   date: string;
   isToday: boolean;
   entries: CalendarEntry[];
 }
+
+interface MonthCell {
+  date: string;
+  dayNum: number;
+  inMonth: boolean;
+  isToday: boolean;
+  count: number;
+}
+
+const MODES: ReadonlyArray<{ id: CalendarMode; label: string }> = [
+  { id: 'today', label: 'Today' },
+  { id: 'week', label: 'Week' },
+  { id: 'month', label: 'Month' },
+  { id: 'quarter', label: '3 Months' },
+];
 
 @Component({
   selector: 'app-planner-calendar',
@@ -25,14 +44,19 @@ interface CalendarDay {
 })
 export class CalendarPage {
   private readonly api = inject(PlannerApiService);
+  private readonly router = inject(Router);
   private readonly toastController = inject(ToastController);
 
   readonly loading = signal(true);
   readonly saving = signal(false);
-  readonly weekStart = signal(mondayOf(new Date()));
+  readonly mode = signal<CalendarMode>('today');
+  readonly anchor = signal(isoDay(new Date()));
   readonly entries = signal<CalendarEntry[]>([]);
+  readonly dueTasks = signal<PlanTask[]>([]);
   readonly createOpen = signal(false);
 
+  readonly modes = MODES;
+  readonly weekdayLabels = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   readonly entryTypes = CALENDAR_ENTRY_TYPES;
   readonly entryLabels = CALENDAR_ENTRY_LABELS;
 
@@ -41,35 +65,79 @@ export class CalendarPage {
   readonly newTime = new FormControl('', { nonNullable: true });
   readonly newType = signal<CalendarEntryType>('scheduled_session');
 
-  readonly weekLabel = computed(() => {
-    const start = new Date(`${this.weekStart()}T12:00:00Z`);
-    const end = new Date(start.getTime() + 6 * 86_400_000);
-    const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
-    return `${fmt.format(start)} – ${fmt.format(end)}`;
-  });
+  private readonly range = computed(() => rangeFor(this.mode(), this.anchor()));
+
+  readonly rangeLabel = computed(() => labelFor(this.mode(), this.anchor()));
+
+  readonly todayEntries = computed(() => this.entriesOn(this.anchor()));
 
   readonly days = computed<CalendarDay[]>(() => {
     const today = isoDay(new Date());
-    return Array.from({ length: 7 }, (_, index) => {
-      const date = addDays(this.weekStart(), index);
+    const { start, end } = this.range();
+    const mode = this.mode();
+
+    if (mode === 'week') {
+      return Array.from({ length: 7 }, (_, index) => {
+        const date = addDays(start, index);
+        return { date, isToday: date === today, entries: this.entriesOn(date) };
+      });
+    }
+
+    const dates = [...new Set(
+      this.entries()
+        .map((entry) => entry.start_datetime.slice(0, 10))
+        .filter((date) => date >= start && date < end),
+    )].sort();
+    return dates.map((date) => ({ date, isToday: date === today, entries: this.entriesOn(date) }));
+  });
+
+  readonly monthCells = computed<MonthCell[]>(() => {
+    const today = isoDay(new Date());
+    const monthStart = firstOfMonth(this.anchor());
+    const offset = (new Date(`${monthStart}T12:00:00Z`).getUTCDay() + 6) % 7;
+    const gridStart = addDays(monthStart, -offset);
+    const month = monthStart.slice(0, 7);
+    return Array.from({ length: 42 }, (_, index) => {
+      const date = addDays(gridStart, index);
       return {
         date,
+        dayNum: Number(date.slice(8, 10)),
+        inMonth: date.slice(0, 7) === month,
         isToday: date === today,
-        entries: this.entries()
-          .filter((entry) => entry.start_datetime.slice(0, 10) === date)
-          .sort((left, right) => left.start_datetime.localeCompare(right.start_datetime)),
+        count: this.entriesOn(date).length,
       };
     });
   });
 
+  readonly entryCount = computed(() => this.entries().length);
+
   constructor() {
     void this.load();
+  }
+
+  private entriesOn(date: string): CalendarEntry[] {
+    return this.entries()
+      .filter((entry) => entry.start_datetime.slice(0, 10) === date)
+      .sort((left, right) => left.start_datetime.localeCompare(right.start_datetime));
+  }
+
+  setMode(value: string | number | null | undefined): void {
+    if (value === 'today' || value === 'week' || value === 'month' || value === 'quarter') {
+      this.mode.set(value);
+      void this.load();
+    }
   }
 
   setNewType(value: string | number | null | undefined): void {
     if (CALENDAR_ENTRY_TYPES.includes(value as CalendarEntryType)) {
       this.newType.set(value as CalendarEntryType);
     }
+  }
+
+  openMonthCell(cell: MonthCell): void {
+    this.anchor.set(cell.date);
+    this.mode.set('today');
+    void this.load();
   }
 
   entryTime(entry: CalendarEntry): string {
@@ -79,24 +147,28 @@ export class CalendarPage {
     return new Date(entry.start_datetime).toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' });
   }
 
-  prevWeek(): void {
-    this.weekStart.update((value) => addDays(value, -7));
+  prev(): void {
+    this.anchor.update((value) => shift(this.mode(), value, -1));
     void this.load();
   }
 
-  nextWeek(): void {
-    this.weekStart.update((value) => addDays(value, 7));
+  next(): void {
+    this.anchor.update((value) => shift(this.mode(), value, 1));
     void this.load();
   }
 
   goToday(): void {
-    this.weekStart.set(mondayOf(new Date()));
+    this.anchor.set(isoDay(new Date()));
     void this.load();
+  }
+
+  openTask(task: PlanTask): void {
+    void this.router.navigate(['/planner/tasks', task.id]);
   }
 
   openCreate(day?: CalendarDay): void {
     this.newTitle.setValue('');
-    this.newDate.setValue(day?.date ?? this.weekStart());
+    this.newDate.setValue(day?.date ?? this.anchor());
     this.newTime.setValue('');
     this.newType.set('scheduled_session');
     this.createOpen.set(true);
@@ -114,14 +186,12 @@ export class CalendarPage {
       return;
     }
     const time = this.newTime.value.trim();
-    const startDatetime = time ? `${date}T${time}:00` : `${date}T09:00:00`;
-
     this.saving.set(true);
     try {
       const entry = await firstValueFrom(this.api.createCalendarEntry({
         title,
         entry_type: this.newType(),
-        start_datetime: startDatetime,
+        start_datetime: time ? `${date}T${time}:00` : `${date}T09:00:00`,
         all_day: !time,
       }));
       this.entries.update((rows) => [...rows, entry]);
@@ -150,12 +220,32 @@ export class CalendarPage {
     }
   }
 
+  async completeTask(task: PlanTask, event: Event): Promise<void> {
+    event.stopPropagation();
+    if (this.saving()) {
+      return;
+    }
+    this.saving.set(true);
+    try {
+      await firstValueFrom(this.api.completeTask(task.id));
+      this.dueTasks.update((rows) => rows.filter((row) => row.id !== task.id));
+    } catch {
+      await this.presentToast('Could not complete the task.');
+    } finally {
+      this.saving.set(false);
+    }
+  }
+
   private async load(): Promise<void> {
     this.loading.set(true);
     try {
-      const start = `${this.weekStart()}T00:00:00`;
-      const end = `${addDays(this.weekStart(), 7)}T00:00:00`;
-      this.entries.set(await firstValueFrom(this.api.listCalendar({ start, end })));
+      const { start, end } = this.range();
+      const [entries, due] = await Promise.all([
+        firstValueFrom(this.api.listCalendar({ start: `${start}T00:00:00`, end: `${end}T00:00:00` })),
+        this.mode() === 'today' ? firstValueFrom(this.api.reviewDue(50)) : Promise.resolve(this.dueTasks()),
+      ]);
+      this.entries.set(entries);
+      this.dueTasks.set(due);
     } catch {
       await this.presentToast('Could not load the calendar.');
     } finally {
@@ -176,18 +266,72 @@ function isoDay(date: Date): string {
   return `${year}-${month}-${day}`;
 }
 
-function mondayOf(date: Date): string {
-  const copy = new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  const offset = (copy.getDay() + 6) % 7;
-  copy.setDate(copy.getDate() - offset);
-  return isoDay(copy);
-}
-
 function addDays(iso: string, days: number): string {
   const date = new Date(`${iso}T12:00:00Z`);
   date.setUTCDate(date.getUTCDate() + days);
+  return iso10(date);
+}
+
+function addMonths(iso: string, months: number): string {
+  const date = new Date(`${iso}T12:00:00Z`);
+  date.setUTCMonth(date.getUTCMonth() + months);
+  return iso10(date);
+}
+
+function iso10(date: Date): string {
   const year = date.getUTCFullYear();
   const month = String(date.getUTCMonth() + 1).padStart(2, '0');
   const day = String(date.getUTCDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
+}
+
+function mondayOf(iso: string): string {
+  const date = new Date(`${iso}T12:00:00Z`);
+  const offset = (date.getUTCDay() + 6) % 7;
+  return addDays(iso, -offset);
+}
+
+function firstOfMonth(iso: string): string {
+  return `${iso.slice(0, 7)}-01`;
+}
+
+function rangeFor(mode: CalendarMode, anchor: string): { start: string; end: string } {
+  if (mode === 'today') {
+    return { start: anchor, end: addDays(anchor, 1) };
+  }
+  if (mode === 'week') {
+    const start = mondayOf(anchor);
+    return { start, end: addDays(start, 7) };
+  }
+  const start = firstOfMonth(anchor);
+  return { start, end: addMonths(start, mode === 'month' ? 1 : 3) };
+}
+
+function shift(mode: CalendarMode, anchor: string, direction: number): string {
+  if (mode === 'today') {
+    return addDays(anchor, direction);
+  }
+  if (mode === 'week') {
+    return addDays(anchor, direction * 7);
+  }
+  return addMonths(firstOfMonth(anchor), direction * (mode === 'month' ? 1 : 3));
+}
+
+function labelFor(mode: CalendarMode, anchor: string): string {
+  const dayFmt = new Intl.DateTimeFormat('en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' });
+  const monthFmt = new Intl.DateTimeFormat('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+  const compactFmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'short', timeZone: 'UTC' });
+
+  if (mode === 'today') {
+    return dayFmt.format(new Date(`${anchor}T12:00:00Z`));
+  }
+  if (mode === 'week') {
+    const start = mondayOf(anchor);
+    return `${compactFmt.format(new Date(`${start}T12:00:00Z`))} – ${compactFmt.format(new Date(`${addDays(start, 6)}T12:00:00Z`))}`;
+  }
+  const start = firstOfMonth(anchor);
+  if (mode === 'month') {
+    return monthFmt.format(new Date(`${start}T12:00:00Z`));
+  }
+  return `${compactFmt.format(new Date(`${start}T12:00:00Z`))} – ${compactFmt.format(new Date(`${addMonths(start, 2)}T12:00:00Z`))}`;
 }

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
   GOAL_CADENCES,
@@ -17,7 +18,7 @@ import { PlannerApiService } from '../../planner-api.service';
 @Component({
   selector: 'km-planner-goals',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './goals.component.html',
 })
 export class GoalsComponent {

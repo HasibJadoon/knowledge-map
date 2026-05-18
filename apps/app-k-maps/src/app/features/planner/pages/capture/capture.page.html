@@ -1,5 +1,8 @@
 <ion-header class="study-toolbar-wrap">
   <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/planner" text=""></ion-back-button>
+    </ion-buttons>
     <ion-title>Capture</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -30,10 +33,18 @@
     </ng-container>
 
     <ng-template #captureLoaded>
-      <section class="km-panel" *ngIf="items().length > 0; else emptyCapture">
+      <section class="km-panel km-panel--segment" *ngIf="items().length > 0">
+        <ion-segment class="km-status-segment" [value]="range()" (ionChange)="setRange($event.detail.value)">
+          <ion-segment-button *ngFor="let item of ranges" [value]="item.id">
+            <ion-label>{{ item.label }}</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </section>
+
+      <section class="km-panel" *ngIf="visibleItems().length > 0; else emptyCapture">
         <header class="km-panel-header"><h2>Inbox</h2></header>
         <ion-list class="km-entry-list">
-          <ion-item-sliding *ngFor="let note of items()" #sliding>
+          <ion-item-sliding *ngFor="let note of visibleItems()" #sliding>
             <ion-item class="km-entry-row" lines="none">
               <ion-label>
                 <h3>{{ note.title || 'Capture note' }}</h3>
@@ -58,10 +69,6 @@
     </ng-template>
   </div>
 </ion-content>
-
-<ion-footer class="study-footer">
-  <app-planner-bottom-nav active="capture"></app-planner-bottom-nav>
-</ion-footer>
 
 <ion-modal class="km-source-metadata-modal" [isOpen]="triageOpen()" (ionModalDidDismiss)="closeTriage()">
   <ng-template>

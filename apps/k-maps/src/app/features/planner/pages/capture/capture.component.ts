@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import { Plan, PlanTask } from '../../planner.models';
 import { PlannerApiService } from '../../planner-api.service';
@@ -9,7 +9,7 @@ import { PlannerApiService } from '../../planner-api.service';
 @Component({
   selector: 'km-planner-capture',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './capture.component.html',
 })
 export class CaptureComponent {

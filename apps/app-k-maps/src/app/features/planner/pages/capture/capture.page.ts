@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IonItemSliding, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
@@ -26,6 +26,26 @@ export class CapturePage {
   readonly saving = signal(false);
   readonly items = signal<CaptureNote[]>([]);
   readonly plans = signal<Plan[]>([]);
+  readonly range = signal<CaptureRange>('all');
+
+  readonly ranges: ReadonlyArray<{ id: CaptureRange; label: string }> = [
+    { id: 'all', label: 'All' },
+    { id: 'today', label: 'Today' },
+    { id: 'week', label: 'Week' },
+    { id: 'month', label: 'Month' },
+  ];
+
+  readonly visibleItems = computed<CaptureNote[]>(() => {
+    const range = this.range();
+    if (range === 'all') {
+      return this.items();
+    }
+    const cutoff = Date.now() - RANGE_DAYS[range] * 86_400_000;
+    return this.items().filter((note) => {
+      const stamp = Date.parse(note.created_at ?? note.updated_at);
+      return Number.isFinite(stamp) && stamp >= cutoff;
+    });
+  });
 
   readonly captureControl = new FormControl('', { nonNullable: true });
 
@@ -35,6 +55,12 @@ export class CapturePage {
 
   constructor() {
     void this.load();
+  }
+
+  setRange(value: string | number | null | undefined): void {
+    if (value === 'all' || value === 'today' || value === 'week' || value === 'month') {
+      this.range.set(value);
+    }
   }
 
   async capture(): Promise<void> {
@@ -157,3 +183,11 @@ function summarize(text: string): string {
   }
   return normalized.length <= 60 ? normalized : `${normalized.slice(0, 57).replace(/\s+$/, '')}...`;
 }
+
+type CaptureRange = 'all' | 'today' | 'week' | 'month';
+
+const RANGE_DAYS: Record<Exclude<CaptureRange, 'all'>, number> = {
+  today: 1,
+  week: 7,
+  month: 30,
+};

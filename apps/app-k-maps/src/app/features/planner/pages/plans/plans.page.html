@@ -1,5 +1,8 @@
 <ion-header class="study-toolbar-wrap">
   <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/planner" text=""></ion-back-button>
+    </ion-buttons>
     <ion-title>Plans</ion-title>
     <ion-buttons slot="end">
       <ion-button fill="clear" (click)="toggleArchived()" [attr.aria-label]="showArchived() ? 'Hide archived' : 'Show archived'">
@@ -63,10 +66,6 @@
     </ng-template>
   </div>
 </ion-content>
-
-<ion-footer class="study-footer">
-  <app-planner-bottom-nav active="plans"></app-planner-bottom-nav>
-</ion-footer>
 
 <ion-modal class="km-source-metadata-modal" [isOpen]="createOpen()" (ionModalDidDismiss)="closeCreate()">
   <ng-template>

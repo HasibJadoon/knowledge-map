@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
   PLANNER_DOMAINS,
@@ -27,7 +27,7 @@ const DOMAIN_PLAN_TYPE: Record<PlannerDomain, PlanType> = {
 @Component({
   selector: 'km-planner-plans',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './plans.component.html',
 })
 export class PlansComponent {
