@@ -23,21 +23,21 @@
       </div>
     </section>
 
-    <ion-card
+    <button
+      type="button"
       class="km-hub-card"
-      button
       *ngFor="let card of cards()"
-      [routerLink]="card.route"
       [style.--km-accent]="card.accent"
+      (click)="open(card.route)"
     >
-      <div class="km-hub-icon">
+      <span class="km-hub-icon">
         <ion-icon [icon]="card.icon"></ion-icon>
-      </div>
-      <div class="km-hub-body">
-        <h2>{{ card.title }}</h2>
-        <p>{{ card.caption }}</p>
-      </div>
+      </span>
+      <span class="km-hub-body">
+        <span class="km-hub-title">{{ card.title }}</span>
+        <span class="km-hub-caption">{{ card.caption }}</span>
+      </span>
       <ion-icon class="km-hub-chevron" name="chevron-forward-outline"></ion-icon>
-    </ion-card>
+    </button>
   </div>
 </ion-content>

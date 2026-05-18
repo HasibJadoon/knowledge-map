@@ -95,6 +95,10 @@ export class HomePage {
     void this.router.navigate(['/home'], { replaceUrl: true });
   }
 
+  open(route: string): void {
+    void this.router.navigate([route]);
+  }
+
   async refresh(event: CustomEvent): Promise<void> {
     await this.load();
     (event.target as HTMLIonRefresherElement | null)?.complete();
