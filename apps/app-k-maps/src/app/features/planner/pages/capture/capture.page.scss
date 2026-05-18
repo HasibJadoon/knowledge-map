@@ -1,10 +1,108 @@
-:host {
+app-planner-capture {
   display: flex;
   flex-direction: column;
   min-height: 0;
-}
 
-.km-panel--composer {
-  display: grid;
-  gap: 0.55rem;
+  .km-panel--composer {
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  // ── Composer toolbar ───────────────────────────────────────────────────────
+  .km-capture-toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .km-capture-tool {
+    min-width: 2rem;
+    height: 2rem;
+    padding: 0 0.45rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.85rem;
+    color: #d6e2f0;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+
+  .km-capture-tool:active {
+    background: rgba(255, 255, 255, 0.14);
+  }
+
+  // ── TipTap document surface ────────────────────────────────────────────────
+  .km-capture-doc {
+    min-height: 9rem;
+    max-height: 22rem;
+    overflow-y: auto;
+    background: rgba(0, 0, 0, 0.22);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 0.65rem;
+  }
+
+  .km-capture-doc .ProseMirror {
+    outline: none;
+    min-height: 9rem;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: #eaf1fa;
+    -webkit-user-select: text;
+    user-select: text;
+  }
+
+  .km-capture-doc .ProseMirror > * + * {
+    margin-top: 0.5rem;
+  }
+
+  .km-capture-doc .ProseMirror h1 { font-size: 1.3rem; font-weight: 650; }
+  .km-capture-doc .ProseMirror h2 { font-size: 1.12rem; font-weight: 650; }
+  .km-capture-doc .ProseMirror h3 { font-size: 1rem; font-weight: 650; }
+
+  .km-capture-doc .ProseMirror ul,
+  .km-capture-doc .ProseMirror ol {
+    padding-left: 1.25rem;
+  }
+
+  .km-capture-doc .ProseMirror ul[data-type='taskList'] {
+    list-style: none;
+    padding-left: 0.2rem;
+  }
+
+  .km-capture-doc .ProseMirror ul[data-type='taskList'] li {
+    display: flex;
+    gap: 0.45rem;
+    align-items: flex-start;
+  }
+
+  .km-capture-doc .ProseMirror blockquote {
+    padding-left: 0.75rem;
+    border-left: 3px solid rgba(201, 168, 76, 0.6);
+    color: #c4cedb;
+  }
+
+  .km-capture-doc .ProseMirror code {
+    padding: 0.05rem 0.3rem;
+    font-size: 0.85em;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.3rem;
+  }
+
+  .km-capture-doc .ProseMirror hr {
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.16);
+    margin: 0.75rem 0;
+  }
+
+  .km-capture-doc .ProseMirror p.is-editor-empty:first-child::before {
+    content: attr(data-placeholder);
+    float: left;
+    height: 0;
+    color: rgba(214, 226, 240, 0.4);
+    pointer-events: none;
+  }
 }

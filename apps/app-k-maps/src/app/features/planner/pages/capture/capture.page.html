@@ -11,16 +11,19 @@
   <div class="study-shell ion-padding km-planner-wrap">
     <section class="km-panel km-panel--composer">
       <header class="km-panel-header"><h2>Quick Capture</h2></header>
-      <ion-item lines="none" class="km-form-field km-textarea-field">
-        <ion-textarea
-          [formControl]="captureControl"
-          label="Note"
-          labelPlacement="stacked"
-          [autoGrow]="true"
-          [rows]="2"
-          placeholder="Catch a thought — triage it into a plan later"
-        ></ion-textarea>
-      </ion-item>
+
+      <div class="km-capture-toolbar" role="toolbar" aria-label="Formatting">
+        <button type="button" class="km-capture-tool" (click)="format('bold')" aria-label="Bold"><strong>B</strong></button>
+        <button type="button" class="km-capture-tool" (click)="format('italic')" aria-label="Italic"><em>I</em></button>
+        <button type="button" class="km-capture-tool" (click)="format('heading')" aria-label="Heading">H</button>
+        <button type="button" class="km-capture-tool" (click)="format('bullet')" aria-label="Bullet list">&bull;</button>
+        <button type="button" class="km-capture-tool" (click)="format('ordered')" aria-label="Numbered list">1.</button>
+        <button type="button" class="km-capture-tool" (click)="format('checklist')" aria-label="Checklist">&#10003;</button>
+        <button type="button" class="km-capture-tool" (click)="format('divider')" aria-label="Divider">&mdash;</button>
+      </div>
+
+      <div #composerHost class="km-capture-doc"></div>
+
       <ion-button class="km-btn km-primary-btn" expand="block" (click)="capture()" [disabled]="saving()">
         {{ saving() ? 'Saving...' : 'Capture' }}
       </ion-button>

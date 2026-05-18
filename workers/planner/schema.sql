@@ -405,3 +405,20 @@ CREATE INDEX idx_pl_td_to   ON pl_task_dependencies(to_task_id);
 CREATE INDEX idx_pl_tr_resource ON pl_task_resources(resource_ref);
 
 CREATE INDEX idx_pl_tr_task     ON pl_task_resources(task_id);
+
+CREATE TABLE pl_capture_notes (
+  id            TEXT PRIMARY KEY,
+  core_user_ref TEXT NOT NULL,
+  core_ws_ref   TEXT,
+  status        TEXT NOT NULL DEFAULT 'inbox',
+  title         TEXT,
+  doc_json      TEXT NOT NULL,
+  text          TEXT NOT NULL DEFAULT '',
+  meta_json     TEXT,
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at    TEXT NOT NULL DEFAULT (datetime('now'))
+);
+
+CREATE INDEX idx_pl_capture_user  ON pl_capture_notes(core_user_ref);
+
+CREATE INDEX idx_pl_capture_inbox ON pl_capture_notes(core_user_ref, status, created_at);

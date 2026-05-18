@@ -121,6 +121,48 @@ export type ReviewCycleType =
 export type ReviewCycleStatus = 'pending' | 'active' | 'complete' | 'cancelled';
 export type ReviewCycleCadence = 'daily' | 'weekly' | 'monthly' | 'custom';
 
+// ── Capture notes ─────────────────────────────────────────────────────────────
+// Quick captures stored as TipTap (ProseMirror) documents. Mirrors
+// workers/planner/src/routes/captures.ts.
+
+export type CaptureNoteStatus = 'inbox' | 'archived';
+
+/** A TipTap / ProseMirror document node. */
+export interface TiptapJson {
+  type: string;
+  content?: TiptapJson[];
+  [key: string]: unknown;
+}
+
+export interface CaptureNote {
+  id: string;
+  core_user_ref: string;
+  core_ws_ref: string | null;
+  status: CaptureNoteStatus;
+  title: string | null;
+  text: string;
+  doc: TiptapJson;
+  meta: Record<string, unknown> | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CaptureNoteCreatePayload {
+  doc: TiptapJson;
+  text: string;
+  title?: string | null;
+  status?: CaptureNoteStatus;
+  meta?: Record<string, unknown> | null;
+}
+
+export interface CaptureNotePatchPayload {
+  doc?: TiptapJson;
+  text?: string;
+  title?: string | null;
+  status?: CaptureNoteStatus;
+  meta?: Record<string, unknown> | null;
+}
+
 export interface ReviewCycle {
   id: string;
   plan_id: string;
