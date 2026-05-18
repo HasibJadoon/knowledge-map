@@ -1,0 +1,12 @@
+<nav class="km-bnav">
+  <button
+    type="button"
+    class="km-bnav-btn"
+    *ngFor="let item of items"
+    [class.km-bnav-btn--active]="active === item.key"
+    (click)="go(item)"
+  >
+    <ion-icon [icon]="item.icon" aria-hidden="true"></ion-icon>
+    <span>{{ item.label }}</span>
+  </button>
+</nav>

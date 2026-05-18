@@ -1,0 +1,82 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.km-plan-card {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-align: start;
+  overflow: hidden;
+  margin-bottom: 0.6rem;
+}
+
+.km-plan-card::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: var(--km-domain, #94a3b8);
+}
+
+.km-plan-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.km-domain-chip {
+  font-size: 0.64rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.16rem 0.46rem;
+  border-radius: 999px;
+  color: var(--km-domain, #cdd9ec);
+  background: color-mix(in srgb, var(--km-domain, #94a3b8) 18%, transparent);
+  border: 1px solid color-mix(in srgb, var(--km-domain, #94a3b8) 40%, transparent);
+}
+
+.km-plan-card-status {
+  font-size: 0.68rem;
+  color: var(--km-text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.km-plan-card-title {
+  margin: 0.45rem 0 0;
+  color: #ecf5ff;
+  font-size: 1.02rem;
+  font-weight: 650;
+  line-height: 1.3;
+}
+
+.km-plan-card-desc {
+  margin: 0.3rem 0 0;
+  color: var(--km-text-dim);
+  font-size: 0.83rem;
+  line-height: 1.4;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.km-plan-card-meta {
+  margin: 0.4rem 0 0;
+  color: color-mix(in srgb, var(--km-text-dim) 86%, #d6e8ff 14%);
+  font-size: 0.72rem;
+  text-transform: capitalize;
+}
+
+.km-field-label {
+  margin: 0.2rem 0 0.1rem;
+  color: var(--km-text-dim);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}

@@ -1,0 +1,92 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-title>Capture</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+  <div class="study-shell ion-padding km-planner-wrap">
+    <section class="km-panel km-panel--composer">
+      <header class="km-panel-header"><h2>Quick Capture</h2></header>
+      <ion-item lines="none" class="km-form-field km-textarea-field">
+        <ion-textarea
+          [formControl]="captureControl"
+          label="Note"
+          labelPlacement="stacked"
+          [autoGrow]="true"
+          [rows]="2"
+          placeholder="Catch a thought — triage it into a plan later"
+        ></ion-textarea>
+      </ion-item>
+      <ion-button class="km-btn km-primary-btn" expand="block" (click)="capture()" [disabled]="saving()">
+        {{ saving() ? 'Saving...' : 'Capture' }}
+      </ion-button>
+    </section>
+
+    <ng-container *ngIf="loading(); else captureLoaded">
+      <section class="km-panel">
+        <ion-skeleton-text animated style="width: 100%; height: 7rem"></ion-skeleton-text>
+      </section>
+    </ng-container>
+
+    <ng-template #captureLoaded>
+      <section class="km-panel" *ngIf="items().length > 0; else emptyCapture">
+        <header class="km-panel-header"><h2>Inbox</h2></header>
+        <ion-list class="km-entry-list">
+          <ion-item-sliding *ngFor="let note of items()" #sliding>
+            <ion-item class="km-entry-row" lines="none">
+              <ion-label>
+                <h3>{{ note.title || 'Capture note' }}</h3>
+                <p class="km-entry-meta">{{ note.text }}</p>
+                <p class="km-entry-time">{{ note.updated_at | date:'EEE h:mm a' }}</p>
+              </ion-label>
+            </ion-item>
+            <ion-item-options side="end">
+              <ion-item-option color="primary" (click)="openTriage(note, sliding)">Triage</ion-item-option>
+              <ion-item-option color="medium" (click)="archive(note, sliding)">Archive</ion-item-option>
+            </ion-item-options>
+          </ion-item-sliding>
+        </ion-list>
+      </section>
+
+      <ng-template #emptyCapture>
+        <section class="km-panel km-empty-state">
+          <h3>Inbox is clear</h3>
+          <p>Captured notes appear here, ready to triage into plans.</p>
+        </section>
+      </ng-template>
+    </ng-template>
+  </div>
+</ion-content>
+
+<ion-footer class="study-footer">
+  <app-planner-bottom-nav active="capture"></app-planner-bottom-nav>
+</ion-footer>
+
+<ion-modal class="km-source-metadata-modal" [isOpen]="triageOpen()" (ionModalDidDismiss)="closeTriage()">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar class="study-toolbar">
+        <ion-title>Triage Capture</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" (click)="closeTriage()">Close</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="study-content">
+      <div class="study-shell ion-padding km-planner-wrap">
+        <section class="km-panel km-panel--composer">
+          <p class="km-panel-subtitle">{{ triageNote()?.text }}</p>
+          <ion-item lines="none" class="km-form-field">
+            <ion-select label="Add to plan" labelPlacement="stacked" [value]="triagePlanId()" (ionChange)="setTriagePlan($event.detail.value)">
+              <ion-select-option *ngFor="let plan of plans()" [value]="plan.id">{{ plan.title }}</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-button class="km-btn km-primary-btn" expand="block" (click)="submitTriage()" [disabled]="saving()">
+            {{ saving() ? 'Moving...' : 'Create Task' }}
+          </ion-button>
+        </section>
+      </div>
+    </ion-content>
+  </ng-template>
+</ion-modal>

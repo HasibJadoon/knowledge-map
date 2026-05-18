@@ -1,0 +1,43 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.km-domain-tag {
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 0.26rem 0.56rem;
+  border-radius: 999px;
+  color: var(--km-domain, #cdd9ec);
+  background: color-mix(in srgb, var(--km-domain, #94a3b8) 16%, transparent);
+  border: 1px solid color-mix(in srgb, var(--km-domain, #94a3b8) 38%, transparent);
+}
+
+.km-check-btn {
+  --color: var(--km-text-dim);
+  --padding-start: 0;
+  --padding-end: 0;
+  margin-inline-end: 0.2rem;
+}
+
+.km-task-row--overdue {
+  border-color: rgba(255, 107, 107, 0.42);
+}
+
+.km-task-row--overdue .km-task-meta {
+  color: #ff9b9b;
+}
+
+.km-plan-row {
+  position: relative;
+  overflow: hidden;
+}
+
+.km-plan-row::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 3px;
+  background: var(--km-domain, #94a3b8);
+}
