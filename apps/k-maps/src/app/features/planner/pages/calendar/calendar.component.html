@@ -1,0 +1,86 @@
+<div class="kp-page">
+  <header class="kp-page-head">
+    <div>
+      <p class="kp-page-eyebrow">Schedule</p>
+      <h1 class="kp-page-title">Calendar</h1>
+      <p class="kp-page-sub">Time-block sessions, deadlines and milestones.</p>
+    </div>
+    <div class="kp-page-actions">
+      <button type="button" class="kp-btn kp-btn--primary" (click)="openCreate()">＋ New entry</button>
+    </div>
+  </header>
+
+  <div class="kp-segment" style="margin-bottom: 1.2rem; gap: 0.4rem">
+    <button type="button" class="kp-segment-btn" (click)="prevWeek()">‹</button>
+    <button type="button" class="kp-segment-btn kp-segment-btn--active" (click)="goToday()">{{ weekLabel() }}</button>
+    <button type="button" class="kp-segment-btn" (click)="nextWeek()">›</button>
+  </div>
+
+  @if (loading()) {
+    <div class="kp-card"><div class="kp-skeleton" style="height: 12rem"></div></div>
+  } @else if (error() && !entries().length) {
+    <div class="kp-card kp-empty">
+      <h3>Something went wrong</h3>
+      <p class="kp-muted">{{ error() }}</p>
+      <button type="button" class="kp-btn kp-btn--primary" style="margin-top: 0.8rem" (click)="retry()">Retry</button>
+    </div>
+  } @else {
+    @for (day of days(); track day.date) {
+      <div class="kp-card kp-cal-day" [class.kp-cal-day--today]="day.isToday">
+        <div class="kp-cal-day-head">
+          <span class="kp-cal-day-name">{{ day.date | date:'EEEE d MMM':'UTC' }}</span>
+          <button type="button" class="kp-btn kp-btn--ghost kp-btn--sm" (click)="openCreate(day)">＋</button>
+        </div>
+        @if (day.entries.length) {
+          @for (entry of day.entries; track entry.id) {
+            <div class="kp-cal-entry" [class.kp-cal-entry--done]="entry.is_completed" (click)="complete(entry)">
+              <span class="kp-cal-entry-time">{{ entryTime(entry) }}</span>
+              <span class="kp-cal-entry-title">{{ entry.title }}</span>
+              <span class="kp-chip">{{ entryLabels[entry.entry_type] }}</span>
+            </div>
+          }
+        } @else {
+          <p class="kp-muted" style="font-size: 0.8rem; margin: 0.4rem 0 0">No entries</p>
+        }
+      </div>
+    }
+  }
+</div>
+
+@if (createOpen()) {
+  <div class="kp-modal-backdrop" (click)="closeCreate()">
+    <div class="kp-modal" (click)="$event.stopPropagation()">
+      <h2 class="kp-modal-title">New calendar entry</h2>
+
+      <div class="kp-field">
+        <label class="kp-label" for="kp-c-title">Title</label>
+        <input id="kp-c-title" class="kp-input" [(ngModel)]="newTitle" placeholder="What's scheduled?" />
+      </div>
+
+      <div class="kp-field">
+        <label class="kp-label" for="kp-c-type">Type</label>
+        <select id="kp-c-type" class="kp-select" [(ngModel)]="newType">
+          @for (type of entryTypes; track type) { <option [value]="type">{{ entryLabels[type] }}</option> }
+        </select>
+      </div>
+
+      <div class="kp-field-row">
+        <div class="kp-field">
+          <label class="kp-label" for="kp-c-date">Date</label>
+          <input id="kp-c-date" type="date" class="kp-input" [(ngModel)]="newDate" />
+        </div>
+        <div class="kp-field">
+          <label class="kp-label" for="kp-c-time">Time (optional)</label>
+          <input id="kp-c-time" type="time" class="kp-input" [(ngModel)]="newTime" />
+        </div>
+      </div>
+
+      <div class="kp-modal-actions">
+        <button type="button" class="kp-btn kp-btn--ghost" (click)="closeCreate()">Cancel</button>
+        <button type="button" class="kp-btn kp-btn--primary" [disabled]="saving() || !newTitle.trim()" (click)="submitCreate()">
+          {{ saving() ? 'Adding…' : 'Add entry' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

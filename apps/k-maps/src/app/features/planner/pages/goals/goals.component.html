@@ -1,0 +1,98 @@
+<div class="kp-page">
+  <header class="kp-page-head">
+    <div>
+      <p class="kp-page-eyebrow">Direction</p>
+      <h1 class="kp-page-title">Goals</h1>
+      <p class="kp-page-sub">Track sessions, minutes, pages and ayahs against a target.</p>
+    </div>
+    <div class="kp-page-actions">
+      <button type="button" class="kp-btn kp-btn--primary" (click)="openCreate()">＋ New goal</button>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="kp-card"><div class="kp-skeleton" style="height: 8rem"></div></div>
+  } @else if (error() && !goals().length) {
+    <div class="kp-card kp-empty">
+      <h3>Something went wrong</h3>
+      <p class="kp-muted">{{ error() }}</p>
+      <button type="button" class="kp-btn kp-btn--primary" style="margin-top: 0.8rem" (click)="retry()">Retry</button>
+    </div>
+  } @else if (goals().length) {
+    <div class="kp-plan-grid">
+      @for (goal of goals(); track goal.id) {
+        <div class="kp-card">
+          <div class="kp-plan-card-head">
+            <span class="kp-chip">{{ goal.goal_type }} · {{ goal.cadence }}</span>
+            <button type="button" class="kp-btn kp-btn--ghost kp-btn--sm" (click)="toggleComplete(goal)" [disabled]="saving()">
+              {{ goal.status === 'completed' ? 'Completed' : 'Mark done' }}
+            </button>
+          </div>
+          <p class="kp-plan-card-title">{{ goal.title }}</p>
+          <div style="display:flex;justify-content:space-between;margin:0.7rem 0 0.4rem">
+            <span class="kp-muted">{{ goal.current_value }} / {{ goal.target_value }} {{ goal.metric }}</span>
+            <strong>{{ percent(goal) }}%</strong>
+          </div>
+          <div class="kp-progress"><div class="kp-progress-fill" [style.width.%]="percent(goal)"></div></div>
+          <button type="button" class="kp-btn kp-btn--sm" style="margin-top:0.7rem" (click)="logProgress(goal)" [disabled]="saving()">
+            ＋ Log progress
+          </button>
+        </div>
+      }
+    </div>
+  } @else {
+    <div class="kp-card kp-empty">
+      <h3>No goals yet</h3>
+      <p class="kp-muted">Set a goal to give your plans a measurable target.</p>
+      <button type="button" class="kp-btn kp-btn--primary" style="margin-top: 0.8rem" (click)="openCreate()">New goal</button>
+    </div>
+  }
+</div>
+
+@if (createOpen()) {
+  <div class="kp-modal-backdrop" (click)="closeCreate()">
+    <div class="kp-modal" (click)="$event.stopPropagation()">
+      <h2 class="kp-modal-title">New goal</h2>
+
+      <div class="kp-field">
+        <label class="kp-label" for="kp-g-title">Goal</label>
+        <input id="kp-g-title" class="kp-input" [(ngModel)]="newTitle" placeholder="e.g. Memorise 5 pages a week" />
+      </div>
+
+      <div class="kp-field-row">
+        <div class="kp-field">
+          <label class="kp-label" for="kp-g-type">Type</label>
+          <select id="kp-g-type" class="kp-select" [(ngModel)]="newType">
+            @for (type of goalTypes; track type) { <option [value]="type">{{ type }}</option> }
+          </select>
+        </div>
+        <div class="kp-field">
+          <label class="kp-label" for="kp-g-metric">Metric</label>
+          <select id="kp-g-metric" class="kp-select" [(ngModel)]="newMetric">
+            @for (metric of goalMetrics; track metric) { <option [value]="metric">{{ metric }}</option> }
+          </select>
+        </div>
+      </div>
+
+      <div class="kp-field-row">
+        <div class="kp-field">
+          <label class="kp-label" for="kp-g-cadence">Cadence</label>
+          <select id="kp-g-cadence" class="kp-select" [(ngModel)]="newCadence">
+            @for (cadence of goalCadences; track cadence) { <option [value]="cadence">{{ cadence }}</option> }
+          </select>
+        </div>
+        <div class="kp-field">
+          <label class="kp-label" for="kp-g-target">Target value</label>
+          <input id="kp-g-target" type="number" class="kp-input" [(ngModel)]="newTarget" />
+        </div>
+      </div>
+
+      <div class="kp-modal-actions">
+        <button type="button" class="kp-btn kp-btn--ghost" (click)="closeCreate()">Cancel</button>
+        <button type="button" class="kp-btn kp-btn--primary" [disabled]="saving() || !newTitle.trim()" (click)="submitCreate()">
+          {{ saving() ? 'Creating…' : 'Create goal' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}

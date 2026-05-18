@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.km-review-card {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 0.6rem;
+}
+
+.km-review-title {
+  margin: 0;
+  color: #eaf3ff;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.km-review-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.km-review-actions ion-button {
+  flex: 1;
+}

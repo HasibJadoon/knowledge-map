@@ -12,6 +12,13 @@ import {
   TaskCreatePayload,
   TaskStatus,
 } from '../../models/planner/plan.models';
+import {
+  CalendarEntry,
+  CalendarEntryCreatePayload,
+  Goal,
+  GoalCreatePayload,
+  GoalPatchPayload,
+} from '../../models/planner/planner-extras.models';
 import { resolveApiRoot } from './api-root.util';
 
 export interface PlanPatchPayload {
@@ -143,5 +150,65 @@ export class PlannerApiService {
     return this.http
       .get<ApiEnvelope<PlanTask[]>>(`${this.root}/review/due`, { params })
       .pipe(map((response) => response.data ?? []));
+  }
+
+  reviewFeedback(taskId: string, quality: number): Observable<unknown> {
+    return this.http
+      .post<ApiEnvelope<unknown>>(`${this.root}/review/feedback`, { task_id: taskId, quality })
+      .pipe(map((response) => response.data));
+  }
+
+  // ── Goals ───────────────────────────────────────────────────────────────────
+
+  listGoals(): Observable<Goal[]> {
+    const params = new HttpParams().set('per_page', '100');
+    return this.http
+      .get<PaginatedEnvelope<Goal>>(`${this.root}/goals`, { params })
+      .pipe(map((response) => response.data ?? []));
+  }
+
+  createGoal(payload: GoalCreatePayload): Observable<Goal> {
+    return this.http
+      .post<ApiEnvelope<Goal>>(`${this.root}/goals`, payload)
+      .pipe(map((response) => response.data));
+  }
+
+  patchGoal(goalId: string, patch: GoalPatchPayload): Observable<Goal> {
+    return this.http
+      .patch<ApiEnvelope<Goal>>(`${this.root}/goals/${encodeURIComponent(goalId)}`, patch)
+      .pipe(map((response) => response.data));
+  }
+
+  updateGoalValue(goalId: string, value: number): Observable<Goal> {
+    return this.http
+      .patch<ApiEnvelope<Goal>>(`${this.root}/goals/${encodeURIComponent(goalId)}/value`, { value })
+      .pipe(map((response) => response.data));
+  }
+
+  // ── Calendar ────────────────────────────────────────────────────────────────
+
+  listCalendar(range: { start?: string; end?: string } = {}): Observable<CalendarEntry[]> {
+    let params = new HttpParams();
+    if (range.start) {
+      params = params.set('start', range.start);
+    }
+    if (range.end) {
+      params = params.set('end', range.end);
+    }
+    return this.http
+      .get<ApiEnvelope<CalendarEntry[]>>(`${this.root}/calendar`, { params })
+      .pipe(map((response) => response.data ?? []));
+  }
+
+  createCalendarEntry(payload: CalendarEntryCreatePayload): Observable<CalendarEntry> {
+    return this.http
+      .post<ApiEnvelope<CalendarEntry>>(`${this.root}/calendar`, payload)
+      .pipe(map((response) => response.data));
+  }
+
+  completeCalendarEntry(entryId: string): Observable<CalendarEntry> {
+    return this.http
+      .patch<ApiEnvelope<CalendarEntry>>(`${this.root}/calendar/${encodeURIComponent(entryId)}/complete`, {})
+      .pipe(map((response) => response.data));
   }
 }

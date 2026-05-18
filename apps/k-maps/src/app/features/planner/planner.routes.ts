@@ -28,6 +28,21 @@ export const PLANNER_ROUTES: Routes = [
         title: 'Task — Planner',
       },
       {
+        path: 'calendar',
+        loadComponent: () => import('./pages/calendar/calendar.component').then((m) => m.CalendarComponent),
+        title: 'Calendar — Planner',
+      },
+      {
+        path: 'goals',
+        loadComponent: () => import('./pages/goals/goals.component').then((m) => m.GoalsComponent),
+        title: 'Goals — Planner',
+      },
+      {
+        path: 'review',
+        loadComponent: () => import('./pages/review/review.component').then((m) => m.ReviewComponent),
+        title: 'Review — Planner',
+      },
+      {
         path: 'capture',
         loadComponent: () => import('./pages/capture/capture.component').then((m) => m.CaptureComponent),
         title: 'Capture — Planner',

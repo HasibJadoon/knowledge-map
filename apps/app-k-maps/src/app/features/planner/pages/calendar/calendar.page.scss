@@ -1,0 +1,73 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.km-cal-week-title {
+  font-size: 0.9rem;
+  font-weight: 650;
+}
+
+.km-cal-day {
+  padding: 0.55rem 0.65rem;
+  margin-bottom: 0.5rem;
+}
+
+.km-cal-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.km-cal-day-name {
+  color: #edf6ff;
+  font-size: 0.86rem;
+  font-weight: 600;
+}
+
+.km-cal-add {
+  --color: #7bc5ff;
+  margin: 0;
+}
+
+.km-cal-entries {
+  list-style: none;
+  margin: 0.3rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.34rem;
+}
+
+.km-cal-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.42rem 0.52rem;
+  background: rgba(11, 19, 35, 0.78);
+  border: 1px solid rgba(145, 177, 224, 0.2);
+  border-radius: 0.55rem;
+}
+
+.km-cal-entry--done {
+  opacity: 0.55;
+}
+
+.km-cal-entry--done .km-cal-entry-title {
+  text-decoration: line-through;
+}
+
+.km-cal-entry-time {
+  flex-shrink: 0;
+  min-width: 3.4rem;
+  color: #7bc5ff;
+  font-size: 0.74rem;
+  font-weight: 600;
+}
+
+.km-cal-entry-title {
+  flex: 1;
+  min-width: 0;
+  color: #eaf3ff;
+  font-size: 0.84rem;
+}
