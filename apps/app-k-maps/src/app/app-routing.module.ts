@@ -56,7 +56,7 @@ const routes: Routes = [
    // ── Planner ──────────────────────────────────────────────────────────────────
   {
     path: 'planner',
-    loadChildren: () => import('./features/planner/weekly-plan/weekly-plan.module').then(m => m.WeeklyPlanPageModule),
+    loadChildren: () => import('./features/planner/planner.module').then(m => m.PlannerModule),
     canActivate: [AuthGuard]
   },
   {

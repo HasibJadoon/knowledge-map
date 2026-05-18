@@ -1,0 +1,97 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="backHref()" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Task</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+  <div class="study-shell ion-padding km-planner-wrap">
+    <ng-container *ngIf="loading(); else taskLoaded">
+      <section class="km-panel">
+        <ion-skeleton-text animated style="width: 70%; height: 1.4rem"></ion-skeleton-text>
+        <ion-skeleton-text animated style="width: 100%; height: 6rem; margin-top: 0.8rem"></ion-skeleton-text>
+      </section>
+    </ng-container>
+
+    <ng-template #taskLoaded>
+      <ng-container *ngIf="task(); else taskMissing">
+        <section class="km-panel km-panel--composer" [style.--km-domain]="domainColor()">
+          <p class="km-panel-kicker">
+            <span class="km-domain-dot"></span>{{ domainLabel() }}<span *ngIf="plan()"> · {{ plan()?.title }}</span>
+          </p>
+
+          <ion-item lines="none" class="km-form-field">
+            <ion-input [formControl]="title" label="Title" labelPlacement="stacked"></ion-input>
+          </ion-item>
+
+          <ion-item lines="none" class="km-form-field km-textarea-field">
+            <ion-textarea
+              [formControl]="description"
+              label="Notes"
+              labelPlacement="stacked"
+              [autoGrow]="true"
+              [rows]="4"
+              placeholder="Details, links and notes for this task"
+            ></ion-textarea>
+          </ion-item>
+
+          <div class="km-form-grid km-form-grid--pair">
+            <ion-item lines="none" class="km-form-field">
+              <ion-select label="Status" labelPlacement="stacked" [value]="status()" (ionChange)="setStatus($event.detail.value)">
+                <ion-select-option *ngFor="let item of taskStatuses" [value]="item">{{ statusLabels[item] }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="km-form-field">
+              <ion-select label="Type" labelPlacement="stacked" [value]="type()" (ionChange)="setType($event.detail.value)">
+                <ion-select-option *ngFor="let item of taskTypes" [value]="item">{{ item }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+          </div>
+
+          <div class="km-form-grid km-form-grid--pair">
+            <ion-item lines="none" class="km-form-field">
+              <ion-select label="Priority" labelPlacement="stacked" [value]="priority()" (ionChange)="setPriority($event.detail.value)">
+                <ion-select-option *ngFor="let level of priorities" [value]="level">P{{ level }} · {{ priorityLabelFor(level) }}</ion-select-option>
+              </ion-select>
+            </ion-item>
+            <ion-item lines="none" class="km-form-field">
+              <ion-input type="date" [formControl]="due" label="Due date" labelPlacement="stacked"></ion-input>
+            </ion-item>
+          </div>
+
+          <div class="km-form-grid km-form-grid--pair">
+            <ion-item lines="none" class="km-form-field">
+              <ion-input type="number" inputmode="numeric" [formControl]="estimate" label="Estimate (min)" labelPlacement="stacked"></ion-input>
+            </ion-item>
+            <ion-item lines="none" class="km-form-field">
+              <ion-input type="number" inputmode="numeric" [formControl]="actual" label="Actual (min)" labelPlacement="stacked"></ion-input>
+            </ion-item>
+          </div>
+
+          <ion-button class="km-btn km-primary-btn" expand="block" (click)="save()" [disabled]="saving()">
+            {{ saving() ? 'Saving...' : 'Save Task' }}
+          </ion-button>
+          <ion-button
+            class="km-btn"
+            fill="outline"
+            expand="block"
+            (click)="markComplete()"
+            [disabled]="saving() || status() === 'done'"
+          >
+            Mark Complete
+          </ion-button>
+        </section>
+      </ng-container>
+
+      <ng-template #taskMissing>
+        <section class="km-panel km-empty-state">
+          <h3>Task not found</h3>
+          <p>This task may have been removed.</p>
+        </section>
+      </ng-template>
+    </ng-template>
+  </div>
+</ion-content>

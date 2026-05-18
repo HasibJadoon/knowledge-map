@@ -1,0 +1,30 @@
+<div class="kp-shell">
+  <aside class="kp-sidebar">
+    <div class="kp-brand">
+      <div class="kp-brand-mark">K</div>
+      <div class="kp-brand-text">Planner<small>K-MAPS</small></div>
+    </div>
+
+    <nav class="kp-nav">
+      @for (item of nav; track item.route) {
+        <a
+          class="kp-nav-link"
+          [routerLink]="item.route"
+          routerLinkActive="kp-nav-link--active"
+        >
+          <span class="kp-nav-glyph">{{ item.glyph }}</span>{{ item.label }}
+        </a>
+      }
+    </nav>
+
+    <div class="kp-sidebar-foot">
+      <a class="kp-nav-link" routerLink="/">
+        <span class="kp-nav-glyph">←</span>Back to K-MAPS
+      </a>
+    </div>
+  </aside>
+
+  <main class="kp-main">
+    <router-outlet></router-outlet>
+  </main>
+</div>

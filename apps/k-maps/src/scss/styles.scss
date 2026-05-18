@@ -3,6 +3,7 @@
 @use 'reset';
 @use 'typography';
 @use 'utilities';
+@use 'planner';
 
 // ── Sentence-structure canvas-full: step pills in fixed top bar ────────────
 // ::ng-deep doesn't pierce the step component's encapsulation reliably,
