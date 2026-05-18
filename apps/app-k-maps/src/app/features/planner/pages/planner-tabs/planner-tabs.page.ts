@@ -4,6 +4,9 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 import { arrowBackOutline } from 'ionicons/icons';
 
+const PLANNER_TAB_KEYS = ['week', 'capture', 'plan', 'kanban', 'calendar', 'timeline', 'review'] as const;
+type PlannerTabKey = (typeof PLANNER_TAB_KEYS)[number];
+
 @Component({
   selector: 'app-planner-tabs-page',
   standalone: false,
@@ -23,12 +26,7 @@ export class PlannerTabsPage implements OnInit {
     arrowBackOutline,
   };
   readonly activeTab = signal<PlannerTabKey>('week');
-  readonly searchValue = signal('');
   readonly title = computed(() => plannerTabTitle(this.activeTab()));
-  readonly showSearch = computed(() => this.activeTab() === 'lessons' || this.activeTab() === 'podcast');
-  readonly searchPlaceholder = computed(() => (
-    this.activeTab() === 'podcast' ? 'Search episodes' : 'Search lessons'
-  ));
 
   ngOnInit(): void {
     const initialTab = resolvePlannerTab(
@@ -36,13 +34,11 @@ export class PlannerTabsPage implements OnInit {
       this.router.url,
     );
     this.activeTab.set(initialTab);
-    this.searchValue.set(this.route.snapshot.queryParamMap.get('q') ?? '');
 
     this.route.queryParamMap
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((queryParams) => {
         this.activeTab.set(resolvePlannerTab(queryParams.get('tab'), this.router.url));
-        this.searchValue.set(queryParams.get('q') ?? '');
       });
   }
 
@@ -74,28 +70,10 @@ export class PlannerTabsPage implements OnInit {
       replaceUrl: true,
     });
   }
-
-  onSearchInput(value: string | null | undefined): void {
-    void this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: {
-        q: (value ?? '').trim() || null,
-      },
-      queryParamsHandling: 'merge',
-      replaceUrl: true,
-    });
-  }
 }
 
-type PlannerTabKey = 'week' | 'kanban' | 'inbox' | 'lessons' | 'podcast' | 'review';
-
 function isPlannerTabKey(value: string | null | undefined): value is PlannerTabKey {
-  return value === 'week'
-    || value === 'kanban'
-    || value === 'inbox'
-    || value === 'lessons'
-    || value === 'podcast'
-    || value === 'review';
+  return PLANNER_TAB_KEYS.includes(value as PlannerTabKey);
 }
 
 function resolvePlannerTab(value: string | null | undefined, url: string): PlannerTabKey {
@@ -103,24 +81,27 @@ function resolvePlannerTab(value: string | null | undefined, url: string): Plann
     return value;
   }
 
+  if (url.includes('/planner/capture')) return 'capture';
+  if (url.includes('/planner/plan')) return 'plan';
   if (url.includes('/planner/kanban')) return 'kanban';
-  if (url.includes('/planner/inbox')) return 'inbox';
-  if (url.includes('/planner/lessons')) return 'lessons';
-  if (url.includes('/planner/podcast')) return 'podcast';
+  if (url.includes('/planner/calendar')) return 'calendar';
+  if (url.includes('/planner/timeline')) return 'timeline';
   if (url.includes('/planner/review')) return 'review';
   return 'week';
 }
 
 function plannerTabTitle(tab: PlannerTabKey): string {
   switch (tab) {
+    case 'capture':
+      return 'Capture';
+    case 'plan':
+      return 'Plan';
     case 'kanban':
       return 'Kanban';
-    case 'inbox':
-      return 'Inbox';
-    case 'lessons':
-      return 'Lessons';
-    case 'podcast':
-      return 'Podcast';
+    case 'calendar':
+      return 'Calendar';
+    case 'timeline':
+      return 'Timeline';
     case 'review':
       return 'Review';
     default:

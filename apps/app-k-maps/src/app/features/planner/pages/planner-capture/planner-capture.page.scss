@@ -1,0 +1,35 @@
+:host {
+  display: block;
+}
+
+.km-panel--composer {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.km-area-segment {
+  margin: 0 0 0.2rem;
+}
+
+.km-mark-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.34rem;
+}
+
+.km-mark-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border-radius: 0.55rem;
+  background: rgba(26, 44, 74, 0.86);
+  border: 1px solid rgba(141, 173, 220, 0.36);
+  color: var(--km-text, #e6edf8);
+  font-size: 1rem;
+}
+
+.km-mark-btn:active {
+  background: rgba(79, 150, 255, 0.24);
+}

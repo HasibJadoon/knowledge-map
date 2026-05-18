@@ -1,0 +1,121 @@
+<div class="study-shell ion-padding km-planner-wrap">
+  <section class="km-panel km-panel--hero">
+    <div>
+      <p class="km-panel-kicker">Capture Desk</p>
+      <h1>Capture</h1>
+      <p class="km-panel-subtitle">Compose a structured note — title, formatted body, quote and source.</p>
+    </div>
+    <div class="km-hero-chips">
+      <span class="km-chip">{{ items().length }} notes</span>
+    </div>
+  </section>
+
+  <section class="km-panel km-panel--composer">
+    <header class="km-panel-header">
+      <h2>New Capture</h2>
+    </header>
+
+    <ion-segment class="km-status-segment km-area-segment" [value]="area()" (ionChange)="setArea($event.detail.value)">
+      <ion-segment-button *ngFor="let item of areas" [value]="item">
+        <ion-label>{{ areaLabel(item) }}</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+    <ion-item lines="none" class="km-form-field">
+      <ion-input
+        [formControl]="titleControl"
+        label="Title"
+        labelPlacement="stacked"
+        placeholder="Optional title"
+      ></ion-input>
+    </ion-item>
+
+    <div class="km-mark-toolbar">
+      <button
+        type="button"
+        class="km-mark-btn"
+        *ngFor="let tool of markTools"
+        [attr.aria-label]="tool.label"
+        [title]="tool.label"
+        (click)="applyMark(tool.id)"
+      >
+        <ion-icon [name]="tool.icon"></ion-icon>
+      </button>
+    </div>
+
+    <ion-item lines="none" class="km-form-field km-textarea-field">
+      <ion-textarea
+        #bodyArea
+        [formControl]="bodyControl"
+        label="Body"
+        labelPlacement="stacked"
+        [autoGrow]="true"
+        [rows]="5"
+        placeholder="Write the note — supports **bold**, _italic_, ## headings, - lists, > quotes"
+      ></ion-textarea>
+    </ion-item>
+
+    <ion-item lines="none" class="km-form-field km-textarea-field">
+      <ion-textarea
+        [formControl]="quoteControl"
+        label="Quote"
+        labelPlacement="stacked"
+        [autoGrow]="true"
+        [rows]="2"
+        placeholder="Optional source quote"
+      ></ion-textarea>
+    </ion-item>
+
+    <ion-item lines="none" class="km-form-field">
+      <ion-input
+        [formControl]="sourceControl"
+        label="Source"
+        labelPlacement="stacked"
+        placeholder="Optional reference / link"
+      ></ion-input>
+    </ion-item>
+
+    <ion-button class="km-btn km-primary-btn" expand="block" (click)="save()" [disabled]="saving()">
+      {{ saving() ? 'Saving...' : 'Save Capture' }}
+    </ion-button>
+  </section>
+
+  <ng-container *ngIf="loading(); else captureLoaded">
+    <section class="km-panel">
+      <ion-list class="km-entry-list">
+        <ion-item class="km-entry-row" lines="none" *ngFor="let row of [1, 2, 3]">
+          <ion-label>
+            <h3><ion-skeleton-text animated style="width: 60%"></ion-skeleton-text></h3>
+            <p><ion-skeleton-text animated style="width: 90%"></ion-skeleton-text></p>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </section>
+  </ng-container>
+
+  <ng-template #captureLoaded>
+    <section class="km-panel" *ngIf="items().length > 0; else emptyCapture">
+      <ion-list class="km-entry-list">
+        <ion-item-sliding *ngFor="let note of items()" #sliding>
+          <ion-item class="km-entry-row" lines="none">
+            <ion-label>
+              <h3>{{ note.title || 'Capture note' }}</h3>
+              <p class="km-entry-meta">{{ note.text }}</p>
+              <p class="km-entry-time">{{ noteArea(note) }} · {{ note.updated_at | date:'EEE h:mm a' }}</p>
+            </ion-label>
+          </ion-item>
+          <ion-item-options side="end">
+            <ion-item-option color="medium" (click)="archive(note, sliding)">Archive</ion-item-option>
+          </ion-item-options>
+        </ion-item-sliding>
+      </ion-list>
+    </section>
+
+    <ng-template #emptyCapture>
+      <section class="km-panel km-empty-state">
+        <h3>No captures yet</h3>
+        <p>Saved captures appear here, ready to shape into a plan.</p>
+      </section>
+    </ng-template>
+  </ng-template>
+</div>

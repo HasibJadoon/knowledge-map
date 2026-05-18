@@ -1,0 +1,135 @@
+<div class="study-shell ion-padding km-planner-wrap">
+  <section class="km-panel km-panel--hero">
+    <div>
+      <p class="km-panel-kicker">Shape The Work</p>
+      <h1>Plan</h1>
+      <p class="km-panel-subtitle">Turn a capture into a structured plan, then push it to the Kanban board.</p>
+    </div>
+    <div class="km-hero-chips">
+      <span class="km-chip">{{ weekLabel() }}</span>
+    </div>
+  </section>
+
+  <!-- Capture picker -->
+  <ng-container *ngIf="!selectedNote()">
+    <ng-container *ngIf="loading(); else captureList">
+      <section class="km-panel">
+        <ion-list class="km-entry-list">
+          <ion-item class="km-entry-row" lines="none" *ngFor="let row of [1, 2, 3]">
+            <ion-label>
+              <h3><ion-skeleton-text animated style="width: 55%"></ion-skeleton-text></h3>
+              <p><ion-skeleton-text animated style="width: 88%"></ion-skeleton-text></p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </section>
+    </ng-container>
+
+    <ng-template #captureList>
+      <section class="km-panel" *ngIf="captures().length > 0; else emptyPlan">
+        <header class="km-panel-header">
+          <h2>Captures ready to plan</h2>
+        </header>
+        <ion-list class="km-entry-list">
+          <ion-item class="km-entry-row" lines="none" button detail *ngFor="let note of captures()" (click)="openPlan(note)">
+            <ion-label>
+              <h3>{{ note.title || 'Capture note' }}</h3>
+              <p class="km-entry-meta">{{ note.text }}</p>
+              <p class="km-entry-time">{{ note.updated_at | date:'EEE h:mm a' }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </section>
+
+      <ng-template #emptyPlan>
+        <section class="km-panel km-empty-state">
+          <h3>No captures to plan</h3>
+          <p>Save a note on the Capture tab, then shape it into a plan here.</p>
+        </section>
+      </ng-template>
+    </ng-template>
+  </ng-container>
+
+  <!-- Plan worksheet -->
+  <ng-container *ngIf="selectedNote() as note">
+    <section class="km-panel km-panel--composer">
+      <header class="km-panel-header km-plan-head">
+        <h2>Plan worksheet</h2>
+        <ion-button fill="clear" size="small" class="km-plan-close" (click)="closePlan()">Back</ion-button>
+      </header>
+
+      <ion-item lines="none" class="km-form-field">
+        <ion-input [formControl]="titleControl" label="Plan title" labelPlacement="stacked"></ion-input>
+      </ion-item>
+
+      <ion-item lines="none" class="km-form-field km-textarea-field">
+        <ion-textarea
+          [formControl]="summaryControl"
+          label="Summary"
+          labelPlacement="stacked"
+          [autoGrow]="true"
+          [rows]="2"
+          placeholder="One-line intent for this plan"
+        ></ion-textarea>
+      </ion-item>
+
+      <div class="km-plan-sections">
+        <article class="km-subcard km-plan-section" *ngFor="let section of sections()">
+          <input class="km-plan-section-title" [(ngModel)]="section.title" placeholder="Section title" />
+          <ion-textarea
+            class="km-plan-section-body"
+            [(ngModel)]="section.body"
+            [autoGrow]="true"
+            [rows]="2"
+            placeholder="Write this section"
+          ></ion-textarea>
+        </article>
+      </div>
+
+      <ion-button fill="clear" size="small" class="km-plan-add" (click)="addSection()">+ Add section</ion-button>
+
+      <div class="km-plan-notes">
+        <div class="km-subcard km-plan-accordion" *ngFor="let note of accordionNotes()">
+          <button type="button" class="km-plan-accordion-head" (click)="toggleNote(note)">
+            <span>{{ note.label }}</span>
+            <ion-icon [name]="isNoteOpen(note) ? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+          </button>
+          <ion-textarea
+            *ngIf="isNoteOpen(note)"
+            class="km-plan-accordion-body"
+            [(ngModel)]="note.content"
+            [autoGrow]="true"
+            [rows]="2"
+            placeholder="Add {{ note.label | lowercase }}"
+          ></ion-textarea>
+        </div>
+      </div>
+
+      <div class="km-form-grid km-plan-meta">
+        <ion-item lines="none" class="km-form-field">
+          <ion-select
+            label="Lane"
+            labelPlacement="stacked"
+            [value]="lane()"
+            (ionChange)="setLane($event.detail.value)"
+          >
+            <ion-select-option *ngFor="let item of lanes" [value]="item">{{ laneLabel(item) }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item lines="none" class="km-form-field">
+          <ion-input
+            type="number"
+            inputmode="numeric"
+            [formControl]="estimateControl"
+            label="Estimate (min)"
+            labelPlacement="stacked"
+          ></ion-input>
+        </ion-item>
+      </div>
+
+      <ion-button class="km-btn km-primary-btn" expand="block" (click)="pushToKanban()" [disabled]="saving()">
+        {{ saving() ? 'Pushing...' : 'Push to Kanban' }}
+      </ion-button>
+    </section>
+  </ng-container>
+</div>

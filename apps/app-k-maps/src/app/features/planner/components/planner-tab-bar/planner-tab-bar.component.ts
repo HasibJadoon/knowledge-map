@@ -1,13 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AppIconTabsComponent } from '../../../../shared/components/icon-tabs/icon-tabs.component';
 import {
-  albumsOutline,
-  bookOutline,
+  analyticsOutline,
+  calendarNumberOutline,
   calendarOutline,
+  clipboardOutline,
+  createOutline,
   gridOutline,
-  micOutline,
   sparklesOutline,
 } from 'ionicons/icons';
+
+const PLANNER_TAB_KEYS = ['week', 'capture', 'plan', 'kanban', 'calendar', 'timeline', 'review'] as const;
+type PlannerTabKey = (typeof PLANNER_TAB_KEYS)[number];
 
 @Component({
   selector: 'app-planner-tab-bar',
@@ -19,10 +23,11 @@ import {
 export class PlannerTabBarComponent {
   readonly tabs: ReadonlyArray<{ key: string; label: string; icon: string }> = [
     { key: 'week', label: 'Week', icon: calendarOutline },
+    { key: 'capture', label: 'Capture', icon: createOutline },
+    { key: 'plan', label: 'Plan', icon: clipboardOutline },
     { key: 'kanban', label: 'Kanban', icon: gridOutline },
-    { key: 'inbox', label: 'Inbox', icon: albumsOutline },
-    { key: 'lessons', label: 'Lessons', icon: bookOutline },
-    { key: 'podcast', label: 'Podcast', icon: micOutline },
+    { key: 'calendar', label: 'Calendar', icon: calendarNumberOutline },
+    { key: 'timeline', label: 'Timeline', icon: analyticsOutline },
     { key: 'review', label: 'Review', icon: sparklesOutline },
   ];
   @Input() activeTab = 'week';
@@ -37,11 +42,6 @@ export class PlannerTabBarComponent {
   }
 }
 
-function isPlannerTabKey(value: string | null | undefined): value is string {
-  return value === 'week'
-    || value === 'kanban'
-    || value === 'inbox'
-    || value === 'lessons'
-    || value === 'podcast'
-    || value === 'review';
+function isPlannerTabKey(value: string | null | undefined): value is PlannerTabKey {
+  return PLANNER_TAB_KEYS.includes(value as PlannerTabKey);
 }
