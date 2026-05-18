@@ -11,6 +11,9 @@ export class PlannerShellComponent {
   readonly nav = [
     { route: '/planner/today', label: 'Today', glyph: '☀' },
     { route: '/planner/plans', label: 'Plans', glyph: '▦' },
+    { route: '/planner/calendar', label: 'Calendar', glyph: '◷' },
+    { route: '/planner/goals', label: 'Goals', glyph: '◎' },
+    { route: '/planner/review', label: 'Review', glyph: '✓' },
     { route: '/planner/capture', label: 'Capture', glyph: '✎' },
   ];
 }

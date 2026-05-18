@@ -7,6 +7,9 @@ km-planner-today,
 km-planner-plans,
 km-planner-plan-detail,
 km-planner-task-detail,
+km-planner-calendar,
+km-planner-goals,
+km-planner-review,
 km-planner-capture {
   display: block;
 }
@@ -609,6 +612,63 @@ km-planner-capture {
   justify-content: flex-end;
   gap: 0.55rem;
   margin-top: 1.2rem;
+}
+
+// ── Calendar ──────────────────────────────────────────────
+.kp-cal-day {
+  margin-bottom: 0.6rem;
+}
+
+.kp-cal-day--today {
+  border-color: var(--km-border-gold);
+}
+
+.kp-cal-day-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.3rem;
+}
+
+.kp-cal-day-name {
+  font-size: 0.86rem;
+  font-weight: 650;
+  color: var(--km-text);
+}
+
+.kp-cal-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.46rem 0.55rem;
+  margin-top: 0.36rem;
+  background: var(--km-surface-2);
+  border: 1px solid var(--km-border);
+  border-radius: var(--km-radius-sm);
+  cursor: pointer;
+}
+
+.kp-cal-entry--done {
+  opacity: 0.55;
+}
+
+.kp-cal-entry--done .kp-cal-entry-title {
+  text-decoration: line-through;
+}
+
+.kp-cal-entry-time {
+  flex-shrink: 0;
+  min-width: 3.6rem;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--km-text-gold);
+}
+
+.kp-cal-entry-title {
+  flex: 1;
+  min-width: 0;
+  font-size: 0.86rem;
+  color: var(--km-text);
 }
 
 @media (max-width: 720px) {
