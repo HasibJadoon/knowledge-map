@@ -54,6 +54,12 @@ export class CapturePage {
     void this.load();
   }
 
+  /** Pull-to-refresh — reload without flashing the full-page skeleton. */
+  async onRefresh(ev: CustomEvent): Promise<void> {
+    await this.load(false);
+    (ev.target as HTMLIonRefresherElement | null)?.complete();
+  }
+
   preview(note: CaptureNote): string {
     const body = (note.text ?? '').replace(/\s+/g, ' ').trim();
     const title = (note.title ?? '').trim();
@@ -147,8 +153,8 @@ export class CapturePage {
 
   // ── Data ─────────────────────────────────────────────────────────────────────
 
-  private async load(): Promise<void> {
-    this.loading.set(true);
+  private async load(showSkeleton = true): Promise<void> {
+    if (showSkeleton) this.loading.set(true);
     try {
       const [notes, plans] = await Promise.all([
         firstValueFrom(this.notes.list('inbox', 100)),

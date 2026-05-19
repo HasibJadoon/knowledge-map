@@ -32,7 +32,13 @@ import {
 import { TiptapJson } from '../../../../shared/models/planner/planner-extras.models';
 import { CaptureNotesService } from '../../../../shared/services/planner/capture-notes.service';
 
-type SaveState = 'idle' | 'saving' | 'saved';
+type SaveState = 'idle' | 'saving' | 'saved' | 'error';
+
+type ComposerAction =
+  | 'bold' | 'italic' | 'underline' | 'strike' | 'code'
+  | 'paragraph' | 'h1' | 'h2' | 'h3'
+  | 'bullet' | 'ordered' | 'checklist'
+  | 'quote' | 'callout' | 'divider';
 
 @Component({
   selector: 'app-planner-capture-note',
@@ -51,12 +57,15 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
   private readonly notes = inject(CaptureNotesService);
 
   readonly loading = signal(true);
+  readonly editorError = signal(false);
   readonly saveState = signal<SaveState>('idle');
+  /** Which formats apply at the caret — drives toolbar active highlighting. */
+  readonly active = signal<Record<string, boolean>>({});
 
   private editor: Editor | null = null;
   private noteId: string | null = null;
   private dirty = false;
-  private savingNow = false;
+  private saveInFlight: Promise<void> | null = null;
   private saveTimer: ReturnType<typeof setTimeout> | null = null;
   private savedTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -80,14 +89,16 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
 
   /** Ionic fires this before the page is left — flush any unsaved edits. */
   ionViewWillLeave(): void {
-    if (this.saveTimer) {
-      clearTimeout(this.saveTimer);
-      this.saveTimer = null;
-    }
-    if (this.dirty) void this.doSave();
+    void this.flush();
   }
 
-  goBack(): void {
+  /**
+   * Wait for the save to land before navigating back. Without this the
+   * capture list reloads while the create/update request is still in flight
+   * and the new note appears to "not save".
+   */
+  async goBack(): Promise<void> {
+    await this.flush();
     void this.navCtrl.navigateBack('/planner/capture', { animated: true });
   }
 
@@ -108,54 +119,105 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
   private mountEditor(content: TiptapJson | null): void {
     setTimeout(() => {
       if (this.editor || !this.editorHost?.nativeElement) return;
-      this.editor = new Editor({
-        element: this.editorHost.nativeElement,
-        editable: true,
-        content: (content ?? undefined) as never,
-        extensions: [
-          StarterKit.configure({ horizontalRule: false }),
-          HorizontalRule,
-          Placeholder.configure({ placeholder: 'Catch a thought — type / for blocks' }),
-          Link.configure({ openOnClick: false }),
-          Underline,
-          TextStyle,
-          Color,
-          Highlight.configure({ multicolor: true }),
-          TaskList,
-          TaskItem.configure({ nested: true }),
-          AutoDirection,
-          Callout,
-          SlashCommandExtension,
-          PageLink.configure({
-            onOpen: (docId: string) => {
-              void this.navCtrl.navigateForward(`/docs/${docId}`);
-            },
-          }),
-          AyahEmbed,
-          ImageBlock,
-          VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock,
-          ClaimBlock, EvidenceBlock, ReflectionBlock,
-          TaskBlock, SceneBlock, TimelineBlock,
-          ComprehensionBlock, ChildrenBlock, PassageEmbed,
-        ],
-        onUpdate: () => this.scheduleSave(),
-      });
-      this.editor.commands.focus('end');
+      try {
+        this.editor = new Editor({
+          element: this.editorHost.nativeElement,
+          editable: true,
+          content: (content ?? undefined) as never,
+          extensions: [
+            StarterKit.configure({ horizontalRule: false }),
+            HorizontalRule,
+            Placeholder.configure({ placeholder: 'Catch a thought — type / for blocks' }),
+            Link.configure({ openOnClick: false }),
+            Underline,
+            TextStyle,
+            Color,
+            Highlight.configure({ multicolor: true }),
+            TaskList,
+            TaskItem.configure({ nested: true }),
+            AutoDirection,
+            Callout,
+            SlashCommandExtension,
+            PageLink.configure({
+              onOpen: (docId: string) => {
+                void this.navCtrl.navigateForward(`/docs/${docId}`);
+              },
+            }),
+            AyahEmbed,
+            ImageBlock,
+            VocabBlock, MorphologyBlock, NahwBlock, RootAnalysisBlock,
+            ClaimBlock, EvidenceBlock, ReflectionBlock,
+            TaskBlock, SceneBlock, TimelineBlock,
+            ComprehensionBlock, ChildrenBlock, PassageEmbed,
+          ],
+          onUpdate: () => {
+            this.scheduleSave();
+            this.syncActive();
+          },
+          onSelectionUpdate: () => this.syncActive(),
+        });
+        this.editor.commands.focus('end');
+        this.syncActive();
+      } catch {
+        this.editorError.set(true);
+      }
     }, 60);
   }
 
   format(action: ComposerAction): void {
-    const chain = this.editor?.chain().focus();
-    if (!chain) return;
+    const editor = this.editor;
+    if (!editor) return;
+    const chain = editor.chain().focus();
     switch (action) {
       case 'bold':      chain.toggleBold().run();                break;
       case 'italic':    chain.toggleItalic().run();              break;
-      case 'heading':   chain.toggleHeading({ level: 2 }).run(); break;
+      case 'underline': chain.toggleUnderline().run();           break;
+      case 'strike':    chain.toggleStrike().run();              break;
+      case 'code':      chain.toggleCode().run();                break;
+      case 'paragraph': chain.setParagraph().run();              break;
+      case 'h1':        chain.toggleHeading({ level: 1 }).run(); break;
+      case 'h2':        chain.toggleHeading({ level: 2 }).run(); break;
+      case 'h3':        chain.toggleHeading({ level: 3 }).run(); break;
       case 'bullet':    chain.toggleBulletList().run();          break;
       case 'ordered':   chain.toggleOrderedList().run();         break;
       case 'checklist': chain.toggleTaskList().run();            break;
+      case 'quote':     chain.toggleBlockquote().run();          break;
       case 'divider':   chain.setHorizontalRule().run();         break;
+      case 'callout':
+        chain.insertContent({
+          type: 'callout',
+          attrs: { type: 'tip', emoji: '💡' },
+          content: [{ type: 'paragraph' }],
+        }).run();
+        break;
     }
+    this.syncActive();
+  }
+
+  /** Toolbar handler — preventDefault keeps editor focus (and the keyboard up). */
+  onTool(event: Event, action: ComposerAction): void {
+    event.preventDefault();
+    this.format(action);
+  }
+
+  private syncActive(): void {
+    const e = this.editor;
+    if (!e) return;
+    this.active.set({
+      bold:      e.isActive('bold'),
+      italic:    e.isActive('italic'),
+      underline: e.isActive('underline'),
+      strike:    e.isActive('strike'),
+      code:      e.isActive('code'),
+      h1:        e.isActive('heading', { level: 1 }),
+      h2:        e.isActive('heading', { level: 2 }),
+      h3:        e.isActive('heading', { level: 3 }),
+      bullet:    e.isActive('bulletList'),
+      ordered:   e.isActive('orderedList'),
+      checklist: e.isActive('taskList'),
+      quote:     e.isActive('blockquote'),
+      callout:   e.isActive('callout'),
+    });
   }
 
   // ── Save ─────────────────────────────────────────────────────────────────────
@@ -163,24 +225,40 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
   private scheduleSave(): void {
     this.dirty = true;
     if (this.saveTimer) clearTimeout(this.saveTimer);
-    this.saveTimer = setTimeout(() => void this.doSave(), 1000);
+    this.saveTimer = setTimeout(() => void this.flush(), 1000);
   }
 
-  private async doSave(): Promise<void> {
-    if (!this.editor) return;
-    if (this.savingNow) {
-      this.scheduleSave();
-      return;
+  /** Persists pending edits and resolves only once the write has landed. */
+  async flush(): Promise<void> {
+    if (this.saveTimer) {
+      clearTimeout(this.saveTimer);
+      this.saveTimer = null;
     }
-    const text = this.editor.getText().trim();
-    const doc = this.editor.getJSON() as TiptapJson;
+    if (this.saveInFlight) {
+      try { await this.saveInFlight; } catch { /* surfaced via saveState */ }
+    }
+    if (!this.dirty || !this.editor) return;
+    this.saveInFlight = this.persist();
+    try {
+      await this.saveInFlight;
+    } catch {
+      /* persist() already set the error state */
+    } finally {
+      this.saveInFlight = null;
+    }
+  }
+
+  private async persist(): Promise<void> {
+    const editor = this.editor;
+    if (!editor) return;
+    const text = editor.getText().trim();
+    const doc = editor.getJSON() as TiptapJson;
     // A brand-new note is only created once it actually has content.
     if (!this.noteId && !text) {
       this.dirty = false;
       return;
     }
 
-    this.savingNow = true;
     this.dirty = false;
     this.saveState.set('saving');
     try {
@@ -195,11 +273,10 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
       this.saveState.set('saved');
       if (this.savedTimer) clearTimeout(this.savedTimer);
       this.savedTimer = setTimeout(() => this.saveState.set('idle'), 2000);
-    } catch {
+    } catch (err) {
       this.dirty = true;
-      this.saveState.set('idle');
-    } finally {
-      this.savingNow = false;
+      this.saveState.set('error');
+      throw err;
     }
   }
 }
@@ -212,5 +289,3 @@ function deriveTitle(text: string): string | null {
   if (!firstLine) return null;
   return firstLine.length <= 80 ? firstLine : `${firstLine.slice(0, 77).replace(/\s+$/, '')}...`;
 }
-
-type ComposerAction = 'bold' | 'italic' | 'heading' | 'bullet' | 'ordered' | 'checklist' | 'divider';
