@@ -1,0 +1,32 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <radialGradient id="kmBg" cx="0.5" cy="0.44" r="0.62">
+      <stop offset="0" stop-color="#191307"/>
+      <stop offset="0.6" stop-color="#0c0a06"/>
+      <stop offset="1" stop-color="#080808"/>
+    </radialGradient>
+    <radialGradient id="kmGlow">
+      <stop offset="0" stop-color="#DAB85A" stop-opacity="0.34"/>
+      <stop offset="0.5" stop-color="#C9A84C" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#C9A84C" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="kmRing" x1="44" y1="44" x2="212" y2="212" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8A6E2A"/>
+      <stop offset="0.5" stop-color="#E6C766"/>
+      <stop offset="1" stop-color="#8A6E2A"/>
+    </linearGradient>
+    <linearGradient id="kmStar" x1="84" y1="62" x2="172" y2="182" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F0D27A"/>
+      <stop offset="1" stop-color="#C9A84C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1024" height="1024" fill="url(#kmBg)"/>
+  <circle cx="512" cy="452" r="430" fill="url(#kmGlow)"/>
+
+  <g transform="translate(512 512) scale(4) translate(-128 -128)">
+    <circle cx="128" cy="128" r="64" stroke="#DAB85A" stroke-opacity="0.28" stroke-width="6"/>
+    <circle cx="128" cy="128" r="64" stroke="url(#kmRing)" stroke-width="3"/>
+    <path d="M128 62L144.438 111.575H196.753L154.431 142.225L170.73 191.425L128 160.512L85.2698 191.425L101.569 142.225L59.2474 111.575H111.562L128 62Z" fill="url(#kmStar)"/>
+  </g>
+</svg>
