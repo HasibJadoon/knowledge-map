@@ -40,6 +40,7 @@ export interface WvSourceUnit {
   page_end: number | null;
   text_excerpt: string | null;
   description_md: string | null;
+  meta_json: string | null;
   created_at: string;
 }
 
@@ -117,7 +118,7 @@ const SRC_COLS = `
 
 const UNIT_COLS = `
   id, source_id, parent_id, unit_type, title, unit_index,
-  page_start, page_end, text_excerpt, description_md, created_at
+  page_start, page_end, text_excerpt, description_md, meta_json, created_at
 `.trim().replace(/\n\s+/g, ' ');
 
 const CHUNK_COLS = `
