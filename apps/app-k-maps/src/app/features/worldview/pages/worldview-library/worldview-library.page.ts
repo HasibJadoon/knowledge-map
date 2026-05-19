@@ -1,9 +1,10 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
-import { environment } from '../../../../../environments/environment';
+import { firstValueFrom } from 'rxjs';
+import { WorldviewLibraryApiService } from '../../../../shared/services/worldview/worldview-library-api.service';
 
 interface WvSourceMeta {
   tradition?: string;
@@ -37,6 +38,8 @@ interface WvSource {
   styleUrl: './worldview-library.page.scss',
 })
 export class WorldviewLibraryPage implements OnInit {
+  private readonly libraryApi = inject(WorldviewLibraryApiService);
+
   readonly sources = signal<WvSource[]>([]);
   readonly loading = signal(true);
   readonly activeTypeFilter = signal<string>('all');
@@ -95,12 +98,10 @@ export class WorldviewLibraryPage implements OnInit {
 
   private async loadSources(): Promise<void> {
     try {
-      const res = await fetch(`${environment.apiBase}/worldview/sources?limit=100`);
-      if (!res.ok) return;
-      const data = await res.json() as { ok: boolean; data?: WvSource[]; results?: WvSource[] };
-      if (data.ok) this.sources.set((data.data ?? data.results ?? []).map((source) => this.normalizeSource(source)));
+      const rows = await firstValueFrom(this.libraryApi.listSources(100));
+      this.sources.set(rows.map((source) => this.normalizeSource(source)));
     } catch {
-      // silently ignore
+      // silently ignore — the empty state covers a failed load
     } finally {
       this.loading.set(false);
     }
