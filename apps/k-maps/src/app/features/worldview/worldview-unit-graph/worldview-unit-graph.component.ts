@@ -10,9 +10,9 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 
-import { environment } from '../../../../environments/environment';
+import { WorldviewLibraryApiService } from '../../../shared/services/worldview/worldview-library-api.service';
 import { WvGraphShellComponent } from '../wv-graph/wv-graph-shell/wv-graph-shell.component';
 
 interface WvSource {
@@ -91,7 +91,7 @@ export class WorldviewUnitGraphComponent implements OnInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly apiBase = environment.apiBase;
+  private readonly libraryApi = inject(WorldviewLibraryApiService);
 
   private routeSub?: Subscription;
   private loadVersion = 0;
@@ -150,46 +150,29 @@ export class WorldviewUnitGraphComponent implements OnInit, OnDestroy {
     }
 
     try {
-      const sourceRequest = shouldLoadSource
-        ? fetch(`${this.apiBase}/worldview/sources/${sourceId}`)
-        : Promise.resolve<Response | null>(null);
-      const annotationsRequest = fetch(`${this.apiBase}/worldview/units/${unitId}/annotations`);
-
-      const [sourceRes, annotationsRes] = await Promise.all([sourceRequest, annotationsRequest]);
+      const [sourceDetail, annotations] = await Promise.all([
+        shouldLoadSource
+          ? firstValueFrom(this.libraryApi.getSource(sourceId)).catch(() => null)
+          : Promise.resolve(null),
+        firstValueFrom(this.libraryApi.getUnitAnnotations(unitId)).catch(() => null),
+      ]);
       if (loadVersion !== this.loadVersion) return;
 
-      if (sourceRes) {
-        if (sourceRes.ok) {
-          const sourceData = (await sourceRes.json()) as {
-            ok?: boolean;
-            source?: WvSource | null;
-            units?: unknown[];
-          };
-
-          if (sourceData?.ok) {
-            this.source.set(sourceData.source ?? null);
-            this.allUnits.set((sourceData.units ?? []).map((unit) => this.normalizeUnit(unit)));
-          }
+      if (shouldLoadSource) {
+        if (sourceDetail?.id) {
+          const { units, ...source } = sourceDetail;
+          this.source.set({ ...source, publication_year: source.published_year ?? null });
+          this.allUnits.set((units ?? []).map((unit) => this.normalizeUnit(unit)));
         }
-
         this.sourceLoading.set(false);
       }
 
-      if (annotationsRes.ok) {
-        const annotationsData = (await annotationsRes.json()) as {
-          ok?: boolean;
-          wv?: unknown;
-          wv_node_edges?: unknown;
-          wv_evidence_links?: unknown;
-        };
-
-        if (annotationsData?.ok) {
-          this.worldviewNodes.set(this.normalizeWvNodesPayload(annotationsData.wv));
-          this.worldviewEdges.set(this.normalizeWvEdgesPayload(annotationsData.wv_node_edges));
-          this.worldviewEvidenceLinks.set(
-            this.normalizeWvEvidenceLinksPayload(annotationsData.wv_evidence_links),
-          );
-        }
+      if (annotations) {
+        this.worldviewNodes.set(this.normalizeWvNodesPayload(annotations.wv));
+        this.worldviewEdges.set(this.normalizeWvEdgesPayload(annotations.wv_node_edges));
+        this.worldviewEvidenceLinks.set(
+          this.normalizeWvEvidenceLinksPayload(annotations.wv_evidence_links),
+        );
       }
     } catch {
       if (loadVersion !== this.loadVersion) return;
@@ -296,19 +279,27 @@ export class WorldviewUnitGraphComponent implements OnInit, OnDestroy {
     return map[key] ?? '';
   }
 
+  // Accepts the current worldview worker columns (parent_id, unit_index,
+  // page_start/end, text_excerpt, description_md) as well as legacy names.
   private normalizeUnit(value: unknown): WvUnit {
     const unit = (value ?? {}) as Record<string, unknown>;
+    const parentRaw = unit['parent_unit_id'] ?? unit['parent_id'];
+    const orderRaw = unit['order_index'] ?? unit['unit_index'];
+    const startRaw = unit['start_ref'] ?? (typeof unit['page_start'] === 'number' ? `p. ${unit['page_start']}` : null);
+    const endRaw = unit['end_ref'] ?? (typeof unit['page_end'] === 'number' ? `p. ${unit['page_end']}` : null);
     return {
       id: String(unit['id'] ?? ''),
       source_id: String(unit['source_id'] ?? ''),
-      parent_unit_id: typeof unit['parent_unit_id'] === 'string' ? unit['parent_unit_id'] : null,
+      parent_unit_id: typeof parentRaw === 'string' ? parentRaw : null,
       unit_type: typeof unit['unit_type'] === 'string' ? unit['unit_type'] : null,
       title: typeof unit['title'] === 'string' ? unit['title'] : null,
-      order_index: typeof unit['order_index'] === 'number' ? unit['order_index'] : null,
-      start_ref: typeof unit['start_ref'] === 'string' ? unit['start_ref'] : null,
-      end_ref: typeof unit['end_ref'] === 'string' ? unit['end_ref'] : null,
-      anchor_text: typeof unit['anchor_text'] === 'string' ? unit['anchor_text'] : null,
-      summary: typeof unit['summary'] === 'string' ? unit['summary'] : null,
+      order_index: typeof orderRaw === 'number' ? orderRaw : null,
+      start_ref: typeof startRaw === 'string' ? startRaw : null,
+      end_ref: typeof endRaw === 'string' ? endRaw : null,
+      anchor_text: typeof unit['anchor_text'] === 'string' ? unit['anchor_text']
+        : (typeof unit['text_excerpt'] === 'string' ? unit['text_excerpt'] : null),
+      summary: typeof unit['summary'] === 'string' ? unit['summary']
+        : (typeof unit['description_md'] === 'string' ? unit['description_md'] : null),
       children: [],
     };
   }

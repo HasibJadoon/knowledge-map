@@ -115,7 +115,21 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
   // GET /worldview/units/:id
   router.get('/worldview/units/:id', async (_req, env, { id }) => {
     const unit = await new SourceRepo(env.DB_WV).findUnitById(id);
-    return unit ? ok(unit) : notFound(`unit ${id}`);
+    if (!unit) return notFound(`unit ${id}`);
+
+    // Structured reader content (headings, paragraphs, quotes, …) is stored in
+    // meta_json so the reader can render real blocks instead of guessing types
+    // heuristically from flat text.
+    let meta: Record<string, unknown> | null = null;
+    if (typeof unit.meta_json === 'string') {
+      try { meta = JSON.parse(unit.meta_json) as Record<string, unknown>; } catch { meta = null; }
+    }
+    return ok({
+      ...unit,
+      readingBlocks: meta?.['readingBlocks'] ?? null,
+      readingBody:   meta?.['readingBody']   ?? null,
+      locatorLabel:  meta?.['locatorLabel']  ?? null,
+    });
   });
 
   // ── Unit CRUD ─────────────────────────────────────────────────────────────
