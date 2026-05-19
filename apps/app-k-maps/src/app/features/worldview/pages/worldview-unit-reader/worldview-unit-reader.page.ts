@@ -3,8 +3,9 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, com
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, IonContent } from '@ionic/angular';
 import gsap from 'gsap';
+import { firstValueFrom } from 'rxjs';
 
-import { environment } from '../../../../../environments/environment';
+import { WorldviewLibraryApiService } from '../../../../shared/services/worldview/worldview-library-api.service';
 import { WvGraphShellComponent } from '../../wv-graph/wv-graph-shell/wv-graph-shell.component';
 
 interface WvSource {
@@ -158,6 +159,7 @@ interface ClassifiedBlock { text: string; type: BlockType; url?: string; }
 export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly libraryApi = inject(WorldviewLibraryApiService);
   private sheetDragPointerId: number | null = null;
   private sheetDragStartY = 0;
   private sheetDragStartExpanded = false;
@@ -321,73 +323,41 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
 
   private async load(sourceId: string, unitId: string): Promise<void> {
     try {
-      // Fetch source + all units (for TOC/nav), full unit content, and reader annotations in parallel.
-      const [sourceRes, unitRes, annotationsRes] = await Promise.all([
-        fetch(`${environment.apiBase}/worldview/sources/${sourceId}`),
-        fetch(`${environment.apiBase}/worldview/units/${unitId}`),
-        fetch(`${environment.apiBase}/worldview/units/${unitId}/annotations`),
+      // Source + all units (for TOC/nav), full unit content, and reader
+      // annotations are loaded in parallel; a failure of one does not abort the rest.
+      const [sourceDetail, unitDetail, annotations] = await Promise.all([
+        firstValueFrom(this.libraryApi.getSource(sourceId)).catch(() => null),
+        firstValueFrom(this.libraryApi.getUnit(unitId)).catch(() => null),
+        firstValueFrom(this.libraryApi.getUnitAnnotations(unitId)).catch(() => null),
       ]);
 
-      if (sourceRes.ok) {
-        const data = (await sourceRes.json()) as { ok: boolean; data?: WvSource & { units?: WvUnit[] }; source?: WvSource; units?: WvUnit[] };
-        if (data.ok) {
-          const source = data.source ?? data.data ?? null;
-          this.source.set(source ? this.normalizeSource(source) : null);
-          this.allUnits.set((data.units ?? data.data?.units ?? []).map((unit) => this.normalizeUnitSummary(unit)));
-        }
+      if (sourceDetail?.id) {
+        const { units, ...source } = sourceDetail;
+        this.source.set(this.normalizeSource(source));
+        this.allUnits.set((units ?? []).map((unit) => this.normalizeUnitSummary(unit)));
       }
 
-      if (unitRes.ok) {
-        const data = (await unitRes.json()) as { ok: boolean; data?: WvUnit; result?: WvUnit; unit?: WvUnit };
-        const result = data.data ?? data.result ?? data.unit ?? null;
-        if (data.ok && result) {
-          const normalizedResult = this.normalizeUnitDetail(this.normalizeUnitSummary(result));
-          // Merge full unit data into allUnits so the computed unit() signal picks it up
-          this.allUnits.update((units) => {
-            const idx = units.findIndex((u) => u.id === normalizedResult.id);
-            if (idx >= 0) {
-              const updated = [...units];
-              updated[idx] = { ...updated[idx], ...normalizedResult };
-              return updated;
-            }
-            // Unit not in list yet — add it
-            return [...units, normalizedResult];
-          });
-        }
+      if (unitDetail?.id) {
+        const normalizedResult = this.normalizeUnitDetail(this.normalizeUnitSummary(unitDetail));
+        // Merge full unit data into allUnits so the computed unit() signal picks it up
+        this.allUnits.update((units) => {
+          const idx = units.findIndex((u) => u.id === normalizedResult.id);
+          if (idx >= 0) {
+            const updated = [...units];
+            updated[idx] = { ...updated[idx], ...normalizedResult };
+            return updated;
+          }
+          // Unit not in list yet — add it
+          return [...units, normalizedResult];
+        });
       }
 
-      if (annotationsRes.ok) {
-        const data = (await annotationsRes.json()) as {
-          ok: boolean;
-          data?: {
-            notes?: unknown;
-            highlights?: unknown;
-            annotations?: unknown;
-            wv?: unknown;
-            wv_node_edges?: unknown;
-            wv_evidence_links?: unknown;
-          };
-          notes?: unknown;
-          highlights?: unknown;
-          annotations?: unknown;
-          wv?: unknown;
-          wv_node_edges?: unknown;
-          wv_evidence_links?: unknown;
-        };
-
-        if (data.ok) {
-          const detail = data.data ?? data;
-          this.readerNotes.set(this.normalizeNotes(detail.notes));
-          this.readerHighlights.set(this.normalizeHighlights(detail.highlights ?? detail.annotations));
-          const wvNodes = this.normalizeWvNodesPayload(detail.wv);
-          const wvEdges = this.normalizeWvEdgesPayload(detail.wv_node_edges);
-          const wvEvidenceLinks = this.normalizeWvEvidenceLinksPayload(detail.wv_evidence_links);
-          console.log('WV nodes:', wvNodes.map((n) => n.title));
-          console.log('WV edges:', wvEdges);
-          this.worldviewNodes.set(wvNodes);
-          this.worldviewEdges.set(wvEdges);
-          this.worldviewEvidenceLinks.set(wvEvidenceLinks);
-        }
+      if (annotations) {
+        this.readerNotes.set(this.normalizeNotes(annotations.notes));
+        this.readerHighlights.set(this.normalizeHighlights(annotations.highlights ?? annotations.annotations));
+        this.worldviewNodes.set(this.normalizeWvNodesPayload(annotations.wv));
+        this.worldviewEdges.set(this.normalizeWvEdgesPayload(annotations.wv_node_edges));
+        this.worldviewEvidenceLinks.set(this.normalizeWvEvidenceLinksPayload(annotations.wv_evidence_links));
       }
     } catch { /* ignore */ } finally {
       this.loading.set(false);

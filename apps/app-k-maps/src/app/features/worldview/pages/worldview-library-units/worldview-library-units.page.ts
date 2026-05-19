@@ -3,8 +3,9 @@ import { AfterViewInit, Component, ElementRef, OnInit, ViewChild, computed, inje
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import gsap from 'gsap';
+import { firstValueFrom } from 'rxjs';
 
-import { environment } from '../../../../../environments/environment';
+import { WorldviewLibraryApiService } from '../../../../shared/services/worldview/worldview-library-api.service';
 
 interface WvSource {
   id: string;
@@ -59,6 +60,7 @@ interface TocItem {
 export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
+  private readonly libraryApi = inject(WorldviewLibraryApiService);
 
   @ViewChild('heroEl') heroEl?: ElementRef<HTMLElement>;
   @ViewChild('tocEl') tocEl?: ElementRef<HTMLElement>;
@@ -112,15 +114,14 @@ export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
 
   private async load(id: string): Promise<void> {
     try {
-      const res = await fetch(`${environment.apiBase}/worldview/sources/${id}`);
-      if (!res.ok) return;
-      const data = (await res.json()) as { ok: boolean; data?: WvSource & { units?: WvUnit[] }; source?: WvSource; units?: WvUnit[] };
-      if (!data.ok) return;
-      const source = data.source ?? data.data ?? null;
-      this.source.set(source ? this.normalizeSource(source) : null);
-      this.units.set((data.units ?? data.data?.units ?? []).map((unit) => this.normalizeUnit(unit)));
+      const detail = await firstValueFrom(this.libraryApi.getSource(id));
+      if (detail?.id) {
+        const { units, ...source } = detail;
+        this.source.set(this.normalizeSource(source));
+        this.units.set((units ?? []).map((unit) => this.normalizeUnit(unit)));
+      }
     } catch {
-      // ignore
+      // ignore — the empty state covers a failed load
     } finally {
       this.loading.set(false);
       requestAnimationFrame(() => {

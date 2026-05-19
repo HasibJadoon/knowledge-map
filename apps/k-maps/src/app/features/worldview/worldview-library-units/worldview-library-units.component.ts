@@ -12,13 +12,15 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { environment } from '../../../../environments/environment';
 import { StatusPillComponent } from '../../../shared/components/status-pill/status-pill.component';
+import {
+  WorldviewLibraryApiService,
+  WvSourceRow,
+} from '../../../shared/services/worldview/worldview-library-api.service';
 import { WvGraphShellComponent } from '../wv-graph/wv-graph-shell/wv-graph-shell.component';
 
 interface WvSource {
@@ -27,7 +29,9 @@ interface WvSource {
   title: string;
   subtitle?: string | null;
   creator?: string | null;
+  publisher?: string | null;
   publication_year?: number | null;
+  published_year?: number | null;
   language?: string | null;
   source_domain?: string | null;
   meta?: Record<string, unknown> | null;
@@ -216,9 +220,8 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private http = inject(HttpClient);
+  private libraryApi = inject(WorldviewLibraryApiService);
   private cdr = inject(ChangeDetectorRef);
-  private readonly apiBase = environment.apiBase;
 
   @ViewChild('tasksPanelBody') tasksPanelBodyRef?: ElementRef<HTMLElement>;
 
@@ -444,22 +447,22 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
     this.detailLoading.set(true);
 
-    this.http.get<any>(`${this.apiBase}/worldview/units/${unit.id}`).subscribe({
-      next: (res) => {
-        if (res?.ok && res.result) {
-          const detail = this.normalizeUnit(res.result) as WvUnitDetail;
-          detail.locatorLabel = res.result.locatorLabel ?? null;
-          detail.readingMinutes = res.result.readingMinutes ?? null;
-          detail.readingSchema = res.result.readingSchema ?? null;
-          detail.documentId = this.readTrimmed(res.result.documentId);
-          detail.documentTitle = this.readTrimmed(res.result.documentTitle);
-          detail.documentSummary = this.readTrimmed(res.result.documentSummary);
-          detail.documentJson = this.normalizeRecordPayload(res.result.documentJson);
-          detail.documentText = this.readTrimmed(res.result.documentText);
-          detail.documentBlocks = this.normalizeDocumentBlocksPayload(res.result.documentBlocks ?? null);
-          detail.readingBody = this.normalizeReaderBodyPayload(res.result.readingBody ?? null);
-          detail.readingBlocks = this.normalizeReaderBlocksPayload(res.result.readingBlocks ?? null);
-          detail.children = (res.result.children ?? []).map((child: any) => this.normalizeUnit(child));
+    this.libraryApi.getUnit(unit.id).subscribe({
+      next: (result) => {
+        if (result?.id) {
+          const detail = this.normalizeUnit(result) as WvUnitDetail;
+          detail.locatorLabel = result.locatorLabel ?? null;
+          detail.readingMinutes = result.readingMinutes ?? null;
+          detail.readingSchema = result.readingSchema ?? null;
+          detail.documentId = this.readTrimmed(result.documentId);
+          detail.documentTitle = this.readTrimmed(result.documentTitle);
+          detail.documentSummary = this.readTrimmed(result.documentSummary);
+          detail.documentJson = this.normalizeRecordPayload(result.documentJson);
+          detail.documentText = this.readTrimmed(result.documentText);
+          detail.documentBlocks = this.normalizeDocumentBlocksPayload(result.documentBlocks ?? null);
+          detail.readingBody = this.normalizeReaderBodyPayload(result.readingBody ?? null);
+          detail.readingBlocks = this.normalizeReaderBlocksPayload(result.readingBlocks ?? null);
+          detail.children = (result.children ?? []).map((child) => this.normalizeUnit(child));
 
           this.detailCache.update((cache) => ({ ...cache, [unit.id]: detail }));
           if (detail.children.length) this.mergeUnits(detail.children);
@@ -817,11 +820,12 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.tocWidth.set(310);
     this.workspaceHidden.set(false);
 
-    this.http.get<any>(`${this.apiBase}/worldview/sources/${id}`).subscribe({
-      next: (res) => {
-        if (res?.ok) {
-          this.source.set(res.source ?? null);
-          const units = (res.units ?? []).map((unit: any) => this.normalizeUnit(unit));
+    this.libraryApi.getSource(id).subscribe({
+      next: (detail) => {
+        if (detail?.id) {
+          const { units: unitRows, ...sourceRow } = detail;
+          this.source.set(this.normalizeSource(sourceRow));
+          const units = (unitRows ?? []).map((unit) => this.normalizeUnit(unit));
           this.rawUnits.set(units);
 
           const requestedUnitId = this.route.snapshot.queryParamMap.get('unit');
@@ -846,21 +850,34 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     });
   }
 
+  private normalizeSource(row: WvSourceRow): WvSource {
+    return {
+      ...row,
+      publication_year: row.published_year ?? null,
+    };
+  }
+
+  // Maps the current worldview worker schema (parent_id, unit_index, page_*,
+  // text_excerpt, description_md) onto the reader's unit model, while still
+  // honouring any legacy field names a future endpoint might send.
   private normalizeUnit(unit: any): WvUnit {
     const sourceId = typeof unit.source_id === 'string' ? unit.source_id.trim() : '';
-    const parentUnitId = typeof unit.parent_unit_id === 'string' ? unit.parent_unit_id.trim() : '';
+    const parentRaw = unit.parent_unit_id ?? unit.parent_id;
+    const parentUnitId = typeof parentRaw === 'string' ? parentRaw.trim() : '';
+    const startRef = unit.start_ref ?? (unit.page_start != null ? `p. ${unit.page_start}` : null);
+    const endRef = unit.end_ref ?? (unit.page_end != null ? `p. ${unit.page_end}` : null);
     return {
       id: unit.id,
       source_id: sourceId,
       parent_unit_id: parentUnitId || null,
       unit_type: unit.unit_type ?? null,
       title: unit.title ?? null,
-      order_index: unit.order_index ?? null,
-      start_ref: unit.start_ref ?? null,
-      end_ref: unit.end_ref ?? null,
-      anchor_text: unit.anchor_text ?? null,
-      summary: unit.summary ?? null,
-      body_preview: unit.body_preview ?? null,
+      order_index: unit.order_index ?? unit.unit_index ?? null,
+      start_ref: startRef,
+      end_ref: endRef,
+      anchor_text: unit.anchor_text ?? unit.text_excerpt ?? null,
+      summary: unit.summary ?? unit.description_md ?? null,
+      body_preview: unit.body_preview ?? unit.text_excerpt ?? unit.description_md ?? null,
       meta: unit.meta ?? null,
       children: unit.children ?? [],
     };
@@ -908,11 +925,10 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
     this.notesLoading.set(true);
 
     try {
-      const res = await fetch(`${this.apiBase}/worldview/units/${unitId}/annotations`);
-      const data = await res.json();
+      const data = await firstValueFrom(this.libraryApi.getUnitAnnotations(unitId));
       if (this.selectedUnit()?.id !== unitId) return;
 
-      if (data?.ok) {
+      if (data) {
         const readerData: WvReaderData = {
           notes: this.normalizeNotesPayload(data.notes),
           highlights: this.normalizeHighlightsPayload(data.highlights),
@@ -920,8 +936,6 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
           wv_node_edges: this.normalizeWvEdgesPayload(data.wv_node_edges),
           wv_evidence_links: this.normalizeWvEvidenceLinksPayload(data.wv_evidence_links),
         };
-        console.log('WV nodes:', readerData.wv.map((n) => n.title));
-        console.log('WV edges:', readerData.wv_node_edges);
         this.readerDataCache.update((cache) => ({ ...cache, [unitId]: readerData }));
         this.applyReaderData(readerData);
       } else {

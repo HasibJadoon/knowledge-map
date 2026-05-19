@@ -9,11 +9,13 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import gsap from 'gsap';
-import { environment } from '../../../../environments/environment';
 import { StatusPillComponent } from '../../../shared/components/status-pill/status-pill.component';
+import {
+  WorldviewLibraryApiService,
+  WvSourceRow,
+} from '../../../shared/services/worldview/worldview-library-api.service';
 
 interface WvSourceMeta {
   tradition?: string;
@@ -29,6 +31,7 @@ interface WvSource {
   creator?: string | null;
   publisher?: string | null;
   publication_year?: number | null;
+  published_year?: number | null;
   language?: string | null;
   source_domain?: string | null;
   meta?: WvSourceMeta | null;
@@ -47,9 +50,8 @@ interface WvSource {
 })
 export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   private router = inject(Router);
-  private http = inject(HttpClient);
+  private libraryApi = inject(WorldviewLibraryApiService);
   private cdr = inject(ChangeDetectorRef);
-  private readonly base = environment.apiBase;
 
   readonly sources = signal<WvSource[]>([]);
   readonly loading = signal(true);
@@ -104,9 +106,9 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
   });
 
   ngOnInit(): void {
-    this.http.get<any>(`${this.base}/worldview/sources?limit=100`).subscribe({
-      next: (res) => {
-        if (res?.ok) this.sources.set(res.results ?? []);
+    this.libraryApi.listSources(100).subscribe({
+      next: (rows) => {
+        this.sources.set(rows.map((row) => this.normalizeSource(row)));
         this.loading.set(false);
         this.cdr.markForCheck();
         setTimeout(() => {
@@ -122,6 +124,13 @@ export class WorldviewLibraryComponent implements OnInit, AfterViewInit {
         this.cdr.markForCheck();
       },
     });
+  }
+
+  private normalizeSource(row: WvSourceRow): WvSource {
+    return {
+      ...row,
+      publication_year: row.published_year ?? null,
+    };
   }
 
   ngAfterViewInit(): void {
