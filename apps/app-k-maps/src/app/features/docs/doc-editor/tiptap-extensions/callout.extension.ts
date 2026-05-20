@@ -297,21 +297,21 @@ export const Callout = Node.create({
       });
 
       // ── Focus routing ────────────────────────────────────────────────────
-      // Only intercept taps on dead zones (outer padding, left bar) or the
-      // raw contentEl background (empty callout). For everything inside the
-      // content area, ProseMirror handles caret placement natively.
+      // Only step in for taps that land OUTSIDE the editable contentEl
+      // (the callout's outer padding / accent bar). Anything inside contentEl
+      // — including taps on its blank background — is handled by ProseMirror
+      // and iOS's native tap-to-focus. Calling preventDefault on those taps
+      // breaks the iOS focus chain and triggers the system Paste/Select
+      // menu instead of placing the caret.
       dom.addEventListener('pointerup', (e: PointerEvent) => {
         if (!e.isPrimary) return;
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
-        // Tap on a real child inside the editable area — native ProseMirror.
-        // But if the target is an empty element (no text content), fall through
-        // so posAtCoords can route the caret accurately into empty callouts.
-        const targetEl = e.target as HTMLElement;
-        if (contentEl.contains(targetEl) && targetEl !== contentEl && (targetEl.textContent ?? '').trim() !== '') return;
+        if (contentEl.contains(e.target as globalThis.Node)) return;
 
-        // Dead zone or empty callout: route to the nearest document position
-        // so the caret lands where the user actually tapped, not always pos+2.
+        // Tap landed in a dead zone (outer padding / accent bar). Route the
+        // caret to the document position closest to the tap so the user
+        // still gets a usable cursor.
         e.preventDefault();
         const nodePos = typeof getPos === 'function' ? getPos() : null;
         if (nodePos === null || nodePos === undefined) return;
