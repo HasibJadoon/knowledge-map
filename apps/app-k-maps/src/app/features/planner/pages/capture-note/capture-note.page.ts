@@ -61,6 +61,8 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
   readonly saveState = signal<SaveState>('idle');
   /** Which formats apply at the caret — drives toolbar active highlighting. */
   readonly active = signal<Record<string, boolean>>({});
+  /** Title input value (independent of the body editor). */
+  readonly title = signal('');
 
   private editor: Editor | null = null;
   private noteId: string | null = null;
@@ -107,11 +109,18 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
   private async loadNote(id: string): Promise<void> {
     try {
       const note = await firstValueFrom(this.notes.get(id));
+      this.title.set(note.title ?? '');
       this.mountEditor(note.doc);
     } catch {
       this.mountEditor(null);
     }
     this.loading.set(false);
+  }
+
+  /** ngModel hook on the title input — autosave after the same debounce. */
+  onTitleInput(value: string): void {
+    this.title.set(value);
+    this.scheduleSave();
   }
 
   // ── Editor ───────────────────────────────────────────────────────────────────
@@ -253,8 +262,10 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
     if (!editor) return;
     const text = editor.getText().trim();
     const doc = editor.getJSON() as TiptapJson;
-    // A brand-new note is only created once it actually has content.
-    if (!this.noteId && !text) {
+    const title = normalizeTitle(this.title());
+    // A brand-new note is only created once it actually has content
+    // (title or body), so empty-tap-back doesn't pollute the list.
+    if (!this.noteId && !text && !title) {
       this.dirty = false;
       return;
     }
@@ -262,7 +273,6 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
     this.dirty = false;
     this.saveState.set('saving');
     try {
-      const title = deriveTitle(text);
       if (this.noteId) {
         await firstValueFrom(this.notes.update(this.noteId, { doc, text, title }));
       } else {
@@ -281,11 +291,8 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
   }
 }
 
-function deriveTitle(text: string): string | null {
-  const firstLine = (text ?? '')
-    .split('\n')
-    .map((line) => line.trim())
-    .find((line) => line.length > 0);
-  if (!firstLine) return null;
-  return firstLine.length <= 80 ? firstLine : `${firstLine.slice(0, 77).replace(/\s+$/, '')}...`;
+function normalizeTitle(raw: string): string | null {
+  const trimmed = (raw ?? '').trim();
+  if (!trimmed) return null;
+  return trimmed.length <= 80 ? trimmed : `${trimmed.slice(0, 77).replace(/\s+$/, '')}...`;
 }
