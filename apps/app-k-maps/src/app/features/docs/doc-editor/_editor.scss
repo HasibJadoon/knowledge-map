@@ -52,19 +52,12 @@
   contain: layout style;
 }
 
-// content-visibility: auto skips paint + layout for off-screen blocks.
-// contain-intrinsic-size stabilises the scrollbar while blocks are skipped.
-.km-doc-editor-el .ProseMirror > h1,
-.km-doc-editor-el .ProseMirror > h2,
-.km-doc-editor-el .ProseMirror > h3,
-.km-doc-editor-el .ProseMirror > ul,
-.km-doc-editor-el .ProseMirror > ol,
-.km-doc-editor-el .ProseMirror > blockquote,
-.km-doc-editor-el .ProseMirror > pre,
-.km-doc-editor-el .ProseMirror > hr {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 48px;
-}
+// NOTE: do NOT add `content-visibility: auto` to ProseMirror blocks.
+// WKWebView has a long-standing bug where elements that mount off-screen
+// with content-visibility:auto never get their contents painted again
+// (the placeholder reserved by contain-intrinsic-size shows, but inner
+// text stays blank). Most visible on blockquote — after reopening a
+// note the gold border renders but the text behind it never appears.
 
 // ── Placeholder ───────────────────────────────────────────────────────────────
 .km-doc-editor-el .ProseMirror p.is-editor-empty:first-child::before {
