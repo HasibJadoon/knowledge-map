@@ -322,10 +322,19 @@ export const Callout = Node.create({
         e.preventDefault();
         const nodePos = typeof getPos === 'function' ? getPos() : null;
         if (nodePos === null || nodePos === undefined) return;
-        const resolved = editor.view.posAtCoords({ left: e.clientX, top: e.clientY });
-        editor.chain().focus()
-          .setTextSelection(resolved ? resolved.pos : nodePos + 2)
-          .run();
+
+        // Clamp the target position to inside this callout. posAtCoords
+        // resolves to the nearest text run, which for a near-empty callout
+        // is often a sibling paragraph below it — landing the caret outside
+        // the callout and matching the "can't type in callout" report.
+        const calloutNode = editor.state.doc.nodeAt(nodePos);
+        const calloutEnd  = calloutNode ? nodePos + calloutNode.nodeSize : nodePos + 4;
+        const resolved    = editor.view.posAtCoords({ left: e.clientX, top: e.clientY });
+        const target = resolved && resolved.pos > nodePos && resolved.pos < calloutEnd
+          ? resolved.pos
+          : nodePos + 2;
+
+        editor.chain().focus().setTextSelection(target).run();
       });
 
       return {
