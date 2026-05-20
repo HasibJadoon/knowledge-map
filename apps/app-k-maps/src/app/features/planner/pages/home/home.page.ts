@@ -107,6 +107,9 @@ export class HomePage {
   private async load(): Promise<void> {
     this.loading.set(true);
     try {
+      // Wait for any in-flight capture-note autosave before counting the inbox,
+      // otherwise a note saved on the way back from the editor is missed.
+      await this.notes.whenIdle();
       const [plans, goals, due, captures] = await Promise.all([
         firstValueFrom(this.api.listPlans({ status: 'active' })),
         firstValueFrom(this.api.listGoals()),
