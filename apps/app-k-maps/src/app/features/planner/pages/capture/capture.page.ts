@@ -156,6 +156,9 @@ export class CapturePage {
   private async load(showSkeleton = true): Promise<void> {
     if (showSkeleton) this.loading.set(true);
     try {
+      // Wait for any in-flight autosave from the editor (e.g. the user swiped
+      // back before the POST landed) so the list shows the freshly-saved note.
+      await this.notes.whenIdle();
       const [notes, plans] = await Promise.all([
         firstValueFrom(this.notes.list('inbox', 100)),
         firstValueFrom(this.api.listPlans({ status: 'active' })),
