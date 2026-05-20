@@ -189,7 +189,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
 
   // ── GET /al/lex/v2/roots/:root_norm — multi-source compare ───────────────
   router.get('/al/lex/v2/roots/:root_norm', (req, env, params) => cached(req, async () => {
-    const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+    const root_norm = (params.root_norm ?? '').trim();
     if (!root_norm) return badRequest('root_norm required');
 
     const entries = (await env.DB_AL.prepare(
@@ -248,7 +248,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
   // (slug, root) so navigating between roots and re-opening books is instant.
   router.get('/al/lex/v2/entry/:source_slug/:root_norm', (req, env, params) => cached(req, async () => {
     const slug = params.source_slug ?? '';
-    const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+    const root_norm = (params.root_norm ?? '').trim();
     if (!slug || !root_norm) return badRequest('slug + root_norm required');
 
     const entry = await env.DB_AL.prepare(

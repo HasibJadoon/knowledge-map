@@ -167,7 +167,7 @@ export function lexiconLaneRoutes(router: Router<ArLinguisticsEnv>) {
   router.get(
     `/al/lex/v2/read/${SOURCE_SLUG}/:root_norm`,
     (req, env, params) => cached(req, async () => {
-      const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+      const root_norm = (params.root_norm ?? '').trim();
       if (!root_norm) return badRequest('root_norm required');
 
       const entry = await env.DB_AL.prepare(

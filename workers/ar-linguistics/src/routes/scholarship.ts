@@ -153,7 +153,7 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
   // Root index for a single scholarship source — used by the shell's
   // left-rail to let the reader navigate all roots in that source.
   router.get('/al/scholarship/roots/:slug', (req, env, params) => cached(req, async () => {
-    const slug = decodeURIComponent(params.slug ?? '').trim();
+    const slug = (params.slug ?? '').trim();
     if (!slug) return badRequest('slug required');
 
     const rows = (await env.DB_AL.prepare(
@@ -170,8 +170,8 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
   // ── GET /al/scholarship/by-source/:slug/:root_norm ──────────────────
   // All notes for a (source, root) pair — the shell's main panel.
   router.get('/al/scholarship/by-source/:slug/:root_norm', (req, env, params) => cached(req, async () => {
-    const slug = decodeURIComponent(params.slug ?? '').trim();
-    const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+    const slug = (params.slug ?? '').trim();
+    const root_norm = (params.root_norm ?? '').trim();
     if (!slug || !root_norm) return badRequest('slug and root_norm required');
 
     const rows = (await env.DB_AL.prepare(
@@ -219,7 +219,7 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
   // ── GET /al/scholarship/root/:root_norm ─────────────────────────────
   // All academic notes for a given root, with source metadata expanded.
   router.get('/al/scholarship/root/:root_norm', async (_req, env, params) => {
-    const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+    const root_norm = (params.root_norm ?? '').trim();
     if (!root_norm) return badRequest('root_norm required');
 
     const rows = (await env.DB_AL.prepare(
@@ -271,7 +271,7 @@ export function scholarshipRoutes(router: Router<ArLinguisticsEnv>) {
   // Lightweight existence check — used by the hub to decide whether to
   // render the "Academic readings" section at all.
   router.get('/al/scholarship/has/:root_norm', async (_req, env, params) => {
-    const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+    const root_norm = (params.root_norm ?? '').trim();
     if (!root_norm) return badRequest('root_norm required');
 
     const row = await env.DB_AL.prepare(
