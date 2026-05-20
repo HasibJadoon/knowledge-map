@@ -15,7 +15,12 @@ export const Callout = Node.create({
   group: 'block',
   content: 'block+',
   defining: true,
-  draggable: true,
+  // NOTE: do NOT set `draggable: true`. WebKit treats `draggable="true"` on a
+  // contenteditable container as an HTML5 drag handle, so tap on iOS is
+  // consumed by the drag-detection gesture instead of placing a caret —
+  // empty callouts then surface the Paste/Select menu instead of the
+  // keyboard. Drag-reorder is provided by the MobileBlockHandle grip in
+  // doc-editor, which doesn't rely on the HTML `draggable` attribute.
 
   addAttributes() {
     return {
@@ -186,6 +191,8 @@ export const Callout = Node.create({
 
       const contentEl = document.createElement('div');
       contentEl.className = 'km-callout__content';
+      // Explicit — defensive against any contentEditable inheritance quirk.
+      contentEl.contentEditable = 'true';
 
       dom.appendChild(emojiEl);
       dom.appendChild(contentEl);
