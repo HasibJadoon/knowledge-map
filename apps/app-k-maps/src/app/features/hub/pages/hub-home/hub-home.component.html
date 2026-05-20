@@ -17,25 +17,24 @@
 
       <main class="hh__grid" #grid>
         @for (s of sections; track s.id) {
-          <button
-            class="hh__card"
-            [class]="'hh__card--' + s.id"
+          <ion-card
+            button
+            class="km-ion-card hh__card"
+            [class]="'km-ion-card hh__card hh__card--' + s.id"
             [style.--accent]="s.accentColor"
             (click)="navigate(s.route)"
             [attr.aria-label]="'Open ' + s.title + ' management'"
           >
-            <div class="hh__card-artwork">
-              <span class="hh__glyph">{{ s.glyph }}</span>
-              <div class="hh__shimmer"></div>
-            </div>
-            <div class="hh__bottom-glow"></div>
-            <div class="hh__card-body">
-              <span class="hh__tag">{{ s.tag }}</span>
-              <span class="hh__card-title">{{ s.title }}</span>
+            <ion-card-header>
+              <div class="hh__glyph">{{ s.glyph }}</div>
+              <ion-card-subtitle class="hh__tag">{{ s.tag }}</ion-card-subtitle>
+              <ion-card-title class="hh__card-title">{{ s.title }}</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
               <p class="hh__card-desc">{{ s.description }}</p>
               <span class="hh__subtitle-badge">{{ s.subtitle }}</span>
-            </div>
-          </button>
+            </ion-card-content>
+          </ion-card>
         }
       </main>
 
@@ -43,4 +42,3 @@
         <span class="hh__footer-text">Select a domain to manage data</span>
       </footer>
     </div>
-  

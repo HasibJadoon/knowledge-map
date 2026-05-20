@@ -3,6 +3,7 @@ import {
   ElementRef, ViewChild, inject, OnDestroy
 } from '@angular/core';
 import { Router } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 import gsap from 'gsap';
 import { HubSectionDef } from '../../models/hub.models';
 import { BackButtonComponent } from '../../../../shared/components/back-button/back-button.component';
@@ -57,7 +58,7 @@ const SECTION_DEFS: HubSectionDef[] = [
 @Component({
   selector: 'km-hub-home',
   standalone: true,
-  imports: [BackButtonComponent],
+  imports: [BackButtonComponent, IonicModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './hub-home.component.html',
   styleUrl: './hub-home.component.scss'
