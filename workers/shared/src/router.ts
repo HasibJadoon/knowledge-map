@@ -32,6 +32,17 @@ function withCors(response: Response): Response {
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
 }
 
+/** Best-effort URL-decode for a single path segment captured by URLPattern. */
+function decodePathParam(value: string): string {
+  if (!value.includes('%')) return value;
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    // Malformed escape — leave as-is so handlers can decide how to respond.
+    return value;
+  }
+}
+
 export class Router<Env = unknown> {
   private routes: Route<Env>[] = [];
 
@@ -69,9 +80,12 @@ export class Router<Env = unknown> {
       const match = route.pattern.exec({ pathname: url.pathname });
       if (!match) continue;
 
-      // Extract named path params (e.g. :id → params.id)
+      // Extract named path params (e.g. :id → params.id). URLPattern keeps the
+      // captured value in its URL-encoded form (e.g. ":" arrives as "%3A"),
+      // which would never match the literal value stored in D1. Decode here so
+      // every route handler sees the original value.
       const params = Object.fromEntries(
-        Object.entries(match.pathname.groups).map(([k, v]) => [k, v ?? '']),
+        Object.entries(match.pathname.groups).map(([k, v]) => [k, decodePathParam(v ?? '')]),
       );
 
       try {

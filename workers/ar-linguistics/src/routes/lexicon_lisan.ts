@@ -181,7 +181,7 @@ function registerSourceRoute(router: Router<ArLinguisticsEnv>, slug: string) {
   router.get(
     `/al/lex/v2/read/${slug}/:root_norm`,
     async (_req, env, params) => {
-      const root_norm = decodeURIComponent(params.root_norm ?? '').trim();
+      const root_norm = (params.root_norm ?? '').trim();
       if (!root_norm) return badRequest('root_norm required');
 
       // Pull the per-source config (title, parser hints) from D1 instead of
