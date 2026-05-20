@@ -297,21 +297,28 @@ export const Callout = Node.create({
       });
 
       // ── Focus routing ────────────────────────────────────────────────────
-      // Only step in for taps that land OUTSIDE the editable contentEl
-      // (the callout's outer padding / accent bar). Anything inside contentEl
-      // — including taps on its blank background — is handled by ProseMirror
-      // and iOS's native tap-to-focus. Calling preventDefault on those taps
-      // breaks the iOS focus chain and triggers the system Paste/Select
-      // menu instead of placing the caret.
+      // Two cases need manual help; everything else stays native so iOS's
+      // tap-to-focus brings the keyboard up and the system Paste/Select
+      // menu doesn't get triggered:
+      //
+      //  1. Tap landed OUTSIDE contentEl — the callout's outer padding /
+      //     accent bar. No text there for ProseMirror to land on.
+      //  2. Tap landed INSIDE contentEl but the callout is empty (just an
+      //     auto-inserted blank paragraph). The visible target is too thin
+      //     for iOS to focus reliably, so we route the caret ourselves.
+      //
+      // For a non-empty callout, taps on the content go to ProseMirror +
+      // iOS native focus. Calling preventDefault on those breaks the focus
+      // chain and triggers the iOS editing menu instead of placing a caret.
       dom.addEventListener('pointerup', (e: PointerEvent) => {
         if (!e.isPrimary) return;
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
-        if (contentEl.contains(e.target as globalThis.Node)) return;
 
-        // Tap landed in a dead zone (outer padding / accent bar). Route the
-        // caret to the document position closest to the tap so the user
-        // still gets a usable cursor.
+        const inContent = contentEl.contains(e.target as globalThis.Node);
+        const calloutHasText = (contentEl.textContent ?? '').trim() !== '';
+        if (inContent && calloutHasText) return;
+
         e.preventDefault();
         const nodePos = typeof getPos === 'function' ? getPos() : null;
         if (nodePos === null || nodePos === undefined) return;
