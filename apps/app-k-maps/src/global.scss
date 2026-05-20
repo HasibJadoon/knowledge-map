@@ -2289,6 +2289,12 @@ ion-action-sheet.podcast-status-filter-sheet .action-sheet-button-inner {
   text-align: left;
 }
 
+// Highlight the currently-selected stage row in the capture-note stage picker.
+ion-action-sheet .action-sheet-button.km-action-sheet-current {
+  font-weight: 700;
+  color: var(--app-gold-bright, #e8c96a);
+}
+
 @media (max-width: 767px) {
   ion-modal.study-morph-modal .study-morph-profile-grid {
     grid-template-columns: 1fr;

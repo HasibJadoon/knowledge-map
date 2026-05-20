@@ -1,17 +1,24 @@
 // ─── CaptureNoteRepo — pl_capture_notes ───────────────────────────────────────
-// Quick-capture notes. Each capture is a TipTap (ProseMirror) document held in
-// an inbox until it is triaged into a plan or archived.
+// Quick-capture notes. Each capture is a TipTap (ProseMirror) document that
+// moves through a draft → plan → review → done workflow.
 
 import { query, queryOne, execute } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
 
-export type CaptureNoteStatus = 'inbox' | 'archived';
+export type CaptureNoteStatus = 'draft' | 'plan' | 'review' | 'done';
+
+export const CAPTURE_NOTE_STATUSES: readonly CaptureNoteStatus[] =
+  ['draft', 'plan', 'review', 'done'] as const;
+
+export function isCaptureNoteStatus(v: unknown): v is CaptureNoteStatus {
+  return typeof v === 'string' && (CAPTURE_NOTE_STATUSES as readonly string[]).includes(v);
+}
 
 export interface CaptureNoteRow {
   id: string;                  // PL:ULID
   core_user_ref: string;       // 'CORE:<user_id>'
   core_ws_ref: string | null;  // 'CORE:<workspace_id>'
-  status: string;              // 'inbox' | 'archived'
+  status: string;              // 'draft' | 'plan' | 'review' | 'done'
   title: string | null;
   doc_json: string;            // TipTap ProseMirror document JSON
   text: string;                // plain-text extraction
@@ -44,15 +51,15 @@ const COLS = `id, core_user_ref, core_ws_ref, status, title, doc_json, text,
 export class CaptureNoteRepo {
   constructor(private db: D1Database) {}
 
-  /** Most-recent captures for a user filtered by status. */
-  list(userRef: string, status: string, limit: number): Promise<CaptureNoteRow[]> {
+  /** Most-recent captures for a user, newest first. */
+  list(userRef: string, limit: number): Promise<CaptureNoteRow[]> {
     return query<CaptureNoteRow>(
       this.db,
       `SELECT ${COLS} FROM pl_capture_notes
-       WHERE core_user_ref = ? AND status = ?
+       WHERE core_user_ref = ?
        ORDER BY created_at DESC
        LIMIT ?`,
-      [userRef, status, limit],
+      [userRef, limit],
     );
   }
 
@@ -77,7 +84,7 @@ export class CaptureNoteRepo {
         id,
         input.core_user_ref,
         input.core_ws_ref ?? null,
-        input.status ?? 'inbox',
+        input.status ?? 'draft',
         input.title ?? null,
         input.doc_json,
         input.text,

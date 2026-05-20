@@ -3,7 +3,12 @@
 import type { Router } from '../../../shared/src/router';
 import { ok, created, notFound, badRequest, unauthorized } from '../../../shared/src/response';
 import type { PlannerEnv } from '../env';
-import { CaptureNoteRepo, CaptureNoteRow, CaptureNotePatch } from '../repositories/capture.repo';
+import {
+  CaptureNoteRepo,
+  CaptureNoteRow,
+  CaptureNotePatch,
+  isCaptureNoteStatus,
+} from '../repositories/capture.repo';
 import { actorRef } from '../auth';
 
 async function readJson(req: Request): Promise<unknown> {
@@ -23,13 +28,18 @@ function safeParse(value: string | null): unknown {
   }
 }
 
-/** DB row → API shape: doc_json/meta_json become parsed objects. */
+/** DB row → API shape: doc_json/meta_json become parsed objects. Any legacy
+ *  status (e.g. 'inbox'/'archived' from before the stage migration) is mapped
+ *  to a valid stage so the UI always has something sensible to render. */
 function toApi(row: CaptureNoteRow) {
+  const status = isCaptureNoteStatus(row.status)
+    ? row.status
+    : row.status === 'archived' ? 'done' : 'draft';
   return {
     id: row.id,
     core_user_ref: row.core_user_ref,
     core_ws_ref: row.core_ws_ref,
-    status: row.status,
+    status,
     title: row.title,
     text: row.text,
     doc: safeParse(row.doc_json),
@@ -45,15 +55,16 @@ function isDoc(value: unknown): boolean {
 
 export function captureRoutes(router: Router<PlannerEnv>) {
 
-  // GET /pl/captures?status=inbox&limit=50 — the authenticated user's captures
+  // GET /pl/captures?limit=50 — all captures for the authenticated user,
+  // newest first. The list returns every stage (draft/plan/review/done);
+  // the client filters/groups locally.
   router.get('/pl/captures', async (req, env) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
     const url = new URL(req.url);
-    const status = url.searchParams.get('status') === 'archived' ? 'archived' : 'inbox';
     const limitRaw = Number(url.searchParams.get('limit'));
     const limit = Number.isFinite(limitRaw) && limitRaw > 0 ? Math.min(limitRaw, 200) : 50;
-    const rows = await new CaptureNoteRepo(env.DB_PL).list(user, status, limit);
+    const rows = await new CaptureNoteRepo(env.DB_PL).list(user, limit);
     return ok(rows.map(toApi));
   });
 
@@ -73,7 +84,7 @@ export function captureRoutes(router: Router<PlannerEnv>) {
     if (!isDoc(b['doc'])) return badRequest('doc is required and must be a TipTap document object');
     const text  = typeof b['text'] === 'string' ? b['text'] : '';
     const title = typeof b['title'] === 'string' && b['title'].trim() ? b['title'].trim() : null;
-    const status = b['status'] === 'archived' ? 'archived' : 'inbox';
+    const status = isCaptureNoteStatus(b['status']) ? b['status'] : 'draft';
     const row = await new CaptureNoteRepo(env.DB_PL).create({
       core_user_ref: user,
       status,
@@ -100,19 +111,13 @@ export function captureRoutes(router: Router<PlannerEnv>) {
       patch.title = typeof b['title'] === 'string' && b['title'].trim() ? b['title'].trim() : null;
     }
     if (b['status'] !== undefined) {
-      if (b['status'] !== 'inbox' && b['status'] !== 'archived') {
-        return badRequest("status must be 'inbox' or 'archived'");
+      if (!isCaptureNoteStatus(b['status'])) {
+        return badRequest("status must be 'draft', 'plan', 'review' or 'done'");
       }
       patch.status = b['status'];
     }
     if (b['meta'] !== undefined) patch.meta_json = b['meta'] != null ? JSON.stringify(b['meta']) : null;
     const row = await new CaptureNoteRepo(env.DB_PL).update(id, patch);
-    return row ? ok(toApi(row)) : notFound(`capture ${id}`);
-  });
-
-  // POST /pl/captures/:id/archive — move a capture out of the inbox
-  router.post('/pl/captures/:id/archive', async (_req, env, { id }) => {
-    const row = await new CaptureNoteRepo(env.DB_PL).update(id, { status: 'archived' });
     return row ? ok(toApi(row)) : notFound(`capture ${id}`);
   });
 }

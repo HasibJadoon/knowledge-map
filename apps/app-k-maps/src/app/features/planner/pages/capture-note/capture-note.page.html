@@ -85,5 +85,17 @@
     </div>
   }
 
-  <div #editorHost class="km-note-doc" [class.km-note-doc--hidden]="loading() || editorError()"></div>
+  <input
+    type="text"
+    class="km-note-title"
+    [class.km-note-title--hidden]="loading() || editorError()"
+    placeholder="Title"
+    enterkeyhint="next"
+    autocapitalize="sentences"
+    spellcheck="true"
+    [ngModel]="title()"
+    (ngModelChange)="onTitleInput($event)"
+  />
+
+  <div #editorHost class="km-note-doc km-doc-editor-el" [class.km-note-doc--hidden]="loading() || editorError()"></div>
 </ion-content>

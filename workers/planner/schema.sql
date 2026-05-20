@@ -410,7 +410,7 @@ CREATE TABLE pl_capture_notes (
   id            TEXT PRIMARY KEY,
   core_user_ref TEXT NOT NULL,
   core_ws_ref   TEXT,
-  status        TEXT NOT NULL DEFAULT 'inbox',
+  status        TEXT NOT NULL DEFAULT 'draft',
   title         TEXT,
   doc_json      TEXT NOT NULL,
   text          TEXT NOT NULL DEFAULT '',

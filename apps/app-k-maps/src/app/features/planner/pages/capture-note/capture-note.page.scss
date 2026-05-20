@@ -119,58 +119,42 @@ app-planner-capture-note {
     display: none;
   }
 
+  // ── Title input ──────────────────────────────────────────────────────────
+  // Single-line title above the body editor. Inherits font tokens from the
+  // page so it visually matches the editor's H1 (also gold via the docs
+  // editor stylesheet) without re-declaring color values.
+  .km-note-title {
+    width: 100%;
+    padding: 1rem 1.1rem 0.35rem;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--app-gold-bright, #e8c96a);
+    font-size: 1.55rem;
+    font-weight: 700;
+    line-height: 1.25;
+    letter-spacing: -0.01em;
+    caret-color: var(--app-gold-bright, #e8c96a);
+  }
+
+  .km-note-title::placeholder {
+    color: rgba(255, 255, 255, 0.22);
+    font-weight: 600;
+  }
+
+  .km-note-title--hidden {
+    display: none;
+  }
+
+  // Body styling. Heading colours, paragraph spacing, lists, blockquote etc.
+  // come from the shared docs editor stylesheet via the .km-doc-editor-el
+  // class on the editor host — keep this scope minimal so styles don't drift.
   .km-note-doc .ProseMirror {
     outline: none;
-    min-height: 70vh;
-    padding: 1rem 1.1rem 6rem;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: var(--app-text-strong, rgba(255, 255, 255, 0.94));
+    min-height: 60vh;
+    padding: 0.35rem 1.1rem 6rem;
     -webkit-user-select: text;
     user-select: text;
-  }
-
-  .km-note-doc .ProseMirror > * + * {
-    margin-top: 0.55rem;
-  }
-
-  .km-note-doc .ProseMirror h1 { font-size: 1.5rem; font-weight: 700; }
-  .km-note-doc .ProseMirror h2 { font-size: 1.25rem; font-weight: 700; }
-  .km-note-doc .ProseMirror h3 { font-size: 1.08rem; font-weight: 650; }
-
-  .km-note-doc .ProseMirror ul,
-  .km-note-doc .ProseMirror ol {
-    padding-left: 1.3rem;
-  }
-
-  .km-note-doc .ProseMirror ul[data-type='taskList'] {
-    list-style: none;
-    padding-left: 0.2rem;
-  }
-
-  .km-note-doc .ProseMirror ul[data-type='taskList'] li {
-    display: flex;
-    gap: 0.45rem;
-    align-items: flex-start;
-  }
-
-  .km-note-doc .ProseMirror blockquote {
-    padding-left: 0.8rem;
-    border-left: 3px solid rgba(201, 168, 76, 0.6);
-    color: var(--app-text-body, rgba(255, 255, 255, 0.78));
-  }
-
-  .km-note-doc .ProseMirror code {
-    padding: 0.05rem 0.3rem;
-    font-size: 0.85em;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 0.3rem;
-  }
-
-  .km-note-doc .ProseMirror hr {
-    border: none;
-    border-top: 1px solid rgba(255, 255, 255, 0.16);
-    margin: 0.85rem 0;
   }
 
   .km-note-doc .ProseMirror p.is-editor-empty:first-child::before {
