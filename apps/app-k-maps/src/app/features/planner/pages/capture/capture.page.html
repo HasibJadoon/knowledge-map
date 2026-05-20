@@ -35,29 +35,31 @@
         </ion-segment>
       </section>
 
-      <section class="km-panel" *ngIf="visibleItems().length > 0; else emptyCapture">
-        <header class="km-panel-header"><h2>Notes</h2></header>
-        <ion-list class="km-entry-list">
-          <ion-item-sliding *ngFor="let note of visibleItems()" #sliding>
-            <ion-item class="km-entry-row" button lines="none" detail="false" (click)="openNote(note)">
-              <ion-label>
-                <h3>{{ note.title || 'New note' }}</h3>
-                <p class="km-entry-meta">{{ preview(note) }}</p>
-                <p class="km-entry-time">{{ note.updated_at | date:'EEE d MMM, h:mm a' }}</p>
-              </ion-label>
-            </ion-item>
-            <ion-item-options side="end">
-              <ion-item-option color="primary" (click)="openTriage(note, sliding)">Triage</ion-item-option>
-              <ion-item-option color="medium" (click)="archive(note, sliding)">Archive</ion-item-option>
-            </ion-item-options>
-          </ion-item-sliding>
-        </ion-list>
+      <section class="km-capture-grid" *ngIf="visibleItems().length > 0; else emptyCapture">
+        <button
+          type="button"
+          class="km-capture-card"
+          *ngFor="let note of visibleItems()"
+          [attr.data-status]="note.status"
+          (click)="openNote(note)"
+        >
+          <h3 class="km-capture-card__title">{{ titleOf(note) }}</h3>
+          <span
+            class="km-capture-card__chip"
+            [attr.data-status]="note.status"
+            role="button"
+            tabindex="0"
+            (click)="changeStatus($event, note)"
+          >
+            {{ statusLabel(note.status) }}
+          </span>
+        </button>
       </section>
 
       <ng-template #emptyCapture>
         <section class="km-panel km-empty-state">
           <h3>No notes yet</h3>
-          <p>Tap the pencil to start a note — capture a thought, then triage it into a plan.</p>
+          <p>Tap the pencil to start a note — capture a thought, then move it through Draft → Plan → Review → Done.</p>
         </section>
       </ng-template>
     </ng-template>

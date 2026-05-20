@@ -80,7 +80,7 @@ export class HomePage {
     {
       key: 'capture',
       title: 'Capture',
-      caption: this.captureCount() ? `${this.captureCount()} in inbox` : 'Catch a thought',
+      caption: this.captureCount() ? `${this.captureCount()} open` : 'Catch a thought',
       icon: createOutline,
       route: '/planner/capture',
       accent: '#ff9d6c',
@@ -114,12 +114,13 @@ export class HomePage {
         firstValueFrom(this.api.listPlans({ status: 'active' })),
         firstValueFrom(this.api.listGoals()),
         firstValueFrom(this.api.reviewDue(50)),
-        firstValueFrom(this.notes.list('inbox', 60)),
+        firstValueFrom(this.notes.list(60)),
       ]);
       this.planCount.set(plans.length);
       this.goalCount.set(goals.filter((goal) => goal.status === 'active').length);
       this.dueCount.set(due.length);
-      this.captureCount.set(captures.length);
+      // "Open" captures = anything that's not yet done.
+      this.captureCount.set(captures.filter((note) => note.status !== 'done').length);
     } catch {
       /* the cards still render with zero counts */
     } finally {

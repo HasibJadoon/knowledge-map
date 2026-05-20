@@ -125,7 +125,17 @@ export type ReviewCycleCadence = 'daily' | 'weekly' | 'monthly' | 'custom';
 // Quick captures stored as TipTap (ProseMirror) documents. Mirrors
 // workers/planner/src/routes/captures.ts.
 
-export type CaptureNoteStatus = 'inbox' | 'archived';
+export type CaptureNoteStatus = 'draft' | 'plan' | 'review' | 'done';
+
+export const CAPTURE_NOTE_STATUSES: ReadonlyArray<CaptureNoteStatus> =
+  ['draft', 'plan', 'review', 'done'];
+
+export const CAPTURE_NOTE_STATUS_LABELS: Readonly<Record<CaptureNoteStatus, string>> = {
+  draft:  'Draft',
+  plan:   'Plan',
+  review: 'Review',
+  done:   'Done',
+};
 
 /** A TipTap / ProseMirror document node. */
 export interface TiptapJson {

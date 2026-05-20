@@ -1,8 +1,13 @@
 import { Component, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { IonItemSliding, ToastController } from '@ionic/angular';
+import { ActionSheetController, IonItemSliding, ToastController } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
-import { CaptureNote } from '../../../../shared/models/planner/planner-extras.models';
+import {
+  CAPTURE_NOTE_STATUSES,
+  CAPTURE_NOTE_STATUS_LABELS,
+  CaptureNote,
+  CaptureNoteStatus,
+} from '../../../../shared/models/planner/planner-extras.models';
 import { Plan } from '../../../../shared/models/planner/plan.models';
 import { CaptureNotesService } from '../../../../shared/services/planner/capture-notes.service';
 import { PlannerApiService } from '../../../../shared/services/planner/planner-api.service';
@@ -18,6 +23,7 @@ export class CapturePage {
   private readonly notes = inject(CaptureNotesService);
   private readonly api = inject(PlannerApiService);
   private readonly toastController = inject(ToastController);
+  private readonly actionSheetController = inject(ActionSheetController);
   private readonly router = inject(Router);
 
   readonly loading = signal(true);
@@ -60,13 +66,12 @@ export class CapturePage {
     (ev.target as HTMLIonRefresherElement | null)?.complete();
   }
 
-  preview(note: CaptureNote): string {
-    const body = (note.text ?? '').replace(/\s+/g, ' ').trim();
-    const title = (note.title ?? '').trim();
-    if (body && title && body.startsWith(title)) {
-      return body.slice(title.length).trim() || 'No additional text';
-    }
-    return body || 'Empty note';
+  titleOf(note: CaptureNote): string {
+    return (note.title ?? '').trim() || 'New note';
+  }
+
+  statusLabel(status: CaptureNoteStatus): string {
+    return CAPTURE_NOTE_STATUS_LABELS[status];
   }
 
   newNote(): void {
@@ -83,17 +88,41 @@ export class CapturePage {
     }
   }
 
-  async archive(note: CaptureNote, sliding?: IonItemSliding | HTMLIonItemSlidingElement | null): Promise<void> {
-    await sliding?.close();
-    this.saving.set(true);
+  /** Tap on the stage chip — present an action sheet to pick a new stage. */
+  async changeStatus(event: Event, note: CaptureNote): Promise<void> {
+    event.stopPropagation();
+    const sheet = await this.actionSheetController.create({
+      header: 'Move to stage',
+      buttons: [
+        ...CAPTURE_NOTE_STATUSES.map((status) => ({
+          text: CAPTURE_NOTE_STATUS_LABELS[status],
+          cssClass: status === note.status ? 'km-action-sheet-current' : undefined,
+          handler: () => {
+            if (status !== note.status) {
+              void this.applyStatus(note, status);
+            }
+            return true;
+          },
+        })),
+        { text: 'Cancel', role: 'cancel' },
+      ],
+    });
+    await sheet.present();
+  }
+
+  private async applyStatus(note: CaptureNote, status: CaptureNoteStatus): Promise<void> {
+    // Optimistic update so the chip reflects the choice instantly.
+    const previous = note.status;
+    this.items.update((rows) => rows.map((row) =>
+      row.id === note.id ? { ...row, status } : row,
+    ));
     try {
-      await firstValueFrom(this.notes.archive(note.id));
-      this.items.update((rows) => rows.filter((row) => row.id !== note.id));
-      await this.presentToast('Archived.');
+      await firstValueFrom(this.notes.update(note.id, { status }));
     } catch {
-      await this.presentToast('Could not archive the note.');
-    } finally {
-      this.saving.set(false);
+      this.items.update((rows) => rows.map((row) =>
+        row.id === note.id ? { ...row, status: previous } : row,
+      ));
+      await this.presentToast('Could not update the stage.');
     }
   }
 
@@ -137,11 +166,13 @@ export class CapturePage {
         description_md: note.text || null,
       }));
       try {
-        await firstValueFrom(this.notes.archive(note.id));
+        await firstValueFrom(this.notes.update(note.id, { status: 'done' }));
+        this.items.update((rows) => rows.map((row) =>
+          row.id === note.id ? { ...row, status: 'done' } : row,
+        ));
       } catch {
-        /* keep the capture if archiving fails */
+        /* keep the capture as-is if the stage update fails */
       }
-      this.items.update((rows) => rows.filter((row) => row.id !== note.id));
       this.closeTriage();
       await this.presentToast('Capture moved into the plan.');
     } catch {
@@ -160,7 +191,7 @@ export class CapturePage {
       // back before the POST landed) so the list shows the freshly-saved note.
       await this.notes.whenIdle();
       const [notes, plans] = await Promise.all([
-        firstValueFrom(this.notes.list('inbox', 100)),
+        firstValueFrom(this.notes.list(100)),
         firstValueFrom(this.api.listPlans({ status: 'active' })),
       ]);
       this.items.set(notes);

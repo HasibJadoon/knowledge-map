@@ -6,7 +6,6 @@ import {
   CaptureNote,
   CaptureNoteCreatePayload,
   CaptureNotePatchPayload,
-  CaptureNoteStatus,
 } from '../../models/planner/planner-extras.models';
 import { resolveApiRoot } from './api-root.util';
 
@@ -24,8 +23,8 @@ export class CaptureNotesService {
   private pendingWrites = 0;
   private idleResolvers: Array<() => void> = [];
 
-  list(status: CaptureNoteStatus = 'inbox', limit = 50): Observable<CaptureNote[]> {
-    const params = new HttpParams().set('status', status).set('limit', String(limit));
+  list(limit = 100): Observable<CaptureNote[]> {
+    const params = new HttpParams().set('limit', String(limit));
     return this.http
       .get<ApiEnvelope<CaptureNote[]>>(this.root, { params })
       .pipe(map((response) => response.data ?? []));
@@ -53,15 +52,7 @@ export class CaptureNotesService {
     );
   }
 
-  archive(id: string): Observable<CaptureNote> {
-    return this.trackWrite(
-      this.http
-        .post<ApiEnvelope<CaptureNote>>(`${this.root}/${encodeURIComponent(id)}/archive`, {})
-        .pipe(map((response) => response.data)),
-    );
-  }
-
-  /** Resolves once every in-flight create/update/archive request has settled. */
+  /** Resolves once every in-flight create/update request has settled. */
   whenIdle(): Promise<void> {
     if (this.pendingWrites === 0) return Promise.resolve();
     return new Promise((resolve) => this.idleResolvers.push(resolve));
