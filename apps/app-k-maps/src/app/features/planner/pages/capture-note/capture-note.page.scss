@@ -125,7 +125,7 @@ app-planner-capture-note {
   // editor stylesheet) without re-declaring color values.
   .km-note-title {
     width: 100%;
-    padding: 1rem 1.1rem 0.35rem;
+    padding: 0.85rem 1.1rem 0;
     background: transparent;
     border: none;
     outline: none;
@@ -152,9 +152,16 @@ app-planner-capture-note {
   .km-note-doc .ProseMirror {
     outline: none;
     min-height: 60vh;
-    padding: 0.35rem 1.1rem 6rem;
+    padding: 0 1.1rem 6rem;
     -webkit-user-select: text;
     user-select: text;
+  }
+
+  // Apple Notes feel: the very first block sits right under the title input
+  // with no extra top margin, even if it's an H1 (which the shared docs
+  // stylesheet otherwise gives a generous `margin-top: 1.5em`).
+  .km-note-doc .ProseMirror > *:first-child {
+    margin-top: 0;
   }
 
   .km-note-doc .ProseMirror p.is-editor-empty:first-child::before {
