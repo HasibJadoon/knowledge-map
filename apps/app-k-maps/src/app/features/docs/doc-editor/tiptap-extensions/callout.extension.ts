@@ -15,7 +15,12 @@ export const Callout = Node.create({
   group: 'block',
   content: 'block+',
   defining: true,
-  draggable: true,
+  // NOTE: do NOT set `draggable: true`. WebKit treats `draggable="true"` on a
+  // contenteditable container as an HTML5 drag handle, so tap on iOS is
+  // consumed by the drag-detection gesture instead of placing a caret —
+  // empty callouts then surface the Paste/Select menu instead of the
+  // keyboard. Drag-reorder is provided by the MobileBlockHandle grip in
+  // doc-editor, which doesn't rely on the HTML `draggable` attribute.
 
   addAttributes() {
     return {
@@ -106,7 +111,6 @@ export const Callout = Node.create({
             user-select: text !important;
             touch-action: manipulation;
           }
-          .km-callout__content .ProseMirror-trailingBreak { display: none; }
           /* ── Picker ── */
           .km-callout__picker {
             position: fixed; z-index: 15000;
@@ -187,6 +191,8 @@ export const Callout = Node.create({
 
       const contentEl = document.createElement('div');
       contentEl.className = 'km-callout__content';
+      // Explicit — defensive against any contentEditable inheritance quirk.
+      contentEl.contentEditable = 'true';
 
       dom.appendChild(emojiEl);
       dom.appendChild(contentEl);
@@ -297,36 +303,25 @@ export const Callout = Node.create({
       });
 
       // ── Focus routing ────────────────────────────────────────────────────
-      // Two cases need manual help; everything else stays native so iOS's
-      // tap-to-focus brings the keyboard up and the system Paste/Select
-      // menu doesn't get triggered:
-      //
-      //  1. Tap landed OUTSIDE contentEl — the callout's outer padding /
-      //     accent bar. No text there for ProseMirror to land on.
-      //  2. Tap landed INSIDE contentEl but the callout is empty (just an
-      //     auto-inserted blank paragraph). The visible target is too thin
-      //     for iOS to focus reliably, so we route the caret ourselves.
-      //
-      // For a non-empty callout, taps on the content go to ProseMirror +
-      // iOS native focus. Calling preventDefault on those breaks the focus
-      // chain and triggers the iOS editing menu instead of placing a caret.
+      // Only step in for taps that land OUTSIDE the editable contentEl
+      // (the callout's outer padding / accent bar). Anything inside contentEl
+      // — including empty paragraphs, which the visible ProseMirror-trailingBreak
+      // gives natural line-height — is handled by ProseMirror + iOS's native
+      // tap-to-focus. preventDefault on a pointerup inside a contenteditable
+      // breaks the WKWebView focus chain and surfaces the Paste/Select menu
+      // instead of placing a caret.
       dom.addEventListener('pointerup', (e: PointerEvent) => {
         if (!e.isPrimary) return;
         if (emojiEl.contains(e.target as globalThis.Node)) return;
         if (pickerEl?.contains(e.target as globalThis.Node)) return;
+        if (contentEl.contains(e.target as globalThis.Node)) return;
 
-        const inContent = contentEl.contains(e.target as globalThis.Node);
-        const calloutHasText = (contentEl.textContent ?? '').trim() !== '';
-        if (inContent && calloutHasText) return;
-
+        // Dead zone (outer padding / accent bar). Route the caret to the
+        // nearest position inside the callout so the user gets a usable cursor.
         e.preventDefault();
         const nodePos = typeof getPos === 'function' ? getPos() : null;
         if (nodePos === null || nodePos === undefined) return;
 
-        // Clamp the target position to inside this callout. posAtCoords
-        // resolves to the nearest text run, which for a near-empty callout
-        // is often a sibling paragraph below it — landing the caret outside
-        // the callout and matching the "can't type in callout" report.
         const calloutNode = editor.state.doc.nodeAt(nodePos);
         const calloutEnd  = calloutNode ? nodePos + calloutNode.nodeSize : nodePos + 4;
         const resolved    = editor.view.posAtCoords({ left: e.clientX, top: e.clientY });
