@@ -1,0 +1,36 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Workbench</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="wb-content">
+  <div class="wb">
+    <main class="wb__cards">
+      @for (card of cards; track card.id; let idx = $index) {
+        <button
+          class="km-module-card"
+          [class]="'km-module-card--' + card.id"
+          [style.--i]="idx"
+          (click)="navigate(card.route)"
+          [attr.aria-label]="'Open ' + card.label"
+          type="button"
+        >
+          <div class="km-module-card__artwork">
+            <span class="km-module-card__glyph">{{ card.glyph }}</span>
+            <div class="km-module-card__shimmer"></div>
+          </div>
+          <div class="km-module-card__bottom-glow"></div>
+          <span class="km-module-card__label">{{ card.label }}</span>
+        </button>
+      }
+    </main>
+
+    <footer class="wb__footer">
+      <span class="km-divider-text">Plan · Organize · Create</span>
+    </footer>
+  </div>
+</ion-content>

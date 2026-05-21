@@ -168,12 +168,8 @@ export class HomePage implements AfterViewInit, OnDestroy, ViewWillLeave, ViewWi
     { id: 'quran',          label: 'Quran',     route: '/quran',              glyph: '☽' },
     { id: 'arabic',         label: 'Arabic',    route: '/arabic',             glyph: 'ع' },
     { id: 'worldview',      label: 'Worldview', route: '/worldview',          glyph: '◉' },
-    { id: 'planner',        label: 'Planner',   route: '/planner',            glyph: '⊞' },
-    { id: 'hub',            label: 'Hub',       route: '/hub',                glyph: '⬡' },
-    { id: 'workspace',      label: 'Workspace', route: '/workspace',          glyph: '◈' },
     { id: 'srs',            label: 'SRS',       route: '/srs',                glyph: '▣' },
-    { id: 'content',        label: 'Content',   route: '/content',            glyph: '▶' },
-    { id: 'docs',           label: 'Docs',      route: '/docs',               glyph: '✦' },
+    { id: 'workbench',      label: 'Workbench', route: '/workbench',          glyph: '▦' },
   ];
 
   ngAfterViewInit(): void {
