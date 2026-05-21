@@ -155,7 +155,10 @@
 
 .wvg__shell {
   display: block;
-  height: min(68dvh, 100%);
+  // Must be a definite height: the canvas fills via absolute positioning and
+  // a flex chain, so a percentage against the indefinite scroll container
+  // collapses the graph to zero height.
+  height: 68dvh;
   min-height: 26rem;
   border: 1px solid rgba(201, 168, 76, 0.1);
   border-radius: 0;
