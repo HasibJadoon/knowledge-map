@@ -19,9 +19,14 @@ interface ContentSection {
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-back-button defaultHref="/home"></ion-back-button>
+          <ion-back-button defaultHref="/workbench"></ion-back-button>
         </ion-buttons>
         <ion-title>Content</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear" routerLink="/home" routerDirection="root" aria-label="Home">
+            <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
       </ion-toolbar>
     </ion-header>
 

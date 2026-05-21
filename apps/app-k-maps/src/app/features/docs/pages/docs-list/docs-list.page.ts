@@ -69,14 +69,15 @@ const DOMAINS = [
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button fill="clear" routerLink="/home" routerDirection="root" aria-label="Home">
-            <ion-icon slot="icon-only" name="home-outline"></ion-icon>
-          </ion-button>
+          <ion-back-button defaultHref="/workbench" text=""></ion-back-button>
         </ion-buttons>
         <ion-title>Documents</ion-title>
         <ion-buttons slot="end">
           <ion-button (click)="newDoc()" fill="clear">
             <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
+          </ion-button>
+          <ion-button fill="clear" routerLink="/home" routerDirection="root" aria-label="Home">
+            <ion-icon slot="icon-only" name="home-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>

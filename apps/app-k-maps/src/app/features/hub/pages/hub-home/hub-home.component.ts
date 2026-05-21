@@ -136,4 +136,8 @@ export class HubHomeComponent implements AfterViewInit, OnDestroy {
       onComplete: () => { void this.router.navigateByUrl(route); }
     });
   }
+
+  goHome(): void {
+    void this.router.navigateByUrl('/home');
+  }
 }

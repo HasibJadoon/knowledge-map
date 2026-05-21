@@ -15,9 +15,7 @@ import { isAdminToken } from '../../../../core/auth/auth.utils';
     <ion-header>
       <ion-toolbar>
         <ion-buttons slot="start">
-          <ion-button (click)="goHome()" aria-label="Home">
-            <ion-icon slot="icon-only" name="home-outline"></ion-icon>
-          </ion-button>
+          <ion-back-button defaultHref="/workbench" text=""></ion-back-button>
         </ion-buttons>
         <ion-title>Workspaces</ion-title>
         <ion-buttons slot="end">
@@ -28,6 +26,9 @@ import { isAdminToken } from '../../../../core/auth/auth.utils';
           }
           <ion-button (click)="newWorkspace()" aria-label="New workspace">
             <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+          </ion-button>
+          <ion-button (click)="goHome()" aria-label="Home">
+            <ion-icon slot="icon-only" name="home-outline"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
