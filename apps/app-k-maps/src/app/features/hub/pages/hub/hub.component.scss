@@ -1,12 +1,3 @@
-
-    .hub-shell {
-      width: 100%;
-      height: 100dvh;
-      overflow-y: auto;
-      overflow-x: hidden;
-      -webkit-overflow-scrolling: touch;
-      overscroll-behavior-y: contain;
-      background: var(--km-bg);
-      display: flex;
-      flex-direction: column;
-    }
+// HubComponent is a layout route — its host receives the .ion-page class
+// from the parent ion-router-outlet, and the nested ion-router-outlet
+// hosts the individual hub pages. No custom shell styling needed.

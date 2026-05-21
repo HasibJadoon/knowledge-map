@@ -1,6 +1,6 @@
 :host {
   position: fixed;
-  top: var(--km-back-button-top, 1rem);
+  top: calc(var(--km-back-button-top, 1rem) + env(safe-area-inset-top, 0px));
   left: var(--km-back-button-left, 1rem);
   z-index: 118;
   display: block;
@@ -56,7 +56,7 @@
 
 @media (max-width: 760px) {
   :host {
-    top: var(--km-back-button-top-mobile, 0.82rem);
+    top: calc(var(--km-back-button-top-mobile, 0.82rem) + env(safe-area-inset-top, 0px));
     left: var(--km-back-button-left-mobile, 0.82rem);
   }
 

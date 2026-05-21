@@ -1,11 +1,14 @@
 
+    ion-content.hh-content {
+      --background: radial-gradient(ellipse 80% 60% at 50% 30%, #111005 0%, #080808 60%, #000 100%);
+    }
+
     .hh {
       position: relative;
       width: 100%; min-height: 100%;
       display: flex; flex-direction: column;
       align-items: center;
       gap: 0; padding: 1.5rem 1rem 2.5rem;
-      background: radial-gradient(ellipse 80% 60% at 50% 30%, #111005 0%, #080808 60%, #000 100%);
     }
 
     .hh__particles { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
@@ -23,24 +26,16 @@
       100% { transform: translateY(-100vh) scale(.3); opacity: 0; }
     }
 
-    .hh__header { text-align: center; margin: 1.5rem 0 1.75rem; }
+    .hh__header { text-align: center; margin: 1rem 0 1.75rem; position: relative; z-index: 1; }
 
     .hh__eyebrow {
       font-family: var(--km-font-body); font-size: .7rem; font-weight: 600;
       letter-spacing: .22em; text-transform: uppercase;
-      color: var(--km-gold); opacity: .7; margin-bottom: .5rem;
-    }
-
-    .hh__title {
-      font-family: var(--km-font-heading);
-      font-size: clamp(2.4rem, 6vw, 5rem); font-weight: 700; letter-spacing: .08em; line-height: 1;
-      background: linear-gradient(135deg, var(--km-gold-bright) 0%, var(--km-gold) 55%, #a07830 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      margin-bottom: .75rem;
+      color: var(--km-gold); opacity: .7; margin-bottom: .6rem;
     }
 
     .hh__subtitle {
-      font-size: .85rem; color: var(--km-text-2); letter-spacing: .03em; margin-bottom: 1.25rem;
+      font-size: .85rem; color: var(--km-text-2); letter-spacing: .03em; margin-bottom: 1.1rem;
       max-width: 30rem;
     }
 
@@ -118,6 +113,7 @@
 
     .hh__footer {
       margin-top: 2rem;
+      position: relative; z-index: 1;
       .hh__footer-text {
         font-size: .6rem; letter-spacing: .28em; color: var(--km-text-3); text-transform: uppercase;
       }
