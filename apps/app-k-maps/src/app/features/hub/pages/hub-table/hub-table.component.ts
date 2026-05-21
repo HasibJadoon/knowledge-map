@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 import { HubPanelComponent } from '../../components/hub-panel/hub-panel.component';
 import { HubPanelService } from '../../../../shared/services/hub/hub-panel.service';
 import { HubCard } from '../../models/hub.models';
@@ -11,7 +12,7 @@ import { HubCard } from '../../models/hub.models';
 @Component({
   selector: 'km-hub-table',
   standalone: true,
-  imports: [CommonModule, HubPanelComponent],
+  imports: [CommonModule, IonicModule, HubPanelComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './hub-table.component.html',
   styleUrl: './hub-table.component.scss'
@@ -39,6 +40,12 @@ export class HubTableComponent implements OnInit {
   readonly sectionLabel = computed(() => {
     const path = this.router.url.split('/');
     return path[2] ? path[2].charAt(0).toUpperCase() + path[2].slice(1) : 'Hub';
+  });
+
+  /** Default href for the toolbar back button — the parent section route. */
+  readonly backHref = computed(() => {
+    const segments = this.router.url.split('/').filter(Boolean);
+    return segments.length >= 3 ? `/${segments[0]}/${segments[1]}` : '/hub';
   });
 
   ngOnInit(): void {
@@ -108,14 +115,5 @@ export class HubTableComponent implements OnInit {
     this.offset += 50;
     const c = this.card();
     if (c) this.fetchData(c, false);
-  }
-
-  goBack(): void {
-    const segments = this.router.url.split('/').filter(Boolean);
-    if (segments.length >= 3) {
-      this.router.navigate([`/${segments[0]}/${segments[1]}`]);
-    } else {
-      this.router.navigate(['/hub']);
-    }
   }
 }

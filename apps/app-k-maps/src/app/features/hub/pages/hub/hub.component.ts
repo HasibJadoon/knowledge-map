@@ -1,10 +1,10 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { IonicModule } from '@ionic/angular';
 
 @Component({
   selector: 'km-hub',
   standalone: true,
-  imports: [RouterOutlet],
+  imports: [IonicModule],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './hub.component.html',
   styleUrl: './hub.component.scss'

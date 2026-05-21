@@ -1,44 +1,52 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/" text="Home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Hub</ion-title>
+  </ion-toolbar>
+</ion-header>
 
-    <div class="hh" #page>
-      <km-back-button />
-      <!-- Ambient particles -->
-      <div class="hh__particles" aria-hidden="true">
-        @for (i of particles; track i) {
-          <span class="hh__particle" [style.--i]="i"></span>
-        }
-      </div>
-
-      <header class="hh__header" #header>
-        <p class="hh__eyebrow">Command Center</p>
-        <h1 class="hh__title">Hub</h1>
-        <p class="hh__subtitle">Structured access to Quran, Arabic, worldview, and workspace data.</p>
-        <div class="hh__rule"></div>
-      </header>
-
-      <main class="hh__grid" #grid>
-        @for (s of sections; track s.id) {
-          <ion-card
-            button
-            class="km-ion-card hh__card"
-            [class]="'km-ion-card hh__card hh__card--' + s.id"
-            [style.--accent]="s.accentColor"
-            (click)="navigate(s.route)"
-            [attr.aria-label]="'Open ' + s.title + ' management'"
-          >
-            <ion-card-header>
-              <div class="hh__glyph">{{ s.glyph }}</div>
-              <ion-card-subtitle class="hh__tag">{{ s.tag }}</ion-card-subtitle>
-              <ion-card-title class="hh__card-title">{{ s.title }}</ion-card-title>
-            </ion-card-header>
-            <ion-card-content>
-              <p class="hh__card-desc">{{ s.description }}</p>
-              <span class="hh__subtitle-badge">{{ s.subtitle }}</span>
-            </ion-card-content>
-          </ion-card>
-        }
-      </main>
-
-      <footer class="hh__footer" #footer>
-        <span class="hh__footer-text">Select a domain to manage data</span>
-      </footer>
+<ion-content class="hh-content">
+  <div class="hh" #page>
+    <!-- Ambient particles -->
+    <div class="hh__particles" aria-hidden="true">
+      @for (i of particles; track i) {
+        <span class="hh__particle" [style.--i]="i"></span>
+      }
     </div>
+
+    <header class="hh__header" #header>
+      <p class="hh__eyebrow">Command Center</p>
+      <p class="hh__subtitle">Structured access to Quran, Arabic, worldview, and workspace data.</p>
+      <div class="hh__rule"></div>
+    </header>
+
+    <main class="hh__grid" #grid>
+      @for (s of sections; track s.id) {
+        <ion-card
+          button
+          class="km-ion-card hh__card"
+          [class]="'km-ion-card hh__card hh__card--' + s.id"
+          [style.--accent]="s.accentColor"
+          (click)="navigate(s.route)"
+          [attr.aria-label]="'Open ' + s.title + ' management'"
+        >
+          <ion-card-header>
+            <div class="hh__glyph">{{ s.glyph }}</div>
+            <ion-card-subtitle class="hh__tag">{{ s.tag }}</ion-card-subtitle>
+            <ion-card-title class="hh__card-title">{{ s.title }}</ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <p class="hh__card-desc">{{ s.description }}</p>
+            <span class="hh__subtitle-badge">{{ s.subtitle }}</span>
+          </ion-card-content>
+        </ion-card>
+      }
+    </main>
+
+    <footer class="hh__footer" #footer>
+      <span class="hh__footer-text">Select a domain to manage data</span>
+    </footer>
+  </div>
+</ion-content>

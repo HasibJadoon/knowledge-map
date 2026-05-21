@@ -4,6 +4,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 import gsap from 'gsap';
 import { HubCardComponent } from '../../components/hub-card/hub-card.component';
 import { HubPanelComponent } from '../../components/hub-panel/hub-panel.component';
@@ -31,7 +32,7 @@ const SECTION_META: Record<string, { title: string; subtitle: string; glyph: str
 @Component({
   selector: 'km-hub-section',
   standalone: true,
-  imports: [CommonModule, HubCardComponent, HubPanelComponent],
+  imports: [CommonModule, IonicModule, HubCardComponent, HubPanelComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './hub-section.component.html',
   styleUrl: './hub-section.component.scss'
@@ -73,9 +74,5 @@ export class HubSectionComponent implements OnInit, AfterViewInit {
 
   openCard(card: HubCard): void {
     this.router.navigate([card.route], { relativeTo: this.route });
-  }
-
-  goBack(): void {
-    this.router.navigate(['/hub']);
   }
 }
