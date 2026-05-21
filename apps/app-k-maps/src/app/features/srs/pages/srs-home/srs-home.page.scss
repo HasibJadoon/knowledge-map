@@ -1,0 +1,183 @@
+.srs-shell {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+// ── Stats row ────────────────────────────────────────────────────────────────
+.srs-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.srs-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.8rem 0.3rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: linear-gradient(180deg, rgba(34, 34, 38, 0.95), rgba(20, 20, 22, 0.95));
+}
+
+.srs-stat--due {
+  border-color: rgba(232, 201, 106, 0.32);
+  background: linear-gradient(180deg, rgba(201, 168, 76, 0.18), rgba(201, 168, 76, 0.06));
+}
+
+.srs-stat__num {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.srs-stat--due .srs-stat__num {
+  color: var(--app-gold-bright, #e8c96a);
+}
+
+.srs-stat__label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.45);
+}
+
+// ── Review-all button ────────────────────────────────────────────────────────
+.srs-review-all {
+  width: 100%;
+  margin-bottom: 1.1rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(232, 201, 106, 0.5);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(232, 201, 106, 0.42), rgba(180, 145, 60, 0.42));
+  color: #fff5d6;
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 2px 12px -2px rgba(201, 168, 76, 0.55);
+  -webkit-tap-highlight-color: transparent;
+
+  &:active { transform: translateY(1px); }
+}
+
+// ── Deck grid ────────────────────────────────────────────────────────────────
+.srs-deck-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.8rem;
+}
+
+.srs-deck-card {
+  --km-deck-accent: #c9a84c;
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  width: 100%;
+  min-height: 4.6rem;
+  padding: 0.95rem 1.05rem 0.95rem 0;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.15rem;
+  background: linear-gradient(180deg, rgba(36, 36, 40, 0.96), rgba(20, 20, 22, 0.96));
+  color: rgba(255, 255, 255, 0.95);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  overflow: hidden;
+  transition: transform 0.16s ease, box-shadow 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.05) inset,
+    0 8px 18px -10px rgba(0, 0, 0, 0.7);
+
+  &:active { transform: scale(0.985); }
+}
+
+.srs-deck-card__bar {
+  flex: 0 0 4px;
+  align-self: stretch;
+  background: var(--km-deck-accent);
+}
+
+.srs-deck-card__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.srs-deck-card__title {
+  margin: 0 0 0.2rem;
+  font-size: 1.05rem;
+  font-weight: 650;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.srs-deck-card__type {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--km-deck-accent);
+  background: color-mix(in srgb, var(--km-deck-accent) 16%, transparent);
+}
+
+.srs-deck-card__counts {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.1rem;
+}
+
+.srs-deck-card__due {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.srs-deck-card__due--on {
+  color: var(--app-gold-bright, #e8c96a);
+}
+
+.srs-deck-card__sub {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+// ── Empty state ──────────────────────────────────────────────────────────────
+.srs-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 3.5rem 1.5rem;
+  text-align: center;
+}
+
+.srs-empty__glyph {
+  font-size: 3rem;
+  opacity: 0.4;
+}
+
+.srs-empty h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.srs-empty p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.45);
+}

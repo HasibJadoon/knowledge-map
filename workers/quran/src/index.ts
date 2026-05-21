@@ -14,7 +14,6 @@ import { wordRoutes } from './routes/words';
 import { translationRoutes } from './routes/translations';
 import { studyRoutes } from './routes/study';
 import { pageRoutes } from './routes/pages';
-import { srsRoutes } from './routes/srs';
 import { menuRoutes } from './routes/menu';
 import { readerRoutes } from './routes/reader';
 import { vocabularyRoutes } from './routes/vocabulary';
@@ -47,7 +46,6 @@ translationRoutes(router);   // GET /qr/translation-sources, /qr/translations
 studyRoutes(router);         // GET /qr/study/surahs/:id — grid, passages, lesson, vocab, expressions
 pageRoutes(router);          // GET /qr/pages/:page, /qr/surahs/:id/pages
 mushafRoutes(router);        // GET /qr/mushaf/pages/:page — Quran.com-style Mushaf layout
-srsRoutes(router);           // GET /qr/srs?filter=due|upcoming|all|suspended
 tafsirRoutes(router);        // GET /qr/tafsir, /qr/scholars, /qr/works
 tafsirDisplayRoutes(router); // GET /qr/tafsir/display, /qr/tafsir/display/sources, /search, /compare
 irabRoutes(router);          // GET /qr/irab/book-sources, /qr/irab/book-entries

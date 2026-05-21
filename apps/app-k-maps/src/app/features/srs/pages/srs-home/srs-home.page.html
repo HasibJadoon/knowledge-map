@@ -1,0 +1,88 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>SRS Review</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+  <ion-refresher slot="fixed" (ionRefresh)="onRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="srs-shell ion-padding">
+
+    @if (loading()) {
+      <ion-skeleton-text animated style="width: 100%; height: 5rem; border-radius: 1rem; margin-bottom: 0.9rem"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%; height: 4.6rem; border-radius: 1.15rem; margin-bottom: 0.8rem"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%; height: 4.6rem; border-radius: 1.15rem"></ion-skeleton-text>
+    } @else {
+
+      @if (stats(); as s) {
+        <section class="srs-stats">
+          <div class="srs-stat srs-stat--due">
+            <span class="srs-stat__num">{{ s.due }}</span>
+            <span class="srs-stat__label">Due</span>
+          </div>
+          <div class="srs-stat">
+            <span class="srs-stat__num">{{ s.new }}</span>
+            <span class="srs-stat__label">New</span>
+          </div>
+          <div class="srs-stat">
+            <span class="srs-stat__num">{{ s.learning }}</span>
+            <span class="srs-stat__label">Learning</span>
+          </div>
+          <div class="srs-stat">
+            <span class="srs-stat__num">{{ s.review }}</span>
+            <span class="srs-stat__label">Review</span>
+          </div>
+        </section>
+      }
+
+      @if (totalDue() > 0) {
+        <button type="button" class="srs-review-all" (click)="reviewAll()">
+          Review all due · {{ totalDue() }}
+        </button>
+      }
+
+      @if (decks().length === 0) {
+        <section class="srs-empty">
+          <span class="srs-empty__glyph">▣</span>
+          <h2>No decks yet</h2>
+          <p>Create a deck to start building your spaced-repetition queue.</p>
+        </section>
+      } @else {
+        <div class="srs-deck-grid">
+          @for (deck of decks(); track deck.id) {
+            <button
+              type="button"
+              class="srs-deck-card"
+              [style.--km-deck-accent]="deckColor(deck.deck_type)"
+              (click)="openDeck(deck)"
+            >
+              <span class="srs-deck-card__bar"></span>
+              <div class="srs-deck-card__body">
+                <h3 class="srs-deck-card__title">{{ deck.title }}</h3>
+                <span class="srs-deck-card__type">{{ deckTypeLabel(deck.deck_type) }}</span>
+              </div>
+              <div class="srs-deck-card__counts">
+                <span class="srs-deck-card__due" [class.srs-deck-card__due--on]="deck.due_count > 0">
+                  {{ deck.due_count }}
+                </span>
+                <span class="srs-deck-card__sub">{{ deck.card_count }} cards</span>
+              </div>
+            </button>
+          }
+        </div>
+      }
+    }
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button aria-label="New deck" (click)="newDeck()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

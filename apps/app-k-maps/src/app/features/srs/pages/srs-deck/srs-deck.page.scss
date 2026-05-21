@@ -1,0 +1,123 @@
+.srs-shell {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+// ── Deck header ──────────────────────────────────────────────────────────────
+.srs-deck-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+
+.srs-deck-head__type {
+  padding: 0.22rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--app-gold-bright, #e8c96a);
+  background: rgba(201, 168, 76, 0.16);
+}
+
+.srs-deck-head__counts {
+  display: flex;
+  gap: 0.9rem;
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+
+  strong {
+    color: rgba(255, 255, 255, 0.92);
+    font-weight: 700;
+  }
+}
+
+// ── Primary button ───────────────────────────────────────────────────────────
+.srs-primary-btn {
+  width: 100%;
+  margin-bottom: 1.1rem;
+  padding: 0.95rem;
+  border: 1px solid rgba(232, 201, 106, 0.5);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(232, 201, 106, 0.42), rgba(180, 145, 60, 0.42));
+  color: #fff5d6;
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.2) inset,
+    0 2px 12px -2px rgba(201, 168, 76, 0.5);
+  -webkit-tap-highlight-color: transparent;
+
+  &:active { transform: translateY(1px); }
+}
+
+// ── Card list ────────────────────────────────────────────────────────────────
+.srs-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.srs-card-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  width: 100%;
+  padding: 0.85rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 0.85rem;
+  background: linear-gradient(180deg, rgba(32, 32, 36, 0.95), rgba(20, 20, 22, 0.95));
+  color: rgba(255, 255, 255, 0.92);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active { background: rgba(40, 40, 44, 0.96); }
+}
+
+.srs-card-row__state {
+  flex: 0 0 auto;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+
+  &[data-state='new']        { background: #6bbaff; }
+  &[data-state='learning']   { background: #ff9f6b; }
+  &[data-state='relearning'] { background: #f0709a; }
+  &[data-state='review']     { background: #5ea86e; }
+}
+
+.srs-card-row__front {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 0.92rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.srs-card-row__tag {
+  flex: 0 0 auto;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+// ── Empty ────────────────────────────────────────────────────────────────────
+.srs-empty {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+
+  p {
+    margin: 0;
+    font-size: 0.88rem;
+    color: rgba(255, 255, 255, 0.45);
+  }
+}

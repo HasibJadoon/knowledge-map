@@ -1,0 +1,204 @@
+// ── Progress ─────────────────────────────────────────────────────────────────
+.srs-progress-count {
+  margin-right: 0.7rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.srs-progress-track {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.srs-progress-fill {
+  height: 100%;
+  background: var(--app-gold-bright, #e8c96a);
+  transition: width 0.25s ease;
+}
+
+// ── States ───────────────────────────────────────────────────────────────────
+.srs-review-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 70vh;
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.srs-review-done__glyph {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  font-size: 2rem;
+  color: #8fd4a0;
+  background: rgba(94, 168, 110, 0.18);
+  border: 1px solid rgba(94, 168, 110, 0.4);
+}
+
+.srs-review-done h2 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.srs-review-done p {
+  margin: 0 0 1rem;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.srs-primary-btn {
+  padding: 0.85rem 1.6rem;
+  border: 1px solid rgba(232, 201, 106, 0.5);
+  border-radius: 1rem;
+  background: linear-gradient(180deg, rgba(232, 201, 106, 0.42), rgba(180, 145, 60, 0.42));
+  color: #fff5d6;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active { transform: translateY(1px); }
+}
+
+// ── Flashcard ────────────────────────────────────────────────────────────────
+.srs-review-shell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100%;
+  padding: 1.25rem;
+}
+
+.srs-flashcard {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 560px;
+  min-height: 16rem;
+  padding: 1.5rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 1.3rem;
+  background: linear-gradient(180deg, rgba(38, 38, 42, 0.97), rgba(22, 22, 24, 0.97));
+  color: rgba(255, 255, 255, 0.95);
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.06) inset,
+    0 14px 30px -14px rgba(0, 0, 0, 0.75);
+  transition: border-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.srs-flashcard--flipped {
+  border-color: rgba(232, 201, 106, 0.28);
+}
+
+.srs-flashcard__face {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex: 1 1 auto;
+  gap: 0.6rem;
+}
+
+.srs-flashcard__hint {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3);
+}
+
+.srs-flashcard__text {
+  font-size: 1.4rem;
+  line-height: 1.5;
+  font-weight: 600;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.srs-flashcard__face--back .srs-flashcard__text {
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.srs-flashcard__divider {
+  height: 1px;
+  margin: 1.1rem 0;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.16), transparent);
+}
+
+// ── Footer / rating buttons ──────────────────────────────────────────────────
+.srs-review-footer {
+  padding: 0.7rem 0.9rem calc(0.7rem + env(safe-area-inset-bottom));
+  background: var(--app-toolbar-background, rgba(8, 8, 8, 0.92));
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.srs-show-btn {
+  width: 100%;
+  padding: 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 0.95rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 0.95rem;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active { transform: translateY(1px); }
+}
+
+.srs-rating-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.45rem;
+}
+
+.srs-rating-btn {
+  padding: 0.85rem 0.3rem;
+  border-radius: 0.85rem;
+  font-size: 0.86rem;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  border: 1px solid transparent;
+  transition: transform 0.12s ease;
+
+  &:active { transform: translateY(1px); }
+  &[disabled] { opacity: 0.5; }
+
+  &[data-rating='again'] {
+    background: linear-gradient(180deg, rgba(240, 112, 122, 0.4), rgba(200, 70, 80, 0.4));
+    border-color: rgba(240, 112, 122, 0.5);
+    color: #ffdada;
+  }
+  &[data-rating='hard'] {
+    background: linear-gradient(180deg, rgba(245, 179, 66, 0.4), rgba(200, 140, 40, 0.4));
+    border-color: rgba(245, 179, 66, 0.5);
+    color: #ffeccb;
+  }
+  &[data-rating='good'] {
+    background: linear-gradient(180deg, rgba(120, 200, 140, 0.4), rgba(70, 150, 90, 0.4));
+    border-color: rgba(120, 200, 140, 0.5);
+    color: #d3f5dd;
+  }
+  &[data-rating='easy'] {
+    background: linear-gradient(180deg, rgba(120, 178, 230, 0.4), rgba(60, 130, 195, 0.4));
+    border-color: rgba(120, 178, 230, 0.5);
+    color: #d5ecff;
+  }
+}

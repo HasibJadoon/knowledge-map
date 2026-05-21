@@ -11,7 +11,6 @@ const SVG = {
   worldview: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ${S}><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>`,
   vocabulary: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ${S}><circle cx="7.5" cy="15.5" r="4.5"/><path d="M21 2l-9.6 9.6"/><path d="M15.5 7.5l3 3"/><path d="M18 5l2 2"/></svg>`,
   review: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ${S}><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4.95"/></svg>`,
-  srs: `<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" ${S}><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 3H8a2 2 0 0 0-2 2v2h12V5a2 2 0 0 0-2-2z"/><path d="M12 12l1 2.5h2.5l-2 1.5.8 2.5-2.3-1.6-2.3 1.6.8-2.5-2-1.5H11z"/></svg>`,
 };
 
 const ACTIONS: ActionIconVm[] = [
@@ -20,7 +19,6 @@ const ACTIONS: ActionIconVm[] = [
   { id: 'worldview',  label: 'World',  svgPath: SVG.worldview,  ariaLabel: 'Worldview for this surah',    color: '#6BBAFF' },
   { id: 'vocabulary', label: 'Ling',   svgPath: SVG.vocabulary, ariaLabel: 'Linguistics for this surah',  color: '#C084F5' },
   { id: 'review',     label: 'Review', svgPath: SVG.review,     ariaLabel: 'Review this surah',           color: '#FF9F6B' },
-  { id: 'srs',        label: 'SRS',    svgPath: SVG.srs,        ariaLabel: 'Spaced repetition for surah', color: '#FF7BAC' },
 ];
 
 @Component({
@@ -47,7 +45,7 @@ const ACTIONS: ActionIconVm[] = [
     }
     .surah-actions__tiles {
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 6px;
     }
   `],
@@ -63,7 +61,7 @@ export class SurahActionsComponent {
     const base = ['/quran', 'sura', String(this.surahId)];
     const suffix: Record<string, string> = {
       study: 'study', notes: 'notes', worldview: 'worldview',
-      vocabulary: 'linguistics', review: 'review', srs: 'srs',
+      vocabulary: 'linguistics', review: 'review',
     };
     const seg = suffix[actionId];
     if (seg) this.router.navigate([...base, seg]);

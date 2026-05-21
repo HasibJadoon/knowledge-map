@@ -31,6 +31,7 @@ import {
 } from '../../../docs/doc-editor/tiptap-extensions/worldview-blocks.extension';
 import { TiptapJson } from '../../../../shared/models/planner/planner-extras.models';
 import { CaptureNotesService } from '../../../../shared/services/planner/capture-notes.service';
+import { AddToSrsService } from '../../../../shared/services/srs/add-to-srs.service';
 
 type SaveState = 'idle' | 'saving' | 'saved' | 'error';
 
@@ -55,6 +56,7 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
   private readonly location = inject(Location);
   private readonly navCtrl = inject(NavController);
   private readonly notes = inject(CaptureNotesService);
+  private readonly addToSrsService = inject(AddToSrsService);
 
   readonly loading = signal(true);
   readonly editorError = signal(false);
@@ -121,6 +123,23 @@ export class CaptureNotePage implements AfterViewInit, OnDestroy {
   onTitleInput(value: string): void {
     this.title.set(value);
     this.scheduleSave();
+  }
+
+  /** Turn the current note into an SRS flashcard via the deck picker. */
+  async addToSrs(): Promise<void> {
+    const body = (this.editor?.getText() ?? '').trim();
+    const title = this.title().trim();
+    const front = title || body.split('\n').map((l) => l.trim()).find(Boolean) || '';
+    const back = title ? body : body.split('\n').slice(1).join('\n').trim();
+    if (!front || !back) return;
+    await this.addToSrsService.addToSrs({
+      front,
+      back,
+      card_template: 'freeform',
+      resource_ref: this.noteId ? `CM:${this.noteId}` : undefined,
+      resource_type: 'other',
+      module: 'other',
+    });
   }
 
   // ── Editor ───────────────────────────────────────────────────────────────────

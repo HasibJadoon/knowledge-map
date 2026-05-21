@@ -378,21 +378,27 @@ CREATE TABLE ar_scenarios (
 );
 
 CREATE TABLE ar_srs_cards (
-  id              TEXT PRIMARY KEY,               
+  id              TEXT PRIMARY KEY,
   deck_id         TEXT NOT NULL,
   core_user_ref   TEXT NOT NULL,
-  resource_ref    TEXT NOT NULL,                  
+  resource_ref    TEXT NOT NULL,
   resource_type   TEXT NOT NULL,
-    
-  
-  stability       REAL NOT NULL DEFAULT 1.0,      
-  difficulty      REAL NOT NULL DEFAULT 0.3,      
+
+  card_template   TEXT NOT NULL DEFAULT 'freeform',
+  front_text      TEXT NOT NULL DEFAULT '',
+  back_text       TEXT NOT NULL DEFAULT '',
+  extra_json      TEXT,
+  tags            TEXT,
+  suspended       INTEGER NOT NULL DEFAULT 0,
+
+  stability       REAL NOT NULL DEFAULT 1.0,
+  difficulty      REAL NOT NULL DEFAULT 0.3,
   elapsed_days    INTEGER NOT NULL DEFAULT 0,
   scheduled_days  INTEGER NOT NULL DEFAULT 1,
   reps            INTEGER NOT NULL DEFAULT 0,
   lapses          INTEGER NOT NULL DEFAULT 0,
   card_state      TEXT NOT NULL DEFAULT 'new',
-    
+
   last_review_at  TEXT,
   next_review_at  TEXT,
   created_at      TEXT NOT NULL DEFAULT (datetime('now')),
@@ -400,6 +406,8 @@ CREATE TABLE ar_srs_cards (
   FOREIGN KEY (deck_id) REFERENCES ar_srs_decks(id),
   UNIQUE (deck_id, resource_ref)
 );
+
+CREATE INDEX idx_ar_sc_due ON ar_srs_cards(core_user_ref, suspended, next_review_at);
 
 CREATE TABLE ar_srs_decks (
   id              TEXT PRIMARY KEY,

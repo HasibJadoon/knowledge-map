@@ -1,0 +1,83 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/srs" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>Review</ion-title>
+    <ion-buttons slot="end">
+      @if (!loading() && !done()) {
+        <span class="srs-progress-count">{{ reviewed() }} / {{ total() }}</span>
+      }
+    </ion-buttons>
+  </ion-toolbar>
+  @if (!loading() && total() > 0) {
+    <div class="srs-progress-track">
+      <div class="srs-progress-fill" [style.width.%]="progress() * 100"></div>
+    </div>
+  }
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+
+  @if (loading()) {
+    <div class="srs-review-state">
+      <ion-spinner name="crescent"></ion-spinner>
+    </div>
+  } @else if (done()) {
+    <div class="srs-review-state srs-review-done">
+      <span class="srs-review-done__glyph">✓</span>
+      <h2>{{ reviewed() > 0 ? 'Session complete' : 'Nothing due' }}</h2>
+      <p>
+        {{ reviewed() > 0
+            ? 'You reviewed ' + reviewed() + ' card' + (reviewed() === 1 ? '' : 's') + '.'
+            : 'No cards are due for review right now.' }}
+      </p>
+      <button type="button" class="srs-primary-btn" (click)="finish()">Back to decks</button>
+    </div>
+  } @else if (current(); as card) {
+    <div class="srs-review-shell">
+
+      <button
+        type="button"
+        class="srs-flashcard"
+        [class.srs-flashcard--flipped]="flipped()"
+        (click)="flip()"
+      >
+        <div class="srs-flashcard__face">
+          <span class="srs-flashcard__hint">{{ flipped() ? 'Answer' : 'Tap to reveal' }}</span>
+          <div class="srs-flashcard__text">{{ card.front_text }}</div>
+        </div>
+        @if (flipped()) {
+          <div class="srs-flashcard__divider"></div>
+          <div class="srs-flashcard__face srs-flashcard__face--back">
+            <div class="srs-flashcard__text">{{ card.back_text }}</div>
+          </div>
+        }
+      </button>
+
+    </div>
+  }
+
+</ion-content>
+
+@if (!loading() && !done() && current()) {
+  <ion-footer class="srs-review-footer">
+    @if (flipped()) {
+      <div class="srs-rating-row">
+        @for (btn of ratingButtons; track btn.rating) {
+          <button
+            type="button"
+            class="srs-rating-btn"
+            [attr.data-rating]="btn.cssClass"
+            [disabled]="grading()"
+            (click)="grade(btn.rating)"
+          >
+            {{ btn.label }}
+          </button>
+        }
+      </div>
+    } @else {
+      <button type="button" class="srs-show-btn" (click)="flip()">Show answer</button>
+    }
+  </ion-footer>
+}
