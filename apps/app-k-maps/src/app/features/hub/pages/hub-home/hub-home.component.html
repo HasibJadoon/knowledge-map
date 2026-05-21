@@ -1,9 +1,14 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="/" text="Home"></ion-back-button>
+      <ion-back-button defaultHref="/workbench" text=""></ion-back-button>
     </ion-buttons>
     <ion-title>Hub</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" aria-label="Home" (click)="goHome()">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
