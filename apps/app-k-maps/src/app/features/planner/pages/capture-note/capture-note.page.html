@@ -19,6 +19,9 @@
           saveState() === 'error'  ? 'Save failed' : ''
         }}
       </span>
+      <ion-button fill="clear" aria-label="Add to SRS" (click)="addToSrs()">
+        <ion-icon name="albums-outline" slot="icon-only"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

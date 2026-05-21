@@ -195,6 +195,22 @@ export class SrsRegistryRepo {
     );
   }
 
+  findCardById(userRef: string, id: string): Promise<SrsRegistryCard | null> {
+    return queryOne<SrsRegistryCard>(
+      this.db,
+      `SELECT ${SRS_COLS} WHERE user_ref = ? AND id = ?`,
+      [userRef, id],
+    );
+  }
+
+  /** Remove an enrollment. Returns true when a row was deleted. */
+  async deleteCard(userRef: string, id: string): Promise<boolean> {
+    const existing = await this.findCardById(userRef, id);
+    if (!existing) return false;
+    await execute(this.db, `DELETE FROM core_srs_registry WHERE user_ref = ? AND id = ?`, [userRef, id]);
+    return true;
+  }
+
   // ── Workspace Plans ──
 
   workspacePlans(workspaceId: string, opts: WorkspacePlansListOptions = {}) {
