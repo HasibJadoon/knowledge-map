@@ -1,6 +1,7 @@
 
-    <button
-      class="hc"
+    <ion-card
+      button
+      class="km-ion-card hc"
       [class.hc--new]="card.badge === 'NEW'"
       [class.hc--updated]="card.badge === 'UPDATED'"
       [style.--accent]="card.accentColor ?? 'rgba(201,168,76,0.15)'"
@@ -10,20 +11,17 @@
       @if (card.badge) {
         <span class="hc__badge">{{ card.badge }}</span>
       }
-      <div class="hc__artwork">
-        <span class="hc__glyph">{{ card.glyph ?? card.icon }}</span>
-        <div class="hc__shimmer"></div>
-      </div>
-      <div class="hc__bottom-glow"></div>
-      <div class="hc__body">
-        <span class="hc__tag">{{ card.tag }}</span>
-        <span class="hc__title">{{ card.title }}</span>
-        @if (showDesc) {
-          <p class="hc__desc">{{ card.description }}</p>
-        }
-      </div>
       @if (count !== null) {
         <span class="hc__count">{{ count }}</span>
       }
-    </button>
-  
+      <ion-card-header>
+        <div class="hc__glyph">{{ card.glyph ?? card.icon }}</div>
+        <ion-card-subtitle class="hc__tag">{{ card.tag }}</ion-card-subtitle>
+        <ion-card-title class="hc__title">{{ card.title }}</ion-card-title>
+      </ion-card-header>
+      @if (showDesc) {
+        <ion-card-content class="hc__desc">
+          {{ card.description }}
+        </ion-card-content>
+      }
+    </ion-card>

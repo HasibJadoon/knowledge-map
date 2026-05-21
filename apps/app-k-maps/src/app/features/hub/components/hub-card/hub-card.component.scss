@@ -1,135 +1,93 @@
 
+    // The ion-card host already provides background, border, radius and
+    // shadow via the global `ion-card.km-ion-card` rule in global.scss.
+    // We just add layout + the gold-tinted brand accents here.
     .hc {
       position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-end;
-      width: 100%;
-      min-height: 200px;
-      padding: 0 1rem 1.1rem;
-      background: rgba(255,255,255,0.025);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--km-radius-lg, 14px);
+      margin: 0;
       cursor: pointer;
-      overflow: hidden;
-      transition: border-color .3s ease, box-shadow .3s ease, transform .3s ease;
       text-align: center;
+      transition: border-color .25s ease, box-shadow .25s ease, transform .25s ease;
 
       &:hover {
         border-color: var(--km-border-gold);
-        box-shadow: 0 0 40px rgba(201,168,76,.16), 0 0 1px rgba(201,168,76,.4) inset;
-        transform: translateY(-4px);
+        box-shadow: 0 0 28px rgba(201, 168, 76, .14),
+                    inset 0 0 1px rgba(201, 168, 76, .35);
+        transform: translateY(-3px);
 
-        .hc__artwork { opacity: .9; }
+        .hc__title { color: var(--km-gold-bright); }
         .hc__shimmer { opacity: 1; }
-        .hc__bottom-glow { opacity: 1; }
-        .hc__title { color: var(--km-gold-bright); letter-spacing: .18em; }
       }
 
-      &:active { transform: translateY(-2px); }
+      &:active { transform: translateY(-1px); }
+
+      ion-card-header {
+        padding-bottom: .35rem;
+      }
+
+      ion-card-content {
+        padding-top: 0;
+      }
     }
 
     .hc__badge {
       position: absolute;
-      top: .6rem;
-      right: .6rem;
+      top: .55rem; right: .55rem;
+      z-index: 3;
       font-size: .55rem;
       font-weight: 700;
       letter-spacing: .12em;
-      padding: .2rem .45rem;
+      padding: .18rem .42rem;
       border-radius: 4px;
-      background: rgba(201,168,76,.2);
+      background: rgba(201, 168, 76, .2);
       color: var(--km-gold);
-      border: 1px solid rgba(201,168,76,.3);
-      z-index: 3;
+      border: 1px solid rgba(201, 168, 76, .3);
     }
 
-    .hc__artwork {
+    .hc__count {
       position: absolute;
-      top: 0; left: 0; right: 0;
-      bottom: 52px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: .5;
-      transition: opacity .3s;
+      top: .55rem; left: .55rem;
+      z-index: 3;
+      font-size: .7rem;
+      font-weight: 600;
+      color: var(--km-text-3);
+      font-family: var(--km-font-mono, monospace);
     }
 
     .hc__glyph {
-      font-size: 3.2rem;
+      font-size: 2.4rem;
       line-height: 1;
       background: linear-gradient(180deg, #c9a84c 0%, #6b5520 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      filter: drop-shadow(0 0 12px rgba(201,168,76,.3));
+      filter: drop-shadow(0 0 10px rgba(201, 168, 76, .28));
       font-family: var(--km-font-arabic, inherit);
-    }
-
-    .hc__shimmer {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 30%, rgba(201,168,76,.08) 0%, transparent 70%);
-      opacity: 0;
-      transition: opacity .4s;
-      pointer-events: none;
-    }
-
-    .hc__bottom-glow {
-      position: absolute;
-      bottom: 0; left: 10%; right: 10%;
-      height: 2px;
-      background: linear-gradient(90deg, transparent, var(--km-gold), transparent);
-      opacity: .35;
-      transition: opacity .3s;
-      border-radius: 1px;
-    }
-
-    .hc__body {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: .2rem;
-      width: 100%;
+      margin: 0 auto .45rem;
     }
 
     .hc__tag {
-      font-size: .58rem;
+      font-size: .56rem;
       font-weight: 700;
       letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--km-gold);
-      opacity: .6;
+      opacity: .7;
     }
 
     .hc__title {
       font-family: var(--km-font-heading);
-      font-size: .8rem;
+      font-size: .92rem;
       font-weight: 600;
-      letter-spacing: .12em;
+      letter-spacing: .1em;
       text-transform: uppercase;
       color: var(--km-text-2);
-      transition: color .3s, letter-spacing .3s;
+      transition: color .25s;
     }
 
     .hc__desc {
       font-size: .72rem;
       color: var(--km-text-3);
       line-height: 1.5;
-      margin: .3rem 0 0;
-      max-width: 240px;
+      text-align: center;
     }
-
-    .hc__count {
-      position: absolute;
-      top: .6rem;
-      left: .6rem;
-      font-size: .7rem;
-      font-weight: 600;
-      color: var(--km-text-3);
-      font-family: var(--km-font-mono, monospace);
-    }
-  
