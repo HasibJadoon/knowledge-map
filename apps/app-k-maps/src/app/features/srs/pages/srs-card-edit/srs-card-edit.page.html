@@ -1,0 +1,60 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/srs" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ editing() ? 'Edit card' : 'New card' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" [disabled]="!canSave" (click)="save()">Save</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+  <div class="srs-shell ion-padding">
+
+    @if (loading()) {
+      <ion-skeleton-text animated style="width: 100%; height: 7rem; border-radius: 0.9rem; margin-bottom: 0.8rem"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%; height: 7rem; border-radius: 0.9rem"></ion-skeleton-text>
+    } @else {
+
+      <label class="srs-field-label" for="srs-front">Front</label>
+      <textarea
+        id="srs-front"
+        class="srs-field"
+        rows="4"
+        placeholder="The prompt — word, verse, question…"
+        [(ngModel)]="front"
+      ></textarea>
+
+      <label class="srs-field-label" for="srs-back">Back</label>
+      <textarea
+        id="srs-back"
+        class="srs-field"
+        rows="5"
+        placeholder="The answer — meaning, translation, note…"
+        [(ngModel)]="back"
+      ></textarea>
+
+      <label class="srs-field-label" for="srs-tags">Tags</label>
+      <input
+        id="srs-tags"
+        class="srs-field srs-field--input"
+        type="text"
+        placeholder="space-separated, e.g. surah-2 theology"
+        [(ngModel)]="tags"
+      />
+
+      @if (editing()) {
+        <div class="srs-card-actions">
+          <button type="button" class="srs-secondary-btn" (click)="toggleSuspend()">
+            {{ suspended() ? 'Resume card' : 'Suspend card' }}
+          </button>
+          <button type="button" class="srs-danger-btn" (click)="confirmDelete()">
+            Delete card
+          </button>
+        </div>
+      }
+    }
+  </div>
+</ion-content>

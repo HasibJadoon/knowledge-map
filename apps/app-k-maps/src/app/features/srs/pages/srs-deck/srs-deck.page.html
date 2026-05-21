@@ -1,0 +1,63 @@
+<ion-header class="study-toolbar-wrap">
+  <ion-toolbar class="study-toolbar">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/srs" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ deck()?.title ?? 'Deck' }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" aria-label="Deck options" (click)="openDeckMenu()">
+        <ion-icon name="ellipsis-horizontal" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="study-content" [fullscreen]="true">
+  <div class="srs-shell ion-padding">
+
+    @if (loading()) {
+      <ion-skeleton-text animated style="width: 100%; height: 3.4rem; border-radius: 1rem; margin-bottom: 0.8rem"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%; height: 3.8rem; border-radius: 1rem; margin-bottom: 0.6rem"></ion-skeleton-text>
+      <ion-skeleton-text animated style="width: 100%; height: 3.8rem; border-radius: 1rem"></ion-skeleton-text>
+    } @else if (deck(); as d) {
+
+      <section class="srs-deck-head">
+        <span class="srs-deck-head__type">{{ deckTypeLabel(d.deck_type) }}</span>
+        <div class="srs-deck-head__counts">
+          <span><strong>{{ dueCount() }}</strong> due</span>
+          <span><strong>{{ cards().length }}</strong> cards</span>
+        </div>
+      </section>
+
+      <button type="button" class="srs-primary-btn" (click)="startReview()">
+        Start review
+      </button>
+
+      @if (cards().length === 0) {
+        <section class="srs-empty">
+          <p>No cards yet. Add your first card to this deck.</p>
+        </section>
+      } @else {
+        <div class="srs-card-list">
+          @for (card of cards(); track card.id) {
+            <button type="button" class="srs-card-row" (click)="openCard(card)">
+              <span class="srs-card-row__state" [attr.data-state]="card.card_state"></span>
+              <span class="srs-card-row__front">{{ cardPreview(card) }}</span>
+              @if (card.suspended) {
+                <span class="srs-card-row__tag">Suspended</span>
+              } @else {
+                <span class="srs-card-row__tag">{{ card.card_state }}</span>
+              }
+            </button>
+          }
+        </div>
+      }
+    }
+  </div>
+
+  <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+    <ion-fab-button aria-label="Add card" (click)="addCard()">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

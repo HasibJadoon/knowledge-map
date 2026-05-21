@@ -1,0 +1,73 @@
+.srs-shell {
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.srs-field-label {
+  display: block;
+  margin: 1rem 0 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.srs-field {
+  width: 100%;
+  padding: 0.85rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.85rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.95);
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.55;
+  resize: vertical;
+  outline: none;
+  -webkit-appearance: none;
+
+  &:focus {
+    border-color: rgba(232, 201, 106, 0.45);
+  }
+
+  &::placeholder {
+    color: rgba(255, 255, 255, 0.26);
+  }
+}
+
+.srs-field--input {
+  resize: none;
+}
+
+.srs-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-top: 1.6rem;
+}
+
+.srs-secondary-btn,
+.srs-danger-btn {
+  width: 100%;
+  padding: 0.85rem;
+  border-radius: 0.9rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+
+  &:active { transform: translateY(1px); }
+}
+
+.srs-secondary-btn {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.srs-danger-btn {
+  border: 1px solid rgba(240, 112, 122, 0.4);
+  background: rgba(240, 112, 122, 0.12);
+  color: #ffb3b9;
+}

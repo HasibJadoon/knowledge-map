@@ -215,11 +215,6 @@ export const QURAN_ROUTES: Routes = [
       import('./surah-study/surah-review-page/surah-review.page').then(m => m.SurahReviewPage),
   },
   {
-    path: 'sura/:surahId/srs',
-    loadComponent: () =>
-      import('./surah-study/surah-srs-page/surah-srs.page').then(m => m.SurahSrsPage),
-  },
-  {
     path: 'sura/:surahId/passage/:passageIndex',
     loadComponent: () =>
       import('./surah-study/passage-page/quran-passage.page').then(m => m.QuranPassagePage),
@@ -242,7 +237,6 @@ export const QURAN_ROUTES: Routes = [
   { path: 'surah/:surahId/near-synonyms', redirectTo: 'sura/:surahId/near-synonyms', pathMatch: 'full' },
   { path: 'surah/:surahId/morphology', redirectTo: 'sura/:surahId/morphology', pathMatch: 'full' },
   { path: 'surah/:surahId/review', redirectTo: 'sura/:surahId/review', pathMatch: 'full' },
-  { path: 'surah/:surahId/srs', redirectTo: 'sura/:surahId/srs', pathMatch: 'full' },
   { path: 'surah/:surahId', redirectTo: 'sura/:surahId', pathMatch: 'full' },
   // Legacy `/quran/{number}` and `/quran/{number}/passage/{N}` shortcuts.
   // Custom matchers reject non-numeric segments so they don't catch

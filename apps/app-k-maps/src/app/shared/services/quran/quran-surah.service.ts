@@ -464,7 +464,6 @@ export interface WorldviewPodcastsResponse { ok: boolean; surahId: number; total
 export interface WorldviewLinksResponse { ok: boolean; surahId: number; total: number; links: WorldviewLinkVm[]; }
 export interface VocabularyResponse { ok: boolean; surahId: number; total: number; lemmas: VocabularyLemmaVm[]; lexicon: VocabularyLemmaVm[]; }
 export interface ReviewResponse { ok: boolean; surahId: number; srsItems: SrsCardVm[]; lessonProgress: ReviewItemVm[]; total: number; }
-export interface SrsResponse { ok: boolean; surahId: number; filter: string; total: number; items: SrsCardVm[]; }
 
 interface WorkerStudySurah {
   container_id?: string;
@@ -537,12 +536,6 @@ interface WorkerVocabularyData {
   groups: Record<string, WorkerVocabularyItem[]>;
 }
 
-interface WorkerSrsData {
-  filter: string;
-  items: SrsCardVm[];
-  summary?: { total?: number };
-}
-
 @Injectable({ providedIn: 'root' })
 export class QuranSurahService {
   private readonly api = inject(BackendApiService);
@@ -577,21 +570,6 @@ export class QuranSurahService {
 
   getSurahReview(surahId: number): Observable<ReviewResponse> {
     return this.api.getRaw<ReviewResponse>(this.legacySurahPath(surahId, 'review'));
-  }
-
-  getSurahSrs(surahId: number, filter: 'due' | 'upcoming' | 'all' | 'suspended' = 'due'): Observable<SrsResponse> {
-    const params = new HttpParams()
-      .set('filter', filter)
-      .set('surah', String(surahId));
-    return this.api.getData<WorkerSrsData>('qr', ['srs'], { params }).pipe(
-      map((data) => ({
-        ok: true,
-        surahId,
-        filter: data.filter,
-        total: data.summary?.total ?? data.items.length,
-        items: data.items,
-      })),
-    );
   }
 
   // ── Worldview ─────────────────────────────────────────────────────
