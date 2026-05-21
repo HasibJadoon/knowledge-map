@@ -331,4 +331,37 @@ export function srsRoutes(router: Router<ArabicEnv>) {
     if (!user) return unauthorized('Authenticated user required');
     return ok(await new SrsRepo(env.DB_AR).stats(user));
   });
+
+  // GET /ar/srs/decks/:id/export — Anki-importable TSV for one deck
+  router.get('/ar/srs/decks/:id/export', async (req, env, { id }) => {
+    const user = actorRef(req);
+    if (!user) return unauthorized('Authenticated user required');
+    const repo = new SrsRepo(env.DB_AR);
+    const deck = await repo.findDeckById(id);
+    if (!deck) return notFound(`deck ${id}`);
+    if (deck.core_user_ref !== user) return forbidden('Not your deck');
+
+    const cards = await repo.cardsInDeck(id);
+    // Anki's text importer: tab-separated, HTML allowed, third column = tags.
+    const header = ['#separator:tab', '#html:true', '#tags column:3', ''].join('\n');
+    const body = cards
+      .map((c) => [ankiField(c.front_text), ankiField(c.back_text), (c.tags ?? '').trim()].join('\t'))
+      .join('\n');
+    const tsv = header + body + '\n';
+
+    const safeName = (deck.title || 'deck').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+    return new Response(tsv, {
+      headers: {
+        'Content-Type': 'text/tab-separated-values; charset=utf-8',
+        'Content-Disposition': `attachment; filename="km-srs-${safeName}.txt"`,
+      },
+    });
+  });
+}
+
+/** Make a card face safe for one TSV cell: tabs → spaces, newlines → <br>. */
+function ankiField(text: string): string {
+  return (text ?? '')
+    .replace(/\t/g, '    ')
+    .replace(/\r?\n/g, '<br>');
 }

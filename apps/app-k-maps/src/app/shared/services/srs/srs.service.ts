@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BackendApiService } from '../backend-api.service';
@@ -18,6 +19,7 @@ import {
 @Injectable({ providedIn: 'root' })
 export class SrsService {
   private readonly api = inject(BackendApiService);
+  private readonly http = inject(HttpClient);
 
   // ── Decks ──────────────────────────────────────────────────────────────────
 
@@ -83,5 +85,12 @@ export class SrsService {
 
   stats(): Observable<SrsStats> {
     return this.api.getData<SrsStats>('ar', ['srs', 'stats']);
+  }
+
+  /** Raw Anki-importable TSV text for a deck. */
+  exportDeckTsv(deckId: string): Observable<string> {
+    return this.http.get(this.api.url('ar', 'srs', 'decks', deckId, 'export'), {
+      responseType: 'text',
+    });
   }
 }

@@ -69,11 +69,43 @@ export class SrsDeckPage {
       header: this.deck()?.title ?? 'Deck',
       buttons: [
         { text: 'Rename', handler: () => { void this.renameDeck(); return true; } },
+        { text: 'Export to Anki', handler: () => { void this.exportDeck(); return true; } },
         { text: 'Delete deck', role: 'destructive', handler: () => { void this.confirmDelete(); return true; } },
         { text: 'Cancel', role: 'cancel' },
       ],
     });
     await sheet.present();
+  }
+
+  /** Fetch the deck as Anki TSV and hand it to the share sheet / clipboard. */
+  private async exportDeck(): Promise<void> {
+    if (this.cards().length === 0) {
+      await this.presentToast('This deck has no cards to export.');
+      return;
+    }
+    try {
+      const tsv = await firstValueFrom(this.srs.exportDeckTsv(this.deckId));
+      const slug = (this.deck()?.title ?? 'deck').replace(/[^a-z0-9]+/gi, '-').toLowerCase();
+      const filename = `km-srs-${slug}.txt`;
+      const nav = navigator as Navigator & {
+        canShare?: (data: unknown) => boolean;
+        share?: (data: unknown) => Promise<void>;
+      };
+      const file = new File([tsv], filename, { type: 'text/plain' });
+
+      if (nav.canShare?.({ files: [file] }) && nav.share) {
+        await nav.share({ files: [file], title: 'Anki deck' });
+        return;
+      }
+      if (nav.share) {
+        await nav.share({ title: filename, text: tsv });
+        return;
+      }
+      await navigator.clipboard.writeText(tsv);
+      await this.presentToast('Anki TSV copied — paste into a .txt file to import.');
+    } catch {
+      await this.presentToast('Could not export the deck.');
+    }
   }
 
   private async renameDeck(): Promise<void> {

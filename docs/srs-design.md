@@ -1,8 +1,14 @@
 # K-MAPS SRS — Multi-Domain Spaced Repetition Design
 
-> Status: proposed design, pending approval
+> Status: implemented — Phases 1-3 shipped
 > Last updated: 2026-05-21
 > Scope: cross-domain Anki-style SRS with FSRS scheduling and Anki export
+>
+> Phase 1 (AR engine + mobile review loop), Phase 2 (CORE enrollment
+> registry + Add-to-SRS flow) and Phase 3 (Anki TSV export) are shipped.
+> Remaining follow-ups: per-domain "Add to SRS" buttons in the QR reader /
+> AL lexicon / WV concept pages (the AddToSrsService is ready to drop in),
+> FSRS weight tuning, and `.apkg` export.
 
 ## 1. Goals
 
@@ -241,24 +247,29 @@ existed in any schema, migration, or the live `km_quran` DB):
 
 ## 9. Phasing
 
-**Phase 1 — engine + review loop (one PR).**
-- Migration: card content columns on `ar_srs_cards` (+ apply to live
-  `km_arabic`).
-- `srs/scheduler.ts` (FSRS or SM-2) with unit-level pure functions.
+**Phase 1 — engine + review loop. ✅ Shipped.**
+- Migration `0001_srs_card_content.sql`: card content columns on
+  `ar_srs_cards` (applied to live `km_arabic`).
+- `workers/arabic/src/srs/scheduler.ts` — pure SM-2 `schedule()`.
 - AR routes: decks, cards, due, `grade`, `review`, `stats`.
-- Mobile: real `/srs` dashboard + deck detail + review session.
-- Remove the broken `qr_srs_items` code (§8).
-- Outcome: a working SRS with manually-created cards, end-to-end.
+- Mobile: `/srs` dashboard + deck detail + review session + card editor.
+- Removed the broken `qr_srs_items` code (§8).
 
-**Phase 2 — domain enrollment.**
-- Wire `core_srs_registry` repo + routes into the CORE worker.
-- "Add to SRS" actions across QR / AL / WV, with per-template front/back
-  prefill.
-- Hadith free-form deck type.
+**Phase 2 — domain enrollment. ✅ Shipped.**
+- `core_srs_registry` repo + `GET/POST/DELETE /core/srs/registry`
+  wired into the CORE worker.
+- `SrsRegistryService` + a reusable `AddToSrsService` (deck picker →
+  create card → register enrollment) on mobile.
+- First "Add to SRS" entry point: the capture-note editor.
+- Follow-up: per-domain "Add to SRS" buttons in QR/AL/WV item lists —
+  `AddToSrsService.addToSrs()` is the drop-in call.
 
-**Phase 3 — export & polish.**
-- TSV export (Anki-native import), then `.apkg`.
-- Shared/public decks, richer stats, deck tuning.
+**Phase 3 — export & polish. ✅ Shipped (TSV).**
+- `GET /ar/srs/decks/:id/export` returns Anki-importable TSV
+  (`#separator:tab`, `#html:true`, tags column). Mobile "Export to
+  Anki" hands it to the share sheet (clipboard fallback).
+- Follow-up: `.apkg` packaging, shared/public decks, FSRS weight
+  tuning.
 
 ## 10. Open questions
 
