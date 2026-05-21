@@ -94,6 +94,12 @@ const routes: Routes = [
     loadChildren: () => import('./features/srs/srs.routes').then((m) => m.SRS_ROUTES),
     canActivate: [AuthGuard]
   },
+  // ── Workbench ────────────────────────────────────────────────────────────────
+  {
+    path: 'workbench',
+    loadComponent: () => import('./features/workbench/workbench.page').then((m) => m.WorkbenchPage),
+    canActivate: [AuthGuard]
+  },
   { path: '**', redirectTo: 'home' }
 ];
 
