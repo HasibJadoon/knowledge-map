@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule, NavigationEnd } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { ActionSheetController, IonicModule } from '@ionic/angular';
 import { filter, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { DocsApiService } from '../../../../shared/services/content/docs-api.service';
@@ -312,6 +312,7 @@ export class DocsListPage implements OnInit, OnDestroy {
   private docsApi = inject(DocsApiService);
   private router  = inject(Router);
   private cdr     = inject(ChangeDetectorRef);
+  private actionSheet = inject(ActionSheetController);
 
   docsByDomain = signal<Record<string, DocSummary[]>>({});
   loading = signal(false);
@@ -529,13 +530,27 @@ export class DocsListPage implements OnInit, OnDestroy {
     this.router.navigate(['/docs', id]);
   }
 
-  newDoc(): void {
-    this.docsApi.createDoc({ title: 'Untitled', domain: 'general', doc_type: 'note' })
+  async newDoc(): Promise<void> {
+    const sheet = await this.actionSheet.create({
+      header: 'New document in…',
+      buttons: [
+        ...DOMAINS.map(domain => ({
+          text: `${domain.icon}  ${domain.label}`,
+          handler: () => { this.createInDomain(domain.key); return true; },
+        })),
+        { text: 'Cancel', role: 'cancel' },
+      ],
+    });
+    await sheet.present();
+  }
+
+  private createInDomain(domain: string): void {
+    this.docsApi.createDoc({ title: 'Untitled', domain, doc_type: 'note' })
       .subscribe(({ id }) => {
-        this.loadDomain('general', true);
+        this.loadDomain(domain, true);
         this.openDomains.update(s => {
           const next = new Set(s);
-          next.add('general');
+          next.add(domain);
           return next;
         });
         this.router.navigate(['/docs', id]);
