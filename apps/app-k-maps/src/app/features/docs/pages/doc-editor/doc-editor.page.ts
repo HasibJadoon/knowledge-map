@@ -68,6 +68,7 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   private editor: Editor | null = null;
   private docId  = '';
   private pendingDoc: unknown = null;
+  private titleSave: Promise<unknown> | null = null;
   private saveTimer:  ReturnType<typeof setTimeout> | null = null;
   private savedTimer: ReturnType<typeof setTimeout> | null = null;
   private caretScrollTimer: ReturnType<typeof setTimeout> | null = null;
@@ -293,9 +294,9 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
     const newTitle = (e.target as HTMLInputElement).value.trim();
     if (!newTitle || !this.docId) return;
     this.docTitle.set(newTitle);
-    try {
-      await firstValueFrom(this.docsApi.updateDoc(this.docId, { title: newTitle }));
-    } catch { /* ignore */ }
+    this.titleSave = firstValueFrom(this.docsApi.updateDoc(this.docId, { title: newTitle }))
+      .catch(() => undefined);
+    await this.titleSave;
   }
 
   onTitleEnter(e: Event): void {
@@ -459,9 +460,11 @@ export class DocEditorPage implements AfterViewInit, OnDestroy {
   }
 
   // ── Back ───────────────────────────────────────────────────────────────────
-  // Navigate immediately — ngOnDestroy handles the flush save so back feels
-  // instant rather than waiting for a synchronous save path to complete.
-  goBack(): void {
+  // Wait for any in-flight title save to land before leaving, so the documents
+  // list re-fetches the renamed doc instead of its stale "Untitled" title.
+  // The larger content save still flushes in ngOnDestroy to keep back snappy.
+  async goBack(): Promise<void> {
+    if (this.titleSave) await this.titleSave;
     void this.navCtrl.navigateBack('/docs', { animated: true });
   }
 }
