@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 
 interface ContentSection {
   label: string;
-  glyph: string;
+  icon: string;
   desc: string;
   tag: string;
   route: string[];
@@ -42,7 +42,7 @@ interface ContentSection {
           [routerLink]="s.route"
         >
           <span class="km-content-card__tag">{{ s.tag }}</span>
-          <span class="km-content-card__glyph">{{ s.glyph }}</span>
+          <ion-icon class="km-content-card__glyph" [name]="s.icon" aria-hidden="true"></ion-icon>
           <span class="km-content-card__label">{{ s.label }}</span>
           <span class="km-content-card__desc">{{ s.desc }}</span>
         </button>
@@ -98,8 +98,8 @@ interface ContentSection {
     }
 
     .km-content-card__glyph {
-      font-size: 1.6rem;
-      line-height: 1;
+      font-size: 1.7rem;
+      color: #c9a84c;
     }
 
     .km-content-card__label {
@@ -120,28 +120,28 @@ export class ContentPage {
   readonly sections: ContentSection[] = [
     {
       label: 'Current Episode',
-      glyph: '▶',
+      icon: 'mic-outline',
       desc: 'Active episode in production — status, outline, and recording notes.',
       tag: 'ACTIVE',
       route: ['/content', 'episode', 'current'],
     },
     {
       label: 'Episodes',
-      glyph: '◉',
+      icon: 'albums-outline',
       desc: 'Full episode archive with show notes, timestamps and guest records.',
       tag: 'ARCHIVE',
       route: ['/content', 'episodes'],
     },
     {
       label: 'Categories',
-      glyph: '▦',
+      icon: 'grid-outline',
       desc: 'Topic taxonomy, series groupings and content classification.',
       tag: 'TAXONOMY',
       route: ['/content', 'categories'],
     },
     {
       label: 'Sacred Texts',
-      glyph: '☽',
+      icon: 'book-outline',
       desc: 'Referenced sacred texts and scripture used across episodes.',
       tag: 'REFERENCES',
       route: ['/content', 'sacred-texts'],
