@@ -169,6 +169,7 @@ export class HomePage implements AfterViewInit, OnDestroy, ViewWillLeave, ViewWi
     { id: 'arabic',         label: 'Arabic',    route: '/arabic',             glyph: 'ع' },
     { id: 'worldview',      label: 'Worldview', route: '/worldview',          glyph: '◉' },
     { id: 'srs',            label: 'SRS',       route: '/srs',                glyph: '▣' },
+    { id: 'studio',         label: 'Studio',    route: '/studio',             glyph: '♪' },
     { id: 'workbench',      label: 'Workbench', route: '/workbench',          glyph: '▦' },
   ];
 
