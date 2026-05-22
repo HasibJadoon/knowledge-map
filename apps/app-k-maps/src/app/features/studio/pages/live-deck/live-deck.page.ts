@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertController, IonicModule } from '@ionic/angular';
+import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 import { environment } from '../../../../../environments/environment';
 import { StudioApiService } from '../../services/studio-api.service';
 import { EpisodeAggregate, LiveCursor } from '../../studio.models';
@@ -70,6 +70,10 @@ interface LiveMessage {
           @if (inLobby()) {
             <div class="km-ld-lobby">
               <div class="km-ld-roomcode">{{ code }}</div>
+              <button class="km-ld-copy" (click)="copyCode()">
+                <ion-icon name="copy-outline"></ion-icon>
+                Copy code to share
+              </button>
               <h1>{{ episodeTitle() }}</h1>
               <p>{{ isHost()
                 ? 'Tap Start when everyone has joined.'
@@ -173,6 +177,15 @@ interface LiveMessage {
       letter-spacing: 0.32em; color: #c9a84c; padding-left: 0.32em;
       text-shadow: 0 2px 16px rgba(201,168,76,0.5);
     }
+    .km-ld-copy {
+      display: inline-flex; align-items: center; gap: 6px;
+      margin-top: 4px; padding: 8px 16px; border-radius: 18px;
+      background: linear-gradient(180deg, rgba(201,168,76,0.24), rgba(201,168,76,0.07));
+      border: 1px solid rgba(201,168,76,0.35); color: #e8c96a;
+      font-size: 0.8rem; font-weight: 600; cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.1);
+    }
+    .km-ld-copy ion-icon { font-size: 1rem; }
     .km-ld-lobby h1 { font-size: 1.4rem; font-weight: 600; margin: 6px 0 0; color: #f4ecd8; }
     .km-ld-lobby p { color: var(--ion-color-medium); font-size: 0.92rem; margin: 0; }
     .km-ld-recon { color: #c9a84c !important; font-size: 0.8rem !important; }
@@ -232,6 +245,7 @@ export class LiveDeckPage implements OnInit, OnDestroy {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private alertCtrl = inject(AlertController);
+  private toastCtrl = inject(ToastController);
   private cdr = inject(ChangeDetectorRef);
 
   code = '';
@@ -488,6 +502,21 @@ export class LiveDeckPage implements OnInit, OnDestroy {
   leave(): void {
     this.teardown();
     this.router.navigate(['/studio']);
+  }
+
+  /** Copy the room code so the host can paste it into any chat to invite people. */
+  async copyCode(): Promise<void> {
+    try {
+      await navigator.clipboard?.writeText(this.code);
+    } catch {
+      // Clipboard blocked (insecure context / permissions) — still confirm below.
+    }
+    const toast = await this.toastCtrl.create({
+      message: `Room code ${this.code} copied — share it to invite people.`,
+      duration: 1800,
+      position: 'bottom',
+    });
+    await toast.present();
   }
 
   viewRecap(): void {
