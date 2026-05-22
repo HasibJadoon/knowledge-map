@@ -114,7 +114,7 @@ export class StudioApiService {
 
   addPoint(
     sectionId: string,
-    body: { text?: string; speaker_ref?: string | null },
+    body: { text?: string; speaker_ref?: string | null; bridge?: string | null },
   ): Observable<TalkingPoint> {
     return this.http
       .post<Envelope<TalkingPoint>>(`${this.base}/sections/${sectionId}/points`, body)
@@ -123,7 +123,10 @@ export class StudioApiService {
 
   updatePoint(
     id: string,
-    patch: { text?: string; speaker_ref?: string | null; est_seconds?: number | null },
+    patch: {
+      text?: string; speaker_ref?: string | null;
+      bridge?: string | null; est_seconds?: number | null;
+    },
   ): Observable<TalkingPoint> {
     return this.http
       .patch<Envelope<TalkingPoint>>(`${this.base}/points/${id}`, patch)

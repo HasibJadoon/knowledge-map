@@ -1,5 +1,5 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, OnInit, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -38,9 +38,15 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
           }
         </ion-title>
         <ion-buttons slot="end">
-          <ion-button (click)="startSession()" fill="clear" aria-label="Start live session">
-            <ion-icon slot="icon-only" name="radio-outline"></ion-icon>
-          </ion-button>
+          @if (isTalkingHead()) {
+            <ion-button (click)="record()" fill="clear" aria-label="Record talking head">
+              <ion-icon slot="icon-only" name="videocam-outline"></ion-icon>
+            </ion-button>
+          } @else {
+            <ion-button (click)="startSession()" fill="clear" aria-label="Start live session">
+              <ion-icon slot="icon-only" name="radio-outline"></ion-icon>
+            </ion-button>
+          }
         </ion-buttons>
       </ion-toolbar>
     </ion-header>
@@ -60,22 +66,30 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
           </ion-select>
         </ion-item>
 
-        <div class="km-ep-block">
-          <div class="km-ep-block-head">Cast</div>
-          <div class="km-ep-cast">
-            @for (p of ep.participants; track p.id) {
-              <button class="km-chip" (click)="editPerson(p)">
-                <span class="km-chip-dot" [style.background]="p.color"></span>
-                {{ p.display_name }}
-                @if (p.core_user_ref) {
-                  <ion-icon name="link" class="km-chip-link"
-                            aria-label="Linked to an account"></ion-icon>
-                }
-              </button>
-            }
-            <button class="km-chip km-chip--add" (click)="addPerson()">+ Person</button>
+        @if (!isTalkingHead()) {
+          <div class="km-ep-block">
+            <div class="km-ep-block-head">Cast</div>
+            <div class="km-ep-cast">
+              @for (p of ep.participants; track p.id) {
+                <button class="km-chip" (click)="editPerson(p)">
+                  <span class="km-chip-dot" [style.background]="p.color"></span>
+                  {{ p.display_name }}
+                  @if (p.core_user_ref) {
+                    <ion-icon name="link" class="km-chip-link"
+                              aria-label="Linked to an account"></ion-icon>
+                  }
+                </button>
+              }
+              <button class="km-chip km-chip--add" (click)="addPerson()">+ Person</button>
+            </div>
           </div>
-        </div>
+        } @else {
+          <div class="km-ep-block">
+            <div class="km-ep-th-note">
+              Solo talking head — swipe through these cards while you record.
+            </div>
+          </div>
+        }
 
         @for (section of ep.sections; track section.id) {
           <ion-card class="km-sec">
@@ -92,17 +106,29 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
             @for (point of section.points; track point.id) {
               <div class="km-pt">
                 <ion-textarea class="km-pt-text" [autoGrow]="true" [rows]="1"
-                              placeholder="Talking point…" [value]="point.text"
+                              [placeholder]="isTalkingHead() ? 'Card — what to say…' : 'Talking point…'"
+                              [value]="point.text"
                               (ionBlur)="onPointTextBlur(section, point, $event)"></ion-textarea>
+                @if (isTalkingHead()) {
+                  <input class="km-pt-bridge" [value]="point.bridge ?? ''"
+                         placeholder="↪ Bridge to the next card — a question or thought…"
+                         (blur)="onPointBridgeBlur(section, point, $event)" />
+                }
                 <div class="km-pt-foot">
-                  <ion-select class="km-pt-speaker" interface="popover" placeholder="Anyone"
-                              [value]="point.speaker_ref ?? ''"
-                              (ionChange)="onPointSpeakerChange(section, point, $event)">
-                    <ion-select-option value="">Anyone</ion-select-option>
-                    @for (p of ep.participants; track p.id) {
-                      <ion-select-option [value]="p.id">{{ p.display_name }}</ion-select-option>
-                    }
-                  </ion-select>
+                  @if (isTalkingHead()) {
+                    <label class="km-pt-est">~<input type="number" inputmode="numeric"
+                             min="0" placeholder="—" [value]="point.est_seconds ?? ''"
+                             (blur)="onPointEstBlur(section, point, $event)" />s</label>
+                  } @else {
+                    <ion-select class="km-pt-speaker" interface="popover" placeholder="Anyone"
+                                [value]="point.speaker_ref ?? ''"
+                                (ionChange)="onPointSpeakerChange(section, point, $event)">
+                      <ion-select-option value="">Anyone</ion-select-option>
+                      @for (p of ep.participants; track p.id) {
+                        <ion-select-option [value]="p.id">{{ p.display_name }}</ion-select-option>
+                      }
+                    </ion-select>
+                  }
                   <ion-button fill="clear" size="small" color="medium"
                               (click)="deletePoint(section, point)">
                     <ion-icon slot="icon-only" name="close-outline"></ion-icon>
@@ -111,7 +137,9 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
               </div>
             }
 
-            <button class="km-add-row" (click)="addPoint(section)">+ Talking point</button>
+            <button class="km-add-row" (click)="addPoint(section)">
+              {{ isTalkingHead() ? '+ Card' : '+ Talking point' }}
+            </button>
           </ion-card>
         }
 
@@ -208,6 +236,26 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
       font-size: 0.76rem; --padding-start: 6px; max-width: 70%;
       color: var(--ion-color-medium);
     }
+    .km-pt-bridge {
+      width: 100%; margin-top: 6px; padding: 6px;
+      background: transparent; border: none;
+      border-top: 1px dashed rgba(201,168,76,0.25);
+      outline: none; color: #c9a84c; font-size: 0.78rem;
+    }
+    .km-pt-bridge::placeholder { color: rgba(201,168,76,0.5); }
+    .km-pt-est {
+      display: inline-flex; align-items: center; gap: 2px;
+      font-size: 0.76rem; color: var(--ion-color-medium); padding-left: 6px;
+    }
+    .km-pt-est input {
+      width: 46px; background: transparent; border: none; outline: none;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      color: var(--ion-text-color); font-size: 0.78rem; text-align: center;
+    }
+    .km-ep-th-note {
+      font-size: 0.8rem; color: var(--ion-color-medium); line-height: 1.4;
+      padding: 2px 0 4px;
+    }
 
     .km-add-row {
       margin: 4px 10px 12px; padding: 9px; width: calc(100% - 20px);
@@ -238,6 +286,8 @@ export class EpisodeBuilderPage implements OnInit {
 
   episode = signal<EpisodeAggregate | null>(null);
   loading = signal(true);
+
+  isTalkingHead = computed(() => this.episode()?.format === 'talking_head');
 
   private episodeId = '';
 
@@ -417,6 +467,20 @@ export class EpisodeBuilderPage implements OnInit {
     this.studio.updatePoint(point.id, { speaker_ref: speakerRef }).subscribe({ error: () => {} });
   }
 
+  onPointBridgeBlur(section: Section, point: TalkingPoint, ev: Event): void {
+    const bridge = this.elValue(ev);
+    this.patchPointLocal(section.id, point.id, { bridge });
+    this.studio.updatePoint(point.id, { bridge }).subscribe({ error: () => {} });
+  }
+
+  onPointEstBlur(section: Section, point: TalkingPoint, ev: Event): void {
+    const raw = this.elValue(ev).trim();
+    const est = raw ? Math.max(0, Math.round(Number(raw))) : null;
+    if (est !== null && !Number.isFinite(est)) return;
+    this.patchPointLocal(section.id, point.id, { est_seconds: est });
+    this.studio.updatePoint(point.id, { est_seconds: est }).subscribe({ error: () => {} });
+  }
+
   deletePoint(section: Section, point: TalkingPoint): void {
     this.studio.deletePoint(point.id)
       .subscribe({ next: () => this.reload(), error: () => {} });
@@ -516,6 +580,11 @@ export class EpisodeBuilderPage implements OnInit {
         await toast.present();
       },
     });
+  }
+
+  /** Talking head: open the local swipe-through prompter for recording. */
+  record(): void {
+    this.router.navigate(['/studio/record', this.episodeId]);
   }
 
   // ── Local state helpers ──────────────────────────────────────────────────────

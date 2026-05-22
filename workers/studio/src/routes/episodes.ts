@@ -324,11 +324,13 @@ export function episodeRoutes(router: Router<StudioEnv>) {
     const text = typeof body['text'] === 'string' ? body['text'] : '';
     const speakerRef = trimmedString(body['speaker_ref']) || null;
     const estSeconds = typeof body['est_seconds'] === 'number' ? body['est_seconds'] : null;
+    const bridge = typeof body['bridge'] === 'string' ? body['bridge'] : null;
 
     return created(await repo.createPoint(id, section.episode_ref, {
       text,
       speaker_ref: speakerRef,
       est_seconds: estSeconds,
+      bridge,
     }));
   });
 
@@ -340,6 +342,7 @@ export function episodeRoutes(router: Router<StudioEnv>) {
     const patch: {
       text?: string;
       speaker_ref?: string | null;
+      bridge?: string | null;
       est_seconds?: number | null;
       seq?: number;
     } = {};
@@ -357,6 +360,12 @@ export function episodeRoutes(router: Router<StudioEnv>) {
       if (value === null) patch.est_seconds = null;
       else if (typeof value === 'number') patch.est_seconds = value;
       else return badRequest('est_seconds must be a number or null');
+    }
+    if ('bridge' in body) {
+      const value = body['bridge'];
+      if (value === null) patch.bridge = null;
+      else if (typeof value === 'string') patch.bridge = value;
+      else return badRequest('bridge must be a string or null');
     }
     if (typeof body['seq'] === 'number') patch.seq = body['seq'];
 

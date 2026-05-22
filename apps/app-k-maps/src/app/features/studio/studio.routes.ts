@@ -22,6 +22,11 @@ export const STUDIO_ROUTES: Routes = [
       import('./pages/recap/recap.page').then((m) => m.RecapPage),
   },
   {
+    path: 'record/:episodeId',
+    loadComponent: () =>
+      import('./pages/record-deck/record-deck.page').then((m) => m.RecordDeckPage),
+  },
+  {
     path: ':episodeId',
     loadComponent: () =>
       import('./pages/episode-builder/episode-builder.page').then((m) => m.EpisodeBuilderPage),

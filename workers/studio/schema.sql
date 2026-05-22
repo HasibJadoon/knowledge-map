@@ -62,6 +62,7 @@ CREATE TABLE st_talking_points (
   episode_ref   TEXT NOT NULL,
   text          TEXT NOT NULL DEFAULT '',
   speaker_ref   TEXT,                                -- ST:id of the assigned participant
+  bridge        TEXT,                                -- talking-head: transition into the next card
   est_seconds   INTEGER,
   seq           INTEGER NOT NULL DEFAULT 0,
   created_at    TEXT NOT NULL DEFAULT (datetime('now')),

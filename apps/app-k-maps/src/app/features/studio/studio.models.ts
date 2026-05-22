@@ -74,6 +74,8 @@ export interface TalkingPoint {
   episode_ref: string;
   text: string;
   speaker_ref: string | null;
+  /** Talking-head: the transition / question that bridges into the next card. */
+  bridge: string | null;
   est_seconds: number | null;
   seq: number;
 }

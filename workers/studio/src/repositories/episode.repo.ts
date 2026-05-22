@@ -55,6 +55,7 @@ export interface PointRow {
   episode_ref: string;
   text: string;
   speaker_ref: string | null;
+  bridge: string | null;
   est_seconds: number | null;
   seq: number;
   created_at: string;
@@ -114,6 +115,7 @@ export interface SectionPatch {
 export interface PointInput {
   text?: string;
   speaker_ref?: string | null;
+  bridge?: string | null;
   est_seconds?: number | null;
   seq?: number;
 }
@@ -121,6 +123,7 @@ export interface PointInput {
 export interface PointPatch {
   text?: string;
   speaker_ref?: string | null;
+  bridge?: string | null;
   est_seconds?: number | null;
   seq?: number;
 }
@@ -139,7 +142,7 @@ const EP_COLS = `id, core_user_ref, core_ws_ref, title, format, template_ref,
                  status, meta_json, created_at, updated_at`;
 const PA_COLS = `id, episode_ref, display_name, color, role, seq, core_user_ref, created_at`;
 const SE_COLS = `id, episode_ref, type, heading, seq, created_at, updated_at`;
-const PT_COLS = `id, section_ref, episode_ref, text, speaker_ref, est_seconds,
+const PT_COLS = `id, section_ref, episode_ref, text, speaker_ref, bridge, est_seconds,
                  seq, created_at, updated_at`;
 
 export class EpisodeRepo {
@@ -359,14 +362,16 @@ export class EpisodeRepo {
     await execute(
       this.db,
       `INSERT INTO st_talking_points
-         (id, section_ref, episode_ref, text, speaker_ref, est_seconds, seq, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         (id, section_ref, episode_ref, text, speaker_ref, bridge, est_seconds,
+          seq, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         id,
         sectionId,
         episodeId,
         input.text ?? '',
         input.speaker_ref ?? null,
+        input.bridge ?? null,
         input.est_seconds ?? null,
         seq,
         now,
@@ -381,6 +386,7 @@ export class EpisodeRepo {
     const vals: unknown[] = [];
     if (patch.text !== undefined)        { sets.push('text = ?');        vals.push(patch.text); }
     if (patch.speaker_ref !== undefined) { sets.push('speaker_ref = ?'); vals.push(patch.speaker_ref); }
+    if (patch.bridge !== undefined)      { sets.push('bridge = ?');      vals.push(patch.bridge); }
     if (patch.est_seconds !== undefined) { sets.push('est_seconds = ?'); vals.push(patch.est_seconds); }
     if (patch.seq !== undefined)         { sets.push('seq = ?');         vals.push(patch.seq); }
     if (sets.length === 0) return this.findPoint(id);
