@@ -134,6 +134,9 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
   `,
   styles: [`
     :host { display: block; }
+    ion-content {
+      --background: radial-gradient(150% 80% at 50% 0%, #18160f 0%, #0b0a08 56%);
+    }
     .km-ep-center { display: flex; justify-content: center; padding: 60px 0; color: var(--ion-color-medium); }
 
     .km-ep-title {
@@ -152,15 +155,32 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
     .km-ep-cast { display: flex; flex-wrap: wrap; gap: 8px; }
     .km-chip {
       display: flex; align-items: center; gap: 6px;
-      padding: 6px 12px; border-radius: 16px; font-size: 0.82rem;
-      background: rgba(255,255,255,0.06); color: var(--ion-text-color);
-      border: 1px solid rgba(255,255,255,0.08);
+      padding: 7px 13px; border-radius: 16px; font-size: 0.82rem;
+      color: var(--ion-text-color);
+      background: linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.06);
+      border-top-color: rgba(255,255,255,0.16);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.09);
     }
-    .km-chip-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-    .km-chip--add { color: #c9a84c; border-style: dashed; }
+    .km-chip-dot {
+      width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+      box-shadow: 0 0 7px rgba(201,168,76,0.55), inset 0 0 2px rgba(255,255,255,0.45);
+    }
+    .km-chip--add {
+      color: #c9a84c; border: 1px dashed rgba(201,168,76,0.45);
+      background: rgba(201,168,76,0.05); box-shadow: none;
+    }
 
-    .km-sec { margin: 12px 12px; border-radius: 12px; }
-    .km-sec-head { display: flex; align-items: center; padding: 8px 6px 0 14px; }
+    .km-sec {
+      margin: 16px 12px; border-radius: 14px;
+      --background: linear-gradient(180deg, #232017 0%, #131210 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow:
+        0 12px 26px rgba(0,0,0,0.62),
+        0 2px 5px rgba(0,0,0,0.5),
+        inset 0 1px 0 rgba(255,255,255,0.06);
+    }
+    .km-sec-head { display: flex; align-items: center; padding: 10px 6px 0 14px; }
     .km-sec-heading {
       flex: 1; background: transparent; border: none; outline: none;
       color: var(--ion-text-color); font-size: 0.98rem; font-weight: 600;
@@ -171,8 +191,11 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
     }
 
     .km-pt {
-      margin: 0 10px 8px; padding: 6px 8px;
-      background: rgba(255,255,255,0.03); border-radius: 9px;
+      margin: 8px 10px; padding: 8px 10px; border-radius: 10px;
+      background: rgba(0,0,0,0.34);
+      border: 1px solid rgba(0,0,0,0.5);
+      border-bottom-color: rgba(255,255,255,0.05);
+      box-shadow: inset 0 2px 9px rgba(0,0,0,0.66);
     }
     .km-pt-text { --padding-start: 6px; --padding-end: 6px; font-size: 0.9rem; }
     .km-pt-foot { display: flex; align-items: center; justify-content: space-between; }
@@ -182,16 +205,19 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
     }
 
     .km-add-row {
-      margin: 2px 12px 12px; padding: 8px; width: calc(100% - 24px);
-      background: transparent; border: 1px dashed rgba(255,255,255,0.14);
-      border-radius: 8px; color: #c9a84c; font-size: 0.82rem;
+      margin: 4px 10px 12px; padding: 9px; width: calc(100% - 20px);
+      background: rgba(0,0,0,0.22); border: 1px dashed rgba(201,168,76,0.3);
+      border-radius: 9px; color: #c9a84c; font-size: 0.82rem;
+      box-shadow: inset 0 1px 6px rgba(0,0,0,0.5);
     }
     .km-add-section {
-      display: block; margin: 8px 12px 4px; padding: 12px; width: calc(100% - 24px);
-      background: rgba(201,168,76,0.1); border: none; border-radius: 10px;
-      color: #c9a84c; font-size: 0.88rem; font-weight: 600;
+      display: block; margin: 10px 12px 4px; padding: 13px; width: calc(100% - 24px);
+      background: linear-gradient(180deg, rgba(201,168,76,0.22), rgba(201,168,76,0.06));
+      border: 1px solid rgba(201,168,76,0.25); border-radius: 12px;
+      color: #e8c96a; font-size: 0.88rem; font-weight: 600;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.13);
     }
-    .km-ep-actions { padding: 14px 12px 0; }
+    .km-ep-actions { padding: 16px 12px 0; }
     .km-ep-danger { padding: 8px 12px 40px; }
   `],
 })
