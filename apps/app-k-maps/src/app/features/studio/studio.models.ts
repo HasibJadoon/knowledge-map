@@ -79,3 +79,21 @@ export const EPISODE_FORMATS: ReadonlyArray<{ id: EpisodeFormat; label: string }
 export function formatLabel(format: string): string {
   return EPISODE_FORMATS.find((f) => f.id === format)?.label ?? format;
 }
+
+// ── Live sessions ──────────────────────────────────────────────────────────────
+
+export interface SessionInfo {
+  session_id: string;
+  room_code: string;
+  episode_id: string;
+  episode_title?: string;
+  status: 'live' | 'ended';
+  host: boolean;
+}
+
+/** The synced position broadcast by the EpisodeSession Durable Object.
+ *  section / point are -1 in the lobby (before the host starts). */
+export interface LiveCursor {
+  section: number;
+  point: number;
+}

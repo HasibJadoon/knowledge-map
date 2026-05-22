@@ -11,3 +11,12 @@ database_name = "km_studio"
 database_id = "00000000-0000-0000-0000-000000000000"
 migrations_dir = "migrations"
 # ST stores typed refs to other domains — never duplicates canonical content
+
+# ─── Durable Object — live episode sessions ───────────────────────────────────
+[[durable_objects.bindings]]
+name = "EPISODE_SESSION"
+class_name = "EpisodeSession"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["EpisodeSession"]

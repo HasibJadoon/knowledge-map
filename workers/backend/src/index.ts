@@ -13,7 +13,7 @@
 import type { BackendEnv } from './env';
 import { MODULE_MAP, type ModuleKey } from './modules';
 import { preflight, withCors, corsHeaders } from './cors';
-import { authenticate } from '../../shared/src/auth';
+import { authenticate, verifyJwt } from '../../shared/src/auth';
 import { unauthorized, err, internalError } from '../../shared/src/response';
 import { json } from '../../shared/src/http';
 
@@ -132,9 +132,27 @@ export default {
     // Auth endpoints (login, token issuance, OAuth, first-run setup) must be
     // reachable without a token. Everything else requires a valid Bearer JWT
     // unless the module marks GET requests as public.
+    const isWebSocket = request.headers.get('Upgrade')?.toLowerCase() === 'websocket';
     const isAuthEndpoint = remainder.startsWith('core/auth/');
     const isPublic = isAuthEndpoint || (mod.publicGet && request.method === 'GET');
-    const authCtx  = await authenticate(request, env.JWT_SECRET ?? '');
+    let authCtx = await authenticate(request, env.JWT_SECRET ?? '');
+
+    // Browsers cannot set an Authorization header on a WebSocket handshake, so
+    // the JWT is accepted as a `token` query param for upgrade requests only.
+    if (!authCtx && isWebSocket) {
+      const wsToken = url.searchParams.get('token');
+      if (wsToken) {
+        const payload = await verifyJwt(wsToken, env.JWT_SECRET ?? '');
+        if (payload) {
+          authCtx = {
+            userId: payload.sub,
+            workspaceId: payload.wid,
+            role: payload.role,
+            isAdmin: payload.role === 'admin',
+          };
+        }
+      }
+    }
 
     if (!isPublic && !authCtx) {
       return withCors(unauthorized('Valid Bearer token required'), origin, co);
@@ -145,6 +163,7 @@ export default {
     const fwdUrl      = new URL(request.url);
     fwdUrl.hostname   = 'internal.k-maps.local'; // ignored by service binding
     fwdUrl.pathname   = '/' + remainder;          // /qr/menu
+    fwdUrl.searchParams.delete('token');          // never forward the WS token internally
 
     const fwdHeaders = new Headers(request.headers);
     // Stamp every internal request so domain workers can reject public traffic.
@@ -171,6 +190,8 @@ export default {
     try {
       const fetcher  = env[mod.binding] as Fetcher;
       const internal = await fetcher.fetch(fwdRequest);
+      // WebSocket upgrades carry a live socket handle — return as-is, never rewrap.
+      if (isWebSocket || internal.status === 101) return internal;
       return withCors(internal, origin, co);
     } catch (e) {
       console.error(`[backend] ${mod.binding} error:`, e);

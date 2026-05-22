@@ -8,4 +8,7 @@
 export interface StudioEnv {
   // Owned database
   DB_ST: D1Database;
+
+  // Durable Object — one instance per live episode session
+  EPISODE_SESSION: DurableObjectNamespace;
 }

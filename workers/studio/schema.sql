@@ -69,3 +69,18 @@ CREATE TABLE st_talking_points (
 );
 CREATE INDEX idx_st_points_section ON st_talking_points(section_ref, seq);
 CREATE INDEX idx_st_points_episode ON st_talking_points(episode_ref);
+
+CREATE TABLE st_sessions (
+  id            TEXT PRIMARY KEY,
+  episode_ref   TEXT NOT NULL,
+  core_user_ref TEXT NOT NULL,                  -- the host
+  room_code     TEXT NOT NULL UNIQUE,           -- short code joiners type in
+  status        TEXT NOT NULL DEFAULT 'live',   -- live|ended
+  started_at    TEXT,
+  ended_at      TEXT,
+  snapshot_json TEXT,
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (episode_ref) REFERENCES st_episodes(id)
+);
+CREATE INDEX idx_st_sessions_code ON st_sessions(room_code);
+CREATE INDEX idx_st_sessions_episode ON st_sessions(episode_ref, status);

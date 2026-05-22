@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import {
-  EpisodeAggregate, EpisodeSummary, Participant, Section, StudioTemplate, TalkingPoint,
+  EpisodeAggregate, EpisodeSummary, Participant, Section, SessionInfo, StudioTemplate, TalkingPoint,
 } from '../studio.models';
 
 interface Envelope<T> {
@@ -131,5 +131,21 @@ export class StudioApiService {
 
   deletePoint(id: string): Observable<void> {
     return this.http.delete<void>(`${this.base}/points/${id}`);
+  }
+
+  // ── Live sessions ────────────────────────────────────────────────────────────
+
+  /** Host: start (or rejoin) the live session for an episode. */
+  startSession(episodeId: string): Observable<SessionInfo> {
+    return this.http
+      .post<Envelope<SessionInfo>>(`${this.base}/episodes/${episodeId}/sessions`, {})
+      .pipe(map((res) => res.data));
+  }
+
+  /** Resolve a typed-in room code to a session. */
+  getSession(code: string): Observable<SessionInfo> {
+    return this.http
+      .get<Envelope<SessionInfo>>(`${this.base}/sessions/${code}`)
+      .pipe(map((res) => res.data));
   }
 }

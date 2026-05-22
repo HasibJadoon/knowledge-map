@@ -369,13 +369,18 @@ export class EpisodeBuilderPage implements OnInit {
     await alert.present();
   }
 
-  async startSession(): Promise<void> {
-    const toast = await this.toastCtrl.create({
-      message: 'Live synced sessions arrive in the next phase.',
-      duration: 2200,
-      position: 'bottom',
+  startSession(): void {
+    this.studio.startSession(this.episodeId).subscribe({
+      next: (session) => this.router.navigate(['/studio/session', session.room_code]),
+      error: async () => {
+        const toast = await this.toastCtrl.create({
+          message: 'Could not start the live session.',
+          duration: 2200,
+          position: 'bottom',
+        });
+        await toast.present();
+      },
     });
-    await toast.present();
   }
 
   // ── Local state helpers ──────────────────────────────────────────────────────

@@ -23,3 +23,7 @@ wrangler d1 migrations list  km_studio --remote --config workers/studio/wrangler
 | File | Key Tables |
 |------|-----------|
 | 0001_st_studio.sql | st_templates, st_episodes, st_participants, st_sections, st_talking_points (+ 5 built-in templates) |
+| 0002_st_sessions.sql | st_sessions — live-session index for the EpisodeSession Durable Object |
+
+The EpisodeSession Durable Object is registered separately via the
+`[[migrations]]` block in `wrangler.toml` (applied on `wrangler deploy`).

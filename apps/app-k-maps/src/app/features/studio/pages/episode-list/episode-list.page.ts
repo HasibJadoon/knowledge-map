@@ -3,7 +3,7 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ActionSheetController, IonicModule } from '@ionic/angular';
+import { ActionSheetController, AlertController, IonicModule } from '@ionic/angular';
 import { StudioApiService } from '../../services/studio-api.service';
 import { EpisodeSummary, StudioTemplate, formatLabel } from '../../studio.models';
 
@@ -20,6 +20,9 @@ import { EpisodeSummary, StudioTemplate, formatLabel } from '../../studio.models
         </ion-buttons>
         <ion-title>Studio</ion-title>
         <ion-buttons slot="end">
+          <ion-button (click)="joinSession()" fill="clear" aria-label="Join a session">
+            <ion-icon slot="icon-only" name="enter-outline"></ion-icon>
+          </ion-button>
           <ion-button (click)="newEpisode()" fill="clear" [disabled]="creating()">
             <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
           </ion-button>
@@ -78,6 +81,7 @@ export class EpisodeListPage implements OnInit {
   private studio = inject(StudioApiService);
   private router = inject(Router);
   private actionSheet = inject(ActionSheetController);
+  private alertCtrl = inject(AlertController);
   private cdr = inject(ChangeDetectorRef);
 
   readonly fmt = formatLabel;
@@ -133,6 +137,25 @@ export class EpisodeListPage implements OnInit {
 
   openEpisode(id: string): void {
     this.router.navigate(['/studio', id]);
+  }
+
+  async joinSession(): Promise<void> {
+    const alert = await this.alertCtrl.create({
+      header: 'Join a live session',
+      message: 'Enter the room code shared by the host.',
+      inputs: [{ name: 'code', type: 'text', placeholder: 'Room code' }],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Join',
+          handler: (data) => {
+            const code = String(data?.code ?? '').trim().toUpperCase();
+            if (code) this.router.navigate(['/studio/session', code]);
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 
   formatDate(iso: string | null): string {
