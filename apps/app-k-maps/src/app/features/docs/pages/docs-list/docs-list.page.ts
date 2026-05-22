@@ -432,6 +432,17 @@ export class DocsListPage implements OnInit, OnDestroy {
     if (this.searchTimer) clearTimeout(this.searchTimer);
   }
 
+  /**
+   * Ionic keeps this page mounted while the editor is pushed on top, so its
+   * data would otherwise stay frozen. Re-fetch the already-loaded domains on
+   * every entry so renamed or newly created docs show their current title.
+   */
+  ionViewWillEnter(): void {
+    for (const domain of this.loadedDomains()) {
+      this.loadDomain(domain, true);
+    }
+  }
+
   private syncActiveFromUrl(): void {
     const match = this.router.url.match(/\/docs\/([^/?]+)/);
     this.activeDocId.set(match?.[1] ?? null);

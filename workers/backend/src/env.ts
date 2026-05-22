@@ -10,6 +10,7 @@ export interface BackendEnv {
   AR_LINGUISTICS: Fetcher;
   CONTENT:        Fetcher;
   PLANNER:        Fetcher;
+  STUDIO:         Fetcher;
   CORE:           Fetcher;
 
   // Secrets

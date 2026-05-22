@@ -34,6 +34,10 @@ binding = "PLANNER"
 service = "km-planner-worker"
 
 [[services]]
+binding = "STUDIO"
+service = "km-studio-worker"
+
+[[services]]
 binding = "CORE"
 service = "km-core-worker"
 

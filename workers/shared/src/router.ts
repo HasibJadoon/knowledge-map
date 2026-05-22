@@ -27,6 +27,9 @@ const CORS_HEADERS: Record<string, string> = {
 };
 
 function withCors(response: Response): Response {
+  // WebSocket upgrade responses (101) carry a live `webSocket` handle that is
+  // lost when the Response is rebuilt — pass them straight through untouched.
+  if (response.status === 101) return response;
   const headers = new Headers(response.headers);
   for (const [k, v] of Object.entries(CORS_HEADERS)) headers.set(k, v);
   return new Response(response.body, { status: response.status, statusText: response.statusText, headers });
