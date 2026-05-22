@@ -1,6 +1,6 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, OnDestroy,
-  OnInit, signal,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject,
+  OnDestroy, OnInit, signal, ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +21,17 @@ interface LiveMessage {
   viewers?: number;
   roster?: RosterEntry[];
   you?: RosterEntry;
+}
+
+/** One card in the live deck — a flattened talking point. */
+interface DeckCard {
+  index: number;
+  section: string;
+  text: string;
+  bridge: string | null;
+  speakerName: string | null;
+  speakerColor: string | null;
+  speakerRef: string | null;
 }
 
 @Component({
@@ -67,74 +78,81 @@ interface LiveMessage {
           }
           <ion-button fill="outline" size="small" (click)="leave()">Back to Studio</ion-button>
         </div>
-      } @else {
+      } @else if (inLobby()) {
         <div class="km-ld-stage">
-          @if (inLobby()) {
-            <div class="km-ld-lobby">
-              <div class="km-ld-roomcode">{{ code }}</div>
-              <button class="km-ld-copy" (click)="copyCode()">
-                <ion-icon name="copy-outline"></ion-icon>
-                Copy code to share
-              </button>
-              <h1>{{ episodeTitle() }}</h1>
-              <p>{{ isHost()
-                ? 'Tap Start when everyone has joined.'
-                : 'Waiting for the host to start…' }}</p>
+          <div class="km-ld-lobby">
+            <div class="km-ld-roomcode">{{ code }}</div>
+            <button class="km-ld-copy" (click)="copyCode()">
+              <ion-icon name="copy-outline"></ion-icon>
+              Copy code to share
+            </button>
+            <h1>{{ episodeTitle() }}</h1>
+            <p>{{ isHost()
+              ? 'Tap Start when everyone has joined.'
+              : 'Waiting for the host to start…' }}</p>
 
-              @if (namedRoster().length) {
-                <div class="km-ld-roster">
-                  @for (r of namedRoster(); track $index) {
-                    <span class="km-ld-rosterchip" [style.borderColor]="r.color || '#c9a84c'">
-                      <span class="km-ld-rosterdot"
-                            [style.background]="r.color || '#c9a84c'"></span>
-                      {{ r.name }}
-                      @if (r.role === 'host') { <span class="km-ld-rosterrole">host</span> }
-                    </span>
-                  }
-                </div>
-              }
-              @if (guestCount() > 0) {
-                <p class="km-ld-guests">
-                  + {{ guestCount() }} {{ guestCount() === 1 ? 'guest' : 'guests' }} watching
-                </p>
-              }
-              @if (you(); as me) {
-                <p class="km-ld-youare">
-                  {{ me.name ? "You're in as " + me.name : "You're watching as a guest" }}
-                </p>
-              }
-              @if (!connected()) { <p class="km-ld-recon">Reconnecting…</p> }
-            </div>
-          } @else {
-            @if (currentSection(); as section) {
-              <div class="km-ld-sectionlabel">{{ section.heading }}</div>
-            }
-            @if (currentSpeaker(); as speaker) {
-              <div class="km-ld-speaker"
-                   [style.borderColor]="speaker.color"
-                   [style.color]="speaker.color">
-                <ion-icon name="mic"></ion-icon> {{ speaker.display_name }}
+            @if (namedRoster().length) {
+              <div class="km-ld-roster">
+                @for (r of namedRoster(); track $index) {
+                  <span class="km-ld-rosterchip" [style.borderColor]="r.color || '#c9a84c'">
+                    <span class="km-ld-rosterdot"
+                          [style.background]="r.color || '#c9a84c'"></span>
+                    {{ r.name }}
+                    @if (r.role === 'host') { <span class="km-ld-rosterrole">host</span> }
+                  </span>
+                }
               </div>
             }
-            @if (currentPoint(); as point) {
-              <p class="km-ld-point">{{ point.text || '…' }}</p>
-            } @else {
-              <p class="km-ld-point km-ld-point--empty">Section break</p>
+            @if (guestCount() > 0) {
+              <p class="km-ld-guests">
+                + {{ guestCount() }} {{ guestCount() === 1 ? 'guest' : 'guests' }} watching
+              </p>
             }
-            @if (paused()) { <div class="km-ld-paused">Paused</div> }
+            @if (you(); as me) {
+              <p class="km-ld-youare">
+                {{ me.name ? "You're in as " + me.name : "You're watching as a guest" }}
+              </p>
+            }
+            @if (!connected()) { <p class="km-ld-recon">Reconnecting…</p> }
+          </div>
+        </div>
+      } @else {
+        <div class="km-ld-strip" #strip>
+          @for (card of cards(); track card.index) {
+            <div class="km-ld-card"
+                 [class.km-ld-card--live]="card.index === activeIndex()"
+                 [class.km-ld-card--done]="card.index < activeIndex()">
+              <div class="km-ld-card-top">
+                <span class="km-ld-card-sec">{{ card.section }}</span>
+                @if (card.index === activeIndex()) {
+                  <span class="km-ld-card-flag">● Live</span>
+                } @else if (card.index < activeIndex()) {
+                  <span class="km-ld-card-tick">✓</span>
+                }
+              </div>
+              @if (card.speakerName) {
+                <div class="km-ld-card-speaker"
+                     [style.color]="card.speakerColor || '#c9a84c'"
+                     [style.borderColor]="card.speakerColor || '#c9a84c'">
+                  <ion-icon name="mic"></ion-icon> {{ card.speakerName }}
+                </div>
+              }
+              <p class="km-ld-card-text">{{ card.text || 'Section break' }}</p>
+              @if (card.bridge) {
+                <div class="km-ld-card-bridge">↪ {{ card.bridge }}</div>
+              }
+            </div>
           }
         </div>
-
-        @if (!inLobby()) {
-          <div class="km-ld-progress">
-            <div class="km-ld-progress-bar">
-              <span [style.width.%]="progressPct()"></span>
-            </div>
-            <div class="km-ld-progress-text">
-              {{ position().index + 1 }} / {{ position().total }}
-            </div>
+        @if (paused()) { <div class="km-ld-pausedbar">Paused</div> }
+        <div class="km-ld-progress">
+          <div class="km-ld-progress-bar">
+            <span [style.width.%]="progressPct()"></span>
           </div>
-        }
+          <div class="km-ld-progress-text">
+            {{ position().index + 1 }} / {{ position().total }}
+          </div>
+        </div>
       }
     </ion-content>
 
@@ -170,9 +188,23 @@ interface LiveMessage {
     @if (showViewerFooter()) {
       <ion-footer>
         <ion-toolbar class="km-ld-follow">
-          <div class="km-ld-followtext">
-            {{ connected() ? 'Following the host' : 'Reconnecting…' }}
-          </div>
+          @if (!connected()) {
+            <div class="km-ld-followtext">Reconnecting…</div>
+          } @else if (inLobby()) {
+            <div class="km-ld-followtext">Waiting for the host to start…</div>
+          } @else if (isMyTurn()) {
+            <ion-button expand="block" class="km-ld-myturn"
+                        (click)="next()" [disabled]="atEnd()">
+              {{ atEnd() ? "You're done ✓" : "Done — next ▸" }}
+            </ion-button>
+          } @else if (currentSpeaker(); as speaker) {
+            <div class="km-ld-followtext">
+              <span class="km-ld-turndot" [style.background]="speaker.color"></span>
+              {{ speaker.display_name }} is speaking…
+            </div>
+          } @else {
+            <div class="km-ld-followtext">Following the host</div>
+          }
         </ion-toolbar>
       </ion-footer>
     }
@@ -238,25 +270,53 @@ interface LiveMessage {
     .km-ld-guests { font-size: 0.78rem; color: var(--ion-color-medium); margin: 2px 0 0; }
     .km-ld-youare { font-size: 0.8rem; color: #c9a84c; margin: 4px 0 0; font-weight: 600; }
 
-    .km-ld-sectionlabel {
-      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
+    .km-ld-strip {
+      display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
+      padding: 18px 8vw 6px; -webkit-overflow-scrolling: touch;
+    }
+    .km-ld-strip::-webkit-scrollbar { display: none; }
+    .km-ld-card {
+      flex: 0 0 84%; scroll-snap-align: center;
+      display: flex; flex-direction: column; gap: 12px;
+      min-height: 52vh; padding: 20px 18px; border-radius: 16px;
+      background: linear-gradient(180deg, #232017 0%, #131210 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+      opacity: 0.45; transition: opacity 0.25s ease, border-color 0.25s ease;
+    }
+    .km-ld-card--done { opacity: 0.34; }
+    .km-ld-card--live {
+      opacity: 1; border-color: rgba(201,168,76,0.55);
+      box-shadow: 0 16px 38px rgba(0,0,0,0.66), 0 0 22px rgba(201,168,76,0.16),
+                  inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+    .km-ld-card-top { display: flex; align-items: center; justify-content: space-between; }
+    .km-ld-card-sec {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.14em;
       text-transform: uppercase; color: #c9a84c;
     }
-    .km-ld-speaker {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 7px 17px; border: 1.5px solid; border-radius: 20px;
-      font-size: 0.86rem; font-weight: 600;
-      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
-      box-shadow: 0 6px 16px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09);
+    .km-ld-card-flag {
+      font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #e8c96a;
     }
-    .km-ld-point {
-      font-size: 1.7rem; line-height: 1.45; font-weight: 500;
-      color: #f4ecd8; max-width: 640px; margin: 0;
+    .km-ld-card-tick { font-size: 0.82rem; color: #5cc94c; }
+    .km-ld-card-speaker {
+      align-self: flex-start; display: inline-flex; align-items: center; gap: 5px;
+      padding: 5px 13px; border: 1.5px solid; border-radius: 16px;
+      font-size: 0.8rem; font-weight: 600;
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
     }
-    .km-ld-point--empty { color: var(--ion-color-medium); font-style: italic; }
-    .km-ld-paused {
-      margin-top: 6px; font-size: 0.74rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: #e0a32e;
+    .km-ld-card-text {
+      flex: 1; font-size: 1.45rem; line-height: 1.42; font-weight: 500;
+      color: #f4ecd8; margin: 0;
+    }
+    .km-ld-card-bridge {
+      font-size: 0.9rem; line-height: 1.4; color: #e8c96a;
+      padding-top: 12px; border-top: 1px dashed rgba(201,168,76,0.3);
+    }
+    .km-ld-pausedbar {
+      text-align: center; font-size: 0.72rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: #e0a32e; padding: 4px 0;
     }
 
     .km-ld-progress { padding: 8px 24px 24px; }
@@ -285,6 +345,14 @@ interface LiveMessage {
     .km-ld-follow { --background: #1c1810; }
     .km-ld-followtext {
       text-align: center; padding: 10px; font-size: 0.78rem; color: var(--ion-color-medium);
+    }
+    .km-ld-myturn {
+      margin: 7px 12px; --background: linear-gradient(180deg, #e8c96a, #c9a84c);
+      --color: #14110b; font-weight: 700; --box-shadow: 0 7px 18px rgba(0,0,0,0.5);
+    }
+    .km-ld-turndot {
+      display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+      margin-right: 6px; vertical-align: middle;
     }
   `],
 })
@@ -317,6 +385,8 @@ export class LiveDeckPage implements OnInit, OnDestroy {
   private reconnectAttempts = 0;
   private pingTimer: ReturnType<typeof setInterval> | null = null;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+
+  @ViewChild('strip') private strip?: ElementRef<HTMLElement>;
 
   // ── Derived state ────────────────────────────────────────────────────────────
 
@@ -379,6 +449,43 @@ export class LiveDeckPage implements OnInit, OnDestroy {
   atEnd = computed(() => {
     const { index, total } = this.position();
     return index >= 0 && index >= total - 1;
+  });
+
+  /** Every talking point flattened to an ordered card, for the deck carousel. */
+  cards = computed<DeckCard[]>(() => {
+    const ep = this.episode();
+    if (!ep) return [];
+    const out: DeckCard[] = [];
+    let i = 0;
+    for (const section of ep.sections) {
+      if (section.points.length === 0) {
+        out.push({
+          index: i++, section: section.heading, text: '', bridge: null,
+          speakerName: null, speakerColor: null, speakerRef: null,
+        });
+      } else {
+        for (const point of section.points) {
+          const speaker = point.speaker_ref
+            ? ep.participants.find((p) => p.id === point.speaker_ref) ?? null
+            : null;
+          out.push({
+            index: i++, section: section.heading, text: point.text,
+            bridge: point.bridge, speakerName: speaker?.display_name ?? null,
+            speakerColor: speaker?.color ?? null, speakerRef: point.speaker_ref,
+          });
+        }
+      }
+    }
+    return out;
+  });
+
+  activeIndex = computed(() => this.position().index);
+
+  /** True when the current card is assigned to this viewer — their turn to push. */
+  isMyTurn = computed(() => {
+    const me = this.you();
+    const card = this.cards()[this.activeIndex()];
+    return !!me?.participantId && !!card && card.speakerRef === me.participantId;
   });
 
   // ── Lifecycle ────────────────────────────────────────────────────────────────
@@ -477,7 +584,18 @@ export class LiveDeckPage implements OnInit, OnDestroy {
         this.closeSocket();
         break;
     }
+    if (msg.t === 'sync' || msg.t === 'cursor') {
+      setTimeout(() => this.scrollToActive(), 90);
+    }
     this.cdr.markForCheck();
+  }
+
+  /** Centre the live card in the carousel when the synced cursor moves. */
+  private scrollToActive(): void {
+    const el = this.strip?.nativeElement;
+    if (!el) return;
+    const card = el.children[this.activeIndex()] as HTMLElement | undefined;
+    card?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
   }
 
   private buildWsUrl(): string {

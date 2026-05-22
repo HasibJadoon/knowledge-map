@@ -97,11 +97,18 @@ export class EpisodeSession {
     }
     if (msg.t === 'ping') return;
 
-    // Only the host may drive the deck — viewer messages are ignored.
-    if (!this.state.getTags(ws).includes('host')) return;
+    const isHost = this.state.getTags(ws).includes('host');
 
+    // Relay control: the host can always advance; otherwise only the cast
+    // member who is the speaker of the current card may push it forward.
+    if (msg.t === 'next') {
+      if (isHost || await this.ownsCurrentCard(ws)) await this.move(1);
+      return;
+    }
+
+    // Back / pause / goto / refresh / end stay host-only.
+    if (!isHost) return;
     switch (msg.t) {
-      case 'next':    await this.move(1);  break;
       case 'prev':    await this.move(-1); break;
       case 'goto':    await this.goto(msg.section ?? 0, msg.point ?? -1); break;
       case 'pause':   await this.setPaused(true);  break;
@@ -143,6 +150,18 @@ export class EpisodeSession {
       stops.find((c) => c.section === section) ??
       null;
     if (match) await this.setCursor(match);
+  }
+
+  /** True when this socket's cast member is the speaker of the current card. */
+  private async ownsCurrentCard(ws: WebSocket): Promise<boolean> {
+    const identity = ws.deserializeAttachment() as Identity | null;
+    const participantId = identity?.participantId;
+    if (!participantId) return false;
+    const episode = await this.getSnapshot();
+    if (!episode) return false;
+    const cursor = await this.getCursor();
+    const point = episode.sections[cursor.section]?.points[cursor.point];
+    return !!point && point.speaker_ref === participantId;
   }
 
   /** Ordered list of every reachable cursor stop across the episode. */

@@ -1,4 +1,6 @@
-import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  Component, computed, ElementRef, inject, OnDestroy, OnInit, signal, ViewChild,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { StudioApiService } from '../../studio-api.service';
@@ -16,6 +18,17 @@ interface LiveMessage {
   viewers?: number;
   roster?: RosterEntry[];
   you?: RosterEntry;
+}
+
+/** One card in the live deck — a flattened talking point. */
+interface DeckCard {
+  index: number;
+  section: string;
+  text: string;
+  bridge: string | null;
+  speakerName: string | null;
+  speakerColor: string | null;
+  speakerRef: string | null;
 }
 
 @Component({
@@ -51,90 +64,116 @@ interface LiveMessage {
             <button type="button" class="deck-btn" (click)="leave()">Back to Studio</button>
           </div>
         </div>
-      } @else {
+      } @else if (inLobby()) {
         <div class="deck-stage">
-          @if (inLobby()) {
-            <div class="deck-lobby">
-              <div class="deck-roomcode">{{ code }}</div>
-              <h1>{{ episodeTitle() }}</h1>
-              <p>{{ isHost()
-                ? 'Press Start when everyone has joined.'
-                : 'Waiting for the host to start…' }}</p>
+          <div class="deck-lobby">
+            <div class="deck-roomcode">{{ code }}</div>
+            <h1>{{ episodeTitle() }}</h1>
+            <p>{{ isHost()
+              ? 'Press Start when everyone has joined.'
+              : 'Waiting for the host to start…' }}</p>
 
-              @if (namedRoster().length) {
-                <div class="deck-roster">
-                  @for (r of namedRoster(); track $index) {
-                    <span class="deck-rosterchip" [style.borderColor]="r.color || '#c9a84c'">
-                      <span class="deck-rosterdot"
-                            [style.background]="r.color || '#c9a84c'"></span>
-                      {{ r.name }}
-                      @if (r.role === 'host') { <span class="deck-rosterrole">host</span> }
-                    </span>
-                  }
-                </div>
-              }
-              @if (guestCount() > 0) {
-                <p class="deck-guests">
-                  + {{ guestCount() }} {{ guestCount() === 1 ? 'guest' : 'guests' }} watching
-                </p>
-              }
-              @if (you(); as me) {
-                <p class="deck-youare">
-                  {{ me.name ? "You're in as " + me.name : "You're watching as a guest" }}
-                </p>
-              }
-              @if (!connected()) { <p class="deck-recon">Reconnecting…</p> }
-            </div>
-          } @else {
-            @if (currentSection(); as section) {
-              <div class="deck-sectionlabel">{{ section.heading }}</div>
-            }
-            @if (currentSpeaker(); as speaker) {
-              <div class="deck-speaker"
-                   [style.borderColor]="speaker.color" [style.color]="speaker.color">
-                🎙 {{ speaker.display_name }}
+            @if (namedRoster().length) {
+              <div class="deck-roster">
+                @for (r of namedRoster(); track $index) {
+                  <span class="deck-rosterchip" [style.borderColor]="r.color || '#c9a84c'">
+                    <span class="deck-rosterdot"
+                          [style.background]="r.color || '#c9a84c'"></span>
+                    {{ r.name }}
+                    @if (r.role === 'host') { <span class="deck-rosterrole">host</span> }
+                  </span>
+                }
               </div>
             }
-            @if (currentPoint(); as point) {
-              <p class="deck-point">{{ point.text || '…' }}</p>
-            } @else {
-              <p class="deck-point deck-point--empty">Section break</p>
+            @if (guestCount() > 0) {
+              <p class="deck-guests">
+                + {{ guestCount() }} {{ guestCount() === 1 ? 'guest' : 'guests' }} watching
+              </p>
             }
-            @if (paused()) { <div class="deck-paused">Paused</div> }
-          }
-        </div>
-
-        @if (!inLobby()) {
-          <div class="deck-progress">
-            <div class="deck-progress-bar"><span [style.width.%]="progressPct()"></span></div>
-            <div class="deck-progress-text">
-              {{ position().index + 1 }} / {{ position().total }}
-            </div>
+            @if (you(); as me) {
+              <p class="deck-youare">
+                {{ me.name ? "You're in as " + me.name : "You're watching as a guest" }}
+              </p>
+            }
+            @if (!connected()) { <p class="deck-recon">Reconnecting…</p> }
           </div>
-        }
+        </div>
 
         @if (isHost()) {
           <div class="deck-foot">
-            @if (inLobby()) {
-              <button type="button" class="deck-btn deck-btn--gold deck-start"
-                      (click)="next()" [disabled]="!connected()">
-                Start episode
-              </button>
-            } @else {
-              <div class="deck-controls">
-                <button type="button" class="deck-ctl" (click)="prev()"
-                        [disabled]="atStart() || !connected()">⏮</button>
-                <button type="button" class="deck-ctl" (click)="togglePause()"
-                        [disabled]="!connected()">{{ paused() ? '▶' : '⏸' }}</button>
-                <button type="button" class="deck-ctl" (click)="next()"
-                        [disabled]="atEnd() || !connected()">⏭</button>
-                <button type="button" class="deck-ctl deck-ctl--end" (click)="endSession()">⏹</button>
-              </div>
-            }
+            <button type="button" class="deck-btn deck-btn--gold deck-start"
+                    (click)="next()" [disabled]="!connected()">
+              Start episode
+            </button>
           </div>
         } @else {
           <div class="deck-foot deck-foot--viewer">
-            {{ connected() ? 'Following the host' : 'Reconnecting…' }}
+            {{ connected() ? 'Waiting for the host to start…' : 'Reconnecting…' }}
+          </div>
+        }
+      } @else {
+        <div class="deck-strip" #strip>
+          @for (card of cards(); track card.index) {
+            <div class="deck-card"
+                 [class.deck-card--live]="card.index === activeIndex()"
+                 [class.deck-card--done]="card.index < activeIndex()">
+              <div class="deck-card-top">
+                <span class="deck-card-sec">{{ card.section }}</span>
+                @if (card.index === activeIndex()) {
+                  <span class="deck-card-flag">● Live</span>
+                } @else if (card.index < activeIndex()) {
+                  <span class="deck-card-tick">✓</span>
+                }
+              </div>
+              @if (card.speakerName) {
+                <div class="deck-card-speaker"
+                     [style.color]="card.speakerColor || '#c9a84c'"
+                     [style.borderColor]="card.speakerColor || '#c9a84c'">
+                  🎙 {{ card.speakerName }}
+                </div>
+              }
+              <p class="deck-card-text">{{ card.text || 'Section break' }}</p>
+              @if (card.bridge) {
+                <div class="deck-card-bridge">↪ {{ card.bridge }}</div>
+              }
+            </div>
+          }
+        </div>
+        @if (paused()) { <div class="deck-pausedbar">Paused</div> }
+        <div class="deck-progress">
+          <div class="deck-progress-bar"><span [style.width.%]="progressPct()"></span></div>
+          <div class="deck-progress-text">
+            {{ position().index + 1 }} / {{ position().total }}
+          </div>
+        </div>
+
+        @if (isHost()) {
+          <div class="deck-foot">
+            <div class="deck-controls">
+              <button type="button" class="deck-ctl" (click)="prev()"
+                      [disabled]="atStart() || !connected()">⏮</button>
+              <button type="button" class="deck-ctl" (click)="togglePause()"
+                      [disabled]="!connected()">{{ paused() ? '▶' : '⏸' }}</button>
+              <button type="button" class="deck-ctl" (click)="next()"
+                      [disabled]="atEnd() || !connected()">⏭</button>
+              <button type="button" class="deck-ctl deck-ctl--end" (click)="endSession()">⏹</button>
+            </div>
+          </div>
+        } @else {
+          <div class="deck-foot deck-foot--viewer">
+            @if (!connected()) {
+              Reconnecting…
+            } @else if (isMyTurn()) {
+              <button type="button" class="deck-btn deck-btn--gold deck-myturn"
+                      (click)="next()" [disabled]="atEnd()">
+                {{ atEnd() ? "You're done ✓" : "Done — next ▸" }}
+              </button>
+            } @else if (currentSpeaker(); as speaker) {
+              <span class="deck-turndot" [style.background]="speaker.color"></span>
+              {{ speaker.display_name }} is speaking…
+            } @else {
+              Following the host
+            }
           </div>
         }
       }
@@ -204,24 +243,52 @@ interface LiveMessage {
       font-size: 0.82rem; color: var(--km-gold, #c9a84c); margin: 0; font-weight: 600;
     }
 
-    .deck-sectionlabel {
-      font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em;
+    .deck-strip {
+      flex: 1; display: flex; gap: 16px; overflow-x: auto;
+      scroll-snap-type: x mandatory; padding: 24px 9vw; align-items: stretch;
+    }
+    .deck-strip::-webkit-scrollbar { height: 0; }
+    .deck-card {
+      flex: 0 0 86%; max-width: 680px; scroll-snap-align: center;
+      display: flex; flex-direction: column; gap: 14px;
+      padding: 26px 24px; border-radius: 18px;
+      background: linear-gradient(180deg, #232017 0%, #131210 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 16px 34px rgba(0,0,0,0.62), inset 0 1px 0 rgba(255,255,255,0.05);
+      opacity: 0.42; transition: opacity 0.25s ease, border-color 0.25s ease;
+    }
+    .deck-card--done { opacity: 0.32; }
+    .deck-card--live {
+      opacity: 1; border-color: rgba(201,168,76,0.55);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.68), 0 0 24px rgba(201,168,76,0.16),
+                  inset 0 1px 0 rgba(255,255,255,0.07);
+    }
+    .deck-card-top { display: flex; align-items: center; justify-content: space-between; }
+    .deck-card-sec {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em;
       text-transform: uppercase; color: var(--km-gold, #c9a84c);
     }
-    .deck-speaker {
-      display: inline-flex; align-items: center; gap: 6px;
-      padding: 8px 19px; border: 1.5px solid; border-radius: 22px;
-      font-size: 0.9rem; font-weight: 600;
+    .deck-card-flag {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: #e8c96a;
+    }
+    .deck-card-tick { font-size: 0.9rem; color: #5cc94c; }
+    .deck-card-speaker {
+      align-self: flex-start; display: inline-flex; align-items: center; gap: 6px;
+      padding: 7px 16px; border: 1.5px solid; border-radius: 20px;
+      font-size: 0.86rem; font-weight: 600;
       background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
-      box-shadow: 0 6px 16px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09);
     }
-    .deck-point {
-      font-size: 2rem; line-height: 1.45; font-weight: 500; max-width: 760px; margin: 0;
+    .deck-card-text {
+      flex: 1; font-size: 1.7rem; line-height: 1.45; font-weight: 500; margin: 0;
     }
-    .deck-point--empty { color: rgba(255,255,255,0.4); font-style: italic; }
-    .deck-paused {
-      font-size: 0.78rem; font-weight: 700; letter-spacing: 0.12em;
-      text-transform: uppercase; color: #e0a32e;
+    .deck-card-bridge {
+      font-size: 1rem; line-height: 1.45; color: #e8c96a;
+      padding-top: 14px; border-top: 1px dashed rgba(201,168,76,0.3);
+    }
+    .deck-pausedbar {
+      text-align: center; font-size: 0.76rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase; color: #e0a32e; padding: 4px 0;
     }
 
     .deck-progress { padding: 8px 28px; }
@@ -265,6 +332,12 @@ interface LiveMessage {
     }
     .deck-start { display: block; width: 100%; max-width: 320px; margin: 0 auto; padding: 12px; }
     .deck-start:disabled { opacity: 0.5; cursor: default; }
+    .deck-myturn { padding: 11px 28px; font-size: 0.95rem; }
+    .deck-myturn:disabled { opacity: 0.5; cursor: default; }
+    .deck-turndot {
+      display: inline-block; width: 9px; height: 9px; border-radius: 50%;
+      margin-right: 7px; vertical-align: middle;
+    }
   `],
 })
 export class LiveDeckComponent implements OnInit, OnDestroy {
@@ -293,6 +366,8 @@ export class LiveDeckComponent implements OnInit, OnDestroy {
   private reconnectAttempts = 0;
   private pingTimer: ReturnType<typeof setInterval> | null = null;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+
+  @ViewChild('strip') private strip?: ElementRef<HTMLElement>;
 
   // ── Derived state ────────────────────────────────────────────────────────────
 
@@ -350,6 +425,43 @@ export class LiveDeckComponent implements OnInit, OnDestroy {
   atEnd = computed(() => {
     const { index, total } = this.position();
     return index >= 0 && index >= total - 1;
+  });
+
+  /** Every talking point flattened to an ordered card, for the deck carousel. */
+  cards = computed<DeckCard[]>(() => {
+    const ep = this.episode();
+    if (!ep) return [];
+    const out: DeckCard[] = [];
+    let i = 0;
+    for (const section of ep.sections) {
+      if (section.points.length === 0) {
+        out.push({
+          index: i++, section: section.heading, text: '', bridge: null,
+          speakerName: null, speakerColor: null, speakerRef: null,
+        });
+      } else {
+        for (const point of section.points) {
+          const speaker = point.speaker_ref
+            ? ep.participants.find((p) => p.id === point.speaker_ref) ?? null
+            : null;
+          out.push({
+            index: i++, section: section.heading, text: point.text,
+            bridge: point.bridge, speakerName: speaker?.display_name ?? null,
+            speakerColor: speaker?.color ?? null, speakerRef: point.speaker_ref,
+          });
+        }
+      }
+    }
+    return out;
+  });
+
+  activeIndex = computed(() => this.position().index);
+
+  /** True when the current card is assigned to this viewer — their turn to push. */
+  isMyTurn = computed(() => {
+    const me = this.you();
+    const card = this.cards()[this.activeIndex()];
+    return !!me?.participantId && !!card && card.speakerRef === me.participantId;
   });
 
   // ── Lifecycle ────────────────────────────────────────────────────────────────
@@ -441,6 +553,17 @@ export class LiveDeckComponent implements OnInit, OnDestroy {
         this.closeSocket();
         break;
     }
+    if (msg.t === 'sync' || msg.t === 'cursor') {
+      setTimeout(() => this.scrollToActive(), 90);
+    }
+  }
+
+  /** Centre the live card in the carousel when the synced cursor moves. */
+  private scrollToActive(): void {
+    const el = this.strip?.nativeElement;
+    if (!el) return;
+    const card = el.children[this.activeIndex()] as HTMLElement | undefined;
+    card?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
   }
 
   private buildWsUrl(): string {
