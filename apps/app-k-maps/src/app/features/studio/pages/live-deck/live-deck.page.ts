@@ -60,6 +60,9 @@ interface LiveMessage {
         <div class="km-ld-center">
           <ion-icon name="checkmark-circle-outline" class="km-ld-bigicon"></ion-icon>
           <p>This session has ended.</p>
+          @if (sessionId()) {
+            <ion-button size="small" (click)="viewRecap()">View recap</ion-button>
+          }
           <ion-button fill="outline" size="small" (click)="leave()">Back to Studio</ion-button>
         </div>
       } @else {
@@ -228,6 +231,7 @@ export class LiveDeckPage implements OnInit, OnDestroy {
   connected = signal(false);
   role = signal<'host' | 'viewer'>('viewer');
   episodeTitle = signal('');
+  sessionId = signal('');
   episode = signal<EpisodeAggregate | null>(null);
   cursor = signal<LiveCursor>(LOBBY);
   paused = signal(false);
@@ -309,6 +313,7 @@ export class LiveDeckPage implements OnInit, OnDestroy {
     this.studio.getSession(this.code).subscribe({
       next: (info) => {
         this.episodeTitle.set(info.episode_title ?? 'Episode');
+        this.sessionId.set(info.session_id);
         this.role.set(info.host ? 'host' : 'viewer');
         this.connect();
       },
@@ -472,5 +477,11 @@ export class LiveDeckPage implements OnInit, OnDestroy {
   leave(): void {
     this.teardown();
     this.router.navigate(['/studio']);
+  }
+
+  viewRecap(): void {
+    const id = this.sessionId();
+    this.teardown();
+    this.router.navigate(id ? ['/studio/recap', id] : ['/studio']);
   }
 }

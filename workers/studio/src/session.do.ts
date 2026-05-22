@@ -188,7 +188,13 @@ export class EpisodeSession {
     const sessionId = await this.state.storage.get<string>('sessionId');
     const episodeId = await this.state.storage.get<string>('episodeId');
     if (sessionId) {
-      try { await new SessionRepo(this.env.DB_ST).end(sessionId); } catch { /* best effort */ }
+      // Freeze a recap snapshot — the episode as covered, plus session timing.
+      const recap = JSON.stringify({
+        episode: await this.getSnapshot(),
+        started_at: (await this.state.storage.get<string>('startedAt')) ?? null,
+        ended_at: new Date().toISOString(),
+      });
+      try { await new SessionRepo(this.env.DB_ST).end(sessionId, recap); } catch { /* best effort */ }
     }
     if (episodeId) {
       try {

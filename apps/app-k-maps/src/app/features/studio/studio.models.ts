@@ -13,13 +13,35 @@ export type ParticipantRole = 'host' | 'speaker' | 'guest' | 'viewer';
 
 export type EpisodeStatus = 'draft' | 'live' | 'done';
 
+export interface TemplateStructurePoint {
+  text?: string;
+  speaker_role?: string | null;
+}
+
+export interface TemplateStructureSection {
+  type?: string;
+  heading: string;
+  points?: TemplateStructurePoint[];
+}
+
+export interface TemplateStructureParticipant {
+  role?: string;
+  display_name?: string;
+}
+
+/** A template blueprint — expanded into episode rows on create. */
+export interface TemplateStructure {
+  participants?: TemplateStructureParticipant[];
+  sections?: TemplateStructureSection[];
+}
+
 export interface StudioTemplate {
   id: string;
   name: string;
   description: string | null;
   format: EpisodeFormat;
   is_builtin: boolean;
-  structure: unknown;
+  structure: TemplateStructure;
   created_at: string;
   updated_at: string;
 }
@@ -96,4 +118,14 @@ export interface SessionInfo {
 export interface LiveCursor {
   section: number;
   point: number;
+}
+
+/** Post-session summary — the episode as covered, plus session timing. */
+export interface SessionRecap {
+  session_id: string;
+  room_code: string;
+  status: 'live' | 'ended';
+  started_at: string | null;
+  ended_at: string | null;
+  episode: EpisodeAggregate | null;
 }

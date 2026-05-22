@@ -3,9 +3,9 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { ActionSheetController, AlertController, IonicModule } from '@ionic/angular';
+import { AlertController, IonicModule } from '@ionic/angular';
 import { StudioApiService } from '../../services/studio-api.service';
-import { EpisodeSummary, StudioTemplate, formatLabel } from '../../studio.models';
+import { EpisodeSummary, formatLabel } from '../../studio.models';
 
 @Component({
   selector: 'app-episode-list',
@@ -23,7 +23,7 @@ import { EpisodeSummary, StudioTemplate, formatLabel } from '../../studio.models
           <ion-button (click)="joinSession()" fill="clear" aria-label="Join a session">
             <ion-icon slot="icon-only" name="enter-outline"></ion-icon>
           </ion-button>
-          <ion-button (click)="newEpisode()" fill="clear" [disabled]="creating()">
+          <ion-button (click)="newEpisode()" fill="clear" aria-label="New episode">
             <ion-icon slot="icon-only" name="add-circle-outline"></ion-icon>
           </ion-button>
           <ion-button fill="clear" routerLink="/home" routerDirection="root" aria-label="Home">
@@ -41,9 +41,7 @@ import { EpisodeSummary, StudioTemplate, formatLabel } from '../../studio.models
           <ion-icon name="mic-outline"></ion-icon>
           <p>No episodes yet.</p>
           <p class="km-st-sub">Build a podcast, tutorial or talking-head episode from a template.</p>
-          <ion-button size="small" (click)="newEpisode()" [disabled]="creating()">
-            New episode
-          </ion-button>
+          <ion-button size="small" (click)="newEpisode()">New episode</ion-button>
         </div>
       } @else {
         <ion-list lines="none">
@@ -80,26 +78,19 @@ import { EpisodeSummary, StudioTemplate, formatLabel } from '../../studio.models
 export class EpisodeListPage implements OnInit {
   private studio = inject(StudioApiService);
   private router = inject(Router);
-  private actionSheet = inject(ActionSheetController);
   private alertCtrl = inject(AlertController);
   private cdr = inject(ChangeDetectorRef);
 
   readonly fmt = formatLabel;
 
   episodes = signal<EpisodeSummary[]>([]);
-  templates = signal<StudioTemplate[]>([]);
   loading = signal(true);
-  creating = signal(false);
 
   ngOnInit(): void {
     this.loadEpisodes();
-    this.studio.listTemplates().subscribe({
-      next: (rows) => { this.templates.set(rows); this.cdr.markForCheck(); },
-      error: () => { /* templates are optional — "Blank episode" still works */ },
-    });
   }
 
-  /** Refresh on return from the builder so renamed/new episodes show. */
+  /** Refresh on return from the builder/gallery so renamed/new episodes show. */
   ionViewWillEnter(): void {
     if (!this.loading()) this.loadEpisodes();
   }
@@ -111,28 +102,8 @@ export class EpisodeListPage implements OnInit {
     });
   }
 
-  async newEpisode(): Promise<void> {
-    const buttons = [
-      ...this.templates().map((t) => ({
-        text: t.name,
-        handler: () => { this.create(t.id); return true; },
-      })),
-      { text: 'Blank episode', handler: () => { this.create(null); return true; } },
-      { text: 'Cancel', role: 'cancel' as const },
-    ];
-    const sheet = await this.actionSheet.create({ header: 'Start a new episode', buttons });
-    await sheet.present();
-  }
-
-  private create(templateRef: string | null): void {
-    if (this.creating()) return;
-    this.creating.set(true);
-    this.studio
-      .createEpisode({ title: 'Untitled Episode', template_ref: templateRef ?? undefined })
-      .subscribe({
-        next: (ep) => { this.creating.set(false); this.router.navigate(['/studio', ep.id]); },
-        error: () => { this.creating.set(false); this.cdr.markForCheck(); },
-      });
+  newEpisode(): void {
+    this.router.navigate(['/studio/gallery']);
   }
 
   openEpisode(id: string): void {

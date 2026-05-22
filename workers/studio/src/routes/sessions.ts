@@ -58,6 +58,41 @@ export function sessionRoutes(router: Router<StudioEnv>) {
     });
   });
 
+  // GET /st/sessions/:id/recap — post-session summary (by session id)
+  router.get('/st/sessions/:id/recap', async (req, env, { id }) => {
+    const user = actorRef(req);
+    if (!user) return unauthorized('Authenticated user required');
+
+    const session = await new SessionRepo(env.DB_ST).findById(id);
+    if (!session) return notFound(`session ${id}`);
+
+    let episode: unknown = null;
+    let startedAt = session.started_at;
+    let endedAt = session.ended_at;
+    if (session.snapshot_json) {
+      try {
+        const snap = JSON.parse(session.snapshot_json) as {
+          episode?: unknown; started_at?: string | null; ended_at?: string | null;
+        };
+        episode = snap.episode ?? null;
+        startedAt = snap.started_at ?? startedAt;
+        endedAt = snap.ended_at ?? endedAt;
+      } catch { /* fall back to a live rebuild below */ }
+    }
+    if (!episode) {
+      episode = await new EpisodeRepo(env.DB_ST).findAggregate(session.episode_ref);
+    }
+
+    return ok({
+      session_id: session.id,
+      room_code: session.room_code,
+      status: session.status,
+      started_at: startedAt,
+      ended_at: endedAt,
+      episode,
+    });
+  });
+
   // GET /st/sessions/:code/live — WebSocket upgrade → EpisodeSession Durable Object
   router.get('/st/sessions/:code/live', async (req, env, { code }) => {
     if (req.headers.get('Upgrade')?.toLowerCase() !== 'websocket') {

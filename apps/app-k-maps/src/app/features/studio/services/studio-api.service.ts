@@ -8,7 +8,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import {
-  EpisodeAggregate, EpisodeSummary, Participant, Section, SessionInfo, StudioTemplate, TalkingPoint,
+  EpisodeAggregate, EpisodeSummary, Participant, Section, SessionInfo, SessionRecap,
+  StudioTemplate, TalkingPoint, TemplateStructure,
 } from '../studio.models';
 
 interface Envelope<T> {
@@ -146,6 +147,27 @@ export class StudioApiService {
   getSession(code: string): Observable<SessionInfo> {
     return this.http
       .get<Envelope<SessionInfo>>(`${this.base}/sessions/${code}`)
+      .pipe(map((res) => res.data));
+  }
+
+  /** Post-session recap, fetched by session id. */
+  getRecap(sessionId: string): Observable<SessionRecap> {
+    return this.http
+      .get<Envelope<SessionRecap>>(`${this.base}/sessions/${sessionId}/recap`)
+      .pipe(map((res) => res.data));
+  }
+
+  // ── Templates (save) ─────────────────────────────────────────────────────────
+
+  /** Save an episode structure as a private, reusable template. */
+  createTemplate(body: {
+    name: string;
+    description?: string;
+    format: string;
+    structure: TemplateStructure;
+  }): Observable<StudioTemplate> {
+    return this.http
+      .post<Envelope<StudioTemplate>>(`${this.base}/templates`, body)
       .pipe(map((res) => res.data));
   }
 }

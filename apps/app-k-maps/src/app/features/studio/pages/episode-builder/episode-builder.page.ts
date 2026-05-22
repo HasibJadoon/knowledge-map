@@ -7,6 +7,7 @@ import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 import { StudioApiService } from '../../services/studio-api.service';
 import {
   EPISODE_FORMATS, EpisodeAggregate, EpisodeFormat, Participant, Section, TalkingPoint,
+  TemplateStructure,
 } from '../../studio.models';
 
 const SECTION_TYPE_LABELS: Record<string, string> = {
@@ -112,6 +113,13 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
 
         <button class="km-add-section" (click)="addSection()">+ Add section</button>
 
+        <div class="km-ep-actions">
+          <ion-button expand="block" fill="outline" size="small" (click)="saveAsTemplate()">
+            <ion-icon slot="start" name="bookmark-outline"></ion-icon>
+            Save as template
+          </ion-button>
+        </div>
+
         <div class="km-ep-danger">
           <ion-button expand="block" fill="clear" color="danger" size="small"
                       (click)="deleteEpisode()">
@@ -183,7 +191,8 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
       background: rgba(201,168,76,0.1); border: none; border-radius: 10px;
       color: #c9a84c; font-size: 0.88rem; font-weight: 600;
     }
-    .km-ep-danger { padding: 12px 12px 40px; }
+    .km-ep-actions { padding: 14px 12px 0; }
+    .km-ep-danger { padding: 8px 12px 40px; }
   `],
 })
 export class EpisodeBuilderPage implements OnInit {
@@ -367,6 +376,65 @@ export class EpisodeBuilderPage implements OnInit {
       ],
     });
     await alert.present();
+  }
+
+  async saveAsTemplate(): Promise<void> {
+    const ep = this.episode();
+    if (!ep) return;
+    const alert = await this.alertCtrl.create({
+      header: 'Save as template',
+      message: 'Reuse this episode structure for future episodes.',
+      inputs: [{ name: 'name', type: 'text', value: ep.title, placeholder: 'Template name' }],
+      buttons: [
+        { text: 'Cancel', role: 'cancel' },
+        {
+          text: 'Save',
+          handler: (data) => {
+            const name = String(data?.name ?? '').trim();
+            if (name) this.commitTemplate(ep, name);
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
+  private commitTemplate(ep: EpisodeAggregate, name: string): void {
+    this.studio
+      .createTemplate({ name, format: ep.format, structure: this.buildStructure(ep) })
+      .subscribe({
+        next: async () => {
+          const toast = await this.toastCtrl.create({
+            message: 'Template saved.', duration: 1800, position: 'bottom',
+          });
+          await toast.present();
+        },
+        error: async () => {
+          const toast = await this.toastCtrl.create({
+            message: 'Could not save the template.', duration: 2000, position: 'bottom',
+          });
+          await toast.present();
+        },
+      });
+  }
+
+  /** Convert the loaded episode into a reusable template blueprint. */
+  private buildStructure(ep: EpisodeAggregate): TemplateStructure {
+    const roleByParticipant = new Map<string, string>();
+    const participants = ep.participants.map((p, i) => {
+      const role = i === 0 ? 'host' : `p${i}`;
+      roleByParticipant.set(p.id, role);
+      return { role, display_name: p.display_name };
+    });
+    const sections = ep.sections.map((s) => ({
+      type: s.type,
+      heading: s.heading,
+      points: s.points.map((pt) => ({
+        text: pt.text,
+        speaker_role: pt.speaker_ref ? roleByParticipant.get(pt.speaker_ref) ?? null : null,
+      })),
+    }));
+    return { participants, sections };
   }
 
   startSession(): void {
