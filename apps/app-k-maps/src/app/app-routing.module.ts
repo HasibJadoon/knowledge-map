@@ -76,6 +76,12 @@ const routes: Routes = [
     loadChildren: () => import('./features/content/content.routes').then((m) => m.CONTENT_ROUTES),
     canActivate: [AuthGuard]
   },
+  // ── Studio ───────────────────────────────────────────────────────────────────
+  {
+    path: 'studio',
+    loadChildren: () => import('./features/studio/studio.routes').then((m) => m.STUDIO_ROUTES),
+    canActivate: [AuthGuard]
+  },
   // ── Hub ──────────────────────────────────────────────────────────────────────
   {
     path: 'hub',

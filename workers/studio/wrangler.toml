@@ -1,0 +1,13 @@
+name = "km-studio-worker"
+main = "src/index.ts"
+compatibility_date = "2025-01-01"
+workers_dev = false   # internal only — accessed via km-backend-worker service binding
+
+[[d1_databases]]
+binding = "DB_ST"
+database_name = "km_studio"
+# Replace this placeholder with the real id printed by:
+#   wrangler d1 create km_studio
+database_id = "00000000-0000-0000-0000-000000000000"
+migrations_dir = "migrations"
+# ST stores typed refs to other domains — never duplicates canonical content

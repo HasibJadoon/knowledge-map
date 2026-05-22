@@ -26,6 +26,7 @@ export class WorkbenchPage {
     { id: 'workspace', label: 'Workspace', route: '/workspace', glyph: '◈' },
     { id: 'docs',      label: 'Docs',      route: '/docs',      glyph: '✦' },
     { id: 'content',   label: 'Content',   route: '/content',   glyph: '▶' },
+    { id: 'studio',    label: 'Studio',    route: '/studio',    glyph: '◉' },
   ];
 
   navigate(route: string): void {
