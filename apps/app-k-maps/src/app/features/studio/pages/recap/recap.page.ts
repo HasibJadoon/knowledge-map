@@ -69,6 +69,9 @@ import { Participant, SessionRecap, TalkingPoint, formatLabel } from '../../stud
   `,
   styles: [`
     :host { display: block; }
+    ion-content {
+      --background: radial-gradient(150% 80% at 50% 0%, #18160f 0%, #0b0a08 56%);
+    }
     .km-rc-center {
       display: flex; flex-direction: column; align-items: center; gap: 10px;
       padding: 60px 24px; color: var(--ion-color-medium); text-align: center;
@@ -97,9 +100,11 @@ import { Participant, SessionRecap, TalkingPoint, formatLabel } from '../../stud
       letter-spacing: 0.1em; text-transform: uppercase; color: #c9a84c;
     }
     .km-rc-point {
-      padding: 8px 12px; margin-bottom: 6px;
-      background: rgba(255,255,255,0.03); border-radius: 9px;
-      border-left: 2px solid rgba(201,168,76,0.4);
+      padding: 10px 13px; margin-bottom: 7px; border-radius: 10px;
+      background: linear-gradient(180deg, #201e16 0%, #131210 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-left: 2px solid rgba(201,168,76,0.5);
+      box-shadow: 0 7px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
     }
     .km-rc-point p { margin: 0; font-size: 0.9rem; line-height: 1.45; }
     .km-rc-point--empty { color: var(--ion-color-medium); font-style: italic; font-size: 0.82rem; }

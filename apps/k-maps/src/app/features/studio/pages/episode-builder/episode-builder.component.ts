@@ -122,7 +122,8 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
   `,
   styles: [`
     .st-page {
-      min-height: 100dvh; background: var(--km-bg, #080808);
+      min-height: 100dvh;
+      background: radial-gradient(150% 70% at 50% 0%, #15130d 0%, #080706 55%);
       color: var(--km-text, rgba(255,255,255,0.92));
       font-family: var(--km-font-body, system-ui, sans-serif); overflow-y: auto;
     }
@@ -168,10 +169,15 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
     .st-cast { display: flex; flex-wrap: wrap; gap: 8px; }
     .st-person {
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 5px 8px 5px 10px; border-radius: 16px; font-size: 0.82rem;
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+      padding: 6px 9px 6px 11px; border-radius: 16px; font-size: 0.82rem;
+      background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.03));
+      border: 1px solid rgba(255,255,255,0.06); border-top-color: rgba(255,255,255,0.15);
+      box-shadow: 0 3px 8px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
     }
-    .st-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
+    .st-dot {
+      width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+      box-shadow: 0 0 7px rgba(201,168,76,0.5);
+    }
     .st-person-name {
       background: transparent; border: none; color: var(--km-text, #fff);
       cursor: pointer; font-size: 0.82rem; padding: 0;
@@ -187,8 +193,10 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
     }
 
     .st-sec {
-      margin: 14px 0; padding: 10px 12px; border-radius: 12px;
-      background: var(--km-surface, #0d0d0d); border: 1px solid rgba(255,255,255,0.07);
+      margin: 16px 0; padding: 12px 14px; border-radius: 14px;
+      background: linear-gradient(180deg, #1c1a13 0%, #100f0c 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
     }
     .st-sec-head { display: flex; align-items: center; gap: 8px; }
     .st-sec-heading {
@@ -206,8 +214,9 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
     .st-icon-btn:hover { color: #e0584e; }
 
     .st-pt {
-      margin: 6px 0; padding: 8px; border-radius: 9px;
-      background: rgba(255,255,255,0.03);
+      margin: 8px 0; padding: 9px 10px; border-radius: 10px;
+      background: rgba(0,0,0,0.36); border: 1px solid rgba(0,0,0,0.5);
+      box-shadow: inset 0 2px 8px rgba(0,0,0,0.62);
     }
     .st-pt-text {
       width: 100%; resize: vertical; background: transparent; border: none; outline: none;
@@ -218,14 +227,17 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
     }
 
     .st-add-row {
-      width: 100%; margin-top: 6px; padding: 8px; cursor: pointer;
-      background: transparent; border: 1px dashed rgba(255,255,255,0.14);
-      border-radius: 8px; color: var(--km-gold, #c9a84c); font-size: 0.8rem;
+      width: 100%; margin-top: 8px; padding: 9px; cursor: pointer;
+      background: rgba(0,0,0,0.22); border: 1px dashed rgba(201,168,76,0.3);
+      border-radius: 9px; color: var(--km-gold, #c9a84c); font-size: 0.8rem;
+      box-shadow: inset 0 1px 5px rgba(0,0,0,0.45);
     }
     .st-add-section {
-      width: 100%; margin: 12px 0 4px; padding: 12px; cursor: pointer;
-      background: rgba(201,168,76,0.1); border: none; border-radius: 10px;
-      color: var(--km-gold, #c9a84c); font-size: 0.88rem; font-weight: 600;
+      width: 100%; margin: 14px 0 4px; padding: 13px; cursor: pointer;
+      background: linear-gradient(180deg, rgba(201,168,76,0.22), rgba(201,168,76,0.06));
+      border: 1px solid rgba(201,168,76,0.25); border-radius: 12px;
+      color: #e8c96a; font-size: 0.88rem; font-weight: 600;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12);
     }
 
     .st-foot-actions {

@@ -60,6 +60,9 @@ import { EpisodeSummary, formatLabel } from '../../studio.models';
   `,
   styles: [`
     :host { display: block; }
+    ion-content {
+      --background: radial-gradient(150% 80% at 50% 0%, #18160f 0%, #0b0a08 56%);
+    }
     .km-st-center { display: flex; justify-content: center; padding: 60px 0; }
     .km-st-empty {
       display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -69,7 +72,13 @@ import { EpisodeSummary, formatLabel } from '../../studio.models';
     .km-st-empty p { margin: 0; font-size: 0.92rem; }
     .km-st-empty .km-st-sub { font-size: 0.8rem; opacity: 0.8; }
     .km-st-empty ion-button { margin-top: 12px; }
-    .km-st-item { --min-height: 58px; margin: 2px 8px; border-radius: 10px; }
+    .km-st-item {
+      --min-height: 62px; --border-radius: 13px;
+      --background: linear-gradient(180deg, #221f17 0%, #141310 100%);
+      margin: 9px 10px; border-radius: 13px;
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 9px 20px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
     .km-st-item-icon { color: #c9a84c; font-size: 1.2rem; }
     .km-st-item h3 { font-weight: 600; }
     .km-st-item p { font-size: 0.74rem; color: var(--ion-color-medium); text-transform: capitalize; }

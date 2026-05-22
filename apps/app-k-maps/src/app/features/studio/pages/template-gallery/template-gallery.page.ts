@@ -58,13 +58,18 @@ import { StudioTemplate, formatLabel } from '../../studio.models';
   `,
   styles: [`
     :host { display: block; }
+    ion-content {
+      --background: radial-gradient(150% 80% at 50% 0%, #18160f 0%, #0b0a08 56%);
+    }
     .km-tg-center { display: flex; justify-content: center; padding: 60px 0; }
 
     .km-tg-blank {
       display: flex; align-items: center; gap: 12px; width: calc(100% - 24px);
-      margin: 14px 12px 4px; padding: 14px; text-align: left;
-      background: rgba(201,168,76,0.1); border: 1px dashed rgba(201,168,76,0.4);
-      border-radius: 12px; color: var(--ion-text-color);
+      margin: 16px 12px 4px; padding: 15px; text-align: left;
+      background: linear-gradient(180deg, rgba(201,168,76,0.16), rgba(201,168,76,0.04));
+      border: 1px dashed rgba(201,168,76,0.45);
+      border-radius: 13px; color: var(--ion-text-color);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.07);
     }
     .km-tg-blank ion-icon { font-size: 1.6rem; color: #c9a84c; }
     .km-tg-blank h3 { margin: 0; font-size: 0.96rem; font-weight: 600; }
@@ -75,7 +80,12 @@ import { StudioTemplate, formatLabel } from '../../studio.models';
       letter-spacing: 0.09em; text-transform: uppercase; color: var(--ion-color-medium);
     }
 
-    .km-tg-card { margin: 8px 12px; border-radius: 12px; padding: 12px 14px; }
+    .km-tg-card {
+      margin: 10px 12px; border-radius: 14px; padding: 13px 15px;
+      --background: linear-gradient(180deg, #232017 0%, #131210 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 11px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.06);
+    }
     .km-tg-card-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
     .km-tg-card-top h3 { margin: 0; font-size: 0.98rem; font-weight: 600; }
     .km-tg-badge { --background: rgba(201,168,76,0.18); --color: #c9a84c; text-transform: capitalize; }
@@ -86,8 +96,9 @@ import { StudioTemplate, formatLabel } from '../../studio.models';
     }
     .km-tg-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
     .km-tg-chip {
-      padding: 3px 9px; border-radius: 10px; font-size: 0.72rem;
-      background: rgba(255,255,255,0.06); color: var(--ion-text-color);
+      padding: 4px 10px; border-radius: 10px; font-size: 0.72rem;
+      background: rgba(0,0,0,0.32); color: var(--ion-text-color);
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.55);
     }
   `],
 })

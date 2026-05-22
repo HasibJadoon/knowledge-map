@@ -53,7 +53,8 @@ import { EpisodeSummary, formatLabel } from '../../studio.models';
   `,
   styles: [`
     .st-page {
-      min-height: 100dvh; background: var(--km-bg, #080808);
+      min-height: 100dvh;
+      background: radial-gradient(150% 70% at 50% 0%, #15130d 0%, #080706 55%);
       color: var(--km-text, rgba(255,255,255,0.92));
       font-family: var(--km-font-body, system-ui, sans-serif); overflow-y: auto;
     }
@@ -94,10 +95,13 @@ import { EpisodeSummary, formatLabel } from '../../studio.models';
     .st-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
     .st-card {
       display: flex; align-items: center; justify-content: space-between; gap: 14px;
-      padding: 14px 16px; border-radius: 12px; cursor: pointer;
-      background: var(--km-surface, #0d0d0d); border: 1px solid rgba(255,255,255,0.07);
+      padding: 15px 16px; border-radius: 13px; cursor: pointer;
+      background: linear-gradient(180deg, #17150f 0%, #0c0b09 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      box-shadow: 0 9px 22px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
+      transition: border-color 0.15s ease, transform 0.12s ease;
     }
-    .st-card:hover { border-color: rgba(201,168,76,0.4); }
+    .st-card:hover { border-color: rgba(201,168,76,0.45); transform: translateY(-1px); }
     .st-card-main h3 { margin: 0; font-size: 0.98rem; font-weight: 600; }
     .st-card-main p {
       margin: 3px 0 0; font-size: 0.76rem; color: rgba(255,255,255,0.45);

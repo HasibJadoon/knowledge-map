@@ -150,7 +150,9 @@ interface LiveMessage {
   `,
   styles: [`
     :host { display: block; }
-    .km-ld-content { --background: #14110b; }
+    .km-ld-content {
+      --background: radial-gradient(130% 75% at 50% 0%, #1e1b13 0%, #100e09 62%);
+    }
     .km-ld-viewers { --color: var(--ion-color-medium); height: 26px; }
 
     .km-ld-center {
@@ -169,6 +171,7 @@ interface LiveMessage {
     .km-ld-roomcode {
       font-family: 'Courier New', monospace; font-size: 2.6rem; font-weight: 700;
       letter-spacing: 0.32em; color: #c9a84c; padding-left: 0.32em;
+      text-shadow: 0 2px 16px rgba(201,168,76,0.5);
     }
     .km-ld-lobby h1 { font-size: 1.4rem; font-weight: 600; margin: 6px 0 0; color: #f4ecd8; }
     .km-ld-lobby p { color: var(--ion-color-medium); font-size: 0.92rem; margin: 0; }
@@ -180,8 +183,10 @@ interface LiveMessage {
     }
     .km-ld-speaker {
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 6px 16px; border: 1.5px solid; border-radius: 20px;
+      padding: 7px 17px; border: 1.5px solid; border-radius: 20px;
       font-size: 0.86rem; font-weight: 600;
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
+      box-shadow: 0 6px 16px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09);
     }
     .km-ld-point {
       font-size: 1.7rem; line-height: 1.45; font-weight: 500;
@@ -195,10 +200,13 @@ interface LiveMessage {
 
     .km-ld-progress { padding: 8px 24px 24px; }
     .km-ld-progress-bar {
-      height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;
+      height: 5px; background: rgba(0,0,0,0.55); border-radius: 3px; overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.85);
     }
     .km-ld-progress-bar span {
-      display: block; height: 100%; background: #c9a84c; transition: width 0.25s ease;
+      display: block; height: 100%;
+      background: linear-gradient(180deg, #e8c96a, #c9a84c);
+      box-shadow: 0 0 9px rgba(201,168,76,0.6); transition: width 0.25s ease;
     }
     .km-ld-progress-text {
       margin-top: 6px; text-align: center; font-size: 0.72rem; color: var(--ion-color-medium);
@@ -209,7 +217,10 @@ interface LiveMessage {
       display: flex; align-items: center; justify-content: space-around; padding: 2px 8px;
     }
     .km-ld-controlrow ion-button { --color: #f4ecd8; font-size: 1.1rem; }
-    .km-ld-start { margin: 8px 12px; --background: #c9a84c; --color: #14110b; font-weight: 700; }
+    .km-ld-start {
+      margin: 8px 12px; --background: linear-gradient(180deg, #e8c96a, #c9a84c);
+      --color: #14110b; font-weight: 700; --box-shadow: 0 7px 18px rgba(0,0,0,0.5);
+    }
     .km-ld-follow { --background: #1c1810; }
     .km-ld-followtext {
       text-align: center; padding: 10px; font-size: 0.78rem; color: var(--ion-color-medium);

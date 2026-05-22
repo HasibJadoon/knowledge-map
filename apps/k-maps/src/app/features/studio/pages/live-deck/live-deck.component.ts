@@ -117,7 +117,8 @@ interface LiveMessage {
   `,
   styles: [`
     .deck {
-      display: flex; flex-direction: column; height: 100dvh; background: #14110b;
+      display: flex; flex-direction: column; height: 100dvh;
+      background: radial-gradient(130% 75% at 50% 0%, #1e1b13 0%, #100e09 62%);
       color: #f4ecd8; font-family: var(--km-font-body, system-ui, sans-serif);
     }
     .deck-top {
@@ -147,6 +148,7 @@ interface LiveMessage {
     .deck-roomcode {
       font-family: 'Courier New', monospace; font-size: 3rem; font-weight: 700;
       letter-spacing: 0.34em; color: var(--km-gold, #c9a84c); padding-left: 0.34em;
+      text-shadow: 0 2px 18px rgba(201,168,76,0.5);
     }
     .deck-lobby h1 { margin: 6px 0 0; font-size: 1.5rem; }
     .deck-lobby p { margin: 0; color: rgba(255,255,255,0.5); }
@@ -158,8 +160,10 @@ interface LiveMessage {
     }
     .deck-speaker {
       display: inline-flex; align-items: center; gap: 6px;
-      padding: 7px 18px; border: 1.5px solid; border-radius: 22px;
+      padding: 8px 19px; border: 1.5px solid; border-radius: 22px;
       font-size: 0.9rem; font-weight: 600;
+      background: linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.02));
+      box-shadow: 0 6px 16px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.09);
     }
     .deck-point {
       font-size: 2rem; line-height: 1.45; font-weight: 500; max-width: 760px; margin: 0;
@@ -172,11 +176,13 @@ interface LiveMessage {
 
     .deck-progress { padding: 8px 28px; }
     .deck-progress-bar {
-      height: 4px; background: rgba(255,255,255,0.08); border-radius: 2px; overflow: hidden;
+      height: 5px; background: rgba(0,0,0,0.55); border-radius: 3px; overflow: hidden;
+      box-shadow: inset 0 1px 3px rgba(0,0,0,0.85);
     }
     .deck-progress-bar span {
-      display: block; height: 100%; background: var(--km-gold, #c9a84c);
-      transition: width 0.25s ease;
+      display: block; height: 100%;
+      background: linear-gradient(180deg, #e8c96a, #c9a84c);
+      box-shadow: 0 0 9px rgba(201,168,76,0.6); transition: width 0.25s ease;
     }
     .deck-progress-text {
       margin-top: 6px; text-align: center; font-size: 0.74rem; color: rgba(255,255,255,0.45);
@@ -188,10 +194,14 @@ interface LiveMessage {
     .deck-foot--viewer { text-align: center; font-size: 0.8rem; color: rgba(255,255,255,0.45); }
     .deck-controls { display: flex; align-items: center; justify-content: center; gap: 26px; }
     .deck-ctl {
-      background: transparent; border: none; color: #f4ecd8; font-size: 1.5rem;
-      cursor: pointer; padding: 4px 8px;
+      width: 52px; height: 52px; border-radius: 50%; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem;
+      color: #f4ecd8;
+      background: linear-gradient(180deg, #2a261c 0%, #15130e 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.07);
     }
-    .deck-ctl:disabled { opacity: 0.3; cursor: default; }
+    .deck-ctl:disabled { opacity: 0.3; cursor: default; box-shadow: none; }
     .deck-ctl--end { color: #e0584e; }
 
     .deck-btn {
@@ -199,8 +209,9 @@ interface LiveMessage {
       background: rgba(255,255,255,0.08); color: #f4ecd8; border: 1px solid rgba(255,255,255,0.14);
     }
     .deck-btn--gold {
-      background: var(--km-gold, #c9a84c); color: #14110b; font-weight: 700;
+      background: linear-gradient(180deg, #e8c96a, #c9a84c); color: #14110b; font-weight: 700;
       border-color: var(--km-gold, #c9a84c);
+      box-shadow: 0 6px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.25);
     }
     .deck-start { display: block; width: 100%; max-width: 320px; margin: 0 auto; padding: 12px; }
     .deck-start:disabled { opacity: 0.5; cursor: default; }

@@ -59,7 +59,8 @@ import { Participant, SessionRecap, TalkingPoint, formatLabel } from '../../stud
   `,
   styles: [`
     .st-page {
-      min-height: 100dvh; background: var(--km-bg, #080808);
+      min-height: 100dvh;
+      background: radial-gradient(150% 70% at 50% 0%, #15130d 0%, #080706 55%);
       color: var(--km-text, rgba(255,255,255,0.92));
       font-family: var(--km-font-body, system-ui, sans-serif); overflow-y: auto;
     }
@@ -99,8 +100,11 @@ import { Participant, SessionRecap, TalkingPoint, formatLabel } from '../../stud
       text-transform: uppercase; color: var(--km-gold, #c9a84c);
     }
     .st-recap-point {
-      padding: 9px 12px; margin-bottom: 6px; border-radius: 9px;
-      background: var(--km-surface, #0d0d0d); border-left: 2px solid rgba(201,168,76,0.4);
+      padding: 11px 13px; margin-bottom: 7px; border-radius: 10px;
+      background: linear-gradient(180deg, #17150f 0%, #0c0b09 100%);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-left: 2px solid rgba(201,168,76,0.5);
+      box-shadow: 0 7px 16px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
     }
     .st-recap-point p { margin: 0; font-size: 0.9rem; line-height: 1.45; }
     .st-recap-point--empty {
