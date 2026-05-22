@@ -14,6 +14,14 @@ interface Cursor {
 
 const LOBBY: Cursor = { section: -1, point: -1 };
 
+/** Who a connected socket is — resolved from the joiner's account on connect. */
+interface Identity {
+  role: 'host' | 'viewer';
+  participantId: string | null;   // ST participant id, or null when not in the cast
+  name: string | null;            // cast display name, or null for an un-named guest
+  color: string | null;
+}
+
 export class EpisodeSession {
   /** Episode aggregate cache — rebuilt from D1 after hibernation. */
   private snapshot: EpisodeAggregate | null = null;
@@ -38,6 +46,7 @@ export class EpisodeSession {
     const episodeId = request.headers.get('X-KM-Episode-Id') ?? '';
     const sessionId = request.headers.get('X-KM-Session-Id') ?? '';
     const role = request.headers.get('X-KM-Role') === 'host' ? 'host' : 'viewer';
+    const userId = request.headers.get('X-KM-User-Id') ?? '';
 
     await this.ensureInit(episodeId, sessionId);
 
@@ -50,6 +59,18 @@ export class EpisodeSession {
       this.getPaused(),
     ]);
 
+    // Identify the joiner: match their account to one of the episode's cast.
+    const cast = episode?.participants.find(
+      (p) => !!p.core_user_ref && p.core_user_ref === userId,
+    ) ?? null;
+    const identity: Identity = {
+      role,
+      participantId: cast?.id ?? null,
+      name: cast?.display_name ?? null,
+      color: cast?.color ?? null,
+    };
+    server.serializeAttachment(identity);
+
     this.sendTo(server, {
       t: 'sync',
       role,
@@ -57,6 +78,8 @@ export class EpisodeSession {
       cursor,
       paused,
       viewers: this.state.getWebSockets().length,
+      you: identity,
+      roster: this.rosterOf(this.state.getWebSockets()),
     });
     this.broadcastPresence();
 
@@ -217,10 +240,27 @@ export class EpisodeSession {
 
   private broadcastPresence(excluding?: WebSocket): void {
     const sockets = this.state.getWebSockets().filter((ws) => ws !== excluding);
-    const data = JSON.stringify({ t: 'presence', viewers: sockets.length });
+    const data = JSON.stringify({
+      t: 'presence',
+      viewers: sockets.length,
+      roster: this.rosterOf(sockets),
+    });
     for (const ws of sockets) {
       try { ws.send(data); } catch { /* dropped socket */ }
     }
+  }
+
+  /** The identities of the given sockets — drives the lobby roster. */
+  private rosterOf(sockets: WebSocket[]): Identity[] {
+    return sockets.map((ws) => {
+      const attached = ws.deserializeAttachment() as Identity | null;
+      return {
+        role: attached?.role ?? 'viewer',
+        participantId: attached?.participantId ?? null,
+        name: attached?.name ?? null,
+        color: attached?.color ?? null,
+      };
+    });
   }
 
   private sendTo(ws: WebSocket, payload: unknown): void {

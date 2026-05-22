@@ -64,6 +64,8 @@ export interface Participant {
   color: string;
   role: ParticipantRole;
   seq: number;
+  /** CORE account this cast member is, or null when unlinked. */
+  core_user_ref: string | null;
 }
 
 export interface TalkingPoint {
@@ -118,6 +120,15 @@ export interface SessionInfo {
 export interface LiveCursor {
   section: number;
   point: number;
+}
+
+/** A connected screen in a live session — identified from the joiner's account. */
+export interface RosterEntry {
+  role: 'host' | 'viewer';
+  /** ST participant id this connection resolved to, or null for an un-named guest. */
+  participantId: string | null;
+  name: string | null;
+  color: string | null;
 }
 
 /** Post-session summary — the episode as covered, plus session timing. */

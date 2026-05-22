@@ -10,6 +10,11 @@ database_id = "93af175f-fc3e-40f2-b6c3-2877cc28c97f"
 migrations_dir = "migrations"
 # ST stores typed refs to other domains — never duplicates canonical content
 
+# ─── Service binding — CORE owns identity; ST resolves cast emails to accounts ─
+[[services]]
+binding = "CORE"
+service = "km-core-worker"
+
 # ─── Durable Object — live episode sessions ───────────────────────────────────
 [[durable_objects.bindings]]
 name = "EPISODE_SESSION"

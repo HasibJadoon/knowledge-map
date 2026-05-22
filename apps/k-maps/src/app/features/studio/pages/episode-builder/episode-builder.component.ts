@@ -54,6 +54,9 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
                 <button type="button" class="st-person-name" (click)="editPerson(p)">
                   {{ p.display_name }}
                 </button>
+                @if (p.core_user_ref) {
+                  <span class="st-person-link" title="Linked to an account">🔗</span>
+                }
                 <button type="button" class="st-person-x" (click)="removePerson(p)">×</button>
               </span>
             }
@@ -178,6 +181,7 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
       width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
       box-shadow: 0 0 7px rgba(201,168,76,0.5);
     }
+    .st-person-link { font-size: 0.72rem; opacity: 0.75; }
     .st-person-name {
       background: transparent; border: none; color: var(--km-text, #fff);
       cursor: pointer; font-size: 0.82rem; padding: 0;
@@ -302,17 +306,45 @@ export class EpisodeBuilderComponent implements OnInit {
   // ── Participants ─────────────────────────────────────────────────────────────
 
   addPerson(): void {
-    const name = (window.prompt('Name of the person:') ?? '').trim();
-    if (!name) return;
-    this.studio.addParticipant(this.episodeId, { display_name: name })
-      .subscribe({ next: () => this.reload(), error: () => {} });
+    const email = (window.prompt(
+      'Account email of the cast member (blank for an unnamed slot):',
+    ) ?? '').trim();
+    let displayName: string | undefined;
+    if (!email) {
+      displayName = (window.prompt('Display name:') ?? '').trim() || undefined;
+      if (!displayName) return;
+    }
+    this.studio.addParticipant(this.episodeId, {
+      email: email || undefined,
+      display_name: displayName,
+    }).subscribe({
+      next: () => this.reload(),
+      error: (err) => this.flash(this.errorMessage(err) || 'Could not add that person.'),
+    });
   }
 
   editPerson(person: Participant): void {
-    const name = (window.prompt('Edit name:', person.display_name) ?? '').trim();
-    if (!name || name === person.display_name) return;
-    this.studio.updateParticipant(person.id, { display_name: name })
-      .subscribe({ next: () => this.reload(), error: () => {} });
+    const name = (window.prompt('Display name:', person.display_name) ?? '').trim();
+    if (!name) return;
+    const email = (window.prompt(
+      person.core_user_ref
+        ? 'New account email to re-link (blank to keep current):'
+        : 'Account email to link this person (blank to skip):',
+    ) ?? '').trim();
+    const patch: { display_name?: string; email?: string } = {};
+    if (name !== person.display_name) patch.display_name = name;
+    if (email) patch.email = email;
+    if (!patch.display_name && !patch.email) return;
+    this.studio.updateParticipant(person.id, patch).subscribe({
+      next: () => this.reload(),
+      error: (err) => this.flash(this.errorMessage(err) || 'Could not update that person.'),
+    });
+  }
+
+  /** Pull a worker validation message (e.g. an unknown email) out of an error. */
+  private errorMessage(err: unknown): string {
+    const detail = (err as { error?: { error?: string; message?: string } } | null)?.error;
+    return detail?.error || detail?.message || '';
   }
 
   removePerson(person: Participant): void {

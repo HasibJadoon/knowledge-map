@@ -109,6 +109,7 @@ export function sessionRoutes(router: Router<StudioEnv>) {
     headers.set('X-KM-Episode-Id', session.episode_ref);
     headers.set('X-KM-Session-Id', session.id);
     headers.set('X-KM-Role', role);
+    headers.set('X-KM-User-Id', user);   // the EpisodeSession matches this to a cast member
 
     const stub = env.EPISODE_SESSION.get(env.EPISODE_SESSION.idFromName(session.id));
     return stub.fetch(new Request(req.url, { method: 'GET', headers }));

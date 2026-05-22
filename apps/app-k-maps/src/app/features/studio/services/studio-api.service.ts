@@ -72,7 +72,7 @@ export class StudioApiService {
 
   addParticipant(
     episodeId: string,
-    body: { display_name: string; role?: string; color?: string },
+    body: { display_name?: string; email?: string; role?: string; color?: string },
   ): Observable<Participant> {
     return this.http
       .post<Envelope<Participant>>(`${this.base}/episodes/${episodeId}/participants`, body)
@@ -81,7 +81,7 @@ export class StudioApiService {
 
   updateParticipant(
     id: string,
-    patch: { display_name?: string; color?: string; role?: string },
+    patch: { display_name?: string; email?: string; color?: string; role?: string },
   ): Observable<Participant> {
     return this.http
       .patch<Envelope<Participant>>(`${this.base}/participants/${id}`, patch)

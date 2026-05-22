@@ -7,7 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonicModule, ToastController } from '@ionic/angular';
 import { environment } from '../../../../../environments/environment';
 import { StudioApiService } from '../../services/studio-api.service';
-import { EpisodeAggregate, LiveCursor } from '../../studio.models';
+import { EpisodeAggregate, LiveCursor, RosterEntry } from '../../studio.models';
 
 const LOBBY: LiveCursor = { section: -1, point: -1 };
 
@@ -19,6 +19,8 @@ interface LiveMessage {
   cursor?: LiveCursor;
   paused?: boolean;
   viewers?: number;
+  roster?: RosterEntry[];
+  you?: RosterEntry;
 }
 
 @Component({
@@ -78,6 +80,29 @@ interface LiveMessage {
               <p>{{ isHost()
                 ? 'Tap Start when everyone has joined.'
                 : 'Waiting for the host to start…' }}</p>
+
+              @if (namedRoster().length) {
+                <div class="km-ld-roster">
+                  @for (r of namedRoster(); track $index) {
+                    <span class="km-ld-rosterchip" [style.borderColor]="r.color || '#c9a84c'">
+                      <span class="km-ld-rosterdot"
+                            [style.background]="r.color || '#c9a84c'"></span>
+                      {{ r.name }}
+                      @if (r.role === 'host') { <span class="km-ld-rosterrole">host</span> }
+                    </span>
+                  }
+                </div>
+              }
+              @if (guestCount() > 0) {
+                <p class="km-ld-guests">
+                  + {{ guestCount() }} {{ guestCount() === 1 ? 'guest' : 'guests' }} watching
+                </p>
+              }
+              @if (you(); as me) {
+                <p class="km-ld-youare">
+                  {{ me.name ? "You're in as " + me.name : "You're watching as a guest" }}
+                </p>
+              }
               @if (!connected()) { <p class="km-ld-recon">Reconnecting…</p> }
             </div>
           } @else {
@@ -190,6 +215,29 @@ interface LiveMessage {
     .km-ld-lobby p { color: var(--ion-color-medium); font-size: 0.92rem; margin: 0; }
     .km-ld-recon { color: #c9a84c !important; font-size: 0.8rem !important; }
 
+    .km-ld-roster {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+      margin-top: 6px; max-width: 340px;
+    }
+    .km-ld-rosterchip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 12px; border-radius: 16px;
+      border: 1px solid rgba(201,168,76,0.4);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      box-shadow: 0 4px 11px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+      font-size: 0.82rem; font-weight: 600; color: #f4ecd8;
+    }
+    .km-ld-rosterdot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+      box-shadow: 0 0 6px rgba(255,255,255,0.3);
+    }
+    .km-ld-rosterrole {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: #c9a84c;
+    }
+    .km-ld-guests { font-size: 0.78rem; color: var(--ion-color-medium); margin: 2px 0 0; }
+    .km-ld-youare { font-size: 0.8rem; color: #c9a84c; margin: 4px 0 0; font-weight: 600; }
+
     .km-ld-sectionlabel {
       font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
       text-transform: uppercase; color: #c9a84c;
@@ -261,6 +309,8 @@ export class LiveDeckPage implements OnInit, OnDestroy {
   cursor = signal<LiveCursor>(LOBBY);
   paused = signal(false);
   viewers = signal(1);
+  roster = signal<RosterEntry[]>([]);
+  you = signal<RosterEntry | null>(null);
 
   private ws: WebSocket | null = null;
   private leaving = false;
@@ -272,6 +322,11 @@ export class LiveDeckPage implements OnInit, OnDestroy {
 
   isHost = computed(() => this.role() === 'host');
   inLobby = computed(() => this.cursor().section < 0);
+
+  /** Identified cast members currently connected (named entries only). */
+  namedRoster = computed(() => this.roster().filter((r) => !!r.name));
+  /** Connected screens that did not resolve to a cast member. */
+  guestCount = computed(() => this.roster().filter((r) => !r.name).length);
 
   showHostControls = computed(() =>
     !this.loading() && !this.error() && !this.ended() && this.isHost());
@@ -404,6 +459,8 @@ export class LiveDeckPage implements OnInit, OnDestroy {
         if (typeof msg.paused === 'boolean') this.paused.set(msg.paused);
         if (typeof msg.viewers === 'number') this.viewers.set(msg.viewers);
         if (msg.role) this.role.set(msg.role);
+        if (msg.roster) this.roster.set(msg.roster);
+        if (msg.you) this.you.set(msg.you);
         this.loading.set(false);
         break;
       case 'cursor':
@@ -412,6 +469,7 @@ export class LiveDeckPage implements OnInit, OnDestroy {
         break;
       case 'presence':
         if (typeof msg.viewers === 'number') this.viewers.set(msg.viewers);
+        if (msg.roster) this.roster.set(msg.roster);
         break;
       case 'ended':
         this.ended.set(true);

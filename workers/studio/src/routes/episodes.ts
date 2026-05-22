@@ -14,6 +14,7 @@ import {
 } from '../repositories/episode.repo';
 import { TemplateRepo } from '../repositories/template.repo';
 import { actorRef } from '../auth';
+import { resolveUserByEmail } from '../core-client';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
@@ -94,7 +95,16 @@ export function episodeRoutes(router: Router<StudioEnv>) {
       template_ref: templateRef,
     });
     await repo.applyStructure(episode.id, structure);
-    return created(await repo.findAggregate(episode.id));
+
+    // The episode owner is the host — link the first cast member to their
+    // account so they are identified automatically in any live session.
+    const aggregate = await repo.findAggregate(episode.id);
+    const host = aggregate?.participants[0];
+    if (host && !host.core_user_ref) {
+      await repo.patchParticipant(host.id, { core_user_ref: user });
+      host.core_user_ref = user;
+    }
+    return created(aggregate);
   });
 
   // GET /st/episodes/:id — full aggregate (participants + sections + points)
@@ -169,19 +179,30 @@ export function episodeRoutes(router: Router<StudioEnv>) {
     if (!episode) return notFound(`episode ${id}`);
     if (episode.core_user_ref !== user) return forbidden('Not your episode');
 
-    const displayName = trimmedString(body['display_name']) || '';
-    if (!displayName) return badRequest('display_name is required');
-
     const role = trimmedString(body['role']);
     if (role !== undefined && !(PARTICIPANT_ROLES as readonly string[]).includes(role)) {
       return badRequest(`role must be one of: ${PARTICIPANT_ROLES.join(', ')}`);
     }
     const color = trimmedString(body['color']);
 
+    // A cast member may be linked to a real account by email. The account's
+    // own name fills in when no explicit display name is supplied.
+    let displayName = trimmedString(body['display_name']) || '';
+    let coreUserRef: string | null = null;
+    const email = trimmedString(body['email']) || '';
+    if (email) {
+      const account = await resolveUserByEmail(env, email);
+      if (!account) return badRequest(`No account found for ${email}`);
+      coreUserRef = account.id;
+      if (!displayName) displayName = account.display_name;
+    }
+    if (!displayName) return badRequest('display_name or email is required');
+
     return created(await repo.createParticipant(id, {
       display_name: displayName,
       role,
       color,
+      core_user_ref: coreUserRef,
     }));
   });
 
@@ -190,7 +211,10 @@ export function episodeRoutes(router: Router<StudioEnv>) {
     const body = await readJson(req);
     if (!isObj(body)) return badRequest('Request body must be a JSON object');
 
-    const patch: { display_name?: string; color?: string; role?: string; seq?: number } = {};
+    const patch: {
+      display_name?: string; color?: string; role?: string; seq?: number;
+      core_user_ref?: string | null;
+    } = {};
     if (body['display_name'] !== undefined) {
       const name = trimmedString(body['display_name']);
       if (!name) return badRequest('display_name must be a non-empty string');
@@ -209,6 +233,20 @@ export function episodeRoutes(router: Router<StudioEnv>) {
       patch.role = role;
     }
     if (typeof body['seq'] === 'number') patch.seq = body['seq'];
+
+    // Link / re-link the cast member to a real account by email — or unlink
+    // when an empty email is sent.
+    if (body['email'] !== undefined) {
+      const email = trimmedString(body['email']) || '';
+      if (!email) {
+        patch.core_user_ref = null;
+      } else {
+        const account = await resolveUserByEmail(env, email);
+        if (!account) return badRequest(`No account found for ${email}`);
+        patch.core_user_ref = account.id;
+        if (body['display_name'] === undefined) patch.display_name = account.display_name;
+      }
+    }
 
     const row = await new EpisodeRepo(env.DB_ST).patchParticipant(id, patch);
     return row ? ok(row) : notFound(`participant ${id}`);

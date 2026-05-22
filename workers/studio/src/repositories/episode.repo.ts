@@ -35,6 +35,7 @@ export interface ParticipantRow {
   color: string;
   role: string;
   seq: number;
+  core_user_ref: string | null;
   created_at: string;
 }
 
@@ -87,6 +88,7 @@ export interface ParticipantInput {
   color?: string;
   role?: string;
   seq?: number;
+  core_user_ref?: string | null;
 }
 
 export interface ParticipantPatch {
@@ -94,6 +96,7 @@ export interface ParticipantPatch {
   color?: string;
   role?: string;
   seq?: number;
+  core_user_ref?: string | null;
 }
 
 export interface SectionInput {
@@ -134,7 +137,7 @@ export interface TemplateStructure {
 
 const EP_COLS = `id, core_user_ref, core_ws_ref, title, format, template_ref,
                  status, meta_json, created_at, updated_at`;
-const PA_COLS = `id, episode_ref, display_name, color, role, seq, created_at`;
+const PA_COLS = `id, episode_ref, display_name, color, role, seq, core_user_ref, created_at`;
 const SE_COLS = `id, episode_ref, type, heading, seq, created_at, updated_at`;
 const PT_COLS = `id, section_ref, episode_ref, text, speaker_ref, est_seconds,
                  seq, created_at, updated_at`;
@@ -258,8 +261,9 @@ export class EpisodeRepo {
     const seq = input.seq ?? await this.nextSeq('st_participants', 'episode_ref', episodeId);
     await execute(
       this.db,
-      `INSERT INTO st_participants (id, episode_ref, display_name, color, role, seq, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      `INSERT INTO st_participants
+         (id, episode_ref, display_name, color, role, seq, core_user_ref, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         id,
         episodeId,
@@ -267,6 +271,7 @@ export class EpisodeRepo {
         input.color ?? PALETTE[seq % PALETTE.length],
         input.role ?? 'speaker',
         seq,
+        input.core_user_ref ?? null,
         new Date().toISOString(),
       ],
     );
@@ -280,6 +285,7 @@ export class EpisodeRepo {
     if (patch.color !== undefined)        { sets.push('color = ?');        vals.push(patch.color); }
     if (patch.role !== undefined)         { sets.push('role = ?');         vals.push(patch.role); }
     if (patch.seq !== undefined)          { sets.push('seq = ?');          vals.push(patch.seq); }
+    if (patch.core_user_ref !== undefined) { sets.push('core_user_ref = ?'); vals.push(patch.core_user_ref); }
     if (sets.length === 0) return this.findParticipant(id);
     vals.push(id);
     await execute(this.db, `UPDATE st_participants SET ${sets.join(', ')} WHERE id = ?`, vals);

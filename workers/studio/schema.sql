@@ -37,10 +37,12 @@ CREATE TABLE st_participants (
   color         TEXT NOT NULL DEFAULT '#c9a84c',
   role          TEXT NOT NULL DEFAULT 'speaker',     -- host|speaker|guest|viewer
   seq           INTEGER NOT NULL DEFAULT 0,
+  core_user_ref TEXT,                                -- CORE account this cast member is; NULL = unlinked
   created_at    TEXT NOT NULL DEFAULT (datetime('now')),
   FOREIGN KEY (episode_ref) REFERENCES st_episodes(id)
 );
 CREATE INDEX idx_st_participants_episode ON st_participants(episode_ref, seq);
+CREATE INDEX idx_st_participants_user ON st_participants(core_user_ref);
 
 CREATE TABLE st_sections (
   id            TEXT PRIMARY KEY,

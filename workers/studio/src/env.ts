@@ -11,4 +11,7 @@ export interface StudioEnv {
 
   // Durable Object — one instance per live episode session
   EPISODE_SESSION: DurableObjectNamespace;
+
+  // Service binding to km-core-worker — resolves cast member emails to accounts
+  CORE: Fetcher;
 }

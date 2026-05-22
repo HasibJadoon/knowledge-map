@@ -67,6 +67,10 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
               <button class="km-chip" (click)="editPerson(p)">
                 <span class="km-chip-dot" [style.background]="p.color"></span>
                 {{ p.display_name }}
+                @if (p.core_user_ref) {
+                  <ion-icon name="link" class="km-chip-link"
+                            aria-label="Linked to an account"></ion-icon>
+                }
               </button>
             }
             <button class="km-chip km-chip--add" (click)="addPerson()">+ Person</button>
@@ -166,6 +170,7 @@ const SECTION_TYPE_LABELS: Record<string, string> = {
       width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
       box-shadow: 0 0 7px rgba(201,168,76,0.55), inset 0 0 2px rgba(255,255,255,0.45);
     }
+    .km-chip-link { font-size: 0.82rem; color: #c9a84c; margin-left: 1px; }
     .km-chip--add {
       color: #c9a84c; border: 1px dashed rgba(201,168,76,0.45);
       background: rgba(201,168,76,0.05); box-shadow: none;
@@ -275,18 +280,27 @@ export class EpisodeBuilderPage implements OnInit {
 
   async addPerson(): Promise<void> {
     const alert = await this.alertCtrl.create({
-      header: 'Add person',
-      inputs: [{ name: 'name', type: 'text', placeholder: 'Name' }],
+      header: 'Add cast member',
+      message: 'Enter their account email so they are identified in live sessions.',
+      inputs: [
+        { name: 'email', type: 'email', placeholder: 'Account email' },
+        { name: 'name', type: 'text', placeholder: 'Display name (optional)' },
+      ],
       buttons: [
         { text: 'Cancel', role: 'cancel' },
         {
           text: 'Add',
           handler: (data) => {
+            const email = String(data?.email ?? '').trim();
             const name = String(data?.name ?? '').trim();
-            if (name) {
-              this.studio.addParticipant(this.episodeId, { display_name: name })
-                .subscribe({ next: () => this.reload(), error: () => {} });
-            }
+            if (!email && !name) return;
+            this.studio.addParticipant(this.episodeId, {
+              email: email || undefined,
+              display_name: name || undefined,
+            }).subscribe({
+              next: () => this.reload(),
+              error: (err) => this.showError(err, 'Could not add that person.'),
+            });
           },
         },
       ],
@@ -295,9 +309,20 @@ export class EpisodeBuilderPage implements OnInit {
   }
 
   async editPerson(person: Participant): Promise<void> {
+    const linked = !!person.core_user_ref;
     const alert = await this.alertCtrl.create({
-      header: 'Edit person',
-      inputs: [{ name: 'name', type: 'text', value: person.display_name, placeholder: 'Name' }],
+      header: 'Edit cast member',
+      message: linked
+        ? 'Linked to an account. Enter a new email to re-link them.'
+        : 'Enter an account email to identify this person in live sessions.',
+      inputs: [
+        { name: 'name', type: 'text', value: person.display_name, placeholder: 'Display name' },
+        {
+          name: 'email',
+          type: 'email',
+          placeholder: linked ? 'New account email' : 'Account email',
+        },
+      ],
       buttons: [
         {
           text: 'Delete',
@@ -312,15 +337,31 @@ export class EpisodeBuilderPage implements OnInit {
           text: 'Save',
           handler: (data) => {
             const name = String(data?.name ?? '').trim();
-            if (name && name !== person.display_name) {
-              this.studio.updateParticipant(person.id, { display_name: name })
-                .subscribe({ next: () => this.reload(), error: () => {} });
-            }
+            const email = String(data?.email ?? '').trim();
+            const patch: { display_name?: string; email?: string } = {};
+            if (name && name !== person.display_name) patch.display_name = name;
+            if (email) patch.email = email;
+            if (!patch.display_name && !patch.email) return;
+            this.studio.updateParticipant(person.id, patch).subscribe({
+              next: () => this.reload(),
+              error: (err) => this.showError(err, 'Could not update that person.'),
+            });
           },
         },
       ],
     });
     await alert.present();
+  }
+
+  /** Surface a worker validation error (e.g. an unknown email) as a toast. */
+  private async showError(err: unknown, fallback: string): Promise<void> {
+    const detail = (err as { error?: { error?: string; message?: string } } | null)?.error;
+    const toast = await this.toastCtrl.create({
+      message: detail?.error || detail?.message || fallback,
+      duration: 2600,
+      position: 'bottom',
+    });
+    await toast.present();
   }
 
   // ── Sections ─────────────────────────────────────────────────────────────────

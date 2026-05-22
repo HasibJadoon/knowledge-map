@@ -2,7 +2,7 @@ import { Component, computed, inject, OnDestroy, OnInit, signal } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../../environments/environment';
 import { StudioApiService } from '../../studio-api.service';
-import { EpisodeAggregate, LiveCursor } from '../../studio.models';
+import { EpisodeAggregate, LiveCursor, RosterEntry } from '../../studio.models';
 
 const LOBBY: LiveCursor = { section: -1, point: -1 };
 
@@ -14,6 +14,8 @@ interface LiveMessage {
   cursor?: LiveCursor;
   paused?: boolean;
   viewers?: number;
+  roster?: RosterEntry[];
+  you?: RosterEntry;
 }
 
 @Component({
@@ -58,6 +60,29 @@ interface LiveMessage {
               <p>{{ isHost()
                 ? 'Press Start when everyone has joined.'
                 : 'Waiting for the host to start…' }}</p>
+
+              @if (namedRoster().length) {
+                <div class="deck-roster">
+                  @for (r of namedRoster(); track $index) {
+                    <span class="deck-rosterchip" [style.borderColor]="r.color || '#c9a84c'">
+                      <span class="deck-rosterdot"
+                            [style.background]="r.color || '#c9a84c'"></span>
+                      {{ r.name }}
+                      @if (r.role === 'host') { <span class="deck-rosterrole">host</span> }
+                    </span>
+                  }
+                </div>
+              }
+              @if (guestCount() > 0) {
+                <p class="deck-guests">
+                  + {{ guestCount() }} {{ guestCount() === 1 ? 'guest' : 'guests' }} watching
+                </p>
+              }
+              @if (you(); as me) {
+                <p class="deck-youare">
+                  {{ me.name ? "You're in as " + me.name : "You're watching as a guest" }}
+                </p>
+              }
               @if (!connected()) { <p class="deck-recon">Reconnecting…</p> }
             </div>
           } @else {
@@ -154,6 +179,31 @@ interface LiveMessage {
     .deck-lobby p { margin: 0; color: rgba(255,255,255,0.5); }
     .deck-recon { color: var(--km-gold, #c9a84c) !important; font-size: 0.82rem; }
 
+    .deck-roster {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+      margin-top: 4px; max-width: 420px;
+    }
+    .deck-rosterchip {
+      display: inline-flex; align-items: center; gap: 6px;
+      padding: 6px 13px; border-radius: 16px;
+      border: 1px solid rgba(201,168,76,0.4);
+      background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+      box-shadow: 0 4px 12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.07);
+      font-size: 0.85rem; font-weight: 600; color: #f4ecd8;
+    }
+    .deck-rosterdot {
+      width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+      box-shadow: 0 0 6px rgba(255,255,255,0.3);
+    }
+    .deck-rosterrole {
+      font-size: 0.64rem; font-weight: 700; letter-spacing: 0.08em;
+      text-transform: uppercase; color: var(--km-gold, #c9a84c);
+    }
+    .deck-guests { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin: 0; }
+    .deck-youare {
+      font-size: 0.82rem; color: var(--km-gold, #c9a84c); margin: 0; font-weight: 600;
+    }
+
     .deck-sectionlabel {
       font-size: 0.74rem; font-weight: 700; letter-spacing: 0.16em;
       text-transform: uppercase; color: var(--km-gold, #c9a84c);
@@ -235,6 +285,8 @@ export class LiveDeckComponent implements OnInit, OnDestroy {
   cursor = signal<LiveCursor>(LOBBY);
   paused = signal(false);
   viewers = signal(1);
+  roster = signal<RosterEntry[]>([]);
+  you = signal<RosterEntry | null>(null);
 
   private ws: WebSocket | null = null;
   private leaving = false;
@@ -246,6 +298,11 @@ export class LiveDeckComponent implements OnInit, OnDestroy {
 
   isHost = computed(() => this.role() === 'host');
   inLobby = computed(() => this.cursor().section < 0);
+
+  /** Identified cast members currently connected (named entries only). */
+  namedRoster = computed(() => this.roster().filter((r) => !!r.name));
+  /** Connected screens that did not resolve to a cast member. */
+  guestCount = computed(() => this.roster().filter((r) => !r.name).length);
 
   currentSection = computed(() => {
     const ep = this.episode();
@@ -366,6 +423,8 @@ export class LiveDeckComponent implements OnInit, OnDestroy {
         if (typeof msg.paused === 'boolean') this.paused.set(msg.paused);
         if (typeof msg.viewers === 'number') this.viewers.set(msg.viewers);
         if (msg.role) this.role.set(msg.role);
+        if (msg.roster) this.roster.set(msg.roster);
+        if (msg.you) this.you.set(msg.you);
         this.loading.set(false);
         break;
       case 'cursor':
@@ -374,6 +433,7 @@ export class LiveDeckComponent implements OnInit, OnDestroy {
         break;
       case 'presence':
         if (typeof msg.viewers === 'number') this.viewers.set(msg.viewers);
+        if (msg.roster) this.roster.set(msg.roster);
         break;
       case 'ended':
         this.ended.set(true);
