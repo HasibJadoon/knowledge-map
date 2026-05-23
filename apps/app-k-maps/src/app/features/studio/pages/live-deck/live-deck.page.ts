@@ -1,10 +1,11 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject,
-  OnDestroy, OnInit, signal, ViewChild,
+  OnDestroy, OnInit, QueryList, signal, ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertController, IonicModule, ToastController } from '@ionic/angular';
+import gsap from 'gsap';
 import { environment } from '../../../../../environments/environment';
 import { StudioApiService } from '../../services/studio-api.service';
 import { EpisodeAggregate, LiveCursor, RosterEntry } from '../../studio.models';
@@ -117,9 +118,9 @@ interface DeckCard {
           </div>
         </div>
       } @else {
-        <div class="km-ld-strip" #strip>
+        <div class="km-ld-hand">
           @for (card of cards(); track card.index) {
-            <div class="km-ld-card"
+            <div class="km-ld-card" #cardEl
                  [class.km-ld-card--live]="card.index === activeIndex()"
                  [class.km-ld-card--done]="card.index < activeIndex()">
               <div class="km-ld-card-top">
@@ -270,24 +271,26 @@ interface DeckCard {
     .km-ld-guests { font-size: 0.78rem; color: var(--ion-color-medium); margin: 2px 0 0; }
     .km-ld-youare { font-size: 0.8rem; color: #c9a84c; margin: 4px 0 0; font-weight: 600; }
 
-    .km-ld-strip {
-      display: flex; gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory;
-      padding: 18px 8vw 6px; -webkit-overflow-scrolling: touch;
+    .km-ld-hand {
+      position: relative; width: 100%; height: 58vh;
+      perspective: 1500px; transform-style: preserve-3d;
+      margin: 14px 0 4px;
     }
-    .km-ld-strip::-webkit-scrollbar { display: none; }
     .km-ld-card {
-      flex: 0 0 84%; scroll-snap-align: center;
+      position: absolute; left: 50%; top: 50%;
+      width: 80%; max-width: 340px; height: 88%; max-height: 460px;
+      margin-left: -40%; margin-top: -44%;
+      transform-origin: 50% 115%;
       display: flex; flex-direction: column; gap: 12px;
-      min-height: 52vh; padding: 20px 18px; border-radius: 16px;
+      padding: 20px 18px; border-radius: 16px;
       background: linear-gradient(180deg, #232017 0%, #131210 100%);
-      border: 1px solid rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.06);
       box-shadow: 0 14px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.05);
-      opacity: 0.45; transition: opacity 0.25s ease, border-color 0.25s ease;
+      backface-visibility: hidden; will-change: transform, opacity;
     }
-    .km-ld-card--done { opacity: 0.34; }
     .km-ld-card--live {
-      opacity: 1; border-color: rgba(201,168,76,0.55);
-      box-shadow: 0 16px 38px rgba(0,0,0,0.66), 0 0 22px rgba(201,168,76,0.16),
+      border-color: rgba(201,168,76,0.55);
+      box-shadow: 0 18px 40px rgba(0,0,0,0.7), 0 0 26px rgba(201,168,76,0.18),
                   inset 0 1px 0 rgba(255,255,255,0.07);
     }
     .km-ld-card-top { display: flex; align-items: center; justify-content: space-between; }
@@ -385,8 +388,10 @@ export class LiveDeckPage implements OnInit, OnDestroy {
   private reconnectAttempts = 0;
   private pingTimer: ReturnType<typeof setInterval> | null = null;
   private reconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  private firstPosition = true;
 
-  @ViewChild('strip') private strip?: ElementRef<HTMLElement>;
+  @ViewChildren('cardEl', { read: ElementRef })
+  private cardRefs!: QueryList<ElementRef<HTMLElement>>;
 
   // ── Derived state ────────────────────────────────────────────────────────────
 
@@ -585,17 +590,35 @@ export class LiveDeckPage implements OnInit, OnDestroy {
         break;
     }
     if (msg.t === 'sync' || msg.t === 'cursor') {
-      setTimeout(() => this.scrollToActive(), 90);
+      setTimeout(() => this.positionCards(), 90);
     }
     this.cdr.markForCheck();
   }
 
-  /** Centre the live card in the carousel when the synced cursor moves. */
-  private scrollToActive(): void {
-    const el = this.strip?.nativeElement;
-    if (!el) return;
-    const card = el.children[this.activeIndex()] as HTMLElement | undefined;
-    card?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
+  /** Lay the cards out as a 3D fanned hand, GSAP-animated between states. */
+  private positionCards(): void {
+    const refs = this.cardRefs?.toArray() ?? [];
+    if (refs.length === 0) return;
+    const active = this.activeIndex();
+    const duration = this.firstPosition ? 0 : 0.55;
+    refs.forEach((ref, i) => {
+      const offset = i - active;
+      const abs = Math.abs(offset);
+      const visible = abs <= 4;
+      gsap.to(ref.nativeElement, {
+        rotation: offset * 9,
+        x: offset * 32,
+        y: abs * 8,
+        z: -abs * 60,
+        scale: abs === 0 ? 1 : Math.max(0.78, 1 - abs * 0.08),
+        opacity: visible ? Math.max(0.18, 1 - abs * 0.22) : 0,
+        zIndex: 100 - abs,
+        duration,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      });
+    });
+    this.firstPosition = false;
   }
 
   private buildWsUrl(): string {
