@@ -1,10 +1,11 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject,
-  OnDestroy, OnInit, signal,
+  ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, ElementRef, inject,
+  OnDestroy, OnInit, QueryList, signal, ViewChildren,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
+import gsap from 'gsap';
 import { StudioApiService } from '../../services/studio-api.service';
 import { EpisodeAggregate } from '../../studio.models';
 
@@ -52,24 +53,26 @@ interface WakeLockHandle { release?: () => void; }
               <button class="rd-btn rd-btn--gold" (click)="restart()">Start over</button>
               <button class="rd-btn" (click)="exit()">Back to builder</button>
             </div>
-          } @else if (currentCard(); as card) {
+          } @else {
             <div class="rd-stage"
                  (touchstart)="onTouchStart($event)" (touchend)="onTouchEnd($event)">
-              <div class="rd-meta">
-                <span class="rd-section">{{ card.section }}</span>
-                @if (card.estSeconds) { <span class="rd-est">~{{ card.estSeconds }}s</span> }
-                @if (isCaptured()) { <span class="rd-tick">✓ captured</span> }
+              <div class="rd-hand">
+                @for (c of cards(); track c.pointId; let i = $index) {
+                  <div class="rd-card" #cardEl
+                       [class.rd-card--active]="i === index()"
+                       [class.rd-card--done]="captured().has(c.pointId)">
+                    <div class="rd-meta">
+                      <span class="rd-section">{{ c.section }}</span>
+                      @if (c.estSeconds) { <span class="rd-est">~{{ c.estSeconds }}s</span> }
+                      @if (captured().has(c.pointId)) { <span class="rd-tick">✓</span> }
+                    </div>
+                    <p class="rd-text">{{ c.text || '…' }}</p>
+                    @if (c.bridge) {
+                      <div class="rd-bridge">↪ {{ c.bridge }}</div>
+                    }
+                  </div>
+                }
               </div>
-
-              <p class="rd-text">{{ card.text || '…' }}</p>
-
-              @if (card.bridge) {
-                <div class="rd-bridge">↪ {{ card.bridge }}</div>
-              }
-
-              @if (nextCard(); as nxt) {
-                <div class="rd-next">Next · {{ nxt.text || nxt.section }}</div>
-              }
             </div>
 
             <div class="rd-foot">
@@ -122,9 +125,32 @@ interface WakeLockHandle { release?: () => void; }
     }
 
     .rd-stage {
-      flex: 1; display: flex; flex-direction: column; justify-content: center;
-      gap: 18px; padding: 24px 26px; overflow-y: auto;
+      flex: 1; position: relative; display: flex;
+      align-items: center; justify-content: center;
+      padding: 12px; overflow: hidden;
     }
+    .rd-hand {
+      position: relative; width: 100%; height: 100%;
+      perspective: 1500px; transform-style: preserve-3d;
+    }
+    .rd-card {
+      position: absolute; left: 50%; top: 50%;
+      width: 78%; max-width: 360px; height: 70%; max-height: 520px;
+      margin-left: -39%; margin-top: -35%;
+      transform-origin: 50% 115%;
+      display: flex; flex-direction: column; gap: 14px;
+      padding: 22px 20px; border-radius: 18px;
+      background: linear-gradient(180deg, #232017 0%, #131210 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      box-shadow: 0 14px 28px rgba(0,0,0,0.62), inset 0 1px 0 rgba(255,255,255,0.05);
+      backface-visibility: hidden; will-change: transform, opacity;
+    }
+    .rd-card--active {
+      border-color: rgba(201,168,76,0.55);
+      box-shadow: 0 22px 48px rgba(0,0,0,0.72), 0 0 32px rgba(201,168,76,0.2),
+                  inset 0 1px 0 rgba(255,255,255,0.08);
+    }
+    .rd-card--done .rd-text { opacity: 0.6; }
     .rd-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .rd-section {
       font-size: 0.66rem; font-weight: 700; letter-spacing: 0.1em;
@@ -140,11 +166,6 @@ interface WakeLockHandle { release?: () => void; }
       font-size: 1rem; line-height: 1.45; color: #e8c96a;
       padding-top: 14px; border-top: 1px dashed rgba(201,168,76,0.3);
     }
-    .rd-next {
-      font-size: 0.78rem; color: rgba(255,255,255,0.34);
-      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-    }
-
     .rd-foot {
       display: flex; align-items: center; justify-content: space-between;
       gap: 14px; padding: 10px 18px;
@@ -194,18 +215,16 @@ export class RecordDeckPage implements OnInit, OnDestroy {
 
   total = computed(() => this.cards().length);
   atDoneScreen = computed(() => this.total() > 0 && this.index() >= this.total());
-  currentCard = computed(() => this.cards()[this.index()] ?? null);
-  nextCard = computed(() => this.cards()[this.index() + 1] ?? null);
   capturedCount = computed(() => this.captured().size);
-  isCaptured = computed(() => {
-    const card = this.currentCard();
-    return card ? this.captured().has(card.pointId) : false;
-  });
+
+  @ViewChildren('cardEl', { read: ElementRef })
+  private cardRefs!: QueryList<ElementRef<HTMLElement>>;
 
   private episodeId = '';
   private wakeLock: WakeLockHandle | null = null;
   private touchStartX = 0;
   private touchStartY = 0;
+  private firstPosition = true;
 
   ngOnInit(): void {
     this.episodeId = this.route.snapshot.paramMap.get('episodeId') ?? '';
@@ -220,6 +239,7 @@ export class RecordDeckPage implements OnInit, OnDestroy {
         this.restore();
         this.loading.set(false);
         this.cdr.markForCheck();
+        setTimeout(() => this.positionCards(), 80);
       },
       error: () => { this.loading.set(false); this.cdr.markForCheck(); },
     });
@@ -237,7 +257,7 @@ export class RecordDeckPage implements OnInit, OnDestroy {
   /** Swiping forward marks the card just delivered as captured. */
   next(): void {
     if (this.loading() || this.atDoneScreen()) return;
-    const card = this.currentCard();
+    const card = this.cards()[this.index()];
     if (card) {
       const set = new Set(this.captured());
       set.add(card.pointId);
@@ -245,18 +265,21 @@ export class RecordDeckPage implements OnInit, OnDestroy {
     }
     this.index.set(Math.min(this.index() + 1, this.total()));
     this.persist();
+    setTimeout(() => this.positionCards(), 30);
   }
 
   prev(): void {
     if (this.index() <= 0) return;
     this.index.set(this.index() - 1);
     this.persist();
+    setTimeout(() => this.positionCards(), 30);
   }
 
   restart(): void {
     this.captured.set(new Set());
     this.index.set(0);
     this.persist();
+    setTimeout(() => this.positionCards(), 30);
   }
 
   exit(): void {
@@ -297,6 +320,32 @@ export class RecordDeckPage implements OnInit, OnDestroy {
       }
     }
     return out;
+  }
+
+  /** Lay the cards out as a 3D fanned hand, GSAP-animated between states. */
+  private positionCards(): void {
+    const refs = this.cardRefs?.toArray() ?? [];
+    if (refs.length === 0) return;
+    const active = this.index();
+    const duration = this.firstPosition ? 0 : 0.55;
+    refs.forEach((ref, i) => {
+      const offset = i - active;
+      const abs = Math.abs(offset);
+      const visible = abs <= 4;
+      gsap.to(ref.nativeElement, {
+        rotation: offset * 9,
+        x: offset * 32,
+        y: abs * 8,
+        z: -abs * 60,
+        scale: abs === 0 ? 1 : Math.max(0.78, 1 - abs * 0.08),
+        opacity: visible ? Math.max(0.18, 1 - abs * 0.22) : 0,
+        zIndex: 100 - abs,
+        duration,
+        ease: 'power3.out',
+        overwrite: 'auto',
+      });
+    });
+    this.firstPosition = false;
   }
 
   private storageKey(): string {
