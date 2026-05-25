@@ -1,1 +1,47 @@
 @use '../research-tab';
+
+// ── Ayah preview sheet (opened from cross-ref taps) ──────────────────────────
+.ayah-preview-modal {
+  --background: #0d0c0a;
+  --border-radius: 18px 18px 0 0;
+}
+.ayah-preview-modal ion-content {
+  --background: #0d0c0a;
+  --color: #f5f1e7;
+}
+
+.ayah-preview {
+  display: flex; flex-direction: column; gap: 0.9rem;
+  padding-top: 0.4rem; text-align: center;
+  font-family: var(--km-font-arabic-ui, serif);
+}
+.ayah-preview h3 {
+  margin: 0; font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em;
+  color: rgba(232, 201, 106, 0.78);
+}
+.ayah-preview__text {
+  margin: 0; font-size: 1.45rem; line-height: 2.05; color: #f5f0de;
+  word-break: break-word;
+}
+.ayah-preview__translation {
+  margin: 0; font-size: 0.95rem; line-height: 1.55;
+  color: rgba(245, 241, 231, 0.62);
+}
+.ayah-preview ion-button {
+  margin-top: 0.4rem;
+  --background: linear-gradient(180deg, #e8c96a, #c9a84c);
+  --color: #14110d;
+  --border-radius: 12px;
+  font-weight: 700;
+}
+
+.ayah-preview__close {
+  appearance: none; position: absolute;
+  top: 0.6rem; inset-inline-end: 0.7rem;
+  width: 2rem; height: 2rem; display: grid; place-items: center;
+  border: 1px solid rgba(232, 201, 106, 0.22); border-radius: 50%;
+  background: rgba(232, 201, 106, 0.06);
+  color: rgba(245, 241, 231, 0.75);
+  cursor: pointer; z-index: 2;
+  ion-icon { font-size: 1.1rem; }
+}

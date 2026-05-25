@@ -181,18 +181,28 @@
   (openAyah)="openAyah($event.surah, $event.ayah)"
 />
 
-<!-- Ayah preview modal -->
-<ion-modal [isOpen]="ayahModalOpen()" (didDismiss)="closeAyahModal()" class="ayah-preview-modal">
+<!-- Ayah preview modal — bottom sheet, swipe down or tap × to dismiss -->
+<ion-modal [isOpen]="ayahModalOpen()"
+           (didDismiss)="closeAyahModal()"
+           class="ayah-preview-modal"
+           [breakpoints]="[0, 0.5, 0.92]"
+           [initialBreakpoint]="0.5"
+           [handle]="true"
+           [backdropDismiss]="true">
   <ng-template>
     <ion-content class="ion-padding" dir="rtl">
+      <button type="button" class="ayah-preview__close"
+              (click)="closeAyahModal()" aria-label="إغلاق">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
       @if (ayahModalLoading()) {
         <div class="rp-loading">جارٍ التحميل…</div>
       } @else if (ayahPreview(); as p) {
         <div class="ayah-preview">
-          <h3>{{ p.surah }}:{{ p.ayah }}</h3>
+          <h3>سورة {{ p.surah }} • آية {{ p.ayah }}</h3>
           <p class="ayah-preview__text">{{ p.text_display }}</p>
           @if (p.translation) { <p class="ayah-preview__translation">{{ p.translation }}</p> }
-          <ion-button (click)="goToAyah(p.surah, p.ayah)">انتقل إلى الآية</ion-button>
+          <ion-button expand="block" (click)="goToAyah(p.surah, p.ayah)">انتقل إلى الآية</ion-button>
         </div>
       }
     </ion-content>
