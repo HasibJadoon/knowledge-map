@@ -8,6 +8,7 @@ import {
   QrTafsirDisplaySource,
   QrTafsirGroupDisplayPayload,
   QrTafsirDisplayBlock,
+  QR_SIDE_BLOCK_TYPES,
 } from '../../../../shared/services/quran-research-api.service';
 import { DisplayBlockComponent } from '../../../../shared/components/display-block/display-block.component';
 
@@ -56,6 +57,8 @@ export class TafsirDisplayPageComponent implements OnInit {
     const era    = this.eraFilter();
     const byScholar = new Map<string, QrTafsirDisplayBlock[]>();
     for (const b of p.blocks) {
+      // Side / chip blocks belong in the references modal, not the feed.
+      if (QR_SIDE_BLOCK_TYPES.has(b.block_type)) continue;
       const sid = b.scholar_id ?? 'unknown';
       if (selected.size && !selected.has(sid)) continue;
       if (madhab && b.madhab !== madhab) continue;

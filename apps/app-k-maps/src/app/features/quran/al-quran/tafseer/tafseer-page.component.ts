@@ -9,6 +9,7 @@ import {
   QrTafsirDisplaySource,
   QrTafsirGroupDisplayPayload,
   QrTafsirDisplayBlock,
+  QR_SIDE_BLOCK_TYPES,
 } from '../../../../shared/services/quran-research-api.service';
 import { BackendApiService } from '../../../../shared/services/backend-api.service';
 import { QuranReaderService } from '../../../../shared/services/quran/quran-reader.service';
@@ -103,6 +104,9 @@ export class TafseerPageComponent implements OnInit {
     const era    = this.eraFilter();
     const byScholar = new Map<string, QrTafsirDisplayBlock[]>();
     for (const b of p.blocks) {
+      // Side / chip blocks (quran_ref_chip, isnad, poetry_quote, …) are
+      // surfaced in the references modal instead of cluttering the feed.
+      if (QR_SIDE_BLOCK_TYPES.has(b.block_type)) continue;
       const sid = b.scholar_id ?? 'unknown';
       if (sourceFilter && sid !== sourceFilter) continue;
       if (madhab && b.madhab !== madhab) continue;

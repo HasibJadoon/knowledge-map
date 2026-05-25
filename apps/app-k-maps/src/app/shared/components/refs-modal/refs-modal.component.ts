@@ -1,17 +1,25 @@
 import { ChangeDetectionStrategy, Component, computed, input, output, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule } from '@ionic/angular';
-import type {
-  QrIraabGroupDisplayPayload,
-  QrTafsirGroupDisplayPayload,
+import {
+  QR_SIDE_BLOCK_LABELS,
+  type QrIraabGroupDisplayPayload,
+  type QrTafsirGroupDisplayPayload,
 } from '../../services/quran-research-api.service';
 
 type AnyPayload = QrIraabGroupDisplayPayload | QrTafsirGroupDisplayPayload;
-type Tab = 'quran' | 'scholars' | 'links';
+type Tab = 'quran' | 'scholars' | 'links' | 'others';
 
 interface QuranRefRow { key: string; surah: number; ayah: number; label: string | null; count: number; }
 interface ScholarRefRow { label: string; role: string; count: number; }
 interface LinkRow { kindLabel: string; label: string; count: number; }
+interface OtherRow { id: string; kindLabel: string; preview: string; }
+
+/** Block types surfaced in the "Others" tab — chips / markers, but not the
+ *  quran_ref_chip (already aggregated into the قرآن tab). */
+const OTHERS_BLOCK_TYPES: ReadonlySet<string> = new Set(
+  Object.keys(QR_SIDE_BLOCK_LABELS).filter(t => t !== 'quran_ref_chip'),
+);
 
 /** Arabic labels for scholar-ref roles. */
 const ROLE_LABELS: Record<string, string> = {
@@ -72,6 +80,11 @@ const KIND_LABELS: Record<string, string> = {
               <ion-segment-button value="links">
                 <ion-label>روابط <span class="refs-seg__n">{{ links().length }}</span></ion-label>
               </ion-segment-button>
+              @if (hasOthers()) {
+                <ion-segment-button value="others">
+                  <ion-label>أخرى <span class="refs-seg__n">{{ others().length }}</span></ion-label>
+                </ion-segment-button>
+              }
             </ion-segment>
 
             <div class="refs-body">
@@ -126,6 +139,22 @@ const KIND_LABELS: Record<string, string> = {
                     </ul>
                   } @else {
                     <p class="refs-empty">لا توجد روابط أو إحالات خلفية</p>
+                  }
+                }
+                @case ('others') {
+                  @if (others().length) {
+                    <ul class="refs-list">
+                      @for (o of others(); track o.id) {
+                        <li>
+                          <div class="refs-row refs-row--stack">
+                            <span class="refs-row__kind">{{ o.kindLabel }}</span>
+                            <span class="refs-row__preview">{{ o.preview || '—' }}</span>
+                          </div>
+                        </li>
+                      }
+                    </ul>
+                  } @else {
+                    <p class="refs-empty">لا توجد عناصر إضافية</p>
                   }
                 }
               }
@@ -213,6 +242,16 @@ const KIND_LABELS: Record<string, string> = {
       color: rgba(245,241,231,.45); font-family: system-ui, sans-serif;
     }
     .refs-row__chev { flex: 0 0 auto; font-size: 0.95rem; color: rgba(232,201,106,.5); }
+    .refs-row--stack {
+      flex-direction: column; align-items: stretch; gap: 0.4rem;
+    }
+    .refs-row--stack .refs-row__kind { align-self: flex-start; }
+    .refs-row__preview {
+      font-size: 0.86rem; line-height: 1.55; color: rgba(245,241,231,.78);
+      white-space: normal;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
     .refs-empty {
       text-align: center; color: rgba(245,241,231,.4);
       font-size: 0.88rem; padding: 1.6rem 1rem; font-style: italic;
@@ -286,6 +325,26 @@ export class RefsModalComponent {
   });
 
   readonly hasScholars = computed(() => this.scholarRefs().length > 0);
+
+  /** Side blocks (isnad, voice_marker, poetry_quote, …) for the "أخرى" tab. */
+  readonly others = computed<OtherRow[]>(() => {
+    const p = this.payload();
+    if (!p) return [];
+    const out: OtherRow[] = [];
+    for (const b of p.blocks) {
+      if (!OTHERS_BLOCK_TYPES.has(b.block_type)) continue;
+      const raw = (b.text_ar ?? b.raw_text ?? '').trim();
+      const preview = raw.length > 220 ? raw.slice(0, 220) + '…' : raw;
+      out.push({
+        id: b.id,
+        kindLabel: QR_SIDE_BLOCK_LABELS[b.block_type] ?? b.block_type,
+        preview,
+      });
+    }
+    return out;
+  });
+
+  readonly hasOthers = computed(() => this.others().length > 0);
 
   setTab(t: Tab): void { this.tab.set(t); }
   close(): void { this.dismiss.emit(); }

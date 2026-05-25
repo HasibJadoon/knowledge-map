@@ -110,6 +110,49 @@ export type QrTafsirBlockType =
   | 'verse_anchor' | 'scholar_response' | 'reception_note' | 'paradigm_chip' | 'hadith_source_chip'
   | QrIraabBlockType;
 
+/**
+ * Side / chip / marker block types. They render as empty-looking cards in a
+ * reader feed, so the tafsir reader filters them out of its column feed and
+ * surfaces them in the references modal's "أخرى" tab instead. The iraab /
+ * uloom reader does NOT filter its own feed (it shows every block as-is) —
+ * but its modal still picks these up via hasOthers() if any are in the
+ * payload, so the Others tab appears there too when there's anything to show.
+ */
+export const QR_SIDE_BLOCK_TYPES: ReadonlySet<string> = new Set([
+  // tafsir-side chips
+  'quran_ref_chip', 'paradigm_chip', 'hadith_source_chip',
+  'isnad', 'voice_marker', 'poetry_quote', 'verse_anchor',
+  'scholar_response', 'reception_note',
+  // iraab-side chips — surfaced in the modal only; the iraab feed itself
+  // is not filtered.
+  'source_badge', 'ayah_link', 'word_link', 'root_chip', 'lemma_chip',
+  'backlink', 'related_note',
+  'same_ayah_link', 'same_word_link', 'same_grammar_link',
+  'comparison', 'disagreement', 'footnote', 'tag', 'review_status_badge',
+  'dependency_graph',
+]);
+
+/** Arabic labels for side block types — drives the modal's "Others" tab. */
+export const QR_SIDE_BLOCK_LABELS: Record<string, string> = {
+  quran_ref_chip:     'إحالة قرآنية',
+  paradigm_chip:      'إشارة مذهبية',
+  hadith_source_chip: 'مصدر حديثي',
+  isnad:              'إسناد',
+  voice_marker:       'صوت المؤلف',
+  poetry_quote:       'شاهد شعري',
+  verse_anchor:       'قَولُهُ تَعالى',
+  scholar_response:   'ردّ عالم',
+  reception_note:     'ملاحظة تلقّي',
+  source_badge:       'شارة مصدر',
+  ayah_link:          'إحالة آية',
+  word_link:          'إحالة كلمة',
+  root_chip:          'جذر',
+  lemma_chip:         'لِمّة',
+  comparison:         'مقارنة',
+  disagreement:       'خلاف',
+  footnote:           'حاشية',
+};
+
 export interface QrDisplayQuranRef {
   surah: number | null;
   ayah?: number | null;
