@@ -2307,17 +2307,13 @@ ion-action-sheet.qrs-select-sheet {
 
 ion-action-sheet.qrs-select-sheet::part(backdrop) {
   background: rgba(2, 4, 8, 0.78);
-  backdrop-filter: blur(8px);
 }
 
 ion-action-sheet.qrs-select-sheet .action-sheet-group {
   border: 1px solid rgba(201, 168, 76, 0.32);
   border-radius: 1.35rem;
-  background:
-    radial-gradient(circle at top, rgba(201, 168, 76, 0.12), transparent 52%),
-    linear-gradient(180deg, rgba(14, 12, 8, 0.98), rgba(7, 6, 4, 0.99));
+  background: linear-gradient(180deg, rgba(14, 12, 8, 0.98), rgba(7, 6, 4, 0.99));
   box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
 }
 
 ion-action-sheet.qrs-select-sheet .action-sheet-title {
