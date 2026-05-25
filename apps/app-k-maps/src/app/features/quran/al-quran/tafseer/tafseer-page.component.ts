@@ -229,9 +229,17 @@ export class TafseerPageComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe({
         next: p => { this.payload.set(p); this.payloadLoading.set(false); },
-        error: e => {
+        error: (e: unknown) => {
+          // 404 just means this scholar's data doesn't cover the picked ayah
+          // (e.g. ALUSI skips many surahs) — show a friendly empty state, not
+          // the raw HttpErrorResponse message.
+          const status = (e as { status?: number } | null)?.status;
           this.payload.set(null);
-          this.payloadError.set(e?.message ?? 'لا توجد بيانات للآية المطلوبة');
+          this.payloadError.set(
+            status === 404
+              ? 'لا توجد بيانات تفسير لهذه الآية في هذا المصدر'
+              : 'تعذر تحميل التفسير. حاول مرة أخرى.',
+          );
           this.payloadLoading.set(false);
         },
       });
