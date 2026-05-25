@@ -302,16 +302,6 @@
 .rp-verse-nav__select--surah { width: 100%; }
 .rp-verse-nav__select--ayah  { flex: 1; min-width: 0; }
 
-// Action-sheet for surah/ayah picker (mirrors the shell's gold theme)
-.qrs-select-sheet {
-  --background: #0a0908;
-  --color: #f5f1e7;
-  .action-sheet-title {
-    color: #e8c96a;
-    font-family: var(--km-font-arabic-ui);
-  }
-}
-
 // ── Verse text (Uthmani) ──────────────────────────────────────────────────────
 
 .rp-verse-text {

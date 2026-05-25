@@ -37,7 +37,7 @@
           (ionChange)="setSurah(+$any($event.detail.value))"
         >
           @for (s of surahMenu(); track s.id) {
-            <ion-select-option [value]="s.id">{{ s.id }} · {{ s.name_ar }}</ion-select-option>
+            <ion-select-option [value]="s.id">{{ s.id }}. {{ s.name_ar }}</ion-select-option>
           }
         </ion-select>
 

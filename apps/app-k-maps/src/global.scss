@@ -2295,6 +2295,79 @@ ion-action-sheet .action-sheet-button.km-action-sheet-current {
   color: var(--app-gold-bright, #e8c96a);
 }
 
+// ── QRS surah / ayah picker — gold-on-black, Arabic UI font ──────────────────
+// Component-scoped styles can't reach Ionic's portaled action sheet, so the
+// theme has to live in the global stylesheet alongside the other overlay
+// skins.
+
+ion-action-sheet.qrs-select-sheet {
+  --background: transparent;
+  --backdrop-opacity: 0.62;
+}
+
+ion-action-sheet.qrs-select-sheet::part(backdrop) {
+  background: rgba(2, 4, 8, 0.78);
+  backdrop-filter: blur(8px);
+}
+
+ion-action-sheet.qrs-select-sheet .action-sheet-group {
+  border: 1px solid rgba(201, 168, 76, 0.32);
+  border-radius: 1.35rem;
+  background:
+    radial-gradient(circle at top, rgba(201, 168, 76, 0.12), transparent 52%),
+    linear-gradient(180deg, rgba(14, 12, 8, 0.98), rgba(7, 6, 4, 0.99));
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+
+ion-action-sheet.qrs-select-sheet .action-sheet-title {
+  color: #e8c96a;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  padding: 1rem 1rem 0.85rem;
+}
+
+ion-action-sheet.qrs-select-sheet .action-sheet-button {
+  position: relative;
+  color: #f0e6c8;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  font-size: 1.05rem;
+  font-weight: 500;
+  min-height: 3rem;
+}
+
+ion-action-sheet.qrs-select-sheet .action-sheet-button.sc-ion-action-sheet-md,
+ion-action-sheet.qrs-select-sheet .action-sheet-button.sc-ion-action-sheet-ios {
+  border-top-color: rgba(201, 168, 76, 0.1);
+}
+
+ion-action-sheet.qrs-select-sheet .action-sheet-selected {
+  color: #e8c96a;
+  font-weight: 700;
+  background: linear-gradient(
+    180deg,
+    rgba(201, 168, 76, 0.18),
+    rgba(201, 168, 76, 0.06)
+  );
+}
+
+ion-action-sheet.qrs-select-sheet .action-sheet-selected::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: 3px;
+  background: linear-gradient(180deg, #e8c96a, #c9a84c);
+}
+
+ion-action-sheet.qrs-select-sheet .action-sheet-cancel {
+  color: #e8c96a;
+  font-weight: 700;
+  font-family: var(--km-font-arabic-ui, 'Scheherazade New', serif);
+  border-top: 1px solid rgba(201, 168, 76, 0.22);
+}
+
 @media (max-width: 767px) {
   ion-modal.study-morph-modal .study-morph-profile-grid {
     grid-template-columns: 1fr;

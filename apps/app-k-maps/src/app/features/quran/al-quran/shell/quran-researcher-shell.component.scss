@@ -160,16 +160,6 @@
   ion-input  { text-align: center; }
 }
 
-// Action-sheet for the surah picker — gold-on-black tone to match shell
-.qrs-select-sheet {
-  --background: #0a0908;
-  --color: #f5f1e7;
-  .action-sheet-title {
-    color: #e8c96a;
-    font-family: var(--km-font-arabic-ui);
-  }
-}
-
 .qrs-tabs-shell {
   position: relative;
   inset: auto;
