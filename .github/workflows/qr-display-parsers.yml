@@ -1,0 +1,67 @@
+name: QR Display Parsers
+
+# Keeps the qr_*_book_display_* tables in sync with their source qr_*_entries
+# / qr_*_chunks tables. The display layer is a downstream projection — if the
+# parser doesn't run, the reader 404s on every ayah the parser hasn't touched
+# (this is exactly how the tafsir reader got stuck on ~85% of ayahs).
+#
+# Each run cleans up `review_status='ai_candidate'` blocks for the entries it
+# re-projects, then inserts the fresh versions (and re-builds the FTS5 index
+# for the touched scholars), so re-running is idempotent and safe.
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - "scripts/tafsir-display-parser.mjs"
+      - "scripts/iraab-display-parser.mjs"
+      - "database/migrations/km-quran/*tafsir*display*.sql"
+      - "database/migrations/km-quran/*iraab*display*.sql"
+      - ".github/workflows/qr-display-parsers.yml"
+  schedule:
+    # Weekly, Sundays 06:00 UTC — picks up any source-entry edits that landed
+    # outside of git (manual D1 inserts, ingestion jobs).
+    - cron: "0 6 * * 0"
+
+# Serialize: only one parser run at a time across all triggers, and let an
+# in-flight run finish (mid-run cancellation could leave the display tables
+# half-written).
+concurrency:
+  group: qr-display-parsers
+  cancel-in-progress: false
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  tafsir-parser:
+    name: "tafsir display parser (km_quran)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: npm install -g wrangler
+      - name: Project qr_tafsir_entries → qr_tafsir_book_display_*
+        run: node scripts/tafsir-display-parser.mjs --all-surahs --apply
+        env:
+          CLOUDFLARE_API_TOKEN:  ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+  iraab-parser:
+    name: "iraab display parser (km_quran)"
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - run: npm install -g wrangler
+      - name: Project qr_iraab_chunks → qr_iraab_book_display_*
+        run: node scripts/iraab-display-parser.mjs --all-surahs --apply
+        env:
+          CLOUDFLARE_API_TOKEN:  ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
