@@ -22,7 +22,6 @@ INSERT OR REPLACE INTO wv_comparison_rows (id,comparison_id,entity_type,entity_i
   ('wv-crow-arjana-alterity','wv-cmp-arjana-era-trope','node','node-arjana-trope-alterity','Alterity / permanent foreigner',3),
   ('wv-crow-arjana-race','wv-cmp-arjana-era-trope','node','node-arjana-trope-race','Race / racialization',4),
   ('wv-crow-arjana-sexualization','wv-cmp-arjana-era-trope','node','node-arjana-trope-sexualization','Sexualization',5),
-  ('wv-crow-arjana-sexuality','wv-cmp-arjana-era-trope','node','node-arjana-trope-sexuality','Sexuality',6),
   ('wv-crow-arjana-gender','wv-cmp-arjana-era-trope','node','node-arjana-trope-gender','Gender',7),
   ('wv-crow-arjana-civilization','wv-cmp-arjana-era-trope','node','node-arjana-trope-civilization','Threat to civilization / modernity',8);
 
@@ -52,11 +51,6 @@ INSERT OR REPLACE INTO wv_comparison_cells (id,comparison_id,row_id,axis_id,cell
   ('wv-ccell-sexualization-americas','wv-cmp-arjana-era-trope','wv-crow-arjana-sexualization','wv-cax-arjana-americas','1','intensity-1',json('{"intensity":1}')),
   ('wv-ccell-sexualization-orientalist','wv-cmp-arjana-era-trope','wv-crow-arjana-sexualization','wv-cax-arjana-orientalist','3','intensity-3',json('{"intensity":3}')),
   ('wv-ccell-sexualization-sept11','wv-cmp-arjana-era-trope','wv-crow-arjana-sexualization','wv-cax-arjana-sept11','3','intensity-3',json('{"intensity":3}')),
-  ('wv-ccell-sexuality-medieval','wv-cmp-arjana-era-trope','wv-crow-arjana-sexuality','wv-cax-arjana-medieval','1','intensity-1',json('{"intensity":1}')),
-  ('wv-ccell-sexuality-renaissance','wv-cmp-arjana-era-trope','wv-crow-arjana-sexuality','wv-cax-arjana-renaissance','2','intensity-2',json('{"intensity":2}')),
-  ('wv-ccell-sexuality-americas','wv-cmp-arjana-era-trope','wv-crow-arjana-sexuality','wv-cax-arjana-americas','1','intensity-1',json('{"intensity":1}')),
-  ('wv-ccell-sexuality-orientalist','wv-cmp-arjana-era-trope','wv-crow-arjana-sexuality','wv-cax-arjana-orientalist','3','intensity-3',json('{"intensity":3}')),
-  ('wv-ccell-sexuality-sept11','wv-cmp-arjana-era-trope','wv-crow-arjana-sexuality','wv-cax-arjana-sept11','1','intensity-1',json('{"intensity":1}')),
   ('wv-ccell-gender-medieval','wv-cmp-arjana-era-trope','wv-crow-arjana-gender','wv-cax-arjana-medieval','1','intensity-1',json('{"intensity":1}')),
   ('wv-ccell-gender-renaissance','wv-cmp-arjana-era-trope','wv-crow-arjana-gender','wv-cax-arjana-renaissance','1','intensity-1',json('{"intensity":1}')),
   ('wv-ccell-gender-americas','wv-cmp-arjana-era-trope','wv-crow-arjana-gender','wv-cax-arjana-americas','1','intensity-1',json('{"intensity":1}')),
