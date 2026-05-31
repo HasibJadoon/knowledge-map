@@ -122,6 +122,52 @@ export interface WvReadingSessionPatch {
   summary_md?: string | null;
 }
 
+/**
+ * A per-source-unit visual illustration (`wv_source_unit_illustrations`). Each
+ * illustration is a complete, self-contained HTML document stored verbatim in
+ * `html_content`; a unit can own 1..N of them, ordered by `order_index`.
+ */
+export interface WvIllustration {
+  id: string;
+  source_unit_id: string;
+  source_id: string | null;
+  slug: string | null;
+  order_index: number;
+  title: string | null;
+  caption: string | null;
+  theme: string;               // dark | paper
+  html_content: string;        // full standalone HTML document
+  meta_json: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+/** List rows omit the (potentially large) html_content blob. */
+export type WvIllustrationSummary = Omit<WvIllustration, 'html_content'>;
+
+export interface WvIllustrationCreate {
+  source_unit_id: string;
+  html_content: string;
+  source_id?: string | null;
+  slug?: string | null;
+  order_index?: number | null;
+  title?: string | null;
+  caption?: string | null;
+  theme?: string;
+  meta_json?: string | null;
+}
+
+export interface WvIllustrationPatch {
+  id: string;
+  html_content?: string;
+  slug?: string | null;
+  order_index?: number | null;
+  title?: string | null;
+  caption?: string | null;
+  theme?: string;
+  meta_json?: string | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class WorldviewLibraryApiService {
   private readonly http = inject(HttpClient);
@@ -181,5 +227,60 @@ export class WorldviewLibraryApiService {
     return this.http
       .put<BackendApiResponse<WvReadingSession>>(`${this.base}/worldview/reading-session`, input)
       .pipe(map((res) => (res?.ok ? res.data ?? null : null)));
+  }
+
+  // ── Source-unit illustrations ─────────────────────────────────────────────────
+
+  /** All illustrations attached to a single source unit, in display order. */
+  listUnitIllustrations(unitId: string): Observable<WvIllustrationSummary[]> {
+    return this.http
+      .get<BackendApiResponse<WvIllustrationSummary[]>>(
+        `${this.base}/worldview/units/${unitId}/illustrations`,
+      )
+      .pipe(map((res) => (res?.ok ? res.data ?? [] : [])));
+  }
+
+  /** All illustrations across a whole source. */
+  listSourceIllustrations(sourceId: string): Observable<WvIllustrationSummary[]> {
+    return this.http
+      .get<BackendApiResponse<WvIllustrationSummary[]>>(
+        `${this.base}/worldview/sources/${sourceId}/illustrations`,
+      )
+      .pipe(map((res) => (res?.ok ? res.data ?? [] : [])));
+  }
+
+  /** A single illustration including its full html_content. */
+  getIllustration(id: string): Observable<WvIllustration | null> {
+    return this.http
+      .get<BackendApiResponse<WvIllustration>>(`${this.base}/worldview/illustrations/${id}`)
+      .pipe(map((res) => (res?.ok ? res.data ?? null : null)));
+  }
+
+  /** Absolute URL of the rendered HTML page — use as an <iframe> src. */
+  illustrationPageUrl(id: string): string {
+    return `${this.base}/worldview/illustrations/${id}/page`;
+  }
+
+  /** Create a new illustration on a source unit. */
+  createIllustration(input: WvIllustrationCreate): Observable<WvIllustration | null> {
+    return this.http
+      .post<BackendApiResponse<WvIllustration>>(`${this.base}/worldview/illustration`, input)
+      .pipe(map((res) => (res?.ok ? res.data ?? null : null)));
+  }
+
+  /** Update an existing illustration (body.id required). */
+  updateIllustration(input: WvIllustrationPatch): Observable<WvIllustration | null> {
+    return this.http
+      .put<BackendApiResponse<WvIllustration>>(`${this.base}/worldview/illustration`, input)
+      .pipe(map((res) => (res?.ok ? res.data ?? null : null)));
+  }
+
+  /** Delete an illustration. */
+  deleteIllustration(id: string): Observable<boolean> {
+    return this.http
+      .delete<BackendApiResponse<{ deleted: boolean }>>(
+        `${this.base}/worldview/illustration/${id}`,
+      )
+      .pipe(map((res) => !!res?.ok));
   }
 }

@@ -1911,6 +1911,23 @@ CREATE TABLE wv_source_units (
   FOREIGN KEY (parent_id) REFERENCES wv_source_units(id)
 );
 
+CREATE TABLE wv_source_unit_illustrations (
+  id              TEXT PRIMARY KEY,
+  source_unit_id  TEXT NOT NULL,
+  source_id       TEXT,
+  slug            TEXT,
+  order_index     INTEGER NOT NULL DEFAULT 0,
+  title           TEXT,
+  caption         TEXT,
+  theme           TEXT NOT NULL DEFAULT 'dark',
+  html_content    TEXT NOT NULL,
+  meta_json       TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
+  FOREIGN KEY (source_id)      REFERENCES wv_sources(id)
+);
+
 CREATE TABLE wv_sources (
   id              TEXT PRIMARY KEY,
   slug            TEXT UNIQUE,
@@ -2461,6 +2478,12 @@ CREATE INDEX idx_wv_src_type   ON wv_sources(source_type);
 CREATE INDEX idx_wv_srm_trad ON wv_salvation_redemption_models(tradition_id);
 
 CREATE INDEX idx_wv_su_source ON wv_source_units(source_id);
+
+CREATE INDEX idx_wv_su_illus_unit ON wv_source_unit_illustrations(source_unit_id, order_index);
+
+CREATE INDEX idx_wv_su_illus_source ON wv_source_unit_illustrations(source_id);
+
+CREATE UNIQUE INDEX idx_wv_su_illus_slug ON wv_source_unit_illustrations(slug) WHERE slug IS NOT NULL;
 
 CREATE INDEX idx_wv_tb_trad ON wv_tradition_branches(tradition_id);
 
