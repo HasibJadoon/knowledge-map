@@ -53,6 +53,13 @@ export const WORLDVIEW_ROUTES: Routes = [
           ),
       },
       {
+        path: 'library/:sourceId/map/:unitId',
+        loadComponent: () =>
+          import('./pages/worldview-map/worldview-map.page').then(
+            (m) => m.WorldviewMapPage,
+          ),
+      },
+      {
         path: 'compare',
         loadComponent: () =>
           import('./pages/worldview-compare/worldview-compare.page').then((m) => m.WorldviewComparePage),

@@ -211,6 +211,12 @@ export class WorldviewUnitGraphPage implements OnInit, OnDestroy {
     }
   }
 
+  openMap(): void {
+    if (this.sourceId() && this.unitId()) {
+      void this.router.navigate(['/worldview/library', this.sourceId(), 'map', this.unitId()]);
+    }
+  }
+
   onUnitChange(event: CustomEvent<{ value?: string }>): void {
     const unitId = event.detail?.value ?? '';
     if (!unitId || unitId === this.unitId()) return;
