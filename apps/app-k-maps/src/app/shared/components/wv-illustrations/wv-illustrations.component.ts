@@ -61,6 +61,7 @@ interface Session {
               @for (s of sessions(); track s.id) {
                 <button type="button" class="wvi-session" (click)="openSession(s)">
                   <span class="wvi-session__head">
+                    <svg class="wvi-session__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>
                     <span class="wvi-session__title">{{ s.title }}</span>
                     <span class="wvi-session__count">{{ s.items.length }}</span>
                   </span>
@@ -72,19 +73,19 @@ interface Session {
             <div class="wvi-doc">
               @if (s.summary.length) {
                 <section class="wvi-sec">
-                  <h4 class="wvi-sec__h">Summary</h4>
+                  <h4 class="wvi-sec__h"><svg class="wvi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6"/><path d="M9 13h7M9 17h5"/></svg>Summary</h4>
                   @for (p of s.summary; track $index) { <p class="wvi-sec__p">{{ p }}</p> }
                 </section>
               }
               @if (s.points.length) {
                 <section class="wvi-sec">
-                  <h4 class="wvi-sec__h">Major points</h4>
+                  <h4 class="wvi-sec__h"><svg class="wvi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M9 6h11M9 12h11M9 18h11"/><circle cx="4.5" cy="6" r="1.2" fill="currentColor" stroke="none"/><circle cx="4.5" cy="12" r="1.2" fill="currentColor" stroke="none"/><circle cx="4.5" cy="18" r="1.2" fill="currentColor" stroke="none"/></svg>Major points</h4>
                   <ul class="wvi-points">@for (pt of s.points; track $index) { <li>{{ pt }}</li> }</ul>
                 </section>
               }
               @if (s.fullText.length) {
                 <section class="wvi-sec">
-                  <h4 class="wvi-sec__h">Reading — paraphrased</h4>
+                  <h4 class="wvi-sec__h"><svg class="wvi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 6c-2-1.5-5-1.5-7 0v12c2-1.5 5-1.5 7 0 2-1.5 5-1.5 7 0V6c-2-1.5-5-1.5-7 0z"/><path d="M12 6v12"/></svg>Reading — paraphrased</h4>
                   @for (p of s.fullText; track $index) { <p class="wvi-sec__p">{{ p }}</p> }
                 </section>
               }
@@ -92,6 +93,7 @@ interface Session {
               @if (s.items.length) {
                 <section class="wvi-sec">
                   <h4 class="wvi-sec__h">
+                    <svg class="wvi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="8.5" cy="10" r="1.5" fill="currentColor" stroke="none"/><path d="M4 17l5-5 3 3 4-4 4 4"/></svg>
                     Illustrations
                     @if (s.items.length > 1) { <span class="wvi-sec__count">{{ current() + 1 }} / {{ s.items.length }}</span> }
                   </h4>
@@ -146,7 +148,9 @@ interface Session {
 
     .wvi-list { flex: 1 1 auto; overflow-y: auto; padding: .7rem; }
     .wvi-session { display: block; width: 100%; text-align: left; cursor: pointer; margin: 0 0 .55rem; padding: .85rem .9rem; background: #141414; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; }
-    .wvi-session__head { display: flex; align-items: center; gap: .6rem; }
+    .wvi-session__head { display: flex; align-items: center; gap: .55rem; }
+    .wvi-session__ic { width: 17px; height: 17px; flex: 0 0 auto; color: #c9a84c; }
+    .wvi-ic { width: 14px; height: 14px; flex: 0 0 auto; }
     .wvi-session__title { flex: 1 1 auto; min-width: 0; font-size: 14px; font-weight: 600; color: rgba(255,255,255,.92); }
     .wvi-session__count { flex: 0 0 auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; font-size: 11px; font-weight: 700; line-height: 20px; text-align: center; color: #080808; background: #c9a84c; }
     .wvi-session__summary { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: .35rem; font-size: 12.5px; color: rgba(255,255,255,.55); line-height: 1.45; }
@@ -237,9 +241,7 @@ export class WvIllustrationsComponent implements OnDestroy {
     try { rsList = await firstValueFrom(this.api.listSessions(sourceId)); } catch { rsList = []; }
     if (mine !== this.token) return;
 
-    const forChapter = rsList
-      .filter((rs) => rs.source_unit_id === chapterId)
-      .sort((a, b) => (a.started_at ?? '').localeCompare(b.started_at ?? ''));
+    const forChapter = rsList.filter((rs) => rs.source_unit_id === chapterId);
 
     const built = await Promise.all(forChapter.map(async (rs) => {
       let items: WvIllustrationSummary[] = [];
@@ -248,7 +250,10 @@ export class WvIllustrationsComponent implements OnDestroy {
     }));
     if (mine !== this.token) return;
 
-    this.sessions.set(built.filter((x) => x.items.length).map((x) => this.buildSession(x.rs, x.items)));
+    // Order sessions by their first illustration so reading order follows the concept sequence.
+    const sessions = built.filter((x) => x.items.length).map((x) => this.buildSession(x.rs, x.items));
+    sessions.sort((a, b) => (a.items[0]?.order_index ?? 0) - (b.items[0]?.order_index ?? 0));
+    this.sessions.set(sessions);
   }
 
   private buildSession(rs: WvReadingSession, items: WvIllustrationSummary[]): Session {
