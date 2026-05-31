@@ -14,6 +14,7 @@ import type { WorldviewEnv } from './env';
 import { traditionRoutes }  from './routes/traditions';
 import { nodeRoutes }        from './routes/nodes';
 import { sourceRoutes }      from './routes/sources';
+import { readingSessionRoutes } from './routes/reading-sessions';
 import { thinkerRoutes }     from './routes/thinkers';
 import { brainstormRoutes }  from './routes/brainstorms';
 import { comparisonRoutes }  from './routes/comparisons';
@@ -45,6 +46,15 @@ sourceRoutes(router);
 // GET    /worldview/units/:id/annotations highlights for unit
 // GET    /worldview/source-content        chunks (?source_id=&source_unit_id=)
 // GET    /worldview/workflow              composite source list for UI
+
+// ── Reading sessions ─────────────────────────────────────────────────────────
+readingSessionRoutes(router);
+// GET    /worldview/reading-sessions          list (?source_id=&user=&status=)
+// GET    /worldview/reading-sessions/active    active session for a source
+// GET    /worldview/reading-sessions/:id       detail
+// POST   /worldview/reading-session            create (body.source_id)
+// PUT    /worldview/reading-session            update (body.id)
+// DELETE /worldview/reading-session/:id        delete
 
 // ── Distillation workflow ────────────────────────────────────────────────────
 distillRoutes(router);

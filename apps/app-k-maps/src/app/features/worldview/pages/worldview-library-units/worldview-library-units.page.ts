@@ -5,7 +5,11 @@ import { IonicModule } from '@ionic/angular';
 import gsap from 'gsap';
 import { firstValueFrom } from 'rxjs';
 
-import { WorldviewLibraryApiService } from '../../../../shared/services/worldview/worldview-library-api.service';
+import {
+  WorldviewLibraryApiService,
+  WvReadingSession,
+  WvReadingSessionPatch,
+} from '../../../../shared/services/worldview/worldview-library-api.service';
 
 interface WvSource {
   id: string;
@@ -72,10 +76,26 @@ export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
   readonly loading = signal(true);
   readonly skeletons = [1, 2, 3, 4];
 
+  // Reading session state
+  readonly session = signal<WvReadingSession | null>(null);
+  readonly sessionBusy = signal(false);
+
   readonly rootUnits = computed(() => buildUnitTree(this.units()));
   readonly chapterCount = computed(() => this.rootUnits().length);
   readonly unitsById = computed(() => new Map(this.units().map((unit) => [unit.id, unit] as const)));
   readonly tocItems = computed(() => flattenUnits(this.rootUnits()));
+
+  /** The unit the active session is currently parked on, if any. */
+  readonly sessionUnit = computed(() => {
+    const unitId = this.session()?.source_unit_id;
+    return unitId ? this.unitsById().get(unitId) ?? null : null;
+  });
+
+  /** True when there is a resumable (active or paused) session. */
+  readonly hasOpenSession = computed(() => {
+    const status = this.session()?.status;
+    return status === 'active' || status === 'paused';
+  });
 
   ngOnInit(): void {
     const sourceId = this.route.snapshot.paramMap.get('id') ?? '';
@@ -119,6 +139,7 @@ export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
         const { units, ...source } = detail;
         this.source.set(this.normalizeSource(source));
         this.units.set((units ?? []).map((unit) => this.normalizeUnit(unit)));
+        await this.loadSession(id);
       }
     } catch {
       // ignore — the empty state covers a failed load
@@ -131,7 +152,115 @@ export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
   }
 
   selectUnit(unitId: string): void {
+    // Park the active session on the chapter being opened (fire-and-forget).
+    void this.parkSessionOn(unitId);
     void this.router.navigate(['/worldview', 'library', this.sourceId(), 'read', unitId]);
+  }
+
+  // ── Reading session ──────────────────────────────────────────────────────────
+
+  private async loadSession(sourceId: string): Promise<void> {
+    try {
+      this.session.set(await firstValueFrom(this.libraryApi.getActiveSession(sourceId)));
+    } catch {
+      this.session.set(null);
+    }
+  }
+
+  /** The first chapter (used as the default start position). */
+  private firstUnit(): WvUnit | null {
+    return this.tocItems()[0]?.unit ?? null;
+  }
+
+  /** Start a fresh reading session anchored to the first chapter. */
+  async startSession(): Promise<void> {
+    const src = this.source();
+    if (!src || this.sessionBusy()) return;
+    this.sessionBusy.set(true);
+    try {
+      const start = this.firstUnit();
+      const created = await firstValueFrom(
+        this.libraryApi.createSession({
+          source_id: src.id,
+          source_unit_id: start?.id ?? null,
+          title: `Reading: ${src.title}`,
+          focus_mode: 'deep_read',
+          last_position: start ? this.unitRef(start) || null : null,
+        }),
+      );
+      if (created) this.session.set(created);
+    } catch {
+      // leave UI as-is on failure
+    } finally {
+      this.sessionBusy.set(false);
+    }
+  }
+
+  /** Open the chapter the session is parked on (or the first chapter). */
+  resumeSession(): void {
+    const unitId = this.session()?.source_unit_id ?? this.firstUnit()?.id;
+    if (unitId) this.selectUnit(unitId);
+  }
+
+  async pauseSession(): Promise<void> {
+    await this.patchSession({ status: 'paused' });
+  }
+
+  async completeSession(): Promise<void> {
+    await this.patchSession({ status: 'completed', ended_at: new Date().toISOString() });
+  }
+
+  private async patchSession(fields: Omit<WvReadingSessionPatch, 'id'>): Promise<void> {
+    const current = this.session();
+    if (!current || this.sessionBusy()) return;
+    this.sessionBusy.set(true);
+    try {
+      const updated = await firstValueFrom(
+        this.libraryApi.updateSession({ id: current.id, ...fields }),
+      );
+      if (updated) this.session.set(updated);
+    } catch {
+      // ignore
+    } finally {
+      this.sessionBusy.set(false);
+    }
+  }
+
+  /** Move an open session's position to a chapter without blocking navigation. */
+  private async parkSessionOn(unitId: string): Promise<void> {
+    const current = this.session();
+    if (!current || !this.hasOpenSession()) return;
+    if (current.source_unit_id === unitId) return;
+    const unit = this.unitsById().get(unitId);
+    try {
+      const updated = await firstValueFrom(
+        this.libraryApi.updateSession({
+          id: current.id,
+          source_unit_id: unitId,
+          last_position: unit ? this.unitRef(unit) || null : null,
+          status: 'active',
+        }),
+      );
+      if (updated) this.session.set(updated);
+    } catch {
+      // ignore — navigation already proceeded
+    }
+  }
+
+  sessionStatusLabel(): string {
+    switch (this.session()?.status) {
+      case 'active':    return 'In progress';
+      case 'paused':    return 'Paused';
+      case 'completed': return 'Completed';
+      default:          return '';
+    }
+  }
+
+  sessionChapterLabel(): string {
+    const unit = this.sessionUnit();
+    if (unit) return this.unitTitle(unit);
+    const pos = this.session()?.last_position;
+    return pos ? `Position ${pos}` : 'Not started';
   }
 
 

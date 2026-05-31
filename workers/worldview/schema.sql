@@ -870,9 +870,10 @@ CREATE TABLE wv_highlights (
   color           TEXT,
   moral_axis_id   TEXT,
   topic_id        TEXT,
-  core_user_ref   TEXT NOT NULL,                  
-  core_ws_ref     TEXT,                           
+  core_user_ref   TEXT NOT NULL,
+  core_ws_ref     TEXT,
   created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  reading_session_id TEXT REFERENCES wv_reading_sessions(id),
   FOREIGN KEY (source_id)      REFERENCES wv_sources(id),
   FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
   FOREIGN KEY (moral_axis_id)  REFERENCES wv_moral_axes(id),
@@ -1936,6 +1937,28 @@ CREATE TABLE wv_sources (
 
 CREATE VIRTUAL TABLE wv_sources_fts USING fts5(
   title, title_ar, description_md, content='wv_sources', content_rowid='rowid'
+);
+
+CREATE TABLE wv_reading_sessions (
+  id              TEXT PRIMARY KEY,
+  source_id       TEXT NOT NULL,
+  source_unit_id  TEXT,
+  title           TEXT,
+  session_type    TEXT NOT NULL DEFAULT 'reading',
+  status          TEXT NOT NULL DEFAULT 'active',
+  focus_mode      TEXT,
+  started_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  ended_at        TEXT,
+  last_position   TEXT,
+  duration_secs   INTEGER,
+  summary_md      TEXT,
+  core_user_ref   TEXT NOT NULL,
+  core_ws_ref     TEXT,
+  meta_json       TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (source_id)      REFERENCES wv_sources(id),
+  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id)
 );
 
 CREATE TABLE wv_spiritual_agents (
