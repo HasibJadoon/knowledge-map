@@ -17,7 +17,15 @@ import { WvGraphSidepanelComponent } from '../wv-graph-sidepanel/wv-graph-sidepa
 import { WvGraphBottomsheetComponent } from '../wv-graph-bottomsheet/wv-graph-bottomsheet.component';
 import {
   WvGraphData, WvGraphEdge, WvGraphNode, WvGraphMode, WvNodeType, WvEdgeRelation, MOCK_WV_GRAPH,
+  ClusterColor, clusterColor,
 } from '../wv-graph.model';
+
+export interface WvClusterInfo {
+  slug: string;
+  title: string;
+  count: number;
+  color: ClusterColor;
+}
 
 // ── API shape types ────────────────────────────────────────────────────────────
 interface WvGraphApiNode {
@@ -60,6 +68,9 @@ const NODE_TYPE_MAP: Record<string, WvNodeType> = {
   claim: 'claim', principle: 'principle', framework: 'framework',
   cause: 'cause', evidence: 'evidence', insight: 'insight',
   observation: 'insight', distillation: 'principle', note: 'insight',
+  // Worldview genealogy node types (Arjana corpus and similar)
+  thesis: 'claim', method: 'framework', concept: 'principle',
+  era: 'framework', trope: 'cause', monster_figure: 'evidence', motif: 'insight',
 };
 
 const EDGE_RELATION_MAP: Record<string, WvEdgeRelation> = {
@@ -115,6 +126,8 @@ export class WvGraphShellComponent implements OnInit, OnChanges {
   readonly selectedNode   = signal<WvGraphNode | null>(null);
   readonly mode           = signal<WvGraphMode>('force');
   readonly activeTypes    = signal<Set<WvNodeType> | null>(null);
+  readonly activeClusters = signal<Set<string> | null>(null);
+  private clusterModeApplied = false;
   readonly showLabels     = signal(true);
   readonly useShortLabels = signal(false);
   readonly isMobile       = signal(false);
@@ -131,15 +144,20 @@ export class WvGraphShellComponent implements OnInit, OnChanges {
 
     if (!apiNodes.length) return this.graphData ?? MOCK_WV_GRAPH;
 
-    const nodes = apiNodes.map((n): WvGraphNode => ({
-      id: n.id,
-      type: (NODE_TYPE_MAP[n.node_type] ?? 'insight') as WvNodeType,
-      label: resolveNodeLabel(n, useShortLabels),
-      canonicalLabel: n.title,
-      displayLabelShort: n.display_label_short ?? null,
-      displayLabelMedium: n.display_label_medium ?? null,
-      summary: n.text_plain || n.summary || '',
-    }));
+    const nodes = apiNodes.map((n): WvGraphNode => {
+      const data = parseJsonObject(n.data_json);
+      return {
+        id: n.id,
+        type: (NODE_TYPE_MAP[n.node_type] ?? 'insight') as WvNodeType,
+        label: resolveNodeLabel(n, useShortLabels),
+        canonicalLabel: n.title,
+        displayLabelShort: n.display_label_short ?? null,
+        displayLabelMedium: n.display_label_medium ?? null,
+        cluster: typeof data?.['cluster'] === 'string' ? (data['cluster'] as string) : null,
+        clusterTitle: typeof data?.['cluster_title'] === 'string' ? (data['cluster_title'] as string) : null,
+        summary: n.text_plain || n.summary || '',
+      };
+    });
 
     const nodeIds = new Set(nodes.map((n) => n.id));
     const edges = apiEdges
@@ -155,9 +173,57 @@ export class WvGraphShellComponent implements OnInit, OnChanges {
     return { nodes, edges };
   });
 
+  /** Distinct clusters present in the graph, in first-seen order, with colors. */
+  readonly clusters = computed((): WvClusterInfo[] => {
+    const order: string[] = [];
+    const titles = new Map<string, string>();
+    const counts = new Map<string, number>();
+    for (const node of this.graph().nodes) {
+      const slug = node.cluster;
+      if (!slug) continue;
+      if (!counts.has(slug)) { order.push(slug); titles.set(slug, node.clusterTitle || slug); }
+      counts.set(slug, (counts.get(slug) ?? 0) + 1);
+    }
+    return order.map((slug, index) => ({
+      slug,
+      title: titles.get(slug) ?? slug,
+      count: counts.get(slug) ?? 0,
+      color: clusterColor(slug, index),
+    }));
+  });
+
+  readonly hasClusters = computed(() => this.clusters().length > 0);
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['nodes']) this.apiNodes.set(this.nodes ?? []);
     if (changes['edges']) this.apiEdges.set(this.edges ?? []);
+
+    if ((changes['nodes'] || changes['edges']) && !this.clusterModeApplied && this.hasClusters()) {
+      this.clusterModeApplied = true;
+      this.mode.set('cluster');
+    }
+  }
+
+  clusterActive(slug: string): boolean {
+    return !this.activeClusters() || this.activeClusters()!.has(slug);
+  }
+
+  toggleCluster(slug: string): void {
+    const all = this.clusters().map((c) => c.slug);
+    const current = this.activeClusters();
+    if (!current) {
+      this.activeClusters.set(new Set(all.filter((s) => s !== slug)));
+      return;
+    }
+    const next = new Set(current);
+    if (next.has(slug)) {
+      next.delete(slug);
+      if (next.size === 0) { this.activeClusters.set(null); return; }
+    } else {
+      next.add(slug);
+      if (next.size === all.length) { this.activeClusters.set(null); return; }
+    }
+    this.activeClusters.set(next);
   }
 
   // ── Drag resize state ───────────────────────────────────────────────────────
@@ -247,6 +313,20 @@ export class WvGraphShellComponent implements OnInit, OnChanges {
 
   @HostListener('window:mouseup')
   onMouseUp(): void { this.dragging = false; }
+}
+
+function parseJsonObject(value: unknown): Record<string, unknown> | null {
+  if (!value) return null;
+  if (typeof value === 'object' && !Array.isArray(value)) return value as Record<string, unknown>;
+  if (typeof value !== 'string') return null;
+  try {
+    const parsed = JSON.parse(value) as unknown;
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      ? (parsed as Record<string, unknown>)
+      : null;
+  } catch {
+    return null;
+  }
 }
 
 function resolveNodeLabel(node: WvGraphApiNode, useShortLabels: boolean): string {
