@@ -1,0 +1,69 @@
+<ion-header class="mx-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="graphHref()" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="mx-header__title">Era × Trope</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" [routerLink]="graphHref()" aria-label="Graph view">
+        <ion-icon name="git-network-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="mx-content">
+
+  @if (loading()) {
+    <div class="mx-skeleton">
+      @for (s of [1,2,3,4,5,6]; track s) { <div class="mx-skeleton__row"></div> }
+    </div>
+  }
+
+  @else if (!hasData()) {
+    <div class="mx-empty">
+      <span class="mx-empty__glyph">▦</span>
+      <p class="mx-empty__text">No matrix data for this section yet.</p>
+    </div>
+  }
+
+  @else {
+    <div class="mx-page">
+      <header class="mx-intro">
+        <p class="mx-intro__eyebrow">Cross-section</p>
+        <h1 class="mx-intro__title">Which anxiety dominates which era</h1>
+        <p class="mx-intro__sub">
+          Intensity of each trope across the five eras (0–3). Rows are ordered by overall weight —
+          religion and dehumanization run hottest across the whole genealogy.
+        </p>
+      </header>
+
+      <div class="mx-grid-wrap">
+        <div class="mx-grid" [style.grid-template-columns]="gridCols()">
+          <!-- Header row -->
+          <div class="mx-cell mx-cell--corner"></div>
+          @for (era of eras(); track era.slug) {
+            <div class="mx-cell mx-col-head" [title]="era.title">{{ era.short }}</div>
+          }
+
+          <!-- Data rows -->
+          @for (row of rows(); track row.id) {
+            <div class="mx-cell mx-row-head" [title]="row.title">{{ row.title }}</div>
+            @for (cell of row.cells; track cell.eraSlug) {
+              <div class="mx-cell mx-data" [style.background]="cellBg(cell.value)"
+                   [class.mx-data--peak]="cell.value === 3">{{ cellLabel(cell.value) }}</div>
+            }
+          }
+        </div>
+      </div>
+
+      <div class="mx-legend">
+        <span class="mx-legend__label">Intensity</span>
+        @for (lvl of levels; track lvl) {
+          <span class="mx-legend__swatch" [style.background]="levelBg(lvl)">{{ lvl }}</span>
+        }
+      </div>
+    </div>
+  }
+
+</ion-content>

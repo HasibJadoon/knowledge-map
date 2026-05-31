@@ -39,6 +39,27 @@ export const WORLDVIEW_ROUTES: Routes = [
           ),
       },
       {
+        path: 'library/:sourceId/timeline/:unitId',
+        loadComponent: () =>
+          import('./pages/worldview-timeline/worldview-timeline.page').then(
+            (m) => m.WorldviewTimelinePage,
+          ),
+      },
+      {
+        path: 'library/:sourceId/matrix/:unitId',
+        loadComponent: () =>
+          import('./pages/worldview-matrix/worldview-matrix.page').then(
+            (m) => m.WorldviewMatrixPage,
+          ),
+      },
+      {
+        path: 'library/:sourceId/map/:unitId',
+        loadComponent: () =>
+          import('./pages/worldview-map/worldview-map.page').then(
+            (m) => m.WorldviewMapPage,
+          ),
+      },
+      {
         path: 'compare',
         loadComponent: () =>
           import('./pages/worldview-compare/worldview-compare.page').then((m) => m.WorldviewComparePage),

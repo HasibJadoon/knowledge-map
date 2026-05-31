@@ -1,0 +1,90 @@
+<ion-header class="mp-header" translucent="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button [defaultHref]="graphHref()" text=""></ion-back-button>
+    </ion-buttons>
+    <ion-title class="mp-header__title">Migration map</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" [routerLink]="graphHref()" aria-label="Graph view">
+        <ion-icon name="git-network-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="mp-content">
+  <div class="mp-page">
+
+    <header class="mp-intro">
+      <p class="mp-intro__eyebrow">Implicit geography</p>
+      <h1 class="mp-intro__title">The monster travels west</h1>
+      <p class="mp-intro__sub">
+        The trope radiates from a medieval Christian center outward — to the Ottoman East, the
+        Americas, and the Barbary Coast. Monstrosity rises with distance from the center.
+      </p>
+    </header>
+
+    <div class="mp-map-wrap">
+      <svg class="mp-map" [attr.viewBox]="'0 0 ' + vbW + ' ' + vbH" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Westward migration map">
+        <defs>
+          <marker id="mp-arrow" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto">
+            <path d="M0,0 L0,6 L8,3 z" fill="rgba(196,90,58,0.85)" />
+          </marker>
+          <radialGradient id="mp-center-glow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="rgba(201,168,76,0.55)" />
+            <stop offset="100%" stop-color="rgba(201,168,76,0)" />
+          </radialGradient>
+        </defs>
+
+        <!-- Graticule -->
+        @for (g of gridLines(); track $index) {
+          <line [attr.x1]="g.x1" [attr.y1]="g.y1" [attr.x2]="g.x2" [attr.y2]="g.y2" class="mp-grid" />
+        }
+
+        <!-- Distance rings from the Christian center -->
+        @for (r of rings(); track $index) {
+          <circle [attr.cx]="center().x" [attr.cy]="center().y" [attr.r]="r" class="mp-ring" />
+        }
+
+        <!-- Migration arcs -->
+        @for (a of labelledArcs(); track $index) {
+          <path [attr.d]="a.d" class="mp-arc" marker-end="url(#mp-arrow)" />
+          @if (a.year) {
+            <text [attr.x]="a.midX" [attr.y]="a.midY" text-anchor="middle" class="mp-arc__year">{{ a.year }}</text>
+          }
+        }
+
+        <!-- Place markers -->
+        @for (p of points(); track p.id) {
+          @if (p.kind === 'center') {
+            <circle [attr.cx]="p.x" [attr.cy]="p.y" r="34" fill="url(#mp-center-glow)" />
+          }
+          <circle [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r" [attr.fill]="p.color"
+                  [class.mp-node--center]="p.kind === 'center'" class="mp-node" />
+          <text [attr.x]="p.x" [attr.y]="p.y - p.r - 8" text-anchor="middle" class="mp-node__label">{{ p.label }}</text>
+          <text [attr.x]="p.x" [attr.y]="p.y - p.r - 8 + 15" text-anchor="middle" class="mp-node__sub">{{ p.sub }}</text>
+        }
+      </svg>
+    </div>
+
+    <!-- Ordered stops -->
+    <ol class="mp-stops">
+      <li class="mp-stop mp-stop--center">
+        <span class="mp-stop__dot" style="--c:#c9a84c"></span>
+        <span class="mp-stop__body"><strong>{{ center().label }}</strong> — {{ center().sub }}</span>
+      </li>
+      @for (s of stops(); track s.id) {
+        <li class="mp-stop">
+          <span class="mp-stop__dot" [style.--c]="s.color"></span>
+          <span class="mp-stop__body">
+            <strong>{{ s.label }}</strong> — {{ s.sub }}
+            <span class="mp-stop__intensity">intensity {{ s.intensity }}/3</span>
+          </span>
+        </li>
+      }
+    </ol>
+
+    <p class="mp-note">Schematic cartography — waypoints curated for this work; can later bind to <code>wv_locations</code>.</p>
+
+  </div>
+</ion-content>

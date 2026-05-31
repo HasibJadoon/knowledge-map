@@ -29,11 +29,31 @@
         [selectedId]="selectedNode()?.id ?? null"
         [mode]="mode()"
         [activeTypes]="activeTypes()"
+        [activeClusters]="activeClusters()"
         [showLabels]="showLabels()"
         (nodeClick)="onNodeClick($event)"
         (bgClick)="onBgClick()"
         (nodeDblClick)="centerSelected()"
       />
+
+      <!-- Cluster legend (constellation territories) -->
+      @if (hasClusters()) {
+        <div class="wv-shell__legend" role="group" aria-label="Clusters">
+          @for (c of clusters(); track c.slug) {
+            <button
+              type="button"
+              class="wv-legend-chip"
+              [class.wv-legend-chip--off]="!clusterActive(c.slug)"
+              [style.--chip]="c.color.stroke"
+              (click)="toggleCluster(c.slug)"
+            >
+              <span class="wv-legend-chip__dot"></span>
+              <span class="wv-legend-chip__label">{{ c.title }}</span>
+              <span class="wv-legend-chip__count">{{ c.count }}</span>
+            </button>
+          }
+        </div>
+      }
     </div>
 
     <!-- Desktop side panel with draggable resize handle -->

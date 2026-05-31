@@ -45,3 +45,18 @@
   transition: opacity 0.22s ease;
   user-select: none;
 }
+
+// Cluster territory hulls
+:global(.wv-hull) {
+  transition: opacity 0.4s ease;
+}
+
+:global(.wv-hull-label) {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: opacity 0.4s ease;
+  paint-order: stroke;
+  stroke: rgba(7, 8, 11, 0.7);
+  stroke-width: 3px;
+}

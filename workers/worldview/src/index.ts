@@ -15,6 +15,8 @@ import { traditionRoutes }  from './routes/traditions';
 import { nodeRoutes }        from './routes/nodes';
 import { sourceRoutes }      from './routes/sources';
 import { readingSessionRoutes } from './routes/reading-sessions';
+import { timelineRoutes }    from './routes/timeline';
+import { questionRoutes }    from './routes/questions';
 import { thinkerRoutes }     from './routes/thinkers';
 import { brainstormRoutes }  from './routes/brainstorms';
 import { comparisonRoutes }  from './routes/comparisons';
@@ -55,6 +57,13 @@ readingSessionRoutes(router);
 // POST   /worldview/reading-session            create (body.source_id)
 // PUT    /worldview/reading-session            update (body.id)
 // DELETE /worldview/reading-session/:id        delete
+
+// ── Timeline + questions/topics (canonical viz backing) ──────────────────────
+timelineRoutes(router);
+// GET /worldview/timeline?source_id=|unit_id=   era ranges + dated incidents
+questionRoutes(router);
+// GET /worldview/questions?source_id=|unit_id=  open questions
+// GET /worldview/topics                          topic taxonomy
 
 // ── Distillation workflow ────────────────────────────────────────────────────
 distillRoutes(router);
