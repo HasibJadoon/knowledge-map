@@ -15,7 +15,9 @@ UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"m
 UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"medieval":2,"renaissance":2,"americas":3,"orientalist":2,"sept11":3}')), updated_at = datetime('now') WHERE id = 'node-arjana-trope-dehumanization';
 UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"medieval":2,"renaissance":2,"americas":2,"orientalist":3,"sept11":3}')), updated_at = datetime('now') WHERE id = 'node-arjana-trope-alterity';
 UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"medieval":1,"renaissance":1,"americas":3,"orientalist":3,"sept11":2}')), updated_at = datetime('now') WHERE id = 'node-arjana-trope-race';
-UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"medieval":1,"renaissance":2,"americas":1,"orientalist":3,"sept11":1}')), updated_at = datetime('now') WHERE id = 'node-arjana-trope-sexualization';
+-- Medieval ("lustful Mahomet" polemic) and 9/11+ (Abu Ghraib) are this trope's own
+-- documented anchors per its node summary; scored 2 and 3 rather than 1.
+UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"medieval":2,"renaissance":2,"americas":1,"orientalist":3,"sept11":3}')), updated_at = datetime('now') WHERE id = 'node-arjana-trope-sexualization';
 UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"medieval":1,"renaissance":2,"americas":1,"orientalist":3,"sept11":1}')), updated_at = datetime('now') WHERE id = 'node-arjana-trope-sexuality';
 UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"medieval":1,"renaissance":1,"americas":1,"orientalist":2,"sept11":3}')), updated_at = datetime('now') WHERE id = 'node-arjana-trope-gender';
 UPDATE wv_nodes SET data_json = json_set(data_json, '$.era_intensity', json('{"medieval":1,"renaissance":2,"americas":2,"orientalist":2,"sept11":3}')), updated_at = datetime('now') WHERE id = 'node-arjana-trope-civilization';
