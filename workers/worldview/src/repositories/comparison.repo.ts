@@ -112,9 +112,29 @@ const CELL_COLS = `id, comparison_id, row_id, axis_id, cell_text, stance, eviden
 export class ComparisonRepo {
   constructor(private db: D1Database) {}
 
-  list(opts: { comparison_type?: string | null } & PaginateOptions = {}) {
-    const where  = opts.comparison_type ? 'WHERE comparison_type = ?' : '';
-    const params = opts.comparison_type ? [opts.comparison_type] : [];
+  // ── List (filterable by comparison_type, and by unit_id / source_id via meta_json) ──
+  // unit_id / source_id match the typed reference stamped into meta_json when the
+  // comparison is scoped to a single source unit (chapter) or whole source.
+  list(opts: {
+    comparison_type?: string | null;
+    unit_id?: string | null;
+    source_id?: string | null;
+  } & PaginateOptions = {}) {
+    const conds: string[]  = [];
+    const params: unknown[] = [];
+    if (opts.comparison_type) {
+      conds.push('comparison_type = ?');
+      params.push(opts.comparison_type);
+    }
+    if (opts.unit_id) {
+      conds.push("json_extract(meta_json, '$.source_unit_id') = ?");
+      params.push(opts.unit_id);
+    }
+    if (opts.source_id) {
+      conds.push("json_extract(meta_json, '$.source_id') = ?");
+      params.push(opts.source_id);
+    }
+    const where = conds.length ? `WHERE ${conds.join(' AND ')}` : '';
     return paginate<WvComparison>(
       this.db,
       `SELECT ${CMP_COLS} FROM wv_comparisons ${where} ORDER BY updated_at DESC`,

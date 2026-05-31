@@ -21,12 +21,14 @@ export function comparisonRoutes(router: Router<WorldviewEnv>) {
 
   // ── List ──────────────────────────────────────────────────────────────────
 
-  // GET /wv/comparisons?comparison_type=tradition&limit=20
+  // GET /wv/comparisons?comparison_type=matrix&unit_id=sru-arjana-mwi-ch2&limit=20
   router.get('/wv/comparisons', async (req, env) => {
     const url = new URL(req.url);
     return paginated(
       await new ComparisonRepo(env.DB_WV).list({
         comparison_type: url.searchParams.get('comparison_type'),
+        unit_id:         url.searchParams.get('unit_id')   ?? undefined,
+        source_id:       url.searchParams.get('source_id') ?? undefined,
         ...parsePagination(url),
       }),
     );
