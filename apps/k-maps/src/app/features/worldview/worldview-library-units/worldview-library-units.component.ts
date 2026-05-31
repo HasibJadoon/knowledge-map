@@ -24,6 +24,7 @@ import {
   WvReadingSessionPatch,
 } from '../../../shared/services/worldview/worldview-library-api.service';
 import { WvGraphShellComponent } from '../wv-graph/wv-graph-shell/wv-graph-shell.component';
+import { WvIllustrationsComponent } from '../../../shared/components/wv-illustrations/wv-illustrations.component';
 
 interface WvSource {
   id: string;
@@ -211,7 +212,7 @@ const KIND_ICON: Record<string, string> = {
   selector: 'km-worldview-library-units',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, StatusPillComponent, WvGraphShellComponent],
+  imports: [CommonModule, StatusPillComponent, WvGraphShellComponent, WvIllustrationsComponent],
   templateUrl: './worldview-library-units.component.html',
   styleUrl: './worldview-library-units.component.scss',
 })

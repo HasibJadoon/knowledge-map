@@ -163,6 +163,9 @@
           </div>
         }
 
+        <!-- Visual illustrations -->
+        <app-wv-illustrations [unitId]="unitId()"></app-wv-illustrations>
+
         <!-- Sub-sections -->
         @if (children().length > 0) {
           <section class="sub-sections" #subEl>

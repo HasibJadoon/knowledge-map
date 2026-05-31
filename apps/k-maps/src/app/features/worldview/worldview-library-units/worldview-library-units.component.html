@@ -348,6 +348,8 @@
                 {{ unitTypeLabel(selectedUnit()?.unit_type).toLowerCase() }} yet.
               </div>
             }
+
+            <km-wv-illustrations [unitId]="selectedUnit()?.id ?? null"></km-wv-illustrations>
           </section>
 
           @if (!workspaceHidden()) {
