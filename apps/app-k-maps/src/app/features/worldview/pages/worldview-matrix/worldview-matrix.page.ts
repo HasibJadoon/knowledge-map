@@ -17,11 +17,12 @@ interface MxEra { slug: string; short: string; title: string; order: number; }
 interface MxCell { value: number; eraSlug: string; }
 interface MxRow { id: string; title: string; cells: MxCell[]; total: number; }
 
+// Compact column labels — the full era title is shown on hover via [title].
 const ERA_SHORT: Record<string, string> = {
   medieval: 'Medieval',
-  renaissance: 'Renaissance',
+  renaissance: 'Renaiss.',
   americas: 'Americas',
-  orientalist: 'Orientalism',
+  orientalist: 'Orient.',
   sept11: '9/11 +',
 };
 
@@ -50,7 +51,7 @@ export class WorldviewMatrixPage implements OnInit {
       : '/worldview/library',
   );
 
-  readonly gridCols = computed(() => `minmax(96px, 1.4fr) repeat(${this.eras().length}, minmax(46px, 1fr))`);
+  readonly gridCols = computed(() => `minmax(108px, 1.3fr) repeat(${this.eras().length}, minmax(54px, 1fr))`);
   readonly hasData = computed(() => this.eras().length > 0 && this.rows().length > 0);
   readonly levels = [0, 1, 2, 3];
 
