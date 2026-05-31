@@ -5,6 +5,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
+import gsap from 'gsap';
 
 import {
   WorldviewLibraryApiService,
@@ -72,7 +73,7 @@ interface Session {
           } @else if (activeSession(); as s) {
             <div class="wvi-doc">
               @if (s.summary.length) {
-                <section class="wvi-sec">
+                <section class="wvi-sec wvi-sec--lead">
                   <h4 class="wvi-sec__h"><svg class="wvi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v6h6"/><path d="M9 13h7M9 17h5"/></svg>Summary</h4>
                   @for (p of s.summary; track $index) { <p class="wvi-sec__p">{{ p }}</p> }
                 </section>
@@ -84,7 +85,7 @@ interface Session {
                 </section>
               }
               @if (s.fullText.length) {
-                <section class="wvi-sec">
+                <section class="wvi-sec wvi-reading">
                   <h4 class="wvi-sec__h"><svg class="wvi-ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="M12 6c-2-1.5-5-1.5-7 0v12c2-1.5 5-1.5 7 0 2-1.5 5-1.5 7 0V6c-2-1.5-5-1.5-7 0z"/><path d="M12 6v12"/></svg>Reading — paraphrased</h4>
                   @for (p of s.fullText; track $index) { <p class="wvi-sec__p">{{ p }}</p> }
                 </section>
@@ -147,21 +148,62 @@ interface Session {
     .wvi-modal__close { flex: 0 0 auto; width: 32px; height: 32px; border: 0; border-radius: 7px; cursor: pointer; background: rgba(255,255,255,.06); color: rgba(255,255,255,.7); font-size: 15px; }
 
     .wvi-list { flex: 1 1 auto; overflow-y: auto; padding: .7rem; }
-    .wvi-session { display: block; width: 100%; text-align: left; cursor: pointer; margin: 0 0 .55rem; padding: .85rem .9rem; background: #141414; border: 1px solid rgba(255,255,255,.08); border-radius: 10px; }
+    .wvi-session {
+      display: block; width: 100%; text-align: left; cursor: pointer; margin: 0 0 .65rem; padding: .95rem 1rem;
+      background: linear-gradient(180deg, rgba(255,255,255,.045), rgba(255,255,255,.015));
+      border: 1px solid rgba(255,255,255,.08); border-radius: 13px;
+      transition: border-color .18s ease, transform .12s ease;
+    }
+    .wvi-session:active { transform: scale(.985); border-color: rgba(201,168,76,.4); }
     .wvi-session__head { display: flex; align-items: center; gap: .55rem; }
     .wvi-session__ic { width: 17px; height: 17px; flex: 0 0 auto; color: #c9a84c; }
-    .wvi-ic { width: 14px; height: 14px; flex: 0 0 auto; }
+    .wvi-ic {
+      width: 23px; height: 23px; flex: 0 0 auto; padding: 4.5px; box-sizing: border-box;
+      border-radius: 7px; color: #c9a84c; background: rgba(201,168,76,.13); border: 1px solid rgba(201,168,76,.22);
+    }
     .wvi-session__title { flex: 1 1 auto; min-width: 0; font-size: 14px; font-weight: 600; color: rgba(255,255,255,.92); }
     .wvi-session__count { flex: 0 0 auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; font-size: 11px; font-weight: 700; line-height: 20px; text-align: center; color: #080808; background: #c9a84c; }
     .wvi-session__summary { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-top: .35rem; font-size: 12.5px; color: rgba(255,255,255,.55); line-height: 1.45; }
 
-    .wvi-doc { flex: 1 1 auto; overflow-y: auto; padding: .9rem 1rem calc(env(safe-area-inset-bottom, 0px) + 1.2rem); }
-    .wvi-sec { margin: 0 0 1.3rem; }
-    .wvi-sec__h { display: flex; align-items: center; gap: .5rem; margin: 0 0 .5rem; font-size: 11px; letter-spacing: .2em; text-transform: uppercase; color: #c9a84c; }
-    .wvi-sec__count { font-size: 10px; letter-spacing: .08em; color: rgba(255,255,255,.5); font-variant-numeric: tabular-nums; }
-    .wvi-sec__p { margin: 0 0 .6rem; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.88); }
-    .wvi-points { margin: 0; padding-left: 1.1rem; }
-    .wvi-points li { margin: 0 0 .4rem; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.88); }
+    .wvi-doc { flex: 1 1 auto; overflow-y: auto; padding: 1.1rem 1.15rem calc(env(safe-area-inset-bottom, 0px) + 1.4rem); }
+    .wvi-sec { margin: 0 0 1.7rem; }
+    .wvi-sec:last-child { margin-bottom: 0; }
+    .wvi-sec__h {
+      display: flex; align-items: center; gap: .55rem; margin: 0 0 .75rem;
+      font-size: 10.5px; letter-spacing: .24em; text-transform: uppercase; font-weight: 700; color: #c9a84c;
+    }
+    .wvi-sec__h::after {
+      content: ''; flex: 1 1 auto; height: 1px;
+      background: linear-gradient(to right, rgba(201,168,76,.35), transparent);
+    }
+    .wvi-sec__count { flex: 0 0 auto; font-size: 10px; letter-spacing: .08em; color: rgba(255,255,255,.5); font-variant-numeric: tabular-nums; }
+    .wvi-sec__p { margin: 0 0 .7rem; font-size: 14px; line-height: 1.62; color: rgba(255,255,255,.74); }
+    .wvi-sec__p:last-child { margin-bottom: 0; }
+
+    /* Summary — editorial lead, justified */
+    .wvi-sec--lead .wvi-sec__p {
+      font-size: 15.5px; line-height: 1.72; font-weight: 300; letter-spacing: .003em; color: rgba(255,255,255,.9);
+      text-align: justify; text-justify: inter-word; hyphens: auto;
+    }
+
+    /* Major points — gold diamond markers */
+    .wvi-points { margin: 0; padding: 0; list-style: none; }
+    .wvi-points li {
+      position: relative; margin: 0 0 .6rem; padding-left: 1.4rem;
+      font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.86);
+    }
+    .wvi-points li::before {
+      content: ''; position: absolute; left: .12rem; top: .56em; width: 6px; height: 6px;
+      background: #c9a84c; transform: rotate(45deg); border-radius: 1px;
+    }
+
+    /* Reading — drop cap, justified, muted closing note */
+    .wvi-reading .wvi-sec__p { font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.78); text-align: justify; text-justify: inter-word; hyphens: auto; }
+    .wvi-reading .wvi-sec__p:first-of-type::first-letter {
+      font-family: Georgia, 'Times New Roman', serif; float: left; font-size: 2.9em; line-height: .82;
+      padding: .02em .14em 0 0; color: #c9a84c; font-weight: 600;
+    }
+    .wvi-reading .wvi-sec__p:last-child { font-size: 12px; font-style: italic; color: rgba(255,255,255,.4); margin-top: .9rem; text-align: left; }
 
     .wvi-figs { position: relative; height: min(70vh, 760px); border: 1px solid rgba(255,255,255,.08); border-radius: 10px; overflow: hidden; }
     .wvi-track { width: 100%; height: 100%; display: flex; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; scroll-behavior: smooth; -webkit-overflow-scrolling: touch; }
@@ -197,6 +239,7 @@ export class WvIllustrationsComponent implements OnDestroy {
   private readonly sourceIdSig = signal<string | null>(null);
   private readonly chapterIdSig = signal<string | null>(null);
   private token = 0;
+  private anim?: ReturnType<typeof gsap.context>;
 
   readonly activeSession = computed<Session | null>(() =>
     this.sessions().find((s) => s.id === this.activeSessionId()) ?? null,
@@ -224,8 +267,19 @@ export class WvIllustrationsComponent implements OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.anim?.revert();
     this.restoreScroll();
     this.overlayRef?.nativeElement?.remove();
+  }
+
+  /** Run a GSAP entrance build scoped to the overlay (respects reduced-motion). */
+  private animate(build: () => void): void {
+    if (typeof window === 'undefined') return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches) return;
+    const root = this.overlayRef?.nativeElement;
+    if (!root) return;
+    this.anim?.revert();
+    this.anim = gsap.context(build, root);
   }
 
   private reload(): void {
@@ -290,10 +344,13 @@ export class WvIllustrationsComponent implements OnDestroy {
     setTimeout(() => {
       const el = this.overlayRef?.nativeElement;
       if (el && el.parentElement !== document.body) document.body.appendChild(el);
+      this.animate(() => gsap.from('.wvi-session', { y: 16, opacity: 0, duration: 0.42, stagger: 0.07, ease: 'power3.out' }));
     }, 0);
   }
 
   close(): void {
+    this.anim?.revert();
+    this.anim = undefined;
     this.isOpen.set(false);
     this.restoreScroll();
   }
@@ -307,11 +364,18 @@ export class WvIllustrationsComponent implements OnDestroy {
     this.current.set(0);
     this.view.set('session');
     void this.fetchDocs(session.items);
-    setTimeout(() => this.trackRef?.nativeElement?.scrollTo({ left: 0 }), 0);
+    setTimeout(() => {
+      this.trackRef?.nativeElement?.scrollTo({ left: 0 });
+      this.animate(() => {
+        gsap.from('.wvi-sec', { y: 18, opacity: 0, duration: 0.5, stagger: 0.09, ease: 'power3.out' });
+        gsap.from('.wvi-points li', { x: 12, duration: 0.4, stagger: 0.05, delay: 0.2, ease: 'power2.out' });
+      });
+    }, 0);
   }
 
   toList(): void {
     this.view.set('list');
+    setTimeout(() => this.animate(() => gsap.from('.wvi-session', { y: 16, opacity: 0, duration: 0.42, stagger: 0.07, ease: 'power3.out' })), 0);
   }
 
   private async fetchDocs(items: WvIllustrationSummary[]): Promise<void> {
