@@ -157,6 +157,14 @@ export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
     void this.router.navigate(['/worldview', 'library', this.sourceId(), 'read', unitId]);
   }
 
+  /** Open the dual-register timeline for the first unit (the section with era data). */
+  openTimeline(): void {
+    const first = this.tocItems()[0]?.unit.id;
+    if (first) {
+      void this.router.navigate(['/worldview', 'library', this.sourceId(), 'timeline', first]);
+    }
+  }
+
   // ── Reading session ──────────────────────────────────────────────────────────
 
   private async loadSession(sourceId: string): Promise<void> {

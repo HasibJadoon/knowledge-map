@@ -4,6 +4,11 @@
       <ion-back-button [defaultHref]="readerHref()" text=""></ion-back-button>
     </ion-buttons>
     <ion-title class="wvg-header__title">Worldview Graph</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" size="small" (click)="openTimeline()" aria-label="Timeline view">
+        <ion-icon name="time-outline" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

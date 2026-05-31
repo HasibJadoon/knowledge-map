@@ -39,6 +39,13 @@ export const WORLDVIEW_ROUTES: Routes = [
           ),
       },
       {
+        path: 'library/:sourceId/timeline/:unitId',
+        loadComponent: () =>
+          import('./pages/worldview-timeline/worldview-timeline.page').then(
+            (m) => m.WorldviewTimelinePage,
+          ),
+      },
+      {
         path: 'compare',
         loadComponent: () =>
           import('./pages/worldview-compare/worldview-compare.page').then((m) => m.WorldviewComparePage),
