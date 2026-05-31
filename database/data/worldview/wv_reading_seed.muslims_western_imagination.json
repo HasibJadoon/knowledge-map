@@ -1,0 +1,99 @@
+{
+  "seed_type": "wv_full_flow_seed",
+  "version": 1,
+  "workspace_id": "ws_worldview",
+  "workspace_title": "Worldview Library",
+  "workspace_description": "Personal worldview reading, highlighting, note-making, and distillation library.",
+  "group_id": "grp_orientalism",
+  "group_title": "Orientalism & the Western Imagination",
+  "group_description": "Sources on how Islam and Muslims are represented in Western thought and culture.",
+  "user_id": 1,
+  "wv_sources": [
+    {
+      "id": "wv_src_mwi",
+      "canonical_input": "wv_source:book:muslims-western-imagination",
+      "workspace_id": "ws_worldview",
+      "group_id": "grp_orientalism",
+      "user_id": 1,
+      "source_type": "book",
+      "title": "Muslims in the Western Imagination",
+      "subtitle": null,
+      "description": "Examines the long history of Western imaginings of Muslims as monsters and outsiders, tracing recurring figures from the medieval period through to the present. Read for the worldview library to extract highlights, notes, and distillations on Orientalism and Western representation of Islam.",
+      "creator": "Sophia Rose Arjana",
+      "publisher": "Oxford University Press",
+      "publication_year": 2015,
+      "language": "en",
+      "source_url": "https://global.oup.com/academic/product/muslims-in-the-western-imagination-9780199324927",
+      "source_ref": "ISBN 9780199324927",
+      "status": "active",
+      "source_json": {
+        "source_kind": "book",
+        "isbn13": "9780199324927",
+        "place_of_publication": "New York",
+        "edition": "1st",
+        "themes": ["orientalism", "western-imagination", "representation", "islamophobia", "monster-theory"]
+      },
+      "meta_json": {
+        "reading_status": "in_progress",
+        "started_on": "2026-05-31",
+        "origin": "reading-session-seed"
+      }
+    }
+  ],
+  "wv_people": [
+    {
+      "id": "wv_person_arjana",
+      "canonical_input": "wv_person:sophia-rose-arjana",
+      "workspace_id": "ws_worldview",
+      "group_id": "grp_orientalism",
+      "user_id": 1,
+      "display_name": "Sophia Rose Arjana",
+      "sort_name": "Arjana, Sophia Rose",
+      "person_type": "author",
+      "bio_short": "Scholar of Islamic studies whose work addresses Muslims in Western culture, monster theory, and pilgrimage.",
+      "website_url": null,
+      "meta_json": {}
+    }
+  ],
+  "wv_source_people": [
+    {
+      "id": "wv_sp_mwi_arjana",
+      "canonical_input": "wv_source_person:mwi:arjana",
+      "workspace_id": "ws_worldview",
+      "group_id": "grp_orientalism",
+      "user_id": 1,
+      "source_id": "wv_src_mwi",
+      "person_id": "wv_person_arjana",
+      "role": "author",
+      "order_index": 1,
+      "is_primary": true,
+      "note": null,
+      "meta_json": {}
+    }
+  ],
+  "wv_reading_sessions": [
+    {
+      "id": "wv_read_mwi_001",
+      "canonical_input": "wv_reading_session:mwi:001",
+      "workspace_id": "ws_worldview",
+      "group_id": "grp_orientalism",
+      "user_id": 1,
+      "source_id": "wv_src_mwi",
+      "source_unit_id": null,
+      "session_type": "reading",
+      "started_at": "2026-05-31 09:00:00",
+      "ended_at": null,
+      "focus_mode": "deep_read",
+      "last_position": null,
+      "status": "active",
+      "session_json": {
+        "tabs_flow": ["overview", "read", "highlights", "notes", "distill"],
+        "distill_ready": false,
+        "intent": "First read-through of Muslims in the Western Imagination; capture highlights and notes, then distill themes on Orientalism and Western representation of Islam."
+      },
+      "meta_json": {
+        "reading_status": "in_progress"
+      }
+    }
+  ]
+}
