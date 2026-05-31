@@ -7,6 +7,7 @@ import { firstValueFrom } from 'rxjs';
 
 import { WorldviewLibraryApiService } from '../../../../shared/services/worldview/worldview-library-api.service';
 import { WvGraphShellComponent } from '../../wv-graph/wv-graph-shell/wv-graph-shell.component';
+import { WvIllustrationsComponent } from '../../../../shared/components/wv-illustrations/wv-illustrations.component';
 
 interface WvSource {
   id: string;
@@ -152,7 +153,7 @@ interface ClassifiedBlock { text: string; type: BlockType; url?: string; }
 @Component({
   selector: 'app-worldview-unit-reader',
   standalone: true,
-  imports: [CommonModule, IonicModule, WvGraphShellComponent],
+  imports: [CommonModule, IonicModule, WvGraphShellComponent, WvIllustrationsComponent],
   templateUrl: './worldview-unit-reader.page.html',
   styleUrl: './worldview-unit-reader.page.scss',
 })
