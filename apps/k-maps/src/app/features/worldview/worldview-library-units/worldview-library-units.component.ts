@@ -20,6 +20,8 @@ import { StatusPillComponent } from '../../../shared/components/status-pill/stat
 import {
   WorldviewLibraryApiService,
   WvSourceRow,
+  WvReadingSession,
+  WvReadingSessionPatch,
 } from '../../../shared/services/worldview/worldview-library-api.service';
 import { WvGraphShellComponent } from '../wv-graph/wv-graph-shell/wv-graph-shell.component';
 
@@ -245,6 +247,14 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
   readonly source = signal<WvSource | null>(null);
   readonly rawUnits = signal<WvUnit[]>([]);
+
+  // Reading session state
+  readonly session = signal<WvReadingSession | null>(null);
+  readonly sessionBusy = signal(false);
+  readonly hasOpenSession = computed(() => {
+    const s = this.session()?.status;
+    return s === 'active' || s === 'paused';
+  });
   readonly selectedUnit = signal<WvUnit | null>(null);
   readonly detailCache = signal<Record<string, WvUnitDetail>>({});
   readonly readerDataCache = signal<Record<string, WvReaderData>>({});
@@ -423,6 +433,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   }
 
   selectUnit(unit: WvUnit): void {
+    void this.parkSessionOn(unit.id);
     this.expandAncestors(unit);
 
     const sameUnit = this.selectedUnit()?.id === unit.id;
@@ -834,6 +845,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
             : null;
           const first = requestedUnit ?? this.firstSelectableUnit(units);
           if (first) this.selectUnit(first);
+          void this.loadSession(detail.id);
         }
 
         this.sourceLoading.set(false);
@@ -848,6 +860,106 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         this.cdr.markForCheck();
       },
     });
+  }
+
+  // ── Reading session ──────────────────────────────────────────────────────────
+  private async loadSession(sourceId: string): Promise<void> {
+    try {
+      this.session.set(await firstValueFrom(this.libraryApi.getActiveSession(sourceId)));
+    } catch {
+      this.session.set(null);
+    }
+    this.cdr.markForCheck();
+  }
+
+  private sessionUnitRef(unitId: string | null | undefined): string | null {
+    if (!unitId) return null;
+    const unit = this.findUnitInTree(unitId, this.rootUnits());
+    return unit?.start_ref ?? unit?.title ?? null;
+  }
+
+  sessionStatusLabel(): string {
+    switch (this.session()?.status) {
+      case 'active':    return 'In progress';
+      case 'paused':    return 'Paused';
+      case 'completed': return 'Completed';
+      default:          return '';
+    }
+  }
+
+  sessionChapterLabel(): string {
+    const unitId = this.session()?.source_unit_id;
+    const unit = unitId ? this.findUnitInTree(unitId, this.rootUnits()) : null;
+    if (unit) return unit.title ?? 'Untitled unit';
+    const pos = this.session()?.last_position;
+    return pos ? `Position ${pos}` : 'Not started';
+  }
+
+  async startSession(): Promise<void> {
+    const src = this.source();
+    if (!src || this.sessionBusy()) return;
+    this.sessionBusy.set(true);
+    try {
+      const start = this.selectedUnit() ?? this.firstSelectableUnit(this.rawUnits());
+      const created = await firstValueFrom(
+        this.libraryApi.createSession({
+          source_id: src.id,
+          source_unit_id: start?.id ?? null,
+          title: `Reading: ${src.title}`,
+          focus_mode: 'deep_read',
+          last_position: this.sessionUnitRef(start?.id),
+        }),
+      );
+      if (created) this.session.set(created);
+    } catch {
+      // leave UI as-is
+    } finally {
+      this.sessionBusy.set(false);
+      this.cdr.markForCheck();
+    }
+  }
+
+  resumeSession(): void {
+    const unitId = this.session()?.source_unit_id;
+    const unit = unitId ? this.findUnitInTree(unitId, this.rootUnits()) : this.firstSelectableUnit(this.rawUnits());
+    if (unit) this.selectUnit(unit);
+  }
+
+  async pauseSession(): Promise<void> { await this.patchSession({ status: 'paused' }); }
+  async completeSession(): Promise<void> { await this.patchSession({ status: 'completed', ended_at: new Date().toISOString() }); }
+
+  private async patchSession(fields: Omit<WvReadingSessionPatch, 'id'>): Promise<void> {
+    const current = this.session();
+    if (!current || this.sessionBusy()) return;
+    this.sessionBusy.set(true);
+    try {
+      const updated = await firstValueFrom(this.libraryApi.updateSession({ id: current.id, ...fields }));
+      if (updated) this.session.set(updated);
+    } catch {
+      // ignore
+    } finally {
+      this.sessionBusy.set(false);
+      this.cdr.markForCheck();
+    }
+  }
+
+  private async parkSessionOn(unitId: string): Promise<void> {
+    const current = this.session();
+    if (!current || !this.hasOpenSession()) return;
+    if (current.source_unit_id === unitId) return;
+    try {
+      const updated = await firstValueFrom(
+        this.libraryApi.updateSession({
+          id: current.id,
+          source_unit_id: unitId,
+          last_position: this.sessionUnitRef(unitId),
+          status: 'active',
+        }),
+      );
+      if (updated) { this.session.set(updated); this.cdr.markForCheck(); }
+    } catch {
+      // ignore — navigation already proceeded
+    }
   }
 
   private normalizeSource(row: WvSourceRow): WvSource {
