@@ -48,6 +48,15 @@ export function illustrationRoutes(router: Router<WorldviewEnv>) {
     );
   });
 
+  // ── List for a reading session (the reading block within a chapter) ───────────
+
+  router.get('/worldview/reading-sessions/:id/illustrations', async (req, env, { id }) => {
+    const url = new URL(req.url);
+    return paginated(
+      await new IllustrationRepo(env.DB_WV).listByReadingSession(id, parsePagination(url)),
+    );
+  });
+
   // ── List for a whole source ───────────────────────────────────────────────────
 
   router.get('/worldview/sources/:id/illustrations', async (req, env, { id }) => {
@@ -88,6 +97,7 @@ export function illustrationRoutes(router: Router<WorldviewEnv>) {
       theme:          b.theme ? String(b.theme) : undefined,
       html_content:   String(b.html_content),
       meta_json:      (b.meta_json   as string | null) ?? null,
+      reading_session_id: (b.reading_session_id as string | null) ?? null,
     }));
   });
 
@@ -106,6 +116,7 @@ export function illustrationRoutes(router: Router<WorldviewEnv>) {
       theme:          b.theme          as string | undefined,
       html_content:   b.html_content   as string | undefined,
       meta_json:      b.meta_json      as string | null | undefined,
+      reading_session_id: b.reading_session_id as string | null | undefined,
     });
     return row ? ok(row) : notFound(`illustration ${b.id}`);
   });

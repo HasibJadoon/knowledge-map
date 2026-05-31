@@ -53,6 +53,7 @@ sourceRoutes(router);
 // ── Source-unit illustrations (1..N visual HTML pages per unit) ───────────────
 illustrationRoutes(router);
 // GET    /worldview/units/:id/illustrations    list for a unit (no html_content)
+// GET    /worldview/reading-sessions/:id/illustrations  list for a reading session
 // GET    /worldview/sources/:id/illustrations  list for a whole source
 // GET    /worldview/illustrations/:id          detail (includes html_content)
 // GET    /worldview/illustrations/:id/page     raw HTML document (text/html)

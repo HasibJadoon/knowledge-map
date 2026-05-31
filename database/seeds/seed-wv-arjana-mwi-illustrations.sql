@@ -18,12 +18,14 @@
 -- different chapter, change source_unit_id below.
 -- ═══════════════════════════════════════════════════════════════════════════
 
+-- Depends on reading session rs-arjana-mwi-ch1 (Chapter 1) existing in
+-- wv_reading_sessions; the illustration is grouped under that reading session.
 INSERT OR REPLACE INTO wv_source_unit_illustrations
   (id, source_unit_id, source_id, slug, order_index, title, caption, theme,
-   html_content, meta_json, created_at, updated_at)
+   html_content, meta_json, reading_session_id, created_at, updated_at)
 VALUES (
   'WV:ILLUS-ARJANA-MWI-C1-CONCEPT1',
-  'sru-arjana-mwi-intro',
+  'sru-arjana-mwi-ch1',
   'src-arjana-muslims-western-imagination-2015',
   'arjana-mwi-c1-orientalism-five-things',
   1,
@@ -116,6 +118,7 @@ VALUES (
 </body>
 </html>',
   json('{"book":"Muslims in the Western Imagination","author":"Sophia Rose Arjana","publisher":"OUP","year":2015,"chapter":1,"concept":"1 of 7","pages":"8-12"}'),
+  'rs-arjana-mwi-ch1',
   '2026-05-31T00:00:00Z',
   '2026-05-31T00:00:00Z'
 );

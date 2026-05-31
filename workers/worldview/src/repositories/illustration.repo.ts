@@ -24,6 +24,7 @@ export interface WvIllustration {
   theme: string;                    // dark | paper
   html_content: string;             // full standalone HTML document
   meta_json: string | null;
+  reading_session_id: string | null; // wv_reading_sessions(id) — the reading block within the chapter
   created_at: string;
   updated_at: string;
 }
@@ -41,6 +42,7 @@ export interface IllustrationCreate {
   theme?: string;
   html_content: string;
   meta_json?: string | null;
+  reading_session_id?: string | null;
 }
 
 export interface IllustrationPatch {
@@ -53,25 +55,26 @@ export interface IllustrationPatch {
   theme?: string;
   html_content?: string;
   meta_json?: string | null;
+  reading_session_id?: string | null;
 }
 
 // ── Column lists ────────────────────────────────────────────────────────────────
 
 const COLS = `
   id, source_unit_id, source_id, slug, order_index, title, caption,
-  theme, html_content, meta_json, created_at, updated_at
+  theme, html_content, meta_json, reading_session_id, created_at, updated_at
 `.trim().replace(/\n\s+/g, ' ');
 
 // Listing columns deliberately exclude html_content to keep TOC payloads small.
 const SUMMARY_COLS = `
   id, source_unit_id, source_id, slug, order_index, title, caption,
-  theme, meta_json, created_at, updated_at
+  theme, meta_json, reading_session_id, created_at, updated_at
 `.trim().replace(/\n\s+/g, ' ');
 
 // Mutable columns a PATCH may touch, in a stable order.
 const PATCH_COLS: (keyof IllustrationPatch)[] = [
   'source_unit_id', 'source_id', 'slug', 'order_index', 'title',
-  'caption', 'theme', 'html_content', 'meta_json',
+  'caption', 'theme', 'html_content', 'meta_json', 'reading_session_id',
 ];
 
 // ── Helpers ────────────────────────────────────────────────────────────────────
@@ -102,6 +105,18 @@ export class IllustrationRepo {
         ORDER BY order_index, created_at, id`,
       `SELECT COUNT(*) AS count FROM wv_source_unit_illustrations WHERE source_unit_id = ?`,
       [sourceUnitId], opts,
+    );
+  }
+
+  /** All illustrations for a single reading session, in display order (no html_content). */
+  listByReadingSession(readingSessionId: string, opts: PaginateOptions = {}) {
+    return paginate<WvIllustrationSummary>(
+      this.db,
+      `SELECT ${SUMMARY_COLS} FROM wv_source_unit_illustrations
+        WHERE reading_session_id = ?
+        ORDER BY order_index, created_at, id`,
+      `SELECT COUNT(*) AS count FROM wv_source_unit_illustrations WHERE reading_session_id = ?`,
+      [readingSessionId], opts,
     );
   }
 
@@ -150,19 +165,20 @@ export class IllustrationRepo {
       this.db,
       `INSERT INTO wv_source_unit_illustrations
          (id, source_unit_id, source_id, slug, order_index, title, caption,
-          theme, html_content, meta_json, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+          theme, html_content, meta_json, reading_session_id, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         id,
         input.source_unit_id,
-        input.source_id   ?? null,
-        input.slug        ?? null,
+        input.source_id    ?? null,
+        input.slug         ?? null,
         order,
         title,
-        input.caption     ?? null,
-        input.theme       ?? 'dark',
+        input.caption      ?? null,
+        input.theme        ?? 'dark',
         input.html_content,
-        input.meta_json   ?? null,
+        input.meta_json    ?? null,
+        input.reading_session_id ?? null,
         now, now,
       ],
     );

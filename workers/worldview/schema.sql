@@ -1922,6 +1922,7 @@ CREATE TABLE wv_source_unit_illustrations (
   theme           TEXT NOT NULL DEFAULT 'dark',
   html_content    TEXT NOT NULL,
   meta_json       TEXT,
+  reading_session_id TEXT,
   created_at      TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
   FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
@@ -2484,6 +2485,8 @@ CREATE INDEX idx_wv_su_illus_unit ON wv_source_unit_illustrations(source_unit_id
 CREATE INDEX idx_wv_su_illus_source ON wv_source_unit_illustrations(source_id);
 
 CREATE UNIQUE INDEX idx_wv_su_illus_slug ON wv_source_unit_illustrations(slug) WHERE slug IS NOT NULL;
+
+CREATE INDEX idx_wv_su_illus_rsession ON wv_source_unit_illustrations(reading_session_id, order_index);
 
 CREATE INDEX idx_wv_tb_trad ON wv_tradition_branches(tradition_id);
 
