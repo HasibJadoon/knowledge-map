@@ -94,7 +94,8 @@ export class WorldviewMatrixPage implements OnInit {
         if (!slug) continue;
         eras.push({
           slug,
-          short: ERA_SHORT[slug] ?? String(node['title'] ?? slug).split(/[\s/(]/)[0],
+          // Column label comes from the era node (data_json.short); ERA_SHORT is a fallback.
+          short: String(data?.['short'] ?? ERA_SHORT[slug] ?? String(node['title'] ?? slug).split(/[\s/(]/)[0]),
           title: String(node['title'] ?? slug),
           order: num(data?.['order_index']) ?? 999,
         });
