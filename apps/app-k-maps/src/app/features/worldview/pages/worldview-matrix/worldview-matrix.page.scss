@@ -51,6 +51,9 @@
   padding: 0 2px;
   position: sticky;
   top: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .mx-row-head {
@@ -61,7 +64,10 @@
   padding: 0 0.5rem 0 0.3rem;
   line-height: 1.15;
   background: rgba(255, 255, 255, 0.025);
-  overflow: hidden;
+  /* Long single-word labels (e.g. "Dehumanization") must wrap, not clip. */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  hyphens: auto;
 }
 
 .mx-data {
