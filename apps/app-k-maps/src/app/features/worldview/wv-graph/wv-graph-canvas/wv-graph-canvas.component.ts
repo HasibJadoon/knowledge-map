@@ -27,6 +27,8 @@ import {
   WV_EDGE_DASH,
   NODE_BASE_RADIUS,
   nodeRadius,
+  ClusterColor,
+  clusterColor,
 } from '../../../../shared/models/worldview/wv-graph.model';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -70,6 +72,7 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
   @Input() selectedId: string | null = null;
   @Input() mode: WvGraphMode = 'force';
   @Input() activeTypes: Set<WvNodeType> | null = null; // null = all visible
+  @Input() activeClusters: Set<string> | null = null;  // null = all visible
   @Input() showLabels = true;
 
   @Output() nodeClick = new EventEmitter<WvGraphNode>();
@@ -86,10 +89,19 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
   private renderedNodes: WvGraphNode[] = [];
   private labelLayouts = new Map<string, WvLabelLayout>();
 
+  // Cluster (community) state
+  private clusterOrder: string[] = [];
+  private clusterColors = new Map<string, ClusterColor>();
+  private clusterTitles = new Map<string, string>();
+  private clusterTargets = new Map<string, { x: number; y: number }>();
+  private clusterStrength = 0;
+
   // Live selections updated on tick
   private linkSel!: d3.Selection<SVGLineElement, WvGraphEdge, SVGGElement, unknown>;
   private nodeSel!: d3.Selection<SVGGElement, WvGraphNode, SVGGElement, unknown>;
   private labelSel!: d3.Selection<SVGTextElement, WvGraphNode, SVGGElement, unknown>;
+  private hullSel?: d3.Selection<SVGPathElement, string, SVGGElement, unknown>;
+  private hullLabelSel?: d3.Selection<SVGTextElement, string, SVGGElement, unknown>;
 
   ngAfterViewInit(): void {
     this.initSvg();
@@ -104,8 +116,9 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
     if (changes['data'] && this.data) {
       this.build(this.data);
     } else {
+      if (changes['mode']) this.applyClusterMode();
       if (changes['selectedId'] || changes['mode']) this.applyFocus();
-      if (changes['activeTypes']) this.applyTypeFilter();
+      if (changes['activeTypes'] || changes['activeClusters']) this.applyTypeFilter();
       if (changes['showLabels']) this.applyLabelVisibility();
     }
   }
@@ -182,6 +195,7 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
       (e.target as WvGraphNode).degree! += 1;
     }
 
+    this.computeClusters(nodes);
     this.seedNodePositions(nodes);
     this.renderedNodes = nodes;
     this.labelLayouts = new Map(nodes.map((node) => [node.id, getLabelLayout(node)]));
@@ -205,12 +219,37 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
         d3.forceCollide<WvGraphNode>().radius((d) => this.labelLayouts.get(d.id)?.collisionRadius ?? nodeRadius(d) + 22).strength(0.96),
       )
       .force('radial', d3.forceRadial<WvGraphNode>((d) => this.radialTarget(d), 0, 0).strength(0.055))
+      .force('clusterX', d3.forceX<WvGraphNode>((d) => this.clusterTargets.get(d.cluster ?? '')?.x ?? 0).strength(() => this.clusterStrength))
+      .force('clusterY', d3.forceY<WvGraphNode>((d) => this.clusterTargets.get(d.cluster ?? '')?.y ?? 0).strength(() => this.clusterStrength))
       .force('x', d3.forceX(0).strength(0.028))
       .force('y', d3.forceY(0).strength(0.028))
       .velocityDecay(0.34)
       .alphaDecay(0.03);
 
     // ── Render layers ─────────────────────────────────────────────────────────
+    // 0. Cluster territory hulls (behind everything)
+    const hullG = this.g.append('g').attr('class', 'hulls');
+    this.hullSel = hullG.selectAll<SVGPathElement, string>('path')
+      .data(this.clusterOrder)
+      .join('path')
+      .attr('class', 'wv-hull')
+      .attr('fill', (slug) => this.clusterColors.get(slug)?.hull ?? 'transparent')
+      .attr('stroke', (slug) => this.clusterColors.get(slug)?.hullStroke ?? 'transparent')
+      .attr('stroke-width', 1.5)
+      .attr('stroke-linejoin', 'round')
+      .attr('pointer-events', 'none');
+    this.hullLabelSel = hullG.selectAll<SVGTextElement, string>('text')
+      .data(this.clusterOrder)
+      .join('text')
+      .attr('class', 'wv-hull-label')
+      .attr('text-anchor', 'middle')
+      .attr('fill', (slug) => this.clusterColors.get(slug)?.stroke ?? 'rgba(255,255,255,0.5)')
+      .attr('font-size', 11)
+      .attr('font-family', 'Poppins, sans-serif')
+      .attr('opacity', 0)
+      .attr('pointer-events', 'none')
+      .text((slug) => this.clusterTitles.get(slug) ?? slug);
+
     // 1. Links
     this.linkSel = this.g.append('g').attr('class', 'links')
       .selectAll<SVGLineElement, WvGraphEdge>('line')
@@ -239,7 +278,7 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
     this.nodeSel.append('circle')
       .attr('class', 'wv-node__glow')
       .attr('r', d => nodeRadius(d) + 5)
-      .attr('fill', d => WV_NODE_COLORS[d.type].glow)
+      .attr('fill', d => this.nodeColors(d).glow)
       .attr('opacity', 0)
       .attr('filter', 'url(#wv-glow)');
 
@@ -247,8 +286,8 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
     this.nodeSel.append('circle')
       .attr('class', 'wv-node__circle')
       .attr('r', d => nodeRadius(d))
-      .attr('fill', d => WV_NODE_COLORS[d.type].fill)
-      .attr('stroke', d => WV_NODE_COLORS[d.type].stroke)
+      .attr('fill', d => this.nodeColors(d).fill)
+      .attr('stroke', d => this.nodeColors(d).stroke)
       .attr('stroke-width', 1.5);
 
     // Type glyph inside
@@ -257,7 +296,7 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
       .attr('text-anchor', 'middle')
       .attr('dominant-baseline', 'central')
       .attr('font-size', d => Math.min(nodeRadius(d) * 0.9, 10))
-      .attr('fill', d => WV_NODE_COLORS[d.type].stroke)
+      .attr('fill', d => this.nodeColors(d).stroke)
       .text(d => typeGlyph(d.type));
 
     // Click / dblclick
@@ -299,6 +338,7 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
 
       this.nodeSel.attr('transform', d => `translate(${d.x ?? 0},${d.y ?? 0})`);
       this.labelSel.attr('transform', d => `translate(${d.x ?? 0},${d.y ?? 0})`);
+      this.updateHulls();
     });
 
     for (let i = 0; i < 180; i += 1) {
@@ -312,11 +352,13 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
       .attr('y2', d => (d.target as WvGraphNode).y ?? 0);
     this.nodeSel.attr('transform', d => `translate(${d.x ?? 0},${d.y ?? 0})`);
     this.labelSel.attr('transform', d => `translate(${d.x ?? 0},${d.y ?? 0})`);
+    this.updateHulls();
 
     this.sim.on('end', () => {
       this.fitToGraph(true);
     });
 
+    this.applyClusterMode();
     this.sim.alpha(0.28).restart();
 
     this.applyFocus();
@@ -366,26 +408,111 @@ export class WvGraphCanvasComponent implements AfterViewInit, OnChanges, OnDestr
     );
   }
 
-  // ── Type filter ──────────────────────────────────────────────────────────────
+  // ── Type + cluster filter ─────────────────────────────────────────────────────
+  private nodeVisible(d: WvGraphNode): boolean {
+    const typeOk = !this.activeTypes || this.activeTypes.has(d.type);
+    const clusterOk = !this.activeClusters || (d.cluster != null && this.activeClusters.has(d.cluster));
+    return typeOk && clusterOk;
+  }
+
   private applyTypeFilter(): void {
     if (!this.nodeSel) return;
-    const active = this.activeTypes;
-    this.nodeSel.attr('display', (d: WvGraphNode) =>
-      !active || active.has(d.type) ? null : 'none'
+    this.nodeSel.attr('display', (d: WvGraphNode) => (this.nodeVisible(d) ? null : 'none'));
+    this.labelSel?.attr('display', (d: WvGraphNode) => (this.nodeVisible(d) ? null : 'none'));
+    this.linkSel?.attr('display', (d: WvGraphEdge) =>
+      this.nodeVisible(d.source as WvGraphNode) && this.nodeVisible(d.target as WvGraphNode) ? null : 'none',
     );
-    this.labelSel?.attr('display', (d: WvGraphNode) =>
-      !active || active.has(d.type) ? null : 'none'
-    );
-    this.linkSel?.attr('display', (d: WvGraphEdge) => {
-      const source = d.source as WvGraphNode;
-      const target = d.target as WvGraphNode;
-      return !active || (active.has(source.type) && active.has(target.type)) ? null : 'none';
-    });
+    this.updateHulls();
   }
 
   // ── Label visibility ─────────────────────────────────────────────────────────
   private applyLabelVisibility(): void {
     this.labelSel?.attr('display', this.showLabels ? null : 'none');
+  }
+
+  // ── Clusters (communities) ────────────────────────────────────────────────────
+  private computeClusters(nodes: WvGraphNode[]): void {
+    this.clusterOrder = [];
+    this.clusterColors = new Map();
+    this.clusterTitles = new Map();
+    this.clusterTargets = new Map();
+
+    const counts = new Map<string, number>();
+    for (const n of nodes) {
+      const slug = n.cluster;
+      if (!slug) continue;
+      if (!counts.has(slug)) {
+        this.clusterOrder.push(slug);
+        this.clusterTitles.set(slug, n.clusterTitle || slug);
+      }
+      counts.set(slug, (counts.get(slug) ?? 0) + 1);
+    }
+
+    this.clusterOrder.forEach((slug, index) => {
+      this.clusterColors.set(slug, clusterColor(slug, index));
+    });
+
+    // Arrange cluster centroids on a ring so communities pull apart in cluster mode.
+    const n = this.clusterOrder.length;
+    const ring = Math.max(220, n * 64);
+    this.clusterOrder.forEach((slug, index) => {
+      if (n <= 1) { this.clusterTargets.set(slug, { x: 0, y: 0 }); return; }
+      const angle = (index / n) * Math.PI * 2 - Math.PI / 2;
+      this.clusterTargets.set(slug, { x: Math.cos(angle) * ring, y: Math.sin(angle) * ring * 0.82 });
+    });
+  }
+
+  private nodeColors(d: WvGraphNode): { fill: string; stroke: string; glow: string } {
+    const c = d.cluster ? this.clusterColors.get(d.cluster) : undefined;
+    if (c) return { fill: c.fill, stroke: c.stroke, glow: c.glow };
+    return WV_NODE_COLORS[d.type];
+  }
+
+  /** Pull cluster grouping strength up in 'cluster' mode and reveal hull territories. */
+  private applyClusterMode(): void {
+    const clustered = this.mode === 'cluster' && this.clusterOrder.length > 0;
+    this.clusterStrength = clustered ? 0.16 : 0.0;
+    this.hullSel?.attr('opacity', clustered ? 1 : 0);
+    this.hullLabelSel?.attr('opacity', clustered ? 0.8 : 0);
+    if (this.sim) {
+      this.sim.alpha(0.5).restart();
+    }
+  }
+
+  private updateHulls(): void {
+    if (!this.hullSel) return;
+    const PAD = 30;
+
+    this.hullSel.attr('d', (slug: string) => {
+      if (this.activeClusters && !this.activeClusters.has(slug)) return '';
+      const pts: [number, number][] = [];
+      for (const node of this.renderedNodes) {
+        if (node.cluster !== slug || !this.nodeVisible(node)) continue;
+        const x = node.x ?? 0;
+        const y = node.y ?? 0;
+        pts.push([x - PAD, y - PAD], [x + PAD, y - PAD], [x + PAD, y + PAD], [x - PAD, y + PAD]);
+      }
+      if (pts.length < 3) return '';
+      const hull = d3.polygonHull(pts);
+      if (!hull) return '';
+      return `M${hull.map((p) => `${p[0]},${p[1]}`).join('L')}Z`;
+    });
+
+    this.hullLabelSel?.attr('transform', (slug: string) => {
+      let minY = Number.POSITIVE_INFINITY;
+      let sumX = 0;
+      let count = 0;
+      for (const node of this.renderedNodes) {
+        if (node.cluster !== slug || !this.nodeVisible(node)) continue;
+        const x = node.x ?? 0;
+        const y = node.y ?? 0;
+        sumX += x;
+        count += 1;
+        if (y < minY) minY = y;
+      }
+      if (!count) return 'translate(-9999,-9999)';
+      return `translate(${sumX / count}, ${minY - PAD - 8})`;
+    });
   }
 
   // ── Drag ────────────────────────────────────────────────────────────────────

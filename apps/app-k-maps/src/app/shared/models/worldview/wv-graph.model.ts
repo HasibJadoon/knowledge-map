@@ -28,6 +28,10 @@ export interface WvGraphNode {
   displayLabelShort?: string | null;
   displayLabelMedium?: string | null;
   type: WvNodeType;
+  /** Cluster (community) membership slug, e.g. 'arjana-figures'. */
+  cluster?: string | null;
+  /** Human label for the cluster, e.g. 'Named Figures'. */
+  clusterTitle?: string | null;
   summary?: string;
   chapterRole?: string;
   /** computed by D3 — how many edges touch this node */
@@ -92,6 +96,56 @@ export const WV_NODE_LABELS: Record<WvNodeType, string> = {
   evidence:  'Evidence',
   insight:   'Insight',
 };
+
+// ── Cluster color families ─────────────────────────────────────────────────────
+// Each cluster (community) gets its own hue family so the constellation reads as
+// grouped territories rather than one undifferentiated cloud. Known worldview
+// clusters are pinned; any other slug is assigned deterministically from the
+// fallback palette so the scheme generalises to other sources.
+
+export interface ClusterColor {
+  stroke: string; // node ring + label
+  fill: string;   // node body
+  glow: string;   // focus glow
+  hull: string;   // territory backdrop fill
+  hullStroke: string;
+}
+
+function family(h: number, s: number, l: number): ClusterColor {
+  return {
+    stroke: `hsl(${h} ${s}% ${l}%)`,
+    fill:   `hsl(${h} ${s}% ${l}% / 0.16)`,
+    glow:   `hsl(${h} ${s}% ${l}% / 0.4)`,
+    hull:   `hsl(${h} ${s}% ${l}% / 0.07)`,
+    hullStroke: `hsl(${h} ${s}% ${l}% / 0.28)`,
+  };
+}
+
+// Pinned families for the Arjana "Muslim monster" genealogy clusters.
+const PINNED_CLUSTER_COLORS: Record<string, ClusterColor> = {
+  'arjana-frame':   family(44, 60, 56),   // gold — thesis & frame
+  'arjana-figures': family(2, 58, 58),    // crimson — named figures (spine)
+  'arjana-forms':   family(210, 55, 60),  // blue — monster forms
+  'arjana-tropes':  family(280, 48, 64),  // violet — tropes & anxieties
+  'arjana-toolkit': family(168, 46, 52),  // teal — conceptual toolkit
+  'arjana-eras':    family(28, 62, 56),   // amber — eras / timeline
+  'arjana-bodies':  family(326, 46, 62),  // rose — body-fantasy substrate
+};
+
+// Fallback hues (evenly spaced) for any unpinned cluster slug.
+const FALLBACK_HUES = [44, 2, 210, 280, 168, 28, 326, 130, 192, 256];
+
+const NEUTRAL_CLUSTER: ClusterColor = family(0, 0, 62);
+
+/**
+ * Resolve a stable color family for a cluster slug. `orderIndex` is the slug's
+ * position in the graph's cluster list, used to pick a fallback hue when the
+ * slug isn't pinned.
+ */
+export function clusterColor(slug: string | null | undefined, orderIndex = 0): ClusterColor {
+  if (!slug) return NEUTRAL_CLUSTER;
+  return PINNED_CLUSTER_COLORS[slug] ?? family(FALLBACK_HUES[orderIndex % FALLBACK_HUES.length], 50, 60);
+}
 
 // ── Base node radius ──────────────────────────────────────────────────────────
 export const NODE_BASE_RADIUS = 9;
