@@ -138,6 +138,7 @@ export interface WvIllustration {
   theme: string;               // dark | paper
   html_content: string;        // full standalone HTML document
   meta_json: string | null;
+  reading_session_id: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -155,6 +156,7 @@ export interface WvIllustrationCreate {
   caption?: string | null;
   theme?: string;
   meta_json?: string | null;
+  reading_session_id?: string | null;
 }
 
 export interface WvIllustrationPatch {
@@ -166,6 +168,7 @@ export interface WvIllustrationPatch {
   caption?: string | null;
   theme?: string;
   meta_json?: string | null;
+  reading_session_id?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -215,6 +218,15 @@ export class WorldviewLibraryApiService {
       .pipe(map((res) => (res?.ok ? res.data ?? null : null)));
   }
 
+  /** All reading sessions for a source, newest first. */
+  listSessions(sourceId: string): Observable<WvReadingSession[]> {
+    return this.http
+      .get<BackendApiResponse<WvReadingSession[]>>(`${this.base}/worldview/reading-sessions`, {
+        params: { source_id: sourceId, limit: 100 },
+      })
+      .pipe(map((res) => (res?.ok ? res.data ?? [] : [])));
+  }
+
   /** Start a new reading session. */
   createSession(input: WvReadingSessionCreate): Observable<WvReadingSession> {
     return this.http
@@ -236,6 +248,15 @@ export class WorldviewLibraryApiService {
     return this.http
       .get<BackendApiResponse<WvIllustrationSummary[]>>(
         `${this.base}/worldview/units/${unitId}/illustrations`,
+      )
+      .pipe(map((res) => (res?.ok ? res.data ?? [] : [])));
+  }
+
+  /** All illustrations attached to a single reading session, in display order. */
+  listReadingSessionIllustrations(sessionId: string): Observable<WvIllustrationSummary[]> {
+    return this.http
+      .get<BackendApiResponse<WvIllustrationSummary[]>>(
+        `${this.base}/worldview/reading-sessions/${sessionId}/illustrations`,
       )
       .pipe(map((res) => (res?.ok ? res.data ?? [] : [])));
   }

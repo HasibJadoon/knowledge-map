@@ -147,7 +147,10 @@
           <button type="button" class="pane-toggle graph-launch" (click)="openSelectedUnitGraph()">
             Open graph
           </button>
-          <km-wv-illustrations [unitId]="selectedUnit()?.id ?? null"></km-wv-illustrations>
+          <km-wv-illustrations
+            [sourceId]="source()?.id ?? null"
+            [chapterUnitId]="selectedChapter()?.id ?? null"
+          ></km-wv-illustrations>
         </div>
 
         <div class="split-container" #splitContainer [class.split-container--workspace-hidden]="workspaceHidden()">
