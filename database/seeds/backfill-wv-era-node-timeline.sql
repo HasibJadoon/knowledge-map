@@ -33,5 +33,5 @@ UPDATE wv_nodes SET data_json = json_set(json_set(json_set(json_set(data_json,
 
 UPDATE wv_nodes SET data_json = json_set(json_set(json_set(json_set(data_json,
   '$.year_start', 2001), '$.year_end', 2010), '$.order_index', 5),
-  '$.incidents', json('[{"year":2001,"title":"September 11 attacks"},{"year":2001,"title":"Invasion of Afghanistan"},{"year":2002,"title":"Guantanamo Bay opens"},{"year":2003,"title":"Invasion of Iraq"},{"year":2004,"title":"Abu Ghraib photographs"},{"year":2004,"title":"Madrid bombings"},{"year":2005,"title":"London 7/7 bombings"},{"year":2009,"title":"Swiss minaret ban"}]')),
+  '$.incidents', json('[{"year":2001,"title":"September 11 attacks","kind":"modern"},{"year":2001,"title":"Invasion of Afghanistan","kind":"modern"},{"year":2002,"title":"Guantanamo Bay opens","kind":"modern"},{"year":2003,"title":"Invasion of Iraq","kind":"modern"},{"year":2004,"title":"Abu Ghraib photographs","kind":"modern"},{"year":2004,"title":"Madrid bombings","kind":"modern"},{"year":2005,"title":"London 7/7 bombings","kind":"modern"},{"year":2009,"title":"Swiss minaret ban","kind":"modern"}]')),
   updated_at = datetime('now') WHERE id = 'node-arjana-era-sept11';
