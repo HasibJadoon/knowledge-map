@@ -14,6 +14,7 @@ import type { WorldviewEnv } from './env';
 import { traditionRoutes }  from './routes/traditions';
 import { nodeRoutes }        from './routes/nodes';
 import { sourceRoutes }      from './routes/sources';
+import { illustrationRoutes } from './routes/illustrations';
 import { readingSessionRoutes } from './routes/reading-sessions';
 import { timelineRoutes }    from './routes/timeline';
 import { questionRoutes }    from './routes/questions';
@@ -48,6 +49,16 @@ sourceRoutes(router);
 // GET    /worldview/units/:id/annotations highlights for unit
 // GET    /worldview/source-content        chunks (?source_id=&source_unit_id=)
 // GET    /worldview/workflow              composite source list for UI
+
+// ── Source-unit illustrations (1..N visual HTML pages per unit) ───────────────
+illustrationRoutes(router);
+// GET    /worldview/units/:id/illustrations    list for a unit (no html_content)
+// GET    /worldview/sources/:id/illustrations  list for a whole source
+// GET    /worldview/illustrations/:id          detail (includes html_content)
+// GET    /worldview/illustrations/:id/page     raw HTML document (text/html)
+// POST   /worldview/illustration               create (body.source_unit_id + html_content)
+// PUT    /worldview/illustration               update (body.id)
+// DELETE /worldview/illustration/:id           delete
 
 // ── Reading sessions ─────────────────────────────────────────────────────────
 readingSessionRoutes(router);
