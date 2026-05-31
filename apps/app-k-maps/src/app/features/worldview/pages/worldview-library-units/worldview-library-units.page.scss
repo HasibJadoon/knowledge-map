@@ -354,3 +354,97 @@
   0%, 100% { opacity: 0.32; }
   50%       { opacity: 0.72; }
 }
+
+/* ── Reading session card ──────────────────────────────────────── */
+.reading-session {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin: 0.25rem 1rem 0.5rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 14px;
+  border: 1px solid var(--r-sep);
+  background: rgba(255, 255, 255, 0.025);
+
+  &--open {
+    border-color: rgba(201, 168, 76, 0.28);
+    background:
+      radial-gradient(ellipse 120% 100% at 0% 0%, rgba(201, 168, 76, 0.07), transparent),
+      rgba(255, 255, 255, 0.03);
+  }
+
+  &--done { opacity: 0.72; }
+}
+
+.reading-session__info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.18rem;
+  min-width: 0;
+}
+
+.reading-session__status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--r-font-head);
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--r-gold-dim);
+
+  &--idle { color: var(--r-text-3); }
+}
+
+.reading-session__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--r-gold);
+  box-shadow: 0 0 0 3px rgba(201, 168, 76, 0.16);
+
+  .reading-session--done & { background: var(--r-text-3); box-shadow: none; }
+}
+
+.reading-session__chapter {
+  font-size: 0.86rem;
+  color: var(--r-text-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.reading-session__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-shrink: 0;
+}
+
+.rs-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  height: 34px;
+  padding: 0 0.7rem;
+  border-radius: 10px;
+  border: 1px solid var(--r-sep);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--r-text-2);
+  font-family: var(--r-font-head);
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: transform 0.12s ease, background 0.12s ease, border-color 0.12s ease;
+
+  ion-icon { font-size: 1rem; }
+
+  &:active { transform: scale(0.96); }
+  &:disabled { opacity: 0.5; pointer-events: none; }
+
+  &--primary {
+    border-color: rgba(201, 168, 76, 0.4);
+    background: rgba(201, 168, 76, 0.14);
+    color: var(--r-gold);
+  }
+}

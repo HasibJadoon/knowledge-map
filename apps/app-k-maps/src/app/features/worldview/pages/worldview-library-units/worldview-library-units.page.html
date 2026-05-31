@@ -73,6 +73,49 @@
         </div>
       </div>
 
+      <!-- ── Reading session ─────────────────────────────────────── -->
+      <div class="reading-session"
+           [class.reading-session--open]="hasOpenSession()"
+           [class.reading-session--done]="session()?.status === 'completed'">
+        @if (session(); as rs) {
+          <div class="reading-session__info">
+            <span class="reading-session__status">
+              <span class="reading-session__dot"></span>{{ sessionStatusLabel() }}
+            </span>
+            <span class="reading-session__chapter">{{ sessionChapterLabel() }}</span>
+          </div>
+          <div class="reading-session__actions">
+            @if (hasOpenSession()) {
+              <button class="rs-btn rs-btn--primary" (click)="resumeSession()" [disabled]="sessionBusy()">
+                <ion-icon name="play" aria-hidden="true"></ion-icon> Resume
+              </button>
+              @if (rs.status === 'active') {
+                <button class="rs-btn" (click)="pauseSession()" [disabled]="sessionBusy()" aria-label="Pause session">
+                  <ion-icon name="pause" aria-hidden="true"></ion-icon>
+                </button>
+              }
+              <button class="rs-btn" (click)="completeSession()" [disabled]="sessionBusy()" aria-label="Mark as finished">
+                <ion-icon name="checkmark-done" aria-hidden="true"></ion-icon>
+              </button>
+            } @else {
+              <button class="rs-btn rs-btn--primary" (click)="startSession()" [disabled]="sessionBusy()">
+                <ion-icon name="refresh" aria-hidden="true"></ion-icon> Read again
+              </button>
+            }
+          </div>
+        } @else {
+          <div class="reading-session__info">
+            <span class="reading-session__status reading-session__status--idle">No active session</span>
+            <span class="reading-session__chapter">Start a focused reading pass to track your place &amp; highlights.</span>
+          </div>
+          <div class="reading-session__actions">
+            <button class="rs-btn rs-btn--primary" (click)="startSession()" [disabled]="sessionBusy()">
+              <ion-icon name="play" aria-hidden="true"></ion-icon> Start reading
+            </button>
+          </div>
+        }
+      </div>
+
       <!-- ── Divider ─────────────────────────────────────────────── -->
       <div class="page-rule" aria-hidden="true">
         <span class="page-rule__label">Table of Contents</span>
