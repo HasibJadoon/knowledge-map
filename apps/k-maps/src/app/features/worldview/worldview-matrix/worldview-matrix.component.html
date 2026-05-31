@@ -1,0 +1,42 @@
+<div class="mx-page">
+  <header class="mx-nav">
+    <button type="button" class="back-btn" (click)="goToGraph()">← Graph</button>
+    <div class="mx-nav__titles">
+      <div class="mx-nav__eyebrow">Cross-section</div>
+      <div class="mx-nav__title">Which anxiety dominates which era</div>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="mx-skeleton">@for (s of [1,2,3,4,5,6]; track s) { <div class="mx-skeleton__row"></div> }</div>
+  } @else if (!hasData()) {
+    <div class="mx-empty"><span class="mx-empty__glyph">▦</span><p>No matrix data for this section yet.</p></div>
+  } @else {
+    <p class="mx-sub">
+      Intensity of each trope across the five eras (0–3). Rows are ordered by overall weight —
+      religion and dehumanization run hottest across the whole genealogy.
+    </p>
+
+    <div class="mx-grid-wrap">
+      <div class="mx-grid" [style.grid-template-columns]="gridCols()">
+        <div class="mx-cell mx-cell--corner"></div>
+        @for (era of eras(); track era.slug) {
+          <div class="mx-cell mx-col-head" [title]="era.title">{{ era.short }}</div>
+        }
+        @for (row of rows(); track row.id) {
+          <div class="mx-cell mx-row-head" [title]="row.title">{{ row.title }}</div>
+          @for (cell of row.cells; track cell.eraSlug) {
+            <div class="mx-cell mx-data" [style.background]="cellBg(cell.value)" [class.mx-data--peak]="cell.value === 3">{{ cellLabel(cell.value) }}</div>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="mx-legend">
+      <span class="mx-legend__label">Intensity</span>
+      @for (lvl of levels; track lvl) {
+        <span class="mx-legend__swatch" [style.background]="levelBg(lvl)">{{ lvl }}</span>
+      }
+    </div>
+  }
+</div>

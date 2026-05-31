@@ -3,6 +3,26 @@
     <button class="back-btn" (click)="back()">← Library</button>
     <div class="reader-nav__title">{{ source()?.title || 'Worldview Source' }}</div>
     <div class="reader-nav__right">
+      <!-- Reading session -->
+      <div class="reading-session" [class.reading-session--open]="hasOpenSession()">
+        @if (session(); as rs) {
+          <span class="reading-session__status">
+            <span class="reading-session__dot"></span>{{ sessionStatusLabel() }}
+          </span>
+          <span class="reading-session__chapter">{{ sessionChapterLabel() }}</span>
+          @if (hasOpenSession()) {
+            <button class="rs-btn rs-btn--primary" (click)="resumeSession()" [disabled]="sessionBusy()">Resume</button>
+            @if (rs.status === 'active') {
+              <button class="rs-btn" (click)="pauseSession()" [disabled]="sessionBusy()" title="Pause">Pause</button>
+            }
+            <button class="rs-btn" (click)="completeSession()" [disabled]="sessionBusy()" title="Mark finished">Finish</button>
+          } @else {
+            <button class="rs-btn rs-btn--primary" (click)="startSession()" [disabled]="sessionBusy()">Read again</button>
+          }
+        } @else {
+          <button class="rs-btn rs-btn--primary" (click)="startSession()" [disabled]="sessionBusy()">Start reading</button>
+        }
+      </div>
       <km-status-pill [label]="rootUnits().length + ' Chapters'"></km-status-pill>
     </div>
   </header>

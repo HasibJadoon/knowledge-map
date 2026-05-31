@@ -85,6 +85,43 @@ export interface WvAnnotationsBundle {
   wv_evidence_links: unknown[];
 }
 
+/** A reading-session row as stored in `wv_reading_sessions`. */
+export interface WvReadingSession {
+  id: string;
+  source_id: string;
+  source_unit_id: string | null;
+  title: string | null;
+  session_type: string;
+  status: 'active' | 'paused' | 'completed' | string;
+  focus_mode: string | null;
+  started_at: string;
+  ended_at: string | null;
+  last_position: string | null;
+  duration_secs: number | null;
+  summary_md: string | null;
+  meta_json: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface WvReadingSessionCreate {
+  source_id: string;
+  source_unit_id?: string | null;
+  title?: string | null;
+  focus_mode?: string | null;
+  last_position?: string | null;
+}
+
+export interface WvReadingSessionPatch {
+  id: string;
+  source_unit_id?: string | null;
+  status?: 'active' | 'paused' | 'completed';
+  focus_mode?: string | null;
+  last_position?: string | null;
+  ended_at?: string | null;
+  summary_md?: string | null;
+}
+
 @Injectable({ providedIn: 'root' })
 export class WorldviewLibraryApiService {
   private readonly http = inject(HttpClient);
@@ -118,5 +155,31 @@ export class WorldviewLibraryApiService {
     return this.http
       .get<BackendApiResponse<WvAnnotationsBundle>>(`${this.base}/worldview/units/${id}/annotations`)
       .pipe(map((res) => res?.data));
+  }
+
+  // ── Reading sessions ────────────────────────────────────────────────────────
+
+  /** The current active reading session for a source, or null. */
+  getActiveSession(sourceId: string): Observable<WvReadingSession | null> {
+    return this.http
+      .get<BackendApiResponse<WvReadingSession | null>>(
+        `${this.base}/worldview/reading-sessions/active`,
+        { params: { source_id: sourceId } },
+      )
+      .pipe(map((res) => (res?.ok ? res.data ?? null : null)));
+  }
+
+  /** Start a new reading session. */
+  createSession(input: WvReadingSessionCreate): Observable<WvReadingSession> {
+    return this.http
+      .post<BackendApiResponse<WvReadingSession>>(`${this.base}/worldview/reading-session`, input)
+      .pipe(map((res) => res?.data));
+  }
+
+  /** Update a reading session (pause / complete / move position). */
+  updateSession(input: WvReadingSessionPatch): Observable<WvReadingSession | null> {
+    return this.http
+      .put<BackendApiResponse<WvReadingSession>>(`${this.base}/worldview/reading-session`, input)
+      .pipe(map((res) => (res?.ok ? res.data ?? null : null)));
   }
 }

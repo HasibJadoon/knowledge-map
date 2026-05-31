@@ -211,6 +211,12 @@ export class WorldviewUnitGraphComponent implements OnInit, OnDestroy {
     void this.router.navigate(['/worldview/library', this.sourceId(), 'graph', unitId]);
   }
 
+  openView(view: 'timeline' | 'matrix' | 'map'): void {
+    if (this.sourceId() && this.unitId()) {
+      void this.router.navigate(['/worldview/library', this.sourceId(), view, this.unitId()]);
+    }
+  }
+
   optionLabel(item: TocItem): string {
     const title = this.unitLabel(item.unit);
     return `${item.numbering} · ${title}`;

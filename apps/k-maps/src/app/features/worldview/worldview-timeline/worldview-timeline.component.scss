@@ -1,0 +1,61 @@
+:host {
+  --r-bg: #07080b;
+  --r-gold: #c9a84c;
+  --r-text: rgba(255, 255, 255, 0.92);
+  --r-text-2: rgba(255, 255, 255, 0.68);
+  --r-text-3: rgba(255, 255, 255, 0.4);
+  --r-sep: rgba(255, 255, 255, 0.07);
+  --r-font-head: var(--km-font-heading, 'Poppins', sans-serif);
+  display: block;
+  min-height: 100%;
+  background: radial-gradient(ellipse 70% 30% at 50% 0%, rgba(201, 168, 76, 0.07), transparent), var(--r-bg);
+  color: var(--r-text);
+}
+
+.tl-page { max-width: 960px; margin: 0 auto; padding: 1rem 1.4rem 3rem; }
+
+.tl-nav { display: flex; align-items: center; gap: 1rem; padding: 0.5rem 0 1rem; }
+.back-btn {
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--r-sep); color: var(--r-text-2);
+  border-radius: 9px; padding: 0.4rem 0.75rem; font-size: 0.82rem; cursor: pointer; font-family: var(--r-font-head);
+}
+.back-btn:hover { color: var(--r-text); border-color: rgba(201, 168, 76, 0.4); }
+.tl-nav__eyebrow { color: var(--r-gold); font-family: var(--r-font-head); font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; }
+.tl-nav__title { font-family: var(--r-font-head); font-size: 1.3rem; font-weight: 600; }
+
+.tl-sub { color: var(--r-text-2); font-size: 0.9rem; line-height: 1.55; margin: 0 0 0.8rem; max-width: 70ch; }
+
+.tl-axis-wrap { border: 1px solid var(--r-sep); border-radius: 14px; padding: 0.6rem; background: rgba(255,255,255,0.015); }
+.tl-axis { width: 100%; height: auto; display: block; overflow: visible; }
+.tl-axis__band-label { fill: rgba(255, 255, 255, 0.82); font-size: 11px; font-family: var(--r-font-head); paint-order: stroke; stroke: rgba(7, 8, 11, 0.65); stroke-width: 3px; }
+.tl-axis__spine { stroke: rgba(255, 255, 255, 0.22); stroke-width: 1.4; }
+.tl-axis__tick { stroke: rgba(255, 255, 255, 0.28); stroke-width: 1.2; }
+.tl-axis__tick-label { fill: var(--r-text-3); font-size: 10px; font-family: var(--r-font-head); }
+.tl-axis__connector { stroke: rgba(255, 255, 255, 0.12); stroke-width: 1; }
+.tl-dot--spine  { fill: var(--r-gold); stroke: rgba(7, 8, 11, 0.6); stroke-width: 1; }
+.tl-dot--modern { fill: #c45a3a; stroke: rgba(7, 8, 11, 0.6); stroke-width: 1; }
+circle.tl-dot--modern { filter: drop-shadow(0 0 3px rgba(196, 90, 58, 0.6)); }
+
+.tl-legend { display: flex; gap: 1rem; padding: 0.7rem 0 0; font-size: 0.78rem; color: var(--r-text-2); font-family: var(--r-font-head); }
+.tl-legend__item { display: inline-flex; align-items: center; gap: 0.4rem; }
+.tl-legend__dot { width: 9px; height: 9px; border-radius: 50%; }
+.tl-legend__dot.tl-dot--spine { background: var(--r-gold); }
+.tl-legend__dot.tl-dot--modern { background: #c45a3a; }
+
+.tl-eras { padding: 1rem 0 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.7rem; }
+.tl-era { padding: 0.8rem 0.9rem; border-radius: 14px; border: 1px solid var(--r-sep); border-left: 3px solid var(--era, var(--r-gold)); background: rgba(255, 255, 255, 0.025); }
+.tl-era__head { display: flex; align-items: baseline; gap: 0.5rem; }
+.tl-era__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--era, var(--r-gold)); align-self: center; flex: 0 0 auto; }
+.tl-era__title { margin: 0; font-family: var(--r-font-head); font-size: 1rem; font-weight: 600; flex: 1 1 auto; }
+.tl-era__range { color: var(--r-text-3); font-size: 0.74rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tl-era__summary { margin: 0.4rem 0 0; color: var(--r-text-2); font-size: 0.84rem; line-height: 1.5; }
+.tl-era__incidents { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.6rem; }
+.tl-chip { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.22rem 0.5rem; border-radius: 8px; border: 1px solid rgba(196, 90, 58, 0.4); background: rgba(196, 90, 58, 0.12); font-size: 0.77rem; color: var(--r-text); }
+.tl-chip--spine { border-color: rgba(201, 168, 76, 0.4); background: rgba(201, 168, 76, 0.12); }
+.tl-chip__year { font-family: var(--r-font-head); font-size: 0.7rem; color: var(--r-text-3); font-variant-numeric: tabular-nums; }
+
+.tl-empty { display: flex; flex-direction: column; align-items: center; padding: 4rem 1rem; color: var(--r-text-3); }
+.tl-empty__glyph { font-size: 2.4rem; color: var(--r-gold); opacity: 0.2; }
+.tl-skeleton__axis { height: 60px; border-radius: 12px; background: rgba(255,255,255,0.04); margin-bottom: 1rem; }
+.tl-skeleton__row { height: 56px; border-radius: 12px; background: rgba(255,255,255,0.03); margin-bottom: 0.7rem; animation: tlPulse 1.4s ease-in-out infinite; }
+@keyframes tlPulse { 0%,100% { opacity: 0.4; } 50% { opacity: 0.75; } }

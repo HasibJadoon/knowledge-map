@@ -17,6 +17,12 @@
         </select>
       </label>
     }
+
+    <div class="graph-views">
+      <button type="button" class="graph-views__btn" (click)="openView('timeline')">Timeline</button>
+      <button type="button" class="graph-views__btn" (click)="openView('matrix')">Matrix</button>
+      <button type="button" class="graph-views__btn" (click)="openView('map')">Map</button>
+    </div>
   </header>
 
   <section class="graph-page__meta">
