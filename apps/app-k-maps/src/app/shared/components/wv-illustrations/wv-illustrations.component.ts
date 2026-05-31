@@ -1,9 +1,8 @@
 import {
   ChangeDetectionStrategy, Component, ElementRef, HostListener,
-  Input, ViewChild, inject, signal,
+  Input, OnDestroy, ViewChild, inject, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
 
@@ -21,15 +20,15 @@ interface IllustrationView {
 
 // ─── Worldview source-unit illustrations (mobile) ─────────────────────────────
 // A toolbar icon (visible only when the unit has illustrations) that opens a
-// full-screen ion-modal viewer. Inside, the 1..N visual HTML pages are shown one
-// at a time and the reader swipes between them (CSS scroll-snap). ion-modal is
-// used (rather than a CSS overlay) so the viewer escapes the transformed
-// ion-header/ion-toolbar containing block and fills the whole viewport.
+// full-screen modal viewer. The 1..N visual HTML pages are shown one at a time
+// and swiped between (CSS scroll-snap). The overlay is teleported to <body> on
+// open so position:fixed resolves against the viewport and is never trapped by
+// the transformed/contained ion-header / ion-toolbar ancestor.
 @Component({
   selector: 'app-wv-illustrations',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, IonicModule],
+  imports: [CommonModule],
   template: `
     @if (items().length) {
       <button
@@ -49,52 +48,45 @@ interface IllustrationView {
         }
       </button>
 
-      <ion-modal
-        [isOpen]="isOpen()"
-        (didDismiss)="close()"
-        (didPresent)="onPresented()"
-        class="wvi-ionmodal"
-      >
-        <ng-template>
-          <div class="wvi-shell">
-            <div class="wvi-modal__bar">
-              <span class="wvi-modal__count">{{ current() + 1 }} / {{ items().length }}</span>
-              <span class="wvi-modal__title">{{ items()[current()]?.title }}</span>
-              <button type="button" class="wvi-modal__close" (click)="close()" aria-label="Close">✕</button>
-            </div>
+      @if (isOpen()) {
+        <div class="wvi-modal" #overlay role="dialog" aria-modal="true" aria-label="Illustrations" (click)="onBackdrop($event)">
+          <div class="wvi-modal__bar">
+            <span class="wvi-modal__count">{{ current() + 1 }} / {{ items().length }}</span>
+            <span class="wvi-modal__title">{{ items()[current()]?.title }}</span>
+            <button type="button" class="wvi-modal__close" (click)="close()" aria-label="Close">✕</button>
+          </div>
 
-            <div class="wvi-track" #track (scroll)="onScroll()">
-              @for (it of items(); track it.id) {
-                <div class="wvi-slide">
-                  <iframe
-                    class="wvi-frame"
-                    [srcdoc]="$any(it.doc)"
-                    sandbox="allow-same-origin"
-                    referrerpolicy="no-referrer"
-                    [title]="it.title || 'Illustration'"
-                  ></iframe>
-                </div>
-              }
-            </div>
-
-            @if (items().length > 1) {
-              <button type="button" class="wvi-arrow wvi-arrow--prev" (click)="go(-1)" [disabled]="current() === 0" aria-label="Previous">‹</button>
-              <button type="button" class="wvi-arrow wvi-arrow--next" (click)="go(1)" [disabled]="current() === items().length - 1" aria-label="Next">›</button>
-              <div class="wvi-dots">
-                @for (it of items(); track it.id; let i = $index) {
-                  <button
-                    type="button"
-                    class="wvi-dot"
-                    [class.wvi-dot--on]="i === current()"
-                    (click)="goTo(i)"
-                    [attr.aria-label]="'Go to illustration ' + (i + 1)"
-                  ></button>
-                }
+          <div class="wvi-track" #track (scroll)="onScroll()">
+            @for (it of items(); track it.id) {
+              <div class="wvi-slide">
+                <iframe
+                  class="wvi-frame"
+                  [srcdoc]="$any(it.doc)"
+                  sandbox="allow-same-origin"
+                  referrerpolicy="no-referrer"
+                  [title]="it.title || 'Illustration'"
+                ></iframe>
               </div>
             }
           </div>
-        </ng-template>
-      </ion-modal>
+
+          @if (items().length > 1) {
+            <button type="button" class="wvi-arrow wvi-arrow--prev" (click)="go(-1)" [disabled]="current() === 0" aria-label="Previous">‹</button>
+            <button type="button" class="wvi-arrow wvi-arrow--next" (click)="go(1)" [disabled]="current() === items().length - 1" aria-label="Next">›</button>
+            <div class="wvi-dots">
+              @for (it of items(); track it.id; let i = $index) {
+                <button
+                  type="button"
+                  class="wvi-dot"
+                  [class.wvi-dot--on]="i === current()"
+                  (click)="goTo(i)"
+                  [attr.aria-label]="'Go to illustration ' + (i + 1)"
+                ></button>
+              }
+            </div>
+          }
+        </div>
+      }
     }
   `,
   styles: [`
@@ -110,20 +102,15 @@ interface IllustrationView {
       color: #080808; background: #c9a84c; border-radius: 8px;
     }
 
-    /* Force the modal to fill the viewport (override Ionic's card sizing on tablets/desktop). */
-    .wvi-ionmodal {
-      --width: 100%; --height: 100%; --max-width: 100%; --max-height: 100%;
-      --border-radius: 0; --background: #0d0d0d; --box-shadow: none;
-    }
-
-    .wvi-shell {
-      position: relative; display: flex; flex-direction: column;
-      width: 100%; height: 100%; background: #0d0d0d;
+    /* Full-bleed overlay (teleported to <body> on open). */
+    .wvi-modal {
+      position: fixed; inset: 0; z-index: 100000;
+      display: flex; flex-direction: column; background: #0d0d0d;
     }
     .wvi-modal__bar {
-      display: flex; align-items: center; gap: .75rem;
-      padding: calc(env(safe-area-inset-top, 0px) + .65rem) .85rem .65rem;
-      border-bottom: 1px solid rgba(255,255,255,.08); flex: 0 0 auto;
+      display: flex; align-items: center; gap: .75rem; flex: 0 0 auto;
+      padding: calc(env(safe-area-inset-top, 0px) + .7rem) .9rem .7rem;
+      border-bottom: 1px solid rgba(255,255,255,.08);
     }
     .wvi-modal__count {
       font-size: 11px; letter-spacing: .12em; font-weight: 700; color: #c9a84c; font-variant-numeric: tabular-nums;
@@ -163,10 +150,11 @@ interface IllustrationView {
     .wvi-dot--on { background: #c9a84c; }
   `],
 })
-export class WvIllustrationsComponent {
+export class WvIllustrationsComponent implements OnDestroy {
   private readonly api = inject(WorldviewLibraryApiService);
   private readonly sanitizer = inject(DomSanitizer);
 
+  @ViewChild('overlay') private overlayRef?: ElementRef<HTMLElement>;
   @ViewChild('track') private trackRef?: ElementRef<HTMLElement>;
 
   readonly items = signal<IllustrationView[]>([]);
@@ -182,6 +170,11 @@ export class WvIllustrationsComponent {
   triggerLabel(): string {
     const n = this.items().length;
     return `View ${n} illustration${n === 1 ? '' : 's'}`;
+  }
+
+  ngOnDestroy(): void {
+    this.restoreScroll();
+    this.overlayRef?.nativeElement?.remove();
   }
 
   private async load(id: string | null): Promise<void> {
@@ -220,15 +213,27 @@ export class WvIllustrationsComponent {
     if (!this.items().length) return;
     this.current.set(0);
     this.isOpen.set(true);
+    if (typeof document !== 'undefined') document.body.style.overflow = 'hidden';
+    // Teleport the overlay to <body> so position:fixed is viewport-relative
+    // (escapes the transformed ion-toolbar), then jump to the first slide.
+    setTimeout(() => {
+      const el = this.overlayRef?.nativeElement;
+      if (el && el.parentElement !== document.body) document.body.appendChild(el);
+      this.trackRef?.nativeElement?.scrollTo({ left: 0 });
+    }, 0);
   }
 
   close(): void {
     this.isOpen.set(false);
+    this.restoreScroll();
   }
 
-  /** ion-modal finished presenting — the track exists now; jump to the first slide. */
-  onPresented(): void {
-    setTimeout(() => this.trackRef?.nativeElement?.scrollTo({ left: 0 }), 0);
+  private restoreScroll(): void {
+    if (typeof document !== 'undefined') document.body.style.overflow = '';
+  }
+
+  onBackdrop(event: MouseEvent): void {
+    if ((event.target as HTMLElement)?.classList?.contains('wvi-modal')) this.close();
   }
 
   @HostListener('document:keydown.escape')
