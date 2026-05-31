@@ -208,7 +208,7 @@ interface Session {
 
     /* Summary — editorial lead */
     .wvi-sec--lead .wvi-sec__p {
-      font-size: 15.5px; line-height: 1.72; font-weight: 300; letter-spacing: .003em;
+      font-size: 17px; line-height: 1.75; font-weight: 300; letter-spacing: .003em;
       color: var(--km-text, rgba(255,255,255,.9));
       text-align: justify; text-justify: inter-word; hyphens: auto;
     }
@@ -216,8 +216,8 @@ interface Session {
     /* Major points — gold diamond markers */
     .wvi-points { margin: 0; padding: 0; list-style: none; }
     .wvi-points li {
-      position: relative; margin: 0 0 .6rem; padding-left: 1.4rem;
-      font-size: 14px; line-height: 1.55; color: var(--km-text, rgba(255,255,255,.86));
+      position: relative; margin: 0 0 .65rem; padding-left: 1.45rem;
+      font-size: 15.5px; line-height: 1.6; color: var(--km-text, rgba(255,255,255,.88));
     }
     .wvi-points li::before {
       content: ''; position: absolute; left: .12rem; top: .56em; width: 6px; height: 6px;
