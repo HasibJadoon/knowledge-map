@@ -147,6 +147,7 @@
           <button type="button" class="pane-toggle graph-launch" (click)="openSelectedUnitGraph()">
             Open graph
           </button>
+          <km-wv-illustrations [unitId]="selectedUnit()?.id ?? null"></km-wv-illustrations>
         </div>
 
         <div class="split-container" #splitContainer [class.split-container--workspace-hidden]="workspaceHidden()">
@@ -348,8 +349,6 @@
                 {{ unitTypeLabel(selectedUnit()?.unit_type).toLowerCase() }} yet.
               </div>
             }
-
-            <km-wv-illustrations [unitId]="selectedUnit()?.id ?? null"></km-wv-illustrations>
           </section>
 
           @if (!workspaceHidden()) {
