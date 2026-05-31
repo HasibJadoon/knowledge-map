@@ -3,6 +3,7 @@ import {
   Input, ViewChild, inject, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { firstValueFrom } from 'rxjs';
 
@@ -20,14 +21,15 @@ interface IllustrationView {
 
 // ─── Worldview source-unit illustrations (mobile) ─────────────────────────────
 // A toolbar icon (visible only when the unit has illustrations) that opens a
-// full-screen modal viewer. Inside, the 1..N visual HTML pages are shown one at
-// a time and the reader swipes between them (CSS scroll-snap). Each page is a
-// complete standalone document isolated in a sandboxed <iframe>.
+// full-screen ion-modal viewer. Inside, the 1..N visual HTML pages are shown one
+// at a time and the reader swipes between them (CSS scroll-snap). ion-modal is
+// used (rather than a CSS overlay) so the viewer escapes the transformed
+// ion-header/ion-toolbar containing block and fills the whole viewport.
 @Component({
   selector: 'app-wv-illustrations',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule],
+  imports: [CommonModule, IonicModule],
   template: `
     @if (items().length) {
       <button
@@ -47,9 +49,14 @@ interface IllustrationView {
         }
       </button>
 
-      @if (isOpen()) {
-        <div class="wvi-modal" role="dialog" aria-modal="true" aria-label="Illustrations" (click)="onBackdrop($event)">
-          <div class="wvi-modal__panel">
+      <ion-modal
+        [isOpen]="isOpen()"
+        (didDismiss)="close()"
+        (didPresent)="onPresented()"
+        class="wvi-ionmodal"
+      >
+        <ng-template>
+          <div class="wvi-shell">
             <div class="wvi-modal__bar">
               <span class="wvi-modal__count">{{ current() + 1 }} / {{ items().length }}</span>
               <span class="wvi-modal__title">{{ items()[current()]?.title }}</span>
@@ -86,8 +93,8 @@ interface IllustrationView {
               </div>
             }
           </div>
-        </div>
-      }
+        </ng-template>
+      </ion-modal>
     }
   `,
   styles: [`
@@ -103,18 +110,19 @@ interface IllustrationView {
       color: #080808; background: #c9a84c; border-radius: 8px;
     }
 
-    .wvi-modal {
-      position: fixed; inset: 0; z-index: 20000; display: flex; align-items: center; justify-content: center;
-      padding: clamp(0px, 2vw, 28px); background: rgba(0,0,0,.8);
+    /* Force the modal to fill the viewport (override Ionic's card sizing on tablets/desktop). */
+    .wvi-ionmodal {
+      --width: 100%; --height: 100%; --max-width: 100%; --max-height: 100%;
+      --border-radius: 0; --background: #0d0d0d; --box-shadow: none;
     }
-    .wvi-modal__panel {
+
+    .wvi-shell {
       position: relative; display: flex; flex-direction: column;
-      width: min(720px, 100vw); height: min(94vh, 1100px);
-      background: #0d0d0d; border: 1px solid rgba(201,168,76,.3);
-      border-radius: 14px; overflow: hidden; box-shadow: 0 24px 80px rgba(0,0,0,.6);
+      width: 100%; height: 100%; background: #0d0d0d;
     }
     .wvi-modal__bar {
-      display: flex; align-items: center; gap: .75rem; padding: .65rem .85rem;
+      display: flex; align-items: center; gap: .75rem;
+      padding: calc(env(safe-area-inset-top, 0px) + .65rem) .85rem .65rem;
       border-bottom: 1px solid rgba(255,255,255,.08); flex: 0 0 auto;
     }
     .wvi-modal__count {
@@ -125,8 +133,8 @@ interface IllustrationView {
       white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
     }
     .wvi-modal__close {
-      flex: 0 0 auto; width: 30px; height: 30px; border: 0; border-radius: 7px; cursor: pointer;
-      background: transparent; color: rgba(255,255,255,.6); font-size: 15px;
+      flex: 0 0 auto; width: 32px; height: 32px; border: 0; border-radius: 7px; cursor: pointer;
+      background: rgba(255,255,255,.06); color: rgba(255,255,255,.7); font-size: 15px;
     }
 
     .wvi-track {
@@ -138,7 +146,7 @@ interface IllustrationView {
     .wvi-frame { width: 100%; height: 100%; border: 0; background: #080808; display: block; }
 
     .wvi-arrow {
-      position: absolute; top: 50%; transform: translateY(-50%); width: 38px; height: 38px;
+      position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px;
       display: flex; align-items: center; justify-content: center; cursor: pointer;
       border: 1px solid rgba(255,255,255,.14); border-radius: 50%;
       background: rgba(13,13,13,.82); color: rgba(255,255,255,.92); font-size: 22px; line-height: 1;
@@ -147,7 +155,10 @@ interface IllustrationView {
     .wvi-arrow--next { right: 8px; }
     .wvi-arrow:disabled { opacity: .28; }
 
-    .wvi-dots { position: absolute; left: 0; right: 0; bottom: 10px; display: flex; gap: 7px; justify-content: center; }
+    .wvi-dots {
+      position: absolute; left: 0; right: 0; display: flex; gap: 7px; justify-content: center;
+      bottom: calc(env(safe-area-inset-bottom, 0px) + 12px);
+    }
     .wvi-dot { width: 7px; height: 7px; padding: 0; border: 0; border-radius: 50%; cursor: pointer; background: rgba(255,255,255,.28); }
     .wvi-dot--on { background: #c9a84c; }
   `],
@@ -209,15 +220,15 @@ export class WvIllustrationsComponent {
     if (!this.items().length) return;
     this.current.set(0);
     this.isOpen.set(true);
-    setTimeout(() => this.trackRef?.nativeElement?.scrollTo({ left: 0 }), 0);
   }
 
   close(): void {
     this.isOpen.set(false);
   }
 
-  onBackdrop(event: MouseEvent): void {
-    if ((event.target as HTMLElement)?.classList?.contains('wvi-modal')) this.close();
+  /** ion-modal finished presenting — the track exists now; jump to the first slide. */
+  onPresented(): void {
+    setTimeout(() => this.trackRef?.nativeElement?.scrollTo({ left: 0 }), 0);
   }
 
   @HostListener('document:keydown.escape')
