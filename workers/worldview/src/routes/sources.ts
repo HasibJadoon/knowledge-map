@@ -276,6 +276,38 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
     });
   });
 
+  // ── Geographic map features ───────────────────────────────────────────────
+
+  // GET /worldview/units/:id/map-features
+  // Returns the geographic map points for the SOURCE that owns this unit, so the
+  // map renders on any chapter page of a book. Features live in wv_map_features,
+  // grouped under a wv_map_layers row whose meta_json.source_id matches the unit's
+  // source. Per-point presentation (kind/era/order/year/intensity/dir/sub) is read
+  // straight from meta_json so the renderer needs no extra joins.
+  router.get('/worldview/units/:id/map-features', async (_req, env, { id }) => {
+    const features = await query(env.DB_WV, `
+      SELECT
+        f.id,
+        f.title                                    AS label,
+        f.latitude                                 AS lat,
+        f.longitude                                AS lon,
+        f.period_label                             AS era,
+        json_extract(f.meta_json, '$.kind')        AS kind,
+        json_extract(f.meta_json, '$.sub')         AS sub,
+        json_extract(f.meta_json, '$.order')       AS order_index,
+        json_extract(f.meta_json, '$.year')        AS year,
+        json_extract(f.meta_json, '$.intensity')   AS intensity,
+        json_extract(f.meta_json, '$.dir')         AS dir
+      FROM wv_map_features f
+      JOIN wv_map_layers l ON l.id = f.map_layer_id
+      WHERE json_extract(l.meta_json, '$.source_id') = (
+        SELECT source_id FROM wv_source_units WHERE id = ?
+      )
+      ORDER BY COALESCE(json_extract(f.meta_json, '$.order'), 0)
+    `, [id]);
+    return ok({ unit_id: id, features });
+  });
+
   // ── Source content (chunks) ───────────────────────────────────────────────
 
   // GET /worldview/source-content?source_id=&source_unit_id=&limit=

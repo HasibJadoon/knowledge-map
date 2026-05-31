@@ -85,6 +85,21 @@ export interface WvAnnotationsBundle {
   wv_evidence_links: unknown[];
 }
 
+/** A geographic map point (`GET /worldview/units/:id/map-features`). */
+export interface WvMapFeature {
+  id: string;
+  label: string;
+  lat: number;
+  lon: number;
+  era: string | null;
+  kind: string | null;
+  sub: string | null;
+  order_index: number | null;
+  year: number | null;
+  intensity: number | null;
+  dir: string | null;
+}
+
 /** A reading-session row as stored in `wv_reading_sessions`. */
 export interface WvReadingSession {
   id: string;
@@ -155,6 +170,15 @@ export class WorldviewLibraryApiService {
     return this.http
       .get<BackendApiResponse<WvAnnotationsBundle>>(`${this.base}/worldview/units/${id}/annotations`)
       .pipe(map((res) => res?.data));
+  }
+
+  /** Geographic map features for the source that owns a unit (may be empty). */
+  getUnitMapFeatures(id: string): Observable<WvMapFeature[]> {
+    return this.http
+      .get<BackendApiResponse<{ unit_id: string; features: WvMapFeature[] }>>(
+        `${this.base}/worldview/units/${id}/map-features`,
+      )
+      .pipe(map((res) => (res?.ok ? res.data?.features ?? [] : [])));
   }
 
   // ── Reading sessions ────────────────────────────────────────────────────────
