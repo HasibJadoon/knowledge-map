@@ -230,3 +230,18 @@
     padding-right: 0.9rem;
   }
 }
+
+/* View switcher (timeline / matrix / map) */
+.graph-views { display: inline-flex; gap: 0.4rem; margin-left: auto; }
+.graph-views__btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.7);
+  border-radius: 8px;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+  font-family: var(--km-font-heading, 'Poppins', sans-serif);
+  transition: color 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+}
+.graph-views__btn:hover { color: #fff; border-color: rgba(201, 168, 76, 0.45); background: rgba(201, 168, 76, 0.12); }

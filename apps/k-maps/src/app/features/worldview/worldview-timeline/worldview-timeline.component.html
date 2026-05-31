@@ -1,0 +1,72 @@
+<div class="tl-page">
+  <header class="tl-nav">
+    <button type="button" class="back-btn" (click)="goToGraph()">← Graph</button>
+    <div class="tl-nav__titles">
+      <div class="tl-nav__eyebrow">Dual-register chronology</div>
+      <div class="tl-nav__title">A long tail, a recent spike</div>
+    </div>
+  </header>
+
+  @if (loading()) {
+    <div class="tl-skeleton">
+      <div class="tl-skeleton__axis"></div>
+      @for (s of [1,2,3,4,5]; track s) { <div class="tl-skeleton__row"></div> }
+    </div>
+  } @else if (eras().length === 0) {
+    <div class="tl-empty"><span class="tl-empty__glyph">◷</span><p>No timeline data for this section yet.</p></div>
+  } @else {
+    <p class="tl-sub">
+      {{ eras().length }} eras · {{ incidentCount() }} dated incidents. The modern cluster is a dense
+      burst at the right edge of a centuries-long genealogy — symptoms, not origins.
+    </p>
+
+    <div class="tl-axis-wrap">
+      <svg class="tl-axis" [attr.viewBox]="'0 0 ' + vbW + ' 240'" preserveAspectRatio="xMinYMid meet" role="img" aria-label="Timeline axis">
+        @for (band of eraRects(); track band.title) {
+          <rect [attr.x]="band.x" [attr.y]="40" [attr.width]="band.w" [attr.height]="26" rx="6"
+                [attr.fill]="band.color" fill-opacity="0.22" [attr.stroke]="band.color" stroke-opacity="0.55" />
+          @if (band.showLabel) {
+            <text [attr.x]="band.labelX" [attr.y]="57" text-anchor="middle" class="tl-axis__band-label">{{ band.title }}</text>
+          }
+        }
+        <line [attr.x1]="0" [attr.y1]="axisY" [attr.x2]="vbW" [attr.y2]="axisY" class="tl-axis__spine" />
+        @for (t of ticks(); track t.label) {
+          <line [attr.x1]="t.x" [attr.y1]="axisY - 4" [attr.x2]="t.x" [attr.y2]="axisY + 4" class="tl-axis__tick" />
+          <text [attr.x]="t.x" [attr.y]="axisY - 9" text-anchor="middle" class="tl-axis__tick-label">{{ t.label }}</text>
+        }
+        @for (d of dots(); track $index) {
+          <line [attr.x1]="d.x" [attr.y1]="axisY" [attr.x2]="d.x" [attr.y2]="d.y" class="tl-axis__connector" />
+          <circle [attr.cx]="d.x" [attr.cy]="d.y" [attr.r]="d.r"
+                  [class.tl-dot--modern]="d.kind === 'modern'" [class.tl-dot--spine]="d.kind === 'spine'" />
+        }
+      </svg>
+    </div>
+
+    <div class="tl-legend">
+      <span class="tl-legend__item"><span class="tl-legend__dot tl-dot--spine"></span>Deep-time spine</span>
+      <span class="tl-legend__item"><span class="tl-legend__dot tl-dot--modern"></span>Modern incident</span>
+    </div>
+
+    <div class="tl-eras">
+      @for (era of eras(); track era.id) {
+        <section class="tl-era" [style.--era]="era.color">
+          <div class="tl-era__head">
+            <span class="tl-era__dot"></span>
+            <h2 class="tl-era__title">{{ era.title }}</h2>
+            <span class="tl-era__range">{{ eraRangeLabel(era) }}</span>
+          </div>
+          @if (era.summary) { <p class="tl-era__summary">{{ era.summary }}</p> }
+          @if (era.incidents.length) {
+            <div class="tl-era__incidents">
+              @for (inc of era.incidents; track inc.title) {
+                <span class="tl-chip" [class.tl-chip--spine]="inc.kind === 'spine'">
+                  <span class="tl-chip__year">{{ inc.year }}</span>{{ inc.title }}
+                </span>
+              }
+            </div>
+          }
+        </section>
+      }
+    </div>
+  }
+</div>

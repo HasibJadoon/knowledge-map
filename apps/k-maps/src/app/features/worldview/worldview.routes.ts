@@ -30,6 +30,30 @@ export const WORLDVIEW_ROUTES: Routes = [
         title: 'Graph — Worldview',
       },
       {
+        path: 'library/:sourceId/timeline/:unitId',
+        loadComponent: () =>
+          import('./worldview-timeline/worldview-timeline.component').then(
+            (m) => m.WorldviewTimelineComponent,
+          ),
+        title: 'Timeline — Worldview',
+      },
+      {
+        path: 'library/:sourceId/matrix/:unitId',
+        loadComponent: () =>
+          import('./worldview-matrix/worldview-matrix.component').then(
+            (m) => m.WorldviewMatrixComponent,
+          ),
+        title: 'Matrix — Worldview',
+      },
+      {
+        path: 'library/:sourceId/map/:unitId',
+        loadComponent: () =>
+          import('./worldview-map/worldview-map.component').then(
+            (m) => m.WorldviewMapComponent,
+          ),
+        title: 'Map — Worldview',
+      },
+      {
         path: 'library/:id',
         loadComponent: () =>
           import('./worldview-library-units/worldview-library-units.component').then(

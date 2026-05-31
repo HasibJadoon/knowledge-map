@@ -47,29 +47,26 @@
         }
 
         <!-- Migration arcs -->
-        @for (a of labelledArcs(); track $index) {
+        @for (a of arcs(); track $index) {
           <path [attr.d]="a.d" class="mp-arc" marker-end="url(#mp-arrow)" />
-          @if (a.year) {
-            <text [attr.x]="a.midX" [attr.y]="a.midY" text-anchor="middle" class="mp-arc__year">{{ a.year }}</text>
-          }
         }
 
-        <!-- Place markers -->
+        <!-- Place markers + directional labels -->
         @for (p of points(); track p.id) {
           @if (p.kind === 'center') {
-            <circle [attr.cx]="p.x" [attr.cy]="p.y" r="34" fill="url(#mp-center-glow)" />
+            <circle [attr.cx]="p.x" [attr.cy]="p.y" r="32" fill="url(#mp-center-glow)" />
           }
           <circle [attr.cx]="p.x" [attr.cy]="p.y" [attr.r]="p.r" [attr.fill]="p.color"
                   [class.mp-node--center]="p.kind === 'center'" class="mp-node" />
-          <text [attr.x]="p.x" [attr.y]="p.y - p.r - 8" text-anchor="middle" class="mp-node__label">{{ p.label }}</text>
-          <text [attr.x]="p.x" [attr.y]="p.y - p.r - 8 + 15" text-anchor="middle" class="mp-node__sub">{{ p.sub }}</text>
+          <text [attr.x]="p.labelX" [attr.y]="p.mainY" [attr.text-anchor]="p.labelAnchor" class="mp-node__label">{{ p.label }}</text>
+          <text [attr.x]="p.labelX" [attr.y]="p.subY" [attr.text-anchor]="p.labelAnchor" class="mp-node__sub">{{ p.sub }}</text>
         }
       </svg>
     </div>
 
     <!-- Ordered stops -->
     <ol class="mp-stops">
-      <li class="mp-stop mp-stop--center">
+      <li class="mp-stop">
         <span class="mp-stop__dot" style="--c:#c9a84c"></span>
         <span class="mp-stop__body"><strong>{{ center().label }}</strong> — {{ center().sub }}</span>
       </li>

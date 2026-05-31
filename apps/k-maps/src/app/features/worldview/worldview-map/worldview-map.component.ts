@@ -1,61 +1,41 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit, computed, inject, signal } from '@angular/core';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { ActivatedRoute, Router } from '@angular/router';
 
-// ─────────────────────────────────────────────────────────────────────────────
-//  WorldviewMapPage — westward-migration map (schematic cartography)
-//  The Muslim-monster trope radiates from a medieval Christian center
-//  (Rome / Jerusalem) outward — to the Ottoman East (1453), the Americas (1492),
-//  and the Barbary Coast — with monstrosity rising by distance from the center.
-//  Equirectangular SVG (no tile library); waypoints curated for this book and
-//  can later bind to wv_locations. Labels are placed in distinct directions so
-//  the tight Mediterranean cluster stays readable.
-// ─────────────────────────────────────────────────────────────────────────────
+// Desktop westward-migration map (schematic equirectangular cartography).
+// Mirrors the mobile WorldviewMapPage, with directional labels so the tight
+// Mediterranean cluster stays readable. Waypoints curated for this work.
 
 type LabelDir = 'up' | 'down' | 'right' | 'left';
 
 interface Waypoint {
-  id: string;
-  kind: 'center' | 'stop';
-  label: string;
-  sub: string;
-  lon: number;
-  lat: number;
-  order: number;
-  year: number | null;
-  intensity: number;
-  dir: LabelDir;
+  id: string; kind: 'center' | 'stop'; label: string; sub: string;
+  lon: number; lat: number; order: number; year: number | null; intensity: number; dir: LabelDir;
 }
-
 interface PlacedPoint extends Waypoint {
   x: number; y: number; r: number; color: string;
-  labelAnchor: 'start' | 'middle' | 'end';
-  labelX: number; mainY: number; subY: number;
+  labelAnchor: 'start' | 'middle' | 'end'; labelX: number; mainY: number; subY: number;
 }
 interface Arc { d: string; }
 interface GridLine { x1: number; y1: number; x2: number; y2: number; }
 
 const WAYPOINTS: Waypoint[] = [
-  { id: 'center',   kind: 'center', label: 'Christian center', sub: 'Rome · Jerusalem',     lon: 16,  lat: 41.9, order: 0, year: null, intensity: 0, dir: 'up' },
-  { id: 'ottoman',  kind: 'stop',   label: 'Ottoman East',     sub: 'Constantinople 1453',  lon: 29,  lat: 41,   order: 1, year: 1453, intensity: 2, dir: 'right' },
-  { id: 'americas', kind: 'stop',   label: 'The Americas',     sub: 'New World 1492',       lon: -72, lat: 18,   order: 2, year: 1492, intensity: 3, dir: 'up' },
-  { id: 'barbary',  kind: 'stop',   label: 'Barbary Coast',    sub: 'Corsair panic 1600s',  lon: 4,   lat: 35,   order: 3, year: 1700, intensity: 3, dir: 'down' },
+  { id: 'center',   kind: 'center', label: 'Christian center', sub: 'Rome · Jerusalem',    lon: 16,  lat: 41.9, order: 0, year: null, intensity: 0, dir: 'up' },
+  { id: 'ottoman',  kind: 'stop',   label: 'Ottoman East',     sub: 'Constantinople 1453', lon: 29,  lat: 41,   order: 1, year: 1453, intensity: 2, dir: 'right' },
+  { id: 'americas', kind: 'stop',   label: 'The Americas',     sub: 'New World 1492',      lon: -72, lat: 18,   order: 2, year: 1492, intensity: 3, dir: 'up' },
+  { id: 'barbary',  kind: 'stop',   label: 'Barbary Coast',    sub: 'Corsair panic 1600s', lon: 4,   lat: 35,   order: 3, year: 1700, intensity: 3, dir: 'down' },
 ];
-
-const VB_W = 1000;
-const VB_H = 560;
-const LON_MIN = -92, LON_MAX = 52, LAT_MIN = 6, LAT_MAX = 54;
+const VB_W = 1000, VB_H = 560, LON_MIN = -92, LON_MAX = 52, LAT_MIN = 6, LAT_MAX = 54;
 
 @Component({
-  selector: 'app-worldview-map',
+  selector: 'km-worldview-map',
   standalone: true,
-  imports: [CommonModule, IonicModule, RouterLink],
-  templateUrl: './worldview-map.page.html',
-  styleUrl: './worldview-map.page.scss',
+  imports: [CommonModule],
+  templateUrl: './worldview-map.component.html',
+  styleUrl: './worldview-map.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class WorldviewMapPage implements OnInit {
+export class WorldviewMapComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
 
@@ -64,16 +44,9 @@ export class WorldviewMapPage implements OnInit {
   readonly vbW = VB_W;
   readonly vbH = VB_H;
 
-  readonly graphHref = computed(() =>
-    this.sourceId() && this.unitId()
-      ? `/worldview/library/${this.sourceId()}/graph/${this.unitId()}`
-      : '/worldview/library',
-  );
-
   readonly points = computed<PlacedPoint[]>(() =>
     WAYPOINTS.map((w) => {
-      const x = this.projX(w.lon);
-      const y = this.projY(w.lat);
+      const x = this.projX(w.lon), y = this.projY(w.lat);
       const r = w.kind === 'center' ? 12 : 8 + w.intensity * 1.6;
       return {
         ...w, x, y, r,
@@ -82,29 +55,22 @@ export class WorldviewMapPage implements OnInit {
       };
     }),
   );
-
   readonly center = computed<PlacedPoint>(() => this.points().find((p) => p.kind === 'center')!);
-
   readonly arcs = computed<Arc[]>(() => {
     const c = this.center();
-    return this.points()
-      .filter((p) => p.kind === 'stop')
-      .sort((a, b) => a.order - b.order)
+    return this.points().filter((p) => p.kind === 'stop').sort((a, b) => a.order - b.order)
       .map((p) => ({ d: this.arcPath(c.x, c.y, p.x, p.y) }));
   });
-
   readonly rings = computed<number[]>(() => {
     const c = this.center();
     return this.points().filter((p) => p.kind === 'stop').map((p) => Math.hypot(p.x - c.x, p.y - c.y));
   });
-
   readonly gridLines = computed<GridLine[]>(() => {
     const lines: GridLine[] = [];
     for (let lon = -80; lon <= 40; lon += 20) lines.push({ x1: this.projX(lon), y1: 0, x2: this.projX(lon), y2: VB_H });
     for (let lat = 10; lat <= 50; lat += 10) lines.push({ x1: 0, y1: this.projY(lat), x2: VB_W, y2: this.projY(lat) });
     return lines;
   });
-
   readonly stops = computed(() => this.points().filter((p) => p.kind === 'stop').sort((a, b) => a.order - b.order));
 
   ngOnInit(): void {
@@ -113,19 +79,19 @@ export class WorldviewMapPage implements OnInit {
     if (!this.sourceId()) void this.router.navigate(['/worldview/library']);
   }
 
+  goToGraph(): void {
+    void this.router.navigate(['/worldview/library', this.sourceId(), 'graph', this.unitId()]);
+  }
+
   private projX(lon: number): number { return ((lon - LON_MIN) / (LON_MAX - LON_MIN)) * VB_W; }
   private projY(lat: number): number { return ((LAT_MAX - lat) / (LAT_MAX - LAT_MIN)) * VB_H; }
-
   private arcPath(x0: number, y0: number, x1: number, y1: number): string {
     const mx = (x0 + x1) / 2, my = (y0 + y1) / 2;
     const dx = x1 - x0, dy = y1 - y0, len = Math.hypot(dx, dy) || 1;
     const nx = -dy / len, ny = dx / len, bow = Math.min(110, len * 0.2);
     return `M${x0},${y0} Q${mx + nx * bow},${my + ny * bow} ${x1},${y1}`;
   }
-
-  private intensityColor(intensity: number): string {
-    return `rgba(196,90,58,${(0.5 + (intensity / 3) * 0.5).toFixed(2)})`;
-  }
+  private intensityColor(intensity: number): string { return `rgba(196,90,58,${(0.5 + (intensity / 3) * 0.5).toFixed(2)})`; }
 }
 
 function labelPlacement(dir: LabelDir, x: number, y: number, r: number): {
