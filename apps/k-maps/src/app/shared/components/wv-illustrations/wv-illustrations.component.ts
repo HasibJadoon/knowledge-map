@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, Component, ElementRef, HostListener,
-  Input, ViewChild, inject, signal,
+  Input, OnDestroy, ViewChild, inject, signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -20,9 +20,10 @@ interface IllustrationView {
 
 // ─── Worldview source-unit illustrations ──────────────────────────────────────
 // A toolbar icon (visible only when the selected unit has illustrations) that
-// opens a full-screen modal viewer. Inside, the 1..N visual HTML pages are shown
-// one at a time and the reader swipes between them (CSS scroll-snap). Each page
-// is a complete standalone document isolated in a sandboxed <iframe>.
+// opens a full-screen modal viewer. The 1..N visual HTML pages are shown one at
+// a time and swiped between (CSS scroll-snap). The overlay is teleported to
+// <body> on open so position:fixed resolves against the viewport — never trapped
+// by a transformed/contained ancestor (e.g. a header/toolbar).
 @Component({
   selector: 'km-wv-illustrations',
   standalone: true,
@@ -48,7 +49,7 @@ interface IllustrationView {
       </button>
 
       @if (isOpen()) {
-        <div class="wvi-modal" role="dialog" aria-modal="true" aria-label="Illustrations" (click)="onBackdrop($event)">
+        <div class="wvi-modal" #overlay role="dialog" aria-modal="true" aria-label="Illustrations" (click)="onBackdrop($event)">
           <div class="wvi-modal__panel">
             <div class="wvi-modal__bar">
               <span class="wvi-modal__count">{{ current() + 1 }} / {{ items().length }}</span>
@@ -106,7 +107,7 @@ interface IllustrationView {
     }
 
     .wvi-modal {
-      position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center;
+      position: fixed; inset: 0; z-index: 100000; display: flex; align-items: center; justify-content: center;
       padding: clamp(12px, 3vw, 40px); background: rgba(0,0,0,.74); backdrop-filter: blur(3px);
     }
     .wvi-modal__panel {
@@ -158,10 +159,11 @@ interface IllustrationView {
     .wvi-dot--on { background: var(--km-gold, #c9a84c); }
   `],
 })
-export class WvIllustrationsComponent {
+export class WvIllustrationsComponent implements OnDestroy {
   private readonly api = inject(WorldviewLibraryApiService);
   private readonly sanitizer = inject(DomSanitizer);
 
+  @ViewChild('overlay') private overlayRef?: ElementRef<HTMLElement>;
   @ViewChild('track') private trackRef?: ElementRef<HTMLElement>;
 
   readonly items = signal<IllustrationView[]>([]);
@@ -177,6 +179,11 @@ export class WvIllustrationsComponent {
   triggerLabel(): string {
     const n = this.items().length;
     return `View ${n} illustration${n === 1 ? '' : 's'}`;
+  }
+
+  ngOnDestroy(): void {
+    this.restoreScroll();
+    this.overlayRef?.nativeElement?.remove();
   }
 
   private async load(id: string | null): Promise<void> {
@@ -215,12 +222,23 @@ export class WvIllustrationsComponent {
     if (!this.items().length) return;
     this.current.set(0);
     this.isOpen.set(true);
-    // Jump to the first slide once the track has rendered.
-    setTimeout(() => this.trackRef?.nativeElement?.scrollTo({ left: 0 }), 0);
+    if (typeof document !== 'undefined') document.body.style.overflow = 'hidden';
+    // Teleport the overlay to <body> so position:fixed is viewport-relative,
+    // then jump to the first slide — both after the overlay has rendered.
+    setTimeout(() => {
+      const el = this.overlayRef?.nativeElement;
+      if (el && el.parentElement !== document.body) document.body.appendChild(el);
+      this.trackRef?.nativeElement?.scrollTo({ left: 0 });
+    }, 0);
   }
 
   close(): void {
     this.isOpen.set(false);
+    this.restoreScroll();
+  }
+
+  private restoreScroll(): void {
+    if (typeof document !== 'undefined') document.body.style.overflow = '';
   }
 
   onBackdrop(event: MouseEvent): void {
