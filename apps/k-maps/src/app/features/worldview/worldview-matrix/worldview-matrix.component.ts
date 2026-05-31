@@ -11,9 +11,10 @@ interface MxEra { slug: string; short: string; title: string; order: number; }
 interface MxCell { value: number; eraSlug: string; }
 interface MxRow { id: string; title: string; cells: MxCell[]; total: number; }
 
+// Compact column labels — the full era title is shown on hover via [title].
 const ERA_SHORT: Record<string, string> = {
-  medieval: 'Medieval', renaissance: 'Renaissance', americas: 'Americas',
-  orientalist: 'Orientalism', sept11: '9/11 +',
+  medieval: 'Medieval', renaissance: 'Renaiss.', americas: 'Americas',
+  orientalist: 'Orient.', sept11: '9/11 +',
 };
 
 @Component({

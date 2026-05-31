@@ -44,24 +44,28 @@
 
 .mx-col-head {
   font-family: var(--r-font-head);
-  font-size: 0.68rem;
+  font-size: 0.64rem;
   color: var(--r-text-2);
   text-align: center;
-  line-height: 1.1;
-  padding: 0 2px;
+  line-height: 1.05;
+  padding: 2px 1px;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  hyphens: auto;
   position: sticky;
   top: 0;
 }
 
 .mx-row-head {
   justify-content: flex-start;
-  font-size: 0.76rem;
+  font-size: 0.72rem;
   color: var(--r-text);
   text-align: left;
-  padding: 0 0.5rem 0 0.3rem;
-  line-height: 1.15;
+  padding: 4px 0.4rem;
+  line-height: 1.12;
   background: rgba(255, 255, 255, 0.025);
-  overflow: hidden;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .mx-data {
