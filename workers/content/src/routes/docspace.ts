@@ -64,7 +64,11 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
     }
     if (domain) { where.push(`domain = ?`); params.push(domain); }
     if (surah !== null) { where.push(`surah = ?`); params.push(surah); }
-    if (q) { where.push(`(title LIKE ? OR body_text LIKE ?)`); params.push(`%${q}%`, `%${q}%`); }
+    if (q) {
+      // Match typed body, title, AND recognized handwriting (ocr_text).
+      where.push(`(title LIKE ? OR body_text LIKE ? OR ocr_text LIKE ?)`);
+      params.push(`%${q}%`, `%${q}%`, `%${q}%`);
+    }
 
     const rows = await query<DocNote>(
       env.DB_CM,
@@ -131,6 +135,7 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
     if (b['body'] !== undefined) { sets.push('body_text = ?'); params.push(String(b['body'])); }
     if (b['visibility'] !== undefined) { sets.push('visibility = ?'); params.push(String(b['visibility'])); }
     if (b['is_pinned'] !== undefined) { sets.push('is_pinned = ?'); params.push(b['is_pinned'] ? 1 : 0); }
+    if (b['ocr_text'] !== undefined) { sets.push('ocr_text = ?'); params.push((b['ocr_text'] as string | null) ?? null); }
     if (b['domain'] !== undefined) { sets.push('domain = ?'); params.push((b['domain'] as string | null) ?? null); }
     if (b['surah'] !== undefined) { sets.push('surah = ?'); params.push(intOrNull(b['surah'])); }
     if (b['ayah_from'] !== undefined) { sets.push('ayah_from = ?'); params.push(intOrNull(b['ayah_from'])); }
