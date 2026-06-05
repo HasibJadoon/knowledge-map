@@ -159,4 +159,64 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
     );
     return res.meta.changes ? noContent() : notFound(`note ${id}`);
   });
+
+  // ── Ink pages (D3) — handwriting layer, owner-scoped via the parent note ──
+  const SELECT_INK = `
+    SELECT ink_id AS id, note_id, page_index, kmink_json, pk_drawing_b64,
+           pk_stale, width, height, updated_at
+    FROM cm_doc_ink`;
+
+  async function ownsNote(env: ContentEnv, noteId: string, owner: string): Promise<boolean> {
+    const row = await queryOne<{ note_id: string }>(
+      env.DB_CM,
+      `SELECT note_id FROM cm_notes WHERE note_id = ? AND core_user_ref = ?`,
+      [noteId, owner],
+    );
+    return !!row;
+  }
+
+  // GET /cm/docspace/:id/ink — all ink pages for a note.
+  router.get('/cm/docspace/:id/ink', async (req, env, { id }) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    if (!(await ownsNote(env, id, owner))) return notFound(`note ${id}`);
+    const pages = await query(env.DB_CM, `${SELECT_INK} WHERE note_id = ? ORDER BY page_index`, [id]);
+    return ok({ pages });
+  });
+
+  // PUT /cm/docspace/:id/ink/:page — upsert one ink page.
+  // pk_stale=0 when the native PKDrawing is included; 1 when only KMInk is
+  // (e.g. a web edit), signalling iOS to re-rasterise.
+  router.put('/cm/docspace/:id/ink/:page', async (req, env, { id, page }) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    if (!(await ownsNote(env, id, owner))) return notFound(`note ${id}`);
+    let b: Record<string, unknown>;
+    try { b = (await req.json() ?? {}) as Record<string, unknown>; }
+    catch { return badRequest('Request body must be valid JSON'); }
+
+    const pageIndex = intOrNull(page) ?? 0;
+    const kmink = b['kmink_json'];
+    if (kmink === undefined || kmink === null) return badRequest('kmink_json is required');
+    const kminkStr = typeof kmink === 'string' ? kmink : JSON.stringify(kmink);
+    const pkB64 = typeof b['pk_drawing_b64'] === 'string' ? b['pk_drawing_b64'] : null;
+    const pkStale = pkB64 ? 0 : 1;
+
+    await execute(
+      env.DB_CM,
+      `INSERT INTO cm_doc_ink
+         (ink_id, note_id, page_index, kmink_json, pk_drawing_b64, pk_stale, width, height, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+       ON CONFLICT(note_id, page_index) DO UPDATE SET
+         kmink_json = excluded.kmink_json,
+         pk_drawing_b64 = excluded.pk_drawing_b64,
+         pk_stale = excluded.pk_stale,
+         width = excluded.width,
+         height = excluded.height,
+         updated_at = excluded.updated_at`,
+      [typedId('CM'), id, pageIndex, kminkStr, pkB64, pkStale, intOrNull(b['width']), intOrNull(b['height'])],
+    );
+    const row = await queryOne(env.DB_CM, `${SELECT_INK} WHERE note_id = ? AND page_index = ?`, [id, pageIndex]);
+    return ok(row);
+  });
 }
