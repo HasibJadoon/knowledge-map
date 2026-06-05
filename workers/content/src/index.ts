@@ -9,6 +9,7 @@ import type { ContentEnv } from './env';
 
 import { documentRoutes } from './routes/documents';
 import { noteRoutes } from './routes/notes';
+import { docSpaceRoutes } from './routes/docspace';
 import { captureRoutes } from './routes/captures';
 import { highlightRoutes } from './routes/highlights';
 import { cmSourceRoutes } from './routes/sources';
@@ -20,7 +21,8 @@ router.get('/health', async (_req, env) =>
 );
 
 documentRoutes(router);   // CM documents, blocks, links, versions
-noteRoutes(router);        // GET/POST/PATCH /cm/notes
+noteRoutes(router);        // GET/POST/PATCH /cm/notes (legacy annotations)
+docSpaceRoutes(router);    // GET/POST/PATCH/DELETE /cm/docspace (owner-scoped notes)
 captureRoutes(router);     // GET/POST /cm/captures
 highlightRoutes(router);   // GET/POST/DELETE /cm/highlights
 cmSourceRoutes(router);    // GET/POST /cm/sources
