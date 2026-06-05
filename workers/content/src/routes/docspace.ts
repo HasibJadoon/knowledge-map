@@ -22,13 +22,16 @@ interface DocNote {
   ayah_to: number | null;
   is_pinned: number;
   tags_json: string | null;
+  folder_ref: string | null;
+  deleted_at: string | null;
   created_at: string;
   updated_at: string;
 }
 
 const SELECT = `
   SELECT note_id AS id, title, body_text AS body, visibility, domain,
-         surah, ayah_from, ayah_to, is_pinned, tags_json, created_at, updated_at
+         surah, ayah_from, ayah_to, is_pinned, tags_json, folder_ref, deleted_at,
+         created_at, updated_at
   FROM cm_notes`;
 
 function ownerOf(req: Request): string | null {
@@ -42,6 +45,103 @@ function intOrNull(v: unknown): number | null {
 }
 
 export function docSpaceRoutes(router: Router<ContentEnv>) {
+
+  // ── Folders (D6.5) — personal, owner-scoped. Registered BEFORE /:id so the
+  //    literal "folders" segment wins over the :id param (router is first-match).
+  interface FolderRow {
+    id: string; parent_ref: string | null; name: string;
+    color: string | null; sort_order: number; created_at: string; updated_at: string;
+  }
+  const SELECT_FOLDER = `
+    SELECT id, parent_ref, name, color, sort_order, created_at, updated_at
+    FROM cm_folders`;
+
+  // GET /cm/docspace/folders — my folder tree (flat; client builds the tree).
+  router.get('/cm/docspace/folders', async (req, env) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    const folders = await query<FolderRow>(
+      env.DB_CM,
+      `${SELECT_FOLDER} WHERE core_user_ref = ? ORDER BY sort_order, name COLLATE NOCASE`,
+      [owner],
+    );
+    return ok({ folders });
+  });
+
+  // POST /cm/docspace/folders { name, parent_ref?, color? }
+  router.post('/cm/docspace/folders', async (req, env) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    let b: Record<string, unknown>;
+    try { b = (await req.json() ?? {}) as Record<string, unknown>; }
+    catch { return badRequest('Request body must be valid JSON'); }
+    const name = String(b['name'] ?? '').trim();
+    if (!name) return badRequest('name is required');
+    const id = typedId('CF');
+    await execute(
+      env.DB_CM,
+      `INSERT INTO cm_folders (id, core_user_ref, parent_ref, name, color, sort_order, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, strftime('%Y-%m-%dT%H:%M:%SZ','now'), strftime('%Y-%m-%dT%H:%M:%SZ','now'))`,
+      [id, owner, (b['parent_ref'] as string | null) ?? null, name,
+       (b['color'] as string | null) ?? null, intOrNull(b['sort_order']) ?? 0],
+    );
+    const row = await queryOne<FolderRow>(env.DB_CM, `${SELECT_FOLDER} WHERE id = ?`, [id]);
+    return created(row);
+  });
+
+  // PATCH /cm/docspace/folders/:fid
+  router.patch('/cm/docspace/folders/:fid', async (req, env, { fid }) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    let b: Record<string, unknown>;
+    try { b = (await req.json() ?? {}) as Record<string, unknown>; }
+    catch { return badRequest('Request body must be valid JSON'); }
+    const sets: string[] = [];
+    const params: unknown[] = [];
+    if (b['name'] !== undefined) { sets.push('name = ?'); params.push(String(b['name'])); }
+    if (b['parent_ref'] !== undefined) { sets.push('parent_ref = ?'); params.push((b['parent_ref'] as string | null) ?? null); }
+    if (b['color'] !== undefined) { sets.push('color = ?'); params.push((b['color'] as string | null) ?? null); }
+    if (b['sort_order'] !== undefined) { sets.push('sort_order = ?'); params.push(intOrNull(b['sort_order']) ?? 0); }
+    if (!sets.length) return badRequest('No fields to update');
+    sets.push(`updated_at = strftime('%Y-%m-%dT%H:%M:%SZ','now')`);
+    const res = await execute(
+      env.DB_CM,
+      `UPDATE cm_folders SET ${sets.join(', ')} WHERE id = ? AND core_user_ref = ?`,
+      [...params, fid, owner],
+    );
+    if (!res.meta.changes) return notFound(`folder ${fid}`);
+    const row = await queryOne<FolderRow>(env.DB_CM, `${SELECT_FOLDER} WHERE id = ?`, [fid]);
+    return ok(row);
+  });
+
+  // DELETE /cm/docspace/folders/:fid — remove folder + descendants; the notes
+  // they held fall back to root (folder_ref = NULL), never deleted.
+  router.delete('/cm/docspace/folders/:fid', async (req, env, { fid }) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    // Gather the subtree (one level of nesting is typical; walk to be safe).
+    const all = await query<{ id: string; parent_ref: string | null }>(
+      env.DB_CM, `SELECT id, parent_ref FROM cm_folders WHERE core_user_ref = ?`, [owner]);
+    const owned = new Set(all.map(f => f.id));
+    if (!owned.has(fid)) return notFound(`folder ${fid}`);
+    const toDelete = new Set<string>([fid]);
+    let grew = true;
+    while (grew) {
+      grew = false;
+      for (const f of all) {
+        if (f.parent_ref && toDelete.has(f.parent_ref) && !toDelete.has(f.id)) {
+          toDelete.add(f.id); grew = true;
+        }
+      }
+    }
+    const ids = [...toDelete];
+    const placeholders = ids.map(() => '?').join(',');
+    await executeBatch(env.DB_CM, [
+      { sql: `UPDATE cm_notes SET folder_ref = NULL WHERE core_user_ref = ? AND folder_ref IN (${placeholders})`, params: [owner, ...ids] },
+      { sql: `DELETE FROM cm_folders WHERE core_user_ref = ? AND id IN (${placeholders})`, params: [owner, ...ids] },
+    ]);
+    return noContent();
+  });
 
   // GET /cm/docspace?domain=&surah=&visibility=&q=  — my notes (+ public)
   router.get('/cm/docspace', async (req, env) => {
@@ -74,9 +174,25 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
       params.push(`%${q}%`, `%${q}%`, `%${q}%`);
     }
 
+    // Trash view vs live; default hides soft-deleted notes.
+    if (url.searchParams.get('deleted') === '1') {
+      where.push(`deleted_at IS NOT NULL`);
+    } else {
+      where.push(`deleted_at IS NULL`);
+    }
+    // Folder scope: 'root' = no folder; an id = that folder; absent = all.
+    const folder = url.searchParams.get('folder');
+    if (folder === 'root') { where.push(`folder_ref IS NULL`); }
+    else if (folder) { where.push(`folder_ref = ?`); params.push(folder); }
+
+    const sort = url.searchParams.get('sort');
+    const orderBy = sort === 'created' ? 'created_at DESC'
+      : sort === 'title' ? 'title COLLATE NOCASE ASC'
+      : 'updated_at DESC';
+
     const rows = await query<DocNote>(
       env.DB_CM,
-      `${SELECT} WHERE ${where.join(' AND ')} ORDER BY is_pinned DESC, updated_at DESC LIMIT 500`,
+      `${SELECT} WHERE ${where.join(' AND ')} ORDER BY is_pinned DESC, ${orderBy} LIMIT 500`,
       params,
     );
     return ok({ notes: rows });
@@ -146,6 +262,16 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
         : [];
       sets.push('tags_json = ?'); params.push(JSON.stringify(tags));
     }
+    if (b['folder_ref'] !== undefined) {
+      // null = move to root; an id must be one of my folders.
+      const fref = b['folder_ref'] === null ? null : String(b['folder_ref']);
+      if (fref !== null) {
+        const mine = await queryOne(env.DB_CM,
+          `SELECT id FROM cm_folders WHERE id = ? AND core_user_ref = ?`, [fref, owner]);
+        if (!mine) return badRequest('folder_ref is not your folder');
+      }
+      sets.push('folder_ref = ?'); params.push(fref);
+    }
     if (b['domain'] !== undefined) { sets.push('domain = ?'); params.push((b['domain'] as string | null) ?? null); }
     if (b['surah'] !== undefined) { sets.push('surah = ?'); params.push(intOrNull(b['surah'])); }
     if (b['ayah_from'] !== undefined) { sets.push('ayah_from = ?'); params.push(intOrNull(b['ayah_from'])); }
@@ -163,16 +289,40 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
     return ok(row);
   });
 
-  // DELETE /cm/docspace/:id  (owner only)
+  // DELETE /cm/docspace/:id  (owner only). Soft by default → Recently Deleted.
+  // ?purge=1 hard-deletes and cascades the note's ink rows.
   router.delete('/cm/docspace/:id', async (req, env, { id }) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    const purge = new URL(req.url).searchParams.get('purge') === '1';
+    if (purge) {
+      await executeBatch(env.DB_CM, [
+        { sql: `DELETE FROM cm_doc_ink WHERE note_id = ? AND note_id IN (SELECT note_id FROM cm_notes WHERE note_id = ? AND core_user_ref = ?)`, params: [id, id, owner] },
+        { sql: `DELETE FROM cm_notes WHERE note_id = ? AND core_user_ref = ?`, params: [id, owner] },
+      ]);
+      return noContent();
+    }
+    const res = await execute(
+      env.DB_CM,
+      `UPDATE cm_notes SET deleted_at = strftime('%Y-%m-%dT%H:%M:%SZ','now')
+       WHERE note_id = ? AND core_user_ref = ? AND deleted_at IS NULL`,
+      [id, owner],
+    );
+    return res.meta.changes ? noContent() : notFound(`note ${id}`);
+  });
+
+  // POST /cm/docspace/:id/restore — bring a soft-deleted note back.
+  router.post('/cm/docspace/:id/restore', async (req, env, { id }) => {
     const owner = ownerOf(req);
     if (!owner) return unauthorized('Sign in required');
     const res = await execute(
       env.DB_CM,
-      `DELETE FROM cm_notes WHERE note_id = ? AND core_user_ref = ?`,
+      `UPDATE cm_notes SET deleted_at = NULL WHERE note_id = ? AND core_user_ref = ?`,
       [id, owner],
     );
-    return res.meta.changes ? noContent() : notFound(`note ${id}`);
+    if (!res.meta.changes) return notFound(`note ${id}`);
+    const row = await queryOne<DocNote>(env.DB_CM, `${SELECT} WHERE note_id = ?`, [id]);
+    return ok(row);
   });
 
   // ── Ink pages (D3) — handwriting layer, owner-scoped via the parent note ──
