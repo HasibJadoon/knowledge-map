@@ -7,7 +7,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, created, notFound, badRequest, unauthorized, noContent } from '../../../shared/src/response';
-import { query, queryOne, execute } from '../../../shared/src/db';
+import { query, queryOne, execute, executeBatch } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
 import type { ContentEnv } from '../env';
 
@@ -233,5 +233,59 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
     );
     const row = await queryOne(env.DB_CM, `${SELECT_INK} WHERE note_id = ? AND page_index = ?`, [id, pageIndex]);
     return ok(row);
+  });
+
+  // DELETE /cm/docspace/:id/ink/:page — remove one ink page (owner only).
+  // Does NOT renumber remaining pages; the client follows with a reorder if it
+  // wants a dense 0..n-1 sequence.
+  router.delete('/cm/docspace/:id/ink/:page', async (req, env, { id, page }) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    if (!(await ownsNote(env, id, owner))) return notFound(`note ${id}`);
+    const pageIndex = intOrNull(page);
+    if (pageIndex === null) return badRequest('page must be an integer');
+    const res = await execute(
+      env.DB_CM,
+      `DELETE FROM cm_doc_ink WHERE note_id = ? AND page_index = ?`,
+      [id, pageIndex],
+    );
+    return res.meta.changes ? noContent() : notFound(`page ${pageIndex}`);
+  });
+
+  // POST /cm/docspace/:id/ink/reorder — body { order: [oldIndex, …] }.
+  // The array position becomes the new page_index. Transactional two-pass to
+  // dodge the UNIQUE(note_id, page_index) constraint: bump all to +1000, then
+  // settle to final indexes — all inside one atomic batch.
+  router.post('/cm/docspace/:id/ink/reorder', async (req, env, { id }) => {
+    const owner = ownerOf(req);
+    if (!owner) return unauthorized('Sign in required');
+    if (!(await ownsNote(env, id, owner))) return notFound(`note ${id}`);
+    let b: Record<string, unknown>;
+    try { b = (await req.json() ?? {}) as Record<string, unknown>; }
+    catch { return badRequest('Request body must be valid JSON'); }
+
+    const order = Array.isArray(b['order']) ? (b['order'] as unknown[]).map(Number) : null;
+    if (!order || order.some((n) => !Number.isInteger(n))) {
+      return badRequest('order must be an array of integer page indexes');
+    }
+    const existing = (await query<{ page_index: number }>(
+      env.DB_CM, `SELECT page_index FROM cm_doc_ink WHERE note_id = ? ORDER BY page_index`, [id],
+    )).map((r) => r.page_index);
+    // `order` must be a permutation of the existing indexes.
+    const sameSet = order.length === existing.length &&
+      [...order].sort((x, y) => x - y).every((v, i) => v === existing[i]);
+    if (!sameSet) return badRequest('order must be a permutation of existing page indexes');
+
+    const bump = existing.map((idx) => ({
+      sql: `UPDATE cm_doc_ink SET page_index = page_index + 1000 WHERE note_id = ? AND page_index = ?`,
+      params: [id, idx],
+    }));
+    const settle = order.map((oldIdx, newIdx) => ({
+      sql: `UPDATE cm_doc_ink SET page_index = ?, updated_at = strftime('%Y-%m-%dT%H:%M:%SZ','now') WHERE note_id = ? AND page_index = ?`,
+      params: [newIdx, id, oldIdx + 1000],
+    }));
+    await executeBatch(env.DB_CM, [...bump, ...settle]);
+    const pages = await query(env.DB_CM, `${SELECT_INK} WHERE note_id = ? ORDER BY page_index`, [id]);
+    return ok({ pages });
   });
 }
