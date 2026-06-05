@@ -21,13 +21,14 @@ interface DocNote {
   ayah_from: number | null;
   ayah_to: number | null;
   is_pinned: number;
+  tags_json: string | null;
   created_at: string;
   updated_at: string;
 }
 
 const SELECT = `
   SELECT note_id AS id, title, body_text AS body, visibility, domain,
-         surah, ayah_from, ayah_to, is_pinned, created_at, updated_at
+         surah, ayah_from, ayah_to, is_pinned, tags_json, created_at, updated_at
   FROM cm_notes`;
 
 function ownerOf(req: Request): string | null {
@@ -64,6 +65,9 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
     }
     if (domain) { where.push(`domain = ?`); params.push(domain); }
     if (surah !== null) { where.push(`surah = ?`); params.push(surah); }
+    const tag = url.searchParams.get('tag')?.trim();
+    // tags_json is a JSON array like ["math","logic"]; match the quoted token.
+    if (tag) { where.push(`tags_json LIKE ?`); params.push(`%${JSON.stringify(tag)}%`); }
     if (q) {
       // Match typed body, title, AND recognized handwriting (ocr_text).
       where.push(`(title LIKE ? OR body_text LIKE ? OR ocr_text LIKE ?)`);
@@ -136,6 +140,12 @@ export function docSpaceRoutes(router: Router<ContentEnv>) {
     if (b['visibility'] !== undefined) { sets.push('visibility = ?'); params.push(String(b['visibility'])); }
     if (b['is_pinned'] !== undefined) { sets.push('is_pinned = ?'); params.push(b['is_pinned'] ? 1 : 0); }
     if (b['ocr_text'] !== undefined) { sets.push('ocr_text = ?'); params.push((b['ocr_text'] as string | null) ?? null); }
+    if (b['tags'] !== undefined) {
+      const tags = Array.isArray(b['tags'])
+        ? (b['tags'] as unknown[]).map(String).map(t => t.trim()).filter(Boolean)
+        : [];
+      sets.push('tags_json = ?'); params.push(JSON.stringify(tags));
+    }
     if (b['domain'] !== undefined) { sets.push('domain = ?'); params.push((b['domain'] as string | null) ?? null); }
     if (b['surah'] !== undefined) { sets.push('surah = ?'); params.push(intOrNull(b['surah'])); }
     if (b['ayah_from'] !== undefined) { sets.push('ayah_from = ?'); params.push(intOrNull(b['ayah_from'])); }
