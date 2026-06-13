@@ -1762,3 +1762,69 @@
     color: #c9a84c;
   }
 }
+
+// ── Per-section attachments: documents / content / episodes ──────
+.attach-sec {
+  width: 100%;
+  margin: 1.6rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--km-border, rgba(0, 0, 0, 0.08));
+
+  &__label {
+    margin-bottom: 0.5rem;
+    color: var(--km-gold, #c9a84c);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+}
+
+.attach-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.7rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--km-border, rgba(0, 0, 0, 0.06));
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+
+  &:last-child { border-bottom: none; }
+  &:hover .attach-row__title { color: var(--km-gold, #c9a84c); }
+
+  &__thumb {
+    flex-shrink: 0;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.55rem;
+    object-fit: cover;
+    border: 1px solid var(--km-border, rgba(0, 0, 0, 0.08));
+  }
+
+  &__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.12rem; }
+  &__title { font-size: 0.95rem; font-weight: 600; line-height: 1.34; color: var(--km-text); transition: color 0.15s; }
+  &__sub { font-size: 0.8rem; color: var(--km-text-muted, rgba(0, 0, 0, 0.6)); }
+  &__summary {
+    margin-top: 0.1rem;
+    font-size: 0.78rem;
+    line-height: 1.5;
+    color: var(--km-text-muted, rgba(0, 0, 0, 0.55));
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  &__meta { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.3rem; }
+  &__chip {
+    padding: 0.08rem 0.45rem;
+    border-radius: 999px;
+    background: rgba(201, 168, 76, 0.12);
+    color: var(--km-gold, #c9a84c);
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    text-transform: capitalize;
+  }
+}

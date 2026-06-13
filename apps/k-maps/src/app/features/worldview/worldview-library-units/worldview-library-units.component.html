@@ -349,6 +349,29 @@
                 </div>
               }
 
+              @for (group of attachmentGroups(); track group.key) {
+                <section class="attach-sec scroll-reveal">
+                  <div class="attach-sec__label">{{ group.label }}</div>
+                  @for (att of group.items; track att.id) {
+                    <button class="attach-row" (click)="openAttachment(att)">
+                      @if (att.thumbnail_url) {
+                        <img class="attach-row__thumb" [src]="att.thumbnail_url" [attr.alt]="att.title || ''" loading="lazy" />
+                      }
+                      <span class="attach-row__body">
+                        <span class="attach-row__title">{{ att.title || att.target_ref }}</span>
+                        @if (att.subtitle) { <span class="attach-row__sub">{{ att.subtitle }}</span> }
+                        @if (att.summary) { <span class="attach-row__summary">{{ att.summary }}</span> }
+                        <span class="attach-row__meta">
+                          @if (att.link_role && att.link_role !== 'related') { <span class="attach-row__chip">{{ att.link_role }}</span> }
+                          @if (formatDuration(att.duration_sec); as dur) { <span class="attach-row__chip">{{ dur }}</span> }
+                          @if (att.locator) { <span class="attach-row__chip">{{ att.locator }}</span> }
+                        </span>
+                      </span>
+                    </button>
+                  }
+                </section>
+              }
+
               <section class="document-end scroll-reveal scroll-reveal--document-end" aria-label="End of document">
                 <div class="document-end__aura" aria-hidden="true">
                   <span class="document-end__ray document-end__ray--left"></span>

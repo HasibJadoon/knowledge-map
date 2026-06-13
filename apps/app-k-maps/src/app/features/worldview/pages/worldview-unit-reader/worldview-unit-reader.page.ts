@@ -59,6 +59,25 @@ interface WvUnit {
   documentText?: string | null;
   documentBlocks?: WvDocumentBlock[] | null;
   children?: WvUnit[];
+  // Per-section attachments (typed cross-domain refs into the content domain)
+  documents?: WvAttachment[] | null;
+  content?: WvAttachment[] | null;
+  episodes?: WvAttachment[] | null;
+}
+
+interface WvAttachment {
+  id: string;
+  attachment_type?: string | null;
+  target_ref?: string | null;
+  target_kind?: string | null;
+  title?: string | null;
+  subtitle?: string | null;
+  summary?: string | null;
+  thumbnail_url?: string | null;
+  media_url?: string | null;
+  duration_sec?: number | null;
+  locator?: string | null;
+  link_role?: string | null;
 }
 
 interface WvDocumentBlock {
@@ -217,6 +236,11 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
     if (!u) return [];
     return sortUnits(this.allUnits().filter((x) => x.parent_unit_id === u.id));
   });
+
+  // Per-section attachments
+  readonly unitDocuments = computed(() => this.unit()?.documents ?? []);
+  readonly unitContent = computed(() => this.unit()?.content ?? []);
+  readonly unitEpisodes = computed(() => this.unit()?.episodes ?? []);
 
   readonly parentChapter = computed(() => {
     const u = this.unit();
@@ -624,6 +648,24 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
         window.removeEventListener('pointercancel', onPointerUp);
       }
     };
+  }
+
+  formatDuration(seconds?: number | null): string {
+    if (!seconds || seconds <= 0) return '';
+    const m = Math.floor(seconds / 60);
+    const s = Math.round(seconds % 60);
+    if (m >= 60) {
+      const h = Math.floor(m / 60);
+      return `${h}h ${m % 60}m`;
+    }
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
+  openAttachment(att: WvAttachment): void {
+    const url = att.media_url?.trim();
+    if (url && typeof window !== 'undefined') {
+      window.open(url, '_blank', 'noopener');
+    }
   }
 
   unitTitle(unit: WvUnit | null | undefined): string {

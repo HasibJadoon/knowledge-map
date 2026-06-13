@@ -80,7 +80,25 @@ interface WvUnitDetail extends WvUnit {
   documentJson?: Record<string, unknown> | null;
   documentText?: string | null;
   documentBlocks?: WvDocumentBlock[] | null;
+  documents?: WvAttachment[] | null;
+  content?: WvAttachment[] | null;
+  episodes?: WvAttachment[] | null;
   children: WvUnit[];
+}
+
+interface WvAttachment {
+  id: string;
+  attachment_type?: string | null;
+  target_ref?: string | null;
+  target_kind?: string | null;
+  title?: string | null;
+  subtitle?: string | null;
+  summary?: string | null;
+  thumbnail_url?: string | null;
+  media_url?: string | null;
+  duration_sec?: number | null;
+  locator?: string | null;
+  link_role?: string | null;
 }
 
 interface WvReadingBlock {
@@ -360,6 +378,29 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
   readonly summaryBlocks = computed(() => this.buildPassageBlocks(this.selectedSummary()));
   readonly derivedPassageBlocks = computed(() => this.buildHighlightPassageBlocks(this.highlights()));
+
+  // Per-section attachments (documents / content / episodes)
+  readonly attachmentGroups = computed(() => {
+    const d = this.selectedDetail();
+    return [
+      { key: 'episode', label: 'Episodes', items: d?.episodes ?? [] },
+      { key: 'document', label: 'Documents', items: d?.documents ?? [] },
+      { key: 'content', label: 'Content', items: d?.content ?? [] },
+    ].filter((g) => g.items.length > 0);
+  });
+
+  formatDuration(seconds?: number | null): string {
+    if (!seconds || seconds <= 0) return '';
+    const m = Math.floor(seconds / 60);
+    const s = Math.round(seconds % 60);
+    if (m >= 60) return `${Math.floor(m / 60)}h ${m % 60}m`;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
+  openAttachment(att: WvAttachment): void {
+    const url = att.media_url?.trim();
+    if (url) window.open(url, '_blank', 'noopener');
+  }
   readonly passageBlocks = computed(() => {
     const detail = this.selectedDetail();
     if (detail?.documentBlocks?.length) {

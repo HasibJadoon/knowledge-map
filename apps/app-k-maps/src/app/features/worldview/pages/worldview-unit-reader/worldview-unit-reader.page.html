@@ -245,6 +245,41 @@
           </section>
         }
 
+        <!-- Attachments: documents / content / episodes -->
+        @for (group of [
+          { label: 'Episodes', icon: 'headset-outline', items: unitEpisodes() },
+          { label: 'Documents', icon: 'document-text-outline', items: unitDocuments() },
+          { label: 'Content', icon: 'library-outline', items: unitContent() }
+        ]; track group.label) {
+          @if (group.items.length > 0) {
+            <section class="attach-sec">
+              <div class="attach-sec__label">
+                <ion-icon [name]="group.icon"></ion-icon> {{ group.label }}
+              </div>
+              @for (att of group.items; track att.id) {
+                <button class="attach-row" (click)="openAttachment(att)">
+                  @if (att.thumbnail_url) {
+                    <img class="attach-row__thumb" [src]="att.thumbnail_url" [attr.alt]="att.title || ''" loading="lazy" />
+                  } @else {
+                    <span class="attach-row__thumb attach-row__thumb--glyph"><ion-icon [name]="group.icon"></ion-icon></span>
+                  }
+                  <span class="attach-row__body">
+                    <span class="attach-row__title">{{ att.title || att.target_ref }}</span>
+                    @if (att.subtitle) { <span class="attach-row__sub">{{ att.subtitle }}</span> }
+                    @if (att.summary) { <span class="attach-row__summary">{{ att.summary }}</span> }
+                    <span class="attach-row__meta">
+                      @if (att.link_role && att.link_role !== 'related') { <span class="attach-row__chip">{{ att.link_role }}</span> }
+                      @if (formatDuration(att.duration_sec); as dur) { <span class="attach-row__chip">{{ dur }}</span> }
+                      @if (att.locator) { <span class="attach-row__chip attach-row__chip--dim">{{ att.locator }}</span> }
+                    </span>
+                  </span>
+                  <ion-icon [name]="att.media_url ? 'open-outline' : 'chevron-forward-outline'" class="attach-row__arrow"></ion-icon>
+                </button>
+              }
+            </section>
+          }
+        }
+
         <!-- End ornament -->
         <div class="doc-end" aria-label="End of unit">
           <div class="doc-end__aura" aria-hidden="true">

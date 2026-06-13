@@ -125,11 +125,46 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
       try { meta = JSON.parse(unit.meta_json) as Record<string, unknown>; } catch { meta = null; }
     }
 
+    // Node-based reading content: assemble readingBlocks from the normalized
+    // wv_unit_blocks rows when present; fall back to the meta_json blob.
+    const blockRows = await query<Record<string, unknown>>(
+      env.DB_WV,
+      `SELECT id, parent_block_id, block_type, heading_level, order_index, text, cite,
+              href, label, src, alt, title, ordered, items_json, table_json, anchor_slug
+         FROM wv_unit_blocks
+        WHERE source_unit_id = ?
+        ORDER BY order_index`,
+      [id],
+    ).catch(() => []);
+
+    const parseJson = (v: unknown): unknown => {
+      if (typeof v !== 'string') return undefined;
+      try { return JSON.parse(v); } catch { return undefined; }
+    };
+    const assembledBlocks = blockRows.map((r) => {
+      const table = parseJson(r['table_json']) as { headerRow?: unknown; rows?: unknown } | undefined;
+      return {
+        type: r['block_type'],
+        level: r['heading_level'] ?? undefined,
+        text: r['text'] ?? undefined,
+        cite: r['cite'] ?? undefined,
+        href: r['href'] ?? undefined,
+        label: r['label'] ?? undefined,
+        src: r['src'] ?? undefined,
+        alt: r['alt'] ?? undefined,
+        title: r['title'] ?? undefined,
+        ordered: r['ordered'] == null ? undefined : !!r['ordered'],
+        items: parseJson(r['items_json']) ?? undefined,
+        headerRow: table?.headerRow ?? undefined,
+        rows: table?.rows ?? undefined,
+      };
+    });
+
     // Attached documents / content / episodes for this section (typed CM refs).
     const attachments = await query<Record<string, unknown>>(
       env.DB_WV,
       `SELECT id, attachment_type, target_ref, target_kind, title, subtitle, summary,
-              thumbnail_url, media_url, duration_sec, locator, link_role, order_index, meta_json
+              thumbnail_url, media_url, duration_sec, locator, link_role, order_index, block_ref, meta_json
          FROM wv_unit_attachments
         WHERE source_unit_id = ? AND status = 'active'
         ORDER BY attachment_type, order_index, created_at`,
@@ -140,7 +175,7 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
 
     return ok({
       ...unit,
-      readingBlocks: meta?.['readingBlocks'] ?? null,
+      readingBlocks: assembledBlocks.length ? assembledBlocks : (meta?.['readingBlocks'] ?? null),
       readingBody:   meta?.['readingBody']   ?? null,
       locatorLabel:  meta?.['locatorLabel']  ?? null,
       documents: byType('document'),

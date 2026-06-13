@@ -1947,6 +1947,7 @@ CREATE TABLE wv_unit_attachments (
   order_index     INTEGER NOT NULL DEFAULT 0,
   status          TEXT NOT NULL DEFAULT 'active',
   meta_json       TEXT,
+  block_ref       TEXT,
   created_at      TEXT NOT NULL DEFAULT (datetime('now')),
   updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
   FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
@@ -1958,6 +1959,34 @@ CREATE INDEX idx_wv_unit_attachments_target ON wv_unit_attachments (target_ref);
 CREATE VIEW wv_unit_documents AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'document' AND status = 'active' ORDER BY source_unit_id, order_index;
 CREATE VIEW wv_unit_content   AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'content'  AND status = 'active' ORDER BY source_unit_id, order_index;
 CREATE VIEW wv_unit_episodes  AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'episode'  AND status = 'active' ORDER BY source_unit_id, order_index;
+
+CREATE TABLE wv_unit_blocks (
+  id              TEXT PRIMARY KEY,
+  source_unit_id  TEXT NOT NULL,
+  source_id       TEXT,
+  parent_block_id TEXT,                              -- nesting: a block's owning heading / section node
+  block_type      TEXT NOT NULL,                     -- heading|subheading|paragraph|quote|list|table|separator|callout|image|audio|link
+  heading_level   INTEGER,                           -- 1..6 for heading / subheading
+  order_index     INTEGER NOT NULL DEFAULT 0,
+  text            TEXT,
+  cite            TEXT,
+  href            TEXT,
+  label           TEXT,
+  src             TEXT,
+  alt             TEXT,
+  title           TEXT,
+  ordered         INTEGER,
+  items_json      TEXT,                              -- list items: ["…","…"]
+  table_json      TEXT,                              -- {"headerRow":[…],"rows":[[…],…]}
+  anchor_slug     TEXT,
+  meta_json       TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (source_unit_id)  REFERENCES wv_source_units(id),
+  FOREIGN KEY (parent_block_id) REFERENCES wv_unit_blocks(id)
+);
+CREATE INDEX idx_wv_unit_blocks_unit   ON wv_unit_blocks (source_unit_id, order_index);
+CREATE INDEX idx_wv_unit_blocks_parent ON wv_unit_blocks (parent_block_id, order_index);
 
 CREATE TABLE wv_sources (
   id              TEXT PRIMARY KEY,
