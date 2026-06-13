@@ -14,18 +14,28 @@ import { DocumentSummary } from '../../../../shared/models/content/document.mode
 const WV_DOMAIN = 'worldview';
 const UNCATEGORIZED = '__uncat__';
 
-/** Friendly labels for the wv_topics.topic_domain enum (sub-domain layer). */
+/** Friendly labels for the wv_topics.topic_domain enum (sub-domain layer).
+ *  Covers both the schema's noun forms and the adjectival forms used in data. */
 const SUBDOMAIN_LABELS: Record<string, string> = {
   theology: 'Theology',
+  theological: 'Theology',
   ethics: 'Ethics',
+  ethical: 'Ethics',
   anthropology: 'Anthropology',
   eschatology: 'Eschatology',
   prophethood: 'Prophethood',
   law: 'Law',
   cosmology: 'Cosmology',
   psychology: 'Psychology',
+  psychological: 'Psychology',
   sociology: 'Sociology',
+  sociological: 'Sociology',
   history: 'History',
+  historical: 'History',
+  philosophy: 'Philosophy',
+  philosophical: 'Philosophy',
+  ideology: 'Ideology',
+  ideological: 'Ideology',
   worldview: 'Worldview',
   modernity: 'Modernity',
   coloniality: 'Coloniality',
