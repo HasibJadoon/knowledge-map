@@ -60,6 +60,11 @@ export const WORLDVIEW_ROUTES: Routes = [
           ),
       },
       {
+        path: 'documents',
+        loadComponent: () =>
+          import('./pages/worldview-docs/worldview-docs.page').then((m) => m.WorldviewDocsPage),
+      },
+      {
         path: 'compare',
         loadComponent: () =>
           import('./pages/worldview-compare/worldview-compare.page').then((m) => m.WorldviewComparePage),
