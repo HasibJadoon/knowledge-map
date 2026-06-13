@@ -12,6 +12,13 @@ import { WorldviewLibraryApiService } from '../../../../shared/services/worldvie
 import { WvGraphShellComponent } from '../../wv-graph/wv-graph-shell/wv-graph-shell.component';
 import { WvIllustrationsComponent } from '../../../../shared/components/wv-illustrations/wv-illustrations.component';
 
+/** One reading block's start/end offset inside a pre-rendered audio track. */
+interface AudioTiming {
+  blockIndex: number;
+  startMs: number;
+  endMs: number;
+}
+
 interface WvSource {
   id: string;
   source_type?: string | null;
@@ -50,6 +57,10 @@ interface WvUnit {
   readingBody?: string[] | null;
   readingBlocks?: ReadingBlock[] | null;
   readingSchema?: string | null;
+  // Pre-rendered narration: an MP3 URL plus a per-block timing map so the
+  // reader can play the recording and highlight block-by-block in sync.
+  readingAudioUrl?: string | null;
+  readingAudioTimings?: AudioTiming[] | null;
   locatorLabel?: string | null;
   readingMinutes?: number | null;
   documentId?: string | null;
@@ -221,6 +232,10 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   private readonly sanitizer = inject(DomSanitizer);
   private readonly toastController = inject(ToastController);
   readonly copied = signal(false);
+  // Pre-rendered narration playback (plain HTMLAudioElement — no live TTS).
+  private audio: HTMLAudioElement | null = null;
+  readonly audioPlaying = signal(false);
+  readonly audioBlock = signal(-1);
   private sheetDragPointerId: number | null = null;
   private sheetDragStartY = 0;
   private sheetDragStartExpanded = false;
@@ -438,6 +453,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
 
   ngOnDestroy(): void {
     this.stopSheetDrag();
+    this.teardownAudio();
   }
 
   private async load(sourceId: string, unitId: string): Promise<void> {
@@ -576,8 +592,62 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   }
 
   goToUnit(unitId: string): void {
+    this.teardownAudio();
     void this.router.navigate(['/worldview', 'library', this.sourceId(), 'read', unitId]);
     void this.contentRef?.scrollToTop(0);
+  }
+
+  // ── Audio narration (pre-rendered MP3) ──────────────────────────────────────
+
+  /** The unit's pre-rendered narration track, if one exists. */
+  readonly audioTrack = computed(() => {
+    const u = this.unit();
+    const url = u?.readingAudioUrl?.trim();
+    const timings = u?.readingAudioTimings;
+    return url ? { url, timings: timings ?? [] } : null;
+  });
+
+  /** Play / pause the pre-rendered narration; highlight follows the audio. */
+  toggleAudio(): void {
+    const track = this.audioTrack();
+    if (!track || typeof Audio === 'undefined') return;
+
+    if (this.audio && !this.audio.paused) {
+      this.audio.pause();
+      return;
+    }
+    if (!this.audio) {
+      const el = new Audio(track.url);
+      el.preload = 'auto';
+      el.addEventListener('play', () => this.audioPlaying.set(true));
+      el.addEventListener('pause', () => this.audioPlaying.set(false));
+      el.addEventListener('ended', () => { this.audioPlaying.set(false); this.audioBlock.set(-1); });
+      el.addEventListener('timeupdate', () => this.syncAudioHighlight());
+      this.audio = el;
+    }
+    void this.audio.play().catch(() => this.audioPlaying.set(false));
+  }
+
+  private syncAudioHighlight(): void {
+    const timings = this.audioTrack()?.timings;
+    if (!this.audio || !timings?.length) return;
+    const ms = this.audio.currentTime * 1000;
+    let active = -1;
+    for (const t of timings) {
+      if (ms >= t.startMs) active = t.blockIndex; else break;
+    }
+    if (active !== this.audioBlock()) this.audioBlock.set(active);
+  }
+
+  private teardownAudio(): void {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio.removeAttribute('src');
+      this.audio.load();
+      this.audio = null;
+    }
+    this.audioPlaying.set(false);
+    this.audioBlock.set(-1);
   }
 
   // ── Copy passage ────────────────────────────────────────────────────────────
@@ -1048,7 +1118,22 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
         ? unit.readingBody.filter((entry): entry is string => typeof entry === 'string' && !!entry.trim())
         : null,
       readingBlocks: this.normalizeReadingBlocksPayload(unit.readingBlocks),
+      readingAudioUrl: this.readTrimmed(unit.readingAudioUrl),
+      readingAudioTimings: this.normalizeAudioTimingsPayload(unit.readingAudioTimings),
     };
+  }
+
+  private normalizeAudioTimingsPayload(value: unknown): AudioTiming[] | null {
+    if (!Array.isArray(value)) return null;
+    const timings = value
+      .filter((e): e is Record<string, unknown> => !!e && typeof e === 'object' && !Array.isArray(e))
+      .map((e) => ({
+        blockIndex: Number(e['blockIndex']),
+        startMs: Number(e['startMs']),
+        endMs: Number(e['endMs']),
+      }))
+      .filter((t) => Number.isFinite(t.blockIndex) && Number.isFinite(t.startMs));
+    return timings.length ? timings : null;
   }
 
   private normalizeSource(source: WvSource): WvSource {
