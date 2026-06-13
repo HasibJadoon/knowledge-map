@@ -246,9 +246,12 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
       }
     }
 
-    // Prefer rich structured blocks from the API
+    // Prefer rich structured blocks (readingBlocks JSON) from the API. These
+    // are stored plain (text + markdown emphasis markers, string list/table
+    // cells); hydrate them into the same render-ready shape as parsed markdown
+    // so headings, emphasis, lists and tables all render from the JSON.
     if (u.readingBlocks?.length) {
-      return u.readingBlocks;
+      return u.readingBlocks.map((block) => this.hydrateReadingBlock(block));
     }
 
     // Markdown body (headings, lists, quotes, tables, inline formatting) is the
@@ -834,6 +837,30 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
 
     flushPara();
     return blocks;
+  }
+
+  /** Turn a stored (plain-text) readingBlock into a render-ready block:
+   *  inline emphasis becomes SafeHtml; list/table cells are hydrated too. */
+  private hydrateReadingBlock(block: ReadingBlock): ReadingBlock {
+    const rawText = typeof block.text === 'string' ? block.text : '';
+    const rawItems = Array.isArray(block.items) ? (block.items as unknown as string[]) : null;
+    const rawHeader = Array.isArray(block.headerRow) ? (block.headerRow as unknown as string[]) : null;
+    const rawRows = Array.isArray(block.rows) ? (block.rows as unknown as string[][]) : null;
+
+    return {
+      ...block,
+      html: block.html ?? (rawText ? this.inlineHtml(rawText) : undefined),
+      items: rawItems ? rawItems.map((i) => this.inlineHtml(i)) : block.items,
+      headerRow: rawHeader ? rawHeader.map((c) => this.inlineHtml(c)) : block.headerRow,
+      rows: rawRows ? rawRows.map((r) => r.map((c) => this.inlineHtml(c))) : block.rows,
+      speech:
+        block.speech ??
+        this.stripMarkdown(
+          rawText ||
+            (rawItems ? rawItems.join('. ') : '') ||
+            (rawHeader ? [rawHeader.join(', '), ...(rawRows ?? []).map((r) => r.join(', '))].join('. ') : ''),
+        ),
+    };
   }
 
   private splitTableRow(line: string): string[] {

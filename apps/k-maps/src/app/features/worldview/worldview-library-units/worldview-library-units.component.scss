@@ -566,6 +566,98 @@
   text-align: right;
 }
 
+// Inline emphasis shared across structured prose blocks
+.story-para,
+.story-quote__text,
+.story-heading__text,
+.story-subheading__text,
+.story-callout__text,
+.story-list__item,
+.story-table {
+  strong { font-weight: 700; color: var(--km-text); }
+  em { font-style: italic; }
+  code {
+    padding: 0.06em 0.36em;
+    border-radius: 0.3rem;
+    background: rgba(201, 168, 76, 0.12);
+    color: var(--km-gold, #c9a84c);
+    font-family: 'SFMono-Regular', ui-monospace, 'Menlo', monospace;
+    font-size: 0.86em;
+  }
+  a { color: var(--km-gold, #c9a84c); text-decoration: underline; text-underline-offset: 2px; }
+}
+
+// ── Lists ────────────────────────────────────────────────────────
+.story-list {
+  width: 100%;
+  margin: 0 0 1.15rem;
+  padding-left: 1.4rem;
+  font-size: 1.0rem;
+  line-height: 1.85;
+  color: var(--km-text);
+
+  &--ordered { list-style: decimal; }
+  &:not(&--ordered) { list-style: none; }
+
+  &__item {
+    margin: 0 0 0.5rem;
+    text-align: left;
+    &:last-child { margin-bottom: 0; }
+  }
+
+  &:not(.story-list--ordered) .story-list__item {
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      left: -1rem;
+      top: 0.7em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--km-gold, #c9a84c);
+      opacity: 0.7;
+    }
+  }
+
+  &--ordered .story-list__item::marker {
+    color: var(--km-gold, #c9a84c);
+    font-weight: 600;
+  }
+}
+
+// ── Tables ───────────────────────────────────────────────────────
+.story-table-wrap {
+  width: 100%;
+  margin: 1.6rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--km-border, rgba(0, 0, 0, 0.1));
+  border-radius: 0.7rem;
+}
+
+.story-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  line-height: 1.55;
+
+  th, td {
+    padding: 0.65rem 0.85rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--km-border, rgba(0, 0, 0, 0.08));
+  }
+
+  th {
+    color: var(--km-gold, #c9a84c);
+    font-weight: 600;
+    background: rgba(201, 168, 76, 0.06);
+    white-space: nowrap;
+  }
+
+  tbody tr:last-child td { border-bottom: 0; }
+}
+
 .story-heading,
 .story-subheading,
 .story-quote,
