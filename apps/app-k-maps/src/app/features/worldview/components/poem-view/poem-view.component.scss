@@ -157,9 +157,10 @@
 
   &__fa {
     color: var(--parch);
-    font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif;
-    font-size: clamp(1.5rem, 5.8vw, 2rem);
-    line-height: 2.3;
+    // Persian poetry reads best in Nastaliq (the flowing calligraphic script)
+    font-family: 'Noto Nastaliq Urdu', 'Scheherazade New', 'Amiri', serif;
+    font-size: clamp(1.25rem, 4.8vw, 1.7rem);
+    line-height: 2.95;
   }
   &__m { display: block; }
 
