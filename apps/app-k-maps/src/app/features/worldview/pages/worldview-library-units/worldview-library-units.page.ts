@@ -52,6 +52,8 @@ interface TocItem {
   unit: WvUnit;
   depth: number;
   numbering: string;
+  hasChildren: boolean;
+  expanded: boolean;
 }
 
 @Component({
@@ -84,6 +86,29 @@ export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
   readonly chapterCount = computed(() => this.rootUnits().length);
   readonly unitsById = computed(() => new Map(this.units().map((unit) => [unit.id, unit] as const)));
   readonly tocItems = computed(() => flattenUnits(this.rootUnits()));
+
+  // Which container units (دفتر / chapters) are expanded to reveal their sections.
+  readonly expanded = signal<Set<string>>(new Set());
+
+  // Drill-down view: top-level units always; a unit's children only when it is
+  // expanded — so sub-sections don't show until you open a دفتر / chapter.
+  readonly visibleToc = computed(() => flattenVisible(this.rootUnits(), this.expanded()));
+
+  toggleExpand(unitId: string): void {
+    this.expanded.update((set) => {
+      const next = new Set(set);
+      if (next.has(unitId)) next.delete(unitId); else next.add(unitId);
+      return next;
+    });
+  }
+
+  onTocRow(item: TocItem): void {
+    if (item.hasChildren) {
+      this.toggleExpand(item.unit.id);
+    } else {
+      this.selectUnit(item.unit.id);
+    }
+  }
 
   /** The unit the active session is currently parked on, if any. */
   readonly sessionUnit = computed(() => {
@@ -414,8 +439,23 @@ function buildUnitTree(units: WvUnit[]): WvUnit[] {
 function flattenUnits(units: WvUnit[], depth = 0, prefix: number[] = []): TocItem[] {
   return units.reduce<TocItem[]>((items, unit, index) => {
     const numbering = [...prefix, index + 1];
-    items.push({ unit, depth, numbering: numbering.join('.') });
-    items.push(...flattenUnits(unit.children ?? [], depth + 1, numbering));
+    const kids = unit.children ?? [];
+    items.push({ unit, depth, numbering: numbering.join('.'), hasChildren: kids.length > 0, expanded: false });
+    items.push(...flattenUnits(kids, depth + 1, numbering));
+    return items;
+  }, []);
+}
+
+// Only emit a unit's children when the unit is in the expanded set.
+function flattenVisible(units: WvUnit[], expanded: Set<string>, depth = 0, prefix: number[] = []): TocItem[] {
+  return units.reduce<TocItem[]>((items, unit, index) => {
+    const numbering = [...prefix, index + 1];
+    const kids = unit.children ?? [];
+    const isExpanded = expanded.has(unit.id);
+    items.push({ unit, depth, numbering: numbering.join('.'), hasChildren: kids.length > 0, expanded: isExpanded });
+    if (isExpanded) {
+      items.push(...flattenVisible(kids, expanded, depth + 1, numbering));
+    }
     return items;
   }, []);
 }

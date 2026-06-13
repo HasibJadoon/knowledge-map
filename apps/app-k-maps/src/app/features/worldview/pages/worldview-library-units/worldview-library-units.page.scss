@@ -218,6 +218,15 @@
     .chapter-row__num   { background: transparent; border: 1px solid rgba(255,255,255,0.1); color: var(--r-text-3); font-size: 0.6rem; }
   }
 
+  // Container rows (دفتر / chapters) toggle their sections open
+  &--container {
+    .chapter-row__arrow--toggle { transition: transform 0.2s ease; }
+  }
+  &--open {
+    background: rgba(201, 168, 76, 0.03);
+    .chapter-row__arrow--toggle { transform: rotate(-180deg); color: var(--r-gold); }
+  }
+
   // Number badge
   &__num {
     display: inline-flex;

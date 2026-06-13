@@ -128,16 +128,18 @@
       </div>
 
       <!-- ── Chapter list ───────────────────────────────────────── -->
-      @if (tocItems().length === 0) {
+      @if (visibleToc().length === 0) {
         <p class="empty-chapters">No chapters found for this source.</p>
       } @else {
         <div class="chapter-list" #tocEl>
-          @for (item of tocItems(); track item.unit.id) {
+          @for (item of visibleToc(); track item.unit.id) {
             <button
               class="chapter-row"
               [class.chapter-row--sub]="item.depth > 0"
+              [class.chapter-row--container]="item.hasChildren"
+              [class.chapter-row--open]="item.expanded"
               [style.--depth]="item.depth"
-              (click)="selectUnit(item.unit.id)"
+              (click)="onTocRow(item)"
             >
               <span class="chapter-row__num">{{ item.numbering }}</span>
 
@@ -150,8 +152,12 @@
               </span>
 
               <span class="chapter-row__right">
-                <span class="chapter-row__mins">{{ readingMinutes(item.unit) }}</span>
-                <ion-icon name="chevron-forward-outline" class="chapter-row__arrow"></ion-icon>
+                @if (item.hasChildren) {
+                  <ion-icon name="chevron-down-outline" class="chapter-row__arrow chapter-row__arrow--toggle"></ion-icon>
+                } @else {
+                  <span class="chapter-row__mins">{{ readingMinutes(item.unit) }}</span>
+                  <ion-icon name="chevron-forward-outline" class="chapter-row__arrow"></ion-icon>
+                }
               </span>
             </button>
           }

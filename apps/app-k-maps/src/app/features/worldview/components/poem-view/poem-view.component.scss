@@ -1,0 +1,246 @@
+:host {
+  --ink: #100d09;
+  --parch: #e9dcc0;
+  --parch-dim: #bcae90;
+  --gold: #cda434;
+  --gold-bright: #e7c668;
+  --gold-dim: #8a6f2e;
+  --rule: rgba(205, 164, 52, 0.28);
+  --en: #b9c0bd;
+  display: block;
+}
+
+.poemv {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 0 0.25rem 2rem;
+  font-family: 'Amiri', 'Scheherazade New', serif;
+  color: var(--parch);
+}
+
+// ── Header ──────────────────────────────────────────────────────
+.poemv__head {
+  text-align: center;
+  padding: 1.5rem 0 0.5rem;
+}
+
+.poemv__medallion {
+  color: var(--gold);
+  letter-spacing: 0.5em;
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 1rem;
+}
+
+.poemv__title {
+  font-family: 'Amiri', serif;
+  font-weight: 700;
+  color: var(--gold-bright);
+  font-size: clamp(2.6rem, 13vw, 4rem);
+  line-height: 1.1;
+  text-shadow: 0 0 26px rgba(205, 164, 52, 0.22);
+  margin: 0;
+}
+
+.poemv__latin {
+  margin-top: 0.85rem;
+  font-family: 'Cinzel', 'EB Garamond', serif;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  font-size: clamp(0.66rem, 3vw, 0.84rem);
+  color: var(--parch);
+  opacity: 0.9;
+}
+
+.poemv__meta {
+  margin-top: 0.6rem;
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  color: var(--parch-dim);
+  font-size: 0.96rem;
+}
+.poemv__poet { font-style: italic; }
+
+.poemv__rule {
+  position: relative;
+  height: 1px;
+  width: min(72%, 460px);
+  margin: 1.5rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--rule), transparent);
+
+  &::after {
+    content: '۞';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--ink);
+    padding: 0 0.5rem;
+    color: var(--gold);
+    font-size: 0.9rem;
+  }
+}
+
+// ── Controls ────────────────────────────────────────────────────
+.poemv__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: center;
+  align-items: center;
+  margin: 1.6rem 0 0.5rem;
+}
+
+.poemv__chip {
+  font-family: 'EB Garamond', serif;
+  font-size: 0.92rem;
+  letter-spacing: 0.02em;
+  color: var(--parch-dim);
+  background: rgba(205, 164, 52, 0.05);
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.42rem 1.05rem;
+  cursor: pointer;
+  transition: all 0.22s ease;
+
+  &--on {
+    color: var(--ink);
+    background: linear-gradient(180deg, var(--gold-bright), var(--gold));
+    border-color: var(--gold-bright);
+    box-shadow: 0 0 16px rgba(205, 164, 52, 0.25);
+    font-weight: 700;
+  }
+}
+
+.poemv__recite {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--gold);
+  background: transparent;
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  padding: 0.46rem 1.05rem;
+  cursor: pointer;
+
+  ion-icon { font-size: 0.85rem; }
+  .poemv__reciter { font-family: 'Amiri', serif; text-transform: none; letter-spacing: 0; }
+  &:active { background: rgba(205, 164, 52, 0.1); }
+}
+
+// ── Couplet ─────────────────────────────────────────────────────
+.poemv__body { margin-top: 1.5rem; }
+
+.bayt {
+  position: relative;
+  padding: 1.9rem 0.5rem;
+  border-bottom: 1px solid rgba(205, 164, 52, 0.1);
+  text-align: center;
+
+  &__num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.9rem;
+    height: 1.9rem;
+    margin: 0 auto 1rem;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    color: var(--gold);
+    font-size: 0.82rem;
+  }
+
+  &__fa {
+    color: var(--parch);
+    font-size: clamp(1.4rem, 5.4vw, 1.9rem);
+    line-height: 2.1;
+  }
+  &__m { display: block; }
+
+  // Small aesthetic line after the couplet's original text
+  &__ornament {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    margin: 1.1rem auto 0;
+    width: min(60%, 320px);
+    color: var(--gold-dim);
+    font-size: 0.7rem;
+
+    span {
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--rule), transparent);
+    }
+  }
+
+  &__tr {
+    margin-top: 1rem;
+    color: var(--parch-dim);
+    line-height: 2.4;
+
+    &--nastaliq {
+      font-family: 'Noto Nastaliq Urdu', serif;
+      font-size: clamp(1.05rem, 4vw, 1.3rem);
+      line-height: 2.75;
+    }
+    &--en {
+      direction: ltr;
+      font-family: 'EB Garamond', serif;
+      font-style: italic;
+      color: var(--en);
+      font-size: 1.05rem;
+      line-height: 1.7;
+      max-width: 60ch;
+      margin-inline: auto;
+    }
+  }
+  &__trline { display: block; }
+
+  // Vocabulary layer
+  &__vocab {
+    margin: 1.2rem auto 0;
+    padding-top: 0.9rem;
+    border-top: 1px dashed rgba(205, 164, 52, 0.16);
+    max-width: 520px;
+    text-align: right;
+  }
+}
+
+.vocab {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  padding: 0.28rem 0;
+  font-size: 0.98rem;
+  line-height: 1.9;
+
+  &__word {
+    font-family: 'Amiri', serif;
+    color: var(--gold-bright);
+    font-weight: 700;
+  }
+  &__form {
+    color: var(--gold-dim);
+    font-size: 0.78em;
+  }
+  &__root {
+    font-family: 'Amiri', serif;
+    color: var(--gold);
+    letter-spacing: 0.02em;
+  }
+  &__dash { color: var(--gold-dim); }
+  &__gloss {
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    color: var(--parch-dim);
+    flex: 1;
+  }
+}

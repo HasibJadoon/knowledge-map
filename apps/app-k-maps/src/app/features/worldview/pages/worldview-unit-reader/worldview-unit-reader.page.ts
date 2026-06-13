@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, IonContent } from '@ionic/angular';
 
 import { ReadAloudService, SpeechSegment } from '../../../../shared/services/read-aloud.service';
+import { PoemViewComponent } from '../../components/poem-view/poem-view.component';
 import gsap from 'gsap';
 import { firstValueFrom } from 'rxjs';
 
@@ -178,6 +179,7 @@ interface ReadingBlock {
   dir?: string;
   hemistichs?: string[];
   translations?: CoupletLayer[];
+  vocab?: { word: string; root?: string; gloss?: string; form?: string }[];
 }
 
 interface CoupletLayer {
@@ -191,6 +193,9 @@ interface CoupletLayer {
 
 interface PoemMeta {
   form?: string;
+  title?: string;
+  subtitle?: string;
+  poet?: string;
   meter?: string;
   reciter?: string;
   recitationUrl?: string;
@@ -206,7 +211,7 @@ interface ClassifiedBlock { text: string; type: BlockType; url?: string; }
 @Component({
   selector: 'app-worldview-unit-reader',
   standalone: true,
-  imports: [CommonModule, IonicModule, WvGraphShellComponent, WvIllustrationsComponent],
+  imports: [CommonModule, IonicModule, WvGraphShellComponent, WvIllustrationsComponent, PoemViewComponent],
   templateUrl: './worldview-unit-reader.page.html',
   styleUrl: './worldview-unit-reader.page.scss',
 })
@@ -269,6 +274,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   // Poetry
   readonly poem = computed<PoemMeta | null>(() => this.unit()?.poem ?? null);
   readonly isPoem = computed(() => this.blocks().some((b) => b.type === 'couplet'));
+  readonly couplets = computed(() => this.blocks().filter((b) => b.type === 'couplet'));
   readonly poemLayers = computed(() => {
     const declared = this.poem()?.layers;
     if (declared?.length) return declared;
