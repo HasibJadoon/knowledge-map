@@ -664,6 +664,131 @@
   50% { transform: scaleY(1); }
 }
 
+// ── Poetry: controls bar ─────────────────────────────────────────
+.poem-bar {
+  margin: 1.4rem 0 0.5rem;
+  text-align: center;
+
+  &__meter {
+    color: var(--r-gold-dim);
+    font-family: var(--r-font-head);
+    font-size: 0.78rem;
+    margin-bottom: 0.8rem;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+.poem-chip {
+  padding: 0.34rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--r-sep);
+  background: rgba(201, 168, 76, 0.04);
+  color: var(--r-text-3);
+  font-family: var(--r-font-head);
+  font-size: 0.72rem;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.18s ease;
+
+  &--on {
+    color: #1a160c;
+    background: linear-gradient(180deg, var(--r-gold), var(--r-gold-dim));
+    border-color: var(--r-gold);
+    font-weight: 700;
+  }
+}
+
+.poem-recite {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.34rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--r-gold-dim);
+  background: transparent;
+  color: var(--r-gold);
+  font-family: var(--r-font-head);
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+
+  ion-icon { font-size: 0.85rem; }
+  &:active { background: rgba(201, 168, 76, 0.1); }
+}
+
+// ── Poetry: couplet (bayt) ───────────────────────────────────────
+.bayt {
+  position: relative;
+  padding: 1.7rem 0.25rem;
+  border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+  text-align: center;
+
+  &__num {
+    display: block;
+    width: 1.8rem;
+    height: 1.8rem;
+    margin: 0 auto 0.9rem;
+    border-radius: 50%;
+    border: 1px solid var(--r-sep);
+    color: var(--r-gold);
+    font-family: var(--r-font-head);
+    font-size: 0.74rem;
+    line-height: 1.8rem;
+  }
+
+  // Original Persian — two-hemistich masnavi grid
+  &__fa {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.3rem 2rem;
+    direction: rtl;
+    color: var(--r-text);
+    font-family: 'Amiri', 'Scheherazade New', var(--r-font-serif);
+    font-size: clamp(1.2rem, 4.6vw, 1.55rem);
+    line-height: 2;
+  }
+  &__m--1 { grid-column: 2; }
+  &__m--2 { grid-column: 1; }
+
+  &__tr {
+    margin-top: 0.95rem;
+    padding-top: 0.8rem;
+    border-top: 1px dashed rgba(201, 168, 76, 0.12);
+    color: var(--r-text-2);
+    line-height: 2.4;
+
+    &--nastaliq {
+      font-family: 'Noto Nastaliq Urdu', var(--r-font-serif);
+      font-size: clamp(1rem, 3.4vw, 1.2rem);
+      line-height: 2.7;
+    }
+    &--en {
+      direction: ltr;
+      font-family: 'EB Garamond', var(--r-font-serif);
+      font-style: italic;
+      color: var(--r-text-3);
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 60ch;
+      margin-inline: auto;
+    }
+  }
+
+  &__trline { display: block; }
+}
+
+@media (max-width: 640px) {
+  .bayt__fa { grid-template-columns: 1fr; gap: 0.1rem; }
+  .bayt__m--1, .bayt__m--2 { grid-column: 1; }
+}
+
 // ── No excerpt ───────────────────────────────────────────────────
 .no-excerpt {
   display: flex;

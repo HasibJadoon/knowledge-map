@@ -211,6 +211,22 @@
                   </div>
                 </div>
               } @else {
+                @if (isPoem()) {
+                  <div class="poem-bar" dir="ltr">
+                    @if (poem()?.meter) { <div class="poem-bar__meter" dir="rtl">{{ poem()?.meter }}</div> }
+                    <div class="poem-bar__row">
+                      @for (layer of poemLayers(); track layer.lang) {
+                        <button class="poem-chip" [class.poem-chip--on]="isLayerOn(layer.lang)"
+                                [attr.aria-pressed]="isLayerOn(layer.lang)" (click)="toggleLayer(layer.lang)">
+                          {{ layer.label || layer.lang }}
+                        </button>
+                      }
+                      @if (poem()?.recitationUrl) {
+                        <button class="poem-recite" (click)="openRecitation()">▶ {{ poem()?.reciter ? ('Recitation · ' + poem()?.reciter) : 'Recitation' }}</button>
+                      }
+                    </div>
+                  </div>
+                }
                 <div class="story-passage story-passage--ltr">
                   @for (block of passageBlocks(); track block.id) {
                     @switch (block.kind) {
@@ -339,6 +355,29 @@
                             </a>
                           }
                         </figure>
+                      }
+
+                      @case ('couplet') {
+                        <div class="bayt scroll-reveal" dir="rtl" [attr.lang]="block.lang || 'fa'">
+                          @if (block.n) { <span class="bayt__num">{{ toPersianNum(block.n) }}</span> }
+                          <div class="bayt__fa">
+                            <span class="bayt__m bayt__m--1">{{ block.hemistichs?.[0] }}</span>
+                            <span class="bayt__m bayt__m--2">{{ block.hemistichs?.[1] }}</span>
+                          </div>
+                          @for (t of visibleTranslations(block); track t.lang) {
+                            <div class="bayt__tr"
+                                 [attr.dir]="t.dir || 'ltr'"
+                                 [attr.lang]="t.lang"
+                                 [class.bayt__tr--nastaliq]="t.script === 'nastaliq'"
+                                 [class.bayt__tr--en]="t.lang === 'en'">
+                              @if (t.lines?.length) {
+                                @for (line of t.lines; track $index) { <span class="bayt__trline">{{ line }}</span> }
+                              } @else if (t.text) {
+                                {{ t.text }}
+                              }
+                            </div>
+                          }
+                        </div>
                       }
 
                       @default {

@@ -130,7 +130,7 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
     const blockRows = await query<Record<string, unknown>>(
       env.DB_WV,
       `SELECT id, parent_block_id, block_type, heading_level, order_index, text, cite,
-              href, label, src, alt, title, ordered, items_json, table_json, anchor_slug
+              href, label, src, alt, title, ordered, items_json, table_json, anchor_slug, meta_json
          FROM wv_unit_blocks
         WHERE source_unit_id = ?
         ORDER BY order_index`,
@@ -142,6 +142,10 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
       try { return JSON.parse(v); } catch { return undefined; }
     };
     const assembledBlocks = blockRows.map((r) => {
+      // Lossless rows store the full original block (e.g. couplets with
+      // hemistichs + translation layers) in meta_json — use it verbatim.
+      const full = parseJson(r['meta_json']);
+      if (full && typeof full === 'object' && !Array.isArray(full)) return full;
       const table = parseJson(r['table_json']) as { headerRow?: unknown; rows?: unknown } | undefined;
       return {
         type: r['block_type'],
@@ -178,6 +182,7 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
       readingBlocks: assembledBlocks.length ? assembledBlocks : (meta?.['readingBlocks'] ?? null),
       readingBody:   meta?.['readingBody']   ?? null,
       locatorLabel:  meta?.['locatorLabel']  ?? null,
+      poem:          meta?.['poem']          ?? null,
       documents: byType('document'),
       content:   byType('content'),
       episodes:  byType('episode'),
