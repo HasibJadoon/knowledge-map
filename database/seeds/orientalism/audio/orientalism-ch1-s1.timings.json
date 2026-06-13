@@ -1,447 +1,447 @@
 {
   "unit": "orientalism-ch1-s1",
-  "voice": "en-us-ryan-high.onnx",
-  "durationMs": 1792329,
+  "voice": "en-us-libritts-high.onnx",
+  "durationMs": 1886822,
   "blocks": [
     {
       "blockIndex": 0,
       "startMs": 0,
-      "endMs": 3344
+      "endMs": 4981
     },
     {
       "blockIndex": 1,
-      "startMs": 3604,
-      "endMs": 8074
+      "startMs": 5241,
+      "endMs": 10546
     },
     {
       "blockIndex": 2,
-      "startMs": 8334,
-      "endMs": 17122
+      "startMs": 10806,
+      "endMs": 20176
     },
     {
       "blockIndex": 3,
-      "startMs": 17382,
-      "endMs": 37096
+      "startMs": 20436,
+      "endMs": 41415
     },
     {
       "blockIndex": 5,
-      "startMs": 37356,
-      "endMs": 41954
+      "startMs": 41675,
+      "endMs": 47201
     },
     {
       "blockIndex": 6,
-      "startMs": 42214,
-      "endMs": 62833
+      "startMs": 47461,
+      "endMs": 71958
     },
     {
       "blockIndex": 8,
-      "startMs": 63093,
-      "endMs": 66611
+      "startMs": 72218,
+      "endMs": 76630
     },
     {
       "blockIndex": 9,
-      "startMs": 66871,
-      "endMs": 78736
+      "startMs": 76890,
+      "endMs": 90207
     },
     {
       "blockIndex": 10,
-      "startMs": 78996,
-      "endMs": 96005
+      "startMs": 90467,
+      "endMs": 107255
     },
     {
       "blockIndex": 11,
-      "startMs": 96265,
-      "endMs": 107213
+      "startMs": 107515,
+      "endMs": 119322
     },
     {
       "blockIndex": 12,
-      "startMs": 107473,
-      "endMs": 121904
+      "startMs": 119582,
+      "endMs": 135267
     },
     {
       "blockIndex": 13,
-      "startMs": 122164,
-      "endMs": 134320
+      "startMs": 135527,
+      "endMs": 147787
     },
     {
       "blockIndex": 14,
-      "startMs": 134580,
-      "endMs": 147687
+      "startMs": 148047,
+      "endMs": 163454
     },
     {
       "blockIndex": 15,
-      "startMs": 147947,
-      "endMs": 156365
+      "startMs": 163714,
+      "endMs": 171934
     },
     {
       "blockIndex": 16,
-      "startMs": 156625,
-      "endMs": 160026
+      "startMs": 172194,
+      "endMs": 175212
     },
     {
       "blockIndex": 17,
-      "startMs": 160286,
-      "endMs": 194780
+      "startMs": 175472,
+      "endMs": 209153
     },
     {
       "blockIndex": 18,
-      "startMs": 195040,
-      "endMs": 210365
+      "startMs": 209413,
+      "endMs": 223786
     },
     {
       "blockIndex": 19,
-      "startMs": 210625,
-      "endMs": 222502
+      "startMs": 224046,
+      "endMs": 235865
     },
     {
       "blockIndex": 20,
-      "startMs": 222762,
-      "endMs": 235161
+      "startMs": 236125,
+      "endMs": 248490
     },
     {
       "blockIndex": 21,
-      "startMs": 235421,
-      "endMs": 252790
+      "startMs": 248750,
+      "endMs": 266350
     },
     {
       "blockIndex": 22,
-      "startMs": 253050,
-      "endMs": 275701
+      "startMs": 266610,
+      "endMs": 290759
     },
     {
       "blockIndex": 23,
-      "startMs": 275961,
-      "endMs": 283147
+      "startMs": 291019,
+      "endMs": 298206
     },
     {
       "blockIndex": 24,
-      "startMs": 283407,
-      "endMs": 302483
+      "startMs": 298466,
+      "endMs": 317471
     },
     {
       "blockIndex": 25,
-      "startMs": 302743,
-      "endMs": 315363
+      "startMs": 317731,
+      "endMs": 330699
     },
     {
       "blockIndex": 27,
-      "startMs": 315623,
-      "endMs": 318699
+      "startMs": 330959,
+      "endMs": 335069
     },
     {
       "blockIndex": 28,
-      "startMs": 318959,
-      "endMs": 343805
+      "startMs": 335329,
+      "endMs": 362195
     },
     {
       "blockIndex": 29,
-      "startMs": 344065,
-      "endMs": 359018
+      "startMs": 362455,
+      "endMs": 378314
     },
     {
       "blockIndex": 30,
-      "startMs": 359278,
-      "endMs": 369785
+      "startMs": 378574,
+      "endMs": 390753
     },
     {
       "blockIndex": 31,
-      "startMs": 370045,
-      "endMs": 384976
+      "startMs": 391013,
+      "endMs": 406837
     },
     {
       "blockIndex": 32,
-      "startMs": 385236,
-      "endMs": 394326
+      "startMs": 407097,
+      "endMs": 416409
     },
     {
       "blockIndex": 33,
-      "startMs": 394586,
-      "endMs": 417365
+      "startMs": 416669,
+      "endMs": 438240
     },
     {
       "blockIndex": 34,
-      "startMs": 417625,
-      "endMs": 440404
+      "startMs": 438500,
+      "endMs": 459259
     },
     {
       "blockIndex": 35,
-      "startMs": 440664,
-      "endMs": 449290
+      "startMs": 459519,
+      "endMs": 466601
     },
     {
       "blockIndex": 36,
-      "startMs": 449550,
-      "endMs": 463621
+      "startMs": 466861,
+      "endMs": 482755
     },
     {
       "blockIndex": 38,
-      "startMs": 463881,
-      "endMs": 467852
+      "startMs": 483015,
+      "endMs": 487496
     },
     {
       "blockIndex": 39,
-      "startMs": 468112,
-      "endMs": 473464
+      "startMs": 487756,
+      "endMs": 493422
     },
     {
       "blockIndex": 40,
-      "startMs": 473724,
-      "endMs": 506557
+      "startMs": 493682,
+      "endMs": 524913
     },
     {
       "blockIndex": 41,
-      "startMs": 506817,
-      "endMs": 517104
+      "startMs": 525173,
+      "endMs": 536330
     },
     {
       "blockIndex": 42,
-      "startMs": 517364,
-      "endMs": 534709
+      "startMs": 536590,
+      "endMs": 554899
     },
     {
       "blockIndex": 44,
-      "startMs": 534969,
-      "endMs": 536815
+      "startMs": 555159,
+      "endMs": 557353
     },
     {
       "blockIndex": 45,
-      "startMs": 537075,
-      "endMs": 563604
+      "startMs": 557613,
+      "endMs": 586464
     },
     {
       "blockIndex": 46,
-      "startMs": 563864,
-      "endMs": 583833
+      "startMs": 586724,
+      "endMs": 605869
     },
     {
       "blockIndex": 47,
-      "startMs": 584093,
-      "endMs": 651408
+      "startMs": 606129,
+      "endMs": 674732
     },
     {
       "blockIndex": 49,
-      "startMs": 651668,
-      "endMs": 654431
+      "startMs": 674992,
+      "endMs": 678336
     },
     {
       "blockIndex": 50,
-      "startMs": 654691,
-      "endMs": 760098
+      "startMs": 678596,
+      "endMs": 787497
     },
     {
       "blockIndex": 51,
-      "startMs": 760358,
-      "endMs": 764328
+      "startMs": 787757,
+      "endMs": 792773
     },
     {
       "blockIndex": 52,
-      "startMs": 764588,
-      "endMs": 859094
+      "startMs": 793033,
+      "endMs": 890650
     },
     {
       "blockIndex": 54,
-      "startMs": 859354,
-      "endMs": 862558
+      "startMs": 890910,
+      "endMs": 894660
     },
     {
       "blockIndex": 55,
-      "startMs": 862818,
-      "endMs": 934475
+      "startMs": 894920,
+      "endMs": 970454
     },
     {
       "blockIndex": 57,
-      "startMs": 934735,
-      "endMs": 936790
+      "startMs": 970714,
+      "endMs": 973257
     },
     {
       "blockIndex": 58,
-      "startMs": 937050,
-      "endMs": 939859
+      "startMs": 973517,
+      "endMs": 976500
     },
     {
       "blockIndex": 59,
-      "startMs": 940119,
-      "endMs": 948386
+      "startMs": 976760,
+      "endMs": 985944
     },
     {
       "blockIndex": 60,
-      "startMs": 948646,
-      "endMs": 979598
+      "startMs": 986204,
+      "endMs": 1016401
     },
     {
       "blockIndex": 62,
-      "startMs": 979858,
-      "endMs": 983318
+      "startMs": 1016661,
+      "endMs": 1021062
     },
     {
       "blockIndex": 63,
-      "startMs": 983578,
-      "endMs": 987397
+      "startMs": 1021322,
+      "endMs": 1025362
     },
     {
       "blockIndex": 64,
-      "startMs": 987657,
-      "endMs": 991024
+      "startMs": 1025622,
+      "endMs": 1028536
     },
     {
       "blockIndex": 65,
-      "startMs": 991284,
-      "endMs": 1059539
+      "startMs": 1028796,
+      "endMs": 1099896
     },
     {
       "blockIndex": 66,
-      "startMs": 1059799,
-      "endMs": 1066394
+      "startMs": 1100156,
+      "endMs": 1106947
     },
     {
       "blockIndex": 67,
-      "startMs": 1066654,
-      "endMs": 1104235
+      "startMs": 1107207,
+      "endMs": 1148713
     },
     {
       "blockIndex": 69,
-      "startMs": 1104495,
-      "endMs": 1105970
+      "startMs": 1148973,
+      "endMs": 1150958
     },
     {
       "blockIndex": 70,
-      "startMs": 1106230,
-      "endMs": 1141698
+      "startMs": 1151218,
+      "endMs": 1191273
     },
     {
       "blockIndex": 72,
-      "startMs": 1141958,
-      "endMs": 1144454
+      "startMs": 1191533,
+      "endMs": 1194412
     },
     {
       "blockIndex": 73,
-      "startMs": 1144714,
-      "endMs": 1179312
+      "startMs": 1194672,
+      "endMs": 1230942
     },
     {
       "blockIndex": 76,
-      "startMs": 1179572,
-      "endMs": 1181662
+      "startMs": 1231202,
+      "endMs": 1233013
     },
     {
       "blockIndex": 77,
-      "startMs": 1181922,
-      "endMs": 1194194
+      "startMs": 1233273,
+      "endMs": 1246322
     },
     {
       "blockIndex": 78,
-      "startMs": 1194454,
-      "endMs": 1197124
+      "startMs": 1246582,
+      "endMs": 1249496
     },
     {
       "blockIndex": 79,
-      "startMs": 1197384,
-      "endMs": 1201865
+      "startMs": 1249756,
+      "endMs": 1254737
     },
     {
       "blockIndex": 80,
-      "startMs": 1202125,
-      "endMs": 1220086
+      "startMs": 1254997,
+      "endMs": 1273016
     },
     {
       "blockIndex": 81,
-      "startMs": 1220346,
-      "endMs": 1250648
+      "startMs": 1273276,
+      "endMs": 1306805
     },
     {
       "blockIndex": 82,
-      "startMs": 1250908,
-      "endMs": 1261554
+      "startMs": 1307065,
+      "endMs": 1319070
     },
     {
       "blockIndex": 83,
-      "startMs": 1261814,
-      "endMs": 1292128
+      "startMs": 1319330,
+      "endMs": 1350538
     },
     {
       "blockIndex": 84,
-      "startMs": 1292388,
-      "endMs": 1311684
+      "startMs": 1350798,
+      "endMs": 1371533
     },
     {
       "blockIndex": 85,
-      "startMs": 1311944,
-      "endMs": 1322079
+      "startMs": 1371793,
+      "endMs": 1387548
     },
     {
       "blockIndex": 86,
-      "startMs": 1322339,
-      "endMs": 1353872
+      "startMs": 1387808,
+      "endMs": 1420351
     },
     {
       "blockIndex": 87,
-      "startMs": 1354132,
-      "endMs": 1356233
+      "startMs": 1420611,
+      "endMs": 1422921
     },
     {
       "blockIndex": 88,
-      "startMs": 1356493,
-      "endMs": 1365503
+      "startMs": 1423181,
+      "endMs": 1434048
     },
     {
       "blockIndex": 89,
-      "startMs": 1365763,
-      "endMs": 1445837
+      "startMs": 1434308,
+      "endMs": 1516994
     },
     {
       "blockIndex": 90,
-      "startMs": 1446097,
-      "endMs": 1449429
+      "startMs": 1517254,
+      "endMs": 1521004
     },
     {
       "blockIndex": 91,
-      "startMs": 1449689,
-      "endMs": 1552182
+      "startMs": 1521264,
+      "endMs": 1634160
     },
     {
       "blockIndex": 92,
-      "startMs": 1552442,
-      "endMs": 1556157
+      "startMs": 1634420,
+      "endMs": 1638321
     },
     {
       "blockIndex": 93,
-      "startMs": 1556417,
-      "endMs": 1597029
+      "startMs": 1638581,
+      "endMs": 1682931
     },
     {
       "blockIndex": 94,
-      "startMs": 1597289,
-      "endMs": 1601457
+      "startMs": 1683191,
+      "endMs": 1687916
     },
     {
       "blockIndex": 95,
-      "startMs": 1601717,
-      "endMs": 1671980
+      "startMs": 1688176,
+      "endMs": 1762306
     },
     {
       "blockIndex": 96,
-      "startMs": 1672240,
-      "endMs": 1674829
+      "startMs": 1762566,
+      "endMs": 1765132
     },
     {
       "blockIndex": 97,
-      "startMs": 1675089,
-      "endMs": 1722319
+      "startMs": 1765392,
+      "endMs": 1813364
     },
     {
       "blockIndex": 98,
-      "startMs": 1722579,
-      "endMs": 1726503
+      "startMs": 1813624,
+      "endMs": 1818082
     },
     {
       "blockIndex": 99,
-      "startMs": 1726763,
-      "endMs": 1735459
+      "startMs": 1818342,
+      "endMs": 1827085
     },
     {
       "blockIndex": 100,
-      "startMs": 1735719,
-      "endMs": 1792329
+      "startMs": 1827345,
+      "endMs": 1886822
     }
   ]
 }
