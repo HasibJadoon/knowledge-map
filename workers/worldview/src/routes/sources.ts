@@ -204,6 +204,7 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
           dir,
           hemistichs: [c['m1'], c['m2']].filter((x) => x != null),
           translations,
+          vocab: Array.isArray(c['vocab']) ? c['vocab'] : undefined,
         };
       });
       const declaredLayers = Array.isArray(poemMeta['layers']) ? poemMeta['layers'] : null;
@@ -211,12 +212,18 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
       for (const c of couplets) {
         if (c['ur'] != null) seen.set('ur', { lang: 'ur', label: 'اردو' });
         if (c['en'] != null) seen.set('en', { lang: 'en', label: 'English' });
+        if (Array.isArray(c['vocab']) && c['vocab'].length) seen.set('vocab', { lang: 'vocab', label: 'Vocab · مفردات' });
+      }
+      const allLayers = declaredLayers ? [...declaredLayers] : [...seen.values()];
+      if (seen.has('vocab') && !allLayers.some((l) => (l as { lang?: string }).lang === 'vocab')) {
+        allLayers.push({ lang: 'vocab', label: 'Vocab · مفردات' });
       }
       poemOut = {
         ...poemMeta,
+        subtitle: poemMeta['subtitle'] ?? meta?.['alt_name_en'] ?? null,
         recitationUrl: poemMeta['recitationUrl'] ?? video?.['url'] ?? null,
         reciter: poemMeta['reciter'] ?? video?.['reciter'] ?? null,
-        layers: declaredLayers ?? [...seen.values()],
+        layers: allLayers,
       };
     }
 

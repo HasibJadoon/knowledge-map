@@ -1,0 +1,74 @@
+<div class="poemv">
+
+  <!-- ── Illuminated header ─────────────────────────────────────── -->
+  <header class="poemv__head">
+    <div class="poemv__medallion" aria-hidden="true">۞ ❖ ۞</div>
+    @if (poem?.title) { <h1 class="poemv__title" dir="rtl">{{ poem?.title }}</h1> }
+    @if (poem?.subtitle) { <div class="poemv__latin">{{ poem?.subtitle }}</div> }
+    @if (poem?.meter || poem?.poet) {
+      <div class="poemv__meta" dir="rtl">
+        {{ poem?.meter }}@if (poem?.poet) { <span class="poemv__poet"> — {{ poem?.poet }}</span> }
+      </div>
+    }
+    <div class="poemv__rule" aria-hidden="true"></div>
+  </header>
+
+  <!-- ── Layer controls + recitation ────────────────────────────── -->
+  <div class="poemv__controls">
+    @for (l of layers(); track l.lang) {
+      <button type="button" class="poemv__chip" [class.poemv__chip--on]="isOn(l.lang)"
+              [attr.aria-pressed]="isOn(l.lang)" (click)="toggle(l.lang)">
+        {{ l.label || l.lang }}
+      </button>
+    }
+    @if (poem?.recitationUrl) {
+      <button type="button" class="poemv__recite" (click)="openRecitation()">
+        <span>RECITATION@if (poem?.reciter) { <span class="poemv__reciter"> · {{ poem?.reciter }}</span> }</span>
+        <ion-icon name="play"></ion-icon>
+      </button>
+    }
+  </div>
+
+  <!-- ── Couplets ───────────────────────────────────────────────── -->
+  <div class="poemv__body">
+    @for (c of couplets; track $index) {
+      <article class="bayt" dir="rtl" [attr.lang]="c.lang || 'fa'">
+        @if (c.n) { <span class="bayt__num">{{ faNum(c.n) }}</span> }
+
+        <div class="bayt__fa">
+          @for (h of c.hemistichs; track $index) { <span class="bayt__m">{{ h }}</span> }
+        </div>
+
+        <div class="bayt__ornament" aria-hidden="true"><span></span>❖<span></span></div>
+
+        @for (t of visibleTranslations(c); track t.lang) {
+          <div class="bayt__tr"
+               [attr.dir]="t.dir || 'ltr'"
+               [attr.lang]="t.lang"
+               [class.bayt__tr--nastaliq]="t.script === 'nastaliq'"
+               [class.bayt__tr--en]="t.lang === 'en'">
+            @if (t.lines?.length) {
+              @for (line of t.lines; track $index) { <span class="bayt__trline">{{ line }}</span> }
+            } @else if (t.text) {
+              {{ t.text }}
+            }
+          </div>
+        }
+
+        @if (showVocab(c)) {
+          <div class="bayt__vocab" dir="rtl">
+            @for (v of c.vocab; track $index) {
+              <div class="vocab">
+                <span class="vocab__word">{{ v.word }}@if (v.form) { <span class="vocab__form"> ({{ v.form }})</span> }</span>
+                @if (v.root) { <span class="vocab__root">{{ v.root }}</span> }
+                <span class="vocab__dash" aria-hidden="true">—</span>
+                @if (v.gloss) { <span class="vocab__gloss" dir="ltr">{{ v.gloss }}</span> }
+              </div>
+            }
+          </div>
+        }
+      </article>
+    }
+  </div>
+
+</div>

@@ -53,42 +53,25 @@
     <div class="rp" dir="ltr">
       <article class="reading" #readerEl>
 
-        <!-- Unit header -->
-        <header class="reading__header" #headerEl>
-          <p class="reading__kicker">{{ kicker() }}</p>
-          <h1 class="reading__title">{{ unitTitle(unit()) }}</h1>
-          <div class="reading__rule" aria-hidden="true"></div>
-          <div class="reading__meta">
-            <span class="meta-chip" [attr.data-color]="typeColor(source()?.source_type)">{{ typeLabel(source()?.source_type) }}</span>
-            <span class="meta-chip">{{ unitTypeLabel(unit()!.unit_type) }}</span>
-            @if (unitRef(unit())) { <span class="meta-chip">{{ unitRef(unit()) }}</span> }
-            <span class="meta-chip meta-chip--dim">{{ readingMinutes(unit()) }}</span>
-          </div>
-        </header>
-
-        <!-- Poem controls: translation layers + recitation -->
         @if (isPoem()) {
-          <div class="poem-bar" dir="ltr">
-            @if (poem()?.meter) { <div class="poem-bar__meter" dir="rtl">{{ poem()?.meter }}</div> }
-            <div class="poem-bar__row">
-              @for (layer of poemLayers(); track layer.lang) {
-                <button class="poem-chip" [class.poem-chip--on]="isLayerOn(layer.lang)"
-                        [attr.aria-pressed]="isLayerOn(layer.lang)" (click)="toggleLayer(layer.lang)">
-                  {{ layer.label || layer.lang }}
-                </button>
-              }
-              @if (poem()?.recitationUrl) {
-                <button class="poem-recite" (click)="openRecitation()">
-                  <ion-icon name="play"></ion-icon>
-                  {{ poem()?.reciter ? ('Recitation · ' + poem()?.reciter) : 'Recitation' }}
-                </button>
-              }
+          <app-poem-view [poem]="poem()" [couplets]="couplets()"></app-poem-view>
+        } @else {
+          <!-- Unit header -->
+          <header class="reading__header" #headerEl>
+            <p class="reading__kicker">{{ kicker() }}</p>
+            <h1 class="reading__title">{{ unitTitle(unit()) }}</h1>
+            <div class="reading__rule" aria-hidden="true"></div>
+            <div class="reading__meta">
+              <span class="meta-chip" [attr.data-color]="typeColor(source()?.source_type)">{{ typeLabel(source()?.source_type) }}</span>
+              <span class="meta-chip">{{ unitTypeLabel(unit()!.unit_type) }}</span>
+              @if (unitRef(unit())) { <span class="meta-chip">{{ unitRef(unit()) }}</span> }
+              <span class="meta-chip meta-chip--dim">{{ readingMinutes(unit()) }}</span>
             </div>
-          </div>
+          </header>
         }
 
         <!-- Summary (intro abstract) -->
-        @if (summaryBlocks().length > 0) {
+        @if (!isPoem() && summaryBlocks().length > 0) {
           <div class="reading__summary" #summaryEl>
             @for (block of summaryBlocks(); track $index) {
               <p class="summary__para" [innerHTML]="block"></p>
@@ -97,7 +80,7 @@
         }
 
         <!-- Body: structured blocks -->
-        @if (blocks().length > 0) {
+        @if (!isPoem() && blocks().length > 0) {
           <div class="reading__body" #proseEl>
             @for (block of blocks(); track $index) {
               <div class="prose-block" [class.prose-block--reading]="readAloud.activeBlock() === $index">
@@ -262,7 +245,7 @@
               </div>
             }
           </div>
-        } @else {
+        } @else if (!isPoem()) {
           <div class="no-excerpt">
             <span class="no-excerpt__icon">◎</span>
             No reading excerpt available for this {{ unitTypeLabel(unit()!.unit_type).toLowerCase() }} yet.
@@ -324,14 +307,16 @@
         }
 
         <!-- End ornament -->
-        <div class="doc-end" aria-label="End of unit">
-          <div class="doc-end__aura" aria-hidden="true">
-            <span class="doc-end__ray"></span>
-            <span class="doc-end__seal">✦</span>
-            <span class="doc-end__ray"></span>
+        @if (!isPoem()) {
+          <div class="doc-end" aria-label="End of unit">
+            <div class="doc-end__aura" aria-hidden="true">
+              <span class="doc-end__ray"></span>
+              <span class="doc-end__seal">✦</span>
+              <span class="doc-end__ray"></span>
+            </div>
+            <p class="doc-end__label">End of {{ unitTypeLabel(unit()!.unit_type).toLowerCase() }}</p>
           </div>
-          <p class="doc-end__label">End of {{ unitTypeLabel(unit()!.unit_type).toLowerCase() }}</p>
-        </div>
+        }
 
         <!-- Chapter navigation -->
         <nav class="chapter-nav">
