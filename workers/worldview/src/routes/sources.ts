@@ -177,12 +177,57 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
 
     const byType = (type: string) => attachments.filter((a) => a['attachment_type'] === type);
 
+    // Poetry: the canonical form is meta_json.poem.couplets ({ n, m1, m2, ur?, en? }).
+    // Synthesize couplet reading blocks from it so the whole poem renders (not
+    // just the first line), and normalise poem meta (recitation from video).
+    const poemMeta = (meta?.['poem'] && typeof meta['poem'] === 'object'
+      ? meta['poem'] as Record<string, unknown>
+      : null);
+    const video = (meta?.['video'] && typeof meta['video'] === 'object'
+      ? meta['video'] as Record<string, unknown>
+      : null);
+    let poemBlocks: unknown[] = [];
+    let poemOut: Record<string, unknown> | null = null;
+    if (poemMeta && Array.isArray(poemMeta['couplets'])) {
+      const couplets = poemMeta['couplets'] as Record<string, unknown>[];
+      const lang = (poemMeta['lang'] as string) ?? 'fa';
+      const dir = (poemMeta['dir'] as string) ?? 'rtl';
+      poemBlocks = couplets.map((c) => {
+        const translations: Record<string, unknown>[] = [];
+        if (Array.isArray(c['ur'])) translations.push({ lang: 'ur', label: 'اردو', dir: 'rtl', script: 'nastaliq', lines: c['ur'] });
+        else if (typeof c['ur'] === 'string') translations.push({ lang: 'ur', label: 'اردو', dir: 'rtl', script: 'nastaliq', text: c['ur'] });
+        if (typeof c['en'] === 'string') translations.push({ lang: 'en', label: 'English', dir: 'ltr', text: c['en'] });
+        return {
+          type: 'couplet',
+          n: c['n'],
+          lang,
+          dir,
+          hemistichs: [c['m1'], c['m2']].filter((x) => x != null),
+          translations,
+        };
+      });
+      const declaredLayers = Array.isArray(poemMeta['layers']) ? poemMeta['layers'] : null;
+      const seen = new Map<string, { lang: string; label?: string }>();
+      for (const c of couplets) {
+        if (c['ur'] != null) seen.set('ur', { lang: 'ur', label: 'اردو' });
+        if (c['en'] != null) seen.set('en', { lang: 'en', label: 'English' });
+      }
+      poemOut = {
+        ...poemMeta,
+        recitationUrl: poemMeta['recitationUrl'] ?? video?.['url'] ?? null,
+        reciter: poemMeta['reciter'] ?? video?.['reciter'] ?? null,
+        layers: declaredLayers ?? [...seen.values()],
+      };
+    }
+
     return ok({
       ...unit,
-      readingBlocks: assembledBlocks.length ? assembledBlocks : (meta?.['readingBlocks'] ?? null),
+      readingBlocks: assembledBlocks.length
+        ? assembledBlocks
+        : (meta?.['readingBlocks'] ?? (poemBlocks.length ? poemBlocks : null)),
       readingBody:   meta?.['readingBody']   ?? null,
       locatorLabel:  meta?.['locatorLabel']  ?? null,
-      poem:          meta?.['poem']          ?? null,
+      poem:          poemOut ?? meta?.['poem'] ?? null,
       documents: byType('document'),
       content:   byType('content'),
       episodes:  byType('episode'),
