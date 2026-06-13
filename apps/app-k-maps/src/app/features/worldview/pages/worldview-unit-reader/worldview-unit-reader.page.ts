@@ -1,10 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, computed, effect, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { IonicModule, IonContent } from '@ionic/angular';
+import { IonicModule, IonContent, ToastController } from '@ionic/angular';
 
-import { ReadAloudService, SpeechSegment } from '../../../../shared/services/read-aloud.service';
 import { PoemViewComponent } from '../../components/poem-view/poem-view.component';
 import gsap from 'gsap';
 import { firstValueFrom } from 'rxjs';
@@ -160,7 +159,7 @@ interface TocItem {
 interface ReadingBlock {
   type: string; // 'heading' | 'subheading' | 'paragraph' | 'quote' | 'link' | 'separator' | 'callout' | 'image' | 'audio' | 'list' | 'table'
   text?: string;
-  speech?: string;        // plain-text projection used by read-aloud (TTS)
+  speech?: string;        // plain-text projection (used for copy-passage)
   html?: SafeHtml;        // inline-formatted HTML (bold/italic/code/links) for prose blocks
   cite?: string;
   label?: string;
@@ -220,7 +219,8 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   private readonly router = inject(Router);
   private readonly libraryApi = inject(WorldviewLibraryApiService);
   private readonly sanitizer = inject(DomSanitizer);
-  readonly readAloud = inject(ReadAloudService);
+  private readonly toastController = inject(ToastController);
+  readonly copied = signal(false);
   private sheetDragPointerId: number | null = null;
   private sheetDragStartY = 0;
   private sheetDragStartExpanded = false;
@@ -376,35 +376,6 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
     }));
   });
 
-  // Flatten reading blocks into speech segments tagged with their block index,
-  // so read-aloud can speak smoothly and highlight as it goes. We keep each
-  // block whole when it is short enough, and only split very long blocks at
-  // sentence boundaries — grouped into ~220-character chunks. This preserves
-  // natural prosody (the choppy, "ghost"-like cadence comes from feeding the
-  // engine tiny fragments) while staying under the long-utterance cut-off some
-  // webviews impose.
-  readonly speechSegments = computed((): SpeechSegment[] => {
-    const segments: SpeechSegment[] = [];
-    this.blocks().forEach((block, blockIndex) => {
-      const source = (block.speech ?? block.text ?? '').trim();
-      if (!source) return;
-      for (const chunk of chunkForSpeech(source)) {
-        segments.push({ text: chunk, blockIndex });
-      }
-    });
-    return segments;
-  });
-
-  // Keep the sentence being read comfortably in view.
-  private readonly _readAloudScroll = effect(() => {
-    const index = this.readAloud.activeBlock();
-    if (index < 0 || this.readAloud.state() !== 'playing') return;
-    requestAnimationFrame(() => {
-      const el = this.proseEl?.nativeElement?.querySelectorAll<HTMLElement>('.prose-block')[index];
-      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-  });
-
   readonly currentTocIndex = computed(() => {
     const id = this.unitId();
     const idx = this.tocItems().findIndex((item) => item.unit.id === id);
@@ -467,7 +438,6 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
 
   ngOnDestroy(): void {
     this.stopSheetDrag();
-    this.readAloud.stop();
   }
 
   private async load(sourceId: string, unitId: string): Promise<void> {
@@ -606,40 +576,61 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   }
 
   goToUnit(unitId: string): void {
-    this.readAloud.stop();
     void this.router.navigate(['/worldview', 'library', this.sourceId(), 'read', unitId]);
     void this.contentRef?.scrollToTop(0);
   }
 
-  // ── Read aloud ─────────────────────────────────────────────────────────────
-  toggleReadAloud(): void {
-    if (!this.readAloud.supported) return;
-    this.readAloud.toggle(this.speechSegments());
+  // ── Copy passage ────────────────────────────────────────────────────────────
+
+  /** Plain-text projection of the whole reading passage (title + body). */
+  private passagePlainText(): string {
+    const lines: string[] = [];
+    const title = this.unitTitle(this.unit());
+    if (title) lines.push(title, '');
+    for (const block of this.blocks()) {
+      const text = (block.speech ?? block.text ?? '').trim();
+      if (text) { lines.push(this.stripMarkdown(text)); continue; }
+      if (block.items?.length) {
+        for (const item of block.items) lines.push('• ' + this.stripMarkdown(String(item)));
+      }
+    }
+    return lines.join('\n').replace(/\n{3,}/g, '\n\n').trim();
   }
 
-  /**
-   * Start reading from a tapped paragraph. The header button reads from the top;
-   * tapping a block jumps the narration to that block. Taps that land on a link
-   * or selected text are ignored so normal reading interactions still work.
-   */
-  readFromBlock(blockIndex: number, event: Event): void {
-    if (!this.readAloud.supported) return;
-    const target = event.target as HTMLElement | null;
-    if (target?.closest('a, button, audio, img, input, textarea')) return;
-    const selection = typeof window !== 'undefined' ? window.getSelection?.() : null;
-    if (selection && !selection.isCollapsed && selection.toString().trim()) return;
-    this.readAloud.startFromBlock(this.speechSegments(), blockIndex);
-  }
-
-  stopReadAloud(): void {
-    this.readAloud.stop();
-  }
-
-  cycleReadRate(): void {
-    const rates = [1, 1.25, 1.5, 0.75];
-    const current = this.readAloud.rate();
-    const next = rates[(rates.indexOf(current) + 1) % rates.length] ?? 1;
-    this.readAloud.setRate(next);
+  /** Copy the full passage to the clipboard with a brief confirmation. */
+  async copyPassage(): Promise<void> {
+    const text = this.passagePlainText();
+    if (!text) return;
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.style.position = 'fixed';
+        ta.style.opacity = '0';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+      this.copied.set(true);
+      setTimeout(() => this.copied.set(false), 1600);
+      const toast = await this.toastController.create({
+        message: 'Passage copied',
+        duration: 1400,
+        position: 'bottom',
+        cssClass: 'ur-copy-toast',
+      });
+      await toast.present();
+    } catch {
+      const toast = await this.toastController.create({
+        message: 'Could not copy passage',
+        duration: 1600,
+        position: 'bottom',
+      });
+      await toast.present();
+    }
   }
 
   openGraphPage(): void {
@@ -1377,58 +1368,6 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
         display_label_medium: (link['display_label_medium'] as string | null) ?? null,
       }));
   }
-}
-
-// Split a block of prose into speech-sized chunks. Short blocks are spoken
-// whole; longer ones are broken at sentence boundaries and re-grouped to ~220
-// characters. The sentence splitter avoids breaking on common abbreviations
-// and decimal numbers (e.g. "Dr. Ibn Sina", "3.14") that would otherwise
-// produce stuttering, unnatural pauses.
-const SPEECH_CHUNK_LIMIT = 220;
-const ABBREVIATIONS = /(^|\s)(?:mr|mrs|ms|dr|st|sr|jr|prof|fig|no|vol|pp|ed|al|etc|e\.g|i\.e|vs|ca|approx)\.$/i;
-
-function chunkForSpeech(text: string): string[] {
-  const source = text.replace(/\s+/g, ' ').trim();
-  if (!source) return [];
-  if (source.length <= SPEECH_CHUNK_LIMIT) return [source];
-
-  const sentences = splitSentences(source);
-  const chunks: string[] = [];
-  let current = '';
-  for (const sentence of sentences) {
-    if (!current) {
-      current = sentence;
-    } else if (`${current} ${sentence}`.length <= SPEECH_CHUNK_LIMIT) {
-      current = `${current} ${sentence}`;
-    } else {
-      chunks.push(current);
-      current = sentence;
-    }
-  }
-  if (current) chunks.push(current);
-  return chunks;
-}
-
-function splitSentences(text: string): string[] {
-  const sentences: string[] = [];
-  // Match a run of text ending in sentence punctuation (or the end of input).
-  const matches = text.match(/[^.!?]+[.!?]*(?:\s+|$)/g) ?? [text];
-  let buffer = '';
-  for (const raw of matches) {
-    const piece = raw.trim();
-    if (!piece) continue;
-    buffer = buffer ? `${buffer} ${piece}` : piece;
-    // If the break landed right after an abbreviation or a decimal point, keep
-    // accumulating so we do not split "Dr. Sina" or "3.14" into fragments.
-    const endsOnAbbrev = ABBREVIATIONS.test(buffer);
-    const endsOnDecimal = /\d\.$/.test(buffer);
-    if (!endsOnAbbrev && !endsOnDecimal) {
-      sentences.push(buffer);
-      buffer = '';
-    }
-  }
-  if (buffer) sentences.push(buffer);
-  return sentences;
 }
 
 function sortUnits(units: WvUnit[]): WvUnit[] {

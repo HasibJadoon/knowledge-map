@@ -1,0 +1,4 @@
+# Pre-rendered narration audio is stored on R2, not in git.
+# The timing map (*.timings.json) is kept so the reader can sync highlighting.
+*.mp3
+*.wav
