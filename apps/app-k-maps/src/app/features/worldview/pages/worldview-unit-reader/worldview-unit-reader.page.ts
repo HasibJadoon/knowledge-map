@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, computed, inject, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild, computed, effect, inject, signal } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, IonContent } from '@ionic/angular';
+
+import { ReadAloudService, SpeechSegment } from '../../../../shared/services/read-aloud.service';
 import gsap from 'gsap';
 import { firstValueFrom } from 'rxjs';
 
@@ -137,6 +139,7 @@ interface TocItem {
 interface ReadingBlock {
   type: string; // 'heading' | 'subheading' | 'paragraph' | 'quote' | 'link' | 'separator' | 'callout' | 'image' | 'audio' | 'list' | 'table'
   text?: string;
+  speech?: string;        // plain-text projection used by read-aloud (TTS)
   html?: SafeHtml;        // inline-formatted HTML (bold/italic/code/links) for prose blocks
   cite?: string;
   label?: string;
@@ -169,6 +172,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   private readonly router = inject(Router);
   private readonly libraryApi = inject(WorldviewLibraryApiService);
   private readonly sanitizer = inject(DomSanitizer);
+  readonly readAloud = inject(ReadAloudService);
   private sheetDragPointerId: number | null = null;
   private sheetDragStartY = 0;
   private sheetDragStartExpanded = false;
@@ -279,6 +283,31 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
     }));
   });
 
+  // Flatten reading blocks into sentence-sized segments tagged with their
+  // block index, so read-aloud can speak smoothly and highlight as it goes.
+  readonly speechSegments = computed((): SpeechSegment[] => {
+    const segments: SpeechSegment[] = [];
+    this.blocks().forEach((block, blockIndex) => {
+      const source = (block.speech ?? block.text ?? '').trim();
+      if (!source) return;
+      const sentences = source.match(/[^.!?]+[.!?]*(\s|$)/g)?.map((s) => s.trim()).filter(Boolean) ?? [source];
+      for (const sentence of sentences) {
+        segments.push({ text: sentence, blockIndex });
+      }
+    });
+    return segments;
+  });
+
+  // Keep the sentence being read comfortably in view.
+  private readonly _readAloudScroll = effect(() => {
+    const index = this.readAloud.activeBlock();
+    if (index < 0 || this.readAloud.state() !== 'playing') return;
+    requestAnimationFrame(() => {
+      const el = this.proseEl?.nativeElement?.querySelectorAll<HTMLElement>('.prose-block')[index];
+      el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  });
+
   readonly currentTocIndex = computed(() => {
     const id = this.unitId();
     const idx = this.tocItems().findIndex((item) => item.unit.id === id);
@@ -341,6 +370,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
 
   ngOnDestroy(): void {
     this.stopSheetDrag();
+    this.readAloud.stop();
   }
 
   private async load(sourceId: string, unitId: string): Promise<void> {
@@ -479,8 +509,26 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   }
 
   goToUnit(unitId: string): void {
+    this.readAloud.stop();
     void this.router.navigate(['/worldview', 'library', this.sourceId(), 'read', unitId]);
     void this.contentRef?.scrollToTop(0);
+  }
+
+  // ── Read aloud ─────────────────────────────────────────────────────────────
+  toggleReadAloud(): void {
+    if (!this.readAloud.supported) return;
+    this.readAloud.toggle(this.speechSegments());
+  }
+
+  stopReadAloud(): void {
+    this.readAloud.stop();
+  }
+
+  cycleReadRate(): void {
+    const rates = [1, 1.25, 1.5, 0.75];
+    const current = this.readAloud.rate();
+    const next = rates[(rates.indexOf(current) + 1) % rates.length] ?? 1;
+    this.readAloud.setRate(next);
   }
 
   openGraphPage(): void {
@@ -685,7 +733,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
     const flushPara = () => {
       if (para.length) {
         const text = para.join(' ').replace(/\s+/g, ' ').trim();
-        if (text) blocks.push({ type: 'paragraph', text, html: this.inlineHtml(text) });
+        if (text) blocks.push({ type: 'paragraph', text, html: this.inlineHtml(text), speech: this.stripMarkdown(text) });
         para = [];
       }
     };
@@ -715,6 +763,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
           level,
           text,
           html: this.inlineHtml(text),
+          speech: this.stripMarkdown(text),
         });
         continue;
       }
@@ -729,22 +778,26 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
         }
         i--;
         const text = quote.join(' ').replace(/\s+/g, ' ').trim();
-        blocks.push({ type: 'quote', text, html: this.inlineHtml(text) });
+        blocks.push({ type: 'quote', text, html: this.inlineHtml(text), speech: this.stripMarkdown(text) });
         continue;
       }
 
       // Pipe table: header row followed by a |---|---| delimiter row
       if (/\|/.test(line) && i + 1 < lines.length && /^\s*\|?[\s:|-]*-[\s:|-]*\|?\s*$/.test(lines[i + 1]) && /-/.test(lines[i + 1])) {
         flushPara();
-        const headerRow = this.splitTableRow(lines[i]).map((c) => this.inlineHtml(c));
+        const headerCells = this.splitTableRow(lines[i]);
+        const headerRow = headerCells.map((c) => this.inlineHtml(c));
         i += 2; // skip header + delimiter
         const rows: SafeHtml[][] = [];
+        const speechParts: string[] = [];
         while (i < lines.length && /\|/.test(lines[i]) && lines[i].trim()) {
-          rows.push(this.splitTableRow(lines[i]).map((c) => this.inlineHtml(c)));
+          const cells = this.splitTableRow(lines[i]);
+          rows.push(cells.map((c) => this.inlineHtml(c)));
+          speechParts.push(cells.map((c) => this.stripMarkdown(c)).join(', '));
           i++;
         }
         i--;
-        blocks.push({ type: 'table', headerRow, rows });
+        blocks.push({ type: 'table', headerRow, rows, speech: this.stripMarkdown(headerCells.join(', ')) + '. ' + speechParts.join('. ') });
         continue;
       }
 
@@ -754,12 +807,14 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
       if (isUl || isOl) {
         flushPara();
         const items: SafeHtml[] = [];
+        const itemTexts: string[] = [];
         const ordered = isOl;
         while (i < lines.length) {
           const li = lines[i];
           const m = ordered ? li.match(/^\s*\d+[.)]\s+(.*)$/) : li.match(/^\s*[-*+]\s+(.*)$/);
           if (m) {
             items.push(this.inlineHtml(m[1].trim()));
+            itemTexts.push(this.stripMarkdown(m[1].trim()));
             i++;
           } else if (/^\s+\S/.test(li) && items.length) {
             // continuation line of the previous item
@@ -769,7 +824,7 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
           }
         }
         i--;
-        blocks.push({ type: 'list', ordered, items });
+        blocks.push({ type: 'list', ordered, items, speech: itemTexts.join('. ') });
         continue;
       }
 
@@ -809,9 +864,10 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
 
     html = html
       .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
-      .replace(/(^|[^*])\*([^*]+)\*(?!\*)/g, '$1<em>$2</em>')
-      .replace(/(^|[^_])_([^_]+)_(?!_)/g, '$1<em>$2</em>');
+      .replace(/\*\*\*([^*]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+      .replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*\w])\*(?!\s)([^*]+?)\*(?!\*)/g, '$1<em>$2</em>')
+      .replace(/(^|[^_\w])_(?!\s)([^_]+?)_(?![\w_])/g, '$1<em>$2</em>');
 
     html = html.replace(new RegExp(`${SENT}(\\d+)${SENT}`, 'g'), (_m, n: string) => codeSpans[Number(n)] ?? '');
     return this.sanitizer.bypassSecurityTrustHtml(html);

@@ -6,6 +6,11 @@
     <ion-title class="ur-header__title">{{ source()?.title ?? 'Reader' }}</ion-title>
     <ion-buttons slot="end">
       <app-wv-illustrations [sourceId]="sourceId()" [chapterUnitId]="parentChapter()?.id ?? null"></app-wv-illustrations>
+      @if (readAloud.supported) {
+        <ion-button fill="clear" size="small" (click)="toggleReadAloud()" [attr.aria-label]="readAloud.state() === 'playing' ? 'Pause read aloud' : 'Read this section aloud'">
+          <ion-icon [name]="readAloud.state() === 'playing' ? 'pause-circle-outline' : 'headset-outline'" slot="icon-only"></ion-icon>
+        </ion-button>
+      }
       <ion-button fill="clear" size="small" (click)="openGraphPage()" aria-label="Open worldview graph">
         <ion-icon name="git-network-outline" slot="icon-only"></ion-icon>
       </ion-button>
@@ -74,6 +79,7 @@
         @if (blocks().length > 0) {
           <div class="reading__body" #proseEl>
             @for (block of blocks(); track $index) {
+              <div class="prose-block" [class.prose-block--reading]="readAloud.activeBlock() === $index">
               @switch (block.type) {
                 @case ('heading') {
                   <div class="prose-heading-wrap">
@@ -210,6 +216,7 @@
                   }
                 }
               }
+              </div>
             }
           </div>
         } @else {
@@ -272,6 +279,27 @@
         </nav>
 
       </article>
+    </div>
+  }
+
+  <!-- ─── Read-aloud control bar ─────────────────────────────────── -->
+  @if (readAloud.state() !== 'idle') {
+    <div class="read-aloud-bar" role="toolbar" aria-label="Read aloud controls">
+      <div class="read-aloud-bar__pulse" [class.read-aloud-bar__pulse--paused]="readAloud.state() === 'paused'" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </div>
+      <span class="read-aloud-bar__label">
+        {{ readAloud.state() === 'paused' ? 'Paused' : 'Reading aloud' }}
+      </span>
+      <button type="button" class="read-aloud-bar__rate" (click)="cycleReadRate()" aria-label="Change reading speed">
+        {{ readAloud.rate() }}×
+      </button>
+      <button type="button" class="read-aloud-bar__btn" (click)="toggleReadAloud()" [attr.aria-label]="readAloud.state() === 'playing' ? 'Pause' : 'Resume'">
+        <ion-icon [name]="readAloud.state() === 'playing' ? 'pause' : 'play'"></ion-icon>
+      </button>
+      <button type="button" class="read-aloud-bar__btn read-aloud-bar__btn--stop" (click)="stopReadAloud()" aria-label="Stop">
+        <ion-icon name="stop"></ion-icon>
+      </button>
     </div>
   }
 
