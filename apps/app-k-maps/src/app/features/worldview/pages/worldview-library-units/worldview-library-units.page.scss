@@ -269,11 +269,11 @@
     font-weight: 600;
     line-height: 1.35;
 
-    // Farsi / Urdu / Arabic titles get a proper Arabic-script webfont
+    // Farsi / Urdu / Arabic titles get the self-hosted Amiri naskh
     &--rtl {
-      font-family: 'Vazirmatn', 'Noto Naskh Arabic', 'Scheherazade New', serif;
+      font-family: 'Amiri', 'Noto Naskh Arabic', serif;
       font-size: 1.12rem;
-      line-height: 1.7;
+      line-height: 1.9;
     }
   }
 

@@ -126,6 +126,29 @@
     U+29EB, U+2B00-2BFF;
 }
 
+// Amiri — elegant Arabic/Persian naskh, self-hosted so it loads reliably
+// inside the native webview (the Google CDN does not load offline).
+@font-face {
+  font-family: "Amiri";
+  font-style:   normal;
+  font-weight:  400;
+  font-display: swap;
+  src: url("assets/fonts/amiri-arabic-400-normal.woff2") format("woff2");
+  unicode-range:
+    U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+2010-2011,
+    U+FB50-FDFF, U+FE70-FEFC;
+}
+@font-face {
+  font-family: "Amiri";
+  font-style:   normal;
+  font-weight:  700;
+  font-display: swap;
+  src: url("assets/fonts/amiri-arabic-700-normal.woff2") format("woff2");
+  unicode-range:
+    U+0600-06FF, U+0750-077F, U+08A0-08FF, U+200C-200E, U+2010-2011,
+    U+FB50-FDFF, U+FE70-FEFC;
+}
+
 :root {
   --app-font-size: 16px;
   --app-font-ar-size: 32px;
