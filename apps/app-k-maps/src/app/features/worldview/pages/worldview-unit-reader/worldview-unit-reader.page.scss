@@ -560,22 +560,6 @@
 .prose-block {
   position: relative;
   border-radius: 0.6rem;
-  transition: background 0.3s ease;
-
-  // Active block while the narration audio plays.
-  &--playing {
-    background: rgba(201, 168, 76, 0.07);
-    box-shadow: inset 3px 0 0 var(--r-gold);
-
-    &::before {
-      content: '';
-      position: absolute;
-      inset: 0 -0.6rem;
-      border-radius: 0.6rem;
-      background: rgba(201, 168, 76, 0.05);
-      z-index: -1;
-    }
-  }
 }
 
 // ── Poetry: controls bar ─────────────────────────────────────────

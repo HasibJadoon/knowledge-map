@@ -6,11 +6,6 @@
     <ion-title class="ur-header__title">{{ source()?.title ?? 'Reader' }}</ion-title>
     <ion-buttons slot="end">
       <app-wv-illustrations [sourceId]="sourceId()" [chapterUnitId]="parentChapter()?.id ?? null"></app-wv-illustrations>
-      @if (audioTrack()) {
-        <ion-button fill="clear" size="small" (click)="toggleAudio()" [attr.aria-label]="audioPlaying() ? 'Pause narration' : 'Play narration'">
-          <ion-icon [name]="audioPlaying() ? 'pause-circle-outline' : 'headset-outline'" slot="icon-only"></ion-icon>
-        </ion-button>
-      }
       <ion-button fill="clear" size="small" (click)="copyPassage()" [attr.aria-label]="copied() ? 'Passage copied' : 'Copy passage'">
         <ion-icon [name]="copied() ? 'checkmark-outline' : 'copy-outline'" slot="icon-only"></ion-icon>
       </ion-button>
@@ -86,7 +81,7 @@
         @if (!isPoem() && blocks().length > 0) {
           <div class="reading__body" #proseEl>
             @for (block of blocks(); track $index) {
-              <div class="prose-block" [class.prose-block--playing]="audioBlock() === $index">
+              <div class="prose-block">
               @switch (block.type) {
                 @case ('heading') {
                   <div class="prose-heading-wrap">
