@@ -13,6 +13,7 @@ import type { WorldviewEnv } from './env';
 
 import { traditionRoutes }  from './routes/traditions';
 import { nodeRoutes }        from './routes/nodes';
+import { countsRoutes }      from './routes/counts';
 import { sourceRoutes }      from './routes/sources';
 import { illustrationRoutes } from './routes/illustrations';
 import { readingSessionRoutes } from './routes/reading-sessions';
@@ -29,6 +30,9 @@ const router = new Router<WorldviewEnv>();
 router.get('/health', async (_req, env) =>
   ok({ domain: 'worldview', db: 'DB_WV', db_ok: await dbHealth(env.DB_WV) }),
 );
+
+// ── Home stat strip ───────────────────────────────────────────────────────────
+countsRoutes(router);      // GET /worldview/counts — worldviews/sources/units/people
 
 // ── Core reference data ───────────────────────────────────────────────────────
 traditionRoutes(router);   // GET/POST /wv/traditions, by-slug
