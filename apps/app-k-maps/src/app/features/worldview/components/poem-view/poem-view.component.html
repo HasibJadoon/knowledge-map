@@ -3,7 +3,7 @@
   <!-- ── Illuminated header ─────────────────────────────────────── -->
   <header class="poemv__head">
     <div class="poemv__medallion" aria-hidden="true">۞ ❖ ۞</div>
-    @if (poem?.title) { <h1 class="poemv__title" dir="rtl">{{ poem?.title }}</h1> }
+    @if (poem?.title) { <h1 class="poemv__title" [class.poemv__title--long]="(poem?.title?.length ?? 0) > 18" dir="rtl">{{ poem?.title }}</h1> }
     @if (poem?.subtitle) { <div class="poemv__latin">{{ poem?.subtitle }}</div> }
     @if (poem?.meter || poem?.poet) {
       <div class="poemv__meta" dir="rtl">
