@@ -13,7 +13,15 @@ export interface SpeechSegment {
   blockIndex: number;
 }
 
+/** One reading block's start/end offset inside a pre-rendered audio track. */
+export interface AudioTiming {
+  blockIndex: number;
+  startMs: number;
+  endMs: number;
+}
+
 export type ReadAloudState = 'idle' | 'playing' | 'paused';
+type Engine = 'tts' | 'track';
 
 const VOICE_PREF_KEY = 'kmaps.readAloud.voice';
 
@@ -49,6 +57,11 @@ export class ReadAloudService {
   private voicePollCount = 0;
   /** Bumped on every (re)start so an in-flight native loop knows to bail. */
   private playId = 0;
+
+  /** Active engine: live TTS, or a pre-rendered HQ audio track. */
+  private engine: Engine = 'tts';
+  private audio: HTMLAudioElement | null = null;
+  private trackTimings: AudioTiming[] = [];
 
   readonly supported = this.native || !!this.synth;
   readonly state = signal<ReadAloudState>('idle');
@@ -251,6 +264,8 @@ export class ReadAloudService {
   /** Begin reading the given ordered segments, optionally from a chosen block. */
   start(segments: SpeechSegment[], fromBlockIndex = 0): void {
     if (!this.supported || !segments.length) return;
+    this.teardownTrack();
+    this.engine = 'tts';
     this.segments = segments;
     // Snap to the first segment at or after the requested block so a tap on a
     // paragraph begins reading from there, while the default (0) starts at the top.
@@ -273,9 +288,83 @@ export class ReadAloudService {
     this.start(segments, blockIndex);
   }
 
+  // ── Pre-rendered HQ audio track ─────────────────────────────────────────────
+
+  /** True once a track has been loaded for the current unit. */
+  get hasTrack(): boolean {
+    return this.engine === 'track' && !!this.audio;
+  }
+
+  /**
+   * Play a pre-rendered narration MP3 (Speechify-style) and drive the
+   * block-by-block highlight from its timing map, optionally starting at a
+   * given block. This is the highest-quality path: one fluent, natural voice
+   * regardless of device, with the active line following the audio.
+   */
+  playTrack(url: string, timings: AudioTiming[], fromBlockIndex = 0): void {
+    if (!url || typeof Audio === 'undefined') return;
+    // Switch engines cleanly.
+    this.synth?.cancel();
+    this.stopKeepAlive();
+    if (this.native) void TextToSpeech.stop();
+    this.engine = 'track';
+    this.trackTimings = [...timings].sort((a, b) => a.startMs - b.startMs);
+
+    if (!this.audio) {
+      this.audio = new Audio();
+      this.audio.preload = 'auto';
+      this.audio.addEventListener('timeupdate', () => this.syncTrackHighlight());
+      this.audio.addEventListener('ended', () => this.stop());
+    }
+    if (this.audio.src !== url) this.audio.src = url;
+    this.audio.playbackRate = this.rate();
+
+    const startMs = this.trackTimings.find((t) => t.blockIndex >= fromBlockIndex)?.startMs ?? 0;
+    const seekAndPlay = () => {
+      try { this.audio!.currentTime = startMs / 1000; } catch { /* not seekable yet */ }
+      void this.audio!.play().then(() => this.state.set('playing')).catch(() => this.state.set('idle'));
+    };
+    if (this.audio.readyState >= 1) {
+      seekAndPlay();
+    } else {
+      this.audio.addEventListener('loadedmetadata', seekAndPlay, { once: true });
+      this.audio.load();
+    }
+  }
+
+  /** Seek the loaded track to a tapped block and keep playing. */
+  startTrackFromBlock(url: string, timings: AudioTiming[], blockIndex: number): void {
+    this.playTrack(url, timings, blockIndex);
+  }
+
+  private syncTrackHighlight(): void {
+    if (!this.audio) return;
+    const ms = this.audio.currentTime * 1000;
+    // Timings are sorted; pick the last block whose start is at/under now.
+    let active = -1;
+    for (const t of this.trackTimings) {
+      if (ms >= t.startMs) active = t.blockIndex; else break;
+    }
+    if (active !== this.activeBlock()) this.activeBlock.set(active);
+  }
+
+  private teardownTrack(): void {
+    if (this.audio) {
+      this.audio.pause();
+      this.audio.removeAttribute('src');
+      this.audio.load();
+      this.audio = null;
+    }
+    this.trackTimings = [];
+  }
+
   pause(): void {
     if (this.state() !== 'playing') return;
     this.state.set('paused');
+    if (this.engine === 'track') {
+      this.audio?.pause();
+      return;
+    }
     if (this.native) {
       // No native pause — stop the engine and stay on the current segment so
       // resume re-speaks it from the top.
@@ -289,6 +378,10 @@ export class ReadAloudService {
   resume(): void {
     if (this.state() !== 'paused') return;
     this.state.set('playing');
+    if (this.engine === 'track') {
+      void this.audio?.play().catch(() => this.state.set('paused'));
+      return;
+    }
     if (this.native) {
       this.playId += 1;
       void this.runNativeLoop();
@@ -316,6 +409,10 @@ export class ReadAloudService {
     this.cursor = 0;
     this.segments = [];
     this.playId += 1;
+    if (this.engine === 'track') {
+      this.teardownTrack();
+      return;
+    }
     if (this.native) {
       void TextToSpeech.stop();
       return;
@@ -324,9 +421,11 @@ export class ReadAloudService {
     this.synth?.cancel();
   }
 
-  /** Change playback speed; applies from the next segment. */
+  /** Change playback speed; applies immediately for a track, next segment for TTS. */
   setRate(rate: number): void {
-    this.rate.set(Math.min(2, Math.max(0.6, rate)));
+    const clamped = Math.min(2, Math.max(0.6, rate));
+    this.rate.set(clamped);
+    if (this.engine === 'track' && this.audio) this.audio.playbackRate = clamped;
   }
 
   // ── Web keep-alive + voice preference storage ───────────────────────────────

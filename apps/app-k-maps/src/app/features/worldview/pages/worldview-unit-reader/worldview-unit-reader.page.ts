@@ -4,7 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { IonicModule, IonContent } from '@ionic/angular';
 
-import { ReadAloudService, SpeechSegment } from '../../../../shared/services/read-aloud.service';
+import { ReadAloudService, SpeechSegment, AudioTiming } from '../../../../shared/services/read-aloud.service';
 import { PoemViewComponent } from '../../components/poem-view/poem-view.component';
 import gsap from 'gsap';
 import { firstValueFrom } from 'rxjs';
@@ -51,6 +51,10 @@ interface WvUnit {
   readingBody?: string[] | null;
   readingBlocks?: ReadingBlock[] | null;
   readingSchema?: string | null;
+  // Pre-rendered HQ narration (Speechify-style): an MP3 URL plus a per-block
+  // timing map so the reader highlights block-by-block in sync with the audio.
+  readingAudioUrl?: string | null;
+  readingAudioTimings?: AudioTiming[] | null;
   locatorLabel?: string | null;
   readingMinutes?: number | null;
   documentId?: string | null;
@@ -612,8 +616,28 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   }
 
   // ── Read aloud ─────────────────────────────────────────────────────────────
+
+  // A pre-rendered HQ narration track for this unit, if one exists.
+  readonly audioTrack = computed(() => {
+    const u = this.unit();
+    const url = u?.readingAudioUrl?.trim();
+    const timings = u?.readingAudioTimings;
+    return url && timings?.length ? { url, timings } : null;
+  });
+
   toggleReadAloud(): void {
     if (!this.readAloud.supported) return;
+    const track = this.audioTrack();
+    if (track) {
+      // Prefer the pre-rendered HQ MP3: one fluent natural voice, highlight
+      // following the audio block-by-block.
+      switch (this.readAloud.state()) {
+        case 'playing': this.readAloud.pause(); break;
+        case 'paused': this.readAloud.resume(); break;
+        default: this.readAloud.playTrack(track.url, track.timings); break;
+      }
+      return;
+    }
     this.readAloud.toggle(this.speechSegments());
   }
 
@@ -628,6 +652,11 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
     if (target?.closest('a, button, audio, img, input, textarea')) return;
     const selection = typeof window !== 'undefined' ? window.getSelection?.() : null;
     if (selection && !selection.isCollapsed && selection.toString().trim()) return;
+    const track = this.audioTrack();
+    if (track) {
+      this.readAloud.startTrackFromBlock(track.url, track.timings, blockIndex);
+      return;
+    }
     this.readAloud.startFromBlock(this.speechSegments(), blockIndex);
   }
 
@@ -1057,7 +1086,22 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
         ? unit.readingBody.filter((entry): entry is string => typeof entry === 'string' && !!entry.trim())
         : null,
       readingBlocks: this.normalizeReadingBlocksPayload(unit.readingBlocks),
+      readingAudioUrl: this.readTrimmed(unit.readingAudioUrl),
+      readingAudioTimings: this.normalizeAudioTimingsPayload(unit.readingAudioTimings),
     };
+  }
+
+  private normalizeAudioTimingsPayload(value: unknown): AudioTiming[] | null {
+    if (!Array.isArray(value)) return null;
+    const timings = value
+      .filter((e): e is Record<string, unknown> => !!e && typeof e === 'object' && !Array.isArray(e))
+      .map((e) => ({
+        blockIndex: Number(e['blockIndex']),
+        startMs: Number(e['startMs']),
+        endMs: Number(e['endMs']),
+      }))
+      .filter((t) => Number.isFinite(t.blockIndex) && Number.isFinite(t.startMs));
+    return timings.length ? timings : null;
   }
 
   private normalizeSource(source: WvSource): WvSource {
