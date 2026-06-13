@@ -14,9 +14,48 @@ Usage:
       --out    database/seeds/orientalism/audio/orientalism-ch1-s1
 """
 import argparse, json, os, re, subprocess, wave
-from piper import PiperVoice
+from piper import PiperVoice, SynthesisConfig
 
-GAP_MS = 260  # natural pause inserted between blocks
+GAP_MS = 260       # natural pause inserted between blocks
+CHUNK_CHARS = 320  # target chunk size: long blocks are split at sentence ends
+
+# Abbreviations / decimals we must NOT treat as a sentence end when chunking.
+_ABBR = re.compile(r'(^|\s)(?:mr|mrs|ms|dr|st|sr|jr|prof|fig|no|vol|pp|ed|al|etc|e\.g|i\.e|vs|ca)\.$', re.I)
+
+def split_sentences(text):
+    """Split into sentences without breaking on abbreviations or decimals."""
+    out, buf = [], ""
+    for raw in re.findall(r'[^.!?]+[.!?]*(?:\s+|$)', text) or [text]:
+        p = raw.strip()
+        if not p:
+            continue
+        buf = f"{buf} {p}".strip() if buf else p
+        if not _ABBR.search(buf) and not re.search(r'\d\.$', buf):
+            out.append(buf); buf = ""
+    if buf:
+        out.append(buf)
+    return out
+
+def chunk_text(text, limit=CHUNK_CHARS):
+    """Group sentences into ~`limit`-char, properly punctuated chunks. Keeps
+    multi-sentence prosody (fluent) while avoiding over-long inputs that make
+    the model rush or flatten."""
+    text = re.sub(r'\s+', ' ', text).strip()
+    if not text:
+        return []
+    chunks, cur = [], ""
+    for sent in split_sentences(text):
+        if not re.search(r'[.!?…]$', sent):   # guarantee terminal punctuation
+            sent += '.'
+        if not cur:
+            cur = sent
+        elif len(cur) + 1 + len(sent) <= limit:
+            cur = f"{cur} {sent}"
+        else:
+            chunks.append(cur); cur = sent
+    if cur:
+        chunks.append(cur)
+    return chunks
 
 def strip_md(t: str) -> str:
     if not t: return ""
@@ -65,6 +104,11 @@ def main():
     ap.add_argument('--voice', required=True)
     ap.add_argument('--out', required=True, help='output path prefix (no extension)')
     ap.add_argument('--ffmpeg', default=os.environ.get('FFMPEG', 'ffmpeg'))
+    ap.add_argument('--speaker', type=int, default=0, help='speaker id (multi-speaker voices)')
+    ap.add_argument('--length-scale', type=float, default=1.06, help='>1 = slower/warmer')
+    ap.add_argument('--noise-scale', type=float, default=0.667)
+    ap.add_argument('--noise-w', type=float, default=0.8, help='prosody variation (higher = more expressive)')
+    ap.add_argument('--chunk-chars', type=int, default=CHUNK_CHARS)
     args = ap.parse_args()
 
     data = json.load(open(args.blocks))
@@ -75,6 +119,12 @@ def main():
     print(f"{len(spoken)} spoken blocks of {len(blocks)} total")
 
     voice = PiperVoice.load(args.voice, config_path=args.voice + '.json')
+    syn = SynthesisConfig(
+        speaker_id=args.speaker,
+        length_scale=args.length_scale,
+        noise_scale=args.noise_scale,
+        noise_w_scale=args.noise_w,
+    )
     rate = None
     pcm = bytearray()
     timings = []
@@ -82,11 +132,15 @@ def main():
 
     for n, (block_index, text) in enumerate(spoken):
         start = len(pcm)
-        for ch in voice.synthesize(text):       # whole block → fluent prosody
-            if rate is None:
-                rate = ch.sample_rate
-                gap = b'\x00\x00' * int(rate * GAP_MS / 1000)
-            pcm.extend(ch.audio_int16_bytes)
+        # Chunk the block into properly-punctuated, sentence-grouped pieces so
+        # each pass into the model is a natural length (no rushing), then
+        # concatenate — the block still reads as one fluent unit.
+        for chunk in chunk_text(text, args.chunk_chars):
+            for ch in voice.synthesize(chunk, syn_config=syn):
+                if rate is None:
+                    rate = ch.sample_rate
+                    gap = b'\x00\x00' * int(rate * GAP_MS / 1000)
+                pcm.extend(ch.audio_int16_bytes)
         end = len(pcm)
         pcm.extend(gap)
         to_ms = lambda nbytes: round(nbytes / 2 / rate * 1000)
