@@ -8,6 +8,7 @@ import { ActionSheetController, IonicModule } from '@ionic/angular';
 import { filter, Subscription } from 'rxjs';
 import { FormsModule } from '@angular/forms';
 import { DocsApiService } from '../../../../shared/services/content/docs-api.service';
+import { WorldviewApiService, WvTopic } from '../../../../shared/services/worldview/worldview-api.service';
 
 interface DocSummary {
   id: string;
@@ -19,6 +20,7 @@ interface DocSummary {
   updated_at: string;
   parent_doc_id: string | null;
   sort_order: number;
+  topic_key: string | null;
 }
 
 interface DocNode extends DocSummary {
@@ -40,7 +42,23 @@ interface FlatDoc extends DocNode {
   type: 'doc';
 }
 
-type FlatRow = FlatItem | FlatDoc;
+interface FlatSub {
+  type: 'subdomain';
+  key: string;
+  label: string;
+  count: number;
+  open: boolean;
+}
+
+interface FlatTopic {
+  type: 'topic';
+  key: string;
+  label: string;
+  count: number;
+  open: boolean;
+}
+
+type FlatRow = FlatItem | FlatSub | FlatTopic | FlatDoc;
 
 interface DocSearchResult {
   id: string;
@@ -59,6 +77,26 @@ const DOMAINS = [
   { key: 'worldview', label: 'Worldview', icon: '🌍' },
   { key: 'workspace', label: 'Workspace', icon: '🏛' },
 ];
+
+/** Worldview docs group by topic taxonomy: sub-domain (wv_topics.topic_domain)
+ *  → topic (wv_topics.title) → document. Covers noun + adjectival forms. */
+const WV_UNCAT = '__uncat__';
+const SUBDOMAIN_LABELS: Record<string, string> = {
+  theology: 'Theology', theological: 'Theology',
+  ethics: 'Ethics', ethical: 'Ethics',
+  anthropology: 'Anthropology', eschatology: 'Eschatology',
+  prophethood: 'Prophethood', law: 'Law', cosmology: 'Cosmology',
+  psychology: 'Psychology', psychological: 'Psychology',
+  sociology: 'Sociology', sociological: 'Sociology',
+  history: 'History', historical: 'History',
+  philosophy: 'Philosophy', philosophical: 'Philosophy',
+  ideology: 'Ideology', ideological: 'Ideology',
+  worldview: 'Worldview', modernity: 'Modernity',
+  coloniality: 'Coloniality', discernment: 'Discernment', other: 'Other',
+};
+function titleCaseLabel(value: string): string {
+  return value ? value.charAt(0).toUpperCase() + value.slice(1) : value;
+}
 
 @Component({
   selector: 'app-docs-list',
@@ -132,6 +170,28 @@ const DOMAINS = [
                     class="km-domain-chevron">
                   </ion-icon>
                 }
+              </div>
+            }
+
+            @if (row.type === 'subdomain') {
+              <div class="km-sub-row" (click)="toggleSub(row.key)">
+                <ion-icon
+                  [name]="row.open ? 'chevron-down' : 'chevron-forward'"
+                  class="km-sub-chevron">
+                </ion-icon>
+                <span class="km-sub-label">{{ row.label }}</span>
+                <ion-badge class="km-domain-badge">{{ row.count }}</ion-badge>
+              </div>
+            }
+
+            @if (row.type === 'topic') {
+              <div class="km-topic-row" (click)="toggleTopic(row.key)">
+                <ion-icon
+                  [name]="row.open ? 'chevron-down' : 'chevron-forward'"
+                  class="km-topic-chevron">
+                </ion-icon>
+                <span class="km-topic-label">{{ row.label }}</span>
+                <ion-badge class="km-topic-badge">{{ row.count }}</ion-badge>
               </div>
             }
 
@@ -252,6 +312,58 @@ const DOMAINS = [
       color: var(--ion-color-medium);
     }
 
+    /* ── Worldview sub-domain row ───────────────────────────── */
+    .km-sub-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px 6px 24px;
+      margin: 2px 8px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      &:active { background: rgba(255,255,255,0.05); }
+    }
+    .km-sub-chevron { font-size: 0.7rem; color: var(--ion-color-medium); flex-shrink: 0; }
+    .km-sub-label {
+      flex: 1;
+      font-size: 0.64rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: var(--ion-color-medium);
+    }
+
+    /* ── Worldview topic row ────────────────────────────────── */
+    .km-topic-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 16px 7px 38px;
+      margin: 1px 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      user-select: none;
+      &:active { background: rgba(255,255,255,0.05); }
+    }
+    .km-topic-chevron { font-size: 0.68rem; color: var(--ion-color-medium); flex-shrink: 0; }
+    .km-topic-label {
+      flex: 1;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--ion-text-color);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .km-topic-badge {
+      font-size: 0.58rem;
+      --background: rgba(201,168,76,0.14);
+      --color: #c9a84c;
+      border-radius: 10px;
+      padding: 1px 6px;
+    }
+
     /* ── Doc item ───────────────────────────────────────────── */
     .km-doc-item {
       --padding-start: calc(16px + var(--indent, 0px));
@@ -310,6 +422,7 @@ const DOMAINS = [
 })
 export class DocsListPage implements OnInit, OnDestroy {
   private docsApi = inject(DocsApiService);
+  private wvApi   = inject(WorldviewApiService);
   private router  = inject(Router);
   private cdr     = inject(ChangeDetectorRef);
   private actionSheet = inject(ActionSheetController);
@@ -325,6 +438,11 @@ export class DocsListPage implements OnInit, OnDestroy {
   private openNodes   = signal<Set<string>>(new Set());
   private loadingDomains = signal<Set<string>>(new Set());
   private loadedDomains  = signal<Set<string>>(new Set());
+
+  // Worldview topic grouping: taxonomy + collapse state (open by default).
+  private topics = signal<WvTopic[]>([]);
+  private closedSubs   = signal<Set<string>>(new Set());
+  private closedTopics = signal<Set<string>>(new Set());
   private routerSub!: Subscription;
   private searchTimer: ReturnType<typeof setTimeout> | null = null;
 
@@ -394,10 +512,13 @@ export class DocsListPage implements OnInit, OnDestroy {
               updated_at: row.updated_at ?? '',
               parent_doc_id: null,
               sort_order: 0,
+              topic_key: null,
               children: [],
               depth: 0,
             });
           }
+        } else if (domain.key === 'worldview') {
+          this.collectWorldviewGroups(roots, result);
         } else {
           this.collectVisible(roots, openNds, result, q);
         }
@@ -405,6 +526,60 @@ export class DocsListPage implements OnInit, OnDestroy {
     }
     return result;
   });
+
+  /** Emit worldview docs as sub-domain → topic → doc rows (open by default). */
+  private collectWorldviewGroups(roots: DocNode[], out: FlatRow[]): void {
+    for (const sub of this.buildWvSubdomains(roots)) {
+      const subOpen = this.isSubOpen(sub.key);
+      out.push({ type: 'subdomain', key: sub.key, label: sub.label, count: sub.count, open: subOpen });
+      if (!subOpen) continue;
+      for (const topic of sub.topics) {
+        const tk = `${sub.key}/${topic.key}`;
+        const tOpen = this.isTopicOpen(tk);
+        out.push({ type: 'topic', key: tk, label: topic.title, count: topic.docs.length, open: tOpen });
+        if (!tOpen) continue;
+        for (const node of topic.docs) out.push({ type: 'doc', ...node, depth: 2 });
+      }
+    }
+  }
+
+  private buildWvSubdomains(roots: DocNode[]): { key: string; label: string; count: number; topics: { key: string; title: string; docs: DocNode[] }[] }[] {
+    const topicByKey = new Map(this.topics().map(t => [t.topic_key, t]));
+    const subs = new Map<string, Map<string, { key: string; title: string; docs: DocNode[] }>>();
+    for (const node of roots) {
+      const topic = node.topic_key ? topicByKey.get(node.topic_key) : undefined;
+      const subKey = topic ? (topic.topic_domain || 'other') : WV_UNCAT;
+      const topicKey = topic ? topic.topic_key : WV_UNCAT;
+      const title = topic ? topic.title : 'Uncategorized';
+      let byTopic = subs.get(subKey);
+      if (!byTopic) { byTopic = new Map(); subs.set(subKey, byTopic); }
+      let group = byTopic.get(topicKey);
+      if (!group) { group = { key: topicKey, title, docs: [] }; byTopic.set(topicKey, group); }
+      group.docs.push(node);
+    }
+    const result = [...subs.entries()].map(([key, byTopic]) => {
+      const topics = [...byTopic.values()].sort((a, b) => a.title.localeCompare(b.title));
+      return {
+        key,
+        label: key === WV_UNCAT ? 'Uncategorized' : (SUBDOMAIN_LABELS[key] ?? titleCaseLabel(key)),
+        count: topics.reduce((n, t) => n + t.docs.length, 0),
+        topics,
+      };
+    });
+    return result.sort((a, b) =>
+      a.key === WV_UNCAT ? 1 : b.key === WV_UNCAT ? -1 : a.label.localeCompare(b.label),
+    );
+  }
+
+  isSubOpen(key: string): boolean { return !this.closedSubs().has(key); }
+  isTopicOpen(key: string): boolean { return !this.closedTopics().has(key); }
+
+  toggleSub(key: string): void {
+    this.closedSubs.update(s => { const n = new Set(s); n.has(key) ? n.delete(key) : n.add(key); return n; });
+  }
+  toggleTopic(key: string): void {
+    this.closedTopics.update(s => { const n = new Set(s); n.has(key) ? n.delete(key) : n.add(key); return n; });
+  }
 
   private collectVisible(nodes: DocNode[], openNds: Set<string>, out: FlatRow[], q: string): void {
     for (const node of nodes) {
@@ -417,7 +592,12 @@ export class DocsListPage implements OnInit, OnDestroy {
   }
 
   trackRow(row: FlatRow): string {
-    return row.type === 'domain' ? `d-${row.key}` : `n-${(row as FlatDoc).id}`;
+    switch (row.type) {
+      case 'domain':    return `d-${row.key}`;
+      case 'subdomain': return `s-${row.key}`;
+      case 'topic':     return `t-${row.key}`;
+      default:          return `n-${(row as FlatDoc).id}`;
+    }
   }
 
   ngOnInit(): void {
@@ -425,6 +605,10 @@ export class DocsListPage implements OnInit, OnDestroy {
     this.routerSub = this.router.events
       .pipe(filter(e => e instanceof NavigationEnd))
       .subscribe(() => { this.syncActiveFromUrl(); this.cdr.markForCheck(); });
+    this.wvApi.fetchTopics().subscribe({
+      next: (t) => { this.topics.set(t); this.cdr.markForCheck(); },
+      error: () => { /* worldview docs fall back to a flat list */ },
+    });
   }
 
   ngOnDestroy(): void {
