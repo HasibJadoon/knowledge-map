@@ -40,6 +40,15 @@
   line-height: 1.1;
   text-shadow: 0 0 26px rgba(205, 164, 52, 0.22);
   margin: 0;
+
+  // Long descriptive section titles render as a heading, not a giant logo
+  &--long {
+    font-size: clamp(1.3rem, 5.2vw, 1.85rem);
+    line-height: 1.7;
+    text-shadow: 0 0 16px rgba(205, 164, 52, 0.16);
+    max-width: 22ch;
+    margin-inline: auto;
+  }
 }
 
 .poemv__latin {
