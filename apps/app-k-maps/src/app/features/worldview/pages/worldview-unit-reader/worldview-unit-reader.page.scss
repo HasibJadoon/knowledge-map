@@ -451,6 +451,112 @@
   &:last-child { margin-bottom: 0; }
 }
 
+// Inline formatting shared by prose paragraphs, headings, quotes, lists
+.prose-para,
+.prose-quote,
+.prose-h1,
+.prose-h2,
+.prose-list__item,
+.prose-table,
+.summary__para {
+  strong { color: var(--r-text); font-weight: 700; }
+  em { font-style: italic; }
+  code {
+    padding: 0.06em 0.36em;
+    border-radius: 0.3rem;
+    background: rgba(201, 168, 76, 0.1);
+    color: var(--r-gold);
+    font-family: 'SFMono-Regular', ui-monospace, 'Menlo', monospace;
+    font-size: 0.84em;
+  }
+  a {
+    color: var(--r-gold-dim);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+// ── Lists ────────────────────────────────────────────────────────
+.prose-list {
+  margin: 0 0 1.2rem;
+  padding-left: 1.35rem;
+  color: var(--r-text);
+  font-family: var(--r-font-serif);
+  font-size: 1rem;
+  line-height: 1.8;
+
+  &--ordered { list-style: decimal; }
+  &:not(&--ordered) { list-style: none; }
+
+  &__item {
+    margin: 0 0 0.55rem;
+    padding-left: 0.2rem;
+    text-align: left;
+
+    &:last-child { margin-bottom: 0; }
+  }
+
+  // Custom gold marker for unordered lists
+  &:not(.prose-list--ordered) .prose-list__item {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: -0.95rem;
+      top: 0.72em;
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--r-gold);
+      opacity: 0.7;
+    }
+  }
+
+  &--ordered .prose-list__item::marker {
+    color: var(--r-gold-dim);
+    font-family: var(--r-font-head);
+    font-size: 0.85em;
+  }
+}
+
+// ── Tables ───────────────────────────────────────────────────────
+.prose-table-wrap {
+  margin: 1.5rem 0;
+  overflow-x: auto;
+  border: 1px solid var(--r-sep);
+  border-radius: 0.7rem;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--r-font-head);
+  font-size: 0.8rem;
+  line-height: 1.5;
+
+  th, td {
+    padding: 0.6rem 0.75rem;
+    text-align: left;
+    vertical-align: top;
+    border-bottom: 1px solid var(--r-sep);
+  }
+
+  th {
+    color: var(--r-gold);
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    background: rgba(201, 168, 76, 0.05);
+    white-space: nowrap;
+  }
+
+  td { color: var(--r-text-2); }
+
+  tbody tr:last-child td { border-bottom: 0; }
+  tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.012); }
+}
+
 // ── No excerpt ───────────────────────────────────────────────────
 .no-excerpt {
   display: flex;
@@ -509,13 +615,20 @@
     min-width: 3.5rem;
   }
 
-  &__title {
+  &__content {
     flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__title {
     min-width: 0;
     color: var(--r-text);
     font-size: 0.9rem;
     font-weight: 600;
     line-height: 1.38;
+    overflow-wrap: anywhere;
   }
 
   &__preview {

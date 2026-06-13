@@ -64,8 +64,8 @@
         <!-- Summary (intro abstract) -->
         @if (summaryBlocks().length > 0) {
           <div class="reading__summary" #summaryEl>
-            @for (block of summaryBlocks(); track block) {
-              <p class="summary__para">{{ block }}</p>
+            @for (block of summaryBlocks(); track $index) {
+              <p class="summary__para" [innerHTML]="block"></p>
             }
           </div>
         }
@@ -77,18 +77,69 @@
               @switch (block.type) {
                 @case ('heading') {
                   <div class="prose-heading-wrap">
-                    <h2 class="prose-h1">{{ block.text }}</h2>
+                    @if (block.html) {
+                      <h2 class="prose-h1" [innerHTML]="block.html"></h2>
+                    } @else {
+                      <h2 class="prose-h1">{{ block.text }}</h2>
+                    }
                     <div class="prose-h1-line"></div>
                   </div>
                 }
                 @case ('subheading') {
                   <div class="prose-heading-wrap prose-heading-wrap--sub">
-                    <h3 class="prose-h2">{{ block.text }}</h3>
+                    @if (block.html) {
+                      <h3 class="prose-h2" [innerHTML]="block.html"></h3>
+                    } @else {
+                      <h3 class="prose-h2">{{ block.text }}</h3>
+                    }
                     <div class="prose-h2-line"></div>
                   </div>
                 }
+                @case ('list') {
+                  @if (block.ordered) {
+                    <ol class="prose-list prose-list--ordered">
+                      @for (item of block.items; track $index) {
+                        <li class="prose-list__item" [innerHTML]="item"></li>
+                      }
+                    </ol>
+                  } @else {
+                    <ul class="prose-list">
+                      @for (item of block.items; track $index) {
+                        <li class="prose-list__item" [innerHTML]="item"></li>
+                      }
+                    </ul>
+                  }
+                }
+                @case ('table') {
+                  <div class="prose-table-wrap">
+                    <table class="prose-table">
+                      @if (block.headerRow?.length) {
+                        <thead>
+                          <tr>
+                            @for (cell of block.headerRow; track $index) {
+                              <th [innerHTML]="cell"></th>
+                            }
+                          </tr>
+                        </thead>
+                      }
+                      <tbody>
+                        @for (row of block.rows; track $index) {
+                          <tr>
+                            @for (cell of row; track $index) {
+                              <td [innerHTML]="cell"></td>
+                            }
+                          </tr>
+                        }
+                      </tbody>
+                    </table>
+                  </div>
+                }
                 @case ('quote') {
-                  <blockquote class="prose-quote">{{ block.text }}</blockquote>
+                  @if (block.html) {
+                    <blockquote class="prose-quote" [innerHTML]="block.html"></blockquote>
+                  } @else {
+                    <blockquote class="prose-quote">{{ block.text }}</blockquote>
+                  }
                   @if (block.cite) {
                     <div class="prose-cite-row">
                       <p class="prose-attribution">— {{ block.cite }}</p>
@@ -152,7 +203,11 @@
                   <p class="prose-attribution">— {{ block.text }}</p>
                 }
                 @default {
-                  <p class="prose-para">{{ block.text }}</p>
+                  @if (block.html) {
+                    <p class="prose-para" [innerHTML]="block.html"></p>
+                  } @else {
+                    <p class="prose-para">{{ block.text }}</p>
+                  }
                 }
               }
             }
@@ -171,10 +226,12 @@
             @for (child of children(); track child.id) {
               <button class="sub-row" (click)="goToUnit(child.id)">
                 <span class="sub-row__kind">{{ unitTypeLabel(child.unit_type) }}</span>
-                <span class="sub-row__title">{{ unitTitle(child) }}</span>
-                @if (child.summary) {
-                  <span class="sub-row__preview">{{ child.summary | slice:0:80 }}{{ child.summary.length > 80 ? '…' : '' }}</span>
-                }
+                <span class="sub-row__content">
+                  <span class="sub-row__title">{{ unitTitle(child) }}</span>
+                  @if (stripMarkdown(child.summary); as preview) {
+                    <span class="sub-row__preview">{{ preview | slice:0:80 }}{{ preview.length > 80 ? '…' : '' }}</span>
+                  }
+                </span>
                 <ion-icon name="arrow-forward-outline" class="sub-row__arrow"></ion-icon>
               </button>
             }
