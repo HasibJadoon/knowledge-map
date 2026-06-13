@@ -563,6 +563,19 @@
   border-radius: 0.6rem;
   transition: background 0.3s ease;
 
+  // Tapping a paragraph starts narration from there. Keep the affordance
+  // subtle so reading is undisturbed, and let text selection still work.
+  &--speakable {
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    @media (hover: hover) {
+      &:hover {
+        background: rgba(201, 168, 76, 0.05);
+      }
+    }
+  }
+
   &--reading {
     background: rgba(201, 168, 76, 0.07);
     box-shadow: inset 3px 0 0 var(--r-gold);
