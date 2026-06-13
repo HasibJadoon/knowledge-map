@@ -71,6 +71,9 @@ const NODE_TYPE_MAP: Record<string, WvNodeType> = {
   // Worldview genealogy node types (Arjana corpus and similar)
   thesis: 'claim', method: 'framework', concept: 'principle',
   era: 'framework', trope: 'cause', monster_figure: 'evidence', motif: 'insight',
+  // Character-map node types (Said Orientalism close readings): people drive
+  // the discourse (cause); theorists/critics supply the lenses (insight).
+  person: 'cause', thinker: 'insight', theme: 'principle', lesson: 'insight',
 };
 
 const EDGE_RELATION_MAP: Record<string, WvEdgeRelation> = {

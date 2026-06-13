@@ -12,6 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription, firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
@@ -79,7 +80,25 @@ interface WvUnitDetail extends WvUnit {
   documentJson?: Record<string, unknown> | null;
   documentText?: string | null;
   documentBlocks?: WvDocumentBlock[] | null;
+  documents?: WvAttachment[] | null;
+  content?: WvAttachment[] | null;
+  episodes?: WvAttachment[] | null;
   children: WvUnit[];
+}
+
+interface WvAttachment {
+  id: string;
+  attachment_type?: string | null;
+  target_ref?: string | null;
+  target_kind?: string | null;
+  title?: string | null;
+  subtitle?: string | null;
+  summary?: string | null;
+  thumbnail_url?: string | null;
+  media_url?: string | null;
+  duration_sec?: number | null;
+  locator?: string | null;
+  link_role?: string | null;
 }
 
 interface WvReadingBlock {
@@ -91,6 +110,11 @@ interface WvReadingBlock {
   src?: string | null;
   alt?: string | null;
   title?: string | null;
+  level?: number | null;
+  ordered?: boolean | null;
+  items?: string[] | null;
+  headerRow?: string[] | null;
+  rows?: string[][] | null;
 }
 
 interface WvDocumentBlock {
@@ -180,16 +204,22 @@ interface TocItem {
 interface PassageBlock {
   id: string;
   text: string;
+  html?: SafeHtml;
   marker?: string | null;
   direction: 'rtl' | 'ltr';
   arabic: boolean;
-  kind: 'paragraph' | 'heading' | 'subheading' | 'separator' | 'link' | 'quote' | 'callout' | 'image' | 'audio';
+  kind: 'paragraph' | 'heading' | 'subheading' | 'separator' | 'link' | 'quote' | 'callout' | 'image' | 'audio' | 'list' | 'table';
   href?: string | null;
   label?: string | null;
   cite?: string | null;
   src?: string | null;
   alt?: string | null;
   title?: string | null;
+  level?: number | null;
+  ordered?: boolean;
+  items?: SafeHtml[];
+  headerRow?: SafeHtml[];
+  rows?: SafeHtml[][];
 }
 
 type ReaderTab = 'highlights' | 'notes' | 'wv';
@@ -225,6 +255,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   private router = inject(Router);
   private libraryApi = inject(WorldviewLibraryApiService);
   private cdr = inject(ChangeDetectorRef);
+  private sanitizer = inject(DomSanitizer);
 
   @ViewChild('tasksPanelBody') tasksPanelBodyRef?: ElementRef<HTMLElement>;
 
@@ -347,6 +378,29 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
 
   readonly summaryBlocks = computed(() => this.buildPassageBlocks(this.selectedSummary()));
   readonly derivedPassageBlocks = computed(() => this.buildHighlightPassageBlocks(this.highlights()));
+
+  // Per-section attachments (documents / content / episodes)
+  readonly attachmentGroups = computed(() => {
+    const d = this.selectedDetail();
+    return [
+      { key: 'episode', label: 'Episodes', items: d?.episodes ?? [] },
+      { key: 'document', label: 'Documents', items: d?.documents ?? [] },
+      { key: 'content', label: 'Content', items: d?.content ?? [] },
+    ].filter((g) => g.items.length > 0);
+  });
+
+  formatDuration(seconds?: number | null): string {
+    if (!seconds || seconds <= 0) return '';
+    const m = Math.floor(seconds / 60);
+    const s = Math.round(seconds % 60);
+    if (m >= 60) return `${Math.floor(m / 60)}h ${m % 60}m`;
+    return `${m}:${s.toString().padStart(2, '0')}`;
+  }
+
+  openAttachment(att: WvAttachment): void {
+    const url = att.media_url?.trim();
+    if (url) window.open(url, '_blank', 'noopener');
+  }
   readonly passageBlocks = computed(() => {
     const detail = this.selectedDetail();
     if (detail?.documentBlocks?.length) {
@@ -1222,8 +1276,14 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         const alt = (block.alt ?? '').trim();
         const title = (block.title ?? '').trim();
 
+        const items = Array.isArray(block.items) ? block.items.map((i) => (i ?? '').trim()).filter(Boolean) : [];
+        const headerRow = Array.isArray(block.headerRow) ? block.headerRow.map((c) => (c ?? '').trim()) : [];
+        const rows = Array.isArray(block.rows) ? block.rows.map((r) => r.map((c) => (c ?? '').trim())) : [];
+
         if (!type) return null;
-        if (type !== 'separator' && !text && !href && !src) return null;
+        if (type === 'list' && !items.length) return null;
+        if (type === 'table' && !headerRow.length && !rows.length) return null;
+        if (type !== 'separator' && type !== 'list' && type !== 'table' && !text && !href && !src) return null;
 
         if (type === 'separator') {
           return {
@@ -1243,6 +1303,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         const passageBlock: PassageBlock = {
           id: `${type}-${index}-${text.slice(0, 20) || 'block'}`,
           text,
+          html: text ? this.inlineHtml(text) : undefined,
           marker: null,
           direction: arabic ? 'rtl' : 'ltr',
           arabic,
@@ -1253,6 +1314,11 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
           src: src || href || null,
           alt: alt || null,
           title: title || null,
+          level: typeof block.level === 'number' ? block.level : null,
+          ordered: !!block.ordered,
+          items: items.length ? items.map((i) => this.inlineHtml(i)) : undefined,
+          headerRow: headerRow.length ? headerRow.map((c) => this.inlineHtml(c)) : undefined,
+          rows: rows.length ? rows.map((r) => r.map((c) => this.inlineHtml(c))) : undefined,
         };
         return passageBlock;
       })
@@ -1432,10 +1498,37 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
       case 'callout':
       case 'image':
       case 'audio':
+      case 'list':
+      case 'table':
         return type;
       default:
         return 'paragraph';
     }
+  }
+
+  /** Escape HTML then render inline markdown (code, links, bold, italic). */
+  private inlineHtml(text: string): SafeHtml {
+    let html = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;');
+
+    const sentinel = String.fromCharCode(0xe000);
+    const codeSpans: string[] = [];
+    html = html.replace(/`([^`]+)`/g, (_m, code: string) => {
+      codeSpans.push(`<code>${code}</code>`);
+      return `${sentinel}${codeSpans.length - 1}${sentinel}`;
+    });
+
+    html = html
+      .replace(/\[([^\]]+)\]\((https?:[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
+      .replace(/\*\*\*([^*]+?)\*\*\*/g, '<strong><em>$1</em></strong>')
+      .replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/(^|[^*\w])\*(?!\s)([^*]+?)\*(?!\*)/g, '$1<em>$2</em>')
+      .replace(/(^|[^_\w])_(?!\s)([^_]+?)_(?![\w_])/g, '$1<em>$2</em>');
+
+    html = html.replace(new RegExp(`${sentinel}(\\d+)${sentinel}`, 'g'), (_m, n: string) => codeSpans[Number(n)] ?? '');
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
   private normalizeDocumentBlockKind(

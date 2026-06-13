@@ -220,7 +220,7 @@
                           [class.story-heading--arabic]="block.arabic"
                           [attr.dir]="block.direction"
                         >
-                          <span class="story-heading__text">{{ block.text }}</span>
+                          <span class="story-heading__text" [innerHTML]="block.html || block.text"></span>
                           <span class="story-heading__line" aria-hidden="true"></span>
                         </h2>
                       }
@@ -231,7 +231,7 @@
                           [class.story-subheading--arabic]="block.arabic"
                           [attr.dir]="block.direction"
                         >
-                          <span class="story-subheading__text">{{ block.text }}</span>
+                          <span class="story-subheading__text" [innerHTML]="block.html || block.text"></span>
                           <span class="story-subheading__line" aria-hidden="true"></span>
                         </h3>
                       }
@@ -244,9 +244,50 @@
                         <a class="story-link scroll-reveal" [href]="block.href" target="_blank" rel="noreferrer">{{ block.label || block.text }}</a>
                       }
 
+                      @case ('list') {
+                        @if (block.ordered) {
+                          <ol class="story-list story-list--ordered scroll-reveal" dir="ltr">
+                            @for (item of block.items; track $index) {
+                              <li class="story-list__item" [innerHTML]="item"></li>
+                            }
+                          </ol>
+                        } @else {
+                          <ul class="story-list scroll-reveal" dir="ltr">
+                            @for (item of block.items; track $index) {
+                              <li class="story-list__item" [innerHTML]="item"></li>
+                            }
+                          </ul>
+                        }
+                      }
+
+                      @case ('table') {
+                        <div class="story-table-wrap scroll-reveal" dir="ltr">
+                          <table class="story-table">
+                            @if (block.headerRow?.length) {
+                              <thead>
+                                <tr>
+                                  @for (cell of block.headerRow; track $index) {
+                                    <th [innerHTML]="cell"></th>
+                                  }
+                                </tr>
+                              </thead>
+                            }
+                            <tbody>
+                              @for (row of block.rows; track $index) {
+                                <tr>
+                                  @for (cell of row; track $index) {
+                                    <td [innerHTML]="cell"></td>
+                                  }
+                                </tr>
+                              }
+                            </tbody>
+                          </table>
+                        </div>
+                      }
+
                       @case ('quote') {
                         <figure class="story-quote scroll-reveal">
-                          <blockquote class="story-quote__text" dir="ltr">{{ block.text }}</blockquote>
+                          <blockquote class="story-quote__text" dir="ltr" [innerHTML]="block.html || block.text"></blockquote>
                           @if (block.cite) {
                             <figcaption class="story-quote__cite">{{ block.cite }}</figcaption>
                           }
@@ -261,7 +302,7 @@
                       @case ('callout') {
                         <aside class="story-callout scroll-reveal" [attr.dir]="block.direction">
                           <div class="story-callout__eyebrow">Callout</div>
-                          <p class="story-callout__text">{{ block.text }}</p>
+                          <p class="story-callout__text" [innerHTML]="block.html || block.text"></p>
                           @if (block.cite) {
                             <p class="story-callout__cite">{{ block.cite }}</p>
                           }
@@ -301,11 +342,34 @@
                       }
 
                       @default {
-                        <p class="story-para scroll-reveal" dir="ltr">{{ block.text }}</p>
+                        <p class="story-para scroll-reveal" dir="ltr" [innerHTML]="block.html || block.text"></p>
                       }
                     }
                   }
                 </div>
+              }
+
+              @for (group of attachmentGroups(); track group.key) {
+                <section class="attach-sec scroll-reveal">
+                  <div class="attach-sec__label">{{ group.label }}</div>
+                  @for (att of group.items; track att.id) {
+                    <button class="attach-row" (click)="openAttachment(att)">
+                      @if (att.thumbnail_url) {
+                        <img class="attach-row__thumb" [src]="att.thumbnail_url" [attr.alt]="att.title || ''" loading="lazy" />
+                      }
+                      <span class="attach-row__body">
+                        <span class="attach-row__title">{{ att.title || att.target_ref }}</span>
+                        @if (att.subtitle) { <span class="attach-row__sub">{{ att.subtitle }}</span> }
+                        @if (att.summary) { <span class="attach-row__summary">{{ att.summary }}</span> }
+                        <span class="attach-row__meta">
+                          @if (att.link_role && att.link_role !== 'related') { <span class="attach-row__chip">{{ att.link_role }}</span> }
+                          @if (formatDuration(att.duration_sec); as dur) { <span class="attach-row__chip">{{ dur }}</span> }
+                          @if (att.locator) { <span class="attach-row__chip">{{ att.locator }}</span> }
+                        </span>
+                      </span>
+                    </button>
+                  }
+                </section>
               }
 
               <section class="document-end scroll-reveal scroll-reveal--document-end" aria-label="End of document">
