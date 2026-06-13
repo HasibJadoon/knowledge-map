@@ -353,6 +353,11 @@ export class WorldviewLibraryUnitsPage implements OnInit, AfterViewInit {
     return unit?.title?.trim() || unit?.anchor_text?.trim() || 'Untitled unit';
   }
 
+  /** True when text contains Arabic-script characters (Farsi / Urdu / Arabic). */
+  isRtlText(text: string | null | undefined): boolean {
+    return !!text && /[؀-ۿݐ-ݿࢠ-ࣿﭐ-﷿ﹰ-﻿]/.test(text);
+  }
+
   unitRef(unit: WvUnit | null | undefined): string {
     if (!unit) return '';
     if (unit.start_ref && unit.end_ref && unit.start_ref !== unit.end_ref) {

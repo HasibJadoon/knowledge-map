@@ -145,7 +145,9 @@
 
               <span class="chapter-row__body">
                 <span class="chapter-row__type">{{ unitTypeLabel(item.unit.unit_type) }}</span>
-                <span class="chapter-row__title">{{ unitTitle(item.unit) }}</span>
+                <span class="chapter-row__title"
+                      [class.chapter-row__title--rtl]="isRtlText(unitTitle(item.unit))"
+                      [attr.dir]="isRtlText(unitTitle(item.unit)) ? 'rtl' : null">{{ unitTitle(item.unit) }}</span>
                 @if (item.unit.summary) {
                   <span class="chapter-row__preview">{{ item.unit.summary | slice:0:90 }}{{ item.unit.summary.length > 90 ? '…' : '' }}</span>
                 }
