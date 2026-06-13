@@ -50,7 +50,7 @@ export class PoemViewComponent {
   /** Layers the reader has hidden (each is individually toggleable). */
   private readonly hidden = signal<Set<string>>(new Set());
 
-  private static readonly ORDER = ['vocab', 'ur', 'en'];
+  private static readonly ORDER = ['en', 'ur', 'vocab'];
 
   readonly layers = computed(() => {
     const base = this.poem?.layers?.length ? [...this.poem.layers] : this.deriveLayers();
@@ -63,7 +63,7 @@ export class PoemViewComponent {
     const seen = new Map<string, { lang: string; label?: string }>();
     for (const c of this.couplets) {
       for (const t of c.translations ?? []) if (!seen.has(t.lang)) seen.set(t.lang, { lang: t.lang, label: t.label });
-      if (c.vocab?.length && !seen.has('vocab')) seen.set('vocab', { lang: 'vocab', label: 'Vocab · مفردات' });
+      if (c.vocab?.length && !seen.has('vocab')) seen.set('vocab', { lang: 'vocab', label: 'مفردات' });
     }
     return [...seen.values()];
   }

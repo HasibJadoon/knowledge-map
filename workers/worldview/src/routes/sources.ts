@@ -212,11 +212,11 @@ export function sourceRoutes(router: Router<WorldviewEnv>) {
       for (const c of couplets) {
         if (c['ur'] != null) seen.set('ur', { lang: 'ur', label: 'اردو' });
         if (c['en'] != null) seen.set('en', { lang: 'en', label: 'English' });
-        if (Array.isArray(c['vocab']) && c['vocab'].length) seen.set('vocab', { lang: 'vocab', label: 'Vocab · مفردات' });
+        if (Array.isArray(c['vocab']) && c['vocab'].length) seen.set('vocab', { lang: 'vocab', label: 'مفردات' });
       }
       const allLayers = declaredLayers ? [...declaredLayers] : [...seen.values()];
       if (seen.has('vocab') && !allLayers.some((l) => (l as { lang?: string }).lang === 'vocab')) {
-        allLayers.push({ lang: 'vocab', label: 'Vocab · مفردات' });
+        allLayers.push({ lang: 'vocab', label: 'مفردات' });
       }
       poemOut = {
         ...poemMeta,

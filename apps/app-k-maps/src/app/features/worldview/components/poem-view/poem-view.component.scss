@@ -157,8 +157,9 @@
 
   &__fa {
     color: var(--parch);
-    font-size: clamp(1.4rem, 5.4vw, 1.9rem);
-    line-height: 2.1;
+    font-family: 'Noto Naskh Arabic', 'Scheherazade New', 'Amiri', serif;
+    font-size: clamp(1.5rem, 5.8vw, 2rem);
+    line-height: 2.3;
   }
   &__m { display: block; }
 
@@ -209,14 +210,15 @@
     padding-top: 0.9rem;
     border-top: 1px dashed rgba(205, 164, 52, 0.16);
     max-width: 520px;
-    text-align: right;
+    text-align: center;
   }
 }
 
 .vocab {
   display: flex;
   align-items: baseline;
-  justify-content: flex-start;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 0.5rem;
   padding: 0.28rem 0;
   font-size: 0.98rem;
@@ -241,6 +243,5 @@
     font-family: 'EB Garamond', serif;
     font-style: italic;
     color: var(--parch-dim);
-    flex: 1;
   }
 }
