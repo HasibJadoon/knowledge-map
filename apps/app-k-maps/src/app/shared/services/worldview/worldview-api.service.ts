@@ -152,6 +152,16 @@ export type WorldviewSourceNode = {
   metaJson: Record<string, unknown>;
 };
 
+/** A row from the WV topic taxonomy (`wv_topics`), via GET /worldview/topics. */
+export type WvTopic = {
+  id: string;
+  topic_key: string;
+  title: string;
+  /** theology | ethics | prophethood | law | cosmology | modernity | … */
+  topic_domain: string;
+  description_md?: string | null;
+};
+
 export type WorldviewSourceContentSnapshot = {
   source: KmapsSource | null;
   units: KmapsSourceUnit[];
@@ -230,6 +240,13 @@ export class WorldviewApiService {
   private readonly http = inject(HttpClient);
   private readonly backend = inject(BackendApiService);
   private readonly baseUrl = this.backend.url('worldview');
+
+  /** Topic taxonomy used to group worldview documents (sub-domain → topic). */
+  fetchTopics(): Observable<WvTopic[]> {
+    return this.http
+      .get<{ ok?: boolean; data?: WvTopic[] }>(`${this.baseUrl}/topics`)
+      .pipe(map((response) => asArray(response.data).filter(isWvTopic)));
+  }
 
   fetchWorkflow(): Observable<WorldviewWorkflowSnapshot> {
     return this.http.get<WorkflowApiResponse>(`${this.baseUrl}/workflow`).pipe(
@@ -859,6 +876,16 @@ function mapHighlight(value: unknown): KmapsNote | null {
 
 function asArray(value: unknown): unknown[] {
   return Array.isArray(value) ? value : [];
+}
+
+function isWvTopic(value: unknown): value is WvTopic {
+  const row = asRecord(value);
+  return (
+    !!row &&
+    typeof row['id'] === 'string' &&
+    typeof row['topic_key'] === 'string' &&
+    typeof row['title'] === 'string'
+  );
 }
 
 function asRecord(value: unknown): Record<string, unknown> | null {

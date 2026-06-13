@@ -42,6 +42,13 @@ export class WorldviewHomePage implements OnInit {
       tag: 'Sources',
     },
     {
+      glyph: '¶',
+      title: 'Documents',
+      desc: 'Authored worldview documents grouped by sub-domain and topic — theology, ethics, prophethood and more.',
+      route: '/worldview/documents',
+      tag: 'Content',
+    },
+    {
       glyph: '↔',
       title: 'Comparison',
       desc: 'Parallel scripture comparison across traditions — side-by-side tab analysis.',

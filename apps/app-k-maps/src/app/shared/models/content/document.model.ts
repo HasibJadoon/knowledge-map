@@ -67,6 +67,8 @@ export interface CmDocumentRow {
  */
 export interface DocMeta {
   domain?: string;
+  /** Worldview topic taxonomy key (wv_topics.topic_key) this doc belongs to. */
+  topic_key?: string | null;
   parent_doc_id?: string | null;
   surah?: number | null;
   ayah_from?: number | null;
@@ -103,6 +105,8 @@ export interface DocumentSummary {
   updated_at: string;
   parent_doc_id: string | null;
   sort_order: number;
+  /** Worldview topic key from meta (null when unassigned). */
+  topic_key: string | null;
 }
 
 export interface DocumentSearchResult {
@@ -119,6 +123,7 @@ export interface CreateDocInput {
   title: string;
   domain: string;
   doc_type: string;
+  topic_key?: string | null;
   parent_doc_id?: string | null;
   surah?: number | null;
   ayah_from?: number | null;

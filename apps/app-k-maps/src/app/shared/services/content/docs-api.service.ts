@@ -138,6 +138,7 @@ export class DocsApiService {
   private buildMeta(input: CreateDocInput): DocMeta {
     return {
       domain: input.domain || 'general',
+      topic_key: input.topic_key ?? null,
       parent_doc_id: input.parent_doc_id ?? null,
       surah: input.surah ?? null,
       ayah_from: input.ayah_from ?? null,
@@ -185,6 +186,7 @@ export class DocsApiService {
       updated_at: row.updated_at ?? '',
       parent_doc_id: meta.parent_doc_id ?? null,
       sort_order: meta.sort_order ?? 0,
+      topic_key: meta.topic_key ?? null,
     };
   }
 
