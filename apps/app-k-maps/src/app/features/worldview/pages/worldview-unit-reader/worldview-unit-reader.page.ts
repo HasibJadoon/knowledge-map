@@ -63,6 +63,7 @@ interface WvUnit {
   documents?: WvAttachment[] | null;
   content?: WvAttachment[] | null;
   episodes?: WvAttachment[] | null;
+  poem?: PoemMeta | null;
 }
 
 interface WvAttachment {
@@ -171,6 +172,29 @@ interface ReadingBlock {
   items?: SafeHtml[];     // list item HTML
   headerRow?: SafeHtml[]; // table header cells
   rows?: SafeHtml[][];    // table body rows
+  // Poetry (couplet) blocks
+  n?: number;
+  lang?: string;
+  dir?: string;
+  hemistichs?: string[];
+  translations?: CoupletLayer[];
+}
+
+interface CoupletLayer {
+  lang: string;
+  label?: string;
+  dir?: string;
+  script?: string;
+  lines?: string[];
+  text?: string;
+}
+
+interface PoemMeta {
+  form?: string;
+  meter?: string;
+  reciter?: string;
+  recitationUrl?: string;
+  layers?: { lang: string; label?: string }[];
 }
 
 type ReaderSheetTab = 'highlights' | 'notes' | 'wv';
@@ -241,6 +265,42 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   readonly unitDocuments = computed(() => this.unit()?.documents ?? []);
   readonly unitContent = computed(() => this.unit()?.content ?? []);
   readonly unitEpisodes = computed(() => this.unit()?.episodes ?? []);
+
+  // Poetry
+  readonly poem = computed<PoemMeta | null>(() => this.unit()?.poem ?? null);
+  readonly isPoem = computed(() => this.blocks().some((b) => b.type === 'couplet'));
+  readonly poemLayers = computed(() => {
+    const declared = this.poem()?.layers;
+    if (declared?.length) return declared;
+    // derive from the couplets themselves
+    const seen = new Map<string, { lang: string; label?: string }>();
+    for (const b of this.blocks()) {
+      for (const t of b.translations ?? []) {
+        if (!seen.has(t.lang)) seen.set(t.lang, { lang: t.lang, label: t.label });
+      }
+    }
+    return [...seen.values()];
+  });
+  readonly hiddenLayers = signal<Set<string>>(new Set());
+  isLayerOn(lang: string): boolean { return !this.hiddenLayers().has(lang); }
+  toggleLayer(lang: string): void {
+    this.hiddenLayers.update((set) => {
+      const next = new Set(set);
+      if (next.has(lang)) { next.delete(lang); } else { next.add(lang); }
+      return next;
+    });
+  }
+  visibleTranslations(block: ReadingBlock): CoupletLayer[] {
+    return (block.translations ?? []).filter((t) => this.isLayerOn(t.lang));
+  }
+  openRecitation(): void {
+    const url = this.poem()?.recitationUrl;
+    if (url && typeof window !== 'undefined') window.open(url, '_blank', 'noopener');
+  }
+  toPersianNum(n?: number): string {
+    if (n == null) return '';
+    return String(n).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]);
+  }
 
   readonly parentChapter = computed(() => {
     const u = this.unit();

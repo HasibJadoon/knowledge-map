@@ -83,6 +83,7 @@ interface WvUnitDetail extends WvUnit {
   documents?: WvAttachment[] | null;
   content?: WvAttachment[] | null;
   episodes?: WvAttachment[] | null;
+  poem?: PoemMeta | null;
   children: WvUnit[];
 }
 
@@ -115,6 +116,28 @@ interface WvReadingBlock {
   items?: string[] | null;
   headerRow?: string[] | null;
   rows?: string[][] | null;
+  n?: number | null;
+  lang?: string | null;
+  dir?: string | null;
+  hemistichs?: string[] | null;
+  translations?: CoupletLayer[] | null;
+}
+
+interface CoupletLayer {
+  lang: string;
+  label?: string;
+  dir?: string;
+  script?: string;
+  lines?: string[];
+  text?: string;
+}
+
+interface PoemMeta {
+  form?: string;
+  meter?: string;
+  reciter?: string;
+  recitationUrl?: string;
+  layers?: { lang: string; label?: string }[];
 }
 
 interface WvDocumentBlock {
@@ -208,7 +231,7 @@ interface PassageBlock {
   marker?: string | null;
   direction: 'rtl' | 'ltr';
   arabic: boolean;
-  kind: 'paragraph' | 'heading' | 'subheading' | 'separator' | 'link' | 'quote' | 'callout' | 'image' | 'audio' | 'list' | 'table';
+  kind: 'paragraph' | 'heading' | 'subheading' | 'separator' | 'link' | 'quote' | 'callout' | 'image' | 'audio' | 'list' | 'table' | 'couplet';
   href?: string | null;
   label?: string | null;
   cite?: string | null;
@@ -220,6 +243,11 @@ interface PassageBlock {
   items?: SafeHtml[];
   headerRow?: SafeHtml[];
   rows?: SafeHtml[][];
+  n?: number | null;
+  lang?: string | null;
+  dir?: string | null;
+  hemistichs?: string[];
+  translations?: CoupletLayer[];
 }
 
 type ReaderTab = 'highlights' | 'notes' | 'wv';
@@ -400,6 +428,41 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
   openAttachment(att: WvAttachment): void {
     const url = att.media_url?.trim();
     if (url) window.open(url, '_blank', 'noopener');
+  }
+
+  // ── Poetry ──────────────────────────────────────────────────────
+  readonly poem = computed<PoemMeta | null>(() => this.selectedDetail()?.poem ?? null);
+  readonly isPoem = computed(() => this.passageBlocks().some((b) => b.kind === 'couplet'));
+  readonly poemLayers = computed(() => {
+    const declared = this.poem()?.layers;
+    if (declared?.length) return declared;
+    const seen = new Map<string, { lang: string; label?: string }>();
+    for (const b of this.passageBlocks()) {
+      for (const t of b.translations ?? []) {
+        if (!seen.has(t.lang)) seen.set(t.lang, { lang: t.lang, label: t.label });
+      }
+    }
+    return [...seen.values()];
+  });
+  readonly hiddenLayers = signal<Set<string>>(new Set());
+  isLayerOn(lang: string): boolean { return !this.hiddenLayers().has(lang); }
+  toggleLayer(lang: string): void {
+    this.hiddenLayers.update((set) => {
+      const next = new Set(set);
+      if (next.has(lang)) next.delete(lang); else next.add(lang);
+      return next;
+    });
+  }
+  visibleTranslations(block: PassageBlock): CoupletLayer[] {
+    return (block.translations ?? []).filter((t) => this.isLayerOn(t.lang));
+  }
+  openRecitation(): void {
+    const url = this.poem()?.recitationUrl;
+    if (url) window.open(url, '_blank', 'noopener');
+  }
+  toPersianNum(n?: number | null): string {
+    if (n == null) return '';
+    return String(n).replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[Number(d)]);
   }
   readonly passageBlocks = computed(() => {
     const detail = this.selectedDetail();
@@ -1283,7 +1346,8 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
         if (!type) return null;
         if (type === 'list' && !items.length) return null;
         if (type === 'table' && !headerRow.length && !rows.length) return null;
-        if (type !== 'separator' && type !== 'list' && type !== 'table' && !text && !href && !src) return null;
+        if (type === 'couplet' && !(block.hemistichs?.length)) return null;
+        if (type !== 'separator' && type !== 'list' && type !== 'table' && type !== 'couplet' && !text && !href && !src) return null;
 
         if (type === 'separator') {
           return {
@@ -1319,6 +1383,11 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
           items: items.length ? items.map((i) => this.inlineHtml(i)) : undefined,
           headerRow: headerRow.length ? headerRow.map((c) => this.inlineHtml(c)) : undefined,
           rows: rows.length ? rows.map((r) => r.map((c) => this.inlineHtml(c))) : undefined,
+          n: block.n ?? null,
+          lang: block.lang ?? null,
+          dir: block.dir ?? null,
+          hemistichs: block.hemistichs ?? undefined,
+          translations: block.translations ?? undefined,
         };
         return passageBlock;
       })
@@ -1500,6 +1569,7 @@ export class WorldviewLibraryUnitsComponent implements OnInit, AfterViewInit, On
       case 'audio':
       case 'list':
       case 'table':
+      case 'couplet':
         return type;
       default:
         return 'paragraph';
