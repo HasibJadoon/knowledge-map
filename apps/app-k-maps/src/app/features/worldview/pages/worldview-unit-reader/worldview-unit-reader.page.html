@@ -83,7 +83,12 @@
         @if (!isPoem() && blocks().length > 0) {
           <div class="reading__body" #proseEl>
             @for (block of blocks(); track $index) {
-              <div class="prose-block" [class.prose-block--reading]="readAloud.activeBlock() === $index">
+              <div
+                class="prose-block"
+                [class.prose-block--reading]="readAloud.activeBlock() === $index"
+                [class.prose-block--speakable]="readAloud.supported"
+                (click)="readFromBlock($index, $event)"
+              >
               @switch (block.type) {
                 @case ('heading') {
                   <div class="prose-heading-wrap">
