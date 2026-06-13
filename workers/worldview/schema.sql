@@ -1929,6 +1929,36 @@ CREATE TABLE wv_source_unit_illustrations (
   FOREIGN KEY (source_id)      REFERENCES wv_sources(id)
 );
 
+CREATE TABLE wv_unit_attachments (
+  id              TEXT PRIMARY KEY,
+  source_unit_id  TEXT NOT NULL,
+  source_id       TEXT,
+  attachment_type TEXT NOT NULL DEFAULT 'document',   -- document | content | episode
+  target_ref      TEXT NOT NULL,                      -- typed CM ref: CM:doc-…, CM:src-…, CM:asset-…, CM:pub-…
+  target_kind     TEXT,                               -- cm_document | cm_source | cm_media_asset | cm_publication
+  title           TEXT,
+  subtitle        TEXT,
+  summary         TEXT,
+  thumbnail_url   TEXT,
+  media_url       TEXT,
+  duration_sec    REAL,
+  locator         TEXT,
+  link_role       TEXT NOT NULL DEFAULT 'related',
+  order_index     INTEGER NOT NULL DEFAULT 0,
+  status          TEXT NOT NULL DEFAULT 'active',
+  meta_json       TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
+  FOREIGN KEY (source_id)      REFERENCES wv_sources(id)
+);
+CREATE INDEX idx_wv_unit_attachments_unit   ON wv_unit_attachments (source_unit_id, attachment_type, order_index);
+CREATE INDEX idx_wv_unit_attachments_source ON wv_unit_attachments (source_id, attachment_type);
+CREATE INDEX idx_wv_unit_attachments_target ON wv_unit_attachments (target_ref);
+CREATE VIEW wv_unit_documents AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'document' AND status = 'active' ORDER BY source_unit_id, order_index;
+CREATE VIEW wv_unit_content   AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'content'  AND status = 'active' ORDER BY source_unit_id, order_index;
+CREATE VIEW wv_unit_episodes  AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'episode'  AND status = 'active' ORDER BY source_unit_id, order_index;
+
 CREATE TABLE wv_sources (
   id              TEXT PRIMARY KEY,
   slug            TEXT UNIQUE,
