@@ -1,0 +1,296 @@
+{
+  "source_unit": {
+    "find_or_create": true,
+    "slug": "said-orientalism",
+    "kind": "book",
+    "title": "Orientalism",
+    "author": "Edward W. Said",
+    "year_first_published": 1978,
+    "loc_kind": "page",
+    "edition_note": "Body pagination identical across Routledge & Kegan Paul (1978), Vintage (1979), and Penguin (shared Pantheon typesetting); page links below are stable across these."
+  },
+  "document": {
+    "title": "Orientalism — Religion, the Bible & the Jewish–Christian–Muslim Triangle (Reference, full)",
+    "domain": "worldview",
+    "doc_type": "reference",
+    "visibility": "private",
+    "anchors": {
+      "topic_slug": "orientalism",
+      "source_unit_ref": "said-orientalism"
+    },
+    "document_json": {
+      "v": 1,
+      "blocks": [
+        {
+          "type": "heading",
+          "level": 1,
+          "text": "Religion, the Bible, and the Jewish–Christian–Muslim Triangle in Edward Said's Orientalism"
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "TL;DR"
+        },
+        {
+          "type": "bullet_list",
+          "items": [
+            "Said makes Christian religion and biblical/Semitic philology the deep genealogical root of Orientalism: he dates academic Orientalism to the Church Council of Vienne (1312) and argues medieval Christianity constructed Islam as a 'fraudulent new version' of Christianity and Muhammad as an 'imposter,' a framework that later secularized into the racial philology of Sacy and Renan.",
+            "Said's most striking religious argument is that anti-Semitism and anti-Arab/anti-Islamic Orientalism are twin branches of one 'Semitic' discourse — he calls Orientalism the 'strange, secret sharer of Western anti-Semitism' and 'its Islamic branch' (pp. 27–28), with Renan's Aryan/Semite hierarchy as the pivot and the post-1967/1973 figure of the Arab as the 'shadow' of the Jew.",
+            "Critics (Bernard Lewis, Robert Irwin, Albert Hourani, Sadik al-'Azm) accept parts of this but charge Said with errors and overreach: collapsing medieval religious polemic into modern 'Orientalism,' ignoring German and devotional scholarship, misreading Dante, and inventing a seamless continuity from Peter the Venerable to Kissinger."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Key Findings"
+        },
+        {
+          "type": "bullet_list",
+          "items": [
+            "Said roots Orientalism in Christianity. For medieval and early-modern Europe, Islam was 'knowable' only through a Christian grid. 'Islam was a lasting trauma' for Europe; 'Not for nothing did Islam come to symbolize terror, devastation, the demonic, hordes of hated barbarians.' Because Christ is central to Christianity, Europeans wrongly assumed Muhammad was to Islam what Christ was to Christianity — producing 'Mohammedanism' and the 'automatic epithet imposter.'",
+            "The Bible and the 'Holy Land' as a lens. Until the early 19th c. the Orient for Britain and France 'had really meant only India and the Bible lands' (Introduction, p. 4); Oriental studies grew out of biblical scholarship, and academic Orientalism 'commenced its formal existence' with the Council of Vienne's 1312 chairs in Arabic, Greek, Hebrew, and Syriac (pp. 49–50).",
+            "Medieval Christian polemic: Muhammad, Dante, d'Herbelot. Said cites d'Herbelot's Bibliothèque orientale (1697) calling Muhammad 'the famous impostor Mahomet' (pp. 65–66) and reads Dante's placement of 'Maometto' among the schismatics (Inferno 28) as the paradigmatic act of 'Orientalizing' (pp. 68–72).",
+            "From religion to racial philology: Sacy and Renan. Silvestre de Sacy (1758–1838), trained in Hebrew/Syriac/Chaldean/Arabic, co-founded the Société asiatique (1822) and is 'the teacher of nearly every major Orientalist in Europe.' Renan (1823–1892), in his Histoire générale et système comparé des langues sémitiques (1855), built a 'philological laboratory' judging Semitic languages 'inorganic' and 'arrested' against the dynamic Aryan family.",
+            "Anti-Semitism and anti-Arab prejudice as one discourse. Said found himself 'writing the history of a strange, secret sharer of Western anti-Semitism' (pp. 27–28); the 'Semite' category bound Jew and Arab together, then 'bifurcated' in the 20th c. so that the Arab became the 'shadow that dogs the Jew.'",
+            "Scholarly criticism is substantial. Lewis, Irwin, Hourani, and al-'Azm engage these religious dimensions critically — variously praising the Renan analysis while disputing the medieval genealogy, the reading of Dante, and the claim of a seamless discourse from medieval polemic to modern empire."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Details"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dimension 1 — Christianity and the Bible as the root of Orientalism"
+        },
+        {
+          "type": "paragraph",
+          "text": "The medieval Christian construction of Islam. For Said, Europe's first and most durable mode of 'knowing' the Orient was religious. In Chapter 1, §II ('Imaginative Geography and Its Representations'), he argues that medieval Christendom could not encounter Islam on its own terms; it could only assimilate Islam to a prior, familiar template — Christianity itself. Islam was therefore construed as a heresy, a derivative and 'fraudulent new version' of Christian revelation. Said draws heavily on Norman Daniel's Islam and the West: The Making of an Image (1960) and R. W. Southern's Western Views of Islam in the Middle Ages (1962). He writes that 'Islam became an image … whose function was not so much to represent Islam in itself as to represent it for the medieval Christian' (~p. 60, crediting the formulation to Daniel).",
+          "id": "b-trauma"
+        },
+        {
+          "type": "paragraph",
+          "text": "The figure of Muhammad is central. Because the analogy to Christ was assumed, Muhammad could only appear as a false Christ — an 'imposter.' Said's summarizing sentence (~p. 72) captures the doubled logic: 'Mohammed is always the imposter (familiar, because he pretends to be like the Jesus we know) and always the Oriental (alien, because although he is in some ways like Jesus, he is after all not like him).' From this premise flowed the medieval slander catalog: 'since Mohammed was viewed as the disseminator of a false revelation, he became as well the epitome of lechery, debauchery, sodomy, and a whole battery of assorted treacheries, all of which derived logically from his doctrinal impostures' (p. 62).",
+          "id": "b-imposter"
+        },
+        {
+          "type": "paragraph",
+          "text": "Dante. Said treats Dante's Inferno (canto 28), where Muhammad and his son-in-law Ali are placed among the 'sowers of discord and schism' in the eighth circle, split and mutilated, as a literary crystallization of imaginative Orientalism. Even though Dante elsewhere honors Muslim figures (placing Avicenna, Averroes, and Saladin among the virtuous non-Christians in Limbo), Said argues this only proves his point: empirical knowledge of the Orient counts for very little, because the Oriental is always assigned a fixed schematic place on a 'theatrical stage' set up for and by Europe (pp. 68–72).",
+          "id": "b-dante"
+        },
+        {
+          "type": "paragraph",
+          "text": "d'Herbelot. The Bibliothèque orientale (1697) of Barthélemy d'Herbelot (1625–1695), published posthumously by Antoine Galland, is Said's prime example of the encyclopedic 'Orientalizing' of Islam (pp. 63–66). Said reproduces d'Herbelot's entry: 'This is the famous impostor Mahomet, Author and Founder of a heresy, which has taken on the name of religion, which we call Mohammedan. … The Interpreters of the Alcoran and other Doctors of Muslim or Mohammedan Law have applied to this false prophet all the praises which the Arians, Paulicians or Paulianists, and other Heretics have attributed to Jesus Christ, while stripping him of his divinity.' For Said this shows how Islam was minimized, doctrinally subordinated to Christian heresiological categories, and offensively renamed 'Mohammedanism.'",
+          "id": "b-herbelot"
+        },
+        {
+          "type": "paragraph",
+          "text": "Peter the Venerable and the Cluniac Qur'an. The concrete history Said gestures toward is well documented: Peter the Venerable (c. 1092–1156), Abbot of Cluny, during a 1142–1143 sojourn in Spain commissioned the first Latin translation of the Qur'an (the Lex Mahumet pseudoprophete) by Robert of Ketton, completed 1143, as part of the 'Cluny Corpus' (Corpus Toletanum) intended to refute Islam. Peter's own framing texts — the Summa totius haeresis Saracenorum and the Liber contra sectam sive heresim Saracenorum — explicitly treated Islam as a Christian heresy, a successor to the Arian heresy and a precursor of Antichrist. In his Nation essay restating the argument, Said wrote that 'early commentators on Islam like Peter the Venerable and Barthelemy D'Herbelot were passionate Christian polemicists in what they said.'"
+        },
+        {
+          "type": "paragraph",
+          "text": "The Council of Vienne (1312) and the biblical–philological tradition. Said dates academic Orientalism's 'formal existence' to the decision of the Church Council of Vienne (1311–1312), under Pope Clement V, to establish chairs in Arabic, Greek, Hebrew, and Syriac (Aramaic/Chaldean) at Paris, Oxford, Bologna, Avignon, and Salamanca (pp. 49–50). The motive was missionary and scriptural — to train clergy to preach to and convert Muslims and Jews and to study scripture in its original tongues. As critics note, the Arabic chairs were largely a dead letter (never actually set up at several universities), which complicates Said's choice of 1312 as a true 'beginning.' Said's larger claim is that until the eighteenth century Orientalism was substantially a branch of biblical and Semitic-language scholarship; the study of Hebrew served theological ends, including the assertion of Christianity's primacy over both Judaism and Islam.",
+          "id": "b-vienne"
+        },
+        {
+          "type": "paragraph",
+          "text": "Until the early nineteenth century the Orient for Britain and France 'had really meant only India and the Bible lands' (Introduction, p. 4), and Orientalism's realms include 'the Biblical texts and the Biblical lands.'",
+          "id": "b-biblelands"
+        },
+        {
+          "type": "paragraph",
+          "text": "Eschatology, pilgrimage, the Holy Land. Said devotes Chapter 2, §IV ('Pilgrims and Pilgrimages, British and French,' pp. 166ff.) to the way nineteenth-century travelers — Chateaubriand, Lamartine, Nerval, Flaubert — experienced the Near East as a palimpsest of biblical and Christian memory rather than as a living society. The Orient was a place to confirm scripture, recover the Holy Land, and stage a European spiritual drama. Said argues this devotional-imaginative tradition fed seamlessly into colonial knowledge.",
+          "id": "b-holyland"
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dimension 2 — Jewish and Christian scholars and biblical/Semitic philology"
+        },
+        {
+          "type": "paragraph",
+          "text": "Biblical scholarship as the seedbed. Said's narrative of 'secularized religion' (Chapter 2, §I, 'Redrawn Frontiers, Redefined Issues, Secularized Religion,' pp. 113ff.) holds that modern Orientalism did not break with the religious tradition so much as transpose it. The philological study of Semitic languages — pursued first to read the Hebrew Bible and the Syriac and Arabic Christian/Islamic sources — became, in the eighteenth and nineteenth centuries, a 'scientific' anthropology of 'Semitic' peoples. The continuity is institutional and methodological: the same comparative grammar that classified Hebrew, Aramaic, Syriac, and Arabic also racialized their speakers.",
+          "id": "b-secular"
+        },
+        {
+          "type": "paragraph",
+          "text": "Silvestre de Sacy. Antoine-Isaac, Baron Silvestre de Sacy (1758–1838) is Said's 'founder' of modern, secular, pedagogical Orientalism (Chapter 2, §II, pp. 123–149). Educated at a Benedictine abbey where he learned Arabic, Syriac, Chaldean, and Hebrew, Sacy became the first professor of Arabic at the École spéciale des langues orientales vivantes (1795), co-founded the Société asiatique with Abel Rémusat in 1822 and served as its first president, and, in Said's words, 'the teacher of nearly every major Orientalist in Europe.' Said emphasizes Sacy's Chrestomathie arabe — anthologies that present the Orient as fragments selected, ordered, and mediated by the European expert. Sacy thereby established the Orientalist as the indispensable Mediator who makes a 'raw,' chaotic Orient intelligible to Europe. Several of Sacy's students were 'politically useful' to French policy.",
+          "id": "b-sacy"
+        },
+        {
+          "type": "paragraph",
+          "text": "Ernest Renan and the construction of the 'Semitic.' Renan (1823–1892) is Said's central case for how biblical philology mutated into racial science. Renan's project — which originated as the essay awarded the Prix Volney by the Institut de France in 1847 and was published in 1855 by the Imprimerie Impériale — aimed to do for the Semitic languages what Franz Bopp had done for the Indo-European. Notably, only the historical Part I of the projected système ever appeared; the promised comparative grammar was never published. The result classified languages into the dynamic Aryan/Indo-European family and the static Semitic family. Renan stated (1855 ed., p. 5): 'Je suis donc le premier à reconnaître que la race sémitique, comparée à la race indo-européenne, représente réellement une combinaison inférieure de la nature humaine' ('I am thus the first to acknowledge that the Semitic race, compared to the Indo-European race, genuinely represents an inferior combination of human nature'), its single distinguishing gift being the 'religious instinct' (monotheism). He wrote that scholars 'refuse to allow that the Semitic languages have the capacity to regenerate themselves.' Said argues (pp. 130–146) that Renan treated Semitic in the present tense of a 'lecture-laboratory platform,' reducing living languages and peoples to specimens: 'Read almost any page of Renan on Arabic, Hebrew, Aramaic, or proto-Semitic and you read a fact of power.' He likens Renan's Semitic to a teratological 'monster' in the sense of the anatomist Isidore Geoffroy Saint-Hilaire — an 'arrested,' 'inorganic,' degraded form of organic (Indo-European) life (~p. 142). Crucially, Said insists the inferiority Renan 'described' was manufactured by the philological method itself — a creature of the laboratory and of 'European ethnocentrism.'",
+          "id": "b-renan"
+        },
+        {
+          "type": "paragraph",
+          "text": "The ambivalent position of the Jew. A defining feature of the 'Semitic' category is that it yoked Jews and Arabs together as a single racial-linguistic type. Jews were thus objects of 'Semitic' study at the very moment the field professionalized. Scholarship after Said (James Pasto's 'Islam's Strange Secret Sharer,' Comparative Studies in Society and History 40:3, 1998; Ivan Kalmar and Derek Penslar's Orientalism and the Jews, 2005) has developed the point that European Jews were simultaneously 'Orientalized' as an internal Eastern Other and, in some cases, participants in Oriental scholarship (the phenomenon of 'Jewish Orientalism,' e.g., Ignaz Goldziher in Islamic studies). Said himself focuses on Jews as targets rather than agents, which critics note serves his argument about Zionism."
+        },
+        {
+          "type": "paragraph",
+          "text": "Christian missionary scholarship and biblical Egypt. The entanglement of devotional and academic motives is visible in the Egyptological context. Napoleon's 1798–1801 expedition produced the Description de l'Égypte (1809–1829, 23 volumes, ~160 civilian savants), which Said calls 'that great collective appropriation of one country by another.' It was prefaced by the mathematician Joseph Fourier, secretary of the Institut d'Égypte. Said reads Fourier's preface as framing Egypt as a 'stage' for world-historical European action and casting modern Egyptians as fallen from ancient glory and in need of European tutelage. For the Christian public, Egypt was above all the land of the Exodus and of the Holy Family's flight; biblical archaeology and the search to confirm scripture gave every literate Christian a stake in Near Eastern discovery — even as those same discoveries, in Renan's case, corroded orthodox faith."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Dimension 3 — Anti-Semitism and anti-Arab prejudice as twin products"
+        },
+        {
+          "type": "paragraph",
+          "text": "The 'secret sharer' thesis. The single most important statement is in the Introduction (pp. 27–28): 'In addition, and by an almost inescapable logic, I have found myself writing the history of a strange, secret sharer of Western anti-Semitism. That anti-Semitism and, as I have discussed it in its Islamic branch, Orientalism resemble each other very closely is a historical, cultural, and political truth that needs only to be mentioned to an Arab Palestinian for its irony to be perfectly understood.' The phrase 'secret sharer' alludes to Joseph Conrad's story. Said repeats the claim that 'Orientalism and modern anti-Semitism have common roots.'",
+          "id": "b-sharer"
+        },
+        {
+          "type": "paragraph",
+          "text": "The bifurcation of the Semite. Said argues that the nineteenth-century 'myth of the arrested development of the Semites' applied to Jews and Arabs alike, but in the twentieth century split: 'one Semite went the way of Orientalism, the other, the Arab, was forced to go the way of the Oriental.' After the Nazi genocide, the animus once directed at the European Jew was transferred onto the Arab: 'The transference of a popular anti-Semitic animus from a Jewish to an Arab target was made smoothly, since the figure was essentially the same.' In Said's reading of post-1973 Western cartoons, the Arab oil sheikh was drawn with 'sharply hooked noses, the evil mustachioed leer' — 'obvious reminders (to a largely non-Semitic population) that Semites were at the bottom of all our troubles.' Hence 'the Arab is conceived of now as a shadow that dogs the Jew. … In that shadow — because Arabs and Jews are Oriental Semites — can be placed whatever traditional, latent mistrust a Westerner feels towards the Oriental.'"
+        },
+        {
+          "type": "paragraph",
+          "text": "Renan as the pivot. Renan's Aryan/Semite hierarchy is, for Said, the precise scholarly mechanism by which a single denigrating image of the 'Semite' was legitimized and then aimed at either Jew or Arab. Said writes that 'what has not been sufficiently stressed in histories of modern anti-Semitism has been the legitimation of such atavistic designations by Orientalism,' a legitimation that 'persisted right through the modern age in discussions of Islam, the Arabs, or the Near Orient.'"
+        },
+        {
+          "type": "paragraph",
+          "text": "Political context: 1967, 1973, Palestine. Said's engagement with Palestine is explicit and shapes the book. He became politically active after the 1967 war and wrote 'The Arab Portrayed' (1968) in response; Orientalism (1978) followed the 1973 war and the oil crisis. The Jewish/Arab/Christian triangle is, for Said, a lived irony: as a Palestinian Christian (Anglican) shaped by both the Arab-Muslim world and Western Christianity, he frames himself as standing at the intersection. In later work (the 1995 Afterword, the 2003 Preface, and Culture and Imperialism, 1993) he reiterated that the analysis of Orientalism should resonate with the history of anti-Semitism and called on intellectuals to resist 'the reductively simplifying and confining' models of mutual hostility."
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "Critical assessment and qualifications"
+        },
+        {
+          "type": "bullet_list",
+          "items": [
+            "Bernard Lewis ('The Question of Orientalism,' New York Review of Books, 24 June 1982; Said's reply 12 Aug 1982) attacked Said's competence and method, charging that 'the term Orientalism has been emptied of its previous content and given an entirely new one — that of unsympathetic or hostile treatment of Oriental peoples.' His complaints included errors of Arabic (mistranslating tawhid; a mistranslated Goethe line), the charge that Said maligns Lane and Sacy, and the objection that Said ignores the genuine achievements and self-correcting criticism internal to the field. Lewis disputed the very idea of a continuous, politically motivated 'Orientalism' from the Middle Ages to the present.",
+            "Robert Irwin (Dangerous Knowledge: Orientalism and Its Discontents, 2006; UK title For Lust of Knowing) gives the most detailed rebuttal: most Orientalists were 'bookish dons and quirky eccentrics,' often Islamophile and anti-imperial; Said ignores German, Russian, and Hungarian scholarship (fatal for the 'knowledge = imperial power' thesis, since Germany had a dominant philological tradition and no relevant colonies); and Said misrepresents the medieval period and Napoleon's expedition. Irwin notes medieval translation of the Qur'an and Arabic science enriched rather than merely mystified Europe.",
+            "Albert Hourani ('The Road to Morocco,' NYRB, 8 March 1979), broadly sympathetic, endorsed Said's emphasis on philology — 'Edward Said is right to lay emphasis on the science of philology' — and called the Renan analysis brilliant, but cautioned against treating Orientalism as a monolithic, unbroken discourse and neglecting counter-currents.",
+            "Sadik Jalal al-'Azm ('Orientalism and Orientalism in Reverse,' 1981), from the Marxist left, accepted much of the critique but argued Said essentializes 'the West' in the very way he accuses Orientalists of essentializing the East — an 'ontological' Orientalism in reverse — and that the leap from d'Herbelot and Dante to Napoleon, Cromer, and Balfour is too direct.",
+            "On the medieval genealogy: William Hart (Edward Said and the Religious Effects of Culture, 2000) argues Said conflates medieval Christian religious discourse about Islam with the modern, post-Enlightenment Orientalist discourse, and should have restricted his analysis to the modern period. Medievalists note the Council of Vienne chairs were largely unfilled.",
+            "On the anti-Semitism thesis: reception is mixed and politically charged. Some scholars (Gil Anidjar, The Jew, the Arab, 2003; Pasto 1998) developed the 'secret sharer' insight productively; others object that framing Orientalism as the 'Islamic branch of anti-Semitism' casts Jews only as victims and is bound up with Said's anti-Zionism. The phrase nonetheless grounds later work linking the two prejudices (Renton & Gidley, Antisemitism and Islamophobia in Europe: A Shared Story?, 2017)."
+          ]
+        },
+        {
+          "type": "heading",
+          "level": 3,
+          "text": "A note on editions and pagination"
+        },
+        {
+          "type": "paragraph",
+          "text": "The body text of Orientalism is identically paginated across the original Routledge & Kegan Paul (1978/1980), the US Vintage (1979), and the Penguin/Peregrine editions, because all derive from the same Pantheon typesetting. Thus the key citations are stable: the 'secret sharer of anti-Semitism' passage at pp. 27–28; the Council of Vienne at pp. 49–50; the medieval Islam/Muhammad material at pp. 58–72 (d'Herbelot at 65–66; Dante at 68–72); Sacy and Renan at pp. 123–149 (Renan's 'philological laboratory' and Semitic-as-monster material concentrated at pp. 130–146). The 2003 Penguin Classics reissue adds a new Preface and retains the 1995 Afterword with separate front/back-matter pagination but the same body pagination. Said himself confirmed pp. 49–50 in his 1982 NYRB reply to Lewis."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Recommendations"
+        },
+        {
+          "type": "bullet_list",
+          "items": [
+            "Read the primary passages in order: Introduction pp. 25–28 (the three 'qualifications' and the anti-Semitism passage); Chapter 1 §II pp. 49–73 (Council of Vienne, medieval Islam, d'Herbelot, Dante, 'imaginative geography'); Chapter 1 §III 'Project' pp. 73–92 (Napoleon, Fourier, the Description); then Chapter 2 §§I–II pp. 113–149 (secularized religion; Sacy and Renan).",
+            "Pair each Said passage with its source and its critique. For the medieval material, read Norman Daniel (Islam and the West) and R. W. Southern (Western Views of Islam), then Irwin's Dangerous Knowledge and William Hart. For Renan, read Maurice Olender, The Languages of Paradise (1992), and Tomoko Masuzawa, The Invention of World Religions (2005).",
+            "For the anti-Semitism/anti-Arab thesis, read Said pp. 27–28 and the post-1967/1973 passages, then Pasto (1998), Kalmar & Penslar (2005), Anidjar (2003), and Renton & Gidley (2017). Treat the 'two branches' claim as a generative hypothesis and test it against the German case Irwin raises.",
+            "For the Egyptological angle, supplement Said with revisionist scholarship challenging his reading of the Description (e.g., the 2022 Springer volume The Description of Egypt from Napoleon to Champollion), which argues the work was less a unified colonial project than Said implies."
+          ]
+        },
+        {
+          "type": "paragraph",
+          "text": "Benchmarks that should change your assessment: If German/Hungarian/Russian biblical-Semitic scholarship (Gesenius, Nöldeke, Goldziher) operated largely independent of imperial power, weight Irwin's critique more heavily. If the Council of Vienne chairs were unfilled and discontinuous, treat Said's '1312 origin' as rhetorical rather than institutional. Conversely, if the same denigrating 'Semitic' type was demonstrably transferred from Jew to Arab in popular and scholarly culture, weight Said's anti-Semitism thesis more heavily."
+        },
+        {
+          "type": "heading",
+          "level": 2,
+          "text": "Caveats"
+        },
+        {
+          "type": "bullet_list",
+          "items": [
+            "Said's book is a polemical interpretive essay, not a comprehensive history; he concedes he omits much (notably German scholarship) and selects emblematic figures. His medieval 'genealogy' is suggestive rather than archivally exhaustive.",
+            "Some exact wordings (the 'fraudulent new version' sentence at ~pp. 59–60 and the Renan 'monster'/Geoffroy Saint-Hilaire sentence at ~p. 142) are confirmed in substance and page range but should be checked against a physical copy for verbatim precision. The Renan racial-inferiority quotation ('une combinaison inférieure de la nature humaine') is verbatim from Renan's own 1855 text (p. 5).",
+            "The anti-Semitism/Islamophobia linkage is genuinely contested and politically loaded; this report presents Said's claim and the major scholarly responses without endorsing either side's polemics.",
+            "Online study guides and even some scholarly citations disagree on a few page numbers because of divergent printings; the pagination here follows the standard Pantheon-derived text and Said's 1982 confirmation."
+          ]
+        }
+      ]
+    }
+  },
+  "block_source_links": [
+    {
+      "block_id": "b-sharer",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 27,
+      "loc_to": 28
+    },
+    {
+      "block_id": "b-biblelands",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 4,
+      "loc_to": 4
+    },
+    {
+      "block_id": "b-vienne",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 49,
+      "loc_to": 50
+    },
+    {
+      "block_id": "b-trauma",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 58,
+      "loc_to": 60
+    },
+    {
+      "block_id": "b-herbelot",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 63,
+      "loc_to": 66
+    },
+    {
+      "block_id": "b-dante",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 68,
+      "loc_to": 72
+    },
+    {
+      "block_id": "b-imposter",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 62,
+      "loc_to": 72
+    },
+    {
+      "block_id": "b-secular",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 113,
+      "loc_to": 113
+    },
+    {
+      "block_id": "b-sacy",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 123,
+      "loc_to": 149
+    },
+    {
+      "block_id": "b-renan",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 130,
+      "loc_to": 146
+    },
+    {
+      "block_id": "b-holyland",
+      "source_unit_ref": "said-orientalism",
+      "loc_kind": "page",
+      "loc_from": 166,
+      "loc_to": 166
+    }
+  ]
+}

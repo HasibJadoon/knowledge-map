@@ -10,3 +10,9 @@ INSERT OR REPLACE INTO wv_unit_attachments (id, source_unit_id, source_id, attac
 ('wva-orient-s1-doc1','sru-said-orient-ch1-s1','src-said-orientalism-1978','document','CM:doc-balfour-1910-speech','cm_document','Balfour''s 1910 Commons speech','Primary source · Hansard','The full text Said dissects: “We know the civilization of Egypt better than…”',NULL,'primary',0,'{"sample":true}'),
 ('wva-orient-s1-doc2','sru-said-orient-ch1-s1','src-said-orientalism-1978','document','CM:doc-cromer-subject-races','cm_document','Cromer, “The Government of Subject Races”','Primary source · Edinburgh Review (1908)','The administrator''s blueprint for rule by understanding “limitations.”',NULL,'further_reading',1,'{"sample":true}'),
 ('wva-orient-s1-con1','sru-said-orient-ch1-s1','src-said-orientalism-1978','content','CM:doc-section1-reading','cm_document','Section I — concept-by-concept reading','Study companion','The annotated walkthrough of Section I with the deeper-layers analysis.',NULL,'related',0,'{"sample":true}');
+
+-- Real CM document (not a sample): the full "Religion & the Semitic triangle"
+-- reference seeded by orientalism/seed-wv-said-orientalism-religion-document.sql.
+-- target_ref must equal that document's doc_id so the reader opens real content.
+INSERT OR REPLACE INTO wv_unit_attachments (id, source_unit_id, source_id, attachment_type, target_ref, target_kind, title, subtitle, summary, duration_sec, link_role, order_index, meta_json) VALUES
+('wva-orient-s1-doc3','sru-said-orient-ch1-s1','src-said-orientalism-1978','document','CM:01KSEEDWVSAIDRELIGION00001','cm_document','Religion, the Bible & the Jewish–Christian–Muslim Triangle','Reference · Said, Orientalism (full)','Christianity and Semitic philology as the genealogical root of Orientalism, and Orientalism as the "Islamic branch" of anti-Semitism.',NULL,'further_reading',2,'{}');
