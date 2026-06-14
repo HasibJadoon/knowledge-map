@@ -18,4 +18,5 @@ VALUES
  ('wv-topic-said-imaginative-geography','said-imaginative-geography','Imaginative geography (Orient/Occident)','historical','The constructed Orient/Occident divide that maps difference onto space.'),
  ('wv-topic-said-latent-manifest','said-latent-manifest','Latent & manifest Orientalism','philosophical','The stable unconscious (latent) versus stated (manifest) forms of Orientalist knowledge.'),
  ('wv-topic-said-knowledge-power','said-knowledge-power','Knowledge & power','philosophical','Foucauldian reading: knowledge of the Orient as an instrument of colonial power.'),
- ('wv-topic-said-representation-other','said-representation-other','Representation & the Other','sociological','The Orient as Europe''s silent Other, spoken for rather than speaking.');
+ ('wv-topic-said-representation-other','said-representation-other','Representation & the Other','sociological','The Orient as Europe''s silent Other, spoken for rather than speaking.'),
+ ('wv-topic-said-religion-semitic','said-religion-semitic','Religion & the Semitic triangle','theological','Christianity, the Bible, and Semitic philology as the genealogical root of Orientalism — and Orientalism as the "Islamic branch" of anti-Semitism (the Jewish–Christian–Muslim triangle).');
