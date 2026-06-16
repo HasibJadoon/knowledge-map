@@ -49,11 +49,13 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
       </dl>
 
       <div class="wp__actions">
-        <ion-button class="wp__btn wp__btn--lens" fill="clear" size="small"
-                    (click)="emitOpenFiveLens()">
-          <ion-icon slot="start" name="aperture-outline" />
-          Five-Lens{{ word.root ? ' · ' + word.root : '' }}
-        </ion-button>
+        @if (word.root) {
+          <ion-button class="wp__btn wp__btn--lens" fill="clear" size="small"
+                      (click)="emitOpenFiveLens()">
+            <ion-icon slot="start" name="aperture-outline" />
+            Five-Lens · {{ word.root }}
+          </ion-button>
+        }
         <ion-button class="wp__btn" fill="clear" size="small"
                     (click)="emitOpenRoot()">
           <ion-icon slot="start" name="library-outline" />

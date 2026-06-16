@@ -15,7 +15,7 @@
  * headings, EB Garamond + Gentium Plus for body). Progressive enhancement —
  * inside the offline native webview these gracefully fall back to the
  * self-hosted Amiri / serif stack declared below. */
-@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Gentium+Plus:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Gentium+Plus:ital,wght@0,400;0,700;1,400&display=swap');
 
 /* Core CSS required for Ionic components to work properly */
 @import "@ionic/angular/css/core.css";
@@ -3449,19 +3449,19 @@ app-lexicon-reader-page .rdr-pane--content span {
 
 
 /* ── Five-Lens lexicon modal ──────────────────────────────────────────────────
- * Sheet-style modal opened from the Quran word context menu. A warm
- * "manuscript" surface that reads as scripture-adjacent rather than chrome. */
+ * Sheet-style modal opened from the Quran word context menu. Dark + gold
+ * "illuminated manuscript" surface (see the word-popover Five-Lens action). */
 ion-modal.km-lens-modal {
-  --background: #f7f1e3;
+  --background: #0d0a06;
   --width: 100%;
   --max-width: 560px;
   --border-radius: 18px;
-  --box-shadow: 0 -8px 40px rgba(28, 22, 12, 0.35);
+  --box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.55);
 }
 ion-modal.km-lens-modal::part(content) {
   border-radius: 18px 18px 0 0;
-  background: #f7f1e3;
+  background: #0d0a06;
 }
 ion-modal.km-lens-modal::part(handle) {
-  background: rgba(156, 122, 50, 0.45);
+  background: rgba(201, 162, 75, 0.4);
 }

@@ -240,12 +240,23 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
    *  root travels on the word from the page payload (qr_word_occurrences.root)
    *  — the modal fetches the curated entry by root. Display-only. */
   async openFiveLens(word: QuranPageWord): Promise<void> {
+    if (!word.root) return;
     const modal = await this.modalCtrl.create({
       component: LensModalComponent,
-      componentProps: { word },
+      componentProps: {
+        root: word.root,
+        word: {
+          surah: word.surah,
+          ayah: word.ayah,
+          wordIndex: word.position,
+          text: word.simple ?? word.text ?? '',
+          root: word.root ?? undefined,
+          lemma: word.lemma ?? undefined,
+        },
+      },
       cssClass: 'km-lens-modal',
-      breakpoints: [0, 0.6, 0.95],
-      initialBreakpoint: 0.95,
+      breakpoints: [0, 0.92, 1],
+      initialBreakpoint: 0.92,
       handle: true,
     });
     await modal.present();

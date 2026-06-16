@@ -1,58 +1,62 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { BackendApiService } from '../core/backend-api.service';
 
-/** One curated "lens" section of a five-lens root entry. */
-export interface FiveLensSection {
-  id: string;
-  section_seq: number;
-  heading_ar: string | null;
-  heading_norm: string | null;
-  section_type: string;
-  text_ar: string | null;
-  text_en: string | null;
-  page_no: number | null;
+// ---- models ----------------------------------------------------------------
+
+export interface QuranWord {
+  surah: number;
+  ayah: number;
+  wordIndex: number;
+  text: string; // e.g. "زُلْفَىٰ"
+  root?: string; // normalized root, e.g. "زلف"  (from qr_word_occurrences.root)
+  lemma?: string;
 }
 
-/** The root entry header for a five-lens lookup. */
+export interface FiveLens {
+  seq: number;
+  headingAr: string; // صَرْف / إعراب / دلالة / بلاغة / ترجمة
+  labelEn: string; // Morphology / Syntax / ...
+  body: string;
+}
+
 export interface FiveLensEntry {
-  id: string;
-  source_slug: string;
-  root_text: string;
-  root_norm: string;
-  entry_text_ar: string | null;
-  entry_text_en: string | null;
-  source_url: string | null;
-  page_start: number | null;
-  page_end: number | null;
-  volume_no: number | null;
-  status: string;
+  found: boolean;
+  entry?: { id: string; root: string; rootSpaced: string; lemma: string | null; status: string };
+  ayah?: { titleAr: string | null; line: string | null } | null;
+  lenses?: FiveLens[];
+  occurrences?: string; // raw "label: refs | label: refs", parsed client-side
+  sources?: Record<string, string[]>; // { lexicon:[...], tafsir:[...], irab:[...] }
 }
 
-/** Response payload from GET /api/al/lexicon/five-lens/:rootNorm.
- *  `found: false` is the normal empty state for a root without a curated
- *  five-lens entry — it is not an error. */
-export interface FiveLensResult {
-  found: boolean;
-  root_norm: string;
-  root_text: string | null;
-  entry: FiveLensEntry | null;
-  lenses: FiveLensSection[];
-}
+// ---- service ---------------------------------------------------------------
 
 /**
  * Display-only client for the curated "Five-Lens" root lexicon. Backed by the
  * km-ar-linguistics-worker (DB_AL / km_arabic_linguistic) via the backend
- * gateway. Read-only — never writes notes or documents.
+ * gateway at /api/al/lexicon/five-lens/:rootNorm. Read-only — never writes
+ * notes or documents.
  */
 @Injectable({ providedIn: 'root' })
 export class FiveLensLexiconService {
   private readonly api = inject(BackendApiService);
 
+  /** Cheap per-root cache so the modal re-opens instantly. */
+  private readonly cache = new Map<string, FiveLensEntry>();
+
   /** Look up the five-lens entry for a root (raw or normalized — the worker
-   *  normalizes again). Resolves to `found: false` when no entry exists. */
-  getByRoot(root: string): Observable<FiveLensResult> {
-    return this.api.getData<FiveLensResult>('al', ['lexicon', 'five-lens', root]);
+   *  normalizes again). Resolves to `{ found: false }` when no entry exists or
+   *  the request fails, so the modal always lands on a defined state. */
+  getFiveLens(rootNorm: string): Observable<FiveLensEntry> {
+    const cached = this.cache.get(rootNorm);
+    if (cached) return of(cached);
+
+    return this.api.getData<FiveLensEntry>('al', ['lexicon', 'five-lens', rootNorm]).pipe(
+      map((data) => data ?? { found: false }),
+      tap((data) => this.cache.set(rootNorm, data)),
+      catchError(() => of({ found: false } as FiveLensEntry)),
+    );
   }
 }
