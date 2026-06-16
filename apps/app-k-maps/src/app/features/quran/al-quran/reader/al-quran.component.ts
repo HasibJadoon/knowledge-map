@@ -12,7 +12,7 @@ import {
   signal,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { GestureController, IonicModule, IonContent, NavController, PopoverController, ToastController } from '@ionic/angular';
+import { GestureController, IonicModule, IonContent, ModalController, NavController, PopoverController, ToastController } from '@ionic/angular';
 import type { Gesture } from '@ionic/angular';
 import { firstValueFrom } from 'rxjs';
 import gsap from 'gsap';
@@ -30,6 +30,7 @@ import { hapticTick } from '../../../../shared/utils/haptics.util';
 import { ImmersiveService } from '../immersive.service';
 import { ReadingStateService } from '../reading-state.service';
 import { WordPopoverComponent } from '../components/word-popover/word-popover.component';
+import { LensModalComponent } from '../components/lens-modal/lens-modal.component';
 import { hapticTap } from '../../../../shared/utils/haptics.util';
 
 const FIRST_PAGE = 1;
@@ -59,6 +60,7 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly readingState = inject(ReadingStateService);
   private readonly navCtrl = inject(NavController);
   private readonly popoverCtrl = inject(PopoverController);
+  private readonly modalCtrl = inject(ModalController);
   private readonly toastCtrl = inject(ToastController);
   private readonly loadedPageFonts = new Set<number>();
 
@@ -208,6 +210,9 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
             animated: false,
           });
         },
+        onOpenFiveLens: (word: QuranPageWord) => {
+          void this.openFiveLens(word);
+        },
         onOpenTafsir: (surah: number, ayah: number) => {
           void this.router.navigate(['/quran/al-quran/tafseer'], {
             queryParams: { surah, ayah },
@@ -229,6 +234,21 @@ export class AlQuranComponent implements OnInit, AfterViewInit, OnDestroy {
       cssClass: 'qrs-word-popover',
     });
     await popover.present();
+  }
+
+  /** Open the styled Five-Lens lexicon modal for a tapped word's root. The
+   *  root travels on the word from the page payload (qr_word_occurrences.root)
+   *  — the modal fetches the curated entry by root. Display-only. */
+  async openFiveLens(word: QuranPageWord): Promise<void> {
+    const modal = await this.modalCtrl.create({
+      component: LensModalComponent,
+      componentProps: { word },
+      cssClass: 'km-lens-modal',
+      breakpoints: [0, 0.6, 0.95],
+      initialBreakpoint: 0.95,
+      handle: true,
+    });
+    await modal.present();
   }
 
   mushafFont(page: number): string {
