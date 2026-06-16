@@ -9,11 +9,13 @@
 //   → exposed publicly via the backend gateway as
 //     GET /api/al/lexicon/five-lens/:rootNorm
 //
-// Assembles the complete five-lens payload for a root from km_arabic_linguistic
-// (binding DB_AL): the root entry + the five lens sections + the ayah and
-// cross-ref blocks + linked provenance. Everything the modal needs lives in one
-// payload, so the client never fans out across DBs. Only the root "زلف" has an
-// entry today (id re_kmaps_zlf_zumar_3); every other root resolves to
+// Assembles the full five-lens payload from km_arabic_linguistic (binding
+// DB_AL). The curated, bilingual content lives in ar_ling_lexicon_blocks as
+// sanitized HTML (text_html) — the ayah (Arabic + gloss) and each of the five
+// lens bodies (Arabic spans inline with English), plus the cross-ref block —
+// so the client renders the manuscript leaf directly. Provenance comes from
+// ar_ling_lexicon_root_entry_sources, grouped by kind. Only the root "زلف" has
+// an entry today (id re_kmaps_zlf_zumar_3); every other root resolves to
 // { found: false } so the modal can paint its empty state. Read-only — never
 // writes, never touches doc-space.
 
@@ -22,15 +24,6 @@ import { ok, badRequest } from '../../../shared/src/response';
 import type { ArLinguisticsEnv } from '../env';
 
 const SOURCE_SLUG = 'kmaps_five_lens';
-
-// Arabic lens heading → English label for the modal's lens rail.
-const LENS_LABELS: Record<string, string> = {
-  'صَرْف': 'Morphology',
-  'إعراب': 'Syntax',
-  'دلالة': 'Semantics',
-  'بلاغة': 'Rhetoric',
-  'ترجمة': 'Translation',
-};
 
 /** Normalize an Arabic root the same way ingestion stores `root_norm`:
  *  strip harakat and fold alif / ya / ta-marbuta variants. Mirrors the
@@ -45,25 +38,30 @@ function normArabic(t: string): string {
     .trim();
 }
 
+function parseJson(value: string | null): Record<string, unknown> {
+  if (!value) return {};
+  try {
+    return JSON.parse(value) as Record<string, unknown>;
+  } catch {
+    return {};
+  }
+}
+
 interface EntryRow {
   id: string;
   root_text: string;
+  entry_text_ar: string | null;
   entry_text_en: string | null;
   status: string;
 }
 
-interface SectionRow {
-  section_seq: number;
-  heading_ar: string | null;
-  section_type: string;
-  text_en: string | null;
-}
-
 interface BlockRow {
+  block_seq: number;
   block_type: string;
   title_ar: string | null;
   title_en: string | null;
-  text_plain: string | null;
+  text_html: string | null;
+  data_json: string | null;
 }
 
 interface SourceRow {
@@ -81,7 +79,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
 
     const entry = await env.DB_AL
       .prepare(
-        `SELECT id, root_text, entry_text_en, status
+        `SELECT id, root_text, entry_text_ar, entry_text_en, status
            FROM ar_ling_lexicon_root_entries
           WHERE source_slug = ?1 AND root_norm = ?2
           LIMIT 1`,
@@ -93,19 +91,10 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
     // empty payload so the modal renders its (non-error) empty state.
     if (!entry) return ok({ found: false });
 
-    const [sections, blocks, sources] = await Promise.all([
+    const [blocks, sources] = await Promise.all([
       env.DB_AL
         .prepare(
-          `SELECT section_seq, heading_ar, section_type, text_en
-             FROM ar_ling_lexicon_entry_sections
-            WHERE root_entry_id = ?1
-            ORDER BY section_seq`,
-        )
-        .bind(entry.id)
-        .all<SectionRow>(),
-      env.DB_AL
-        .prepare(
-          `SELECT block_type, title_ar, title_en, text_plain
+          `SELECT block_seq, block_type, title_ar, title_en, text_html, data_json
              FROM ar_ling_lexicon_blocks
             WHERE root_entry_id = ?1
             ORDER BY block_seq`,
@@ -123,17 +112,33 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
     ]);
 
     const blockRows = blocks.results ?? [];
-    const ayah = blockRows.find((b) => b.block_type === 'ayah') ?? null;
-    const xref = blockRows.find((b) => b.block_type === 'xref') ?? null;
 
-    const lenses = (sections.results ?? [])
-      .filter((s) => s.section_type === 'lens')
-      .map((s) => ({
-        seq: s.section_seq,
-        headingAr: s.heading_ar,
-        labelEn: (s.heading_ar && LENS_LABELS[s.heading_ar]) || '',
-        body: s.text_en ?? '',
+    const ayahBlock = blockRows.find((b) => b.block_type === 'ayah') ?? null;
+    const ayahData = parseJson(ayahBlock?.data_json ?? null);
+    const ayah = ayahBlock
+      ? {
+          titleAr: ayahBlock.title_ar,
+          titleEn: ayahBlock.title_en,
+          surahName: (ayahData.surah_name as string) ?? null,
+          html: ayahBlock.text_html ?? '',
+        }
+      : null;
+
+    const lenses = blockRows
+      .filter((b) => b.block_type === 'lens')
+      .map((b, i) => ({
+        seq: i + 1,
+        headingAr: b.title_ar,
+        labelEn: b.title_en ?? '',
+        html: b.text_html ?? '',
       }));
+
+    const xrefBlock = blockRows.find((b) => b.block_type === 'xref') ?? null;
+    const xrefData = parseJson(xrefBlock?.data_json ?? null);
+    const occurrences = {
+      html: xrefBlock?.text_html ?? '',
+      refs: Array.isArray(xrefData.refs) ? (xrefData.refs as string[]) : [],
+    };
 
     // group provenance by kind: { lexicon: [...], tafsir: [...], irab: [...] }
     const grouped: Record<string, string[]> = {};
@@ -147,12 +152,13 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
         id: entry.id,
         root: entry.root_text,
         rootSpaced: [...entry.root_text].join(' '),
-        lemma: entry.entry_text_en,
+        lemmaAr: entry.entry_text_ar,
+        translit: entry.entry_text_en,
         status: entry.status,
       },
-      ayah: ayah ? { titleAr: ayah.title_ar, line: ayah.text_plain } : null,
+      ayah,
       lenses,
-      occurrences: xref?.text_plain ?? '',
+      occurrences,
       sources: grouped,
     });
   });
