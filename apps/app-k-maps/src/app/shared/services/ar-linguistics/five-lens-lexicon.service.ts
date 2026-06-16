@@ -17,17 +17,24 @@ export interface QuranWord {
 
 export interface FiveLens {
   seq: number;
-  headingAr: string; // صَرْف / إعراب / دلالة / بلاغة / ترجمة
+  headingAr: string | null; // صَرْف / إعراب / دلالة / بلاغة / ترجمة
   labelEn: string; // Morphology / Syntax / ...
-  body: string;
+  html: string; // curated, sanitized bilingual HTML body
 }
 
 export interface FiveLensEntry {
   found: boolean;
-  entry?: { id: string; root: string; rootSpaced: string; lemma: string | null; status: string };
-  ayah?: { titleAr: string | null; line: string | null } | null;
+  entry?: {
+    id: string;
+    root: string; // "زلف"
+    rootSpaced: string; // "ز ل ف"
+    lemmaAr: string | null; // vocalized lemma, e.g. "زُلْفَىٰ"
+    translit: string | null; // e.g. "zulfā"
+    status: string;
+  };
+  ayah?: { titleAr: string | null; titleEn: string | null; surahName: string | null; html: string } | null;
   lenses?: FiveLens[];
-  occurrences?: string; // raw "label: refs | label: refs", parsed client-side
+  occurrences?: { html: string; refs: string[] };
   sources?: Record<string, string[]>; // { lexicon:[...], tafsir:[...], irab:[...] }
 }
 
