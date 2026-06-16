@@ -49,6 +49,11 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
       </dl>
 
       <div class="wp__actions">
+        <ion-button class="wp__btn wp__btn--lens" fill="clear" size="small"
+                    (click)="emitOpenFiveLens()">
+          <ion-icon slot="start" name="aperture-outline" />
+          Five-Lens{{ word.root ? ' · ' + word.root : '' }}
+        </ion-button>
         <ion-button class="wp__btn" fill="clear" size="small"
                     (click)="emitOpenRoot()">
           <ion-icon slot="start" name="library-outline" />
@@ -176,6 +181,11 @@ import { QuranPageWord } from '../../../../../shared/models/quran/quran-reader.m
       text-transform: none;
       ion-icon { font-size: 1rem; }
     }
+    .wp__btn--lens {
+      --color: #f3d77a;
+      --color-activated: #ffe89a;
+      font-weight: 600;
+    }
   `],
 })
 export class WordPopoverComponent {
@@ -183,9 +193,10 @@ export class WordPopoverComponent {
 
   // Callbacks passed in via componentProps — direct invocation is more
   // robust through ion-popover's createElement bridge than @Output.
-  @Input() onOpenRoot:   ((root: string) => void) | null = null;
-  @Input() onOpenTafsir: ((s: number, a: number) => void) | null = null;
-  @Input() onCopied:     ((payload: string) => void) | null = null;
+  @Input() onOpenRoot:     ((root: string) => void) | null = null;
+  @Input() onOpenFiveLens: ((word: QuranPageWord) => void) | null = null;
+  @Input() onOpenTafsir:   ((s: number, a: number) => void) | null = null;
+  @Input() onCopied:       ((payload: string) => void) | null = null;
 
   constructor(private readonly popoverCtrl: PopoverController) {}
 
@@ -204,6 +215,10 @@ export class WordPopoverComponent {
   emitOpenRoot(): void {
     const lookup = this.word.root ?? this.word.simple ?? this.word.text ?? '';
     this.onOpenRoot?.(lookup);
+    void this.popoverCtrl.dismiss();
+  }
+  emitOpenFiveLens(): void {
+    this.onOpenFiveLens?.(this.word);
     void this.popoverCtrl.dismiss();
   }
   emitOpenTafsir(): void {
