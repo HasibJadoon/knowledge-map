@@ -213,6 +213,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
           anchors: Array.isArray(retentionData.anchors) ? (retentionData.anchors as unknown[]) : [],
           contrast: (retentionData.contrast as string) ?? null,
           retrieval: (retentionData.retrieval as string) ?? null,
+          illustration: (retentionData.illustration as string) ?? null,
         }
       : null;
 

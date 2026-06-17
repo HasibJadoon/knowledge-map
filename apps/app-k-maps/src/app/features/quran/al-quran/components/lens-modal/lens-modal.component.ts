@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 
@@ -117,6 +117,85 @@ import {
         <!-- memory hook (vocabulary retention) -->
         <div class="feature" *ngIf="entry?.retention as ret">
           <span class="feature-tag">Memory Hook</span>
+
+          <ng-container *ngIf="ret.illustration === 'ascent-courtier'">
+            <p class="mh-eyebrow">the ascent</p>
+            <figure class="mh-illus">
+              <svg viewBox="0 0 320 178" role="img" aria-label="Ascending steps of rank drawing near to a radiant presence">
+                <defs>
+                  <radialGradient id="mhGlowA" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#f4dd9e"/><stop offset="42%" stop-color="#e8c96a"/><stop offset="100%" stop-color="#9e7c3c" stop-opacity="0"/>
+                  </radialGradient>
+                </defs>
+                <text x="258" y="15" text-anchor="middle" font-family="Amiri,serif" font-size="12" fill="#e8c96a" direction="rtl">مَنْزِلة</text>
+                <circle cx="258" cy="64" r="44" fill="url(#mhGlowA)"></circle>
+                <circle cx="258" cy="64" r="13" fill="#e8c96a"></circle>
+                <text x="258" y="68" text-anchor="middle" font-family="Amiri,serif" font-size="11" fill="#080808" direction="rtl">قُرْب</text>
+                <g stroke="#e8c96a" stroke-width="1.3" stroke-linecap="round" stroke-opacity="0.45">
+                  <line x1="287" y1="64" x2="295" y2="64"></line><line x1="240" y1="44" x2="234" y2="38"></line><line x1="282" y1="44" x2="288" y2="38"></line>
+                </g>
+                <g stroke="#9e7c3c" stroke-width="3.4" stroke-linecap="round">
+                  <line x1="26" y1="142" x2="66" y2="142" stroke-opacity="0.32"></line>
+                  <line x1="56" y1="127" x2="96" y2="127" stroke-opacity="0.40"></line>
+                  <line x1="86" y1="112" x2="126" y2="112" stroke-opacity="0.50"></line>
+                  <line x1="116" y1="97" x2="156" y2="97" stroke-opacity="0.62"></line>
+                  <line x1="146" y1="82" x2="186" y2="82" stroke-opacity="0.76"></line>
+                  <line x1="176" y1="67" x2="216" y2="67" stroke-opacity="0.90"></line>
+                </g>
+                <g stroke="#9e7c3c" stroke-width="1" stroke-opacity="0.22">
+                  <line x1="62" y1="142" x2="62" y2="127"></line><line x1="92" y1="127" x2="92" y2="112"></line>
+                  <line x1="122" y1="112" x2="122" y2="97"></line><line x1="152" y1="97" x2="152" y2="82"></line>
+                  <line x1="182" y1="82" x2="182" y2="67"></line>
+                </g>
+                <text x="58" y="170" text-anchor="middle" font-family="Amiri,serif" font-size="12" fill="#c9a84c" direction="rtl">مَراقٍ</text>
+                <path d="M26,142 L66,142 L96,127 L126,112 L156,97 L186,82 L216,67 L240,61" fill="none" stroke="#c9a84c" stroke-width="1.3" stroke-dasharray="2 5" stroke-linecap="round"></path>
+                <circle cx="126" cy="112" r="9" fill="none" stroke="#e8c96a" stroke-opacity="0.35"></circle>
+                <circle cx="126" cy="112" r="5" fill="#e8c96a"></circle>
+                <text x="150" y="131" text-anchor="middle" font-family="Amiri,serif" font-size="12" fill="#e8c96a" direction="rtl">زُلْفَىٰ</text>
+              </svg>
+              <figcaption class="mh-cap">every step a degree of rank — to draw near (<span dir="rtl" lang="ar">زُلْفَىٰ</span>) is to rise in standing (<span dir="rtl" lang="ar">مَنْزِلة</span>)</figcaption>
+            </figure>
+
+            <p class="mh-eyebrow">the courtier</p>
+            <figure class="mh-illus">
+              <svg viewBox="0 0 340 192" role="img" aria-label="A courtier bowing as he ascends the steps toward a radiant throne">
+                <defs>
+                  <radialGradient id="mhGlowB" cx="50%" cy="48%" r="50%">
+                    <stop offset="0%" stop-color="#f4dd9e"/><stop offset="45%" stop-color="#e8c96a"/><stop offset="100%" stop-color="#9e7c3c" stop-opacity="0"/>
+                  </radialGradient>
+                  <linearGradient id="mhFig" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#e8c96a"/><stop offset="100%" stop-color="#9e7c3c"/>
+                  </linearGradient>
+                </defs>
+                <circle cx="290" cy="86" r="66" fill="url(#mhGlowB)"></circle>
+                <g fill="#17130b" stroke="#9e7c3c" stroke-linejoin="round">
+                  <rect x="166" y="150" width="170" height="16" stroke-opacity="0.40"></rect>
+                  <rect x="194" y="134" width="142" height="16" stroke-opacity="0.55"></rect>
+                  <rect x="222" y="118" width="114" height="16" stroke-opacity="0.72"></rect>
+                </g>
+                <g stroke="#c9a84c" stroke-width="1.4" stroke-linejoin="round" fill="#2a2114">
+                  <rect x="300" y="50" width="16" height="68" rx="3"></rect>
+                  <rect x="256" y="98" width="60" height="14" rx="2"></rect>
+                  <rect x="258" y="100" width="6" height="20"></rect>
+                  <path d="M258,98 L258,86 L268,86 L268,98 Z"></path>
+                </g>
+                <circle cx="308" cy="48" r="4.5" fill="#e8c96a"></circle>
+                <circle cx="308" cy="59" r="2.4" fill="#e8c96a"></circle>
+                <path d="M120,150 C165,140 214,126 250,108" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-dasharray="2 5" stroke-linecap="round" opacity="0.65"></path>
+                <g fill="url(#mhFig)">
+                  <circle cx="101" cy="86" r="8.5"></circle>
+                  <path d="M92,95 C86,112 80,134 77,150 L120,150 C116,128 113,107 108,96 C103,90 96,90 92,95 Z"></path>
+                  <path d="M107,99 C127,92 143,91 159,95 L157,101 C142,98 127,100 110,107 Z"></path>
+                </g>
+                <text x="290" y="20" text-anchor="middle" font-family="Amiri,serif" font-size="13" fill="#e8c96a" direction="rtl">مَنْزِلة</text>
+                <text x="286" y="108" text-anchor="middle" font-family="Amiri,serif" font-size="11" fill="#e8c96a" direction="rtl">قُرْب</text>
+                <text x="214" y="184" text-anchor="middle" font-family="Amiri,serif" font-size="12.5" fill="#c9a84c" direction="rtl">مَراقٍ</text>
+                <text x="93" y="178" text-anchor="middle" font-family="Amiri,serif" font-size="13" fill="#e8c96a" direction="rtl">زُلْفَىٰ</text>
+              </svg>
+              <figcaption class="mh-cap">the courtier ascends the degrees (<span dir="rtl" lang="ar">مَراقٍ</span>) — to draw near (<span dir="rtl" lang="ar">زُلْفَىٰ</span>) is to rise in rank (<span dir="rtl" lang="ar">مَنْزِلة</span>) before the throne (<span dir="rtl" lang="ar">قُرْب</span>)</figcaption>
+            </figure>
+          </ng-container>
+
           <p class="hook-line" [innerHTML]="ret.hook"></p>
           <div class="anchors" *ngIf="ret.anchors?.length">
             <span class="anchor" *ngFor="let a of ret.anchors"><b>{{ a.en }}</b><span>{{ a.note }}</span></span>
@@ -208,18 +287,20 @@ import {
               <line *ngFor="let n of cl.nodes" class="cn-line" x1="160" y1="160" [attr.x2]="n.x" [attr.y2]="n.y"></line>
               <circle class="cn-hub" cx="160" cy="160" r="24"></circle>
               <text class="cn-hub-text" x="160" y="160" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ cl.root }}</text>
-              <ng-container *ngFor="let n of cl.nodes">
-                <circle class="cn-node" [class.q]="n.isQuran" [attr.cx]="n.x" [attr.cy]="n.y" r="3.2"></circle>
-                <text class="cn-label" [class.q]="n.isQuran" [attr.x]="n.lx" [attr.y]="n.ly" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ n.ar }}</text>
-              </ng-container>
+              <g class="cn-pt" *ngFor="let n of cl.nodes" (click)="selectNode(n, $event)">
+                <circle class="cn-node" [class.q]="n.isQuran" [class.sel]="selectedNode?.ar === n.ar" [attr.cx]="n.x" [attr.cy]="n.y" r="3.2"></circle>
+                <text class="cn-label" [class.q]="n.isQuran" [class.sel]="selectedNode?.ar === n.ar" [attr.x]="n.lx" [attr.y]="n.ly" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ n.ar }}</text>
+                <circle class="cn-hit" [attr.cx]="n.lx" [attr.cy]="n.ly" r="20" fill="transparent"></circle>
+              </g>
             </svg>
           </figure>
-          <div class="cn-legend" *ngIf="constellationGlossed()">
-            <div class="cn-leg" *ngFor="let n of entry?.constellation?.nodes">
-              <span class="cn-leg-ar" [class.q]="n.isQuran" dir="rtl" lang="ar">{{ n.ar }}</span>
-              <span class="cn-leg-en">{{ n.en }}</span>
-            </div>
-          </div>
+          <ng-container *ngIf="constellationGlossed()">
+            <p class="cn-meaning" *ngIf="selectedNode as sn">
+              <span class="cn-meaning-ar" [class.q]="sn.isQuran" dir="rtl" lang="ar">{{ sn.ar }}</span>
+              <span class="cn-meaning-en">{{ sn.en }}</span>
+            </p>
+            <p class="cn-hint" *ngIf="!selectedNode">tap a word to reveal its meaning</p>
+          </ng-container>
         </ng-container>
 
         <!-- occurrences -->
@@ -268,6 +349,7 @@ import {
                 <span class="chip" [class.here]="e.ref === currentRef">{{ e.ref }}</span>
                 <span class="ex-word" dir="rtl" lang="ar">{{ e.wordAr }}</span>
               </div>
+              <p class="ex-ar" *ngIf="e.ar" dir="rtl" lang="ar">{{ e.ar }}</p>
               <p class="ex-text">{{ e.text }}</p>
               <p class="ex-src" *ngIf="e.translator">— {{ e.translator }}</p>
             </div>
@@ -446,7 +528,12 @@ import {
     /* — memory hook (vocabulary retention) — */
     .km-lens .feature { border-left:3px solid var(--gold); padding:2px 0 2px 18px; margin:14px 0 6px; }
     .km-lens .feature-tag { display:inline-block; font-family:var(--disp); font-size:.56rem; letter-spacing:.26em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:8px; }
-    .km-lens .hook-line { font-size:1.05rem; color:var(--parch); margin:6px 0 14px; }
+    .km-lens .mh-eyebrow { font-family:var(--disp); font-size:.55rem; letter-spacing:.26em; text-transform:uppercase; color:var(--gold-deep); margin:16px 0 2px; }
+    .km-lens .mh-illus { text-align:center; margin:2px 0 10px; }
+    .km-lens .mh-illus svg { width:100%; max-width:320px; height:auto; }
+    .km-lens .mh-cap { font-family:var(--body); font-style:italic; color:var(--muted); font-size:.82rem; margin:6px 0 0; }
+    .km-lens .mh-cap [lang="ar"] { font-style:normal; color:var(--gold); }
+    .km-lens .hook-line { font-size:1.05rem; color:var(--parch); margin:14px 0 14px; }
     .km-lens .hook-line strong { color:var(--gold-bright); font-weight:700; }
     .km-lens .hook-line em { font-style:italic; color:var(--gold); }
     .km-lens .anchors { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
@@ -483,14 +570,17 @@ import {
     .km-lens .cn-hub-text { font-family:var(--ar); fill:#080808; font-size:15px; font-weight:700; }
     .km-lens .cn-node { fill:var(--gold-deep); }
     .km-lens .cn-node.q { fill:var(--gold-bright); }
-    .km-lens .cn-label { font-family:var(--ar); fill:var(--parch-mute); font-size:11px; }
+    .km-lens .cn-label { font-family:var(--ar); fill:var(--parch-mute); font-size:11px; transition:fill .15s; }
     .km-lens .cn-label.q { fill:var(--gold-bright); }
-    .km-lens .cn-legend { display:grid; grid-template-columns:1fr 1fr; gap:5px 18px; margin-top:16px; }
-    .km-lens .cn-leg { display:flex; align-items:baseline; gap:9px; padding:4px 0; border-bottom:1px solid var(--hair-soft); }
-    .km-lens .cn-leg-ar { font-family:var(--ar); direction:rtl; color:var(--gold); font-size:1.2rem; flex:0 0 auto; min-width:3.6em; text-align:right; }
-    .km-lens .cn-leg-ar.q { color:var(--gold-bright); }
-    .km-lens .cn-leg-en { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.85rem; }
-    @media (max-width:560px){ .km-lens .cn-legend { grid-template-columns:1fr; } }
+    .km-lens .cn-label.sel { fill:var(--gold-bright); font-size:13px; font-weight:700; }
+    .km-lens .cn-node.sel { fill:var(--gold-bright); }
+    .km-lens .cn-pt { cursor:pointer; }
+    /* tapped-word meaning (reveal on tap, hide on outside click) */
+    .km-lens .cn-meaning { display:flex; align-items:baseline; justify-content:center; gap:11px; flex-wrap:wrap; margin:14px 0 2px; text-align:center; min-height:1.6rem; }
+    .km-lens .cn-meaning-ar { font-family:var(--ar); direction:rtl; color:var(--gold); font-size:1.5rem; }
+    .km-lens .cn-meaning-ar.q { color:var(--gold-bright); }
+    .km-lens .cn-meaning-en { font-family:var(--body); font-style:italic; color:var(--parch); font-size:.98rem; }
+    .km-lens .cn-hint { text-align:center; font-family:var(--body); font-style:italic; color:var(--muted); font-size:.85rem; margin:14px 0 2px; }
 
     /* — Qur'anic morphology readout — */
     .km-lens .morph { border-top:1px solid var(--hair); }
@@ -507,6 +597,7 @@ import {
     .km-lens .ex-card.here { border-left-color:var(--gold-bright); }
     .km-lens .ex-head { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
     .km-lens .ex-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.5rem; }
+    .km-lens .ex-ar { font-family:var(--ar); direction:rtl; color:var(--gold); font-size:1.45rem; line-height:1.95; margin:2px 0 8px; }
     .km-lens .ex-text { font-family:var(--body); color:var(--parch); margin:0; font-size:.98rem; }
     .km-lens .ex-src { font-family:var(--disp); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep); margin:6px 0 0; }
 
@@ -618,7 +709,7 @@ export class LensModalComponent implements OnInit {
    *  coordinates so the template can draw the SVG declaratively. */
   constellationLayout(): {
     root: string;
-    nodes: { ar: string; isQuran: boolean; x: number; y: number; lx: number; ly: number }[];
+    nodes: { ar: string; en?: string; isQuran: boolean; x: number; y: number; lx: number; ly: number }[];
   } | null {
     const cn = this.entry?.constellation;
     if (!cn?.nodes?.length) return null;
@@ -631,6 +722,7 @@ export class LensModalComponent implements OnInit {
       const lr = r + 15;
       return {
         ar: node.ar,
+        en: node.en,
         isQuran: node.isQuran,
         x: +(cx + r * Math.cos(ang)).toFixed(1),
         y: +(cy + r * Math.sin(ang)).toFixed(1),
@@ -644,6 +736,22 @@ export class LensModalComponent implements OnInit {
   /** True when the constellation nodes carry English glosses (curated set). */
   constellationGlossed(): boolean {
     return !!this.entry?.constellation?.nodes?.some((n) => !!n.en);
+  }
+
+  /** Constellation: the word whose meaning is currently revealed (tap a node). */
+  selectedNode: { ar: string; en?: string; isQuran: boolean } | null = null;
+
+  /** Reveal a node's meaning; stop the bubble so the outside-click handler
+   *  doesn't immediately clear it. Tapping the same node again hides it. */
+  selectNode(node: { ar: string; en?: string; isQuran: boolean }, ev: Event): void {
+    ev.stopPropagation();
+    this.selectedNode = this.selectedNode?.ar === node.ar ? null : node;
+  }
+
+  /** Any click that isn't on a node clears the revealed meaning. */
+  @HostListener('document:click')
+  clearSelectedNode(): void {
+    this.selectedNode = null;
   }
 
   /** Total distinct cross-corpus occurrences across all forms/families. */

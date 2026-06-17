@@ -73,6 +73,7 @@ export interface FiveLensRetention {
   anchors: FiveLensAnchor[]; // English vocabulary constellation
   contrast: string | null;
   retrieval: string | null;
+  illustration?: string | null; // keyed visual mnemonic, e.g. 'ascent-courtier'
 }
 
 export interface FiveLensConstellationNode {
