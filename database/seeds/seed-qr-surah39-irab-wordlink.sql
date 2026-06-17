@@ -80,3 +80,34 @@ FROM (
   ) wr ON wr.ayah_key=er.ayah_key AND wr.nt=er.nt AND wr.rk=er.rk
 ) AS paired
 WHERE qr_irab_book_entries.id = paired.entry_id;
+
+-- Pass 5: surah-wide normalized unique match. Many iʿrāb books group several
+-- ayāt under one record, so ayah_key is unreliable; match the token across the
+-- whole surah where it is unique (this also corrects the mis-scoping). 524->752.
+UPDATE qr_irab_book_entries AS e
+SET word_occurrence_id = (
+  SELECT w.id FROM qr_word_occurrences w
+  WHERE w.surah=39
+    AND replace(replace(replace(replace(replace(w.word_text_bare,'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه')
+      = replace(replace(replace(replace(replace(e.target_text_bare,'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه')),
+    word_link_status='linked', word_link_note='surah-wide normalized unique match', updated_at=datetime('now')
+WHERE e.surah=39 AND e.word_link_status='ambiguous' AND e.target_text_bare NOT LIKE '% %' AND e.target_text_bare<>''
+  AND (SELECT COUNT(*) FROM qr_word_occurrences w
+       WHERE w.surah=39
+         AND replace(replace(replace(replace(replace(w.word_text_bare,'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه')
+           = replace(replace(replace(replace(replace(e.target_text_bare,'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه'))=1;
+
+-- Pass 6: span head-word anchor. Link each multi-word span to its first token
+-- where that token is unique surah-wide. 752->867.
+UPDATE qr_irab_book_entries AS e
+SET word_occurrence_id = (
+  SELECT w.id FROM qr_word_occurrences w
+  WHERE w.surah=39
+    AND replace(replace(replace(replace(replace(w.word_text_bare,'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه')
+      = replace(replace(replace(replace(replace(substr(e.target_text_bare,1,instr(e.target_text_bare,' ')-1),'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه')),
+    word_link_status='linked', word_link_note='span head-word anchor (first token, unique surah-wide)', updated_at=datetime('now')
+WHERE e.surah=39 AND e.word_link_status='span' AND instr(e.target_text_bare,' ')>1
+  AND (SELECT COUNT(*) FROM qr_word_occurrences w
+       WHERE w.surah=39
+         AND replace(replace(replace(replace(replace(w.word_text_bare,'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه')
+           = replace(replace(replace(replace(replace(substr(e.target_text_bare,1,instr(e.target_text_bare,' ')-1),'أ','ا'),'إ','ا'),'آ','ا'),'ى','ي'),'ة','ه'))=1;
