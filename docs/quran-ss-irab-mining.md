@@ -106,9 +106,20 @@ Stored as: 1× `qr_ss_occ_sentence`, 6× `qr_ss_scope_member_map`,
 | Analysis scopes/claims, nuances, concept map, arguments | ✅ complete |
 | Study steps + root tasks (7×8) + comprehension bank | ✅ complete |
 | SS mining — ayah 39:1 | ✅ gold example (all tables) |
-| SS mining — ayahs 39:2–75 | ⏳ run the pipeline after word-linking |
+| Iʿrāb word-linking (1,893 entries) | ◑ 473 linked, 389 span, 1,031 ambiguous (`seed-qr-surah39-irab-wordlink.sql`) |
+| SS mining — ayahs 39:2–75 | ⏳ order-aware miner over linked + ambiguous entries |
 | Tafsīr → `qr_scholar_positions` mapping | ⏳ pending |
-| Iʿrāb word-linking (1,893 entries) | ⏳ pending |
+
+### Word-linking detail
+
+Two deterministic SQL passes (`seed-qr-surah39-irab-wordlink.sql`) link only
+**unique** single-token matches per ayah (`ayah_key`): exact bare match, then
+hamza/alef/yāʾ/tāʾ-normalized match. This took Surah 39 from 0 → **473**
+linked. The **1,031 ambiguous** entries are single tokens that repeat within
+their ayah (so they need order-aware positional alignment), and **389 span**
+entries are multi-word fragments (need span→head-word assignment). Both
+remainders are the miner's job — they cannot be linked deterministically in
+SQL without risking binding a fragment to the wrong occurrence.
 
 Hand-authoring the remaining 74 ayahs would mean inventing grammatical
 analysis at scale; the authority is the books, so the remainder should run
