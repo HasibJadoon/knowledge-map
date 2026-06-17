@@ -188,6 +188,29 @@ import {
           </div>
         </ng-container>
 
+        <!-- word constellation (root family — live from DB_AL) -->
+        <ng-container *ngIf="constellationLayout() as cl">
+          <hr class="rule">
+          <p class="section-label">Word Constellation · <span class="ar-inline" dir="rtl" lang="ar">الأسرة الاشتقاقية</span></p>
+          <p class="forms-note">{{ cl.nodes.length }} words spun from one root — gold marks those in the Qur'an.</p>
+          <figure class="constellation-fig">
+            <svg viewBox="0 0 320 320" role="img" aria-label="Derivational family of the root">
+              <defs>
+                <radialGradient id="cnHub" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#f4dd9e"/><stop offset="60%" stop-color="#c9a24b"/><stop offset="100%" stop-color="#8f6d2f"/>
+                </radialGradient>
+              </defs>
+              <line *ngFor="let n of cl.nodes" class="cn-line" x1="160" y1="160" [attr.x2]="n.x" [attr.y2]="n.y"></line>
+              <circle class="cn-hub" cx="160" cy="160" r="24"></circle>
+              <text class="cn-hub-text" x="160" y="160" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ cl.root }}</text>
+              <ng-container *ngFor="let n of cl.nodes">
+                <circle class="cn-node" [class.q]="n.isQuran" [attr.cx]="n.x" [attr.cy]="n.y" r="3.2"></circle>
+                <text class="cn-label" [class.q]="n.isQuran" [attr.x]="n.lx" [attr.y]="n.ly" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ n.ar }}</text>
+              </ng-container>
+            </svg>
+          </figure>
+        </ng-container>
+
         <!-- occurrences -->
         <ng-container *ngIf="entry?.occurrences?.refs?.length || entry?.occurrences?.families?.length">
           <hr class="rule">
@@ -397,6 +420,17 @@ import {
     .km-lens .kw-meta { font-style:italic; color:var(--parch-mute); font-size:.9rem; }
     @media (max-width:560px){ .km-lens .forms-head, .km-lens .forms-row { grid-template-columns:58px 1fr 1fr 1fr; } .km-lens .fc-ar { font-size:1.2rem; } }
 
+    /* — word constellation (root family graph) — */
+    .km-lens .constellation-fig { text-align:center; margin:8px 0 2px; }
+    .km-lens .constellation-fig svg { width:100%; max-width:340px; height:auto; overflow:visible; }
+    .km-lens .cn-line { stroke:rgba(143,109,47,.32); stroke-width:1; }
+    .km-lens .cn-hub { fill:url(#cnHub); stroke:rgba(232,200,120,.55); stroke-width:1; }
+    .km-lens .cn-hub-text { font-family:var(--ar); fill:#1b1510; font-size:15px; font-weight:700; }
+    .km-lens .cn-node { fill:var(--gold-deep); }
+    .km-lens .cn-node.q { fill:var(--gold-bright); }
+    .km-lens .cn-label { font-family:var(--ar); fill:var(--parch-mute); font-size:11px; }
+    .km-lens .cn-label.q { fill:var(--gold-bright); }
+
     @media (max-width:560px){ .km-lens .src-grid { grid-template-columns:1fr; gap:18px; } }
     @keyframes km-rise { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
     @media (prefers-reduced-motion:reduce){ .km-lens .lemma{animation:none;} }
@@ -461,6 +495,34 @@ export class LensModalComponent implements OnInit {
   /** Prefer the Arabic surah name; fall back to the Latin one from data_json. */
   surahLabel(): string {
     return (this.entry?.entry?.surahNameAr ?? this.entry?.ayah?.surahName ?? '').trim();
+  }
+
+  /** Radial layout for the word-constellation graph: places each derived lemma
+   *  on one of two rings around the central root hub. Returns dot + label
+   *  coordinates so the template can draw the SVG declaratively. */
+  constellationLayout(): {
+    root: string;
+    nodes: { ar: string; isQuran: boolean; x: number; y: number; lx: number; ly: number }[];
+  } | null {
+    const cn = this.entry?.constellation;
+    if (!cn?.nodes?.length) return null;
+    const cx = 160;
+    const cy = 160;
+    const n = cn.nodes.length;
+    const nodes = cn.nodes.map((node, i) => {
+      const ang = ((-90 + i * (360 / n)) * Math.PI) / 180;
+      const r = i % 2 === 0 ? 92 : 120;
+      const lr = r + 15;
+      return {
+        ar: node.ar,
+        isQuran: node.isQuran,
+        x: +(cx + r * Math.cos(ang)).toFixed(1),
+        y: +(cy + r * Math.sin(ang)).toFixed(1),
+        lx: +(cx + lr * Math.cos(ang)).toFixed(1),
+        ly: +(cy + lr * Math.sin(ang)).toFixed(1),
+      };
+    });
+    return { root: cn.root, nodes };
   }
 
   /** Total distinct cross-corpus occurrences across all forms/families. */

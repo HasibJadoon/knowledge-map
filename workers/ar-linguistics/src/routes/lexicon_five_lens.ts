@@ -69,6 +69,13 @@ interface SourceRow {
   source_slug: string;
 }
 
+interface LemmaRow {
+  lemma_text: string;
+  lemma_text_bare: string | null;
+  part_of_speech: string;
+  is_quran_word: number;
+}
+
 export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
   // GET /al/lexicon/five-lens/:rootNorm
   router.get('/al/lexicon/five-lens/:rootNorm', async (_req, env, params) => {
@@ -91,7 +98,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
     // empty payload so the modal renders its (non-error) empty state.
     if (!entry) return ok({ found: false });
 
-    const [blocks, sources] = await Promise.all([
+    const [blocks, sources, lemmaRows] = await Promise.all([
       env.DB_AL
         .prepare(
           `SELECT block_seq, block_type, title_ar, title_en, text_html, data_json
@@ -109,6 +116,19 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
         )
         .bind(entry.id)
         .all<SourceRow>(),
+      // Word constellation: the derivational family for this root, pulled live
+      // from the canonical lemma store (same DB_AL). Qur'anic + frequent forms
+      // rank first so the representative of each form/POS is the meaningful one.
+      env.DB_AL
+        .prepare(
+          `SELECT l.lemma_text, l.lemma_text_bare, l.part_of_speech, l.is_quran_word
+             FROM ar_ling_lemmas l
+             JOIN ar_ling_roots r ON l.root_id = r.id
+            WHERE r.root_text = ?1 AND l.part_of_speech <> 'root_entry'
+            ORDER BY l.is_quran_word DESC, l.frequency_quran DESC, l.lemma_text`,
+        )
+        .bind(entry.root_text)
+        .all<LemmaRow>(),
     ]);
 
     const blockRows = blocks.results ?? [];
@@ -176,6 +196,24 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       (grouped[r.source_kind] ??= []).push(r.source_slug);
     }
 
+    // Build the constellation nodes: one representative per form/POS (collapse
+    // pure vocalization variants), skip multiword phrases, cap the spread.
+    const seen = new Set<string>();
+    const nodes: { ar: string; pos: string; isQuran: boolean }[] = [];
+    for (const r of lemmaRows.results ?? []) {
+      const bare = r.lemma_text_bare ?? r.lemma_text;
+      if (bare.includes(' ')) continue; // drop multiword expressions
+      const pos = r.part_of_speech === 'verb' ? 'verb' : 'noun';
+      const key = `${pos}|${bare}`;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      nodes.push({ ar: r.lemma_text, pos, isQuran: r.is_quran_word === 1 });
+      if (nodes.length >= 13) break;
+    }
+    const constellation = nodes.length
+      ? { root: entry.root_text, rootSpaced: [...entry.root_text].join(' '), nodes }
+      : null;
+
     return ok({
       found: true,
       entry: {
@@ -196,6 +234,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       ayah,
       lenses,
       occurrences,
+      constellation,
       sources: grouped,
     });
   });

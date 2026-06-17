@@ -75,6 +75,18 @@ export interface FiveLensRetention {
   retrieval: string | null;
 }
 
+export interface FiveLensConstellationNode {
+  ar: string; // derived lemma, e.g. "تَزَلَّفَ"
+  pos: string; // 'verb' | 'noun'
+  isQuran: boolean; // appears in the Qur'an
+}
+
+export interface FiveLensConstellation {
+  root: string; // "زلف"
+  rootSpaced: string; // "ز ل ف"
+  nodes: FiveLensConstellationNode[]; // derivational family, live from DB_AL
+}
+
 export interface FiveLensEntry {
   found: boolean;
   entry?: {
@@ -95,6 +107,7 @@ export interface FiveLensEntry {
   ayah?: { titleAr: string | null; titleEn: string | null; surahName: string | null; html: string } | null;
   lenses?: FiveLens[];
   occurrences?: { html: string; refs: string[]; families: FiveLensFamily[] };
+  constellation?: FiveLensConstellation | null;
   sources?: Record<string, string[]>; // { lexicon:[...], tafsir:[...], irab:[...] }
 }
 
