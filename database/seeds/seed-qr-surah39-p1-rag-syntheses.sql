@@ -50,9 +50,17 @@ INSERT OR REPLACE INTO qr_ss_scope_reading_evidence_link (reading_id, evidence_i
 ('QR:SR:39:7:synth','QR:EV:39:7:ibnashur','supports'),
 ('QR:SR:39:8:synth','QR:EV:39:8:ibnashur','supports');
 
--- 4) Root every Passage 1 synthesis (3-9) in ALL tafsīr works covering the verse.
+-- 4) Root every Passage 1 synthesis (1-9) in ALL tafsīr works covering the verse.
 --    Per-verse INSERT...SELECT (D1 caps compound SELECT at ~5 branches, so a
---    7-way UNION / VALUES row-source is not portable here).
+--    7-way UNION / VALUES row-source is not portable here). Verses 1-2 carry
+--    their own dedicated iʿrāb reading rows (full-layer gold), so the bulk
+--    QR:EVX iʿrāb links below are thin there; the tafsīr links still apply.
+INSERT OR REPLACE INTO qr_ss_scope_reading_evidence_link (reading_id, evidence_id, support_type)
+SELECT 'QR:SR:39:1:synth', 'QR:EVT:39:'||t.id, 'supports' FROM qr_tafsir_entries t
+WHERE t.surah=39 AND t.ayah_from<=1 AND t.ayah_to>=1 AND t.content_ar IS NOT NULL AND TRIM(t.content_ar)<>'';
+INSERT OR REPLACE INTO qr_ss_scope_reading_evidence_link (reading_id, evidence_id, support_type)
+SELECT 'QR:SR:39:2:synth', 'QR:EVT:39:'||t.id, 'supports' FROM qr_tafsir_entries t
+WHERE t.surah=39 AND t.ayah_from<=2 AND t.ayah_to>=2 AND t.content_ar IS NOT NULL AND TRIM(t.content_ar)<>'';
 INSERT OR REPLACE INTO qr_ss_scope_reading_evidence_link (reading_id, evidence_id, support_type)
 SELECT 'QR:SR:39:3:synth', 'QR:EVT:39:'||t.id, 'supports' FROM qr_tafsir_entries t
 WHERE t.surah=39 AND t.ayah_from<=3 AND t.ayah_to>=3 AND t.content_ar IS NOT NULL AND TRIM(t.content_ar)<>'';
@@ -75,10 +83,10 @@ INSERT OR REPLACE INTO qr_ss_scope_reading_evidence_link (reading_id, evidence_i
 SELECT 'QR:SR:39:9:synth', 'QR:EVT:39:'||t.id, 'supports' FROM qr_tafsir_entries t
 WHERE t.surah=39 AND t.ayah_from<=9 AND t.ayah_to>=9 AND t.content_ar IS NOT NULL AND TRIM(t.content_ar)<>'';
 
--- 5) Root every Passage 1 synthesis (3-9) in ALL linked iʿrāb book entries for
+-- 5) Root every Passage 1 synthesis (1-9) in ALL linked iʿrāb book entries for
 --    the verse's words (QR:EVX evidence joins back to the word occurrence).
 INSERT OR REPLACE INTO qr_ss_scope_reading_evidence_link (reading_id, evidence_id, support_type)
 SELECT 'QR:SR:39:'||w.ayah||':synth', ev.id, 'supports'
 FROM qr_evidence_items ev
 JOIN qr_word_occurrences w ON w.id = json_extract(ev.note_md,'$.word_occurrence_id')
-WHERE ev.id LIKE 'QR:EVX:39:%' AND w.surah=39 AND w.ayah BETWEEN 3 AND 9;
+WHERE ev.id LIKE 'QR:EVX:39:%' AND w.surah=39 AND w.ayah BETWEEN 1 AND 9;
