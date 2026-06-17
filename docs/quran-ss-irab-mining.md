@@ -106,9 +106,10 @@ Stored as: 1× `qr_ss_occ_sentence`, 6× `qr_ss_scope_member_map`,
 | Analysis scopes/claims, nuances, concept map, arguments | ✅ complete |
 | Study steps + root tasks (7×8) + comprehension bank | ✅ complete |
 | SS mining — ayah 39:1 | ✅ gold example (all tables) |
-| Iʿrāb word-linking (1,893 entries) | ◑ 473 linked, 389 span, 1,031 ambiguous (`seed-qr-surah39-irab-wordlink.sql`) |
-| SS mining — ayahs 39:2–75 | ✅ reconciled from linked entries (`seed-qr-surah39-ss-reconcile.sql`) |
-| Tafsīr → `qr_scholar_positions` mapping | ⏳ pending |
+| Iʿrāb word-linking (1,893 entries) | ◑ 524 linked (exact + normalized + positional), 389 span, ~980 ambiguous (`seed-qr-surah39-irab-wordlink.sql`) |
+| SS mining — ayahs 39:2–75 | ✅ reconciled from linked entries (`seed-qr-surah39-ss-reconcile.sql`) — 404 readings / 385 morph / 385 member |
+| Tafsīr → `qr_scholar_positions` mapping | ✅ 310 positions (`seed-qr-surah39-tafsir-positions.sql`) |
+| Clause/phrase segmentation (span → qr_ss_occ_phrase) | ⏳ order-aware miner (SQL cannot split spans) |
 
 ### SS reconciliation result (whole surah)
 
