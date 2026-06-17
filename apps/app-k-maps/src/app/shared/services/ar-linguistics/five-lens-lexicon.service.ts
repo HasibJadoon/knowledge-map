@@ -15,11 +15,32 @@ export interface QuranWord {
   lemma?: string;
 }
 
+export interface FiveLensLedgerPanel {
+  tier: string;
+  word: string;
+  case: string;
+  role: string;
+  chips: string[];
+}
+
+export interface FiveLensLedger {
+  claimed: FiveLensLedgerPanel;
+  granted: FiveLensLedgerPanel;
+  note?: string;
+}
+
 export interface FiveLens {
   seq: number;
   headingAr: string | null; // صَرْف / إعراب / دلالة / بلاغة / ترجمة
   labelEn: string; // Morphology / Syntax / ...
   html: string; // curated, sanitized bilingual HTML body
+  ledger?: FiveLensLedger | null; // intratextual ledger (balagha lens only)
+}
+
+export interface FiveLensFamily {
+  headingAr: string;
+  gloss: string;
+  refs: string[];
 }
 
 export interface FiveLensEntry {
@@ -30,11 +51,15 @@ export interface FiveLensEntry {
     rootSpaced: string; // "ز ل ف"
     lemmaAr: string | null; // vocalized lemma, e.g. "زُلْفَىٰ"
     translit: string | null; // e.g. "zulfā"
+    sense: string | null; // "nearness as elevated standing"
+    pattern: string | null; // "فُعْلَىٰ"
+    surahNameAr: string | null; // "سورة الزُّمَر"
     status: string;
   };
+  figure?: { html: string; label: string | null } | null;
   ayah?: { titleAr: string | null; titleEn: string | null; surahName: string | null; html: string } | null;
   lenses?: FiveLens[];
-  occurrences?: { html: string; refs: string[] };
+  occurrences?: { html: string; refs: string[]; families: FiveLensFamily[] };
   sources?: Record<string, string[]>; // { lexicon:[...], tafsir:[...], irab:[...] }
 }
 
