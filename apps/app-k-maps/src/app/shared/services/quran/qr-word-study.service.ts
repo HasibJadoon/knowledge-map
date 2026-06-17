@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { Observable, of, forkJoin } from 'rxjs';
+import { catchError, map, switchMap, tap } from 'rxjs/operators';
 
 import { BackendApiService } from '../core/backend-api.service';
 
@@ -28,6 +28,25 @@ export interface QrMorphOccurrence {
   wordAr: string; // vocalized stem form (or the surface word)
   lemmaAr: string | null;
   readable: string; // "verb · Form IV · perfect · passive · 3rd fem. sing."
+}
+
+interface QrTranslationRow {
+  source_id: string;
+  text: string;
+}
+
+interface QrTranslationSource {
+  id: string;
+  author: string;
+  is_default: number;
+}
+
+/** A worked example: one ayah where the root appears, with translation. */
+export interface QrExample {
+  ref: string; // "39:3"
+  wordAr: string; // the surface token in this ayah
+  text: string; // ayah translation
+  translator: string;
 }
 
 // ---- flag decoding (QAC-0.4 feature flags) ---------------------------------
@@ -118,6 +137,43 @@ export class QrWordStudyService {
         tap((list) => this.cache.set(root, list)),
         catchError(() => of([] as QrMorphOccurrence[])),
       );
+  }
+
+  /** Translations for a handful of representative occurrences, one preferred
+   *  (default) English rendering each — for the "In Context" examples panel. */
+  getExamples(items: { surah: number; ayah: number; wordAr: string }[]): Observable<QrExample[]> {
+    if (!items.length) return of([]);
+    return this.sources().pipe(
+      switchMap((sources) => {
+        const def = sources.find((s) => s.is_default === 1) ?? sources[0];
+        return forkJoin(
+          items.map((it) =>
+            this.api
+              .getData<QrTranslationRow[]>('qr', ['translations'], { params: { surah: it.surah, ayah: it.ayah } })
+              .pipe(
+                map((trs) => {
+                  const pick = (def && (trs ?? []).find((t) => t.source_id === def.id)) || (trs ?? [])[0];
+                  const translator = sources.find((s) => s.id === pick?.source_id)?.author ?? '';
+                  return { ref: `${it.surah}:${it.ayah}`, wordAr: it.wordAr, text: pick?.text ?? '', translator };
+                }),
+                catchError(() => of({ ref: `${it.surah}:${it.ayah}`, wordAr: it.wordAr, text: '', translator: '' })),
+              ),
+          ),
+        );
+      }),
+      map((rows) => rows.filter((r) => r.text)),
+      catchError(() => of([] as QrExample[])),
+    );
+  }
+
+  private sourcesCache?: QrTranslationSource[];
+  private sources(): Observable<QrTranslationSource[]> {
+    if (this.sourcesCache) return of(this.sourcesCache);
+    return this.api.getData<QrTranslationSource[]>('qr', ['translation-sources']).pipe(
+      map((s) => s ?? []),
+      tap((s) => (this.sourcesCache = s)),
+      catchError(() => of([] as QrTranslationSource[])),
+    );
   }
 
   private toOccurrence(r: QrWordRow): QrMorphOccurrence {

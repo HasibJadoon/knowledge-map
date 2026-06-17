@@ -10,6 +10,7 @@ import {
 import {
   QrWordStudyService,
   QrMorphOccurrence,
+  QrExample,
 } from '../../../../../shared/services/quran/qr-word-study.service';
 
 /**
@@ -250,6 +251,23 @@ import {
           </div>
         </ng-container>
 
+        <!-- in-context examples (live translations from km_quran) -->
+        <ng-container *ngIf="qrExamples.length">
+          <hr class="rule tight">
+          <p class="section-label">In Context · <span class="ar-inline" dir="rtl" lang="ar">أمثلة</span></p>
+          <p class="forms-note">The root across the Qur'an, with translation.</p>
+          <div class="examples">
+            <div class="ex-card" *ngFor="let e of qrExamples" [class.here]="e.ref === currentRef">
+              <div class="ex-head">
+                <span class="chip" [class.here]="e.ref === currentRef">{{ e.ref }}</span>
+                <span class="ex-word" dir="rtl" lang="ar">{{ e.wordAr }}</span>
+              </div>
+              <p class="ex-text">{{ e.text }}</p>
+              <p class="ex-src" *ngIf="e.translator">— {{ e.translator }}</p>
+            </div>
+          </div>
+        </ng-container>
+
         <!-- sources -->
         <div *ngIf="sourceGroups.length" class="sources">
           <p class="section-label">Rooted In</p>
@@ -458,6 +476,15 @@ import {
     .km-lens .morph-tag { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.86rem; }
     @media (max-width:560px){ .km-lens .morph-row { grid-template-columns:auto 1fr; } .km-lens .morph-tag { grid-column:1 / -1; margin-top:-4px; } }
 
+    /* — in-context examples — */
+    .km-lens .examples { display:flex; flex-direction:column; gap:12px; }
+    .km-lens .ex-card { border:1px solid var(--hair); border-left:2px solid var(--gold-deep); border-radius:3px; padding:12px 14px; background:rgba(20,16,10,.45); }
+    .km-lens .ex-card.here { border-left-color:var(--gold-bright); box-shadow:0 0 0 1px rgba(232,200,120,.12); }
+    .km-lens .ex-head { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+    .km-lens .ex-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.5rem; }
+    .km-lens .ex-text { font-family:var(--body); color:var(--parch); margin:0; font-size:.98rem; }
+    .km-lens .ex-src { font-family:var(--disp); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep); margin:6px 0 0; }
+
     @media (max-width:560px){ .km-lens .src-grid { grid-template-columns:1fr; gap:18px; } }
     @keyframes km-rise { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
     @media (prefers-reduced-motion:reduce){ .km-lens .lemma{animation:none;} }
@@ -474,6 +501,7 @@ export class LensModalComponent implements OnInit {
   loading = true;
   entry?: FiveLensEntry;
   qrMorph: QrMorphOccurrence[] = [];
+  qrExamples: QrExample[] = [];
   sourceGroups: Array<{ kind: string; items: string[] }> = [];
   currentRef = '';
 
@@ -520,8 +548,27 @@ export class LensModalComponent implements OnInit {
     if (root) {
       this.qrWords.getMorphologyByRoot(root).subscribe((rows) => {
         this.qrMorph = rows;
+        const items = this.pickExamples(rows);
+        if (items.length) {
+          this.qrWords.getExamples(items).subscribe((ex) => (this.qrExamples = ex));
+        }
       });
     }
+  }
+
+  /** One representative occurrence per distinct lemma (so the examples span the
+   *  word's forms rather than repeating one), capped to keep the panel tight. */
+  private pickExamples(rows: QrMorphOccurrence[]): { surah: number; ayah: number; wordAr: string }[] {
+    const seen = new Set<string>();
+    const out: { surah: number; ayah: number; wordAr: string }[] = [];
+    for (const r of rows) {
+      const key = r.lemmaAr ?? r.ref;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({ surah: r.surah, ayah: r.ayah, wordAr: r.wordAr });
+      if (out.length >= 4) break;
+    }
+    return out;
   }
 
   /** The vocalized lemma for the headline; falls back to the tapped word. */
