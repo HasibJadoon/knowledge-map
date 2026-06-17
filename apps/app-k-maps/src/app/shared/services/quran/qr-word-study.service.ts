@@ -45,6 +45,7 @@ interface QrTranslationSource {
 export interface QrExample {
   ref: string; // "39:3"
   wordAr: string; // the surface token in this ayah
+  ar: string; // the full Arabic verse (Uthmani) — the complete thought
   text: string; // ayah translation
   translator: string;
 }
@@ -148,16 +149,25 @@ export class QrWordStudyService {
         const def = sources.find((s) => s.is_default === 1) ?? sources[0];
         return forkJoin(
           items.map((it) =>
-            this.api
-              .getData<QrTranslationRow[]>('qr', ['translations'], { params: { surah: it.surah, ayah: it.ayah } })
-              .pipe(
-                map((trs) => {
-                  const pick = (def && (trs ?? []).find((t) => t.source_id === def.id)) || (trs ?? [])[0];
-                  const translator = sources.find((s) => s.id === pick?.source_id)?.author ?? '';
-                  return { ref: `${it.surah}:${it.ayah}`, wordAr: it.wordAr, text: pick?.text ?? '', translator };
-                }),
-                catchError(() => of({ ref: `${it.surah}:${it.ayah}`, wordAr: it.wordAr, text: '', translator: '' })),
-              ),
+            forkJoin({
+              trs: this.api.getData<QrTranslationRow[]>('qr', ['translations'], { params: { surah: it.surah, ayah: it.ayah } }),
+              ayah: this.api
+                .getData<{ text_display?: string }>('qr', ['ayahs', it.surah, it.ayah])
+                .pipe(catchError(() => of({} as { text_display?: string }))),
+            }).pipe(
+              map(({ trs, ayah }) => {
+                const pick = (def && (trs ?? []).find((t) => t.source_id === def.id)) || (trs ?? [])[0];
+                const translator = sources.find((s) => s.id === pick?.source_id)?.author ?? '';
+                return {
+                  ref: `${it.surah}:${it.ayah}`,
+                  wordAr: it.wordAr,
+                  ar: ayah?.text_display ?? '',
+                  text: pick?.text ?? '',
+                  translator,
+                };
+              }),
+              catchError(() => of({ ref: `${it.surah}:${it.ayah}`, wordAr: it.wordAr, ar: '', text: '', translator: '' })),
+            ),
           ),
         );
       }),

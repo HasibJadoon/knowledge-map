@@ -349,6 +349,7 @@ import {
                 <span class="chip" [class.here]="e.ref === currentRef">{{ e.ref }}</span>
                 <span class="ex-word" dir="rtl" lang="ar">{{ e.wordAr }}</span>
               </div>
+              <p class="ex-ar" *ngIf="e.ar" dir="rtl" lang="ar">{{ e.ar }}</p>
               <p class="ex-text">{{ e.text }}</p>
               <p class="ex-src" *ngIf="e.translator">— {{ e.translator }}</p>
             </div>
@@ -596,6 +597,7 @@ import {
     .km-lens .ex-card.here { border-left-color:var(--gold-bright); }
     .km-lens .ex-head { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
     .km-lens .ex-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.5rem; }
+    .km-lens .ex-ar { font-family:var(--ar); direction:rtl; color:var(--gold); font-size:1.45rem; line-height:1.95; margin:2px 0 8px; }
     .km-lens .ex-text { font-family:var(--body); color:var(--parch); margin:0; font-size:.98rem; }
     .km-lens .ex-src { font-family:var(--disp); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep); margin:6px 0 0; }
 
