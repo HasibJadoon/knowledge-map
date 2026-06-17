@@ -7,6 +7,11 @@ import {
   FiveLensEntry,
   QuranWord,
 } from '../../../../../shared/services/ar-linguistics/five-lens-lexicon.service';
+import {
+  QrWordStudyService,
+  QrMorphOccurrence,
+  QrExample,
+} from '../../../../../shared/services/quran/qr-word-study.service';
 
 /**
  * Five-Lens modal. Opened from the word context menu (word-popover) for a
@@ -92,7 +97,7 @@ import {
             <circle cx="150" cy="115" r="5.6" fill="#c9a24b"/>
             <circle cx="70" cy="115" r="42" fill="url(#kmCore)"/>
             <circle cx="70" cy="115" r="12" fill="#e8c878"/>
-            <text x="70" y="120" text-anchor="middle" font-family="Amiri,serif" font-size="14" fill="#1b1510" direction="rtl">قُرب</text>
+            <text x="70" y="120" text-anchor="middle" font-family="Amiri,serif" font-size="14" fill="#080808" direction="rtl">قُرب</text>
             <path d="M135,115 l9,-4 l0,8 z" fill="#c9a24b"/>
           </svg>
           <figcaption *ngIf="entry?.figure?.html" [innerHTML]="entry?.figure?.html"></figcaption>
@@ -108,6 +113,17 @@ import {
             </div>
           </div>
         </ng-container>
+
+        <!-- memory hook (vocabulary retention) -->
+        <div class="feature" *ngIf="entry?.retention as ret">
+          <span class="feature-tag">Memory Hook</span>
+          <p class="hook-line" [innerHTML]="ret.hook"></p>
+          <div class="anchors" *ngIf="ret.anchors?.length">
+            <span class="anchor" *ngFor="let a of ret.anchors"><b>{{ a.en }}</b><span>{{ a.note }}</span></span>
+          </div>
+          <p class="contrast" *ngIf="ret.contrast">{{ ret.contrast }}</p>
+          <p class="retrieval" *ngIf="ret.retrieval">{{ ret.retrieval }}</p>
+        </div>
 
         <hr class="rule tight">
 
@@ -128,7 +144,7 @@ import {
                 <path d="M40,40 C40,68 150,70 160,74" fill="none" stroke="#8f6d2f" stroke-width="1.3"/>
                 <path d="M280,40 C280,68 170,70 160,74" fill="none" stroke="#8f6d2f" stroke-width="1.3"/>
                 <circle cx="160" cy="78" r="5" fill="#e8c878"/>
-                <text x="160" y="96" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="12" fill="#b3a585">one sense, doubled</text>
+                <text x="160" y="96" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="12" fill="#8c8c8c">one sense, doubled</text>
               </svg>
             </figure>
             <div class="ledger">
@@ -151,6 +167,55 @@ import {
           </ng-container>
         </section>
 
+        <!-- derivation table (sarf: past / present / verbal noun) -->
+        <ng-container *ngIf="entry?.morphology as mp">
+          <hr class="rule tight">
+          <p class="section-label">Derivation · <span class="ar-inline" dir="rtl" lang="ar">الصَّرْف</span> · <span class="ar-inline" dir="rtl" lang="ar">ماضٍ · مضارع · مصدر</span></p>
+          <p class="forms-note" *ngIf="mp.note">{{ mp.note }}</p>
+          <div class="forms">
+            <div class="forms-head">
+              <span>Form</span>
+              <span class="fc-ar" dir="rtl" lang="ar">ماضٍ</span>
+              <span class="fc-ar" dir="rtl" lang="ar">مضارع</span>
+              <span class="fc-ar" dir="rtl" lang="ar">مصدر</span>
+            </div>
+            <div class="forms-row" *ngFor="let f of mp.forms">
+              <span class="fc-form"><b>{{ f.form }}</b><span class="wazn" dir="rtl" lang="ar">{{ f.wazn }}</span></span>
+              <span class="fc-ar" dir="rtl" lang="ar">{{ f.past }}</span>
+              <span class="fc-ar" dir="rtl" lang="ar">{{ f.present }}</span>
+              <span class="fc-ar masdar" dir="rtl" lang="ar">{{ f.masdar }}</span>
+              <span class="fc-gloss">{{ f.gloss }}</span>
+            </div>
+          </div>
+          <div class="keyword-pin" *ngIf="mp.keyword as kw">
+            <span class="kw-word" dir="rtl" lang="ar">{{ kw.word }}</span>
+            <span class="kw-meta"><span dir="rtl" lang="ar">{{ kw.pattern }}</span> · {{ kw.kind }} — {{ kw.gloss }}</span>
+          </div>
+        </ng-container>
+
+        <!-- word constellation (root family — live from DB_AL) -->
+        <ng-container *ngIf="constellationLayout() as cl">
+          <hr class="rule">
+          <p class="section-label">Word Constellation · <span class="ar-inline" dir="rtl" lang="ar">الأسرة الاشتقاقية</span></p>
+          <p class="forms-note">{{ cl.nodes.length }} words spun from one root — gold marks those in the Qur'an.</p>
+          <figure class="constellation-fig">
+            <svg viewBox="0 0 320 320" role="img" aria-label="Derivational family of the root">
+              <defs>
+                <radialGradient id="cnHub" cx="50%" cy="40%" r="60%">
+                  <stop offset="0%" stop-color="#f4dd9e"/><stop offset="60%" stop-color="#c9a24b"/><stop offset="100%" stop-color="#8f6d2f"/>
+                </radialGradient>
+              </defs>
+              <line *ngFor="let n of cl.nodes" class="cn-line" x1="160" y1="160" [attr.x2]="n.x" [attr.y2]="n.y"></line>
+              <circle class="cn-hub" cx="160" cy="160" r="24"></circle>
+              <text class="cn-hub-text" x="160" y="160" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ cl.root }}</text>
+              <ng-container *ngFor="let n of cl.nodes">
+                <circle class="cn-node" [class.q]="n.isQuran" [attr.cx]="n.x" [attr.cy]="n.y" r="3.2"></circle>
+                <text class="cn-label" [class.q]="n.isQuran" [attr.x]="n.lx" [attr.y]="n.ly" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ n.ar }}</text>
+              </ng-container>
+            </svg>
+          </figure>
+        </ng-container>
+
         <!-- occurrences -->
         <ng-container *ngIf="entry?.occurrences?.refs?.length || entry?.occurrences?.families?.length">
           <hr class="rule">
@@ -172,6 +237,49 @@ import {
           </ng-template>
         </ng-container>
 
+        <!-- Qur'anic morphology (live from km_quran QAC corpus) -->
+        <ng-container *ngIf="qrMorph.length">
+          <hr class="rule tight">
+          <p class="section-label">Qur'anic Morphology · <span class="ar-inline" dir="rtl" lang="ar">الإعراب</span></p>
+          <p class="forms-note">Every occurrence parsed from the Qur'anic morphology corpus.</p>
+          <div class="morph">
+            <div class="morph-row" *ngFor="let m of qrMorph" [class.here]="m.ref === currentRef">
+              <span class="chip" [class.here]="m.ref === currentRef">{{ m.ref }}</span>
+              <span class="morph-word" dir="rtl" lang="ar">{{ m.wordAr }}</span>
+              <span class="morph-tag">{{ m.readable }}</span>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- in-context examples (live translations from km_quran) -->
+        <ng-container *ngIf="qrExamples.length">
+          <hr class="rule tight">
+          <p class="section-label">In Context · <span class="ar-inline" dir="rtl" lang="ar">أمثلة</span></p>
+          <p class="forms-note">The root across the Qur'an, with translation.</p>
+          <div class="examples">
+            <div class="ex-card" *ngFor="let e of qrExamples" [class.here]="e.ref === currentRef">
+              <div class="ex-head">
+                <span class="chip" [class.here]="e.ref === currentRef">{{ e.ref }}</span>
+                <span class="ex-word" dir="rtl" lang="ar">{{ e.wordAr }}</span>
+              </div>
+              <p class="ex-text">{{ e.text }}</p>
+              <p class="ex-src" *ngIf="e.translator">— {{ e.translator }}</p>
+            </div>
+          </div>
+        </ng-container>
+
+        <!-- From the Lexica: real dictionary excerpts (live from DB_AL) -->
+        <ng-container *ngIf="entry?.lexica?.length">
+          <hr class="rule">
+          <p class="section-label">From the Lexica</p>
+          <div class="lexica">
+            <div class="lex-card" *ngFor="let lx of entry?.lexica">
+              <span class="lex-src">{{ humanize(lx.source) }}</span>
+              <p class="lex-text" [class.ar]="lx.lang === 'ar'" [attr.dir]="lx.lang === 'ar' ? 'rtl' : 'ltr'" [attr.lang]="lx.lang">{{ lx.text }}</p>
+            </div>
+          </div>
+        </ng-container>
+
         <!-- sources -->
         <div *ngIf="sourceGroups.length" class="sources">
           <p class="section-label">Rooted In</p>
@@ -190,15 +298,16 @@ import {
   `,
   styles: [`
     .km-lens {
-      --ink:#0d0a06; --gold:#c9a24b; --gold-bright:#e8c878; --gold-deep:#8f6d2f;
-      --parch:#e7dcc4; --parch-mute:#b3a585; --muted:#8a7c61; --hair:rgba(201,162,75,.22);
-      --hair-soft:rgba(201,162,75,.10);
+      /* K-MAPS app dark theme — gold-on-black (matches theme/variables.scss) */
+      --ink:#080808; --gold:#c9a84c; --gold-bright:#e8c96a; --gold-deep:#9e7c3c;
+      --parch:rgba(255,255,255,.92); --parch-mute:rgba(255,255,255,.60); --muted:rgba(255,255,255,.40);
+      --hair:rgba(201,168,76,.16); --hair-soft:rgba(201,168,76,.08);
       --ar:'Amiri',serif; --tl:'Gentium Plus',serif; --disp:'Cinzel',serif; --body:'EB Garamond',serif;
       font-family: var(--body);
     }
-    .km-lens-header ion-toolbar { --background:#0d0a06; --border-color:rgba(201,162,75,.15); }
-    .km-lens-header ion-button { --color:#c9a24b; }
-    .km-lens-content { --background: radial-gradient(120% 80% at 50% -8%, #1c150d 0%, #0d0a06 60%), #0d0a06; }
+    .km-lens-header ion-toolbar { --background:#080808; --border-color:rgba(201,168,76,.14); }
+    .km-lens-header ion-button { --color:#c9a84c; }
+    .km-lens-content { --background: radial-gradient(120% 80% at 50% -8%, #161616 0%, #080808 60%), #080808; }
 
     .km-lens .km-state { display:flex; flex-direction:column; justify-content:center; align-items:center; min-height:50vh; gap:8px; }
     .km-lens .km-state ion-spinner { --color:var(--gold); }
@@ -208,12 +317,12 @@ import {
     .km-lens .leaf {
       max-width:680px; margin:0 auto; padding:24px 20px 60px; color:var(--parch);
       position:relative; border:1px solid var(--hair); border-radius:3px;
-      background:linear-gradient(180deg, rgba(36,28,18,.45), rgba(13,10,6,.45));
+      background:linear-gradient(180deg, rgba(26,26,26,.55), rgba(8,8,8,.55));
     }
     .km-lens .leaf::before { content:""; position:absolute; inset:8px; border:1px solid var(--hair-soft); border-radius:2px; pointer-events:none; }
 
     .km-lens .eyebrow { font-family:var(--disp); font-size:.62rem; letter-spacing:.42em; text-transform:uppercase; color:var(--gold-deep); text-align:center; margin:4px 0 18px; }
-    .km-lens .lemma { font-family:var(--ar); font-size:clamp(3.8rem,16vw,5.6rem); line-height:1; font-weight:700; text-align:center; color:var(--gold-bright); direction:rtl; margin:0; text-shadow:0 2px 28px rgba(232,200,120,.18); animation:km-rise .8s ease-out both; }
+    .km-lens .lemma { font-family:var(--ar); font-size:clamp(3.8rem,16vw,5.6rem); line-height:1; font-weight:700; text-align:center; color:var(--gold-bright); direction:rtl; margin:0; text-shadow:0 2px 28px rgba(232,201,106,.18); animation:km-rise .8s ease-out both; }
     .km-lens .translit { font-family:var(--tl); font-style:italic; font-size:1.4rem; text-align:center; color:var(--parch); margin:.35em 0 .2em; }
     .km-lens .meta { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:12px; font-family:var(--disp); font-size:.68rem; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); }
     .km-lens .meta .ar-inline { font-family:var(--ar); font-size:1.05rem; letter-spacing:0; color:var(--gold); text-transform:none; }
@@ -232,7 +341,7 @@ import {
 
     .km-lens .lens { margin:26px 0; }
     .km-lens .lens-head { display:flex; align-items:center; gap:12px; margin:0 0 8px; }
-    .km-lens .lens-num { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.15rem; font-weight:700; flex:0 0 auto; width:2rem; height:2rem; display:inline-grid; place-items:center; border-radius:50%; background:radial-gradient(circle at 50% 35%, rgba(232,200,120,.16), rgba(13,10,6,.2)); box-shadow:inset 0 0 0 1px rgba(201,162,75,.4), 0 0 0 4px rgba(13,10,6,.5), 0 0 14px -4px rgba(232,200,120,.5); }
+    .km-lens .lens-num { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.15rem; font-weight:700; flex:0 0 auto; width:2rem; height:2rem; display:inline-grid; place-items:center; border-radius:50%; background:radial-gradient(circle at 50% 35%, rgba(232,201,106,.16), rgba(8,8,8,.2)); box-shadow:inset 0 0 0 1px rgba(201,168,76,.4), 0 0 0 4px rgba(8,8,8,.5), 0 0 14px -4px rgba(232,201,106,.5); }
     .km-lens .lens-ar { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.8rem; font-weight:700; line-height:1; }
     .km-lens .lens-en { font-family:var(--disp); font-size:.66rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); margin-left:auto; transform:translateY(-2px); }
     .km-lens .lens-body { margin:0; color:var(--parch); line-height:1.66; }
@@ -244,7 +353,7 @@ import {
     .km-lens .section-label .ar-inline { font-family:var(--ar); letter-spacing:0; color:var(--gold); }
     .km-lens .occ-row { display:flex; gap:8px 10px; flex-wrap:wrap; justify-content:center; }
     .km-lens .chip { font-family:var(--disp); font-size:.76rem; letter-spacing:.05em; color:var(--gold); border:1px solid var(--hair); border-radius:3px; padding:4px 9px; font-variant-numeric:tabular-nums; }
-    .km-lens .chip.here { background:rgba(232,200,120,.14); color:var(--gold-bright); border-color:rgba(232,200,120,.4); }
+    .km-lens .chip.here { background:rgba(232,201,106,.14); color:var(--gold-bright); border-color:rgba(232,201,106,.4); }
 
     .km-lens .sources { margin-top:28px; }
     .km-lens .src-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
@@ -261,18 +370,18 @@ import {
     .km-lens .confluence { margin:14px auto 2px; text-align:center; }
     .km-lens .confluence svg { max-width:300px; width:80%; height:auto; }
     .km-lens .ledger { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:8px 0 2px; }
-    .km-lens .lpanel { border:1px solid var(--hair); border-radius:3px; padding:16px; background:rgba(20,16,10,.5); }
+    .km-lens .lpanel { border-left:2px solid var(--hair); padding:2px 0 2px 16px; }
     .km-lens .lpanel .tier { font-family:var(--disp); font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; margin-bottom:8px; }
     .km-lens .lpanel .lword { font-family:var(--ar); direction:rtl; font-size:2.2rem; line-height:1.1; }
     .km-lens .lpanel .lcase { font-family:var(--tl); font-style:italic; font-size:.9rem; margin:4px 0 8px; }
     .km-lens .lpanel .lrole { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.9rem; margin-bottom:10px; }
     .km-lens .lpanel .lchips { display:flex; gap:8px; flex-wrap:wrap; }
-    .km-lens .lpanel.claimed { border-color:rgba(95,86,65,.5); }
-    .km-lens .lpanel.claimed .tier, .km-lens .lpanel.claimed .lword { color:#5f5641; }
-    .km-lens .lpanel.claimed .lcase, .km-lens .lpanel.claimed .chip { color:var(--muted); border-color:rgba(95,86,65,.5); }
-    .km-lens .lpanel.granted { box-shadow:0 0 0 1px rgba(201,162,75,.25), 0 14px 40px -26px rgba(232,200,120,.5); }
+    .km-lens .lpanel.claimed { border-left-color:rgba(255,255,255,.18); }
+    .km-lens .lpanel.claimed .tier, .km-lens .lpanel.claimed .lword { color:rgba(255,255,255,.5); }
+    .km-lens .lpanel.claimed .lcase, .km-lens .lpanel.claimed .chip { color:var(--muted); border-color:rgba(255,255,255,.18); }
+    .km-lens .lpanel.granted { border-left-color:var(--gold); }
     .km-lens .lpanel.granted .tier { color:var(--gold-deep); }
-    .km-lens .lpanel.granted .lword { color:var(--gold-bright); text-shadow:0 1px 18px rgba(232,200,120,.3); }
+    .km-lens .lpanel.granted .lword { color:var(--gold-bright); text-shadow:0 1px 18px rgba(232,201,106,.3); }
     .km-lens .lpanel.granted .lcase, .km-lens .lpanel.granted .chip { color:var(--gold); }
     .km-lens .ledger-note { text-align:center; font-family:var(--body); font-style:italic; color:var(--muted); margin:12px 0 0; font-size:.95rem; }
     .km-lens .occ-fam { margin:12px 0; text-align:center; }
@@ -291,7 +400,7 @@ import {
     .km-lens .leaf > *:nth-child(7){ animation-delay:.24s }
     .km-lens .leaf > *:nth-child(n+8){ animation-delay:.28s }
 
-    .km-lens .rule::after { content:""; position:absolute; left:50%; top:50%; width:6px; height:6px; transform:translate(-50%,-50%) rotate(45deg); background:var(--gold-bright); box-shadow:0 0 10px rgba(232,200,120,.6); }
+    .km-lens .rule::after { content:""; position:absolute; left:50%; top:50%; width:6px; height:6px; transform:translate(-50%,-50%) rotate(45deg); background:var(--gold-bright); box-shadow:0 0 10px rgba(232,201,106,.6); }
 
     .km-lens .leaf::after { content:""; position:absolute; inset:8px; pointer-events:none; opacity:.6;
       background:
@@ -305,20 +414,20 @@ import {
         linear-gradient(var(--gold),var(--gold)) right 0 bottom 0/1px 14px no-repeat; }
 
     .km-lens .senses { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
-    .km-lens .sense-chip { display:flex; flex-direction:column; align-items:center; gap:2px; border:1px solid var(--hair); border-radius:10px; padding:8px 12px; background:rgba(20,16,10,.5); transition:border-color .2s, transform .2s; }
-    .km-lens .sense-chip:hover { border-color:rgba(232,200,120,.45); transform:translateY(-1px); }
+    .km-lens .sense-chip { display:flex; flex-direction:column; align-items:center; gap:2px; border:1px solid var(--hair); border-radius:10px; padding:8px 12px; background:rgba(17,17,17,.5); transition:border-color .2s, transform .2s; }
+    .km-lens .sense-chip:hover { border-color:rgba(232,201,106,.45); transform:translateY(-1px); }
     .km-lens .sense-ar { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.3rem; line-height:1.2; }
     .km-lens .sense-en { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.82rem; }
 
     .km-lens .occ-summary { font-family:var(--body); font-style:italic; text-align:center; color:var(--muted); margin:-6px 0 14px; font-size:.9rem; }
     .km-lens .chip { transition:background .2s, border-color .2s, transform .2s, color .2s; }
-    .km-lens .chip:hover { border-color:rgba(232,200,120,.45); transform:translateY(-1px); }
+    .km-lens .chip:hover { border-color:rgba(232,201,106,.45); transform:translateY(-1px); }
     .km-lens .src-item { transition:color .2s, letter-spacing .2s; }
     .km-lens .src-item:hover { color:var(--gold-bright); letter-spacing:.02em; }
 
     .km-lens .km-illum { position:relative; width:64px; height:64px; }
-    .km-lens .km-illum-ring { position:absolute; inset:0; border-radius:50%; border:2px solid transparent; border-top-color:var(--gold-bright); border-right-color:var(--gold-deep); animation:km-spin 1.1s linear infinite; box-shadow:0 0 18px -6px rgba(232,200,120,.6); }
-    .km-lens .km-illum-core { position:absolute; left:50%; top:50%; width:12px; height:12px; transform:translate(-50%,-50%) rotate(45deg); background:var(--gold-bright); box-shadow:0 0 14px rgba(232,200,120,.7); animation:km-pulse 1.4s ease-in-out infinite; }
+    .km-lens .km-illum-ring { position:absolute; inset:0; border-radius:50%; border:2px solid transparent; border-top-color:var(--gold-bright); border-right-color:var(--gold-deep); animation:km-spin 1.1s linear infinite; box-shadow:0 0 18px -6px rgba(232,201,106,.6); }
+    .km-lens .km-illum-core { position:absolute; left:50%; top:50%; width:12px; height:12px; transform:translate(-50%,-50%) rotate(45deg); background:var(--gold-bright); box-shadow:0 0 14px rgba(232,201,106,.7); animation:km-pulse 1.4s ease-in-out infinite; }
     .km-lens .km-loading-text { font-family:var(--disp); font-size:.66rem; letter-spacing:.28em; text-transform:uppercase; color:var(--gold-deep); }
 
     @keyframes km-spin { to { transform:rotate(360deg); } }
@@ -327,6 +436,74 @@ import {
     @media (prefers-reduced-motion:reduce){
       .km-lens .leaf > *, .km-lens .km-illum-ring, .km-lens .km-illum-core { animation:none !important; }
     }
+
+    /* — memory hook (vocabulary retention) — */
+    .km-lens .feature { border-left:3px solid var(--gold); padding:2px 0 2px 18px; margin:14px 0 6px; }
+    .km-lens .feature-tag { display:inline-block; font-family:var(--disp); font-size:.56rem; letter-spacing:.26em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:8px; }
+    .km-lens .hook-line { font-size:1.05rem; color:var(--parch); margin:6px 0 14px; }
+    .km-lens .hook-line strong { color:var(--gold-bright); font-weight:700; }
+    .km-lens .hook-line em { font-style:italic; color:var(--gold); }
+    .km-lens .anchors { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .km-lens .anchor { display:inline-flex; align-items:baseline; gap:7px; border:1px solid var(--hair); border-radius:20px; padding:5px 12px; background:rgba(8,8,8,.45); }
+    .km-lens .anchor b { font-family:var(--body); color:var(--gold-bright); font-size:.95rem; font-variant:small-caps; letter-spacing:.04em; }
+    .km-lens .anchor span { font-family:var(--body); font-style:italic; color:var(--muted); font-size:.82rem; }
+    .km-lens .contrast { font-style:italic; color:var(--parch-mute); margin:4px 0 8px; padding-left:12px; border-left:1px solid var(--hair); }
+    .km-lens .retrieval { font-style:italic; color:var(--muted); font-size:.92rem; margin:0; }
+
+    /* — derivation / sarf table — */
+    .km-lens .forms-note { text-align:center; font-style:italic; color:var(--parch-mute); margin:0 0 14px; font-size:.95rem; }
+    .km-lens .forms { border-top:1px solid var(--hair); }
+    .km-lens .forms-head, .km-lens .forms-row { display:grid; grid-template-columns:72px 1fr 1fr 1.1fr; gap:6px 12px; padding:11px 14px; align-items:baseline; }
+    .km-lens .forms-head { background:rgba(143,109,47,.12); border-bottom:1px solid var(--hair); }
+    .km-lens .forms-head > span { font-family:var(--disp); font-size:.56rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-deep); }
+    .km-lens .forms-head .fc-ar { font-family:var(--ar); direction:rtl; font-size:1rem; letter-spacing:normal; text-transform:none; color:var(--gold); }
+    .km-lens .forms-row { border-bottom:1px solid rgba(120,98,55,.16); }
+    .km-lens .forms-row:last-child { border-bottom:0; }
+    .km-lens .fc-form b { font-family:var(--disp); color:var(--gold-bright); font-size:.9rem; }
+    .km-lens .fc-form .wazn { display:block; font-family:var(--ar); direction:rtl; color:var(--muted); font-size:.95rem; }
+    .km-lens .fc-ar { font-family:var(--ar); direction:rtl; font-size:1.45rem; color:var(--parch); }
+    .km-lens .fc-ar.masdar { color:var(--gold-bright); }
+    .km-lens .fc-gloss { grid-column:1 / -1; font-style:italic; color:var(--muted); font-size:.85rem; margin-top:-2px; }
+    .km-lens .keyword-pin { display:flex; align-items:center; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:14px; padding:12px; border:1px dashed var(--hair); border-radius:8px; }
+    .km-lens .kw-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:2rem; }
+    .km-lens .kw-meta { font-style:italic; color:var(--parch-mute); font-size:.9rem; }
+    @media (max-width:560px){ .km-lens .forms-head, .km-lens .forms-row { grid-template-columns:58px 1fr 1fr 1fr; } .km-lens .fc-ar { font-size:1.2rem; } }
+
+    /* — word constellation (root family graph) — */
+    .km-lens .constellation-fig { text-align:center; margin:8px 0 2px; }
+    .km-lens .constellation-fig svg { width:100%; max-width:340px; height:auto; overflow:visible; }
+    .km-lens .cn-line { stroke:rgba(143,109,47,.32); stroke-width:1; }
+    .km-lens .cn-hub { fill:url(#cnHub); stroke:rgba(232,201,106,.55); stroke-width:1; }
+    .km-lens .cn-hub-text { font-family:var(--ar); fill:#080808; font-size:15px; font-weight:700; }
+    .km-lens .cn-node { fill:var(--gold-deep); }
+    .km-lens .cn-node.q { fill:var(--gold-bright); }
+    .km-lens .cn-label { font-family:var(--ar); fill:var(--parch-mute); font-size:11px; }
+    .km-lens .cn-label.q { fill:var(--gold-bright); }
+
+    /* — Qur'anic morphology readout — */
+    .km-lens .morph { border-top:1px solid var(--hair); }
+    .km-lens .morph-row { display:grid; grid-template-columns:auto 1.4fr 3fr; gap:10px; align-items:baseline; padding:9px 14px; border-bottom:1px solid rgba(120,98,55,.16); }
+    .km-lens .morph-row:last-child { border-bottom:0; }
+    .km-lens .morph-row.here { background:rgba(232,201,106,.07); }
+    .km-lens .morph-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.35rem; }
+    .km-lens .morph-tag { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.86rem; }
+    @media (max-width:560px){ .km-lens .morph-row { grid-template-columns:auto 1fr; } .km-lens .morph-tag { grid-column:1 / -1; margin-top:-4px; } }
+
+    /* — in-context examples — */
+    .km-lens .examples { display:flex; flex-direction:column; gap:12px; }
+    .km-lens .ex-card { border-left:2px solid var(--hair); padding:2px 0 2px 14px; }
+    .km-lens .ex-card.here { border-left-color:var(--gold-bright); }
+    .km-lens .ex-head { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+    .km-lens .ex-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.5rem; }
+    .km-lens .ex-text { font-family:var(--body); color:var(--parch); margin:0; font-size:.98rem; }
+    .km-lens .ex-src { font-family:var(--disp); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep); margin:6px 0 0; }
+
+    /* — from the lexica (real dictionary excerpts) — */
+    .km-lens .lexica { display:flex; flex-direction:column; gap:12px; }
+    .km-lens .lex-card { border-left:2px solid var(--hair); padding:2px 0 2px 14px; }
+    .km-lens .lex-src { display:block; font-family:var(--disp); font-size:.56rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:6px; }
+    .km-lens .lex-text { margin:0; color:var(--parch-mute); font-size:.95rem; line-height:1.55; font-style:italic; }
+    .km-lens .lex-text.ar { font-family:var(--ar); font-style:normal; font-size:1.25rem; line-height:1.95; color:var(--parch); }
 
     @media (max-width:560px){ .km-lens .src-grid { grid-template-columns:1fr; gap:18px; } }
     @keyframes km-rise { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
@@ -338,10 +515,13 @@ export class LensModalComponent implements OnInit {
   @Input() word?: QuranWord;
 
   private readonly lexicon = inject(FiveLensLexiconService);
+  private readonly qrWords = inject(QrWordStudyService);
   private readonly modalCtrl = inject(ModalController);
 
   loading = true;
   entry?: FiveLensEntry;
+  qrMorph: QrMorphOccurrence[] = [];
+  qrExamples: QrExample[] = [];
   sourceGroups: Array<{ kind: string; items: string[] }> = [];
   currentRef = '';
 
@@ -382,6 +562,33 @@ export class LensModalComponent implements OnInit {
       }
       this.loading = false;
     });
+
+    // Live Qur'anic morphology for every occurrence of this root (km_quran).
+    const root = (this.word?.root ?? this.root ?? '').trim();
+    if (root) {
+      this.qrWords.getMorphologyByRoot(root).subscribe((rows) => {
+        this.qrMorph = rows;
+        const items = this.pickExamples(rows);
+        if (items.length) {
+          this.qrWords.getExamples(items).subscribe((ex) => (this.qrExamples = ex));
+        }
+      });
+    }
+  }
+
+  /** One representative occurrence per distinct lemma (so the examples span the
+   *  word's forms rather than repeating one), capped to keep the panel tight. */
+  private pickExamples(rows: QrMorphOccurrence[]): { surah: number; ayah: number; wordAr: string }[] {
+    const seen = new Set<string>();
+    const out: { surah: number; ayah: number; wordAr: string }[] = [];
+    for (const r of rows) {
+      const key = r.lemmaAr ?? r.ref;
+      if (seen.has(key)) continue;
+      seen.add(key);
+      out.push({ surah: r.surah, ayah: r.ayah, wordAr: r.wordAr });
+      if (out.length >= 4) break;
+    }
+    return out;
   }
 
   /** The vocalized lemma for the headline; falls back to the tapped word. */
@@ -392,6 +599,34 @@ export class LensModalComponent implements OnInit {
   /** Prefer the Arabic surah name; fall back to the Latin one from data_json. */
   surahLabel(): string {
     return (this.entry?.entry?.surahNameAr ?? this.entry?.ayah?.surahName ?? '').trim();
+  }
+
+  /** Radial layout for the word-constellation graph: places each derived lemma
+   *  on one of two rings around the central root hub. Returns dot + label
+   *  coordinates so the template can draw the SVG declaratively. */
+  constellationLayout(): {
+    root: string;
+    nodes: { ar: string; isQuran: boolean; x: number; y: number; lx: number; ly: number }[];
+  } | null {
+    const cn = this.entry?.constellation;
+    if (!cn?.nodes?.length) return null;
+    const cx = 160;
+    const cy = 160;
+    const n = cn.nodes.length;
+    const nodes = cn.nodes.map((node, i) => {
+      const ang = ((-90 + i * (360 / n)) * Math.PI) / 180;
+      const r = i % 2 === 0 ? 92 : 120;
+      const lr = r + 15;
+      return {
+        ar: node.ar,
+        isQuran: node.isQuran,
+        x: +(cx + r * Math.cos(ang)).toFixed(1),
+        y: +(cy + r * Math.sin(ang)).toFixed(1),
+        lx: +(cx + lr * Math.cos(ang)).toFixed(1),
+        ly: +(cy + lr * Math.sin(ang)).toFixed(1),
+      };
+    });
+    return { root: cn.root, nodes };
   }
 
   /** Total distinct cross-corpus occurrences across all forms/families. */

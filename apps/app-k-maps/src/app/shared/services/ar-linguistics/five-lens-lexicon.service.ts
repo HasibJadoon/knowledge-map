@@ -48,6 +48,51 @@ export interface FiveLensSense {
   en: string;
 }
 
+export interface FiveLensForm {
+  form: string; // I / IV / V / VIII
+  wazn: string; // فَعَلَ ...
+  past: string; // ماضٍ
+  present: string; // مضارع
+  masdar: string; // مصدر
+  gloss: string;
+}
+
+export interface FiveLensMorphology {
+  note: string | null;
+  forms: FiveLensForm[];
+  keyword: { word: string; pattern: string; kind: string; gloss: string } | null;
+}
+
+export interface FiveLensAnchor {
+  en: string;
+  note: string;
+}
+
+export interface FiveLensRetention {
+  hook: string; // mnemonic (curated HTML)
+  anchors: FiveLensAnchor[]; // English vocabulary constellation
+  contrast: string | null;
+  retrieval: string | null;
+}
+
+export interface FiveLensConstellationNode {
+  ar: string; // derived lemma, e.g. "تَزَلَّفَ"
+  pos: string; // 'verb' | 'noun'
+  isQuran: boolean; // appears in the Qur'an
+}
+
+export interface FiveLensConstellation {
+  root: string; // "زلف"
+  rootSpaced: string; // "ز ل ف"
+  nodes: FiveLensConstellationNode[]; // derivational family, live from DB_AL
+}
+
+export interface FiveLensLexExcerpt {
+  source: string; // source_slug, label resolved client-side
+  lang: string; // 'ar' | 'en'
+  text: string; // real dictionary excerpt from ar_ling_lexicon_blocks
+}
+
 export interface FiveLensEntry {
   found: boolean;
   entry?: {
@@ -63,9 +108,13 @@ export interface FiveLensEntry {
   };
   figure?: { html: string; label: string | null } | null;
   meaning?: { senses: FiveLensSense[] } | null;
+  morphology?: FiveLensMorphology | null;
+  retention?: FiveLensRetention | null;
   ayah?: { titleAr: string | null; titleEn: string | null; surahName: string | null; html: string } | null;
   lenses?: FiveLens[];
   occurrences?: { html: string; refs: string[]; families: FiveLensFamily[] };
+  constellation?: FiveLensConstellation | null;
+  lexica?: FiveLensLexExcerpt[]; // real dictionary excerpts, live from DB_AL
   sources?: Record<string, string[]>; // { lexicon:[...], tafsir:[...], irab:[...] }
 }
 
