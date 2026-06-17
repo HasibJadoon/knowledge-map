@@ -106,6 +106,22 @@ function lexScore(t: string): number {
   return s;
 }
 
+/** Trim a dictionary excerpt to a whole-sentence boundary so it never cuts off
+ *  mid-clause. Ends at the last sentence terminator within `max`; falls back to
+ *  the last word break only if none is found. */
+function cleanExcerpt(raw: string, max: number): string {
+  const t = raw.trim();
+  if (t.length <= max) return t;
+  const slice = t.slice(0, max);
+  let cut = -1;
+  for (const m of ['. ', '؛ ', '۔ ', '! ', '? ']) {
+    const i = slice.lastIndexOf(m);
+    if (i > cut) cut = i;
+  }
+  const end = cut > 0 ? cut + 1 : slice.lastIndexOf(' ') > 0 ? slice.lastIndexOf(' ') : max;
+  return `${t.slice(0, end).trim()} …`;
+}
+
 export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
   // GET /al/lexicon/five-lens/:rootNorm
   router.get('/al/lexicon/five-lens/:rootNorm', async (_req, env, params) => {
@@ -164,7 +180,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       // query planner off the root_norm index into a full-table scan.
       env.DB_AL
         .prepare(
-          `SELECT source_slug, substr(coalesce(text_plain, text_html),1,420) txt
+          `SELECT source_slug, substr(coalesce(text_plain, text_html),1,800) txt
              FROM ar_ling_lexicon_blocks
             WHERE root_norm = ?1 AND source_slug <> ?2
             LIMIT 1500`,
@@ -238,30 +254,40 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       (grouped[r.source_kind] ??= []).push(r.source_slug);
     }
 
-    // Build the constellation nodes: one representative per form/POS (collapse
-    // pure vocalization variants), skip multiword phrases, cap the spread.
-    const seen = new Set<string>();
-    const nodes: { ar: string; pos: string; isQuran: boolean }[] = [];
-    for (const r of lemmaRows.results ?? []) {
-      const bare = r.lemma_text_bare ?? r.lemma_text;
-      if (bare.includes(' ')) continue; // drop multiword expressions
-      const pos = r.part_of_speech === 'verb' ? 'verb' : 'noun';
-      const key = `${pos}|${bare}`;
-      if (seen.has(key)) continue;
-      seen.add(key);
-      nodes.push({ ar: r.lemma_text, pos, isQuran: r.is_quran_word === 1 });
-      if (nodes.length >= 13) break;
+    // Word constellation: prefer the curated, unique, glossed family; fall back
+    // to the canonical lemma store (deduped per form/POS, no glosses).
+    const constData = parseJson(blockRows.find((b) => b.block_type === 'constellation')?.data_json ?? null);
+    let constellation: { root: string; rootSpaced: string; nodes: unknown[] } | null = null;
+    if (Array.isArray(constData.nodes) && constData.nodes.length) {
+      constellation = {
+        root: entry.root_text,
+        rootSpaced: [...entry.root_text].join(' '),
+        nodes: constData.nodes as unknown[],
+      };
+    } else {
+      const seen = new Set<string>();
+      const nodes: { ar: string; pos: string; isQuran: boolean }[] = [];
+      for (const r of lemmaRows.results ?? []) {
+        const bare = r.lemma_text_bare ?? r.lemma_text;
+        if (bare.includes(' ')) continue; // drop multiword expressions
+        const pos = r.part_of_speech === 'verb' ? 'verb' : 'noun';
+        const key = `${pos}|${bare}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        nodes.push({ ar: r.lemma_text, pos, isQuran: r.is_quran_word === 1 });
+        if (nodes.length >= 13) break;
+      }
+      constellation = nodes.length
+        ? { root: entry.root_text, rootSpaced: [...entry.root_text].join(' '), nodes }
+        : null;
     }
-    const constellation = nodes.length
-      ? { root: entry.root_text, rootSpaced: [...entry.root_text].join(' '), nodes }
-      : null;
 
     // Pick the single most-defining excerpt per lexicon (highest core-sense
     // score; shorter wins ties for a crisper gloss), then trim for display.
     const bestLex = new Map<string, { txt: string; score: number }>();
     for (const r of lexBlocks.results ?? []) {
       const t = (r.txt ?? '').trim();
-      if (t.length < 16 || t.length > 600) continue;
+      if (t.length < 16) continue;
       const score = lexScore(t);
       if (score < 1) continue;
       const prev = bestLex.get(r.source_slug);
@@ -271,10 +297,11 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
     }
     const lexica = LEX_ORDER.filter((s) => bestLex.has(s))
       .slice(0, 6)
-      .map((s) => {
-        const t = bestLex.get(s)!.txt;
-        return { source: s, lang: s === 'lane_lexicon' ? 'en' : 'ar', text: t.length > 300 ? `${t.slice(0, 300).trim()}…` : t };
-      });
+      .map((s) => ({
+        source: s,
+        lang: s === 'lane_lexicon' ? 'en' : 'ar',
+        text: cleanExcerpt(bestLex.get(s)!.txt, 420),
+      }));
 
     return ok({
       found: true,
