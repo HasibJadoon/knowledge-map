@@ -45,14 +45,19 @@ import {
         <p class="eyebrow">Key Term · Five-Lens</p>
         <h1 class="lemma" dir="rtl" lang="ar">{{ lemma() }}</h1>
         <p class="translit" *ngIf="entry?.entry?.translit">{{ entry?.entry?.translit }}</p>
+        <p class="sense" *ngIf="entry?.entry?.sense">{{ entry?.entry?.sense }}</p>
         <div class="meta">
           <span>root <span class="ar-inline" dir="rtl" lang="ar">{{ entry?.entry?.rootSpaced }}</span></span>
-          <ng-container *ngIf="entry?.ayah?.surahName">
+          <ng-container *ngIf="entry?.entry?.pattern">
             <span class="dot">·</span>
-            <span class="ar-inline" dir="rtl" lang="ar">{{ entry?.ayah?.surahName }}</span>
+            <span>pattern <span class="ar-inline" dir="rtl" lang="ar">{{ entry?.entry?.pattern }}</span></span>
           </ng-container>
           <span class="dot">·</span>
           <span>{{ word?.surah }}:{{ word?.ayah }}</span>
+          <ng-container *ngIf="surahLabel() as sn">
+            <span class="dot">·</span>
+            <span class="ar-inline" dir="rtl" lang="ar">{{ sn }}</span>
+          </ng-container>
         </div>
 
         <hr class="rule">
@@ -62,6 +67,7 @@ import {
 
         <!-- root-image ornament -->
         <figure class="approach">
+          <div class="fig-label" *ngIf="entry?.figure?.label">{{ entry?.figure?.label }}</div>
           <svg viewBox="0 0 320 230" role="img" aria-label="Stations of approach">
             <defs>
               <radialGradient id="kmCore" cx="50%" cy="50%" r="50%">
@@ -86,6 +92,7 @@ import {
             <text x="70" y="120" text-anchor="middle" font-family="Amiri,serif" font-size="14" fill="#1b1510" direction="rtl">قُرب</text>
             <path d="M135,115 l9,-4 l0,8 z" fill="#c9a24b"/>
           </svg>
+          <figcaption *ngIf="entry?.figure?.html" [innerHTML]="entry?.figure?.html"></figcaption>
         </figure>
 
         <hr class="rule tight">
@@ -98,15 +105,56 @@ import {
             <span class="lens-en">{{ l.labelEn }}</span>
           </div>
           <div class="lens-body" [innerHTML]="l.html"></div>
+
+          <ng-container *ngIf="l.ledger as lg">
+            <figure class="confluence">
+              <svg viewBox="0 0 320 96" role="img" aria-label="Two roots converging on one meaning">
+                <text x="40" y="30" text-anchor="middle" font-family="Amiri,serif" font-size="20" fill="#c9a24b" direction="rtl">ق ر ب</text>
+                <text x="280" y="30" text-anchor="middle" font-family="Amiri,serif" font-size="20" fill="#c9a24b" direction="rtl">ز ل ف</text>
+                <path d="M40,40 C40,68 150,70 160,74" fill="none" stroke="#8f6d2f" stroke-width="1.3"/>
+                <path d="M280,40 C280,68 170,70 160,74" fill="none" stroke="#8f6d2f" stroke-width="1.3"/>
+                <circle cx="160" cy="78" r="5" fill="#e8c878"/>
+                <text x="160" y="96" text-anchor="middle" font-family="EB Garamond,serif" font-style="italic" font-size="12" fill="#b3a585">one sense, doubled</text>
+              </svg>
+            </figure>
+            <div class="ledger">
+              <div class="lpanel claimed">
+                <div class="tier">{{ lg.claimed.tier }}</div>
+                <div class="lword" dir="rtl" lang="ar">{{ lg.claimed.word }}</div>
+                <div class="lcase">{{ lg.claimed.case }}</div>
+                <div class="lrole">{{ lg.claimed.role }}</div>
+                <div class="lchips"><span class="chip" *ngFor="let c of lg.claimed.chips">{{ c }}</span></div>
+              </div>
+              <div class="lpanel granted">
+                <div class="tier">{{ lg.granted.tier }}</div>
+                <div class="lword" dir="rtl" lang="ar">{{ lg.granted.word }}</div>
+                <div class="lcase">{{ lg.granted.case }}</div>
+                <div class="lrole">{{ lg.granted.role }}</div>
+                <div class="lchips"><span class="chip" *ngFor="let c of lg.granted.chips">{{ c }}</span></div>
+              </div>
+            </div>
+            <p class="ledger-note" *ngIf="lg.note">{{ lg.note }}</p>
+          </ng-container>
         </section>
 
         <!-- occurrences -->
-        <ng-container *ngIf="entry?.occurrences?.refs?.length">
+        <ng-container *ngIf="entry?.occurrences?.refs?.length || entry?.occurrences?.families?.length">
           <hr class="rule">
           <p class="section-label">Cross-Corpus Occurrences · <span class="ar-inline" dir="rtl" lang="ar">{{ entry?.entry?.rootSpaced }}</span></p>
-          <div class="occ-row">
-            <span class="chip" *ngFor="let r of entry?.occurrences?.refs" [class.here]="r === currentRef">{{ r }}</span>
-          </div>
+          <ng-container *ngIf="entry?.occurrences?.families?.length; else flatOcc">
+            <div class="occ-fam" *ngFor="let f of entry?.occurrences?.families">
+              <h4 dir="rtl" lang="ar">{{ f.headingAr }}</h4>
+              <span class="occ-gloss">{{ f.gloss }}</span>
+              <div class="occ-row">
+                <span class="chip" *ngFor="let r of f.refs" [class.here]="r === currentRef">{{ r }}</span>
+              </div>
+            </div>
+          </ng-container>
+          <ng-template #flatOcc>
+            <div class="occ-row">
+              <span class="chip" *ngFor="let r of entry?.occurrences?.refs" [class.here]="r === currentRef">{{ r }}</span>
+            </div>
+          </ng-template>
         </ng-container>
 
         <!-- sources -->
@@ -190,6 +238,34 @@ import {
 
     .km-lens .footer-mark { text-align:center; margin-top:34px; font-family:var(--ar); color:var(--gold-deep); font-size:1.4rem; direction:rtl; }
 
+    .km-lens .sense { font-family:var(--body); font-style:italic; text-align:center; color:var(--parch-mute); margin:0 0 16px; }
+    .km-lens .fig-label { font-family:var(--disp); font-size:.6rem; letter-spacing:.3em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:12px; }
+    .km-lens figcaption { font-family:var(--body); font-style:italic; color:var(--muted); font-size:.95rem; margin:12px auto 0; max-width:54ch; text-align:center; }
+    .km-lens figcaption [lang="ar"] { font-family:var(--ar); font-style:normal; color:var(--gold); }
+    .km-lens figcaption em { font-family:var(--body); font-variant:small-caps; font-style:normal; color:var(--gold); }
+    .km-lens .confluence { margin:14px auto 2px; text-align:center; }
+    .km-lens .confluence svg { max-width:300px; width:80%; height:auto; }
+    .km-lens .ledger { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:8px 0 2px; }
+    .km-lens .lpanel { border:1px solid var(--hair); border-radius:3px; padding:16px; background:rgba(20,16,10,.5); }
+    .km-lens .lpanel .tier { font-family:var(--disp); font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; margin-bottom:8px; }
+    .km-lens .lpanel .lword { font-family:var(--ar); direction:rtl; font-size:2.2rem; line-height:1.1; }
+    .km-lens .lpanel .lcase { font-family:var(--tl); font-style:italic; font-size:.9rem; margin:4px 0 8px; }
+    .km-lens .lpanel .lrole { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.9rem; margin-bottom:10px; }
+    .km-lens .lpanel .lchips { display:flex; gap:8px; flex-wrap:wrap; }
+    .km-lens .lpanel.claimed { border-color:rgba(95,86,65,.5); }
+    .km-lens .lpanel.claimed .tier, .km-lens .lpanel.claimed .lword { color:#5f5641; }
+    .km-lens .lpanel.claimed .lcase, .km-lens .lpanel.claimed .chip { color:var(--muted); border-color:rgba(95,86,65,.5); }
+    .km-lens .lpanel.granted { box-shadow:0 0 0 1px rgba(201,162,75,.25), 0 14px 40px -26px rgba(232,200,120,.5); }
+    .km-lens .lpanel.granted .tier { color:var(--gold-deep); }
+    .km-lens .lpanel.granted .lword { color:var(--gold-bright); text-shadow:0 1px 18px rgba(232,200,120,.3); }
+    .km-lens .lpanel.granted .lcase, .km-lens .lpanel.granted .chip { color:var(--gold); }
+    .km-lens .ledger-note { text-align:center; font-family:var(--body); font-style:italic; color:var(--muted); margin:12px 0 0; font-size:.95rem; }
+    .km-lens .occ-fam { margin:12px 0; text-align:center; }
+    .km-lens .occ-fam h4 { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.4rem; margin:0 0 2px; font-weight:700; }
+    .km-lens .occ-gloss { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.9rem; }
+    .km-lens .occ-fam .occ-row { margin-top:8px; }
+    @media (max-width:560px){ .km-lens .ledger { grid-template-columns:1fr; } }
+
     @media (max-width:560px){ .km-lens .src-grid { grid-template-columns:1fr; gap:18px; } }
     @keyframes km-rise { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
     @media (prefers-reduced-motion:reduce){ .km-lens .lemma{animation:none;} }
@@ -249,6 +325,11 @@ export class LensModalComponent implements OnInit {
   /** The vocalized lemma for the headline; falls back to the tapped word. */
   lemma(): string {
     return (this.entry?.entry?.lemmaAr ?? this.word?.text ?? '').trim();
+  }
+
+  /** Prefer the Arabic surah name; fall back to the Latin one from data_json. */
+  surahLabel(): string {
+    return (this.entry?.entry?.surahNameAr ?? this.entry?.ayah?.surahName ?? '').trim();
   }
 
   arabicNum(n: number): string {

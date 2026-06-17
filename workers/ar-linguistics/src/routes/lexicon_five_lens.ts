@@ -113,6 +113,13 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
 
     const blockRows = blocks.results ?? [];
 
+    const metaData = parseJson(blockRows.find((b) => b.block_type === 'meta')?.data_json ?? null);
+
+    const figureBlock = blockRows.find((b) => b.block_type === 'figure') ?? null;
+    const figure = figureBlock
+      ? { html: figureBlock.text_html ?? '', label: (parseJson(figureBlock.data_json).label as string) ?? null }
+      : null;
+
     const ayahBlock = blockRows.find((b) => b.block_type === 'ayah') ?? null;
     const ayahData = parseJson(ayahBlock?.data_json ?? null);
     const ayah = ayahBlock
@@ -126,18 +133,23 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
 
     const lenses = blockRows
       .filter((b) => b.block_type === 'lens')
-      .map((b, i) => ({
-        seq: i + 1,
-        headingAr: b.title_ar,
-        labelEn: b.title_en ?? '',
-        html: b.text_html ?? '',
-      }));
+      .map((b, i) => {
+        const data = parseJson(b.data_json);
+        return {
+          seq: i + 1,
+          headingAr: b.title_ar,
+          labelEn: b.title_en ?? '',
+          html: b.text_html ?? '',
+          ledger: (data.ledger as unknown) ?? null,
+        };
+      });
 
     const xrefBlock = blockRows.find((b) => b.block_type === 'xref') ?? null;
     const xrefData = parseJson(xrefBlock?.data_json ?? null);
     const occurrences = {
       html: xrefBlock?.text_html ?? '',
       refs: Array.isArray(xrefData.refs) ? (xrefData.refs as string[]) : [],
+      families: Array.isArray(xrefData.families) ? (xrefData.families as unknown[]) : [],
     };
 
     // group provenance by kind: { lexicon: [...], tafsir: [...], irab: [...] }
@@ -154,8 +166,12 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
         rootSpaced: [...entry.root_text].join(' '),
         lemmaAr: entry.entry_text_ar,
         translit: entry.entry_text_en,
+        sense: (metaData.sense as string) ?? null,
+        pattern: (metaData.pattern as string) ?? null,
+        surahNameAr: (metaData.surah_name_ar as string) ?? null,
         status: entry.status,
       },
+      figure,
       ayah,
       lenses,
       occurrences,
