@@ -7,6 +7,10 @@ import {
   FiveLensEntry,
   QuranWord,
 } from '../../../../../shared/services/ar-linguistics/five-lens-lexicon.service';
+import {
+  QrWordStudyService,
+  QrMorphOccurrence,
+} from '../../../../../shared/services/quran/qr-word-study.service';
 
 /**
  * Five-Lens modal. Opened from the word context menu (word-popover) for a
@@ -232,6 +236,20 @@ import {
           </ng-template>
         </ng-container>
 
+        <!-- Qur'anic morphology (live from km_quran QAC corpus) -->
+        <ng-container *ngIf="qrMorph.length">
+          <hr class="rule tight">
+          <p class="section-label">Qur'anic Morphology · <span class="ar-inline" dir="rtl" lang="ar">الإعراب</span></p>
+          <p class="forms-note">Every occurrence parsed from the Qur'anic morphology corpus.</p>
+          <div class="morph">
+            <div class="morph-row" *ngFor="let m of qrMorph" [class.here]="m.ref === currentRef">
+              <span class="chip" [class.here]="m.ref === currentRef">{{ m.ref }}</span>
+              <span class="morph-word" dir="rtl" lang="ar">{{ m.wordAr }}</span>
+              <span class="morph-tag">{{ m.readable }}</span>
+            </div>
+          </div>
+        </ng-container>
+
         <!-- sources -->
         <div *ngIf="sourceGroups.length" class="sources">
           <p class="section-label">Rooted In</p>
@@ -431,6 +449,15 @@ import {
     .km-lens .cn-label { font-family:var(--ar); fill:var(--parch-mute); font-size:11px; }
     .km-lens .cn-label.q { fill:var(--gold-bright); }
 
+    /* — Qur'anic morphology readout — */
+    .km-lens .morph { border:1px solid var(--hair); border-radius:6px; overflow:hidden; background:rgba(20,16,10,.4); }
+    .km-lens .morph-row { display:grid; grid-template-columns:auto 1.4fr 3fr; gap:10px; align-items:baseline; padding:9px 14px; border-bottom:1px solid rgba(120,98,55,.16); }
+    .km-lens .morph-row:last-child { border-bottom:0; }
+    .km-lens .morph-row.here { background:rgba(232,200,120,.07); }
+    .km-lens .morph-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.35rem; }
+    .km-lens .morph-tag { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.86rem; }
+    @media (max-width:560px){ .km-lens .morph-row { grid-template-columns:auto 1fr; } .km-lens .morph-tag { grid-column:1 / -1; margin-top:-4px; } }
+
     @media (max-width:560px){ .km-lens .src-grid { grid-template-columns:1fr; gap:18px; } }
     @keyframes km-rise { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
     @media (prefers-reduced-motion:reduce){ .km-lens .lemma{animation:none;} }
@@ -441,10 +468,12 @@ export class LensModalComponent implements OnInit {
   @Input() word?: QuranWord;
 
   private readonly lexicon = inject(FiveLensLexiconService);
+  private readonly qrWords = inject(QrWordStudyService);
   private readonly modalCtrl = inject(ModalController);
 
   loading = true;
   entry?: FiveLensEntry;
+  qrMorph: QrMorphOccurrence[] = [];
   sourceGroups: Array<{ kind: string; items: string[] }> = [];
   currentRef = '';
 
@@ -485,6 +514,14 @@ export class LensModalComponent implements OnInit {
       }
       this.loading = false;
     });
+
+    // Live Qur'anic morphology for every occurrence of this root (km_quran).
+    const root = (this.word?.root ?? this.root ?? '').trim();
+    if (root) {
+      this.qrWords.getMorphologyByRoot(root).subscribe((rows) => {
+        this.qrMorph = rows;
+      });
+    }
   }
 
   /** The vocalized lemma for the headline; falls back to the tapped word. */
