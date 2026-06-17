@@ -47,7 +47,7 @@ export function nearSynonymRoutes(router: Router<ArLinguisticsEnv>) {
   router.patch('/al/near-synonyms/:id', async (req, env, { id }) => {
     const body = await req.json() as Record<string, unknown>;
     const members = Array.isArray(body.members)
-      ? body.members.filter((member): member is Record<string, unknown> => {
+      ? body.members.filter((member): member is { id: string } & Record<string, unknown> => {
         return !!member && typeof member === 'object' && typeof member.id === 'string';
       })
       : undefined;
