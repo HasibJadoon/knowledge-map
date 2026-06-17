@@ -123,6 +123,21 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
     const meaningData = parseJson(blockRows.find((b) => b.block_type === 'meaning')?.data_json ?? null);
     const meaning = Array.isArray(meaningData.senses) ? { senses: meaningData.senses as unknown[] } : null;
 
+    const sarfData = parseJson(blockRows.find((b) => b.block_type === 'sarf')?.data_json ?? null);
+    const morphology = Array.isArray(sarfData.forms)
+      ? { note: (sarfData.note as string) ?? null, forms: sarfData.forms as unknown[], keyword: (sarfData.keyword as unknown) ?? null }
+      : null;
+
+    const retentionData = parseJson(blockRows.find((b) => b.block_type === 'retention')?.data_json ?? null);
+    const retention = typeof retentionData.hook === 'string'
+      ? {
+          hook: retentionData.hook as string,
+          anchors: Array.isArray(retentionData.anchors) ? (retentionData.anchors as unknown[]) : [],
+          contrast: (retentionData.contrast as string) ?? null,
+          retrieval: (retentionData.retrieval as string) ?? null,
+        }
+      : null;
+
     const ayahBlock = blockRows.find((b) => b.block_type === 'ayah') ?? null;
     const ayahData = parseJson(ayahBlock?.data_json ?? null);
     const ayah = ayahBlock
@@ -176,6 +191,8 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       },
       figure,
       meaning,
+      morphology,
+      retention,
       ayah,
       lenses,
       occurrences,

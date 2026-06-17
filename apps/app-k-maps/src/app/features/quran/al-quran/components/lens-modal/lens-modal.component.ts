@@ -109,6 +109,17 @@ import {
           </div>
         </ng-container>
 
+        <!-- memory hook (vocabulary retention) -->
+        <div class="feature" *ngIf="entry?.retention as ret">
+          <span class="feature-tag">Memory Hook</span>
+          <p class="hook-line" [innerHTML]="ret.hook"></p>
+          <div class="anchors" *ngIf="ret.anchors?.length">
+            <span class="anchor" *ngFor="let a of ret.anchors"><b>{{ a.en }}</b><span>{{ a.note }}</span></span>
+          </div>
+          <p class="contrast" *ngIf="ret.contrast">{{ ret.contrast }}</p>
+          <p class="retrieval" *ngIf="ret.retrieval">{{ ret.retrieval }}</p>
+        </div>
+
         <hr class="rule tight">
 
         <!-- lenses (curated bilingual HTML bodies) -->
@@ -150,6 +161,32 @@ import {
             <p class="ledger-note" *ngIf="lg.note">{{ lg.note }}</p>
           </ng-container>
         </section>
+
+        <!-- derivation table (sarf: past / present / verbal noun) -->
+        <ng-container *ngIf="entry?.morphology as mp">
+          <hr class="rule tight">
+          <p class="section-label">Derivation · <span class="ar-inline" dir="rtl" lang="ar">الصَّرْف</span> · <span class="ar-inline" dir="rtl" lang="ar">ماضٍ · مضارع · مصدر</span></p>
+          <p class="forms-note" *ngIf="mp.note">{{ mp.note }}</p>
+          <div class="forms">
+            <div class="forms-head">
+              <span>Form</span>
+              <span class="fc-ar" dir="rtl" lang="ar">ماضٍ</span>
+              <span class="fc-ar" dir="rtl" lang="ar">مضارع</span>
+              <span class="fc-ar" dir="rtl" lang="ar">مصدر</span>
+            </div>
+            <div class="forms-row" *ngFor="let f of mp.forms">
+              <span class="fc-form"><b>{{ f.form }}</b><span class="wazn" dir="rtl" lang="ar">{{ f.wazn }}</span></span>
+              <span class="fc-ar" dir="rtl" lang="ar">{{ f.past }}</span>
+              <span class="fc-ar" dir="rtl" lang="ar">{{ f.present }}</span>
+              <span class="fc-ar masdar" dir="rtl" lang="ar">{{ f.masdar }}</span>
+              <span class="fc-gloss">{{ f.gloss }}</span>
+            </div>
+          </div>
+          <div class="keyword-pin" *ngIf="mp.keyword as kw">
+            <span class="kw-word" dir="rtl" lang="ar">{{ kw.word }}</span>
+            <span class="kw-meta"><span dir="rtl" lang="ar">{{ kw.pattern }}</span> · {{ kw.kind }} — {{ kw.gloss }}</span>
+          </div>
+        </ng-container>
 
         <!-- occurrences -->
         <ng-container *ngIf="entry?.occurrences?.refs?.length || entry?.occurrences?.families?.length">
@@ -327,6 +364,38 @@ import {
     @media (prefers-reduced-motion:reduce){
       .km-lens .leaf > *, .km-lens .km-illum-ring, .km-lens .km-illum-core { animation:none !important; }
     }
+
+    /* — memory hook (vocabulary retention) — */
+    .km-lens .feature { position:relative; border:1px solid var(--hair); border-left:3px solid var(--gold); border-radius:3px; padding:18px 20px; margin:14px 0 6px; background:linear-gradient(180deg, rgba(40,31,14,.5), rgba(20,16,9,.4)); box-shadow:0 0 0 1px rgba(201,162,75,.08), 0 18px 50px -34px rgba(232,200,120,.5); }
+    .km-lens .feature-tag { position:absolute; top:-9px; left:16px; font-family:var(--disp); font-size:.56rem; letter-spacing:.26em; text-transform:uppercase; color:#1b1510; background:linear-gradient(90deg,var(--gold-bright),var(--gold)); padding:3px 10px; border-radius:20px; }
+    .km-lens .hook-line { font-size:1.05rem; color:var(--parch); margin:6px 0 14px; }
+    .km-lens .hook-line strong { color:var(--gold-bright); font-weight:700; }
+    .km-lens .hook-line em { font-style:italic; color:var(--gold); }
+    .km-lens .anchors { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:12px; }
+    .km-lens .anchor { display:inline-flex; align-items:baseline; gap:7px; border:1px solid var(--hair); border-radius:20px; padding:5px 12px; background:rgba(13,10,6,.45); }
+    .km-lens .anchor b { font-family:var(--body); color:var(--gold-bright); font-size:.95rem; font-variant:small-caps; letter-spacing:.04em; }
+    .km-lens .anchor span { font-family:var(--body); font-style:italic; color:var(--muted); font-size:.82rem; }
+    .km-lens .contrast { font-style:italic; color:var(--parch-mute); margin:4px 0 8px; padding-left:12px; border-left:1px solid var(--hair); }
+    .km-lens .retrieval { font-style:italic; color:var(--muted); font-size:.92rem; margin:0; }
+
+    /* — derivation / sarf table — */
+    .km-lens .forms-note { text-align:center; font-style:italic; color:var(--parch-mute); margin:0 0 14px; font-size:.95rem; }
+    .km-lens .forms { border:1px solid var(--hair); border-radius:6px; overflow:hidden; background:rgba(20,16,10,.4); }
+    .km-lens .forms-head, .km-lens .forms-row { display:grid; grid-template-columns:72px 1fr 1fr 1.1fr; gap:6px 12px; padding:11px 14px; align-items:baseline; }
+    .km-lens .forms-head { background:rgba(143,109,47,.12); border-bottom:1px solid var(--hair); }
+    .km-lens .forms-head > span { font-family:var(--disp); font-size:.56rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-deep); }
+    .km-lens .forms-head .fc-ar { font-family:var(--ar); direction:rtl; font-size:1rem; letter-spacing:normal; text-transform:none; color:var(--gold); }
+    .km-lens .forms-row { border-bottom:1px solid rgba(120,98,55,.16); }
+    .km-lens .forms-row:last-child { border-bottom:0; }
+    .km-lens .fc-form b { font-family:var(--disp); color:var(--gold-bright); font-size:.9rem; }
+    .km-lens .fc-form .wazn { display:block; font-family:var(--ar); direction:rtl; color:var(--muted); font-size:.95rem; }
+    .km-lens .fc-ar { font-family:var(--ar); direction:rtl; font-size:1.45rem; color:var(--parch); }
+    .km-lens .fc-ar.masdar { color:var(--gold-bright); }
+    .km-lens .fc-gloss { grid-column:1 / -1; font-style:italic; color:var(--muted); font-size:.85rem; margin-top:-2px; }
+    .km-lens .keyword-pin { display:flex; align-items:center; gap:14px; justify-content:center; flex-wrap:wrap; margin-top:14px; padding:12px; border:1px dashed var(--hair); border-radius:8px; }
+    .km-lens .kw-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:2rem; }
+    .km-lens .kw-meta { font-style:italic; color:var(--parch-mute); font-size:.9rem; }
+    @media (max-width:560px){ .km-lens .forms-head, .km-lens .forms-row { grid-template-columns:58px 1fr 1fr 1fr; } .km-lens .fc-ar { font-size:1.2rem; } }
 
     @media (max-width:560px){ .km-lens .src-grid { grid-template-columns:1fr; gap:18px; } }
     @keyframes km-rise { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }

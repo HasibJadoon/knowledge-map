@@ -48,6 +48,33 @@ export interface FiveLensSense {
   en: string;
 }
 
+export interface FiveLensForm {
+  form: string; // I / IV / V / VIII
+  wazn: string; // فَعَلَ ...
+  past: string; // ماضٍ
+  present: string; // مضارع
+  masdar: string; // مصدر
+  gloss: string;
+}
+
+export interface FiveLensMorphology {
+  note: string | null;
+  forms: FiveLensForm[];
+  keyword: { word: string; pattern: string; kind: string; gloss: string } | null;
+}
+
+export interface FiveLensAnchor {
+  en: string;
+  note: string;
+}
+
+export interface FiveLensRetention {
+  hook: string; // mnemonic (curated HTML)
+  anchors: FiveLensAnchor[]; // English vocabulary constellation
+  contrast: string | null;
+  retrieval: string | null;
+}
+
 export interface FiveLensEntry {
   found: boolean;
   entry?: {
@@ -63,6 +90,8 @@ export interface FiveLensEntry {
   };
   figure?: { html: string; label: string | null } | null;
   meaning?: { senses: FiveLensSense[] } | null;
+  morphology?: FiveLensMorphology | null;
+  retention?: FiveLensRetention | null;
   ayah?: { titleAr: string | null; titleEn: string | null; surahName: string | null; html: string } | null;
   lenses?: FiveLens[];
   occurrences?: { html: string; refs: string[]; families: FiveLensFamily[] };
