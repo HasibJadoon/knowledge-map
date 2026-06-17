@@ -87,6 +87,12 @@ export interface FiveLensConstellation {
   nodes: FiveLensConstellationNode[]; // derivational family, live from DB_AL
 }
 
+export interface FiveLensLexExcerpt {
+  source: string; // source_slug, label resolved client-side
+  lang: string; // 'ar' | 'en'
+  text: string; // real dictionary excerpt from ar_ling_lexicon_blocks
+}
+
 export interface FiveLensEntry {
   found: boolean;
   entry?: {
@@ -108,6 +114,7 @@ export interface FiveLensEntry {
   lenses?: FiveLens[];
   occurrences?: { html: string; refs: string[]; families: FiveLensFamily[] };
   constellation?: FiveLensConstellation | null;
+  lexica?: FiveLensLexExcerpt[]; // real dictionary excerpts, live from DB_AL
   sources?: Record<string, string[]>; // { lexicon:[...], tafsir:[...], irab:[...] }
 }
 

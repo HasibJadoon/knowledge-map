@@ -76,6 +76,36 @@ interface LemmaRow {
   is_quran_word: number;
 }
 
+interface LexBlockRow {
+  source_slug: string;
+  txt: string | null;
+}
+
+// Sources whose imported dictionary text we surface as excerpts, in display
+// order (Lane first — it is in English). Labels are mapped client-side.
+const LEX_ORDER = [
+  'lane_lexicon',
+  'saaid_maqayis_al_lugha',
+  'ketabonline_al_raghib_mufradat',
+  'ketabonline_ibn_manzur_lisan_al_arab',
+  'ketabonline_al_jawhari_al_sihah',
+  'ketabonline_al_fayyumi_misbah_munir',
+  'thahabi_al_khalil_kitab_al_ayn',
+];
+
+/** Score a dictionary block by how squarely it states the root's core sense
+ *  (nearness / rank / degree / station) so we pick the defining line, not a
+ *  tangential digression. Arabic is matched harakat-insensitively. */
+function lexScore(t: string): number {
+  const bare = t.replace(/[ً-ْٰ]/g, '');
+  let s = 0;
+  for (const w of ['قرب', 'منزل', 'حظو', 'درج']) if (bare.includes(w)) s += 1;
+  const low = t.toLowerCase();
+  if (low.includes('nearness')) s += 1;
+  if (low.includes('rank')) s += 1;
+  return s;
+}
+
 export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
   // GET /al/lexicon/five-lens/:rootNorm
   router.get('/al/lexicon/five-lens/:rootNorm', async (_req, env, params) => {
@@ -98,7 +128,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
     // empty payload so the modal renders its (non-error) empty state.
     if (!entry) return ok({ found: false });
 
-    const [blocks, sources, lemmaRows] = await Promise.all([
+    const [blocks, sources, lemmaRows, lexBlocks] = await Promise.all([
       env.DB_AL
         .prepare(
           `SELECT block_seq, block_type, title_ar, title_en, text_html, data_json
@@ -129,6 +159,17 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
         )
         .bind(entry.root_text)
         .all<LemmaRow>(),
+      // Real dictionary text for the root, straight from the imported lexica
+      // (same DB_AL). Filtered by root_norm only — adding block_type flips the
+      // query planner off the root_norm index into a full-table scan.
+      env.DB_AL
+        .prepare(
+          `SELECT source_slug, substr(coalesce(text_plain, text_html),1,420) txt
+             FROM ar_ling_lexicon_blocks
+            WHERE root_norm = ?1 AND source_slug <> ?2`,
+        )
+        .bind(rootNorm, SOURCE_SLUG)
+        .all<LexBlockRow>(),
     ]);
 
     const blockRows = blocks.results ?? [];
@@ -214,6 +255,26 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       ? { root: entry.root_text, rootSpaced: [...entry.root_text].join(' '), nodes }
       : null;
 
+    // Pick the single most-defining excerpt per lexicon (highest core-sense
+    // score; shorter wins ties for a crisper gloss), then trim for display.
+    const bestLex = new Map<string, { txt: string; score: number }>();
+    for (const r of lexBlocks.results ?? []) {
+      const t = (r.txt ?? '').trim();
+      if (t.length < 16 || t.length > 600) continue;
+      const score = lexScore(t);
+      if (score < 1) continue;
+      const prev = bestLex.get(r.source_slug);
+      if (!prev || score > prev.score || (score === prev.score && t.length < prev.txt.length)) {
+        bestLex.set(r.source_slug, { txt: t, score });
+      }
+    }
+    const lexica = LEX_ORDER.filter((s) => bestLex.has(s))
+      .slice(0, 6)
+      .map((s) => {
+        const t = bestLex.get(s)!.txt;
+        return { source: s, lang: s === 'lane_lexicon' ? 'en' : 'ar', text: t.length > 300 ? `${t.slice(0, 300).trim()}…` : t };
+      });
+
     return ok({
       found: true,
       entry: {
@@ -235,6 +296,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       lenses,
       occurrences,
       constellation,
+      lexica,
       sources: grouped,
     });
   });

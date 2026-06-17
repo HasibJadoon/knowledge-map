@@ -268,6 +268,18 @@ import {
           </div>
         </ng-container>
 
+        <!-- From the Lexica: real dictionary excerpts (live from DB_AL) -->
+        <ng-container *ngIf="entry?.lexica?.length">
+          <hr class="rule">
+          <p class="section-label">From the Lexica</p>
+          <div class="lexica">
+            <div class="lex-card" *ngFor="let lx of entry?.lexica">
+              <span class="lex-src">{{ humanize(lx.source) }}</span>
+              <p class="lex-text" [class.ar]="lx.lang === 'ar'" [attr.dir]="lx.lang === 'ar' ? 'rtl' : 'ltr'" [attr.lang]="lx.lang">{{ lx.text }}</p>
+            </div>
+          </div>
+        </ng-container>
+
         <!-- sources -->
         <div *ngIf="sourceGroups.length" class="sources">
           <p class="section-label">Rooted In</p>
@@ -358,16 +370,16 @@ import {
     .km-lens .confluence { margin:14px auto 2px; text-align:center; }
     .km-lens .confluence svg { max-width:300px; width:80%; height:auto; }
     .km-lens .ledger { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin:8px 0 2px; }
-    .km-lens .lpanel { border:1px solid var(--hair); border-radius:3px; padding:16px; background:rgba(17,17,17,.5); }
+    .km-lens .lpanel { border-left:2px solid var(--hair); padding:2px 0 2px 16px; }
     .km-lens .lpanel .tier { font-family:var(--disp); font-size:.58rem; letter-spacing:.28em; text-transform:uppercase; margin-bottom:8px; }
     .km-lens .lpanel .lword { font-family:var(--ar); direction:rtl; font-size:2.2rem; line-height:1.1; }
     .km-lens .lpanel .lcase { font-family:var(--tl); font-style:italic; font-size:.9rem; margin:4px 0 8px; }
     .km-lens .lpanel .lrole { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.9rem; margin-bottom:10px; }
     .km-lens .lpanel .lchips { display:flex; gap:8px; flex-wrap:wrap; }
-    .km-lens .lpanel.claimed { border-color:rgba(255,255,255,.18); }
+    .km-lens .lpanel.claimed { border-left-color:rgba(255,255,255,.18); }
     .km-lens .lpanel.claimed .tier, .km-lens .lpanel.claimed .lword { color:rgba(255,255,255,.5); }
     .km-lens .lpanel.claimed .lcase, .km-lens .lpanel.claimed .chip { color:var(--muted); border-color:rgba(255,255,255,.18); }
-    .km-lens .lpanel.granted { box-shadow:0 0 0 1px rgba(201,168,76,.25), 0 14px 40px -26px rgba(232,201,106,.5); }
+    .km-lens .lpanel.granted { border-left-color:var(--gold); }
     .km-lens .lpanel.granted .tier { color:var(--gold-deep); }
     .km-lens .lpanel.granted .lword { color:var(--gold-bright); text-shadow:0 1px 18px rgba(232,201,106,.3); }
     .km-lens .lpanel.granted .lcase, .km-lens .lpanel.granted .chip { color:var(--gold); }
@@ -426,8 +438,8 @@ import {
     }
 
     /* — memory hook (vocabulary retention) — */
-    .km-lens .feature { position:relative; border:1px solid var(--hair); border-left:3px solid var(--gold); border-radius:3px; padding:18px 20px; margin:14px 0 6px; background:linear-gradient(180deg, rgba(30,30,30,.55), rgba(15,15,15,.4)); box-shadow:0 0 0 1px rgba(201,168,76,.08), 0 18px 50px -34px rgba(232,201,106,.5); }
-    .km-lens .feature-tag { position:absolute; top:-9px; left:16px; font-family:var(--disp); font-size:.56rem; letter-spacing:.26em; text-transform:uppercase; color:#080808; background:linear-gradient(90deg,var(--gold-bright),var(--gold)); padding:3px 10px; border-radius:20px; }
+    .km-lens .feature { border-left:3px solid var(--gold); padding:2px 0 2px 18px; margin:14px 0 6px; }
+    .km-lens .feature-tag { display:inline-block; font-family:var(--disp); font-size:.56rem; letter-spacing:.26em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:8px; }
     .km-lens .hook-line { font-size:1.05rem; color:var(--parch); margin:6px 0 14px; }
     .km-lens .hook-line strong { color:var(--gold-bright); font-weight:700; }
     .km-lens .hook-line em { font-style:italic; color:var(--gold); }
@@ -440,7 +452,7 @@ import {
 
     /* — derivation / sarf table — */
     .km-lens .forms-note { text-align:center; font-style:italic; color:var(--parch-mute); margin:0 0 14px; font-size:.95rem; }
-    .km-lens .forms { border:1px solid var(--hair); border-radius:6px; overflow:hidden; background:rgba(17,17,17,.4); }
+    .km-lens .forms { border-top:1px solid var(--hair); }
     .km-lens .forms-head, .km-lens .forms-row { display:grid; grid-template-columns:72px 1fr 1fr 1.1fr; gap:6px 12px; padding:11px 14px; align-items:baseline; }
     .km-lens .forms-head { background:rgba(143,109,47,.12); border-bottom:1px solid var(--hair); }
     .km-lens .forms-head > span { font-family:var(--disp); font-size:.56rem; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-deep); }
@@ -469,7 +481,7 @@ import {
     .km-lens .cn-label.q { fill:var(--gold-bright); }
 
     /* — Qur'anic morphology readout — */
-    .km-lens .morph { border:1px solid var(--hair); border-radius:6px; overflow:hidden; background:rgba(17,17,17,.4); }
+    .km-lens .morph { border-top:1px solid var(--hair); }
     .km-lens .morph-row { display:grid; grid-template-columns:auto 1.4fr 3fr; gap:10px; align-items:baseline; padding:9px 14px; border-bottom:1px solid rgba(120,98,55,.16); }
     .km-lens .morph-row:last-child { border-bottom:0; }
     .km-lens .morph-row.here { background:rgba(232,201,106,.07); }
@@ -479,12 +491,19 @@ import {
 
     /* — in-context examples — */
     .km-lens .examples { display:flex; flex-direction:column; gap:12px; }
-    .km-lens .ex-card { border:1px solid var(--hair); border-left:2px solid var(--gold-deep); border-radius:3px; padding:12px 14px; background:rgba(17,17,17,.45); }
-    .km-lens .ex-card.here { border-left-color:var(--gold-bright); box-shadow:0 0 0 1px rgba(232,201,106,.12); }
+    .km-lens .ex-card { border-left:2px solid var(--hair); padding:2px 0 2px 14px; }
+    .km-lens .ex-card.here { border-left-color:var(--gold-bright); }
     .km-lens .ex-head { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
     .km-lens .ex-word { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.5rem; }
     .km-lens .ex-text { font-family:var(--body); color:var(--parch); margin:0; font-size:.98rem; }
     .km-lens .ex-src { font-family:var(--disp); font-size:.56rem; letter-spacing:.18em; text-transform:uppercase; color:var(--gold-deep); margin:6px 0 0; }
+
+    /* — from the lexica (real dictionary excerpts) — */
+    .km-lens .lexica { display:flex; flex-direction:column; gap:12px; }
+    .km-lens .lex-card { border-left:2px solid var(--hair); padding:2px 0 2px 14px; }
+    .km-lens .lex-src { display:block; font-family:var(--disp); font-size:.56rem; letter-spacing:.22em; text-transform:uppercase; color:var(--gold-deep); margin-bottom:6px; }
+    .km-lens .lex-text { margin:0; color:var(--parch-mute); font-size:.95rem; line-height:1.55; font-style:italic; }
+    .km-lens .lex-text.ar { font-family:var(--ar); font-style:normal; font-size:1.25rem; line-height:1.95; color:var(--parch); }
 
     @media (max-width:560px){ .km-lens .src-grid { grid-template-columns:1fr; gap:18px; } }
     @keyframes km-rise { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
