@@ -33,3 +33,9 @@ UPDATE ar_ling_lexicon_blocks SET data_json='{"lens":"balagha","sources":["ibn_a
 -- Cross-corpus occurrence families (Arabic headings + glosses)
 UPDATE ar_ling_lexicon_blocks SET data_json='{"refs":["34:37","38:25","38:40","11:114","26:90","50:31"],"families":[{"headingAr":"زُلْفَىٰ","gloss":"the فُعْلَىٰ noun — nearness / rank","refs":["34:37","38:25","38:40","39:3"]},{"headingAr":"زُلْفَة","gloss":"the فُعْلَة noun — a near portion / station (زُلَف الليل)","refs":["11:114","67:27"]},{"headingAr":"أُزْلِفَتْ","gloss":"Form IV verb — brought near (Paradise / the Fire)","refs":["26:64","26:90","50:31","81:13"]}]}'
  WHERE root_entry_id='re_kmaps_zlf_zumar_3' AND block_type='xref';
+
+-- Range of meaning (semantic spectrum of the root)
+INSERT OR REPLACE INTO ar_ling_lexicon_blocks
+ (id, source_slug, root_entry_id, root_norm, block_path, block_seq, depth, block_type, lang, text_html, data_json, origin) VALUES
+ ('blk_kmaps_zlf_meaning','kmaps_five_lens','re_kmaps_zlf_zumar_3','زلف','/meaning',9,0,'meaning','en',NULL,
+  '{"senses":[{"ar":"قُرْبة","en":"nearness, closeness"},{"ar":"دَرَجة","en":"degree, gradation"},{"ar":"مَنزِلة","en":"rank, station"},{"ar":"حُظْوة","en":"favour, high standing"},{"ar":"زُلْفة","en":"a near portion — زُلَف الليل, the night''s watches"},{"ar":"مَراقٍ","en":"ascents — al-mazālif"}]}','kmaps_synthesis');

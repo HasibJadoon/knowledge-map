@@ -120,6 +120,9 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       ? { html: figureBlock.text_html ?? '', label: (parseJson(figureBlock.data_json).label as string) ?? null }
       : null;
 
+    const meaningData = parseJson(blockRows.find((b) => b.block_type === 'meaning')?.data_json ?? null);
+    const meaning = Array.isArray(meaningData.senses) ? { senses: meaningData.senses as unknown[] } : null;
+
     const ayahBlock = blockRows.find((b) => b.block_type === 'ayah') ?? null;
     const ayahData = parseJson(ayahBlock?.data_json ?? null);
     const ayah = ayahBlock
@@ -172,6 +175,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
         status: entry.status,
       },
       figure,
+      meaning,
       ayah,
       lenses,
       occurrences,
