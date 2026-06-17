@@ -106,20 +106,42 @@ function lexScore(t: string): number {
   return s;
 }
 
-/** Trim a dictionary excerpt to a whole-sentence boundary so it never cuts off
- *  mid-clause. Ends at the last sentence terminator within `max`; falls back to
- *  the last word break only if none is found. */
+function isDigitCode(c: number): boolean {
+  return (c >= 0x30 && c <= 0x39) || (c >= 0x0660 && c <= 0x0669) || (c >= 0x06f0 && c <= 0x06f9);
+}
+
+/** Trim a dictionary excerpt to a self-contained unit so it never ends mid-word
+ *  or mid-clause — even when the imported source block is itself truncated.
+ *  Order of preference: (1) the closing ] of a real gloss (Lane gives the core
+ *  definition, e.g. "…rank, degree, or station]"); (2) the whole block if it is
+ *  short and ends cleanly; (3) the last sentence terminator within `max`;
+ *  (4) the last word break. */
 function cleanExcerpt(raw: string, max: number): string {
   const t = raw.trim();
-  if (t.length <= max) return t;
-  const slice = t.slice(0, max);
+
+  // (1) cut at the first ] closing a substantial gloss — but not a Qur'an ref
+  //     bracket like "[الملك/ ٢٧]" (preceded by a digit).
+  for (let i = 40; i < Math.min(t.length, max + 140); i++) {
+    if (t[i] === ']' && !isDigitCode(t.charCodeAt(i - 1))) {
+      const head = t.slice(0, i + 1).trim();
+      return i + 1 < t.length ? `${head} …` : head;
+    }
+  }
+
+  // (2) short and already ending on a sentence mark → return whole
+  if (t.length <= max && /[.؛۔!?]$/.test(t)) return t;
+
+  // (3)/(4) snap to the last sentence terminator within max, else last word break
+  const slice = t.length > max ? t.slice(0, max) : t;
   let cut = -1;
   for (const m of ['. ', '؛ ', '۔ ', '! ', '? ']) {
     const i = slice.lastIndexOf(m);
     if (i > cut) cut = i;
   }
-  const end = cut > 0 ? cut + 1 : slice.lastIndexOf(' ') > 0 ? slice.lastIndexOf(' ') : max;
-  return `${t.slice(0, end).trim()} …`;
+  if (cut > max * 0.4) return `${t.slice(0, cut + 1).trim()} …`;
+  if (t.length <= max) return t; // short with no clean break — leave as-is
+  const sp = slice.lastIndexOf(' ');
+  return `${t.slice(0, sp > 0 ? sp : max).trim()} …`;
 }
 
 export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
