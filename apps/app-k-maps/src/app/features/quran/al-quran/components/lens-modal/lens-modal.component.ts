@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
+import { Component, HostListener, Input, OnInit, ViewEncapsulation, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { IonicModule, ModalController } from '@ionic/angular';
 
@@ -287,18 +287,20 @@ import {
               <line *ngFor="let n of cl.nodes" class="cn-line" x1="160" y1="160" [attr.x2]="n.x" [attr.y2]="n.y"></line>
               <circle class="cn-hub" cx="160" cy="160" r="24"></circle>
               <text class="cn-hub-text" x="160" y="160" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ cl.root }}</text>
-              <ng-container *ngFor="let n of cl.nodes">
-                <circle class="cn-node" [class.q]="n.isQuran" [attr.cx]="n.x" [attr.cy]="n.y" r="3.2"></circle>
-                <text class="cn-label" [class.q]="n.isQuran" [attr.x]="n.lx" [attr.y]="n.ly" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ n.ar }}</text>
-              </ng-container>
+              <g class="cn-pt" *ngFor="let n of cl.nodes" (click)="selectNode(n, $event)">
+                <circle class="cn-node" [class.q]="n.isQuran" [class.sel]="selectedNode?.ar === n.ar" [attr.cx]="n.x" [attr.cy]="n.y" r="3.2"></circle>
+                <text class="cn-label" [class.q]="n.isQuran" [class.sel]="selectedNode?.ar === n.ar" [attr.x]="n.lx" [attr.y]="n.ly" text-anchor="middle" dominant-baseline="central" dir="rtl" lang="ar">{{ n.ar }}</text>
+                <circle class="cn-hit" [attr.cx]="n.lx" [attr.cy]="n.ly" r="20" fill="transparent"></circle>
+              </g>
             </svg>
           </figure>
-          <div class="cn-legend" *ngIf="constellationGlossed()">
-            <div class="cn-leg" *ngFor="let n of entry?.constellation?.nodes">
-              <span class="cn-leg-ar" [class.q]="n.isQuran" dir="rtl" lang="ar">{{ n.ar }}</span>
-              <span class="cn-leg-en">{{ n.en }}</span>
-            </div>
-          </div>
+          <ng-container *ngIf="constellationGlossed()">
+            <p class="cn-meaning" *ngIf="selectedNode as sn">
+              <span class="cn-meaning-ar" [class.q]="sn.isQuran" dir="rtl" lang="ar">{{ sn.ar }}</span>
+              <span class="cn-meaning-en">{{ sn.en }}</span>
+            </p>
+            <p class="cn-hint" *ngIf="!selectedNode">tap a word to reveal its meaning</p>
+          </ng-container>
         </ng-container>
 
         <!-- occurrences -->
@@ -567,14 +569,17 @@ import {
     .km-lens .cn-hub-text { font-family:var(--ar); fill:#080808; font-size:15px; font-weight:700; }
     .km-lens .cn-node { fill:var(--gold-deep); }
     .km-lens .cn-node.q { fill:var(--gold-bright); }
-    .km-lens .cn-label { font-family:var(--ar); fill:var(--parch-mute); font-size:11px; }
+    .km-lens .cn-label { font-family:var(--ar); fill:var(--parch-mute); font-size:11px; transition:fill .15s; }
     .km-lens .cn-label.q { fill:var(--gold-bright); }
-    .km-lens .cn-legend { display:grid; grid-template-columns:1fr 1fr; gap:5px 18px; margin-top:16px; }
-    .km-lens .cn-leg { display:flex; align-items:baseline; gap:9px; padding:4px 0; border-bottom:1px solid var(--hair-soft); }
-    .km-lens .cn-leg-ar { font-family:var(--ar); direction:rtl; color:var(--gold); font-size:1.2rem; flex:0 0 auto; min-width:3.6em; text-align:right; }
-    .km-lens .cn-leg-ar.q { color:var(--gold-bright); }
-    .km-lens .cn-leg-en { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.85rem; }
-    @media (max-width:560px){ .km-lens .cn-legend { grid-template-columns:1fr; } }
+    .km-lens .cn-label.sel { fill:var(--gold-bright); font-size:13px; font-weight:700; }
+    .km-lens .cn-node.sel { fill:var(--gold-bright); }
+    .km-lens .cn-pt { cursor:pointer; }
+    /* tapped-word meaning (reveal on tap, hide on outside click) */
+    .km-lens .cn-meaning { display:flex; align-items:baseline; justify-content:center; gap:11px; flex-wrap:wrap; margin:14px 0 2px; text-align:center; min-height:1.6rem; }
+    .km-lens .cn-meaning-ar { font-family:var(--ar); direction:rtl; color:var(--gold); font-size:1.5rem; }
+    .km-lens .cn-meaning-ar.q { color:var(--gold-bright); }
+    .km-lens .cn-meaning-en { font-family:var(--body); font-style:italic; color:var(--parch); font-size:.98rem; }
+    .km-lens .cn-hint { text-align:center; font-family:var(--body); font-style:italic; color:var(--muted); font-size:.85rem; margin:14px 0 2px; }
 
     /* — Qur'anic morphology readout — */
     .km-lens .morph { border-top:1px solid var(--hair); }
@@ -702,7 +707,7 @@ export class LensModalComponent implements OnInit {
    *  coordinates so the template can draw the SVG declaratively. */
   constellationLayout(): {
     root: string;
-    nodes: { ar: string; isQuran: boolean; x: number; y: number; lx: number; ly: number }[];
+    nodes: { ar: string; en?: string; isQuran: boolean; x: number; y: number; lx: number; ly: number }[];
   } | null {
     const cn = this.entry?.constellation;
     if (!cn?.nodes?.length) return null;
@@ -715,6 +720,7 @@ export class LensModalComponent implements OnInit {
       const lr = r + 15;
       return {
         ar: node.ar,
+        en: node.en,
         isQuran: node.isQuran,
         x: +(cx + r * Math.cos(ang)).toFixed(1),
         y: +(cy + r * Math.sin(ang)).toFixed(1),
@@ -728,6 +734,22 @@ export class LensModalComponent implements OnInit {
   /** True when the constellation nodes carry English glosses (curated set). */
   constellationGlossed(): boolean {
     return !!this.entry?.constellation?.nodes?.some((n) => !!n.en);
+  }
+
+  /** Constellation: the word whose meaning is currently revealed (tap a node). */
+  selectedNode: { ar: string; en?: string; isQuran: boolean } | null = null;
+
+  /** Reveal a node's meaning; stop the bubble so the outside-click handler
+   *  doesn't immediately clear it. Tapping the same node again hides it. */
+  selectNode(node: { ar: string; en?: string; isQuran: boolean }, ev: Event): void {
+    ev.stopPropagation();
+    this.selectedNode = this.selectedNode?.ar === node.ar ? null : node;
+  }
+
+  /** Any click that isn't on a node clears the revealed meaning. */
+  @HostListener('document:click')
+  clearSelectedNode(): void {
+    this.selectedNode = null;
   }
 
   /** Total distinct cross-corpus occurrences across all forms/families. */
