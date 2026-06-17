@@ -43,6 +43,11 @@ export interface FiveLensFamily {
   refs: string[];
 }
 
+export interface FiveLensSense {
+  ar: string;
+  en: string;
+}
+
 export interface FiveLensEntry {
   found: boolean;
   entry?: {
@@ -57,6 +62,7 @@ export interface FiveLensEntry {
     status: string;
   };
   figure?: { html: string; label: string | null } | null;
+  meaning?: { senses: FiveLensSense[] } | null;
   ayah?: { titleAr: string | null; titleEn: string | null; surahName: string | null; html: string } | null;
   lenses?: FiveLens[];
   occurrences?: { html: string; refs: string[]; families: FiveLensFamily[] };

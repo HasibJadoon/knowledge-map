@@ -35,7 +35,10 @@ import {
 
   <ion-content class="km-lens-content">
     <div class="km-lens">
-      <div *ngIf="loading" class="km-state"><ion-spinner name="crescent"></ion-spinner></div>
+      <div *ngIf="loading" class="km-state km-loading">
+        <div class="km-illum"><span class="km-illum-ring"></span><span class="km-illum-core"></span></div>
+        <p class="km-loading-text">Opening the lexicon…</p>
+      </div>
 
       <div *ngIf="!loading && entry && !entry.found" class="km-state km-empty">
         No five-lens entry yet for <span class="ar-inline" dir="rtl" lang="ar">{{ word?.text }}</span>.
@@ -95,6 +98,17 @@ import {
           <figcaption *ngIf="entry?.figure?.html" [innerHTML]="entry?.figure?.html"></figcaption>
         </figure>
 
+        <!-- range of meaning -->
+        <ng-container *ngIf="entry?.meaning?.senses?.length">
+          <p class="section-label">Range of Meaning</p>
+          <div class="senses">
+            <div class="sense-chip" *ngFor="let s of entry?.meaning?.senses">
+              <span class="sense-ar" dir="rtl" lang="ar">{{ s.ar }}</span>
+              <span class="sense-en">{{ s.en }}</span>
+            </div>
+          </div>
+        </ng-container>
+
         <hr class="rule tight">
 
         <!-- lenses (curated bilingual HTML bodies) -->
@@ -141,6 +155,7 @@ import {
         <ng-container *ngIf="entry?.occurrences?.refs?.length || entry?.occurrences?.families?.length">
           <hr class="rule">
           <p class="section-label">Cross-Corpus Occurrences · <span class="ar-inline" dir="rtl" lang="ar">{{ entry?.entry?.rootSpaced }}</span></p>
+          <p class="occ-summary" *ngIf="occurrenceCount() as oc">{{ oc }} occurrences across {{ entry?.occurrences?.families?.length || 1 }} forms</p>
           <ng-container *ngIf="entry?.occurrences?.families?.length; else flatOcc">
             <div class="occ-fam" *ngFor="let f of entry?.occurrences?.families">
               <h4 dir="rtl" lang="ar">{{ f.headingAr }}</h4>
@@ -216,8 +231,8 @@ import {
     .km-lens .approach svg { max-width:280px; width:70%; height:auto; }
 
     .km-lens .lens { margin:26px 0; }
-    .km-lens .lens-head { display:flex; align-items:baseline; gap:12px; margin:0 0 8px; }
-    .km-lens .lens-num { font-family:var(--ar); direction:rtl; color:var(--gold-deep); font-size:1.4rem; font-weight:700; min-width:1.1em; text-align:center; }
+    .km-lens .lens-head { display:flex; align-items:center; gap:12px; margin:0 0 8px; }
+    .km-lens .lens-num { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.15rem; font-weight:700; flex:0 0 auto; width:2rem; height:2rem; display:inline-grid; place-items:center; border-radius:50%; background:radial-gradient(circle at 50% 35%, rgba(232,200,120,.16), rgba(13,10,6,.2)); box-shadow:inset 0 0 0 1px rgba(201,162,75,.4), 0 0 0 4px rgba(13,10,6,.5), 0 0 14px -4px rgba(232,200,120,.5); }
     .km-lens .lens-ar { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.8rem; font-weight:700; line-height:1; }
     .km-lens .lens-en { font-family:var(--disp); font-size:.66rem; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); margin-left:auto; transform:translateY(-2px); }
     .km-lens .lens-body { margin:0; color:var(--parch); line-height:1.66; }
@@ -265,6 +280,53 @@ import {
     .km-lens .occ-gloss { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.9rem; }
     .km-lens .occ-fam .occ-row { margin-top:8px; }
     @media (max-width:560px){ .km-lens .ledger { grid-template-columns:1fr; } }
+
+    /* — richness polish — */
+    .km-lens .leaf > * { animation: km-rise .55s cubic-bezier(.2,.7,.2,1) both; }
+    .km-lens .leaf > *:nth-child(2){ animation-delay:.04s }
+    .km-lens .leaf > *:nth-child(3){ animation-delay:.08s }
+    .km-lens .leaf > *:nth-child(4){ animation-delay:.12s }
+    .km-lens .leaf > *:nth-child(5){ animation-delay:.16s }
+    .km-lens .leaf > *:nth-child(6){ animation-delay:.20s }
+    .km-lens .leaf > *:nth-child(7){ animation-delay:.24s }
+    .km-lens .leaf > *:nth-child(n+8){ animation-delay:.28s }
+
+    .km-lens .rule::after { content:""; position:absolute; left:50%; top:50%; width:6px; height:6px; transform:translate(-50%,-50%) rotate(45deg); background:var(--gold-bright); box-shadow:0 0 10px rgba(232,200,120,.6); }
+
+    .km-lens .leaf::after { content:""; position:absolute; inset:8px; pointer-events:none; opacity:.6;
+      background:
+        linear-gradient(var(--gold),var(--gold)) left 0 top 0/14px 1px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) left 0 top 0/1px 14px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) right 0 top 0/14px 1px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) right 0 top 0/1px 14px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) left 0 bottom 0/14px 1px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) left 0 bottom 0/1px 14px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) right 0 bottom 0/14px 1px no-repeat,
+        linear-gradient(var(--gold),var(--gold)) right 0 bottom 0/1px 14px no-repeat; }
+
+    .km-lens .senses { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; }
+    .km-lens .sense-chip { display:flex; flex-direction:column; align-items:center; gap:2px; border:1px solid var(--hair); border-radius:10px; padding:8px 12px; background:rgba(20,16,10,.5); transition:border-color .2s, transform .2s; }
+    .km-lens .sense-chip:hover { border-color:rgba(232,200,120,.45); transform:translateY(-1px); }
+    .km-lens .sense-ar { font-family:var(--ar); direction:rtl; color:var(--gold-bright); font-size:1.3rem; line-height:1.2; }
+    .km-lens .sense-en { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.82rem; }
+
+    .km-lens .occ-summary { font-family:var(--body); font-style:italic; text-align:center; color:var(--muted); margin:-6px 0 14px; font-size:.9rem; }
+    .km-lens .chip { transition:background .2s, border-color .2s, transform .2s, color .2s; }
+    .km-lens .chip:hover { border-color:rgba(232,200,120,.45); transform:translateY(-1px); }
+    .km-lens .src-item { transition:color .2s, letter-spacing .2s; }
+    .km-lens .src-item:hover { color:var(--gold-bright); letter-spacing:.02em; }
+
+    .km-lens .km-illum { position:relative; width:64px; height:64px; }
+    .km-lens .km-illum-ring { position:absolute; inset:0; border-radius:50%; border:2px solid transparent; border-top-color:var(--gold-bright); border-right-color:var(--gold-deep); animation:km-spin 1.1s linear infinite; box-shadow:0 0 18px -6px rgba(232,200,120,.6); }
+    .km-lens .km-illum-core { position:absolute; left:50%; top:50%; width:12px; height:12px; transform:translate(-50%,-50%) rotate(45deg); background:var(--gold-bright); box-shadow:0 0 14px rgba(232,200,120,.7); animation:km-pulse 1.4s ease-in-out infinite; }
+    .km-lens .km-loading-text { font-family:var(--disp); font-size:.66rem; letter-spacing:.28em; text-transform:uppercase; color:var(--gold-deep); }
+
+    @keyframes km-spin { to { transform:rotate(360deg); } }
+    @keyframes km-pulse { 0%,100%{opacity:.55;} 50%{opacity:1;} }
+
+    @media (prefers-reduced-motion:reduce){
+      .km-lens .leaf > *, .km-lens .km-illum-ring, .km-lens .km-illum-core { animation:none !important; }
+    }
 
     @media (max-width:560px){ .km-lens .src-grid { grid-template-columns:1fr; gap:18px; } }
     @keyframes km-rise { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
@@ -330,6 +392,17 @@ export class LensModalComponent implements OnInit {
   /** Prefer the Arabic surah name; fall back to the Latin one from data_json. */
   surahLabel(): string {
     return (this.entry?.entry?.surahNameAr ?? this.entry?.ayah?.surahName ?? '').trim();
+  }
+
+  /** Total distinct cross-corpus occurrences across all forms/families. */
+  occurrenceCount(): number {
+    const fams = this.entry?.occurrences?.families ?? [];
+    if (fams.length) {
+      const set = new Set<string>();
+      for (const f of fams) for (const r of f.refs ?? []) set.add(r);
+      return set.size;
+    }
+    return this.entry?.occurrences?.refs?.length ?? 0;
   }
 
   arabicNum(n: number): string {
