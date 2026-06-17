@@ -214,6 +214,12 @@ import {
               </ng-container>
             </svg>
           </figure>
+          <div class="cn-legend" *ngIf="constellationGlossed()">
+            <div class="cn-leg" *ngFor="let n of entry?.constellation?.nodes">
+              <span class="cn-leg-ar" [class.q]="n.isQuran" dir="rtl" lang="ar">{{ n.ar }}</span>
+              <span class="cn-leg-en">{{ n.en }}</span>
+            </div>
+          </div>
         </ng-container>
 
         <!-- occurrences -->
@@ -479,6 +485,12 @@ import {
     .km-lens .cn-node.q { fill:var(--gold-bright); }
     .km-lens .cn-label { font-family:var(--ar); fill:var(--parch-mute); font-size:11px; }
     .km-lens .cn-label.q { fill:var(--gold-bright); }
+    .km-lens .cn-legend { display:grid; grid-template-columns:1fr 1fr; gap:5px 18px; margin-top:16px; }
+    .km-lens .cn-leg { display:flex; align-items:baseline; gap:9px; padding:4px 0; border-bottom:1px solid var(--hair-soft); }
+    .km-lens .cn-leg-ar { font-family:var(--ar); direction:rtl; color:var(--gold); font-size:1.2rem; flex:0 0 auto; min-width:3.6em; text-align:right; }
+    .km-lens .cn-leg-ar.q { color:var(--gold-bright); }
+    .km-lens .cn-leg-en { font-family:var(--body); font-style:italic; color:var(--parch-mute); font-size:.85rem; }
+    @media (max-width:560px){ .km-lens .cn-legend { grid-template-columns:1fr; } }
 
     /* — Qur'anic morphology readout — */
     .km-lens .morph { border-top:1px solid var(--hair); }
@@ -627,6 +639,11 @@ export class LensModalComponent implements OnInit {
       };
     });
     return { root: cn.root, nodes };
+  }
+
+  /** True when the constellation nodes carry English glosses (curated set). */
+  constellationGlossed(): boolean {
+    return !!this.entry?.constellation?.nodes?.some((n) => !!n.en);
   }
 
   /** Total distinct cross-corpus occurrences across all forms/families. */

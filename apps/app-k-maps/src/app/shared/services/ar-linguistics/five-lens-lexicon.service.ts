@@ -77,7 +77,8 @@ export interface FiveLensRetention {
 
 export interface FiveLensConstellationNode {
   ar: string; // derived lemma, e.g. "تَزَلَّفَ"
-  pos: string; // 'verb' | 'noun'
+  pos?: string; // 'verb' | 'noun' (lemma-derived fallback only)
+  en?: string; // range of English meaning for this word
   isQuran: boolean; // appears in the Qur'an
 }
 
