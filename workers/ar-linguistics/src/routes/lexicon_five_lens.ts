@@ -166,7 +166,8 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
         .prepare(
           `SELECT source_slug, substr(coalesce(text_plain, text_html),1,420) txt
              FROM ar_ling_lexicon_blocks
-            WHERE root_norm = ?1 AND source_slug <> ?2`,
+            WHERE root_norm = ?1 AND source_slug <> ?2
+            LIMIT 1500`,
         )
         .bind(rootNorm, SOURCE_SLUG)
         .all<LexBlockRow>(),
