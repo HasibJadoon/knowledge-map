@@ -107,8 +107,19 @@ Stored as: 1× `qr_ss_occ_sentence`, 6× `qr_ss_scope_member_map`,
 | Study steps + root tasks (7×8) + comprehension bank | ✅ complete |
 | SS mining — ayah 39:1 | ✅ gold example (all tables) |
 | Iʿrāb word-linking (1,893 entries) | ◑ 473 linked, 389 span, 1,031 ambiguous (`seed-qr-surah39-irab-wordlink.sql`) |
-| SS mining — ayahs 39:2–75 | ⏳ order-aware miner over linked + ambiguous entries |
+| SS mining — ayahs 39:2–75 | ✅ reconciled from linked entries (`seed-qr-surah39-ss-reconcile.sql`) |
 | Tafsīr → `qr_scholar_positions` mapping | ⏳ pending |
+
+### SS reconciliation result (whole surah)
+
+From the 473 word-linked entries, `seed-qr-surah39-ss-reconcile.sql` builds the
+`qr_ss_*` layer across Surah 39: **75 sentences** (39:1 gold + 74 ayah
+containers), **341 member maps**, **341 per-word morph links** (majority iʿrāb
+role), and **359 readings** — of which **20 are nuanced minority readings**
+flagged where the books disagree. The ayah containers are coarse (one sentence
+per ayah); clause/phrase segmentation and the 1,031 ambiguous + 389 span
+entries remain for the order-aware miner. The 39:1 gold stays the authoritative
+fine-grained example.
 
 ### Word-linking detail
 
