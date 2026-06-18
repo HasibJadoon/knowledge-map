@@ -733,9 +733,14 @@ export class StudyRepo {
       }
       return root;
     };
-    const treeBySentence = new Map<string, { node: SsConstituencyNode | null; grounding: string | null }>();
-    for (const t of treeRows) {
-      treeBySentence.set(t.sentence_id, { node: buildConstituency(t.id), grounding: t.grounding ?? null });
+    // Multiple authored trees can hang off one ayah's sentence row (e.g. ayahs
+    // 5–6, which contain several sentences). Keep them all, ordered by tree id
+    // (which carries the authoring step number), and emit one board per tree.
+    const treesBySentence = new Map<string, { id: string; node: SsConstituencyNode | null; grounding: string | null }[]>();
+    for (const t of [...treeRows].sort((a, b) => a.id.localeCompare(b.id))) {
+      const list = treesBySentence.get(t.sentence_id) ?? [];
+      list.push({ id: t.id, node: buildConstituency(t.id), grounding: t.grounding ?? null });
+      treesBySentence.set(t.sentence_id, list);
     }
 
     // ── Clause hierarchy per sentence, words attached by index span ────────────
@@ -812,30 +817,44 @@ export class StudyRepo {
     }
 
     // ── Compose sentences ──────────────────────────────────────────────────────
-    const sentences = sentRows.map((s) => {
-      const authored = treeBySentence.get(s.id);
-      // Pull any clause-scoped balāgha up into the sentence's balāgha list too.
+    // One board per authored constituency tree where curated; otherwise a single
+    // board built from the grounded clause hierarchy.
+    const sentences: unknown[] = [];
+    for (const s of sentRows) {
       const clauseIds = (clausesBySentence.get(s.id) ?? []).map((c) => c.id);
       const balagha = [
         ...(balaghaByScope.get(s.id) ?? []),
         ...clauseIds.flatMap((cid) => balaghaByScope.get(cid) ?? []),
       ];
-      return {
-        id:        s.id,
+      const base = {
         ayah:      s.ayah_from,
         ayahTo:    s.ayah_to,
         kind:      s.sentence_kind ?? null,
         mode:      parseDiscourseMode(s.note_md),
         note:      stripModePrefix(s.note_md),
-        grounding: authored?.node ? (authored.grounding ?? 'authored') : (irabRows.length ? 'irab' : null),
-        tree:      authored?.node ?? null,                 // authored word-level constituency
-        clauseTree: buildClauseTree(s.id, s.ayah_from),    // grounded clause hierarchy + iʿrāb
+        clauseTree: buildClauseTree(s.id, s.ayah_from),     // grounded clause hierarchy + iʿrāb
         irabAnalysis: irabAyahByAyah.get(s.ayah_from) ?? [], // grammarian detail, per book
         balagha,
         ellipsis:  ellipsisBySentence.get(s.id) ?? [],
         tafsir:    tafsirByAyah.get(s.ayah_from) ?? [],
       };
-    });
+      const trees = treesBySentence.get(s.id) ?? [];
+      if (trees.length) {
+        trees.forEach((t, i) => sentences.push({
+          ...base,
+          id: trees.length > 1 ? `${s.id}#${i + 1}` : s.id,
+          grounding: t.grounding ?? 'authored',
+          tree: t.node,                                      // authored word-level constituency
+        }));
+      } else {
+        sentences.push({
+          ...base,
+          id: s.id,
+          grounding: irabRows.length ? 'irab' : null,
+          tree: null,
+        });
+      }
+    }
 
     const termColors: Record<string, string> = {};
     const terms = termRows.map((t) => {

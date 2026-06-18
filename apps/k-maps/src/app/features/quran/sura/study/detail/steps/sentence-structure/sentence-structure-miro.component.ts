@@ -19,7 +19,7 @@ import {
 import { CommonModule } from '@angular/common';
 import { hierarchy, tree as d3Tree, HierarchyPointNode } from 'd3-hierarchy';
 import type {
-  SsStepData, SsSentenceVm, SsClauseNodeVm, SsClauseWordVm,
+  SsStepData, SsSentenceVm, SsClauseNodeVm, SsClauseWordVm, SsConstituencyNodeVm,
 } from '../../../../../../../shared/services/quran/quran-surah.service';
 
 // ── Layout node — the unified hierarchy fed to d3-tree ────────────────────────
@@ -119,7 +119,12 @@ export class SentenceStructureMiroComponent {
   // ── Build the unified hierarchy for one sentence ────────────────────────────
 
   private buildLayout(s: SsSentenceVm): LayoutNode {
-    const sentenceNode: LayoutNode = {
+    // Prefer the authored word-level constituency tree (mubtadaʾ/khabar/iḍāfa…);
+    // fall back to the grounded clause hierarchy decorated with iʿrāb.
+    if (s.tree) {
+      return this.constituencyLayout(s.tree, true);
+    }
+    return {
       kind: 'sentence', id: s.id,
       title: this.kindLabel(s.kind),
       subtitle: `${s.ayah}${s.ayahTo !== s.ayah ? '–' + s.ayahTo : ''}`,
@@ -127,7 +132,18 @@ export class SentenceStructureMiroComponent {
       color: GOLD,
       children: (s.clauseTree ?? []).map((c) => this.clauseLayout(c)),
     };
-    return sentenceNode;
+  }
+
+  private constituencyLayout(n: SsConstituencyNodeVm, isRoot = false): LayoutNode {
+    const hasChildren = !!(n.children && n.children.length);
+    return {
+      kind: isRoot ? 'sentence' : (hasChildren ? 'clause' : 'word'),
+      id: n.id,
+      title: n.name,
+      subtitle: n.label_ar ?? undefined,
+      color: (n.term_id && this.termColors()[n.term_id]) || GOLD,
+      children: (n.children ?? []).map((k) => this.constituencyLayout(k)),
+    };
   }
 
   private clauseLayout(c: SsClauseNodeVm): LayoutNode {
