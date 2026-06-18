@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="ar"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-MAPS × Membean — Fused Word View · زُلْفَىٰ</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;600&family=EB+Garamond:ital@0;1&family=Gentium+Plus:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#080808;--gold:#c9a84c;--gold-bright:#e8c96a;--gold-deep:#9e7c3c;
+ --parch:rgba(255,255,255,.92);--parch-mute:rgba(255,255,255,.60);--muted:rgba(255,255,255,.40);
+ --hair:rgba(201,168,76,.16);--hair-soft:rgba(201,168,76,.08);
+ --ar:'Amiri',serif;--tl:'Gentium Plus',serif;--disp:'Cinzel',serif;--body:'EB Garamond',serif}
+*{box-sizing:border-box}
+body{margin:0;font-family:var(--body);color:var(--parch);
+ background:radial-gradient(130% 90% at 50% -10%,#1a1a1a 0%,#080808 58%),#060606}
+.ar{font-family:var(--ar);direction:rtl}
+/* ── top bar (Membean skeleton, k-maps skin) ── */
+.topbar{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:16px;padding:12px 22px;
+ background:linear-gradient(180deg,rgba(10,10,10,.96),rgba(10,10,10,.78));backdrop-filter:blur(6px);
+ border-bottom:1px solid var(--hair)}
+.kbadges{display:flex;flex-direction:column;gap:6px}
+.kbadge{font-family:var(--disp);font-size:.54rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);
+ border:1px solid var(--hair);border-radius:5px;padding:4px 9px;text-align:center;white-space:nowrap}
+.kbadge .ar{color:var(--gold)}
+.hw{display:flex;align-items:center;gap:10px}
+.hw-word{font-family:var(--ar);font-size:2.1rem;color:var(--gold-bright);line-height:1;text-shadow:0 1px 16px rgba(232,201,106,.25)}
+.hw-new{font-family:var(--disp);font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink);
+ background:var(--gold-bright);border-radius:3px;padding:1px 5px;transform:translateY(-10px)}
+.hw-ikt{display:flex;align-items:center;gap:6px;font-family:var(--disp);font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.hw-ikt .ar{font-family:var(--ar);color:var(--gold);font-size:.95rem;letter-spacing:0;text-transform:none}
+.hw-audio{font-family:var(--tl);font-style:italic;color:var(--gold-deep);font-size:.9rem;cursor:pointer}
+.hw-audio:hover{color:var(--gold-bright)}
+.cta{margin-inline-start:auto;display:flex;gap:10px;align-items:center}
+.kdone{font-family:var(--disp);font-size:.56rem;letter-spacing:.16em;text-transform:uppercase;color:var(--parch-mute);
+ background:transparent;border:1px solid var(--hair);border-radius:6px;padding:9px 14px;cursor:pointer}
+.knext{font-family:var(--disp);font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--ink);
+ background:linear-gradient(180deg,#f4dd9e,#c9a24b);border:1px solid var(--gold-deep);border-radius:7px;
+ padding:11px 26px;cursor:pointer;font-weight:600;box-shadow:0 0 18px -6px rgba(232,201,106,.5)}
+/* ── hero band (k-maps leaf hero) ── */
+.app{max-width:1200px;margin:0 auto;padding:8px 18px 30px}
+.hero{text-align:center;padding:26px 12px 10px;position:relative}
+.eyebrow{font-family:var(--disp);font-size:.6rem;letter-spacing:.42em;text-transform:uppercase;color:var(--gold-deep);margin:0 0 14px}
+.lemma{font-family:var(--ar);font-size:clamp(3.4rem,12vw,5rem);line-height:1;font-weight:700;color:var(--gold-bright);margin:0;direction:rtl;text-shadow:0 2px 30px rgba(232,201,106,.2)}
+.translit{font-family:var(--tl);font-style:italic;font-size:1.35rem;margin:.3em 0 .1em}
+.hsense{font-style:italic;color:var(--parch-mute);margin:0 0 12px}
+.meta{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;font-family:var(--disp);font-size:.64rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.meta .ar{font-family:var(--ar);font-size:1rem;letter-spacing:0;color:var(--gold);text-transform:none}
+.meta .dot{color:var(--gold-deep)}
+.ayah{margin:18px auto 4px;max-width:680px}
+.ayah .a{font-family:var(--ar);direction:rtl;font-size:clamp(1.6rem,4.6vw,2.1rem);line-height:2;color:var(--parch);margin:0 0 8px}
+.ayah .a b{color:var(--gold-bright)}
+.ayah .e{font-style:italic;color:var(--parch-mute)}
+.brk{height:1px;max-width:680px;margin:22px auto;background:linear-gradient(90deg,transparent,var(--gold-deep),transparent);position:relative}
+.brk::after{content:"";position:absolute;left:50%;top:50%;width:6px;height:6px;transform:translate(-50%,-50%) rotate(45deg);background:var(--gold-bright);box-shadow:0 0 10px rgba(232,201,106,.6)}
+/* ── panel grid (Membean two-column, k-maps cards) ── */
+.grid{display:grid;grid-template-columns:1.55fr 1fr;gap:18px;align-items:start}
+@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.col{display:flex;flex-direction:column;gap:18px}
+.panel{position:relative;background:linear-gradient(180deg,rgba(26,26,26,.55),rgba(8,8,8,.5));
+ border:1px solid var(--hair);border-radius:6px;overflow:hidden}
+.panel::after{content:"";position:absolute;inset:6px;pointer-events:none;opacity:.5;background:
+ linear-gradient(var(--gold),var(--gold)) left 0 top 0/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) left 0 top 0/1px 12px no-repeat,
+ linear-gradient(var(--gold),var(--gold)) right 0 top 0/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) right 0 top 0/1px 12px no-repeat,
+ linear-gradient(var(--gold),var(--gold)) left 0 bottom 0/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) left 0 bottom 0/1px 12px no-repeat,
+ linear-gradient(var(--gold),var(--gold)) right 0 bottom 0/12px 1px no-repeat,linear-gradient(var(--gold),var(--gold)) right 0 bottom 0/1px 12px no-repeat}
+.phead{display:flex;align-items:center;gap:10px;padding:9px 15px;border-bottom:1px solid var(--hair);
+ background:linear-gradient(180deg,rgba(201,168,76,.10),transparent)}
+.phead .t{font-family:var(--disp);font-size:.58rem;letter-spacing:.26em;text-transform:uppercase;color:var(--gold-deep)}
+.phead .ta{font-family:var(--ar);color:var(--gold);font-size:1.05rem;margin-inline-start:auto}
+.phead .qc{width:18px;height:18px;border-radius:50%;border:1px solid var(--hair);display:grid;place-items:center;font-size:10px;color:var(--gold-deep)}
+.pbody{padding:15px 16px}
+.note{font-style:italic;color:var(--parch-mute);font-size:.9rem;text-align:center;margin:0 0 12px}
+.srcref{font-family:var(--body);font-style:italic;color:#6f6347;font-size:.78rem;text-align:center;margin-top:10px}
+.pending{font-style:italic;color:var(--muted);font-size:.82rem;text-align:center;margin-top:8px}
+/* context + quiz */
+.ctx{font-family:var(--ar);direction:rtl;font-size:1.35rem;line-height:2.1;color:var(--parch)}
+.ctx b{color:var(--gold-bright)}
+.qq{font-family:var(--ar);direction:rtl;color:var(--gold);text-align:center;font-size:1.2rem;margin:14px 0 10px}
+.opt{font-family:var(--ar);direction:rtl;border:1px solid var(--hair);background:rgba(17,17,17,.45);border-radius:9px;padding:10px 15px;margin-bottom:8px;cursor:pointer;font-size:1.15rem;transition:.15s}
+.opt:hover{border-color:rgba(232,201,106,.4)}
+.opt.ok{border-color:var(--gold);background:rgba(232,201,106,.12);color:var(--gold-bright)}
+.opt.no{border-color:#7a3b3b;background:rgba(122,59,59,.14)}
+/* shared bits */
+.senses{display:flex;flex-wrap:wrap;gap:9px;justify-content:center}
+.schip{display:flex;flex-direction:column;align-items:center;gap:1px;border:1px solid var(--hair);border-radius:9px;padding:7px 11px;background:rgba(17,17,17,.45)}
+.schip .a{font-family:var(--ar);color:var(--gold-bright);font-size:1.2rem}
+.schip .e{font-style:italic;color:var(--parch-mute);font-size:.78rem}
+.schip .r{font-family:var(--disp);font-size:.5rem;letter-spacing:.1em;color:var(--gold-deep)}
+.ing{display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap}
+.tile{border:1px solid var(--hair);border-radius:9px;background:rgba(17,17,17,.5);padding:7px 12px;text-align:center}
+.tile .m{font-family:var(--ar);color:var(--gold-bright);font-size:1.4rem}
+.tile .g{font-style:italic;color:var(--muted);font-size:.74rem}
+.ing-syn{font-family:var(--ar);direction:rtl;text-align:center;font-size:1.25rem;margin:10px 0 0}.ing-syn b{color:var(--gold-bright)}
+.hook{font-size:1rem;line-height:1.6}.hook em{font-style:italic;color:var(--gold)}
+.anchors{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.anchor{display:inline-flex;gap:6px;align-items:baseline;border:1px solid var(--hair);border-radius:18px;padding:4px 11px;background:rgba(8,8,8,.4)}
+.anchor b{font-variant:small-caps;color:var(--gold-bright);font-size:.9rem}.anchor span{font-style:italic;color:var(--muted);font-size:.78rem}
+.mh-illus svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto}
+.mh-cap{font-style:italic;color:var(--muted);font-size:.8rem;text-align:center;margin:6px 0 0}.mh-cap .ar{color:var(--gold)}
+.tbl{border-top:1px solid var(--hair)}
+.trow{display:grid;gap:7px 10px;padding:9px 4px;border-bottom:1px solid rgba(120,98,55,.16);align-items:baseline}
+.trow:last-child{border:0}.thead{background:rgba(143,109,47,.1)}
+.thead span{font-family:var(--disp);font-size:.52rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-deep)}
+.gov{grid-template-columns:1fr .8fr .6fr 1.6fr}.sarf{grid-template-columns:54px 1fr 1fr 1.3fr}
+.av{font-family:var(--ar);direction:rtl;color:var(--gold-bright);font-size:1.3rem}
+.harf{font-family:var(--ar);direction:rtl;color:var(--gold);font-size:1.15rem}
+.type{font-style:italic;font-size:.78rem}.type.t{color:var(--gold)}.type.i{color:var(--parch-mute)}
+.tg{font-style:italic;color:var(--parch-mute);font-size:.86rem}
+.fc{font-family:var(--ar);direction:rtl;font-size:1.25rem;color:var(--parch)}.fc.m{color:var(--gold-bright)}
+.fm b{font-family:var(--disp);color:var(--gold-bright);font-size:.8rem}.fm .wz{display:block;font-family:var(--ar);direction:rtl;color:var(--muted);font-size:.85rem}
+.chips{display:flex;gap:8px;flex-wrap:wrap;justify-content:center}
+.chip{font-family:var(--ar);direction:rtl;font-size:1.1rem;color:var(--gold);border:1px solid var(--hair);border-radius:18px;padding:4px 12px;background:rgba(17,17,17,.4)}
+.chip.ant{color:var(--parch-mute);border-color:rgba(154,43,43,.4)}
+.chip.r{font-family:var(--disp);font-size:.7rem;border-radius:3px;padding:4px 8px;letter-spacing:.04em}
+.chip.r.here{background:rgba(232,201,106,.14);color:var(--gold-bright)}
+.legend{display:flex;gap:16px;justify-content:center;font-size:.78rem;color:var(--muted);margin-top:10px}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:50%;margin-inline-end:5px;vertical-align:0}
+.cfig svg{width:100%;max-width:300px;height:auto;display:block;margin:0 auto;overflow:visible}
+.card{border-left:2px solid var(--hair);padding:1px 0 1px 13px;margin:9px 0}
+.card .s{display:block;font-family:var(--disp);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:4px}
+.card .x{color:var(--parch-mute);font-size:.94rem;line-height:1.55}.card .x.ar{font-family:var(--ar);direction:rtl;color:var(--parch);font-size:1.2rem;line-height:1.85}
+.card .e{font-style:italic;color:var(--muted);font-size:.84rem;margin-top:2px}
+.idiom .p{font-family:var(--ar);direction:rtl;color:var(--gold-bright);font-size:1.35rem}
+.tafsir{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid rgba(120,98,55,.16)}.tafsir:last-child{border:0}
+.tafsir .n{flex:0 0 104px;font-variant:small-caps;color:var(--gold);font-size:.9rem}
+.tafsir .g{color:var(--parch-mute);font-size:.9rem;line-height:1.45}.tafsir .g .ar{color:var(--gold)}
+.variants .v{display:flex;gap:8px;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(120,98,55,.14)}.variants .v:last-child{border:0}
+.variants .v .w{font-family:var(--ar);color:var(--gold-bright);font-size:1.3rem}
+.variants .v .p{font-family:var(--disp);font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold-deep)}
+.variants .v .g{font-style:italic;color:var(--parch-mute);font-size:.86rem;margin-inline-start:auto}
+.tabs{display:flex;gap:12px;justify-content:center;margin-top:26px;padding-top:18px;border-top:1px solid var(--hair)}
+.tab{font-family:var(--disp);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);border:1px solid var(--hair);border-radius:6px;padding:9px 18px}
+.foot{text-align:center;font-family:var(--ar);color:var(--gold-deep);font-size:1.4rem;margin-top:20px}
+</style></head>
+<body>
+
+<div class="topbar">
+  <div class="kbadges"><span class="kbadge">اسم · Noun</span><span class="kbadge">Level 1 · Expedition · <span class="ar">الزُّمَر</span></span></div>
+  <div class="hw"><span class="hw-word">زُلْفَىٰ</span><span class="hw-new">new</span>
+    <label class="hw-ikt"><input type="checkbox"> <span class="ar">أعرفها</span> · IKT</label></div>
+  <span class="hw-audio">🔊 tilāwa · zulfā</span>
+  <div class="cta"><button class="kdone">تمّ · I'm done</button><button class="knext" onclick="alert('→ next word')">Next · التالي ▸</button></div>
+</div>
+
+<div class="app">
+ <div class="hero">
+   <p class="eyebrow">Key Term · Five-Lens × Membean</p>
+   <h1 class="lemma">زُلْفَىٰ</h1>
+   <p class="translit">zulfā</p>
+   <p class="hsense">nearness as elevated standing — rank, not bare proximity</p>
+   <div class="meta"><span>root <span class="ar">ز ل ف</span></span><span class="dot">·</span><span>pattern <span class="ar">فُعْلَىٰ</span></span><span class="dot">·</span><span>39:3</span><span class="dot">·</span><span class="ar">سورة الزُّمَر</span></div>
+   <div class="ayah"><p class="a">مَا نَعْبُدُهُمْ إِلَّا لِيُقَرِّبُونَا إِلَى ٱللَّهِ <b>زُلْفَىٰ</b></p>
+     <p class="e">"We worship them only that they may bring us near to Allah in nearness of rank."</p></div>
+ </div>
+ <div class="brk"></div>
+
+ <div class="grid">
+  <!-- ── MAIN COLUMN ── -->
+  <div class="col">
+
+   <div class="panel"><div class="phead"><span class="t">Context · Quiz</span><span class="ta">السياق</span><span class="qc">?</span></div>
+    <div class="pbody">
+     <p class="ctx">والمشركون يزعمون أنّ أصنامهم <b>تُقرِّبهم</b> إلى الله <b>زُلْفَىٰ</b>، أي تَرفعهم عنده مَنزِلةً ودَرَجةً؛ فردّ الله زعمَهم: لا <b>قُربَ</b> إلا بالإخلاص والطاعة.</p>
+     <p class="qq">ما معنى «زُلْفَىٰ»؟</p>
+     <div class="opt" onclick="pk(this,0)">القُرب الحِسّيّ المجرّد من المكان</div>
+     <div class="opt" onclick="pk(this,1)">القُربة والمنزلة الرفيعة عند الله</div>
+     <div class="opt" onclick="pk(this,0)">الشفاعة يوم القيامة</div>
+    </div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Memory Hook</span><span class="ta">الخُطّاف</span><span class="qc">?</span></div>
+    <div class="pbody">
+     <figure class="mh-illus"><svg viewBox="0 0 320 168" aria-label="ascent">
+       <defs><radialGradient id="g1" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#f4dd9e"/><stop offset="42%" stop-color="#e8c96a"/><stop offset="100%" stop-color="#9e7c3c" stop-opacity="0"/></radialGradient></defs>
+       <text x="258" y="13" text-anchor="middle" font-family="Amiri" font-size="12" fill="#e8c96a" direction="rtl">مَنْزِلة</text>
+       <circle cx="258" cy="60" r="42" fill="url(#g1)"/><circle cx="258" cy="60" r="12" fill="#e8c96a"/>
+       <text x="258" y="64" text-anchor="middle" font-family="Amiri" font-size="11" fill="#080808" direction="rtl">قُرْب</text>
+       <g stroke="#9e7c3c" stroke-width="3.2" stroke-linecap="round"><line x1="26" y1="136" x2="64" y2="136" stroke-opacity=".32"/><line x1="54" y1="122" x2="92" y2="122" stroke-opacity=".4"/><line x1="82" y1="108" x2="120" y2="108" stroke-opacity=".5"/><line x1="110" y1="94" x2="148" y2="94" stroke-opacity=".62"/><line x1="138" y1="80" x2="176" y2="80" stroke-opacity=".76"/><line x1="166" y1="66" x2="204" y2="66" stroke-opacity=".9"/></g>
+       <path d="M26,136 L64,136 L92,122 L120,108 L148,94 L176,80 L204,66 L232,60" fill="none" stroke="#c9a84c" stroke-width="1.2" stroke-dasharray="2 5"/>
+       <circle cx="120" cy="108" r="5" fill="#e8c96a"/>
+       <text x="142" y="125" text-anchor="middle" font-family="Amiri" font-size="12" fill="#e8c96a" direction="rtl">زُلْفَىٰ</text></svg>
+       <figcaption class="mh-cap">every step a degree of rank — to draw near (<span class="ar">زُلْفَىٰ</span>) is to rise in standing (<span class="ar">مَنْزِلة</span>)</figcaption></figure>
+     <p class="hook">Hear <em>zulfā</em> in <em>zeal</em>ous — an eager advance into nearness; a courtier ushered to the front row, brought near into <em>rank</em>, not merely standing close.</p>
+     <div class="anchors"><span class="anchor"><b>zealous</b><span>eager advance</span></span><span class="anchor"><b>courtier</b><span>near the throne</span></span></div>
+    </div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Core Meaning · Range</span><span class="ta">المعنى المحوري</span><span class="qc">?</span></div>
+    <div class="pbody">
+     <p class="ctx" style="text-align:center;font-size:1.4rem">الزاء واللام والفاء أصلٌ يدلُّ على <b>القُرب والتقدُّم</b> والدُّنوّ.</p>
+     <p class="note">Maqāyīs (Ibn Fāris) — the root names nearness & advancing-forward.</p>
+     <div class="senses">
+       <div class="schip"><span class="a">زُلْفَىٰ</span><span class="e">rank-nearness</span><span class="r">39:3</span></div>
+       <div class="schip"><span class="a">أُزْلِفَت</span><span class="e">brought near</span><span class="r">26:90</span></div>
+       <div class="schip"><span class="a">زُلَفًا</span><span class="e">night-portions</span><span class="r">11:114</span></div>
+       <div class="schip"><span class="a">زُلْفَة</span><span class="e">near at hand</span><span class="r">67:27</span></div></div>
+    </div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Verb · Government</span><span class="ta">تعدية الفعل</span><span class="qc">?</span></div>
+    <div class="pbody"><div class="tbl">
+      <div class="trow gov thead"><span>verb</span><span>type</span><span>+ḥarf</span><span>meaning</span></div>
+      <div class="trow gov"><span class="av">زَلَفَ</span><span class="type i">lāzim</span><span class="harf">—</span><span class="tg">to draw near, advance</span></div>
+      <div class="trow gov"><span class="av">أَزْلَفَ</span><span class="type t">mutaʿaddin</span><span class="harf">(هـ)</span><span class="tg">to bring (it) near — أُزْلِفَتِ الجنّة</span></div>
+      <div class="trow gov"><span class="av">اِزْدَلَفَ</span><span class="type i">lāzim</span><span class="harf">إلى</span><span class="tg">draw near to — المُزْدَلِفة</span></div>
+      <div class="trow gov"><span class="av">تَزَلَّفَ</span><span class="type i">lāzim</span><span class="harf">إلى</span><span class="tg">seek nearness to</span></div></div></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Ṣarf · Derivation</span><span class="ta">الصَّرْف</span><span class="qc">?</span></div>
+    <div class="pbody"><div class="tbl">
+      <div class="trow sarf thead"><span>Form</span><span class="harf">ماضٍ</span><span class="harf">مضارع</span><span class="harf">مصدر</span></div>
+      <div class="trow sarf"><span class="fm"><b>I</b><span class="wz">فَعَلَ</span></span><span class="fc">زَلَفَ</span><span class="fc">يَزْلِفُ</span><span class="fc m">زُلْفَى</span></div>
+      <div class="trow sarf"><span class="fm"><b>IV</b><span class="wz">أَفْعَلَ</span></span><span class="fc">أَزْلَفَ</span><span class="fc">يُزْلِفُ</span><span class="fc m">إِزْلَاف</span></div>
+      <div class="trow sarf"><span class="fm"><b>VIII</b><span class="wz">اِفْتَعَلَ</span></span><span class="fc">اِزْدَلَفَ</span><span class="fc">يَزْدَلِفُ</span><span class="fc m">اِزْدِلَاف</span></div></div></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Iʿrāb</span><span class="ta">الإعراب</span><span class="qc">?</span></div>
+    <div class="pbody"><div class="card"><span class="s">al-Tibyān · al-Jadwal · al-Muyassar</span>
+      <p class="x ar">«زُلْفَىٰ»: مصدرٌ منصوبٌ نائبٌ عن المفعول المطلق (تقريبًا)، أو حالٌ بمعنى مُقرِّبين؛ وألفُها للتأنيث مقصورة.</p>
+      <p class="e">a maṣdar standing for the absolute object, or a ḥāl; final alif = feminine maqṣūra.</p></div></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">The Tafsīrs · 10</span><span class="ta">التفاسير</span><span class="qc">?</span></div>
+    <div class="pbody"><div class="tbl" style="border-top:0">
+      <div class="tafsir"><span class="n">al-Ṭabarī</span><span class="g">idols claimed to bring <i>qurba wa manzila</i> to God — God brands it a lie.</span></div>
+      <div class="tafsir"><span class="n">al-Zamakhsharī</span><span class="g"><span class="ar">زُلْفَىٰ</span> a maṣdar reinforcing <span class="ar">يُقَرِّبُونَا</span>; the false logic of mediation.</span></div>
+      <div class="tafsir"><span class="n">al-Rāzī</span><span class="g">nearness to God is a rank of the soul — impossible to delegate to stone.</span></div>
+      <div class="tafsir"><span class="n">al-Qurṭubī</span><span class="g">uproots intercession-shirk; closeness of honour, not place.</span></div>
+      <div class="tafsir"><span class="n">Ibn ʿAṭiyya</span><span class="g"><span class="ar">زُلْفَىٰ</span> = qurba; accusative of purpose / verbal noun.</span></div>
+      <div class="tafsir"><span class="n">Ibn Kathīr</span><span class="g">athar-based: "…that they bring us nearer to God in standing."</span></div>
+      <div class="tafsir"><span class="n">al-Bayḍāwī</span><span class="g">taqrīban / manzila; maṣdar on the meaning of <span class="ar">يقرّبونا</span>.</span></div>
+      <div class="tafsir"><span class="n">Abū Ḥayyān</span><span class="g">iʿrāb: maṣdar for the absolute object, or ḥāl — sense qurba.</span></div>
+      <div class="tafsir"><span class="n">al-Ālūsī</span><span class="g">degrees of nearness (<span class="ar">مراتب القرب</span>) — an intensified approach.</span></div>
+      <div class="tafsir"><span class="n">Ibn ʿĀshūr</span><span class="g">qurb + zulfā together = nearness <i>as rank</i>; maqāṣid reading.</span></div>
+     </div>
+     <p class="pending">concise glosses synthesized from the tafsīr corpus — the core reading is unanimous</p></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">From the Lexica · 10</span><span class="ta">المعاجم</span><span class="qc">?</span></div>
+    <div class="pbody">
+      <div class="card"><span class="s">Lisān al-ʿArab — Ibn Manẓūr</span><p class="x ar">الزُّلْفَى: القُربةُ والمنزلةُ والدرجةُ؛ وزُلَفُ الليلِ: ساعاتُه؛ وأَزْلَفَ الشيءَ: قرَّبه؛ وازْدَلَفَ: اقترب، ومنه المُزْدَلِفة.</p></div>
+      <div class="card"><span class="s">Maqāyīs — Ibn Fāris</span><p class="x ar">أصلٌ يدلُّ على القُرب والتقدُّم.</p></div>
+      <div class="card"><span class="s">Mufradāt — al-Rāghib</span><p class="x ar">الزُّلْفَى: الحُظوةُ والمنزلةُ؛ التقرُّبُ بالطاعة.</p></div>
+      <div class="card"><span class="s">Miṣbāḥ — al-Fayyūmī</span><p class="x ar">زَلَفَ زُلوفًا: تقدَّم؛ والزُّلْفةُ: المنزلة.</p></div>
+      <div class="card"><span class="s">al-Ṣiḥāḥ — al-Jawharī</span><p class="x ar">الزُّلْفةُ والزُّلْفَى: القُربةُ؛ ومنه المُزدلِفة.</p></div>
+      <div class="card"><span class="s">Kitāb al-ʿAyn — al-Khalīl</span><p class="x ar">الزَّلَفُ: القُربُ؛ زُلَفُ الليلِ: ساعاتُه الأُوَل.</p></div>
+      <div class="card"><span class="s">al-Qāmūs — al-Fīrūzābādī</span><p class="x ar">زَلَفَ: تقدَّم؛ الزُّلْفَى: القُربةُ والدرجة.</p></div>
+      <div class="card"><span class="s">Tāj al-ʿArūs — al-Zabīdī</span><p class="x ar">الزُّلْفَى: القُربى والمنزلةُ؛ وزُلَفُ الليلِ أوائلُه.</p></div>
+      <div class="card"><span class="s">al-ʿUbāb — al-Ṣaghānī</span><p class="x ar">الازدلافُ: الاقترابُ؛ سُمّيت المُزدلفةُ لازدلافِ الناس.</p></div>
+      <div class="card"><span class="s">Lane — Lexicon</span><p class="x">zulfà: nearness, a near approach; a high station or rank with another.</p></div>
+    </div></div>
+
+  </div>
+
+  <!-- ── SIDEBAR ── -->
+  <div class="col">
+
+   <div class="panel"><div class="phead"><span class="t">Word Ingredients</span><span class="ta">المُكوّنات</span><span class="qc">?</span></div>
+    <div class="pbody"><div class="ing">
+       <div class="tile"><div class="m">ز ل ف</div><div class="g">root · nearness</div></div><span style="color:var(--gold-deep)">＋</span>
+       <div class="tile"><div class="m">فُعْلَىٰ</div><div class="g">pattern · elative noun</div></div></div>
+     <p class="ing-syn"><b>زُلْفَىٰ</b> = the degree of being-near — nearness raised to <i>rank</i>.</p></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Word Constellation</span><span class="ta">الأسرة</span><span class="qc">?</span></div>
+    <div class="pbody"><p class="note">ten words from one root — gold = in the Qurʾān</p>
+     <figure class="cfig"><svg viewBox="0 0 300 300" aria-label="family">
+       <defs><radialGradient id="hub" cx="50%" cy="40%" r="60%"><stop offset="0%" stop-color="#f4dd9e"/><stop offset="60%" stop-color="#c9a24b"/><stop offset="100%" stop-color="#8f6d2f"/></radialGradient></defs>
+       <g stroke="rgba(143,109,47,.3)"><line x1="150" y1="150" x2="150" y2="58"/><line x1="150" y1="150" x2="232" y2="100"/><line x1="150" y1="150" x2="232" y2="200"/><line x1="150" y1="150" x2="150" y2="242"/><line x1="150" y1="150" x2="68" y2="200"/><line x1="150" y1="150" x2="68" y2="100"/><line x1="150" y1="150" x2="212" y2="66"/><line x1="150" y1="150" x2="88" y2="66"/><line x1="150" y1="150" x2="212" y2="234"/><line x1="150" y1="150" x2="88" y2="234"/></g>
+       <circle cx="150" cy="150" r="22" fill="url(#hub)" stroke="rgba(232,201,106,.55)"/>
+       <text x="150" y="155" text-anchor="middle" font-family="Amiri" font-size="14" font-weight="700" fill="#080808" dir="rtl">زلف</text>
+       <g font-family="Amiri" font-size="11.5" text-anchor="middle">
+         <text x="150" y="50" fill="#e8c96a" dir="rtl">زُلْفَىٰ</text><text x="240" y="96" fill="#e8c96a" dir="rtl">أُزْلِفَتْ</text>
+         <text x="240" y="208" fill="#9e7c3c" dir="rtl">أَزْلَفَ</text><text x="150" y="258" fill="#e8c96a" dir="rtl">زُلَف</text>
+         <text x="60" y="208" fill="#9e7c3c" dir="rtl">اِزْدَلَفَ</text><text x="58" y="96" fill="#e8c96a" dir="rtl">زُلْفَة</text>
+         <text x="220" y="56" fill="#9e7c3c" dir="rtl">مُزْدَلِفة</text><text x="82" y="56" fill="#9e7c3c" dir="rtl">تَزَلَّفَ</text>
+         <text x="220" y="246" fill="#9e7c3c" dir="rtl">مَزْلَفَة</text><text x="82" y="246" fill="#9e7c3c" dir="rtl">زَلِيف</text></g></svg></figure></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Related Words</span><span class="ta">ذات صلة</span><span class="qc">?</span></div>
+    <div class="pbody">
+      <div class="chips"><span class="chip">قُرْب</span><span class="chip">دُنُوّ</span><span class="chip">اقتراب</span><span class="chip">حُظْوة</span><span class="chip">مَنزِلة</span><span class="chip">دَرَجة</span></div>
+      <div class="chips" style="margin-top:10px"><span class="chip ant">بُعْد</span><span class="chip ant">قَصْوَى</span><span class="chip ant">نَأْي</span><span class="chip ant">جَفَاء</span></div>
+      <div class="legend"><span><i style="background:var(--gold)"></i>Near-synonym</span><span><i style="background:#9a2b2b"></i>Antonym</span></div>
+      <p class="srcref">↳ near_synonym_sets · sense_relations</p></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Verbal Idioms · Mir</span><span class="ta">التعابير</span><span class="qc">?</span></div>
+    <div class="pbody">
+      <div class="card idiom"><span class="s">Mir · Verbal Idioms</span><div class="p">قَرَّبَ … زُلْفَىٰ</div><p class="e">"to bring near in rank" — the cognate doubling intensifies (39:3).</p></div>
+      <div class="card idiom"><span class="s">Mir · related</span><div class="p">أُزْلِفَ (الجنّةَ)</div><p class="e">"the Garden brought near" to the righteous (26:90 · 50:31 · 81:13).</p></div></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Sinai · Key Term</span><span class="ta">سيناء</span><span class="qc">?</span></div>
+    <div class="pbody"><div class="card"><span class="s">Sinai · semantic field: qurb</span>
+      <p class="x"><i>zulfā</i> names the function the mušrikūn ascribe to intermediaries — proximity-of-rank. The Qurʾān relocates qurb to <i>ikhlāṣ</i> and obedience.</p></div>
+      <p class="pending">Sinai source registered · full entry pending ingestion</p></div></div>
+
+   <div class="panel variants"><div class="phead"><span class="t">Word Variants</span><span class="ta">المشتقّات</span><span class="qc">?</span></div>
+    <div class="pbody">
+      <div class="v"><span class="w">زُلْفَة</span><span class="p">noun</span><span class="g">a degree of nearness</span></div>
+      <div class="v"><span class="w">زُلَف</span><span class="p">pl.</span><span class="g">portions (of night)</span></div>
+      <div class="v"><span class="w">مُزْدَلِفة</span><span class="p">place</span><span class="g">place of drawing-near</span></div>
+      <div class="v"><span class="w">أُزْلِفَ</span><span class="p">pass.</span><span class="g">was brought near</span></div></div></div>
+
+   <div class="panel"><div class="phead"><span class="t">Across the Qurʾān</span><span class="ta">المواضع</span><span class="qc">?</span></div>
+    <div class="pbody"><p class="note">10 occurrences · rank-sense in the Meccan polemic</p>
+      <div class="chips"><span class="chip r here">39:3</span><span class="chip r">34:37</span><span class="chip r">38:25</span><span class="chip r">38:40</span><span class="chip r">26:90</span><span class="chip r">50:31</span><span class="chip r">81:13</span><span class="chip r">26:64</span><span class="chip r">11:114</span><span class="chip r">67:27</span></div></div></div>
+
+  </div>
+ </div>
+
+ <div class="tabs"><span class="tab">❓ How To Learn</span><span class="tab">📖 Dictionary · المعجم</span></div>
+ <div class="foot">۞</div>
+</div>
+
+<script>function pk(el,ok){document.querySelectorAll('.opt').forEach(o=>o.style.pointerEvents='none');el.classList.add(ok?'ok':'no');if(!ok)document.querySelectorAll('.opt')[1].classList.add('ok');}</script>
+</body></html>
