@@ -8,31 +8,32 @@
 
 ---
 
-## 0. Membean model we merge (verified via membean.com/how-it-works + /research)
-Membean teaches each word through **9 "Memlets"** (modular learning units) and
-**adaptive spaced repetition**:
-- **Memory-Hook Memlet** — a mnemonic association (sound/meaning).
-- **Constellation Memlet** — a network of related words (hyponymy, hypernymy,
-  **polysemy**) — the semantic neighbourhood.
-- **Image / illustration**, **example sentences**, **word parts / etymology**,
-  **spelling**, **audio**, **usage**, **definition** — the remaining Memlets.
-- **Spaced repetition** revisits a word *just before it is forgotten*; **"allowing
-  some forgetting makes relearning more effective"** (deliberate interval stretch).
-- **Mastery states**: *new → growing → well-learned*, shown on a dashboard;
-  difficulty adapts to performance.
-- **Heavy retrieval practice** — many, often hard, questions per word.
+## 0. Membean model we merge (verified — membean.com/how-it-works; site 403s bots, confirmed via Membean Support + /research)
+Membean teaches each word through **9 "Memlets"** (a student meets 2–3 per word)
+and **adaptive spaced repetition**, with **word strength recomputed every 24h**.
 
-**Mapping to Qur'anic vocabulary:**
-| Membean Memlet | Qur'anic backbone | Table |
+**The actual Memlets** (named): Definition · **Word Sums** (morpheme decomposition,
+every affix linked to related words) · **Context Relationship** (target word ≥3× in
+a scaffolded paragraph with context clues) · **Word Constellation** (hyponymy,
+hypernymy, **polysemy**) · **Images/Visual** · **Hooks** (mnemonic) · **Roots** ·
+**Synonyms** · **Examples** (+ Video Stories). SRS revisits *just before forgetting*
+("allowing some forgetting makes relearning more effective"); mastery shows as
+*new → growing → well-learned*; heavy, often hard, retrieval practice.
+
+**Mapping to Qur'anic vocabulary — each Memlet → a backbone table:**
+| Membean Memlet | Qur'anic equivalent | Table |
 |---|---|---|
-| Memory hook | 1 hook **per sense** (+ root) | `ar_ling_vocab_memory_hooks` (NEW) |
-| Constellation (hyper/hyponymy, polysemy) | root family + senses + synonyms/antonyms | `ar_ling_senses` + `near_synonym_*` + `sense_relations` (relation_type: synonym/antonym/broader/narrower) |
-| Image | illustration per root/sense | `ar_ling_vocab_illustrations` (NEW) |
-| Word parts | root + ṣarf paradigm | `ar_ling_roots` + `form_paradigms` + `conjugation_templates` |
-| Example sentences | real āyāt occurrences | `qr_word_occurrences` ↔ `ar_ling_quran_links` |
-| Audio | āyah recitation | (existing reading layer) |
-| Adaptive SRS + mastery (new/growing/well-learned) | per sense **and** per root | `ar_ling_vocab_srs` (extend: scope + mastery_state) |
-| Heavy retrieval (varied, hard) | exercise bank per sense | `ar_ling_vocab_exercises` (NEW) |
+| Definition | per-sense gloss (ar/en) | `ar_ling_senses` |
+| **Word Sums** (morphemes) | **root + wazn/pattern decomposition (ṣarf)** | `ar_ling_roots` + `form_paradigms` + `conjugation_templates` + `lemma_morphology` |
+| **Context Relationship** (≥3× in context) | **the root across multiple āyāt** (context recurrence) | `qr_word_occurrences` ↔ `ar_ling_quran_links` (+ context projection) |
+| Constellation (hyper/hyponymy, polysemy) | senses + synonyms/antonyms | `ar_ling_senses` + `near_synonym_*` + `sense_relations` (synonym/antonym/broader/narrower) |
+| Images/Visual | illustration per root/sense | `ar_ling_vocab_illustrations` (NEW) |
+| Hooks | 1 mnemonic **per sense** (+ root) | `ar_ling_vocab_memory_hooks` (NEW) |
+| Roots | canonical root reference (Five-Lens) | `ar_ling_root_vocab` + `lexicon_blocks` |
+| Synonyms | near-synonym members | `ar_ling_near_synonym_members` |
+| Examples | real āyāt | `qr_word_occurrences` |
+| Strength every 24h, mastery state | per sense **and** per root | `ar_ling_vocab_srs` (scope + mastery_state) |
+| Heavy varied retrieval | exercise bank per sense | `ar_ling_vocab_exercises` (NEW) |
 
 ---
 
@@ -98,10 +99,16 @@ ar_ling_vocab_memory_hooks(
   id, scope_type('root'|'sense'), scope_ref, root_norm, sense_id,
   hook_md, anchors_json, sound_link, mnemonic_kind, status, created_at)
 
--- Visual associations (Membean image) per root/sense.
+-- Visual + video (Membean Images + Video Stories Memlets) per root/sense.
 ar_ling_vocab_illustrations(
   id, scope_type, scope_ref, root_norm, sense_id,
+  media_kind('image'|'svg'|'video'|'story'),
   title, caption_md, svg_inline, asset_url, palette, status, created_at)
+
+-- Review/attempt log — drives the 24h strength recompute + progress reporting.
+ar_ling_vocab_srs_reviews(
+  id, workspace_id, scope_type, scope_ref, root_norm, sense_id,
+  exercise_id, grade, response_ms, reviewed_at)
 
 -- Root semantic-field diagrams (constellation / range-of-meaning / contrast).
 ar_ling_vocab_diagrams(
