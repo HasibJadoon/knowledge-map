@@ -119,3 +119,23 @@ Reference mockup: `database/mockups/quran-membean-word.html` (مُخْلِصًا
 - **Mockups:** `quran-word-deepview.html` (morphology card → deep 9-Memlet word view, no SRS),
   `quran-srs-decks.html` (`/srs` deck browser → study session → Anki export),
   `quran-vocab-passage1.html` (earlier combined demo) — all under `database/mockups/`.
+
+## 7. Word view — data audit + live Angular component
+The fused word view (Membean panels × k-maps Five-Lens leaf) is **~85%
+data-backed today** for all 35 Sūrah-39 roots:
+- Lexica → `ar_ling_lexicon_blocks` (1,005,036 blocks · 12 dictionaries · 35/35 roots).
+- Senses · ṣarf · constellation · hook · āyah · occurrences → `ar_ling_lexicon_root_entries` (Five-Lens, 53,431 · 35/35).
+- Tafsīr → `qr_tafsir_entries` (24,139 · 8 works · 39:3 = 8 mufassirūn).
+- Examples + translations → `qr_translations` (18,708 · 3) + `qr_word_occurrences`.
+- Idioms → `ar_ling_expressions`; near-synonyms → `ar_ling_near_synonym_sets`.
+
+**Gaps filled (migration 0022):** `ar_ling_verb_government` (transitivity +
+preposition) and `ar_ling_root_antonyms` — created + seeded for زلف/خلص. **Still
+pending:** Sinai key-terms (`src_sinai_2023_keyterms` registered, 0 rows — needs
+real ingestion, not fabrication).
+
+**Live component:** `apps/app-k-maps/.../components/fused-word-lens/` — standalone
+`<app-fused-word-lens [wordVm]>`, data-driven via `FusedWordFacade` (Five-Lens +
+QR + `WordExtrasService`). Four backend endpoints to add: `al/verb-government/:root`,
+`al/root-antonyms/:root`, `al/expressions/:root`, `qr/tafsir/:surah/:ayah`
+(degrade to empty panels until deployed). See the component README.
