@@ -92,7 +92,48 @@ ROOT (ar_ling_roots / ar_ling_root_vocab)      ← the backbone unit; ONE per ro
 - `ar_ling_expressions` (2188) → verbal idioms; **ingest Mir** as a new source edition here.
 - `ar_ling_lemmas` (78,886), `ar_ling_lexicon_root_entries`, `ar_ling_lexicon_blocks` (Five-Lens).
 
-### 4c. NEW tables to add (no canonical home)
+### 4b-bis. Learner-workflow (SRS) — surah-passage model, NOT the class system
+km_arabic already has `ar_srs_cards/_decks/_reviews`, `ar_exercises`,
+`ar_mastery_profiles` — but those are **class / curriculum / learning-track**
+based (`ar_classes`, `ar_curricula`, `ar_learning_tracks`). Qur'anic vocabulary
+study is a **different learning modality**: organized **surah → passage**, driven
+by what you encounter as you study a passage, scoped **per user + per workspace**.
+It is *not* a 1:1 map to the class tables.
+
+→ New surah-vocabulary learner family (in **km_arabic / AR**, reusing the FSRS
+scheduling pattern from `ar_srs_cards`, referencing AL content + QR scope by typed ref):
+```sql
+-- A passage's vocabulary set (unlocks as you study that passage).
+ar_qr_vocab_decks(
+  id, workspace_id, surah, passage_id, passage_ref, title, created_at)
+
+-- One SRS card per (workspace, user, vocab scope). Vocab scope = root or sense.
+ar_qr_vocab_cards(
+  id, workspace_id, core_user_ref, deck_id,
+  vocab_scope('root'|'sense'|'lemma'), vocab_ref,        -- AL: root_norm / sense_id / lemma_id
+  introduced_surah, introduced_ayah, introduced_word_ref, -- QR: where first met
+  -- FSRS scheduling (same shape as ar_srs_cards)
+  stability REAL, difficulty REAL, reps, lapses,
+  card_state('new'|'learning'|'review'|'relearning'),
+  mastery_state('new'|'growing'|'well_learned'),
+  last_review_at, next_review_at, suspended, created_at, updated_at,
+  UNIQUE(workspace_id, core_user_ref, vocab_scope, vocab_ref))
+
+-- Attempt log (drives 24h strength recompute + progress per passage).
+ar_qr_vocab_reviews(
+  id, card_id, workspace_id, core_user_ref, exercise_id,
+  rating, response_ms, state_after, stability_after, reviewed_at)
+
+-- Per (workspace, user, surah/passage) progress rollup.
+ar_qr_vocab_progress(
+  id, workspace_id, core_user_ref, surah, passage_id,
+  roots_total, roots_growing, roots_well_learned, last_studied_at)
+```
+The **content** (senses, hooks, illustrations, diagrams, exercises, paradigms,
+gems) stays AL/QR and is reused by every workspace; only the **state** (cards,
+reviews, progress) is per user + workspace here.
+
+### 4c. NEW content tables to add (AL — no canonical home)
 ```sql
 -- Membean-style memory hooks, 1 per sense (+ optional per-root).
 ar_ling_vocab_memory_hooks(
@@ -105,26 +146,20 @@ ar_ling_vocab_illustrations(
   media_kind('image'|'svg'|'video'|'story'),
   title, caption_md, svg_inline, asset_url, palette, status, created_at)
 
--- Review/attempt log — drives the 24h strength recompute + progress reporting.
-ar_ling_vocab_srs_reviews(
-  id, workspace_id, scope_type, scope_ref, root_norm, sense_id,
-  exercise_id, grade, response_ms, reviewed_at)
-
 -- Root semantic-field diagrams (constellation / range-of-meaning / contrast).
 ar_ling_vocab_diagrams(
   id, root_norm, diagram_kind('constellation'|'range'|'contrast'|'sarf_tree'),
   spec_json, renderer_key, svg_cache, status, created_at)
 
--- Membean assessment bank: varied question types per sense.
+-- Membean assessment bank: varied question CONTENT per sense (reusable; the
+-- per-user attempts live in ar_qr_vocab_reviews, §4b-bis).
 ar_ling_vocab_exercises(
   id, scope_type, scope_ref, root_norm, sense_id,
   exercise_kind('def_mcq'|'cloze'|'synonym'|'antonym'|'choose_word'|'sarf'|'spelling'),
   prompt_md, options_json, answer_key, qr_ref, difficulty, source_ref, status)
 
--- EXTEND ar_ling_vocab_srs: multi-scope + Membean mastery state.
-ALTER ar_ling_vocab_srs ADD scope_type('root'|'sense'), scope_ref, sense_id,
-  mastery_state('new'|'growing'|'well_learned') DEFAULT 'new', strength REAL DEFAULT 0;
-  -- one card per ROOT and one per SENSE; "allow some forgetting" → stretch interval
+-- NOTE: ar_ling_vocab_srs (created earlier in AL) is superseded by the AR
+-- surah-passage learner family (§4b-bis) — deprecate / drop after migration.
 ```
 
 ### 4d. Trim the duplicating columns
