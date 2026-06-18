@@ -7,6 +7,7 @@
 //         qr_surahs, qr_translations, qr_translation_sources
 
 import { query } from '../../../shared/src/db';
+import type { AlClient } from '../clients/al.client';
 
 // ─── types ─────────────────────────────────────────────────────────────────────
 
@@ -458,9 +459,38 @@ export class StudyRepo {
   }
 
   /**
+   * Expressions step — table-sourced (no task_json). Reads ar_ling_expressions
+   * for the passage's surah:ayah range over the AR_LINGUISTICS service binding.
+   * Lean payload: { step, surah, passage, ayahFrom, ayahTo, items[] }.
+   */
+  async expressionsStep(surahId: number, passageNo: number, al: AlClient | null) {
+    const passages = await this._passages(surahId);
+    const p = passages.find((x) => x.passage_no === passageNo);
+    if (!p) return null;
+
+    let items: unknown[] = [];
+    if (al) {
+      try {
+        const res = await al.getExpressionsByQuran(surahId, p.ayah_from, p.ayah_to);
+        items = res.data ?? [];
+      } catch {
+        items = [];
+      }
+    }
+    return {
+      step: 'expressions',
+      surah: surahId,
+      passage: passageNo,
+      ayahFrom: p.ayah_from,
+      ayahTo: p.ayah_to,
+      items,
+    };
+  }
+
+  /**
    * Lazy step dispatcher. Returns the step's data sourced from tables when the
-   * step has been migrated off task_json (reading, comprehension); otherwise
-   * falls back to the task tree so unmigrated steps keep working.
+   * step has been migrated off task_json (reading, morphology, comprehension,
+   * expressions); otherwise falls back to the task tree.
    *   null      → passage not found
    *   undefined → no such step in this passage
    */
@@ -468,11 +498,13 @@ export class StudyRepo {
     surahId: number,
     passageNo: number,
     stepType: string,
+    al: AlClient | null = null,
   ): Promise<unknown> {
     switch (stepType) {
       case 'reading':       return this.readingStep(surahId, passageNo);
       case 'morphology':    return this.morphologyStep(surahId, passageNo);
       case 'comprehension': return this.comprehensionStep(surahId, passageNo);
+      case 'expressions':   return this.expressionsStep(surahId, passageNo, al);
       default: {
         const task = await this.taskByStepType(surahId, passageNo, stepType);
         if (task === null) return null;

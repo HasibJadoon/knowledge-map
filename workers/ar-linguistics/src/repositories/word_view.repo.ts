@@ -22,6 +22,13 @@ export interface IdiomRow {
   en: string | null;
   sourceLabel: string;
 }
+export interface ExpressionItem {
+  id: string;
+  ayah: number;
+  ar: string | null;
+  en: string | null;
+  type: string | null;
+}
 
 export class WordViewRepo {
   constructor(private db: D1Database) {}
@@ -48,6 +55,24 @@ export class WordViewRepo {
        WHERE root_norm = ? AND status = 'live'
        ORDER BY sort_order`,
       [root],
+    );
+  }
+
+  /** Expressions whose qr_refs_json falls in surah:ayah-range — table-sourced
+   *  payload for the study Expressions step. */
+  expressionsByQuran(surah: number, from: number, to: number) {
+    return query<ExpressionItem>(
+      this.db,
+      `SELECT DISTINCT e.id AS id,
+              CAST(substr(j.value, instr(j.value, ':') + 1) AS INTEGER) AS ayah,
+              e.expression_ar AS ar,
+              e.expression_en AS en,
+              e.expression_type_id AS type
+       FROM ar_ling_expressions e, json_each(e.qr_refs_json) j
+       WHERE substr(j.value, 1, instr(j.value, ':') - 1) = ?
+         AND CAST(substr(j.value, instr(j.value, ':') + 1) AS INTEGER) BETWEEN ? AND ?
+       ORDER BY ayah, e.id`,
+      [String(surah), from, to],
     );
   }
 

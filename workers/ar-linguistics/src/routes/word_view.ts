@@ -20,4 +20,14 @@ export function wordViewRoutes(router: Router<ArLinguisticsEnv>) {
   router.get('/al/expressions/by-root/:root', async (_req, env, { root }) =>
     ok(await new WordViewRepo(env.DB_AL).expressionsByRoot(decodeURIComponent(root))),
   );
+
+  // GET /al/expressions/by-quran/12?from=1&to=7 — passage expressions (study step)
+  router.get('/al/expressions/by-quran/:surah', async (req, env, { surah }) => {
+    const url = new URL(req.url);
+    const from = parseInt(url.searchParams.get('from') ?? '1', 10) || 1;
+    const to = parseInt(url.searchParams.get('to') ?? '999', 10) || 999;
+    return ok(
+      await new WordViewRepo(env.DB_AL).expressionsByQuran(parseInt(surah, 10) || 0, from, to),
+    );
+  });
 }

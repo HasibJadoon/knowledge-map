@@ -20,6 +20,7 @@ import {
   vocabularyFromMorphology,
   expressionsFromTasks,
 } from '../repositories/study.repo';
+import { createAlClient } from '../clients/al.client';
 
 function parseSurahPassage(
   surahId: string,
@@ -142,7 +143,9 @@ export function studyRoutes(router: Router<QuranEnv>) {
       if (!sp) return badRequest('Invalid surahId or passageNo');
       if (!stepType) return badRequest('stepType is required');
 
-      const result = await new StudyRepo(env.DB_QR).stepData(sp.s, sp.p, stepType);
+      const result = await new StudyRepo(env.DB_QR).stepData(
+        sp.s, sp.p, stepType, createAlClient(env),
+      );
       if (result === null)      return notFound(`passage ${sp.s}:${sp.p}`);
       if (result === undefined) return notFound(`step '${stepType}' in passage ${sp.s}:${sp.p}`);
       return ok(result);
