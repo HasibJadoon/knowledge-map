@@ -124,6 +124,11 @@ body{margin:0;font-family:var(--body);color:var(--parch);
 .lex .s{font-family:var(--disp);font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;border-bottom:1px solid var(--hair-soft);padding-bottom:6px}
 .lex .a{font-family:var(--ar);direction:rtl;color:var(--parch);font-size:1.12rem;line-height:1.85;margin:0 0 7px}
 .lex .e{font-style:italic;color:var(--parch-mute);font-size:.8rem;line-height:1.45;margin:0}
+.tafgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.tafgrid{grid-template-columns:1fr}}
+.tafcard{border:1px solid var(--hair);border-radius:8px;background:rgba(17,17,17,.42);padding:11px 13px}
+.tafcard .n{display:block;font-variant:small-caps;color:var(--gold);font-size:.92rem;letter-spacing:.03em;margin-bottom:6px;border-bottom:1px solid var(--hair-soft);padding-bottom:6px}
+.tafcard .g{color:var(--parch-mute);font-size:.92rem;line-height:1.5}.tafcard .g .ar{color:var(--gold)}
 .idiom .p{font-family:var(--ar);direction:rtl;color:var(--gold-bright);font-size:1.35rem}
 .tafsir{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid rgba(120,98,55,.16)}.tafsir:last-child{border:0}
 .tafsir .n{flex:0 0 104px;font-variant:small-caps;color:var(--gold);font-size:.9rem}
@@ -219,17 +224,17 @@ body{margin:0;font-family:var(--body);color:var(--parch);
       <p class="e">a maṣdar standing for the absolute object, or a ḥāl; final alif = feminine maqṣūra.</p></div></div></div>
 
    <div class="panel"><div class="phead"><span class="t">The Tafsīrs · 10</span><span class="ta">التفاسير</span><span class="qc">?</span></div>
-    <div class="pbody"><div class="tbl" style="border-top:0">
-      <div class="tafsir"><span class="n">al-Ṭabarī</span><span class="g">idols claimed to bring <i>qurba wa manzila</i> to God — God brands it a lie.</span></div>
-      <div class="tafsir"><span class="n">al-Zamakhsharī</span><span class="g"><span class="ar">زُلْفَىٰ</span> a maṣdar reinforcing <span class="ar">يُقَرِّبُونَا</span>; the false logic of mediation.</span></div>
-      <div class="tafsir"><span class="n">al-Rāzī</span><span class="g">nearness to God is a rank of the soul — impossible to delegate to stone.</span></div>
-      <div class="tafsir"><span class="n">al-Qurṭubī</span><span class="g">uproots intercession-shirk; closeness of honour, not place.</span></div>
-      <div class="tafsir"><span class="n">Ibn ʿAṭiyya</span><span class="g"><span class="ar">زُلْفَىٰ</span> = qurba; accusative of purpose / verbal noun.</span></div>
-      <div class="tafsir"><span class="n">Ibn Kathīr</span><span class="g">athar-based: "…that they bring us nearer to God in standing."</span></div>
-      <div class="tafsir"><span class="n">al-Bayḍāwī</span><span class="g">taqrīban / manzila; maṣdar on the meaning of <span class="ar">يقرّبونا</span>.</span></div>
-      <div class="tafsir"><span class="n">Abū Ḥayyān</span><span class="g">iʿrāb: maṣdar for the absolute object, or ḥāl — sense qurba.</span></div>
-      <div class="tafsir"><span class="n">al-Ālūsī</span><span class="g">degrees of nearness (<span class="ar">مراتب القرب</span>) — an intensified approach.</span></div>
-      <div class="tafsir"><span class="n">Ibn ʿĀshūr</span><span class="g">qurb + zulfā together = nearness <i>as rank</i>; maqāṣid reading.</span></div>
+    <div class="pbody"><div class="tafgrid">
+      <div class="tafcard"><span class="n">al-Ṭabarī</span><span class="g">idols claimed to bring <i>qurba wa manzila</i> to God — God brands it a lie.</span></div>
+      <div class="tafcard"><span class="n">al-Zamakhsharī</span><span class="g"><span class="ar">زُلْفَىٰ</span> a maṣdar reinforcing <span class="ar">يُقَرِّبُونَا</span>; the false logic of mediation.</span></div>
+      <div class="tafcard"><span class="n">al-Rāzī</span><span class="g">nearness to God is a rank of the soul — impossible to delegate to stone.</span></div>
+      <div class="tafcard"><span class="n">al-Qurṭubī</span><span class="g">uproots intercession-shirk; closeness of honour, not place.</span></div>
+      <div class="tafcard"><span class="n">Ibn ʿAṭiyya</span><span class="g"><span class="ar">زُلْفَىٰ</span> = qurba; accusative of purpose / verbal noun.</span></div>
+      <div class="tafcard"><span class="n">Ibn Kathīr</span><span class="g">athar-based: "…that they bring us nearer to God in standing."</span></div>
+      <div class="tafcard"><span class="n">al-Bayḍāwī</span><span class="g">taqrīban / manzila; maṣdar on the meaning of <span class="ar">يقرّبونا</span>.</span></div>
+      <div class="tafcard"><span class="n">Abū Ḥayyān</span><span class="g">iʿrāb: maṣdar for the absolute object, or ḥāl — sense qurba.</span></div>
+      <div class="tafcard"><span class="n">al-Ālūsī</span><span class="g">degrees of nearness (<span class="ar">مراتب القرب</span>) — an intensified approach.</span></div>
+      <div class="tafcard"><span class="n">Ibn ʿĀshūr</span><span class="g">qurb + zulfā together = nearness <i>as rank</i>; maqāṣid reading.</span></div>
      </div>
      <p class="pending">concise glosses synthesized from the tafsīr corpus — the core reading is unanimous</p></div></div>
 
