@@ -8,16 +8,28 @@
 
 ---
 
-## 0. Status — worked example زلف is BUILT (live + reproducible)
-First end-to-end root is seeded in production D1 and mirrored in the repo
-(`workers/ar-linguistics/migrations/0021_vocab_pedagogy_tables.sql`,
-`workers/arabic/migrations/0002_qr_vocab_learner.sql`,
-`database/seeds/seed-quran-vocab-zulf.sql`). Live counts for ز ل ف:
-4 senses · 3 sense-relations · 2 ṣarf paradigms · 6 conjugations · 3 hooks ·
-1 illustration · 1 constellation diagram · 6 exercises · 1 Lisan gem ·
-10 Qur'an links; AR learner state: 1 passage deck (39:1-5) · 5 cards
-(root + 4 senses) · 1 progress row (workspace 1, user demo). Next roots follow
-the same pipeline.
+## 0. Status — Surah 39 Passage 1 (39:1-5) BUILT (live + reproducible)
+Seeded in production D1 and mirrored in the repo (`workers/ar-linguistics/
+migrations/0021_*`, `workers/arabic/migrations/0002_*`,
+`database/seeds/seed-quran-vocab-zulf.sql`,
+`database/seeds/seed-quran-vocab-surah39-passage1.sql`).
+
+- **Breadth:** all **35** content roots of 39:1-5 (function words / pronouns /
+  relatives / demonstratives + basics بين، دون، كلّ excluded) registered as
+  `ar_ling_root_vocab` cards (core sense + Membean hook + first occurrence) and
+  wired into the AR Passage-1 deck — **43 learner cards** (35 root + 8 sense),
+  progress roots_total=35 (workspace 1, user demo).
+- **Depth (زلف, خلص):** each has 4 senses · sense-relations · ṣarf paradigms +
+  conjugations · 3 hooks · illustration · constellation diagram · 6 exercises ·
+  Lisan gem · Qur'an links.
+- **Cross-references (reuse, not duplicate):** near-synonyms link to the
+  existing `ar_ling_near_synonym_sets` (زَلَفَ already in NS:..._BE_NEAR; زُلَف in
+  NS:TIME; قَرُبَ in _BE_NEAR + _ATTAIN_STATUS; خلص added to NS:PURE + NS:..._
+  DEVOTION). Verbal idioms reuse `ar_ling_expressions` (Mir) — e.g. AREX:VI:
+  6D9734851E670643 *akhlasa li-llahi al-din* covers 39:2.
+- **Sinai key-terms:** source `src_sinai_2023_keyterms` is registered but has
+  **zero rows** — left null (not fabricated), pending ingestion of the actual
+  Key Terms entries.
 
 ## 0b. Membean model we merge (verified — membean.com/how-it-works; site 403s bots, confirmed via Membean Support + /research)
 Membean teaches each word through **9 "Memlets"** (a student meets 2–3 per word)
