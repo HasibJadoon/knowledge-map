@@ -217,6 +217,19 @@ body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
 .tabs{margin-top:34px;gap:14px;padding-top:22px}
 @media(max-width:900px){.grid{grid-template-columns:1fr;gap:22px}}
 @media(max-width:760px){.app{padding:8px 16px 48px}.scholar2{gap:18px}.pbody{padding:18px 16px}}
+
+/* ── Tafsīr + Lexica: single-column row style (initial) ── */
+.tafgrid,.lexgrid{grid-template-columns:1fr;gap:0}
+.tafcard{border:0;border-radius:0;background:none;padding:14px 4px;display:grid;grid-template-columns:118px 1fr;gap:16px;align-items:baseline;border-bottom:1px solid rgba(120,98,55,.18)}
+.tafcard:last-child{border-bottom:0}
+.tafcard .n{border-bottom:0;margin:0;padding:0}
+.tafcard:hover{transform:none;background:none;border-color:rgba(120,98,55,.18)}
+.lex{border:0;border-radius:0;background:none;padding:15px 4px;display:grid;grid-template-columns:150px 1fr;gap:18px;align-items:baseline;border-bottom:1px solid rgba(120,98,55,.18)}
+.lex:last-child{border-bottom:0}
+.lex .s{border-bottom:0;margin:0;padding:0;align-self:start}
+.lex .a{margin:0 0 6px}
+.lex:hover{transform:none;background:none;border-color:rgba(120,98,55,.18)}
+@media(max-width:620px){.tafcard,.lex{grid-template-columns:1fr;gap:6px}}
 </style></head>
 <body>
 
