@@ -33,7 +33,7 @@ export class WordExtrasService {
   }
 
   idioms(root: string): Observable<IdiomRow[]> {
-    return this.api.getData<IdiomRow[]>('al', ['expressions', root]).pipe(
+    return this.api.getData<IdiomRow[]>('al', ['expressions', 'by-root', root]).pipe(
       map((rows) => rows ?? []),
       catchError(() => of([])),
     );

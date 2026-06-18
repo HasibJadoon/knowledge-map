@@ -23,6 +23,7 @@ import { scholarshipRoutes }  from './routes/scholarship';
 import { expressionRoutes } from './routes/expressions';
 import { nearSynonymRoutes } from './routes/near_synonyms';
 import { sourceRagRoutes } from './routes/source_rag';
+import { wordViewRoutes } from './routes/word_view';
 
 const router = new Router<ArLinguisticsEnv>();
 
@@ -47,6 +48,7 @@ scholarshipRoutes(router);
 expressionRoutes(router);
 nearSynonymRoutes(router);
 sourceRagRoutes(router);
+wordViewRoutes(router);          // /al/verb-government/:root, /al/root-antonyms/:root, /al/expressions/by-root/:root
 
 export default {
   fetch: (request: Request, env: ArLinguisticsEnv) => router.handle(request, env),
