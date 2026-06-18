@@ -1,79 +1,42 @@
--- 0002 — Qur'anic-vocabulary learner workflow (AR domain), surah-passage model.
--- This is NOT the class/curriculum SRS (ar_srs_*, ar_classes, ar_curricula).
--- Qur'anic study is organized surah -> passage, encounter-driven, scoped per
--- user + per workspace. Cards reference AL content (root_norm / sense_id) and
--- QR scope (surah:ayah:word) by typed reference; they reuse the FSRS scheduling
--- shape of ar_srs_cards. See docs/quran-vocabulary-backbone-plan.md.
+-- 0002 — Qur'anic-vocabulary SRS uses the PROPER SRS engine (one deck per Surah).
+--
+-- Correction to an earlier design: Qur'anic vocabulary review does NOT get its
+-- own table family. It reuses the existing, Anki-exportable SRS engine that
+-- powers /srs:
+--   ar_srs_decks   — one row per (user, Surah), deck_type = 'quran_vocab'
+--   ar_srs_cards   — one row per vocab item (resource_ref -> AL backbone),
+--                    with front_text/back_text/tags/extra_json snapshots so the
+--                    deck exports cleanly to Anki (.apkg)
+--   ar_srs_reviews — FSRS rating log
+--
+-- Card conventions:
+--   resource_type = 'qr_vocab_root' | 'qr_vocab_sense'
+--   resource_ref  = AL root_norm  (root cards)  |  ar_ling_senses.id (sense cards)
+--   card_template = 'qr_vocab'
+--   tags          = 'Quran::<surah-name>::P<n> type::root|sense'   (Anki hierarchy)
+--   extra_json    = { al_root_ref, root_norm, scope, first_surah, first_ayah }
+--   Passage is carried in tags/extra_json; the Memlet content is rendered from
+--   the AL backbone at study time via resource_ref (not duplicated on the card).
+--
+-- A Surah Deck is a MIXED deck. resource_type taxonomy:
+--   qr_vocab_root | qr_vocab_sense        -> AL backbone (root_vocab / senses)
+--   qr_expression                         -> AL ar_ling_collocations
+--   qr_verbal_idiom                       -> AL ar_ling_expressions (Mir)
+--   qr_verse  (+ extra_json.kind)         -> QR / AL, one card per analytical lens:
+--        kind ∈ important | difficult | grammar(iʿrāb) | balagha |
+--               tafsir | historical(asbāb al-nuzūl)
+--        resource_ref = 'QR:39:53#tafsir'  (lens suffix keeps it unique per deck)
+--   qr_key_concept (+ extra_json.domain)  -> WV, domain ∈ theology|psychology|
+--               philosophy|… ; resource_ref = 'WV:concept:<slug>'
+-- tags use Anki hierarchy, e.g. 'Quran::az-Zumar::P1 type::verse::balagha'.
+--
+-- The superseded ar_qr_vocab_decks/cards/reviews/progress tables are dropped.
 
--- A passage's vocabulary set (unlocks as the learner studies that passage).
-CREATE TABLE IF NOT EXISTS ar_qr_vocab_decks (
-  id           TEXT PRIMARY KEY,
-  workspace_id INTEGER NOT NULL DEFAULT 1,
-  surah        INTEGER NOT NULL,
-  passage_id   TEXT,
-  passage_ref  TEXT,                                  -- e.g. QR:39:1-39:5
-  title        TEXT NOT NULL,
-  note_md      TEXT,
-  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(workspace_id, surah, passage_ref)
-);
+DROP TABLE IF EXISTS ar_qr_vocab_reviews;
+DROP TABLE IF EXISTS ar_qr_vocab_cards;
+DROP TABLE IF EXISTS ar_qr_vocab_progress;
+DROP TABLE IF EXISTS ar_qr_vocab_decks;
 
--- One SRS card per (workspace, user, vocab scope). Scope = root | sense | lemma.
-CREATE TABLE IF NOT EXISTS ar_qr_vocab_cards (
-  id                  TEXT PRIMARY KEY,
-  workspace_id        INTEGER NOT NULL DEFAULT 1,
-  core_user_ref       TEXT NOT NULL,
-  deck_id             TEXT,
-  vocab_scope         TEXT NOT NULL,                  -- root | sense | lemma
-  vocab_ref           TEXT NOT NULL,                  -- AL: root_norm / sense_id / lemma_id
-  root_norm           TEXT,
-  al_root_ref         TEXT,                           -- AL:<root id>
-  introduced_surah    INTEGER,
-  introduced_ayah     INTEGER,
-  introduced_word_ref TEXT,                           -- QR:surah:ayah:word
-  stability           REAL NOT NULL DEFAULT 1.0,
-  difficulty          REAL NOT NULL DEFAULT 0.3,
-  reps                INTEGER NOT NULL DEFAULT 0,
-  lapses              INTEGER NOT NULL DEFAULT 0,
-  card_state          TEXT NOT NULL DEFAULT 'new',    -- new | learning | review | relearning
-  mastery_state       TEXT NOT NULL DEFAULT 'new',    -- new | growing | well_learned
-  last_review_at      TEXT,
-  next_review_at      TEXT,
-  suspended           INTEGER NOT NULL DEFAULT 0,
-  created_at          TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at          TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(workspace_id, core_user_ref, vocab_scope, vocab_ref)
-);
-CREATE INDEX IF NOT EXISTS idx_ar_qrvc_due
-  ON ar_qr_vocab_cards(workspace_id, core_user_ref, suspended, next_review_at);
-
--- Attempt log — drives the 24h strength recompute and per-passage progress.
-CREATE TABLE IF NOT EXISTS ar_qr_vocab_reviews (
-  id               TEXT PRIMARY KEY,
-  card_id          TEXT NOT NULL,
-  workspace_id     INTEGER NOT NULL DEFAULT 1,
-  core_user_ref    TEXT NOT NULL,
-  exercise_id      TEXT,                              -- AL: ar_ling_vocab_exercises.id
-  rating           INTEGER NOT NULL,                  -- 1..4
-  response_ms      INTEGER,
-  card_state_after TEXT,
-  stability_after  REAL,
-  reviewed_at      TEXT NOT NULL DEFAULT (datetime('now'))
-);
-CREATE INDEX IF NOT EXISTS idx_ar_qrvr_card ON ar_qr_vocab_reviews(card_id);
-
--- Per (workspace, user, passage) progress rollup.
-CREATE TABLE IF NOT EXISTS ar_qr_vocab_progress (
-  id                 TEXT PRIMARY KEY,
-  workspace_id       INTEGER NOT NULL DEFAULT 1,
-  core_user_ref      TEXT NOT NULL,
-  surah              INTEGER NOT NULL,
-  passage_id         TEXT,
-  passage_ref        TEXT,
-  roots_total        INTEGER NOT NULL DEFAULT 0,
-  roots_growing      INTEGER NOT NULL DEFAULT 0,
-  roots_well_learned INTEGER NOT NULL DEFAULT 0,
-  last_studied_at    TEXT,
-  updated_at         TEXT NOT NULL DEFAULT (datetime('now')),
-  UNIQUE(workspace_id, core_user_ref, passage_ref)
-);
+-- Helpful indexes for the /srs deck + Anki export queries.
+CREATE INDEX IF NOT EXISTS idx_ar_srs_decks_type ON ar_srs_decks(core_user_ref, deck_type);
+CREATE INDEX IF NOT EXISTS idx_ar_srs_cards_restype ON ar_srs_cards(deck_id, resource_type);
