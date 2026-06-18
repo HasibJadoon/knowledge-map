@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-MAPS · Morphology → Word Deep View</title>
+<style>
+:root{--bg:#0b0d10;--bg2:#12161c;--card:#171b21;--card2:#1c2128;--line:#2b323c;
+ --ink:#ece6d8;--dim:#9a8f78;--gold:#cDaD6a;--gold2:#e7cf8f;--indigo:#8b8fe0;--green:#5cc090;--teal:#4bb6c4;--red:#d97a6a}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(1200px 600px at 70% -10%,#1a1408,#0b0d10);
+ color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.ar{font-family:"Amiri","Scheherazade New","Traditional Arabic",serif;direction:rtl}
+.gold{color:var(--gold2)}
+header{padding:18px 26px;display:flex;align-items:center;gap:18px;border-bottom:1px solid var(--line)}
+.toggle{display:flex;gap:10px}
+.tg{border:1px solid #4a3f22;background:#171206;border-radius:24px;padding:8px 20px;color:var(--gold2);
+ font-size:14px;letter-spacing:.12em;cursor:pointer;display:flex;gap:10px;align-items:center}
+.tg .n{background:#0b0d10;border:1px solid var(--line);border-radius:14px;padding:1px 9px;font-size:12px;color:var(--dim)}
+.tg.off{background:transparent;color:var(--dim);border-color:var(--line)}
+.crumb{margin-left:auto;color:var(--dim);font-size:13px}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;padding:26px}
+@media(max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
+.wc{position:relative;min-height:188px;border:1px solid #3a3120;border-radius:8px;cursor:pointer;
+ background:linear-gradient(160deg,#1a1f26,#0f1217);padding:20px;transition:.18s;overflow:hidden}
+.wc:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 10px 30px #0008}
+.wc .w{font-size:40px;text-align:right;line-height:1.2;color:#f3ead4}
+.wc .en{font-size:21px;margin-top:14px;color:#e7ddc8}
+.wc .rootlab{font-size:13px;letter-spacing:.18em;color:var(--gold);margin-top:14px}
+.wc .rootlab b{color:#cbb98f;font-weight:600}
+.wc .g{color:var(--dim);font-size:15px;margin-top:8px}
+.wc .ref{color:#7d7256;font-size:14px;margin-top:14px}
+.wc .depthdot{position:absolute;top:14px;left:14px;width:9px;height:9px;border-radius:50%;
+ background:var(--gold);box-shadow:0 0 10px var(--gold)}
+.pos{position:absolute;top:14px;left:30px;font-size:10px;color:var(--dim);letter-spacing:.1em}
+
+/* overlay deep view */
+.ov{position:fixed;inset:0;background:#070809ee;backdrop-filter:blur(3px);z-index:50;display:none;overflow-y:auto}
+.ov.open{display:block}
+.sheet{max-width:1080px;margin:24px auto;background:linear-gradient(180deg,#14181e,#0e1116);
+ border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.hero{padding:26px 30px;background:radial-gradient(600px 200px at 80% -40%,#2a200b,transparent);
+ display:flex;gap:26px;align-items:flex-start;border-bottom:1px solid var(--line)}
+.hero .big{font-size:60px;line-height:1;color:#f5ecd6}
+.hero .meta{flex:1}
+.hero .translit{color:var(--gold2);letter-spacing:.06em}
+.hero .gloss{font-size:18px;margin:4px 0 12px}
+.morphline{display:flex;flex-wrap:wrap;gap:6px}
+.mtag{font-size:11px;border:1px solid var(--line);background:#12161c;border-radius:5px;padding:3px 9px;color:var(--dim)}
+.mtag.root{color:var(--gold2);border-color:#4a3f22;cursor:pointer}
+.close{margin-left:auto;font-size:24px;color:var(--dim);cursor:pointer;border:none;background:none}
+.rail{position:sticky;top:0;display:flex;gap:4px;flex-wrap:wrap;padding:10px 30px;background:#0e1116ee;
+ border-bottom:1px solid var(--line);z-index:2}
+.rail a{font-size:11px;color:var(--dim);text-decoration:none;border:1px solid var(--line);border-radius:14px;padding:3px 10px}
+.rail a:hover{color:var(--gold2);border-color:#4a3f22}
+.body{padding:18px 30px 40px}
+.ml{border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin-bottom:14px;background:#12161c}
+.ml h3{margin:0 0 12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold2);
+ display:flex;align-items:center;gap:8px}
+.ml h3 .src{margin-left:auto;font-size:10px;color:#6b6450;text-transform:none;letter-spacing:0}
+.ml h3 .ic{width:22px;height:22px;border-radius:6px;background:#1c2128;border:1px solid var(--line);
+ display:grid;place-items:center;font-size:12px}
+.sense{display:flex;gap:12px;padding:9px 0;border-top:1px dashed var(--line)}.sense:first-of-type{border:0}
+.sense .n{flex:0 0 24px;height:24px;border-radius:50%;background:var(--indigo);color:#08111a;font-weight:700;display:grid;place-items:center}
+.sense .a{font-size:22px}.sense .e{font-size:13px;color:var(--dim)}.sense .r{font-size:11px;color:var(--teal)}
+.sarf{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.fcard{border:1px solid var(--line);border-radius:8px;background:#171b21;padding:10px}
+.fcard .l{font-size:11px;color:var(--gold2)} .frow{display:flex;justify-content:space-between;font-size:13px;margin-top:4px}
+.frow span:first-child{color:var(--dim)}
+.fam{display:flex;flex-wrap:wrap;gap:8px}
+.fam .d{border:1px solid var(--line);border-radius:8px;background:#171b21;padding:6px 11px;text-align:center;min-width:84px}
+.fam .d .a{font-size:18px}.fam .d .t{font-size:10px;color:var(--dim)}
+.ayah{border-right:3px solid var(--gold);background:#171b21;border-radius:8px 0 0 8px;padding:7px 13px;margin:7px 0}
+.ayah .t{font-size:22px}.ayah .r{font-size:11px;color:var(--teal)}
+.occ{margin-top:8px}.occ b{font-size:11px;background:#10212a;color:var(--teal);border:1px solid #1c3a44;border-radius:6px;padding:2px 7px;margin-inline-end:5px}
+.star{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin:6px 0}.star .l{flex:0 0 96px;font-size:11px;color:var(--dim)}
+.tok{font-size:16px;border-radius:6px;padding:2px 9px}
+.tok.s{background:#1a1f33;border:1px solid #2d3656;color:#aeb6ff}.tok.y{background:#15281f;border:1px solid #234a36;color:#8fe3b6}.tok.n{background:#2a1717;border:1px solid #4a2323;color:#e39a9a}
+.srcnote{font-size:10px;color:#6b6450;margin-top:6px}
+.hook{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line)}.hook:first-of-type{border:0}
+.hook .k{flex:0 0 52px;font-size:10px;text-transform:uppercase;color:var(--gold2);margin-top:3px}.hook em{color:var(--gold2);font-style:normal}
+.illus{display:flex;gap:16px;align-items:center}.illus svg{flex:0 0 120px}.illus .c{font-size:13px;color:var(--dim)}
+.gem{font-size:18px;line-height:2;color:#e7ddc8}.gem .src{font-size:11px;color:#6b6450;direction:ltr;margin-top:6px}
+.ex{border:1px solid var(--line);border-radius:8px;background:#171b21;padding:11px;margin-bottom:8px}
+.ex .k{font-size:10px;color:var(--indigo);text-transform:uppercase}.ex .q{font-size:14px;margin:6px 0}
+.opt{border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:15px;margin-top:5px;cursor:pointer}.opt.r{border-color:var(--green);background:#15281f}
+.idiom{border:1px solid #3a3120;border-radius:8px;background:#171206;padding:12px}
+.empty{opacity:.55;font-size:13px;color:var(--dim)}
+.foot{padding:14px 30px;border-top:1px solid var(--line);color:#6b6450;font-size:12px;display:flex;gap:10px}
+.foot b{color:var(--gold2)}
+</style></head>
+<body>
+<header>
+ <div class="toggle"><div class="tg" id="tgN">NOUNS <span class="n" id="cN">0</span></div>
+ <div class="tg off" id="tgV">VERBS <span class="n" id="cV">0</span></div></div>
+ <div class="crumb ar">سورة الزُّمر · المقطع ١ (٣٩:١–٥) · خطوة الصرف</div>
+</header>
+<div class="grid" id="grid"></div>
+
+<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
+
+<script>
+const AY={
+ "39:2":"إِنَّا أَنزَلْنَا إِلَيْكَ الْكِتَابَ بِالْحَقِّ فَاعْبُدِ اللَّهَ مُخْلِصًا لَّهُ الدِّينَ",
+ "39:3a":"أَلَا لِلَّهِ الدِّينُ الْخَالِصُ",
+ "39:3z":"مَا نَعْبُدُهُمْ إِلَّا لِيُقَرِّبُونَا إِلَى اللَّهِ زُلْفَىٰ",
+ "11:114":"وَأَقِمِ الصَّلَاةَ طَرَفَيِ النَّهَارِ وَزُلَفًا مِّنَ اللَّيْلِ",
+ "67:27":"فَلَمَّا رَأَوْهُ زُلْفَةً سِيئَتْ وُجُوهُ الَّذِينَ كَفَرُوا",
+ "26:90":"وَأُزْلِفَتِ الْجَنَّةُ لِلْمُتَّقِينَ",
+ "16:66":"مِن بَيْنِ فَرْثٍ وَدَمٍ لَّبَنًا خَالِصًا","38:83":"إِلَّا عِبَادَكَ مِنْهُمُ الْمُخْلَصِينَ","12:80":"خَلَصُوا نَجِيًّا"};
+const ILL={ascent:`<svg viewBox="0 0 120 100"><rect x="84" y="12" width="28" height="36" rx="3" fill="#1c2128" stroke="#cDaD6a"/><path d="M84 18 q14 -9 28 0" fill="none" stroke="#cDaD6a" stroke-width="2"/><g fill="#1c2128" stroke="#8b8fe0"><rect x="4" y="84" width="20" height="12"/><rect x="20" y="70" width="20" height="26"/><rect x="36" y="56" width="20" height="40"/><rect x="52" y="44" width="20" height="52"/><rect x="68" y="32" width="20" height="64"/></g><circle cx="62" cy="38" r="6" fill="#cDaD6a"/><rect x="58" y="44" width="8" height="13" rx="3" fill="#cDaD6a"/></svg>`,
+ pour:`<svg viewBox="0 0 120 100"><path d="M28 16 h40 l-6 24 a13 13 0 0 1 -28 0 z" fill="#1c2128" stroke="#4bb6c4"/><rect x="42" y="42" width="6" height="36" fill="#ece6d8" opacity=".9"/><ellipse cx="45" cy="84" rx="24" ry="7" fill="#0b0d10" stroke="#2b323c"/><path d="M22 82 q23 -13 46 0" fill="none" stroke="#5cc090" stroke-width="3"/><path d="M26 88 q19 -6 38 0" fill="none" stroke="#7a4a2a" stroke-width="3" opacity=".6"/></svg>`};
+
+// depth data
+const DEEP={
+"خلص":{hero:"مُخْلِصًا",translit:"mukhliṣan",gloss:"devoting religion purely to God",
+ morph:["Noun","accusative","masc.","indef.","Form IV active participle (ism fāʿil)","ḥāl"],
+ senses:[["1","مُخْلِصًا","sincerity; exclusive, unmixed devotion of religion to God","39:2"],["2","خَلَصُوا","to withdraw apart / become free & clear","12:80"],["3","مُخْلَص","servants God has chosen & purified","38:83"],["4","خَالِص","pure & unmixed; reserved exclusively","16:66"]],
+ sarf:[["Form I — خَلَصَ",[["past","خَلَصَ"],["pres","يَخْلُصُ"],["maṣdar","خُلُوص"]]],["Form IV — أَخْلَصَ",[["active","مُخْلِص"],["passive","مُخْلَص"],["maṣdar","إِخْلَاص"]]],["Form X — اِسْتَخْلَصَ",[["past","اِسْتَخْلَصَ"],["sense","select for self"],["ref","12:54"]]]],
+ fam:[["خَلَصَ","I become pure"],["أَخْلَصَ","IV devote"],["اِسْتَخْلَصَ","X select"],["تَخَلَّصَ","V get free"],["خَالِص","pure"],["مُخْلِص","sincere one"],["مُخْلَص","chosen"],["إِخْلَاص","sincerity"]],
+ ctx:[["39:2","39:2"],["39:3a","39:3"],["16:66","16:66"],["38:83","38:83"],["12:80","12:80"]],occ:["7:29","98:5","40:14","15:40","7:32","12:54"],
+ syn:["صفو (اصطفى)","طُهْر","نقاء","صِدْق"],ant:["شِرْك","رِياء","خَلْط"],synsrc:"added to ar_ling_near_synonym_sets · NS:PURE + NS:…DEVOTION",
+ hooks:[["sound","<em>khāliṣ</em> ≈ <em>cleanse/clear</em>: clear of every admixture — devotion cleared of all but God."],["S1","<em>mukhliṣ</em>: religion run through a <em>filter</em> until only God remains — opposite of shirk."],["S3","<em>mukhlaṣ</em> (passive a): not self-purified but <em>purified by God</em> — drawn out like refined gold."]],
+ illus:"pour",illusc:"Pure milk pressed clear from between refuse & blood (16:66) — ikhlāṣ pours devotion to God alone.",
+ idiom:["أَخْلَصَ لله الدِّين","to make religion exclusively God’s — Mir verbal idiom","ar_ling_expressions · AREX:VI:6D9734851E670643 · 39:2, 7:29, 40:65, 98:5"],
+ gem:"خَلَصَ الشيءُ خُلوصًا: صار خالصًا صافيًا لم يَشُبْه شيء. وأَخْلَصَ لله دينَه: ترك الرياء وأفرده له. والمُخْلَص: الذي أخلصه اللهُ واصطفاه. وضدُّ الإخلاص الشِّركُ والرياء.",
+ gemsrc:"Lisān al-ʿArab · root خ ل ص · ar_ling_root_scholarship",
+ ex:[["def · 39:2","مُخْلِصًا لَّهُ الدِّينَ means?",["fearing Him","devoting religion purely to Him","obeying in public"],1],["antonym","Opposite of الإخلاص?",["الصبر","الشِّرك والرياء","التوكّل"],1],["ṣarf · 38:83","الْمُخْلَصِينَ — passive participle of?",["Form I","Form IV","Form X"],1]]},
+"زلف":{hero:"زُلْفَىٰ",translit:"zulfā",gloss:"nearness as rank/standing",
+ morph:["Noun","accusative","fem.","verbal noun (maṣdar)","maf. muṭlaq / ḥāl"],
+ senses:[["1","زُلْفَىٰ","nearness as elevated rank/standing before God","39:3"],["2","أُزْلِفَت","to be brought near (the Garden)","26:90"],["3","زُلَفًا","portions/approaches of the night","11:114"],["4","زُلْفَة","nearness at hand","67:27"]],
+ sarf:[["Form I — زَلَفَ",[["past","زَلَفَ"],["pres","يَزْلِفُ"],["maṣdar","زُلْفَى"]]],["Form IV — أَزْلَفَ",[["past","أَزْلَفَ"],["pres","يُزْلِفُ"],["passive","أُزْلِفَتْ"]]]],
+ fam:[["زَلَفَ","I draw near"],["أَزْلَفَ","IV bring near"],["اِزْدَلَفَ","VIII (→ Muzdalifa)"],["تَزَلَّفَ","V seek nearness"],["زُلْفَى","nearness/rank"],["زُلَف","night-portions"],["أُزْلِفَتْ","was brought near"],["مَزْلَفَة","a stage"]],
+ ctx:[["39:3z","39:3"],["11:114","11:114"],["67:27","67:27"],["26:90","26:90"]],occ:["34:37","38:25","38:40","50:31","81:13","26:64"],
+ syn:["قُرْب","دَرَجة","مَنزِلة","حُظوة"],ant:["بُعْد","قَصْوَى"],synsrc:"reuses ar_ling_near_synonym_sets · زَلَفَ∈“To be near” · زُلَف∈“Time”",
+ hooks:[["sound","Hear zulfā in <em>zeal</em>ous — an eager advance into nearness, a courtier brought near into rank."],["S1","A courtier ushered to the front row before the throne — <em>zulfā</em> is rank-nearness."],["S3","<em>Zulaf</em> of night = the night drawing its folds near — early hours stepping toward dawn."]],
+ illus:"ascent",illusc:"A figure ascending steps toward a throne — each step a darajah; zulfā as elevated standing.",
+ idiom:null,
+ gem:"الزُّلْفَى: القُربة والمنزلة والدرجة؛ ومنه: لِيُقَرِّبُونَا إِلَى اللَّهِ زُلْفَى. وزُلَفُ الليلِ: ساعاتُه الأولى. وأَزْلَفَ الشيءَ: قرَّبه؛ وأُزْلِفَتِ الجنّةُ: قُرِّبت. وازْدَلَفَ: اقترب، ومنه المُزْدَلِفة.",
+ gemsrc:"Lisān al-ʿArab · root ز ل ف · ar_ling_root_scholarship",
+ ex:[["def · 39:3","زُلْفَىٰ means?",["mere physical closeness","nearness as elevated rank","intercession"],1],["cloze · 11:114","…وَ____ مِّنَ اللَّيْلِ",["زُلَفًا","زُخْرُفًا","زُمَرًا"],0],["ṣarf · 26:90","أُزْلِفَتِ الجنّة — passive of?",["Form I","Form IV","Form VIII"],1]]}};
+
+// passage word occurrences (form, en, root, pos, ayah, depth)
+const W=(form,en,root,pos,ayah,depth)=>({form,en,root,pos,ayah,depth});
+const WORDS=[
+ W("تَنزِيلُ","a revelation","نزل","N",1),W("الْكِتَابِ","the Book","كتب","N",1),W("الْعَزِيزِ","the Almighty","عزز","ADJ",1),W("الْحَكِيمِ","the Wise","حكم","ADJ",1),
+ W("أَنزَلْنَا","We sent down","نزل","V",2),W("بِالْحَقِّ","in truth","حقق","N",2),W("فَاعْبُدِ","so worship","عبد","V",2),W("مُخْلِصًا","devoting purely","خلص","N",2,1),W("الدِّينَ","the religion","دين","N",2),
+ W("الْخَالِصُ","the pure","خلص","N",3,1),W("اتَّخَذُوا","they took","اخذ","V",3),W("أَوْلِيَاءَ","protectors","ولي","N",3),W("نَعْبُدُهُمْ","we worship them","عبد","V",3),W("لِيُقَرِّبُونَا","to bring us near","قرب","V",3),W("زُلْفَىٰ","nearness/rank","زلف","N",3,1),W("يَحْكُمُ","He judges","حكم","V",3),W("يَخْتَلِفُونَ","they differ","خلف","V",3),W("يَهْدِي","He guides","هدي","V",3),W("كَاذِبٌ","a liar","كذب","N",3),W("كَفَّارٌ","ungrateful","كفر","ADJ",3),
+ W("أَرَادَ","willed","رود","V",4),W("يَتَّخِذَ","to take","اخذ","V",4),W("وَلَدًا","a child","ولد","N",4),W("لَاصْطَفَىٰ","He would have chosen","صفو","V",4),W("يَخْلُقُ","He creates","خلق","V",4),W("يَشَاءُ","He wills","شيا","V",4),W("سُبْحَانَهُ","glory to Him","سبح","N",4),W("الْوَاحِدُ","the One","وحد","ADJ",4),W("الْقَهَّارُ","the Subduer","قهر","ADJ",4),
+ W("خَلَقَ","He created","خلق","V",5),W("السَّمَاوَاتِ","the heavens","سمو","N",5),W("وَالْأَرْضَ","the earth","ارض","N",5),W("يُكَوِّرُ","He wraps","كور","V",5),W("اللَّيْلَ","the night","ليل","N",5),W("النَّهَارِ","the day","نهر","N",5),W("وَسَخَّرَ","He subjected","سخر","V",5),W("الشَّمْسَ","the sun","شمس","N",5),W("وَالْقَمَرَ","the moon","قمر","N",5),W("يَجْرِي","runs","جري","V",5),W("لِأَجَلٍ","for a term","اجل","N",5),W("مُّسَمًّى","appointed","سمو","N",5),W("الْغَفَّارُ","the Forgiving","غفر","ADJ",5)];
+const CORE={"نزل":"sending down; revelation in stages","كتب":"writing; a Book/decree","عزز":"might, honour, invincibility","حكم":"to judge; wisdom","حقق":"truth, right, reality","عبد":"to worship and serve","دين":"religion; recompense","اخذ":"to take; to adopt","ولي":"ally, protector; nearness","قرب":"nearness; to draw near","خلف":"to differ; to succeed","هدي":"guidance; to guide","كذب":"lying, falsehood","كفر":"disbelief, ingratitude","رود":"to seek, will, intend","ولد":"to beget; child","صفو":"purity; to choose the best","خلق":"to create","شيا":"to will; a thing","سبح":"to glorify; transcendence","وحد":"oneness","قهر":"to subdue","سمو":"height; heaven; naming","ارض":"earth, land","كور":"to wind, coil","ليل":"night","نهر":"daytime","سخر":"to subject","شمس":"the sun","قمر":"the moon","جري":"to run, flow","اجل":"appointed term","غفر":"to forgive"};
+const HOOK={"خلص":"khāliṣ ≈ cleanse — devotion cleared of all but God.","زلف":"zulfā in zealous — advance into rank."};
+let FILTER="N";
+function isN(p){return p!=="V"}
+function grid(){
+ document.getElementById("cN").textContent=WORDS.filter(w=>isN(w.pos)).length;
+ document.getElementById("cV").textContent=WORDS.filter(w=>w.pos==="V").length;
+ const list=WORDS.filter(w=>FILTER==="N"?isN(w.pos):w.pos==="V");
+ document.getElementById("grid").innerHTML=list.map((w)=>{const i=WORDS.indexOf(w);return `
+  <div class="wc" onclick="open_(${i})">
+    ${w.depth?'<div class="depthdot"></div>':''}<div class="pos">${w.pos}</div>
+    <div class="w ar">${w.form}</div>
+    <div class="en">${w.en}</div>
+    <div class="rootlab">ROOT: <b class="ar">${w.root}</b></div>
+    <div class="g">${CORE[w.root]||w.en}</div>
+    <div class="ref">39:${w.ayah}</div>
+  </div>`}).join("");
+}
+document.getElementById("tgN").onclick=()=>{FILTER="N";document.getElementById("tgN").classList.remove("off");document.getElementById("tgV").classList.add("off");grid();};
+document.getElementById("tgV").onclick=()=>{FILTER="V";document.getElementById("tgV").classList.remove("off");document.getElementById("tgN").classList.add("off");grid();};
+
+function ml(ic,t,src,body){return `<div class="ml"><h3><span class="ic">${ic}</span>${t}<span class="src">${src}</span></h3>${body}</div>`}
+function open_(i){
+ const w=WORDS[i], d=DEEP[w.root]; const sheet=document.getElementById("sheet");
+ const hero = d? d.hero : w.form, tr = d? d.translit : '', gl = d? d.gloss : (CORE[w.root]||w.en);
+ const morph = d? d.morph : [w.pos==="V"?"Verb":"Noun", "root "+w.root];
+ let h=`<div class="hero"><div class="big ar">${hero}</div><div class="meta">
+    <div class="translit">${tr} · <span class="ar">${w.form}</span></div>
+    <div class="gloss">${gl}</div>
+    <div class="morphline">${morph.map(m=>`<span class="mtag">${m}</span>`).join("")}
+      <span class="mtag root ar">جذر ${w.root}</span></div></div>
+    <button class="close" onclick="document.getElementById('ov').classList.remove('open')">✕</button></div>
+   <div class="rail">${['Definition','Word Sums','Roots','Context','Constellation','Images','Hooks','Idiom','Examples','Gem'].map(x=>`<a href="#">${x}</a>`).join("")}</div>
+   <div class="body">`;
+ if(!d){
+   h+=ml("📖","Definition Memlet","ar_ling_root_vocab.core_sense",`<div style="font-size:15px">${CORE[w.root]||w.en}</div>`);
+   h+=ml("🪝","Hooks Memlet","ar_ling_root_vocab.membean_hook",`<div class="hook"><div class="k">sound</div><div>${HOOK[w.root]||'—'}</div></div>`);
+   h+=ml("🌱","Root & Derivations","ar_ling_lemmas",`<div class="empty">Core card. Full Memlet depth (senses, ṣarf, constellation, gem, exercises) is built for keystone roots — open <b class="gold ar">خلص</b> or <b class="gold ar">زلف</b> to see the complete view. This root: depth pending.</div>`);
+   h+=`</div><div class="foot"><b>Core card</b> · 4 Memlets · rendered from ar_ling_root_vocab</div>`;
+   sheet.innerHTML=h; document.getElementById('ov').classList.add('open'); sheet.parentElement.scrollTop=0; return;
+ }
+ h+=ml("📖","Definition Memlet","ar_ling_senses", d.senses.map(s=>`<div class="sense"><div class="n">${s[0]}</div><div><div class="a ar">${s[1]}</div><div class="e">${s[2]}</div><div class="r">QR ${s[3]}</div></div></div>`).join(""));
+ h+=ml("🧩","Word Sums Memlet · ṣarf","form_paradigms + conjugation_templates",`<div class="sarf">`+d.sarf.map(f=>`<div class="fcard"><div class="l ar">${f[0]}</div>`+f[1].map(r=>`<div class="frow"><span>${r[0]}</span><span class="ar">${r[1]}</span></div>`).join("")+`</div>`).join("")+`</div>`);
+ h+=ml("🌱","Root & Derivation Family","ar_ling_lemmas",`<div class="fam">`+d.fam.map(x=>`<div class="d"><div class="a ar">${x[0]}</div><div class="t">${x[1]}</div></div>`).join("")+`</div>`);
+ h+=ml("🕮","Context Relationship Memlet","qr_word_occurrences ↔ ar_ling_quran_links", d.ctx.map(c=>`<div class="ayah"><div class="t ar">${AY[c[0]]}</div><div class="r">QR ${c[1]}</div></div>`).join("")+`<div class="occ"><span style="font-size:11px;color:var(--dim)">also recurs: </span>`+d.occ.map(o=>`<b>${o}</b>`).join("")+`</div>`);
+ h+=ml("✦","Word Constellation Memlet","ar_ling_near_synonym_sets + sense_relations",
+   `<div class="star"><div class="l">senses</div>`+d.senses.map(s=>`<span class="tok s ar">${s[1]}</span>`).join("")+`</div>
+    <div class="star"><div class="l">near-synonyms</div>`+d.syn.map(s=>`<span class="tok y ar">${s}</span>`).join("")+`</div>
+    <div class="star"><div class="l">antonyms</div>`+d.ant.map(s=>`<span class="tok n ar">${s}</span>`).join("")+`</div>
+    <div class="srcnote">↳ ${d.synsrc}</div>`);
+ h+=ml("🎨","Images / Video Stories Memlet","ar_ling_vocab_illustrations",`<div class="illus">${ILL[d.illus]}<div class="c">${d.illusc}</div></div>`);
+ h+=ml("🪝","Hooks Memlet","ar_ling_vocab_memory_hooks", d.hooks.map(k=>`<div class="hook"><div class="k">${k[0]}</div><div>${k[1]}</div></div>`).join(""));
+ h+= d.idiom? ml("🔗","Verbal Idiom (Mir)","ar_ling_expressions",`<div class="idiom"><div class="ar" style="font-size:22px">${d.idiom[0]}</div><div style="margin-top:4px">${d.idiom[1]}</div><div class="srcnote">↳ ${d.idiom[2]}</div></div>`)
+            : ml("🔗","Verbal Idiom (Mir)","ar_ling_expressions",`<div class="empty">No distinct verbal idiom for this root in the passage.</div>`);
+ h+=ml("📜","Lexical Scholarship · gem","ar_ling_root_scholarship",`<div class="gem ar">${d.gem}</div><div class="srcnote" style="direction:ltr">↳ ${d.gemsrc}</div>`);
+ h+=ml("✎","Examples · Retrieval Memlet","ar_ling_vocab_exercises", d.ex.map(e=>`<div class="ex"><div class="k">${e[0]}</div><div class="q ar" style="direction:ltr">${e[1]}</div>`+e[2].map((o,oi)=>`<div class="opt ${oi===e[3]?'r':''} ar" style="direction:rtl">${o}</div>`).join("")+`</div>`).join(""));
+ h+=ml("🗝️","Sinai Key-Term Memlet","src_sinai_2023_keyterms",`<div class="empty">Source registered, entries not yet ingested — shown empty rather than fabricated.</div>`);
+ h+=`</div><div class="foot"><b>★ Full depth</b> · 9 Memlets + gem · SRS lives separately at <b>/srs</b> (this view has no review state)</div>`;
+ sheet.innerHTML=h; document.getElementById('ov').classList.add('open'); sheet.parentElement.scrollTop=0;
+}
+document.getElementById('ov').onclick=(e)=>{if(e.target.id==='ov')document.getElementById('ov').classList.remove('open')};
+grid();
+</script>
+</body></html>

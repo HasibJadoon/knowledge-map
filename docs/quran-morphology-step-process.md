@@ -100,4 +100,6 @@ Tags use Anki hierarchy: `Quran::<surah-name>::P<n> type::verse::balagha`.
 ## 6. Status & gaps
 - **Done:** AL pedagogy tables (0021); AR proper-SRS convention (0002); زلف & خلص full depth; Sūrah 39 P1 — 35 roots (breadth) + 2 depth; Sūrah 39 deck = **55 cards** (vocab 43, idiom 2, expression 1, verse 7 [important 2/difficult 1/grammar 1/balagha 1/tafsir 1/historical 1], concept 2) with Anki snapshots.
 - **Gaps:** Sinai Key-Terms not ingested (source empty); illustrations are captions/placeholder SVG (no final art); collocations/expression + key-concept (WV) tables not yet populated as canonical rows (cards are self-contained for now); Anki export script not yet written; passages 39:6+ pending.
-- **Mockups:** `database/mockups/quran-vocab-passage1.html` (card+Memlets+SRS demo).
+- **Mockups:** `quran-word-deepview.html` (morphology card → deep 9-Memlet word view, no SRS),
+  `quran-srs-decks.html` (`/srs` deck browser → study session → Anki export),
+  `quran-vocab-passage1.html` (earlier combined demo) — all under `database/mockups/`.
