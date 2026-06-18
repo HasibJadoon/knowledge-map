@@ -75,6 +75,22 @@ Tags use Anki hierarchy: `Quran::<surah-name>::P<n> type::verse::balagha`.
 9. **Examples / Retrieval** → `ar_ling_vocab_exercises`.
 (+ Scholarship gem `ar_ling_root_scholarship` (Lisan); + Sinai key-term placeholder.)
 
+## 3b. Membean training-page layout → our panels (verified from the live UI)
+The word-training screen has a fixed 2-column layout; replicate it exactly:
+| Membean panel | Arabic panel | Source |
+|---|---|---|
+| header: POS · Level/Expedition · audio · **IKT** · I'm done · Next | POS · Level(Surah) · **tilāwa** · أعرفها · تمّ · Next | — |
+| **Context** (paragraph, word ≥3×) + inline **Quiz** MCQ + Definition btn | scaffolded āyāt + MCQ | `ar_ling_senses` |
+| **Word Ingredients** (morphemes → synthesis) | **root + wazn** → synthesis | `ar_ling_roots` + `form_paradigms` |
+| **Memory Hook** (+ use-other / make-own) | hook | `ar_ling_vocab_memory_hooks` |
+| **Examples** (real sourced quotes) | real āyāt + ref | `ar_ling_quran_links` |
+| **Word Theater** (video) | illustration/video still | `ar_ling_vocab_illustrations` |
+| **Word Constellation** (radial graph) | radial near-synonym graph | `ar_ling_near_synonym_sets` |
+| **Related Words** (similar / opposite) | similar / opposite lists | near-synonym members + `sense_relations` |
+| **Word Variants** (derived forms) | مشتقّات (اسم فاعل/مفعول/مصدر/صفة) | `ar_ling_lemmas` |
+| *(none)* | **+ Iʿrāb**, **+ Ṣarf table** | classical-only depth |
+Reference mockup: `database/mockups/quran-membean-word.html` (مُخْلِصًا / خ ل ص).
+
 ## 4. The pipeline — run this for EACH passage
 1. **List the passage.** `SELECT … FROM qr_word_occurrences WHERE surah=S AND ayah BETWEEN a1 AND a2`.
 2. **Filter to content roots.** Exclude particles, pronouns, relatives (alladhī), demonstratives, and basics (بين، دون، كلّ). Keep verbs/nouns/adjectives.
