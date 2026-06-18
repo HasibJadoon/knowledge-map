@@ -64,9 +64,8 @@ export function studyRoutes(router: Router<QuranEnv>) {
       const passage  = passages.find(p => p.passage_no === sp.p);
       if (!passage) return notFound(`passage ${sp.s}:${sp.p}`);
 
-      // Surface available step types from the task tree roots
-      const tasks    = await repo.allTasks(sp.s, sp.p) ?? [];
-      const stepTypes = tasks.map(t => t.task_type);
+      // Cheap step-type availability (no task_json load) for passage selection.
+      const stepTypes = await repo.stepTypes(sp.s, sp.p) ?? [];
 
       return ok({ passage, step_types: stepTypes });
     },

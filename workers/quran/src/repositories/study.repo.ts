@@ -106,41 +106,42 @@ export class StudyRepo {
   }
 
   /**
-   * Study grid — passage list enriched with vocabulary counts and task-type flags.
-   * Used by the study home screen for each surah.
+   * Study grid — the lightweight passage LIST: only what the UI needs to pick a
+   * passage (range, label, theme, which study layers exist, vocab counts).
+   *
+   * Lazy by design: it does NOT load the per-passage task trees or parse any
+   * task_json. Step availability comes from one cheap GROUP BY over the tasks
+   * table, and vocab counts from one aggregate over the word table. The full
+   * passage payload is fetched only when a passage (or a step) is opened.
    */
   async grid(surahId: number) {
     const passages = await this._passages(surahId);
     if (!passages.length) return null;
 
-    const wordCounts = await this._wordCounts(surahId, passages);
-    const units = await Promise.all(
-      passages.map(async p => {
-        const tasks     = await this._tasks(p.id);
-        const typeCounts = this._typeCounts(tasks);
-        const fromMorph = vocabularyFromMorphology(tasks);
-        const wc        = wordCounts.get(p.id) ?? { total: 0, nouns: 0, verbs: 0 };
-        return {
-          passage_id:  p.id,
-          passage_no:  p.passage_no,
-          ayah_from:   p.ayah_from,
-          ayah_to:     p.ayah_to,
-          start_ref:   `${p.surah_id}:${p.ayah_from}`,
-          end_ref:     `${p.surah_id}:${p.ayah_to}`,
-          label:       p.title ?? `Passage ${p.passage_no}`,
-          theme:       p.theme ?? null,
-          reading:             { has: typeCounts.reading         ? 1 : 0 },
-          vocabulary:          {
-            nouns: wc.nouns || fromMorph.nouns.length,
-            verbs: wc.verbs || fromMorph.verbs.length,
-            total: wc.total,
-          },
-          sentence_structure:  { has: typeCounts.sentence_structure ? 1 : 0 },
-          expressions:         { has: typeCounts.expressions        ? 1 : 0 },
-          passage_structure:   { has: typeCounts.passage_structure   ? 1 : 0 },
-        };
-      }),
-    );
+    const [typeFlags, wordCounts] = await Promise.all([
+      this._taskTypeFlags(surahId),
+      this._wordCounts(surahId, passages),
+    ]);
+
+    const units = passages.map(p => {
+      const flags = typeFlags.get(p.id) ?? new Set<string>();
+      const wc    = wordCounts.get(p.id) ?? { total: 0, nouns: 0, verbs: 0 };
+      return {
+        passage_id:  p.id,
+        passage_no:  p.passage_no,
+        ayah_from:   p.ayah_from,
+        ayah_to:     p.ayah_to,
+        start_ref:   `${p.surah_id}:${p.ayah_from}`,
+        end_ref:     `${p.surah_id}:${p.ayah_to}`,
+        label:       p.title ?? `Passage ${p.passage_no}`,
+        theme:       p.theme ?? null,
+        reading:             { has: flags.has('reading')            ? 1 : 0 },
+        vocabulary:          { nouns: wc.nouns, verbs: wc.verbs, total: wc.total },
+        sentence_structure:  { has: flags.has('sentence_structure') ? 1 : 0 },
+        expressions:         { has: flags.has('expressions')        ? 1 : 0 },
+        passage_structure:   { has: flags.has('passage_structure')  ? 1 : 0 },
+      };
+    });
 
     return {
       surah: {
@@ -212,6 +213,20 @@ export class StudyRepo {
     if (!passage) return null;
     const tasks = await this._tasks(passage.id);
     return tasks.find(t => t.task_type === stepType) ?? undefined;
+  }
+
+  /**
+   * Available step types for a passage, in step order. Cheap — derived from the
+   * task-type flags query (no task_json). Used by the passage-detail endpoint so
+   * picking a passage does not pull the whole task tree.
+   */
+  async stepTypes(surahId: number, passageNo: number): Promise<string[] | null> {
+    const passages = await this._passages(surahId);
+    const passage  = passages.find(p => p.passage_no === passageNo);
+    if (!passage) return null;
+    const flags = await this._taskTypeFlags(surahId);
+    return [...(flags.get(passage.id) ?? new Set<string>())]
+      .sort((a, b) => (STEP_ORDER[a] ?? 99000) - (STEP_ORDER[b] ?? 99000));
   }
 
   // ── Lazy per-step loaders ─────────────────────────────────────────────────
@@ -463,7 +478,35 @@ export class StudyRepo {
     };
   }
 
-  /** Word counts per passage — used by grid to show vocabulary stats. */
+  /**
+   * Which task types exist per passage, for the whole surah, in one cheap
+   * GROUP BY (no task_json, no per-passage round trips). Used for the grid's
+   * "which layers are available" flags.
+   */
+  private async _taskTypeFlags(surahId: number): Promise<Map<string, Set<string>>> {
+    const rows = await query<{ passage_id: string; task_type: string }>(
+      this.db,
+      `SELECT t.passage_id, t.task_type
+       FROM qr_surah_study_tasks t
+       JOIN qr_surah_study_passages p ON p.id = t.passage_id
+       WHERE p.surah = ?
+       GROUP BY t.passage_id, t.task_type`,
+      [surahId],
+    ).catch(() => []);
+
+    const out = new Map<string, Set<string>>();
+    for (const r of rows) {
+      let set = out.get(r.passage_id);
+      if (!set) { set = new Set<string>(); out.set(r.passage_id, set); }
+      set.add(r.task_type);
+    }
+    return out;
+  }
+
+  /**
+   * Word counts per passage — vocabulary stats for the grid. Aggregated by ayah
+   * in SQL (one row per ayah, not per word), then bucketed into passage ranges.
+   */
   private async _wordCounts(
     surahId: number,
     passages: PassageRow[],
@@ -471,31 +514,29 @@ export class StudyRepo {
     const out = new Map<string, { total: number; nouns: number; verbs: number }>();
     if (!passages.length) return out;
 
-    const words = await query<{ ayah: number; pos: string | null }>(
+    const rows = await query<{ ayah: number; total: number; nouns: number; verbs: number }>(
       this.db,
-      `SELECT ayah, pos FROM qr_word_occurrences WHERE surah = ?`,
+      `SELECT ayah,
+              COUNT(*) AS total,
+              SUM(CASE WHEN LOWER(COALESCE(pos, '')) = 'noun' THEN 1 ELSE 0 END) AS nouns,
+              SUM(CASE WHEN LOWER(COALESCE(pos, '')) = 'verb' THEN 1 ELSE 0 END) AS verbs
+       FROM qr_word_occurrences
+       WHERE surah = ?
+       GROUP BY ayah`,
       [surahId],
-    );
+    ).catch(() => []);
 
     for (const p of passages) {
       const counts = { total: 0, nouns: 0, verbs: 0 };
-      for (const w of words) {
-        if (w.ayah < p.ayah_from || w.ayah > p.ayah_to) continue;
-        counts.total++;
-        const pos = w.pos?.toLowerCase();
-        if (pos === 'noun') counts.nouns++;
-        if (pos === 'verb') counts.verbs++;
+      for (const r of rows) {
+        if (r.ayah < p.ayah_from || r.ayah > p.ayah_to) continue;
+        counts.total += Number(r.total);
+        counts.nouns += Number(r.nouns);
+        counts.verbs += Number(r.verbs);
       }
       out.set(p.id, counts);
     }
     return out;
-  }
-
-  /** Count root tasks by task_type — used to compute grid "has_*" flags. */
-  private _typeCounts(tasks: StudyTask[]): Record<string, number> {
-    const counts: Record<string, number> = {};
-    for (const t of tasks) counts[t.task_type] = (counts[t.task_type] ?? 0) + 1;
-    return counts;
   }
 }
 
