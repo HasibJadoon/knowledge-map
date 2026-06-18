@@ -831,7 +831,22 @@ CREATE TABLE qr_ss_tree (
   tree_type            TEXT NOT NULL DEFAULT 'constituency',
   generated_at         TEXT NOT NULL DEFAULT (datetime('now')),
   note_md              TEXT,
+  grounding            TEXT NOT NULL DEFAULT 'authored',  -- authored | irab
+  source_ref           TEXT,
   FOREIGN KEY (sentence_id) REFERENCES qr_ss_occ_sentence(id)
+);
+
+-- Global grammatical / balāgha term dictionary: term_key -> Arabic/English
+-- label + stable colour, joined by qr_ss_tree_node.term_key and the grounded
+-- iʿrāb roles surfaced by the sentence-structure step.
+CREATE TABLE qr_ss_term (
+  term_key    TEXT PRIMARY KEY,
+  label_ar    TEXT,
+  label_en    TEXT,
+  color       TEXT,
+  category    TEXT NOT NULL DEFAULT 'constituent',
+  sort_order  INTEGER NOT NULL DEFAULT 0,
+  created_at  TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE TABLE qr_ss_tree_edge (
@@ -863,6 +878,10 @@ CREATE TABLE qr_ss_tree_node (
   scope_id             TEXT,
   depth                INTEGER NOT NULL DEFAULT 0,
   node_order           INTEGER NOT NULL DEFAULT 0,
+  term_key             TEXT,               -- qr_ss_term key (colour + label)
+  label_ar             TEXT,               -- grammatical role label, e.g. 'مبتدأ'
+  note_md              TEXT,               -- per-node nuance
+  word_occurrence_id   TEXT,               -- leaf -> word (lexicon / iʿrāb xref)
   created_at           TEXT NOT NULL DEFAULT (datetime('now')),
   FOREIGN KEY (tree_id)        REFERENCES qr_ss_tree(id),
   FOREIGN KEY (parent_node_id) REFERENCES qr_ss_tree_node(id)
