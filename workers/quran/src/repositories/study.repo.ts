@@ -61,6 +61,43 @@ export interface AyahWordToken {
   pos?: string;
 }
 
+// Authored word-level constituency node (reassembled from qr_ss_tree_node).
+export interface SsConstituencyNode {
+  name:      string;                 // the Arabic text span
+  id:        string;
+  term_id?:  string;                 // qr_ss_term key (colour + label)
+  label_ar?: string;                 // grammatical role label, e.g. 'مبتدأ'
+  note?:     string;
+  word_id?:  string;                 // leaf → its word occurrence (lexicon cross-ref)
+  children?: SsConstituencyNode[];
+}
+
+// Grounded clause node (clause hierarchy + words decorated with iʿrāb).
+export interface SsClauseNode {
+  id:        string;
+  order:     number;
+  depth:     number;
+  type?:     string;
+  function?: string;
+  particle?: string;
+  note?:     string;
+  words:     SsClauseWord[];
+  children:  SsClauseNode[];
+}
+
+export interface SsClauseWord {
+  wordId: string;
+  ayah:   number;
+  index:  number;
+  text:   string;
+  simple?: string;
+  root?:  string;
+  lemma?: string;
+  pos?:   string;
+  role:   string | null;                                  // reconciled iʿrāb role
+  irab:   { book: string; role: string | null; text: string | null }[];
+}
+
 // ─── micro-helpers ─────────────────────────────────────────────────────────────
 
 function parseJson(v: unknown): unknown {
@@ -488,9 +525,340 @@ export class StudyRepo {
   }
 
   /**
+   * Sentence-structure step — fully grounded, table-sourced (no task_json).
+   *
+   * Fuses every available analytical layer for the passage, per sentence:
+   *   • the clause hierarchy (qr_ss_occ_clause, nested via parent_clause_id)
+   *     with each clause's words attached by word-index span;
+   *   • per-word iʿrāb grounding (qr_irab_book_entries) — the grammatical role
+   *     reconciled across the classical books by majority vote, with EVERY book's
+   *     role + full iʿrāb text kept and attributed (the grammarian detail);
+   *   • the authored word-level constituency tree (qr_ss_tree / qr_ss_tree_node)
+   *     when one has been curated for the sentence;
+   *   • balāgha annotations (qr_ss_scope_balagha_link) and ellipsis events
+   *     (qr_ss_ellipsis_event) scoped to the sentence/clause;
+   *   • the mufassir discussion for the ayah (qr_tafsir_entries), attributed.
+   * Colours + Arabic/English labels come from the global term dictionary
+   * (qr_ss_term). The per-word `root` lets the UI cross-reference the Five-Lens
+   * lexicon lazily on tap.
+   */
+  async sentenceStructureStep(surahId: number, passageNo: number) {
+    const passages = await this._passages(surahId);
+    const passage  = passages.find((x) => x.passage_no === passageNo);
+    if (!passage) return null;
+    const { surah_id: surah, ayah_from: from, ayah_to: to } = passage;
+
+    const [sentRows, clauseRows, wordRows, irabRows, balaghaRows, ellipsisRows, tafsirRows, treeRows, nodeRows, termRows, irabAyahRows] =
+      await Promise.all([
+        query<{ id: string; ayah_from: number; ayah_to: number; word_start_index: number | null;
+                word_end_index: number | null; sentence_kind: string | null;
+                discourse_role: string | null; note_md: string | null }>(
+          this.db,
+          `SELECT id, ayah_from, ayah_to, word_start_index, word_end_index,
+                  sentence_kind, discourse_role, note_md
+           FROM qr_ss_occ_sentence
+           WHERE surah = ? AND ayah_from >= ? AND ayah_to <= ?
+           ORDER BY ayah_from, COALESCE(word_start_index, 0)`,
+          [surah, from, to],
+        ).catch(() => []),
+        query<{ id: string; sentence_id: string; parent_clause_id: string | null;
+                clause_order: number; ayah_from: number; ayah_to: number;
+                word_start_index: number | null; word_end_index: number | null;
+                clause_type: string | null; clause_function: string | null;
+                governing_particle: string | null; note_md: string | null }>(
+          this.db,
+          `SELECT id, sentence_id, parent_clause_id, clause_order, ayah_from, ayah_to,
+                  word_start_index, word_end_index, clause_type, clause_function,
+                  governing_particle, note_md
+           FROM qr_ss_occ_clause
+           WHERE surah = ? AND ayah_from >= ? AND ayah_to <= ?
+           ORDER BY ayah_from, clause_order`,
+          [surah, from, to],
+        ).catch(() => []),
+        query<{ id: string; ayah: number; word_index: number; word_text: string;
+                word_text_bare: string | null; root: string | null;
+                lemma: string | null; pos: string | null }>(
+          this.db,
+          `SELECT id, ayah, word_index, word_text, word_text_bare, root, lemma, pos
+           FROM qr_word_occurrences
+           WHERE surah = ? AND ayah BETWEEN ? AND ?
+           ORDER BY ayah, word_index`,
+          [surah, from, to],
+        ).catch(() => []),
+        query<{ wid: string; ayah: number; source_slug: string; source_title: string | null;
+                role: string | null; text: string | null }>(
+          this.db,
+          `SELECT e.word_occurrence_id AS wid, w.ayah, e.source_slug, e.source_title,
+                  e.grammar_role_ar AS role, e.irab_text_ar AS text
+           FROM qr_irab_book_entries e
+           JOIN qr_word_occurrences w ON w.id = e.word_occurrence_id
+           WHERE w.surah = ? AND w.ayah BETWEEN ? AND ? AND e.word_link_status = 'linked'
+             AND (e.grammar_role_ar IS NOT NULL OR e.irab_text_ar IS NOT NULL)`,
+          [surah, from, to],
+        ).catch(() => []),
+        query<{ scope_type: string; scope_id: string; ref: string | null;
+                category: string | null; effect: string | null; note: string | null }>(
+          this.db,
+          `SELECT scope_type, scope_id, lx_balagha_ref AS ref,
+                  balagha_category AS category, rhetorical_effect AS effect, note_md AS note
+           FROM qr_ss_scope_balagha_link
+           WHERE scope_id IN (SELECT id FROM qr_ss_occ_clause   WHERE surah = ? AND ayah_from >= ? AND ayah_to <= ?)
+              OR scope_id IN (SELECT id FROM qr_ss_occ_sentence WHERE surah = ? AND ayah_from >= ? AND ayah_to <= ?)`,
+          [surah, from, to, surah, from, to],
+        ).catch(() => []),
+        query<{ sentence_id: string; scope_type: string | null; scope_id: string | null;
+                ellipsis_type: string; elided_element: string; effect: string | null; note: string | null }>(
+          this.db,
+          `SELECT sentence_id, scope_type, scope_id, ellipsis_type, elided_element,
+                  rhetorical_effect AS effect, note_md AS note
+           FROM qr_ss_ellipsis_event
+           WHERE sentence_id IN (SELECT id FROM qr_ss_occ_sentence WHERE surah = ? AND ayah_from >= ? AND ayah_to <= ?)`,
+          [surah, from, to],
+        ).catch(() => []),
+        query<{ ayah_from: number; ayah_to: number; scholar_id: string | null;
+                work: string | null; text: string | null }>(
+          this.db,
+          `SELECT t.ayah_from, t.ayah_to, t.scholar_id, wk.title_ar AS work,
+                  substr(t.content_ar, 1, 900) AS text
+           FROM qr_tafsir_entries t
+           LEFT JOIN qr_scholar_works wk ON wk.id = t.work_id
+           WHERE t.surah = ? AND t.ayah_from <= ? AND t.ayah_to >= ?
+             AND t.content_ar IS NOT NULL AND TRIM(t.content_ar) <> ''
+           ORDER BY t.ayah_from`,
+          [surah, to, from],
+        ).catch(() => []),
+        // Authored constituency trees curated for these sentences (post-ETL).
+        query<{ id: string; sentence_id: string; grounding: string | null; note_md: string | null }>(
+          this.db,
+          `SELECT t.id, t.sentence_id, t.grounding, t.note_md
+           FROM qr_ss_tree t
+           WHERE t.sentence_id IN (SELECT id FROM qr_ss_occ_sentence WHERE surah = ? AND ayah_from >= ? AND ayah_to <= ?)`,
+          [surah, from, to],
+        ).catch(() => []),
+        query<{ id: string; tree_id: string; parent_node_id: string | null; node_label: string;
+                term_key: string | null; label_ar: string | null; note_md: string | null;
+                word_occurrence_id: string | null; depth: number; node_order: number }>(
+          this.db,
+          `SELECT n.id, n.tree_id, n.parent_node_id, n.node_label, n.term_key, n.label_ar,
+                  n.note_md, n.word_occurrence_id, n.depth, n.node_order
+           FROM qr_ss_tree_node n
+           WHERE n.tree_id IN (
+             SELECT t.id FROM qr_ss_tree t
+             WHERE t.sentence_id IN (SELECT id FROM qr_ss_occ_sentence WHERE surah = ? AND ayah_from >= ? AND ayah_to <= ?))
+           ORDER BY n.depth, n.node_order`,
+          [surah, from, to],
+        ).catch(() => []),
+        query<{ term_key: string; label_ar: string | null; label_en: string | null;
+                color: string | null; category: string }>(
+          this.db,
+          `SELECT term_key, label_ar, label_en, color, category FROM qr_ss_term`,
+          [],
+        ).catch(() => []),
+        // Ayah-level iʿrāb from EVERY classical book, even where the entries are
+        // not word-linked (e.g. S12). This is the grammarian-detail grounding:
+        // each parsed phrase with its role / case / maḥall and full analysis,
+        // attributed per book. Multiple books → multiple granularities kept.
+        query<{ ayah: number; source_slug: string; source_title: string | null;
+                entry_order: number | null; phrase: string | null; role: string | null;
+                gcase: string | null; mahal: string | null; text: string | null }>(
+          this.db,
+          `SELECT ayah_from AS ayah, source_slug, source_title, entry_order,
+                  target_text_ar AS phrase, grammar_role_ar AS role,
+                  grammar_case_ar AS gcase, mahal_ar AS mahal, irab_text_ar AS text
+           FROM qr_irab_book_entries
+           WHERE surah = ? AND ayah_from BETWEEN ? AND ?
+             AND irab_text_ar IS NOT NULL AND TRIM(irab_text_ar) <> ''
+           ORDER BY ayah_from, source_slug, entry_order`,
+          [surah, from, to],
+        ).catch(() => []),
+      ]);
+
+    // ── iʿrāb per word: reconcile a primary role by majority, keep all sources ──
+    const irabByWord = new Map<string, { book: string; role: string | null; text: string | null }[]>();
+    for (const e of irabRows) {
+      const list = irabByWord.get(e.wid) ?? [];
+      list.push({ book: e.source_title ?? IRAB_BOOKS[e.source_slug] ?? e.source_slug, role: e.role, text: e.text });
+      irabByWord.set(e.wid, list);
+    }
+    const primaryRole = (wid: string): string | null => {
+      const list = irabByWord.get(wid);
+      if (!list?.length) return null;
+      const tally = new Map<string, number>();
+      for (const r of list) if (r.role) tally.set(r.role, (tally.get(r.role) ?? 0) + 1);
+      let best: string | null = null, bestN = 0;
+      for (const [role, n] of tally) if (n > bestN) { best = role; bestN = n; }
+      return best;
+    };
+
+    // Word lookup by (ayah, index) for clause word-span attachment.
+    const wordByPos = new Map<string, typeof wordRows[number]>();
+    for (const w of wordRows) wordByPos.set(`${w.ayah}:${w.word_index}`, w);
+
+    const buildWord = (w: typeof wordRows[number]) => ({
+      wordId: w.id,
+      ayah:   w.ayah,
+      index:  w.word_index,
+      text:   w.word_text,
+      simple: w.word_text_bare ?? undefined,
+      root:   w.root ?? undefined,        // Five-Lens lexicon cross-ref key (lazy)
+      lemma:  w.lemma ?? undefined,
+      pos:    w.pos ?? undefined,
+      role:   primaryRole(w.id),          // reconciled grammatical role
+      irab:   irabByWord.get(w.id) ?? [], // every book's role + full text, attributed
+    });
+
+    // ── Authored constituency trees, reassembled into SsTreeNode form ──────────
+    const nodesByTree = new Map<string, typeof nodeRows>();
+    for (const n of nodeRows) {
+      const list = nodesByTree.get(n.tree_id) ?? [];
+      list.push(n);
+      nodesByTree.set(n.tree_id, list);
+    }
+    const buildConstituency = (treeId: string): SsConstituencyNode | null => {
+      const ns = nodesByTree.get(treeId);
+      if (!ns?.length) return null;
+      const byId = new Map<string, SsConstituencyNode>();
+      let root: SsConstituencyNode | null = null;
+      for (const n of ns) {
+        byId.set(n.id, {
+          name: n.node_label, id: n.id, term_id: n.term_key ?? undefined,
+          label_ar: n.label_ar ?? undefined, note: n.note_md ?? undefined,
+          word_id: n.word_occurrence_id ?? undefined, children: [],
+        });
+      }
+      for (const n of ns) {
+        const node = byId.get(n.id)!;
+        if (n.parent_node_id && byId.get(n.parent_node_id)) byId.get(n.parent_node_id)!.children!.push(node);
+        else root = root ?? node;
+      }
+      return root;
+    };
+    const treeBySentence = new Map<string, { node: SsConstituencyNode | null; grounding: string | null }>();
+    for (const t of treeRows) {
+      treeBySentence.set(t.sentence_id, { node: buildConstituency(t.id), grounding: t.grounding ?? null });
+    }
+
+    // ── Clause hierarchy per sentence, words attached by index span ────────────
+    const clausesBySentence = new Map<string, typeof clauseRows>();
+    for (const c of clauseRows) {
+      const list = clausesBySentence.get(c.sentence_id) ?? [];
+      list.push(c);
+      clausesBySentence.set(c.sentence_id, list);
+    }
+    const buildClauseTree = (sentenceId: string, sentenceAyah: number) => {
+      const cs = clausesBySentence.get(sentenceId) ?? [];
+      const byId = new Map<string, SsClauseNode>();
+      for (const c of cs) {
+        const words = [] as ReturnType<typeof buildWord>[];
+        if (c.word_start_index != null && c.word_end_index != null) {
+          for (let i = c.word_start_index; i <= c.word_end_index; i++) {
+            const w = wordByPos.get(`${c.ayah_from}:${i}`);
+            if (w) words.push(buildWord(w));
+          }
+        }
+        byId.set(c.id, {
+          id: c.id, order: c.clause_order, depth: 0,
+          type: c.clause_type ?? undefined, function: c.clause_function ?? undefined,
+          particle: c.governing_particle ?? undefined, note: c.note_md ?? undefined,
+          words, children: [],
+        });
+      }
+      const roots: SsClauseNode[] = [];
+      for (const c of cs) {
+        const node = byId.get(c.id)!;
+        if (c.parent_clause_id && byId.get(c.parent_clause_id)) byId.get(c.parent_clause_id)!.children.push(node);
+        else roots.push(node);
+      }
+      const setDepth = (n: SsClauseNode, d: number) => { n.depth = d; n.children.forEach((k) => setDepth(k, d + 1)); };
+      roots.forEach((r) => setDepth(r, 0));
+      return roots;
+    };
+
+    // ── balāgha / ellipsis grouped by scope ────────────────────────────────────
+    const balaghaByScope = new Map<string, { category: string | null; effect: string | null; note: string | null; ref: string | null }[]>();
+    for (const b of balaghaRows) {
+      const list = balaghaByScope.get(b.scope_id) ?? [];
+      list.push({ category: b.category, effect: b.effect, note: b.note, ref: b.ref });
+      balaghaByScope.set(b.scope_id, list);
+    }
+    const ellipsisBySentence = new Map<string, { type: string; elided: string; effect: string | null; note: string | null }[]>();
+    for (const e of ellipsisRows) {
+      const list = ellipsisBySentence.get(e.sentence_id) ?? [];
+      list.push({ type: e.ellipsis_type, elided: e.elided_element, effect: e.effect, note: e.note });
+      ellipsisBySentence.set(e.sentence_id, list);
+    }
+
+    // ── ayah-level iʿrāb (grammarian details), grouped per ayah, per book ──────
+    const irabAyahByAyah = new Map<number, { book: string; phrase: string | null; role: string | null;
+                                             case: string | null; mahal: string | null; text: string | null }[]>();
+    for (const e of irabAyahRows) {
+      const list = irabAyahByAyah.get(e.ayah) ?? [];
+      list.push({
+        book:  e.source_title ?? IRAB_BOOKS[e.source_slug] ?? e.source_slug,
+        phrase: e.phrase, role: e.role, case: e.gcase, mahal: e.mahal, text: e.text,
+      });
+      irabAyahByAyah.set(e.ayah, list);
+    }
+
+    // ── tafsīr per ayah, attributed per work/mufassir ──────────────────────────
+    const tafsirByAyah = new Map<number, { work: string | null; scholar: string | null; text: string | null }[]>();
+    for (const t of tafsirRows) {
+      const lo = Math.max(t.ayah_from, from), hi = Math.min(t.ayah_to, to);
+      for (let a = lo; a <= hi; a++) {
+        const list = tafsirByAyah.get(a) ?? [];
+        list.push({ work: t.work, scholar: t.scholar_id, text: t.text });
+        tafsirByAyah.set(a, list);
+      }
+    }
+
+    // ── Compose sentences ──────────────────────────────────────────────────────
+    const sentences = sentRows.map((s) => {
+      const authored = treeBySentence.get(s.id);
+      // Pull any clause-scoped balāgha up into the sentence's balāgha list too.
+      const clauseIds = (clausesBySentence.get(s.id) ?? []).map((c) => c.id);
+      const balagha = [
+        ...(balaghaByScope.get(s.id) ?? []),
+        ...clauseIds.flatMap((cid) => balaghaByScope.get(cid) ?? []),
+      ];
+      return {
+        id:        s.id,
+        ayah:      s.ayah_from,
+        ayahTo:    s.ayah_to,
+        kind:      s.sentence_kind ?? null,
+        mode:      parseDiscourseMode(s.note_md),
+        note:      stripModePrefix(s.note_md),
+        grounding: authored?.node ? (authored.grounding ?? 'authored') : (irabRows.length ? 'irab' : null),
+        tree:      authored?.node ?? null,                 // authored word-level constituency
+        clauseTree: buildClauseTree(s.id, s.ayah_from),    // grounded clause hierarchy + iʿrāb
+        irabAnalysis: irabAyahByAyah.get(s.ayah_from) ?? [], // grammarian detail, per book
+        balagha,
+        ellipsis:  ellipsisBySentence.get(s.id) ?? [],
+        tafsir:    tafsirByAyah.get(s.ayah_from) ?? [],
+      };
+    });
+
+    const termColors: Record<string, string> = {};
+    const terms = termRows.map((t) => {
+      if (t.color) termColors[t.term_key] = t.color;
+      return { key: t.term_key, labelAr: t.label_ar, labelEn: t.label_en, color: t.color, category: t.category };
+    });
+
+    return {
+      step:      'sentence_structure',
+      surah,
+      passage:   passageNo,
+      ayahFrom:  from,
+      ayahTo:    to,
+      termColors,
+      terms,
+      sentences,
+    };
+  }
+
+  /**
    * Lazy step dispatcher. Returns the step's data sourced from tables when the
    * step has been migrated off task_json (reading, morphology, comprehension,
-   * expressions); otherwise falls back to the task tree.
+   * expressions, sentence_structure); otherwise falls back to the task tree.
    *   null      → passage not found
    *   undefined → no such step in this passage
    */
@@ -505,6 +873,7 @@ export class StudyRepo {
       case 'morphology':    return this.morphologyStep(surahId, passageNo);
       case 'comprehension': return this.comprehensionStep(surahId, passageNo);
       case 'expressions':   return this.expressionsStep(surahId, passageNo, al);
+      case 'sentence_structure': return this.sentenceStructureStep(surahId, passageNo);
       default: {
         const task = await this.taskByStepType(surahId, passageNo, stepType);
         if (task === null) return null;
@@ -812,6 +1181,19 @@ export function posGroup(pos: string | null | undefined): 'noun' | 'verb' | 'par
   if (p === 'V') return 'verb';
   if (p === 'N' || p === 'PN' || p === 'ADJ') return 'noun';
   return 'particle';
+}
+
+// Sentence note_md is authored as "Mode: <discourse-mode>. <Arabic analysis>".
+// Split the machine-readable mode from the human prose.
+export function parseDiscourseMode(note: string | null | undefined): string | null {
+  if (!note) return null;
+  const m = /^\s*Mode:\s*([^.\n]+)\.?/i.exec(note);
+  return m ? m[1].trim() : null;
+}
+
+export function stripModePrefix(note: string | null | undefined): string | null {
+  if (!note) return null;
+  return note.replace(/^\s*Mode:\s*[^.\n]+\.?\s*/i, '').trim() || null;
 }
 
 // ─── Exported task-tree helpers ─────────────────────────────────────────────────
