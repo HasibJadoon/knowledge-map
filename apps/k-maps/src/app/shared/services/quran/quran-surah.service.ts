@@ -660,17 +660,41 @@ export class QuranSurahService {
   }
 
   getStudyMorphology(surahId: number, passageNo: number): Observable<StudyMorphologyResponse> {
-    return this.getStudyLesson(surahId, passageNo).pipe(
-      map((lesson) => ({
-        ok: true,
-        surahId,
-        passageNo,
-        unit: lesson.unit,
-        nouns: lesson.vocabulary.nouns,
-        verbs: lesson.vocabulary.verbs,
-        task: this.findTask(lesson.tasks, 'morphology'),
-      })),
-    );
+    // Lazy, table-sourced: hits the per-step morphology endpoint, which builds
+    // each word's ṣarf (root/lemma/pos + QAC features), iʿrāb, qirāʾāt readings,
+    // synthesis and per-ayah tafsīr straight from qr_word_occurrences /
+    // qr_irab_book_entries / qr_ss_scope_reading / qr_tafsir_entries — not task_json.
+    return this.api
+      .getData<{
+        surah?: number;
+        ayah_from?: number;
+        ayah_to?: number;
+        nouns?: Record<string, unknown>[];
+        verbs?: Record<string, unknown>[];
+        words?: Record<string, unknown>[];
+      }>('qr', ['study', 'surahs', surahId, 'passages', passageNo, 'steps', 'morphology'])
+      .pipe(
+        map((data) => {
+          const ayahFrom = Number(data.ayah_from ?? 0);
+          const ayahTo = Number(data.ayah_to ?? ayahFrom);
+          return {
+            ok: true,
+            surahId,
+            passageNo,
+            unit: {
+              unit_id: `U:C:QURAN:${surahId}:${ayahFrom}-${ayahTo}`,
+              order_index: passageNo,
+              ayah_from: ayahFrom,
+              ayah_to: ayahTo,
+              start_ref: `${surahId}:${ayahFrom}`,
+              end_ref: `${surahId}:${ayahTo}`,
+            },
+            nouns: (data.nouns ?? []).map((w) => this.normalizeStudyWord(w, 'noun')),
+            verbs: (data.verbs ?? []).map((w) => this.normalizeStudyWord(w, 'verb')),
+            task: null,
+          };
+        }),
+      );
   }
 
   getStudyVocabulary(surahId: number, passageNo: number): Observable<StudyVocabularyResponse> {
