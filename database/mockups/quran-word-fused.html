@@ -118,6 +118,12 @@ body{margin:0;font-family:var(--body);color:var(--parch);
 .card .s{display:block;font-family:var(--disp);font-size:.52rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:4px}
 .card .x{color:var(--parch-mute);font-size:.94rem;line-height:1.55}.card .x.ar{font-family:var(--ar);direction:rtl;color:var(--parch);font-size:1.2rem;line-height:1.85}
 .card .e{font-style:italic;color:var(--muted);font-size:.84rem;margin-top:2px}
+.lexgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.lexgrid{grid-template-columns:1fr}}
+.lex{border:1px solid var(--hair);border-radius:8px;background:rgba(17,17,17,.42);padding:11px 13px;display:flex;flex-direction:column}
+.lex .s{font-family:var(--disp);font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--gold-deep);margin-bottom:7px;border-bottom:1px solid var(--hair-soft);padding-bottom:6px}
+.lex .a{font-family:var(--ar);direction:rtl;color:var(--parch);font-size:1.12rem;line-height:1.85;margin:0 0 7px}
+.lex .e{font-style:italic;color:var(--parch-mute);font-size:.8rem;line-height:1.45;margin:0}
 .idiom .p{font-family:var(--ar);direction:rtl;color:var(--gold-bright);font-size:1.35rem}
 .tafsir{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid rgba(120,98,55,.16)}.tafsir:last-child{border:0}
 .tafsir .n{flex:0 0 104px;font-variant:small-caps;color:var(--gold);font-size:.9rem}
@@ -228,18 +234,18 @@ body{margin:0;font-family:var(--body);color:var(--parch);
      <p class="pending">concise glosses synthesized from the tafsīr corpus — the core reading is unanimous</p></div></div>
 
    <div class="panel"><div class="phead"><span class="t">From the Lexica · 10</span><span class="ta">المعاجم</span><span class="qc">?</span></div>
-    <div class="pbody">
-      <div class="card"><span class="s">Lisān al-ʿArab — Ibn Manẓūr</span><p class="x ar">الزُّلْفَى: القُربةُ والمنزلةُ والدرجةُ؛ وزُلَفُ الليلِ: ساعاتُه؛ وأَزْلَفَ الشيءَ: قرَّبه؛ وازْدَلَفَ: اقترب، ومنه المُزْدَلِفة.</p></div>
-      <div class="card"><span class="s">Maqāyīs — Ibn Fāris</span><p class="x ar">أصلٌ يدلُّ على القُرب والتقدُّم.</p></div>
-      <div class="card"><span class="s">Mufradāt — al-Rāghib</span><p class="x ar">الزُّلْفَى: الحُظوةُ والمنزلةُ؛ التقرُّبُ بالطاعة.</p></div>
-      <div class="card"><span class="s">Miṣbāḥ — al-Fayyūmī</span><p class="x ar">زَلَفَ زُلوفًا: تقدَّم؛ والزُّلْفةُ: المنزلة.</p></div>
-      <div class="card"><span class="s">al-Ṣiḥāḥ — al-Jawharī</span><p class="x ar">الزُّلْفةُ والزُّلْفَى: القُربةُ؛ ومنه المُزدلِفة.</p></div>
-      <div class="card"><span class="s">Kitāb al-ʿAyn — al-Khalīl</span><p class="x ar">الزَّلَفُ: القُربُ؛ زُلَفُ الليلِ: ساعاتُه الأُوَل.</p></div>
-      <div class="card"><span class="s">al-Qāmūs — al-Fīrūzābādī</span><p class="x ar">زَلَفَ: تقدَّم؛ الزُّلْفَى: القُربةُ والدرجة.</p></div>
-      <div class="card"><span class="s">Tāj al-ʿArūs — al-Zabīdī</span><p class="x ar">الزُّلْفَى: القُربى والمنزلةُ؛ وزُلَفُ الليلِ أوائلُه.</p></div>
-      <div class="card"><span class="s">al-ʿUbāb — al-Ṣaghānī</span><p class="x ar">الازدلافُ: الاقترابُ؛ سُمّيت المُزدلفةُ لازدلافِ الناس.</p></div>
-      <div class="card"><span class="s">Lane — Lexicon</span><p class="x">zulfà: nearness, a near approach; a high station or rank with another.</p></div>
-    </div></div>
+    <div class="pbody"><div class="lexgrid">
+      <div class="lex"><span class="s">Lisān al-ʿArab — Ibn Manẓūr</span><p class="a">الزُّلْفَى: القُربةُ والمنزلةُ والدرجةُ؛ وزُلَفُ الليلِ: ساعاتُه؛ وأَزْلَفَ الشيءَ: قرَّبه؛ وازْدَلَفَ: اقترب، ومنه المُزْدَلِفة.</p><p class="e">al-zulfā: nearness, station and rank; zulaf al-layl: the hours of night; azlafa: he brought (it) near; izdalafa: he drew near — whence Muzdalifa.</p></div>
+      <div class="lex"><span class="s">Maqāyīs — Ibn Fāris</span><p class="a">أصلٌ يدلُّ على القُرب والتقدُّم.</p><p class="e">a root denoting nearness and advancing-forward.</p></div>
+      <div class="lex"><span class="s">Mufradāt — al-Rāghib</span><p class="a">الزُّلْفَى: الحُظوةُ والمنزلةُ؛ التقرُّبُ بالطاعة.</p><p class="e">al-zulfā: favour and high standing; drawing near (to God) through obedience.</p></div>
+      <div class="lex"><span class="s">Miṣbāḥ — al-Fayyūmī</span><p class="a">زَلَفَ زُلوفًا: تقدَّم؛ والزُّلْفةُ: المنزلة.</p><p class="e">zalafa zulūfan: he advanced; al-zulfa: the station/rank.</p></div>
+      <div class="lex"><span class="s">al-Ṣiḥāḥ — al-Jawharī</span><p class="a">الزُّلْفةُ والزُّلْفَى: القُربةُ؛ ومنه المُزدلِفة.</p><p class="e">al-zulfa and al-zulfā: nearness — whence Muzdalifa.</p></div>
+      <div class="lex"><span class="s">Kitāb al-ʿAyn — al-Khalīl</span><p class="a">الزَّلَفُ: القُربُ؛ زُلَفُ الليلِ: ساعاتُه الأُوَل.</p><p class="e">al-zalaf: nearness; zulaf al-layl: its first hours.</p></div>
+      <div class="lex"><span class="s">al-Qāmūs — al-Fīrūzābādī</span><p class="a">زَلَفَ: تقدَّم؛ الزُّلْفَى: القُربةُ والدرجة.</p><p class="e">zalafa: he advanced; al-zulfā: nearness and degree.</p></div>
+      <div class="lex"><span class="s">Tāj al-ʿArūs — al-Zabīdī</span><p class="a">الزُّلْفَى: القُربى والمنزلةُ؛ وزُلَفُ الليلِ أوائلُه.</p><p class="e">al-zulfā: nearness and station; zulaf al-layl: its early parts.</p></div>
+      <div class="lex"><span class="s">al-ʿUbāb — al-Ṣaghānī</span><p class="a">الازدلافُ: الاقترابُ؛ سُمّيت المُزدلفةُ لازدلافِ الناس.</p><p class="e">al-izdilāf: drawing near; Muzdalifa is so named for the people's drawing-near.</p></div>
+      <div class="lex"><span class="s">Lane — Lexicon</span><p class="a" dir="ltr" style="font-family:var(--body);font-size:1rem;font-style:italic;color:var(--parch-mute);line-height:1.5">zulfà: nearness, a near approach; a high station or rank with another.</p><p class="e">English lexicon (Lane), drawn from the classical sources.</p></div>
+    </div></div></div>
 
   </div>
 
