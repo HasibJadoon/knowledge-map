@@ -334,6 +334,96 @@ export interface StudyUnitVm {
   theme?: string;
 }
 
+// ── Sentence-structure (grounded, table-sourced) view models ──────────────────
+
+export interface SsTermVm {
+  key: string;
+  labelAr: string | null;
+  labelEn: string | null;
+  color: string | null;
+  category: string;
+}
+
+/** One book's iʿrāb of a single word — the grammarian detail, attributed. */
+export interface SsIrabSourceVm {
+  book: string;
+  role: string | null;
+  text: string | null;
+}
+
+export interface SsClauseWordVm {
+  wordId: string;
+  ayah: number;
+  index: number;
+  text: string;
+  simple?: string;
+  root?: string;          // Five-Lens lexicon cross-ref key (lazy)
+  lemma?: string;
+  pos?: string;
+  role: string | null;    // reconciled iʿrāb role (majority across books)
+  irab: SsIrabSourceVm[];
+}
+
+/** Grounded clause node — clause hierarchy + words decorated with iʿrāb. */
+export interface SsClauseNodeVm {
+  id: string;
+  order: number;
+  depth: number;
+  type?: string;
+  function?: string;
+  particle?: string;
+  note?: string;
+  words: SsClauseWordVm[];
+  children: SsClauseNodeVm[];
+}
+
+/** Authored word-level constituency node (mubtadaʾ/khabar/iḍāfa/naʿt…). */
+export interface SsConstituencyNodeVm {
+  name: string;
+  id: string;
+  term_id?: string;
+  label_ar?: string;
+  note?: string;
+  word_id?: string;
+  children?: SsConstituencyNodeVm[];
+}
+
+/** Ayah-level iʿrāb of a parsed phrase, per classical book. */
+export interface SsIrabAnalysisVm {
+  book: string;
+  phrase: string | null;
+  role: string | null;
+  case: string | null;
+  mahal: string | null;
+  text: string | null;
+}
+
+export interface SsBalaghaVm { category: string | null; effect: string | null; note: string | null; ref: string | null; }
+export interface SsEllipsisVm { type: string; elided: string; effect: string | null; note: string | null; }
+export interface SsTafsirVm { work: string | null; scholar: string | null; text: string | null; }
+
+export interface SsSentenceVm {
+  id: string;
+  ayah: number;
+  ayahTo: number;
+  kind: string | null;
+  mode: string | null;
+  note: string | null;
+  grounding: string | null;
+  tree: SsConstituencyNodeVm | null;     // authored constituency parse
+  clauseTree: SsClauseNodeVm[];          // grounded clause hierarchy + iʿrāb
+  irabAnalysis: SsIrabAnalysisVm[];      // grammarian details (per book)
+  balagha: SsBalaghaVm[];
+  ellipsis: SsEllipsisVm[];
+  tafsir: SsTafsirVm[];                   // mufassir input
+}
+
+export interface SsStepData {
+  termColors: Record<string, string>;
+  terms: SsTermVm[];
+  sentences: SsSentenceVm[];
+}
+
 export interface StudyLessonResponse {
   ok: boolean;
   lessonId?: number | null;
@@ -343,7 +433,16 @@ export interface StudyLessonResponse {
   ayahs: AyahVm[];
   vocabulary: { nouns: StudyWordVm[]; verbs: StudyWordVm[] };
   expressions: StudyExpressionVm[];
+  sentenceStructure?: SsStepData | null;
   tasks: UnitTaskVm[];
+}
+
+export interface StudySentenceStructureResponse {
+  ok: boolean;
+  surahId: number;
+  passageNo: number;
+  unit: StudyUnitVm;
+  sentenceStructure: SsStepData;
 }
 
 export interface StudyTaskCommitResponse {
@@ -742,16 +841,46 @@ export class QuranSurahService {
       );
   }
 
-  getStudySentenceStructure(surahId: number, passageNo: number): Observable<StudyTaskResponse> {
-    return this.getStudyLesson(surahId, passageNo).pipe(
-      map((lesson) => ({
-        ok: true,
-        surahId,
-        passageNo,
-        unit: lesson.unit,
-        task: this.findTask(lesson.tasks, 'sentence_structure'),
-      })),
-    );
+  getStudySentenceStructure(surahId: number, passageNo: number): Observable<StudySentenceStructureResponse> {
+    // Lazy, table-sourced + grounded: hits the per-step sentence-structure
+    // endpoint, which fuses the clause hierarchy, per-word iʿrāb (reconciled +
+    // attributed), ayah-level iʿrāb from every classical book, the authored
+    // constituency tree, balāgha/ellipsis, and the mufassir discussion — all
+    // from canonical tables, no task_json.
+    return this.api
+      .getData<{
+        surah?: number;
+        passage?: number;
+        ayahFrom?: number;
+        ayahTo?: number;
+        termColors?: Record<string, string>;
+        terms?: SsTermVm[];
+        sentences?: SsSentenceVm[];
+      }>('qr', ['study', 'surahs', surahId, 'passages', passageNo, 'steps', 'sentence_structure'])
+      .pipe(
+        map((data) => {
+          const ayahFrom = Number(data.ayahFrom ?? 0);
+          const ayahTo = Number(data.ayahTo ?? ayahFrom);
+          return {
+            ok: true,
+            surahId,
+            passageNo,
+            unit: {
+              unit_id: `U:C:QURAN:${surahId}:${ayahFrom}-${ayahTo}`,
+              order_index: passageNo,
+              ayah_from: ayahFrom,
+              ayah_to: ayahTo,
+              start_ref: `${surahId}:${ayahFrom}`,
+              end_ref: `${surahId}:${ayahTo}`,
+            },
+            sentenceStructure: {
+              termColors: data.termColors ?? {},
+              terms: data.terms ?? [],
+              sentences: data.sentences ?? [],
+            },
+          };
+        }),
+      );
   }
 
   getStudyPassageStructure(surahId: number, passageNo: number): Observable<StudyTaskResponse> {

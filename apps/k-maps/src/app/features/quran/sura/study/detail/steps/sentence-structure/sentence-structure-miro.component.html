@@ -1,0 +1,212 @@
+@if (sentences().length === 0) {
+  <div class="ssm-empty"><p>No sentence-structure data for this passage yet.</p></div>
+} @else {
+<div class="ssm">
+
+  <!-- ── Sentence reel ─────────────────────────────────────────────────────── -->
+  <div class="ssm-reel" role="tablist" aria-label="Sentences">
+    @for (s of sentences(); track s.id; let i = $index) {
+      <button
+        class="ssm-reel__chip"
+        [class.is-active]="i === activeIdx()"
+        role="tab" [attr.aria-selected]="i === activeIdx()"
+        (click)="selectSentence(i)">
+        <span class="ssm-reel__ayah">{{ s.ayah }}{{ s.ayahTo !== s.ayah ? '–' + s.ayahTo : '' }}</span>
+        <span class="ssm-reel__kind" dir="rtl">{{ kindLabel(s.kind) }}</span>
+      </button>
+    }
+  </div>
+
+  <div class="ssm-stage">
+
+    <!-- ── Miro board ──────────────────────────────────────────────────────── -->
+    <div class="ssm-board" #viewport
+         (pointerdown)="onPointerDown($event)"
+         (pointermove)="onPointerMove($event)"
+         (pointerup)="onPointerUp()" (pointerleave)="onPointerUp()"
+         (wheel)="onWheel($event)">
+
+      <div class="ssm-zoom">
+        <button (click)="zoomIn()"  aria-label="Zoom in">＋</button>
+        <button (click)="zoomOut()" aria-label="Zoom out">－</button>
+        <button (click)="fitToScreen()" aria-label="Fit">⤢</button>
+      </div>
+
+      <div class="ssm-canvas"
+           [style.width.px]="canvasW()" [style.height.px]="canvasH()"
+           [style.transform]="'translate(' + panX() + 'px,' + panY() + 'px) scale(' + zoom() + ')'">
+
+        <svg class="ssm-edges" [attr.width]="canvasW()" [attr.height]="canvasH()">
+          @for (e of placedEdges(); track $index) {
+            <path class="ssm-edge"
+              [attr.d]="'M' + e.x1 + ',' + e.y1 + ' C' + e.x1 + ',' + ((e.y1 + e.y2) / 2) + ' ' + e.x2 + ',' + ((e.y1 + e.y2) / 2) + ' ' + e.x2 + ',' + e.y2" />
+          }
+        </svg>
+
+        @for (p of placedNodes(); track p.node.id) {
+          <div class="ssm-node" [class]="'ssm-node--' + p.node.kind"
+               [class.is-selected]="selected()?.id === p.node.id"
+               [style.left.px]="p.x" [style.top.px]="p.y"
+               [style.borderColor]="p.node.color"
+               (click)="pick(p.node)">
+            <span class="ssm-node__accent" [style.background]="p.node.color"></span>
+            <span class="ssm-node__title" dir="rtl">{{ p.node.title }}</span>
+            @if (p.node.subtitle) {
+              <span class="ssm-node__sub" dir="rtl" [style.color]="p.node.color">{{ p.node.subtitle }}</span>
+            }
+            @if (p.node.chip) {
+              <span class="ssm-node__chip" dir="rtl">{{ p.node.chip }}</span>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+    <!-- ── Inspector + grounding panels ────────────────────────────────────── -->
+    <aside class="ssm-side">
+
+      @if (selected(); as sel) {
+        <!-- Node inspector -->
+        <section class="ssm-card ssm-inspector">
+          <header class="ssm-card__head">
+            <span class="ssm-eyebrow">{{ sel.kind }}</span>
+            <button class="ssm-x" (click)="closeInspector()" aria-label="Close">✕</button>
+          </header>
+
+          @if (sel.kind === 'word' && sel.word; as w) {
+            <h4 class="ssm-word" dir="rtl">{{ w.text }}</h4>
+            <div class="ssm-word__meta">
+              @if (w.role) { <span class="ssm-pill" [style.borderColor]="termColor(w.role)" dir="rtl">{{ w.role }}</span> }
+              @if (w.pos)  { <span class="ssm-pill ssm-pill--ghost">{{ w.pos }}</span> }
+              @if (w.lemma) { <span class="ssm-pill ssm-pill--ghost" dir="rtl">{{ w.lemma }}</span> }
+            </div>
+            @if (w.root) {
+              <button class="ssm-lex" (click)="emitLexicon(w)">
+                Open lexicon · <span dir="rtl">{{ w.root }}</span>
+              </button>
+            }
+            <p class="ssm-label">Grammarian iʿrāb · {{ w.irab.length }} book{{ w.irab.length === 1 ? '' : 's' }}</p>
+            @for (ib of w.irab; track $index) {
+              <div class="ssm-irab">
+                <div class="ssm-irab__head">
+                  <span class="ssm-irab__book" dir="rtl">{{ ib.book }}</span>
+                  @if (ib.role) { <span class="ssm-irab__role" dir="rtl">{{ ib.role }}</span> }
+                </div>
+                @if (ib.text) { <p class="ssm-irab__text" dir="rtl">{{ ib.text }}</p> }
+              </div>
+            }
+            @if (w.irab.length === 0) { <p class="ssm-muted">No book iʿrāb linked to this word.</p> }
+          }
+
+          @if (sel.kind === 'clause' && sel.clause; as c) {
+            <h4 class="ssm-word" dir="rtl">{{ c.particle || c.function || c.type }}</h4>
+            <div class="ssm-word__meta">
+              @if (c.type)     { <span class="ssm-pill ssm-pill--ghost">{{ c.type }}</span> }
+              @if (c.function) { <span class="ssm-pill ssm-pill--ghost">{{ c.function }}</span> }
+              @if (c.particle) { <span class="ssm-pill" dir="rtl">{{ c.particle }}</span> }
+            </div>
+            @if (c.note) { <p class="ssm-irab__text" dir="rtl">{{ c.note }}</p> }
+          }
+
+          @if (sel.kind === 'sentence') {
+            <p class="ssm-muted">Select a clause or word to inspect its grammar. The full analysis is in the panels below.</p>
+          }
+        </section>
+      }
+
+      <!-- Sentence synthesis: mode + note -->
+      @if (current(); as s) {
+        <section class="ssm-card">
+          <p class="ssm-eyebrow">Synthesis · ayah {{ s.ayah }}{{ s.ayahTo !== s.ayah ? '–' + s.ayahTo : '' }}</p>
+          <div class="ssm-word__meta">
+            <span class="ssm-pill" [style.borderColor]="'#c9a84c'" dir="rtl">{{ kindLabel(s.kind) }}</span>
+            @if (s.mode) { <span class="ssm-pill ssm-pill--ghost">{{ s.mode }}</span> }
+            @if (s.grounding) { <span class="ssm-pill ssm-pill--ghost">grounded · {{ s.grounding }}</span> }
+          </div>
+          @if (s.note) { <p class="ssm-irab__text" dir="rtl">{{ s.note }}</p> }
+        </section>
+
+        <!-- Grammarian details (ayah-level iʿrāb, every book) -->
+        @if (s.irabAnalysis.length) {
+          <section class="ssm-card">
+            <p class="ssm-label">Grammarian details · {{ s.irabAnalysis.length }}</p>
+            @for (ia of s.irabAnalysis; track $index) {
+              <div class="ssm-irab">
+                <div class="ssm-irab__head">
+                  <span class="ssm-irab__book" dir="rtl">{{ ia.book }}</span>
+                  @if (ia.role) { <span class="ssm-irab__role" dir="rtl">{{ ia.role }}</span> }
+                  @if (ia.case) { <span class="ssm-pill ssm-pill--ghost" dir="rtl">{{ ia.case }}</span> }
+                </div>
+                @if (ia.phrase) { <p class="ssm-irab__phrase" dir="rtl">{{ ia.phrase }}</p> }
+                @if (ia.text)   { <p class="ssm-irab__text" dir="rtl">{{ ia.text }}</p> }
+              </div>
+            }
+          </section>
+        }
+
+        <!-- Balāgha -->
+        @if (s.balagha.length) {
+          <section class="ssm-card">
+            <p class="ssm-label">Balāgha</p>
+            @for (b of s.balagha; track $index) {
+              <div class="ssm-irab">
+                <div class="ssm-irab__head">
+                  @if (b.category) { <span class="ssm-irab__role" dir="rtl">{{ b.category }}</span> }
+                  @if (b.effect)   { <span class="ssm-pill ssm-pill--ghost" dir="rtl">{{ b.effect }}</span> }
+                </div>
+                @if (b.note) { <p class="ssm-irab__text" dir="rtl">{{ b.note }}</p> }
+              </div>
+            }
+          </section>
+        }
+
+        <!-- Ellipsis -->
+        @if (s.ellipsis.length) {
+          <section class="ssm-card">
+            <p class="ssm-label">Ellipsis (ḥadhf)</p>
+            @for (el of s.ellipsis; track $index) {
+              <div class="ssm-irab">
+                <div class="ssm-irab__head">
+                  <span class="ssm-irab__role" dir="rtl">{{ el.type }}</span>
+                  @if (el.elided) { <span class="ssm-pill ssm-pill--ghost" dir="rtl">{{ el.elided }}</span> }
+                </div>
+                @if (el.note) { <p class="ssm-irab__text" dir="rtl">{{ el.note }}</p> }
+              </div>
+            }
+          </section>
+        }
+
+        <!-- Mufassir input -->
+        @if (s.tafsir.length) {
+          <section class="ssm-card">
+            <p class="ssm-label">Mufassir input · {{ s.tafsir.length }}</p>
+            @for (tf of s.tafsir; track $index) {
+              <div class="ssm-irab">
+                @if (tf.work) { <span class="ssm-irab__book" dir="rtl">{{ tf.work }}</span> }
+                @if (tf.text) { <p class="ssm-irab__text" dir="rtl">{{ tf.text }}</p> }
+              </div>
+            }
+          </section>
+        }
+      }
+
+      <!-- Term legend -->
+      @if (terms().length) {
+        <section class="ssm-card">
+          <p class="ssm-label">Roles</p>
+          <div class="ssm-legend">
+            @for (t of terms(); track t.key) {
+              @if (t.color) {
+                <span class="ssm-legend__item">
+                  <span class="ssm-legend__dot" [style.background]="t.color"></span>
+                  <span dir="rtl">{{ t.labelAr || t.key }}</span>
+                </span>
+              }
+            }
+          </div>
+        </section>
+      }
+    </aside>
+  </div>
+</div>
+}

@@ -1357,7 +1357,8 @@ export class SurahStudyDetailComponent
               ayahs: [],
               vocabulary: { nouns: [], verbs: [] },
               expressions: [],
-              tasks: this.replaceTask(response.task),
+              sentenceStructure: response.sentenceStructure,
+              tasks: [],
             }),
           error: onError,
         });
