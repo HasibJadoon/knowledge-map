@@ -277,6 +277,187 @@ export class StudyRepo {
   }
 
   /**
+   * Morphology step — each word rooted in the source books:
+   *   • ṣarf  : root, lemma, pos and the features parsed from the QAC tag, plus
+   *             the lexicon root key so the per-word Five-Lens lookup resolves.
+   *   • iʿrāb : the parse from every iʿrāb book, attributed per author/book
+   *             (qr_irab_book_entries linked to the word).
+   *   • qirāʾāt / disputed readings : word-scoped qr_ss_scope_reading rows with
+   *             their scholar reference.
+   *   • tafsīr : the mufassir discussion for the verse (qr_tafsir_entries),
+   *             attributed per work, as the deeper discussion layer.
+   * All from the tables — no task_json. Lexicon bodies stay lazy (Five-Lens
+   * lookup per tapped word over the AR_LINGUISTICS binding).
+   */
+  async morphologyStep(surahId: number, passageNo: number) {
+    const passages = await this._passages(surahId);
+    const passage  = passages.find(p => p.passage_no === passageNo);
+    if (!passage) return null;
+    const { surah_id: surah, ayah_from: from, ayah_to: to } = passage;
+
+    const [rows, irabRows, readingRows, tafsirRows, synthRows, synthEvRows] = await Promise.all([
+      query<{
+        id: string; ayah: number; word_index: number;
+        word_text: string; word_text_bare: string | null;
+        root: string | null; lemma: string | null;
+        pos: string | null; morphology_tag: string | null;
+        syntactic_function: string | null;
+      }>(
+        this.db,
+        `SELECT w.id, w.ayah, w.word_index, w.word_text, w.word_text_bare,
+                w.root, w.lemma, w.pos, w.morphology_tag, m.syntactic_function
+         FROM qr_word_occurrences w
+         LEFT JOIN qr_ss_scope_morph_link m ON m.scope_id = w.id
+         WHERE w.surah = ? AND w.ayah BETWEEN ? AND ?
+         ORDER BY w.ayah, w.word_index`,
+        [surah, from, to],
+      ).catch(() => []),
+      // iʿrāb of each word, attributed per book/author.
+      query<{ wid: string; source_slug: string; source_title: string | null;
+              role: string | null; text: string | null }>(
+        this.db,
+        `SELECT e.word_occurrence_id AS wid, e.source_slug, e.source_title,
+                e.grammar_role_ar AS role, e.irab_text_ar AS text
+         FROM qr_irab_book_entries e
+         JOIN qr_word_occurrences w ON w.id = e.word_occurrence_id
+         WHERE w.surah = ? AND w.ayah BETWEEN ? AND ? AND e.word_link_status = 'linked'
+           AND (e.grammar_role_ar IS NOT NULL OR e.irab_text_ar IS NOT NULL)`,
+        [surah, from, to],
+      ).catch(() => []),
+      // word-scoped qirāʾāt / disputed readings, with scholar reference.
+      query<{ wid: string; reading_type: string | null; scholar_ref: string | null;
+              text_ar: string | null; is_contested: number | null; is_minority: number | null }>(
+        this.db,
+        `SELECT r.scope_id AS wid, r.reading_type, r.scholar_ref,
+                r.reading_text_ar AS text_ar, r.is_contested, r.is_minority
+         FROM qr_ss_scope_reading r
+         JOIN qr_word_occurrences w ON w.id = r.scope_id
+         WHERE r.scope_type = 'word' AND r.reading_type <> 'synthesis'
+           AND w.surah = ? AND w.ayah BETWEEN ? AND ?`,
+        [surah, from, to],
+      ).catch(() => []),
+      // tafsīr discussion for the verse range, attributed per mufassir/work.
+      query<{ ayah_from: number; ayah_to: number; scholar_id: string | null;
+              work: string | null; text: string | null }>(
+        this.db,
+        `SELECT t.ayah_from, t.ayah_to, t.scholar_id, wk.title_ar AS work,
+                substr(t.content_ar, 1, 700) AS text
+         FROM qr_tafsir_entries t
+         JOIN qr_scholar_works wk ON wk.id = t.work_id
+         WHERE t.surah = ? AND t.ayah_from <= ? AND t.ayah_to >= ?
+           AND t.content_ar IS NOT NULL AND TRIM(t.content_ar) <> ''
+         ORDER BY t.ayah_from`,
+        [surah, to, from],
+      ).catch(() => []),
+      // The synthesized per-word reading (ingested sources woven into one analysis).
+      query<{ wid: string; text: string | null; text_ar: string | null; contested: number | null }>(
+        this.db,
+        `SELECT r.scope_id AS wid, r.reading_text AS text, r.reading_text_ar AS text_ar, r.is_contested AS contested
+         FROM qr_ss_scope_reading r
+         JOIN qr_word_occurrences w ON w.id = r.scope_id
+         WHERE r.scope_type = 'word' AND r.reading_type = 'synthesis'
+           AND w.surah = ? AND w.ayah BETWEEN ? AND ?`,
+        [surah, from, to],
+      ).catch(() => []),
+      // Evidence ingested into each synthesis (ontology + provenance + dispute).
+      query<{ wid: string; etype: string | null; provenance: string | null;
+              locator: string | null; text_ar: string | null; disputed: number | null }>(
+        this.db,
+        `SELECT r.scope_id AS wid, ev.evidence_type AS etype, ev.provenance,
+                ev.locator, ev.content_text_ar AS text_ar, ev.is_disputed AS disputed
+         FROM qr_ss_scope_reading r
+         JOIN qr_ss_scope_reading_evidence_link l ON l.reading_id = r.id
+         JOIN qr_evidence_items ev ON ev.id = l.evidence_id
+         JOIN qr_word_occurrences w ON w.id = r.scope_id
+         WHERE r.scope_type = 'word' AND r.reading_type = 'synthesis'
+           AND w.surah = ? AND w.ayah BETWEEN ? AND ?`,
+        [surah, from, to],
+      ).catch(() => []),
+    ]);
+
+    const irabByWord = new Map<string, { source: string; book: string | null; role: string | null; text: string | null }[]>();
+    for (const e of irabRows) {
+      const list = irabByWord.get(e.wid) ?? [];
+      list.push({ source: e.source_slug, book: e.source_title ?? IRAB_BOOKS[e.source_slug] ?? null, role: e.role, text: e.text });
+      irabByWord.set(e.wid, list);
+    }
+    const readingsByWord = new Map<string, { type: string | null; scholar: string | null; text_ar: string | null; contested: boolean; minority: boolean }[]>();
+    for (const r of readingRows) {
+      const list = readingsByWord.get(r.wid) ?? [];
+      list.push({ type: r.reading_type, scholar: r.scholar_ref, text_ar: r.text_ar, contested: !!r.is_contested, minority: !!r.is_minority });
+      readingsByWord.set(r.wid, list);
+    }
+    // Ingested evidence per synthesized word, with provenance + dispute status.
+    const synthEvByWord = new Map<string, { type: string | null; provenance: string | null; locator: string | null; text_ar: string | null; disputed: boolean }[]>();
+    for (const e of synthEvRows) {
+      const list = synthEvByWord.get(e.wid) ?? [];
+      list.push({ type: e.etype, provenance: e.provenance, locator: e.locator, text_ar: e.text_ar, disputed: !!e.disputed });
+      synthEvByWord.set(e.wid, list);
+    }
+    // The woven per-word synthesis (the headline analysis), with its evidence.
+    const synthByWord = new Map<string, { text: string | null; text_ar: string | null; contested: boolean; evidence: { type: string | null; provenance: string | null; locator: string | null; text_ar: string | null; disputed: boolean }[] }>();
+    for (const s of synthRows) {
+      synthByWord.set(s.wid, { text: s.text, text_ar: s.text_ar, contested: !!s.contested, evidence: synthEvByWord.get(s.wid) ?? [] });
+    }
+
+    const items = rows.map(r => {
+      const feat  = parseQacTag(r.morphology_tag);
+      const group = posGroup(r.pos);
+      return {
+        word_id:   r.id,
+        ayah:      r.ayah,
+        position:  r.word_index,
+        word:      r.word_text,
+        simple:    r.word_text_bare ?? undefined,
+        root:      r.root ?? undefined,
+        lemma:     r.lemma ?? undefined,
+        pos:       r.pos ?? undefined,
+        group,
+        verb_form: feat.verb_form,
+        pattern:   feat.verb_form ? `Form ${feat.verb_form}` : undefined,
+        morph_features: feat,
+        syntactic_function: r.syntactic_function ?? undefined,
+        // Headline: the woven synthesis (ingested lexicon + iʿrāb + tafsīr),
+        // with its evidence (provenance + dispute). Null until a word is synthesized.
+        synthesis: synthByWord.get(r.id) ?? null,
+        // Supporting source-rooted detail, attributed:
+        irab:      irabByWord.get(r.id) ?? [],      // per iʿrāb book / author
+        readings:  readingsByWord.get(r.id) ?? [],  // qirāʾāt / disputes per scholar
+        lexicon_root: r.root ?? null,               // Five-Lens lookup key (lazy)
+      };
+    });
+
+    // Tafsīr discussion grouped per ayah, attributed per mufassir/work.
+    const tafsirByAyah = new Map<number, { work: string | null; scholar: string | null; text: string | null }[]>();
+    for (const t of tafsirRows) {
+      const lo = Math.max(t.ayah_from, from);
+      const hi = Math.min(t.ayah_to, to);
+      for (let a = lo; a <= hi; a++) {
+        const list = tafsirByAyah.get(a) ?? [];
+        list.push({ work: t.work, scholar: t.scholar_id, text: t.text });
+        tafsirByAyah.set(a, list);
+      }
+    }
+    const tafsir = [...tafsirByAyah.entries()]
+      .sort((a, b) => a[0] - b[0])
+      .map(([ayah, sources]) => ({ ayah, sources }));
+
+    return {
+      step:       'morphology',
+      source:     'tables',
+      passage_id: passage.id,
+      surah,
+      ayah_from:  from,
+      ayah_to:    to,
+      nouns:      items.filter(i => i.group === 'noun'),
+      verbs:      items.filter(i => i.group === 'verb'),
+      particles:  items.filter(i => i.group === 'particle'),
+      words:      items,
+      tafsir,     // per-ayah mufassir discussion (deeper layer)
+    };
+  }
+
+  /**
    * Lazy step dispatcher. Returns the step's data sourced from tables when the
    * step has been migrated off task_json (reading, comprehension); otherwise
    * falls back to the task tree so unmigrated steps keep working.
@@ -290,6 +471,7 @@ export class StudyRepo {
   ): Promise<unknown> {
     switch (stepType) {
       case 'reading':       return this.readingStep(surahId, passageNo);
+      case 'morphology':    return this.morphologyStep(surahId, passageNo);
       case 'comprehension': return this.comprehensionStep(surahId, passageNo);
       default: {
         const task = await this.taskByStepType(surahId, passageNo, stepType);
@@ -538,6 +720,66 @@ export class StudyRepo {
     }
     return out;
   }
+}
+
+// ─── Morphology helpers ─────────────────────────────────────────────────────────
+// Parse the QAC morphology tag and classify part-of-speech into study groups.
+
+// iʿrāb book slugs → readable book / author labels (for source attribution).
+const IRAB_BOOKS: Record<string, string> = {
+  qul_irab_muyassar:    'الإعراب الميسر',
+  qul_jadwal_irab_quran:'الجدول في إعراب القرآن (صافي)',
+  qul_irab_quran_daas:  'إعراب القرآن للدعّاس',
+  qul_irab_darwish:     'إعراب القرآن وبيانه (درويش)',
+  tibyan_ukbari_irab:   'التبيان في إعراب القرآن (العكبري)',
+};
+
+const ROMAN = new Set(['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII']);
+const ASPECT: Record<string, string> = { PERF: 'perfect', IMPF: 'imperfect', IMPV: 'imperative' };
+const CASE:   Record<string, string> = { NOM: 'nominative', GEN: 'genitive', ACC: 'accusative' };
+const GENDER: Record<string, string> = { M: 'masculine', F: 'feminine' };
+const NUMBER: Record<string, string> = { S: 'singular', D: 'dual', P: 'plural' };
+
+export interface MorphFeatures {
+  aspect?: string;
+  verb_form?: string;          // roman numeral, e.g. "VIII"
+  grammatical_case?: string;
+  gender?: string;
+  number_base?: string;
+  person?: string;
+  raw?: string;
+}
+
+/** Parse a QAC pipe tag, e.g. "STEM|POS:V|PERF|(VIII)|LEM:..|ROOT:Ax*|3MP". */
+export function parseQacTag(raw: string | null | undefined): MorphFeatures {
+  if (!raw) return {};
+  const out: MorphFeatures = { raw };
+  for (const part of raw.split('|')) {
+    const tok = part.trim();
+    if (!tok) continue;
+    if (ASPECT[tok]) out.aspect = ASPECT[tok];
+    else if (CASE[tok]) out.grammatical_case = CASE[tok];
+    else if (tok.startsWith('(') && tok.endsWith(')') && ROMAN.has(tok.slice(1, -1))) {
+      out.verb_form = tok.slice(1, -1);
+    } else {
+      // person/gender/number token, e.g. 3MP, MS, MP, F
+      const m = /^([123])?([MF])([SDP])?$/.exec(tok);
+      if (m) {
+        if (m[1]) out.person = m[1];
+        out.gender = GENDER[m[2]];
+        if (m[3]) out.number_base = NUMBER[m[3]];
+      }
+    }
+  }
+  return out;
+}
+
+/** Group a QAC part-of-speech code into a study bucket. */
+export function posGroup(pos: string | null | undefined): 'noun' | 'verb' | 'particle' {
+  const p = (pos ?? '').toUpperCase();
+  if (p === 'V') return 'verb';
+  if (p === 'N' || p === 'PN' || p === 'ADJ') return 'noun';
+  return 'particle';
 }
 
 // ─── Exported task-tree helpers ─────────────────────────────────────────────────
