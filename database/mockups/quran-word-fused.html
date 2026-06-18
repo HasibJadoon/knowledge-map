@@ -149,6 +149,74 @@ body{margin:0;font-family:var(--body);color:var(--parch);
 .tabs{display:flex;gap:12px;justify-content:center;margin-top:26px;padding-top:18px;border-top:1px solid var(--hair)}
 .tab{font-family:var(--disp);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold-deep);border:1px solid var(--hair);border-radius:6px;padding:9px 18px}
 .foot{text-align:center;font-family:var(--ar);color:var(--gold-deep);font-size:1.4rem;margin-top:20px}
+
+/* ════════ design refinement pass ════════ */
+html{scroll-behavior:smooth}
+body{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+::selection{background:rgba(232,201,106,.26);color:#fff}
+*::-webkit-scrollbar{width:11px;height:11px}
+*::-webkit-scrollbar-track{background:#0a0a0a}
+*::-webkit-scrollbar-thumb{background:linear-gradient(#3a2f16,#1b1608);border-radius:6px;border:2px solid #0a0a0a}
+*::-webkit-scrollbar-thumb:hover{background:#5a4a22}
+.app{max-width:1240px}
+/* topbar depth + button polish */
+.topbar{box-shadow:0 12px 34px -22px #000,inset 0 -1px 0 rgba(201,168,76,.07)}
+.knext{transition:filter .18s,box-shadow .18s}
+.knext:hover{filter:brightness(1.07);box-shadow:0 0 26px -6px rgba(232,201,106,.75)}
+.kdone{transition:.18s}.kdone:hover{border-color:rgba(201,168,76,.4);color:var(--gold)}
+/* hero glow + framed ayah */
+.hero{overflow:hidden}
+.hero::before{content:"";position:absolute;left:50%;top:26px;width:min(440px,82%);height:300px;transform:translateX(-50%);
+ background:radial-gradient(closest-side,rgba(232,201,106,.13),transparent 70%);pointer-events:none;z-index:0}
+.hero>*{position:relative;z-index:1}
+.ayah{border:1px solid var(--hair-soft);border-radius:12px;padding:16px 22px 14px;
+ background:linear-gradient(180deg,rgba(232,201,106,.05),rgba(8,8,8,.28))}
+/* panels: inner highlight, soft shadow, hover */
+.panel{box-shadow:inset 0 1px 0 rgba(232,201,106,.06),0 16px 34px -28px #000;transition:border-color .25s,box-shadow .25s}
+.panel:hover{border-color:rgba(201,168,76,.30);box-shadow:inset 0 1px 0 rgba(232,201,106,.10),0 18px 42px -26px #000}
+.phead{position:relative}
+.phead::before{content:"";position:absolute;left:0;top:0;bottom:0;width:2px;background:linear-gradient(var(--gold-bright),var(--gold-deep))}
+.phead .t{color:var(--gold)}
+.phead .qc{transition:.2s}.panel:hover .qc{color:var(--gold);border-color:rgba(201,168,76,.45)}
+/* card + chip hover life */
+.lex,.tafcard{transition:border-color .2s,transform .2s,background .2s}
+.lex:hover,.tafcard:hover{border-color:rgba(201,168,76,.34);transform:translateY(-1px);background:rgba(26,22,12,.5)}
+.schip,.tile,.chip,.anchor,.tab{transition:border-color .2s,transform .2s,background .2s,color .2s}
+.schip:hover,.tile:hover{border-color:rgba(232,201,106,.4);transform:translateY(-1px)}
+.chip:hover{border-color:rgba(232,201,106,.45);transform:translateY(-1px);color:var(--gold-bright)}
+.tab:hover{border-color:rgba(201,168,76,.4);color:var(--gold);cursor:pointer}
+.exq{transition:background .2s}.exq:hover .a{color:#fff}
+/* readability bump for muted body text */
+.tg,.tafcard .g,.lex .e,.card .x,.variants .v .g{color:rgba(255,255,255,.66)}
+
+/* ════════ comfort · breathing room ════════ */
+.app{max-width:1320px;padding:12px 28px 60px}
+.hero{padding:40px 16px 16px}
+.brk{margin:32px auto}
+.grid{gap:28px;grid-template-columns:1.5fr 1fr}
+.col{gap:24px}
+.scholar2{gap:26px}
+.panel{border-radius:10px}
+.phead{padding:13px 19px}
+.pbody{padding:22px 21px}
+.lex,.tafcard{padding:16px 18px}
+.lex .a{line-height:1.95}.lex .e{line-height:1.55}
+.tafcard .g{line-height:1.62}
+.trow{padding:14px 9px;gap:10px 14px}
+.gov,.sarf{align-items:center}
+.ctx{line-height:2.3}
+.exq{padding:17px 4px}.exq .a{line-height:2.05}
+.senses{gap:12px}.schip{padding:10px 15px}
+.chips{gap:11px}.chip{padding:6px 15px}
+.ing{gap:15px}.ing-syn{margin-top:14px}
+.card{margin:13px 0;padding-left:15px}
+.variants .v{padding:10px 0}
+.anchors{gap:10px;margin-top:13px}
+.cfig{margin:8px 0 4px}.mh-illus{margin:4px 0 16px}
+.note{margin-bottom:16px}
+.tabs{margin-top:34px;gap:14px;padding-top:22px}
+@media(max-width:900px){.grid{grid-template-columns:1fr;gap:22px}}
+@media(max-width:760px){.app{padding:8px 16px 48px}.scholar2{gap:18px}.pbody{padding:18px 16px}}
 </style></head>
 <body>
 
