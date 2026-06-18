@@ -633,16 +633,35 @@ export class QuranSurahService {
   }
 
   getStudyReading(surahId: number, passageNo: number): Observable<StudyReadingResponse> {
-    return this.getStudyLesson(surahId, passageNo).pipe(
-      map((lesson) => ({
-        ok: true,
-        surahId,
-        passageNo,
-        unit: lesson.unit,
-        ayahs: lesson.ayahs,
-        task: this.findTask(lesson.tasks, 'reading'),
-      })),
-    );
+    // Lazy, table-sourced: hits the per-step reading endpoint, which builds the
+    // ayahs (both diacritic and non-diacritic forms + word tokens + muṣḥaf meta)
+    // straight from qr_ayah / qr_word_occurrences / qr_translations — not task_json.
+    return this.api
+      .getData<{ ayah_from?: number; ayah_to?: number; ayahs?: Record<string, unknown>[] }>(
+        'qr',
+        ['study', 'surahs', surahId, 'passages', passageNo, 'steps', 'reading'],
+      )
+      .pipe(
+        map((data) => {
+          const ayahFrom = Number(data.ayah_from ?? 0);
+          const ayahTo = Number(data.ayah_to ?? ayahFrom);
+          return {
+            ok: true,
+            surahId,
+            passageNo,
+            unit: {
+              unit_id: `U:C:QURAN:${surahId}:${ayahFrom}-${ayahTo}`,
+              order_index: passageNo,
+              ayah_from: ayahFrom,
+              ayah_to: ayahTo,
+              start_ref: `${surahId}:${ayahFrom}`,
+              end_ref: `${surahId}:${ayahTo}`,
+            },
+            ayahs: (data.ayahs ?? []).map((ayah) => this.normalizeStudyAyah(surahId, ayah)),
+            task: null,
+          };
+        }),
+      );
   }
 
   getStudyMorphology(surahId: number, passageNo: number): Observable<StudyMorphologyResponse> {

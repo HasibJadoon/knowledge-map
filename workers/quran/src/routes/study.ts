@@ -8,6 +8,7 @@
 // GET /qr/study/surahs/:surahId/passages/:passageNo/vocabulary    — nouns + verbs
 // GET /qr/study/surahs/:surahId/passages/:passageNo/expressions   — expression list
 // GET /qr/study/surahs/:surahId/passages/:passageNo/tasks         — full task tree
+// GET /qr/study/surahs/:surahId/passages/:passageNo/steps/:stepType       — lazy step data (tables)
 // GET /qr/study/surahs/:surahId/passages/:passageNo/steps/:stepType/tasks
 
 import type { Router } from '../../../shared/src/router';
@@ -127,6 +128,25 @@ export function studyRoutes(router: Router<QuranEnv>) {
       const tasks = await new StudyRepo(env.DB_QR).allTasks(sp.s, sp.p);
       if (tasks === null) return notFound(`passage ${sp.s}:${sp.p}`);
       return ok(tasks);
+    },
+  );
+
+  // ── Lazy per-step data (table-sourced) ───────────────────────────────────────
+  // Loads ONLY the selected step's data, built from the normalized tables (not
+  // task_json) for migrated steps (reading, comprehension). The study module
+  // calls this when a step is opened, so each step lazy-loads its own payload.
+
+  router.get(
+    '/qr/study/surahs/:surahId/passages/:passageNo/steps/:stepType',
+    async (_req, env, { surahId, passageNo, stepType }) => {
+      const sp = parseSurahPassage(surahId, passageNo);
+      if (!sp) return badRequest('Invalid surahId or passageNo');
+      if (!stepType) return badRequest('stepType is required');
+
+      const result = await new StudyRepo(env.DB_QR).stepData(sp.s, sp.p, stepType);
+      if (result === null)      return notFound(`passage ${sp.s}:${sp.p}`);
+      if (result === undefined) return notFound(`step '${stepType}' in passage ${sp.s}:${sp.p}`);
+      return ok(result);
     },
   );
 

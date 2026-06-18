@@ -48,6 +48,18 @@ export interface StudyTask {
   children: StudyTask[];
 }
 
+// One reading token of an ayah, both script forms, sourced from
+// qr_word_occurrences (not from any task_json payload).
+export interface AyahWordToken {
+  position: number;
+  text: string;              // diacritic (harakāt)
+  simple?: string;           // non-diacritic (plain)
+  char_type: 'word' | 'end';
+  lemma?: string;
+  root?: string;
+  pos?: string;
+}
+
 // ─── micro-helpers ─────────────────────────────────────────────────────────────
 
 function parseJson(v: unknown): unknown {
@@ -202,6 +214,77 @@ export class StudyRepo {
     return tasks.find(t => t.task_type === stepType) ?? undefined;
   }
 
+  // ── Lazy per-step loaders ─────────────────────────────────────────────────
+  // Each study step loads ONLY its own data, and from the normalized tables —
+  // not from task_json. The UI calls these when a step is selected.
+
+  /** Reading step — ayahs in both script forms + word tokens + muṣḥaf meta. */
+  async readingStep(surahId: number, passageNo: number) {
+    const passages = await this._passages(surahId);
+    const passage  = passages.find(p => p.passage_no === passageNo);
+    if (!passage) return null;
+
+    const ayahs = await this._ayahs(passage);
+    return {
+      step:       'reading',
+      source:     'tables',
+      passage_id: passage.id,
+      surah:      passage.surah_id,
+      ayah_from:  passage.ayah_from,
+      ayah_to:    passage.ayah_to,
+      ayahs,
+    };
+  }
+
+  /** Comprehension step — questions straight from qr_study_questions. */
+  async comprehensionStep(surahId: number, passageNo: number) {
+    const passages = await this._passages(surahId);
+    const passage  = passages.find(p => p.passage_no === passageNo);
+    if (!passage) return null;
+
+    const questions = await query<JsonRecord>(
+      this.db,
+      `SELECT id, scope_ref, ayah_from, ayah_to, question_type,
+              question_en, question_ar, options_json, answer_md,
+              difficulty, sort_order
+       FROM qr_study_questions
+       WHERE surah = ? AND passage_id = ? AND status != 'deleted'
+       ORDER BY sort_order, ayah_from, id`,
+      [passage.surah_id, passage.id],
+    ).catch(() => []);
+
+    return {
+      step:       'comprehension',
+      source:     'tables',
+      passage_id: passage.id,
+      questions,
+    };
+  }
+
+  /**
+   * Lazy step dispatcher. Returns the step's data sourced from tables when the
+   * step has been migrated off task_json (reading, comprehension); otherwise
+   * falls back to the task tree so unmigrated steps keep working.
+   *   null      → passage not found
+   *   undefined → no such step in this passage
+   */
+  async stepData(
+    surahId: number,
+    passageNo: number,
+    stepType: string,
+  ): Promise<unknown> {
+    switch (stepType) {
+      case 'reading':       return this.readingStep(surahId, passageNo);
+      case 'comprehension': return this.comprehensionStep(surahId, passageNo);
+      default: {
+        const task = await this.taskByStepType(surahId, passageNo, stepType);
+        if (task === null) return null;
+        if (task === undefined) return undefined;
+        return { step: stepType, source: 'tasks', task };
+      }
+    }
+  }
+
   // ── Private SQL methods ─────────────────────────────────────────────────────
 
   private async _passages(surahId: number): Promise<PassageRow[]> {
@@ -269,11 +352,20 @@ export class StudyRepo {
   }
 
   private async _ayahs(passage: PassageRow) {
-    const [ayahs, translations] = await Promise.all([
-      query<{ surah: number; ayah: number; page: number | null; text_arabic: string }>(
+    const [ayahs, translations, words] = await Promise.all([
+      query<{
+        surah: number; ayah: number; page: number | null;
+        juz: number | null; hizb: number | null; ruku: number | null;
+        verse_mark: string | null;
+        text_uthmani: string | null; text_clean: string | null; text_bare: string | null;
+      }>(
         this.db,
-        `SELECT surah, ayah, page_number AS page,
-                COALESCE(text_uthmani_clean, text_uthmani, text_bare, text) AS text_arabic
+        // Reading text is served from the tables in BOTH forms:
+        //   diacritic     → text_uthmani_clean / text_uthmani
+        //   non-diacritic → text_bare
+        // plus the muṣḥaf metadata (page / juz / hizb / ruku / verse mark).
+        `SELECT surah, ayah, page_number AS page, juz, hizb, ruku, verse_mark,
+                text_uthmani, text_uthmani_clean AS text_clean, text_bare
          FROM qr_ayah
          WHERE surah = ? AND ayah BETWEEN ? AND ?
          ORDER BY ayah`,
@@ -289,10 +381,58 @@ export class StudyRepo {
          ORDER BY t.ayah`,
         [passage.surah_id, passage.ayah_from, passage.ayah_to],
       ),
+      // Per-word tokens, both forms, from the word table (no JSON).
+      query<{
+        ayah: number; position: number;
+        text: string; simple: string | null;
+        lemma: string | null; root: string | null; pos: string | null;
+      }>(
+        this.db,
+        `SELECT ayah, word_index AS position,
+                word_text AS text, word_text_bare AS simple,
+                lemma, root, pos
+         FROM qr_word_occurrences
+         WHERE surah = ? AND ayah BETWEEN ? AND ?
+         ORDER BY ayah, word_index`,
+        [passage.surah_id, passage.ayah_from, passage.ayah_to],
+      ),
     ]);
 
     const transByAyah = new Map(translations.map(t => [t.ayah, t.text]));
-    return ayahs.map(a => ({ ...a, translation: transByAyah.get(a.ayah) ?? null }));
+
+    const wordsByAyah = new Map<number, AyahWordToken[]>();
+    for (const w of words) {
+      const list = wordsByAyah.get(w.ayah) ?? [];
+      list.push({
+        position:  w.position,
+        text:      w.text,                 // diacritic
+        simple:    w.simple ?? undefined,  // non-diacritic
+        char_type: 'word',
+        lemma:     w.lemma ?? undefined,
+        root:      w.root ?? undefined,
+        pos:       w.pos ?? undefined,
+      });
+      wordsByAyah.set(w.ayah, list);
+    }
+
+    return ayahs.map(a => {
+      const diacritic = a.text_clean ?? a.text_uthmani ?? a.text_bare ?? '';
+      return {
+        surah:       a.surah,
+        ayah:        a.ayah,
+        surah_ayah:  `${a.surah}:${a.ayah}`,
+        page:        a.page,
+        juz:         a.juz,
+        hizb:        a.hizb,
+        ruku:        a.ruku,
+        verse_mark:  a.verse_mark,
+        text:        diacritic,                  // diacritic (mushaf) option
+        text_simple: a.text_bare ?? undefined,   // non-diacritic option
+        text_arabic: diacritic,                  // back-compat alias
+        words:       wordsByAyah.get(a.ayah) ?? [],
+        translation: transByAyah.get(a.ayah) ?? null,
+      };
+    });
   }
 
   /** Vocabulary from qr_word_occurrences — fallback when morphology tasks lack payloads. */
