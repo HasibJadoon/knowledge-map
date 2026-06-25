@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-MAPS · Training Session (Membean-style)</title>
+<style>
+:root{--bg:#0b0d10;--card:#161b22;--card2:#1c2230;--line:#2a323e;--ink:#e9e3d5;--dim:#94a0b0;
+ --gold:#cDaD6a;--gold2:#e7cf8f;--indigo:#8b8fe0;--green:#5cc090;--amber:#e0a33a;--red:#d97a6a;--teal:#4bb6c4;--violet:#b48ce0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1100px 500px at 75% -10%,#19130a,#0b0d10);
+ color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.ar{font-family:"Amiri","Scheherazade New",serif;direction:rtl}
+header{display:flex;align-items:center;gap:14px;padding:12px 22px;border-bottom:1px solid var(--line)}
+header b{color:var(--gold2)}
+.timer{font-variant-numeric:tabular-nums;color:var(--dim);font-size:13px}
+.barwrap{flex:1;height:8px;background:#11151b;border-radius:6px;overflow:hidden;max-width:360px}
+.barwrap>div{height:100%;background:linear-gradient(90deg,var(--gold),var(--green));width:0%}
+.end{margin-left:auto;border:1px solid var(--line);background:#171b21;color:var(--dim);border-radius:8px;padding:7px 14px;cursor:pointer;font-size:13px}
+.wrap{display:grid;grid-template-columns:1fr 260px;gap:0;min-height:calc(100vh - 49px)}
+.stage{padding:34px 30px;display:flex;flex-direction:column;align-items:center}
+.rail{border-left:1px solid var(--line);background:#10141a;padding:16px}
+.rail h2{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--dim);margin:0 0 12px}
+.wrow{display:flex;align-items:center;gap:8px;margin-bottom:11px}
+.wrow .a{font-size:18px;flex:0 0 54px;text-align:right}
+.wrow .bar{flex:1;height:7px;border-radius:5px;background:#1a1f27;overflow:hidden}
+.wrow .bar>div{height:100%}
+.wrow .bk{font-size:9px;color:var(--dim);flex:0 0 64px}
+.legend{margin-top:16px;font-size:11px;color:var(--dim);line-height:1.9;border-top:1px solid var(--line);padding-top:12px}
+.dotc{display:inline-block;width:8px;height:8px;border-radius:50%;margin-inline-end:6px}
+
+.card{width:min(680px,94%);background:linear-gradient(180deg,#161b22,#10141a);border:1px solid var(--line);
+ border-radius:16px;overflow:hidden;box-shadow:0 14px 40px #0007}
+.ctop{display:flex;align-items:center;gap:10px;padding:10px 16px;border-bottom:1px solid var(--line);font-size:11px;color:var(--dim)}
+.memtag{border-radius:12px;padding:2px 10px;font-weight:600;color:#10141a;font-size:11px}
+.cbody{padding:30px 28px;min-height:230px}
+.intro{text-align:center}
+.intro .w{font-size:54px;color:#f3ead4}.intro .tr{color:var(--gold2);margin-top:6px}
+.intro .g{font-size:18px;margin:12px 0}.intro .hook{font-size:14px;color:var(--dim);line-height:1.7;border-top:1px dashed var(--line);padding-top:12px;margin-top:12px}
+.intro em{color:var(--gold2);font-style:normal}
+.qtype{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--indigo);margin-bottom:10px}
+.qprompt{font-size:20px;margin-bottom:18px;line-height:1.6}
+.opts{display:flex;flex-direction:column;gap:9px}
+.opt{border:1px solid var(--line);background:#1a1f27;border-radius:9px;padding:12px 14px;font-size:17px;cursor:pointer;transition:.12s}
+.opt:hover{border-color:var(--indigo)}
+.opt.correct{border-color:var(--green);background:#15281f}
+.opt.wrong{border-color:var(--red);background:#2a1717}
+.cfoot{padding:12px 16px;border-top:1px solid var(--line);display:flex;align-items:center;gap:10px}
+.know{border:1px solid #4a3f22;background:#171206;color:var(--gold2);border-radius:8px;padding:9px 14px;cursor:pointer;font-size:13px}
+.cont{margin-left:auto;background:var(--gold);color:#1a1404;border:none;border-radius:8px;padding:10px 22px;font-weight:600;cursor:pointer;display:none}
+.fb{font-size:13px;font-weight:600}.fb.ok{color:var(--green)}.fb.no{color:var(--red)}
+.delta{font-size:12px;color:var(--dim)}
+.summary{text-align:center;padding:40px}
+.summary .big{font-size:30px;color:var(--gold2)}
+.bk-pill{display:inline-block;border-radius:14px;padding:4px 12px;margin:4px;font-size:13px}
+small.src{display:block;margin-top:18px;color:#6b6450;font-size:11px}
+</style></head>
+<body>
+<header><b>التدريب</b> · Training session
+ <span class="timer" id="timer">00:00</span>
+ <div class="barwrap"><div id="prog"></div></div>
+ <span class="timer" id="ready">Ready 0/0</span>
+ <button class="end" onclick="finish()">End session</button></header>
+<div class="wrap">
+ <div class="stage"><div class="card" id="card"></div></div>
+ <div class="rail">
+   <h2>Word strength</h2><div id="words"></div>
+   <div class="legend">
+     <div><span class="dotc" style="background:#55617a"></span>Started learning</div>
+     <div><span class="dotc" style="background:var(--amber)"></span>Good progress</div>
+     <div><span class="dotc" style="background:var(--teal)"></span>Almost ready</div>
+     <div><span class="dotc" style="background:var(--green)"></span>Ready</div>
+     <div style="margin-top:8px">Memory <b>strength × stability</b>; wrong answers drop a word and it returns sooner.</div>
+   </div>
+ </div>
+</div>
+
+<script>
+// memlet palette
+const MC={Definition:"var(--gold)",Hooks:"var(--violet)",Context:"var(--teal)",Constellation:"var(--indigo)","Word Sums":"var(--amber)","Iʿrāb":"#d98 caa",Tashkīl:"var(--green)",Tilāwa:"var(--teal)"};
+const MCk=(k)=>({"Definition":"var(--gold)","Hooks":"var(--violet)","Context":"var(--teal)","Constellation":"var(--indigo)","Word Sums":"var(--amber)","Iʿrāb":"#e08ca0","Tashkīl":"var(--green)","Tilāwa":"var(--teal)"}[k]||"var(--gold)");
+
+// each word: intro Memlet + a bank of questions across types
+const WORDS=[
+{root:"خلص",form:"مُخْلِصًا",tr:"mukhliṣan",g:"purity, sincerity — exclusive devotion (ikhlāṣ)",
+ hook:"<em>khāliṣ</em> ≈ <em>cleanse/clear</em>: devotion cleared of all but God — opposite of shirk.",
+ q:[
+  {t:"Context (cloze)",p:'<span class="ar">أَلَا لِلَّهِ الدِّينُ الْ___</span> &nbsp;(39:3)',o:["خَالِصُ","خَاشِعُ","حَاكِمُ"],a:0},
+  {t:"Definition",p:'<span class="ar">مُخْلِصًا لَّهُ الدِّينَ</span> — مُخْلِصًا means?',o:["devoting religion purely to Him","fearing Him","obeying in public"],a:0},
+  {t:"Word Sums (ṣarf)",p:'<span class="ar">الْمُخْلَصِينَ</span> (38:83) — passive participle of which form?',o:["Form IV أَخْلَصَ","Form I خَلَصَ","Form X اِسْتَخْلَصَ"],a:0},
+  {t:"Constellation",p:"Closest near-synonym of خالص?",o:["صافٍ نقيّ","بعيد","غافل"],a:0}]},
+{root:"زلف",form:"زُلْفَىٰ",tr:"zulfā",g:"nearness as elevated rank/standing",
+ hook:"Hear zulfā in <em>zeal</em>ous — an eager advance into nearness; a courtier brought near into rank.",
+ q:[
+  {t:"Context (cloze)",p:'<span class="ar">…طَرَفَيِ النَّهَارِ وَ___ مِّنَ اللَّيْلِ</span> (11:114)',o:["زُلَفًا","زُخْرُفًا","زُمَرًا"],a:0},
+  {t:"Definition",p:'<span class="ar">لِيُقَرِّبُونَا إِلَى اللَّهِ زُلْفَىٰ</span> — زُلْفَىٰ means?',o:["nearness as rank/standing","mere physical closeness","intercession"],a:0},
+  {t:"Iʿrāb",p:'<span class="ar">زُلْفَىٰ</span> in 39:3 is grammatically…',o:["accusative — maṣdar / ḥāl","nominative subject","genitive after ḥarf"],a:0},
+  {t:"Word Sums (ṣarf)",p:'<span class="ar">أُزْلِفَتِ الجنّة</span> (26:90) — which form (passive)?',o:["Form IV أَزْلَفَ","Form I زَلَفَ","Form VIII اِزْدَلَفَ"],a:0}]},
+{root:"دين",form:"الدِّينَ",tr:"al-dīn",g:"religion, devotion; recompense/judgment",
+ hook:"<em>dīn</em> = both a way of <em>devotion</em> and the day of <em>reckoning</em>.",
+ q:[{t:"Definition",p:"الدِّين carries which pair of senses?",o:["devotion & recompense","wealth & power","time & place"],a:0},
+    {t:"Tashkīl",p:"Correct vocalization of the object in فَاعْبُدِ اللَّهَ مُخْلِصًا لَّهُ ___ ?",o:["الدِّينَ","الدِّينُ","الدِّينِ"],a:0}]},
+{root:"عبد",form:"فَاعْبُدِ",tr:"faʿbud",g:"to worship and serve",
+ hook:"<em>ʿabd</em> = a servant <em>bonded</em> to his Lord in worship.",
+ q:[{t:"Definition",p:"عبد core sense?",o:["to worship & serve","to create","to forgive"],a:0},
+    {t:"Constellation",p:"Antonym of عبادة (true worship) in 39:3 context?",o:["shirk / taking awliyāʾ","tawba","ṣabr"],a:0}]},
+{root:"كور",form:"يُكَوِّرُ",tr:"yukawwir",g:"to wind, coil, wrap",
+ hook:"<em>kawwara</em> = to <em>coil/wind</em> a turban — night wound over day.",
+ q:[{t:"Context",p:'<span class="ar">___ اللَّيْلَ عَلَى النَّهَارِ</span> (39:5)',o:["يُكَوِّرُ","يَخْلُقُ","يُسَخِّرُ"],a:0},
+    {t:"Definition",p:"كور core sense?",o:["to wind/coil/wrap","to forgive","to judge"],a:0}]},
+{root:"غفر",form:"الْغَفَّارُ",tr:"al-Ghaffār",g:"to cover, forgive",
+ hook:"<em>ghafara</em> = to <em>cover over</em> sins — the oft-Forgiving.",
+ q:[{t:"Definition",p:"الْغَفَّار means?",o:["the oft-Forgiving","the Subduer","the Wise"],a:0}]},
+{root:"قهر",form:"الْقَهَّارُ",tr:"al-Qahhār",g:"to dominate, subdue",
+ hook:"<em>Qahhār</em> = <em>conquering</em> — the irresistible Subduer.",
+ q:[{t:"Definition",p:"الْقَهَّار means?",o:["the irresistible Subduer","the Forgiving","the Near"],a:0}]},
+{root:"خلق",form:"يَخْلُقُ",tr:"yakhluq",g:"to create, originate, shape",
+ hook:"<em>khalaqa</em> = to <em>create/shape</em> out of nothing.",
+ q:[{t:"Definition",p:"خلق core sense?",o:["to create/originate","to subdue","to wind"],a:0}]}];
+
+// state
+WORDS.forEach(w=>{w.str=0;w.seen=false;w.qi=0;w.done=false});
+const bucket=s=> s>=85?["Ready","var(--green)"]: s>=55?["Almost ready","var(--teal)"]: s>=25?["Good progress","var(--amber)"]:["Started","#55617a"];
+let t0=Date.now(),mode="intro",cur=null,answered=false;
+setInterval(()=>{const s=Math.floor((Date.now()-t0)/1000);document.getElementById("timer").textContent=String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")},1000);
+
+function pickWord(){ // lowest strength among not-done with remaining questions
+ const pool=WORDS.filter(w=>!w.done && w.qi<w.q.length);
+ if(!pool.length) return null;
+ pool.sort((a,b)=>a.str-b.str);
+ return pool[0];
+}
+function rail(){
+ document.getElementById("words").innerHTML=WORDS.map(w=>{const b=bucket(w.str);return `
+  <div class="wrow"><div class="a ar">${w.form}</div>
+   <div class="bar"><div style="width:${w.str}%;background:${b[1]}"></div></div>
+   <div class="bk">${b[0]}</div></div>`}).join("");
+ const ready=WORDS.filter(w=>w.str>=85).length;
+ document.getElementById("ready").textContent=`Ready ${ready}/${WORDS.length}`;
+ const tot=WORDS.reduce((s,w)=>s+w.str,0)/(WORDS.length*100)*100;
+ document.getElementById("prog").style.width=tot+"%";
+}
+function step(){
+ cur=pickWord(); if(!cur){return finish();}
+ if(!cur.seen){intro(cur);} else {question(cur);}
+ rail();
+}
+function intro(w){mode="intro";answered=false;
+ document.getElementById("card").innerHTML=`
+  <div class="ctop"><span class="memtag" style="background:var(--gold)">NEW WORD</span> introducing via Definition + Hook Memlets</div>
+  <div class="cbody intro"><div class="w ar">${w.form}</div><div class="tr">${w.tr} · <span class="ar">جذر ${w.root}</span></div>
+   <div class="g">${w.g}</div><div class="hook">${w.hook}</div></div>
+  <div class="cfoot"><button class="know" onclick="know()">أعرفها · I Know This</button>
+   <button class="cont" style="display:block" onclick="afterIntro()">Start ▶</button></div>`;
+}
+function afterIntro(){cur.seen=true;question(cur);rail();}
+function question(w){mode="q";answered=false;const q=w.q[w.qi];
+ document.getElementById("card").innerHTML=`
+  <div class="ctop"><span class="memtag" style="background:${MCk(q.t.split(' ')[0])}">${q.t}</span>
+    <span class="ar" style="margin-inline-start:auto">${w.form}</span></div>
+  <div class="cbody"><div class="qtype">Question · ${q.t}</div><div class="qprompt">${q.p}</div>
+   <div class="opts">${q.o.map((o,i)=>`<div class="opt ar" onclick="answer(${i})">${o}</div>`).join("")}</div></div>
+  <div class="cfoot"><button class="know" onclick="know()">أعرفها</button>
+   <span id="fb" class="fb"></span><span id="delta" class="delta"></span>
+   <button class="cont" onclick="step()">Continue ▶</button></div>`;
+}
+function answer(i){ if(answered)return; answered=true; const q=cur.q[cur.qi];
+ const opts=document.querySelectorAll(".opt"); opts.forEach(o=>o.style.pointerEvents="none");
+ const ok=i===q.a; opts[i].classList.add(ok?"correct":"wrong"); if(!ok)opts[q.a].classList.add("correct");
+ let d; if(ok){d=cur.str<25?34:cur.str<55?26:18;cur.str=Math.min(100,cur.str+d);cur.qi++;}
+ else {d=-16;cur.str=Math.max(0,cur.str+d);} // wrong: drop, repeat same q later
+ if(cur.qi>=cur.q.length && cur.str>=85)cur.done=true;
+ document.getElementById("fb").textContent=ok?"✓ correct":"✗ — review";
+ document.getElementById("fb").className="fb "+(ok?"ok":"no");
+ document.getElementById("delta").textContent=(d>0?"+":"")+d+" strength → "+bucket(cur.str)[0];
+ document.getElementById("delta").style.color=bucket(cur.str)[1];
+ document.querySelector(".cont").style.display="block"; rail();
+}
+function know(){cur.str=100;cur.done=true;cur.seen=true;cur.qi=cur.q.length;rail();step();}
+function finish(){
+ const dist={Ready:0,"Almost ready":0,"Good progress":0,Started:0};
+ WORDS.forEach(w=>dist[bucket(w.str)[0]]++);
+ const cols={Ready:"var(--green)","Almost ready":"var(--teal)","Good progress":"var(--amber)",Started:"#55617a"};
+ document.getElementById("card").innerHTML=`<div class="summary">
+   <div class="big">جزاك الله خيرًا</div><p style="color:var(--dim)">Session saved — strength written to <b style="color:var(--gold2)">ar_srs_cards</b>, ratings to <b style="color:var(--gold2)">ar_srs_reviews</b>.</p>
+   <div>${Object.keys(dist).map(k=>`<span class="bk-pill" style="background:${cols[k]}22;border:1px solid ${cols[k]};color:${cols[k]}">${k}: ${dist[k]}</span>`).join("")}</div>
+   <small class="src">Membean model — words cycle Started → Good progress → Almost ready → Ready via memory strength × stability; Arabic question types add ṣarf, iʿrāb, tashkīl, tilāwa, and real-āyah context cloze.</small>
+   <div style="margin-top:18px"><button class="cont" style="display:inline-block" onclick="location.reload()">Train again</button></div></div>
+  <div class="cfoot"></div>`;
+}
+rail();step();
+</script>
+</body></html>

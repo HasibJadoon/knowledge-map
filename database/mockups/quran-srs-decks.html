@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>K-MAPS · /srs — Surah Decks</title>
+<style>
+:root{--bg:#0b0d10;--card:#161b22;--card2:#1c2230;--line:#2a323e;--ink:#e9e3d5;--dim:#94a0b0;
+ --gold:#cDaD6a;--gold2:#e7cf8f;--indigo:#8b8fe0;--green:#5cc090;--amber:#e0a33a;--red:#d97a6a;--teal:#4bb6c4;--violet:#b48ce0}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1100px 500px at 80% -10%,#161028,#0b0d10);color:var(--ink);
+ font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif}
+.ar{font-family:"Amiri","Scheherazade New",serif;direction:rtl}
+header{padding:16px 24px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:14px}
+header h1{margin:0;font-size:17px}header .u{margin-left:auto;font-size:12px;color:var(--gold2);border:1px solid var(--line);border-radius:20px;padding:4px 12px}
+.wrap{display:grid;grid-template-columns:300px 1fr;gap:0;min-height:calc(100vh - 53px)}
+.side{border-right:1px solid var(--line);padding:18px;background:#12161c}
+.side h2{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--dim);margin:0 0 12px}
+.dk{border:1px solid var(--line);border-radius:10px;padding:12px;margin-bottom:10px;cursor:pointer;background:#171b21}
+.dk.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+.dk.todo{opacity:.5}
+.dk .t{font-size:14px;font-weight:600}.dk .s{font-size:12px;color:var(--dim);margin-top:3px}
+.dk .due{display:flex;gap:6px;margin-top:8px;font-size:11px}
+.pill{border-radius:10px;padding:1px 8px}.pill.new{background:#1a2336;color:#9fb4e6}.pill.due{background:#2a2410;color:var(--amber)}
+.main{padding:24px 28px}
+.dhead{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px}
+.dhead .tt{font-size:24px;font-weight:700}.dhead .ar{font-size:24px;color:var(--gold2)}
+.dhead .sub{color:var(--dim);font-size:13px;margin-top:4px}
+.actions{margin-left:auto;display:flex;gap:10px}
+.btn{border:none;border-radius:9px;padding:10px 18px;font-size:14px;font-weight:600;cursor:pointer}
+.btn.study{background:var(--gold);color:#1a1404}.btn.anki{background:#1c2230;color:var(--ink);border:1px solid var(--line)}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:12px;margin:22px 0}
+.cat{border:1px solid var(--line);border-radius:10px;padding:12px;background:#161b22}
+.cat .n{font-size:26px;font-weight:700}.cat .l{font-size:12px;color:var(--dim);margin-top:2px}
+.cat .bar{height:4px;border-radius:3px;margin-top:8px}
+.legend{font-size:12px;color:var(--dim);margin-top:6px}
+.kinds{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.kchip{font-size:11px;border:1px solid var(--line);border-radius:14px;padding:3px 10px;color:var(--dim)}
+.kchip b{color:var(--gold2);font-weight:600}
+.note{margin-top:20px;font-size:12px;color:#6f7787;border-top:1px solid var(--line);padding-top:12px;line-height:1.7}
+.note code{color:var(--gold2)}
+
+/* modal */
+.modal{position:fixed;inset:0;background:#070809ee;backdrop-filter:blur(3px);z-index:40;display:none;place-items:center}
+.modal.open{display:grid}
+.rev{width:min(620px,92vw);background:linear-gradient(180deg,#161b22,#10141a);border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.rev .top{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line);font-size:12px;color:var(--dim)}
+.rev .cat-tag{border-radius:12px;padding:2px 10px;font-size:11px;font-weight:600}
+.rev .face{padding:40px 28px;text-align:center;min-height:200px;display:grid;place-items:center}
+.rev .front{font-size:34px}.rev .back{font-size:17px;color:var(--dim);line-height:1.7}
+.rev .x{margin-left:auto;cursor:pointer;border:none;background:none;color:var(--dim);font-size:20px}
+.rev .ctrl{padding:14px 18px;border-top:1px solid var(--line)}
+.flip{width:100%;border:1px dashed var(--line);background:#1c2230;color:var(--ink);border-radius:9px;padding:11px;cursor:pointer;font-size:14px}
+.rate{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:10px}
+.rb{border:none;border-radius:8px;padding:9px;font-size:13px;font-weight:600;color:#10141a;cursor:pointer}
+.rb small{display:block;font-weight:400;font-size:10px;opacity:.8}
+.rb.a{background:var(--red)}.rb.h{background:var(--amber)}.rb.g{background:var(--green)}.rb.e{background:var(--teal)}
+.prog{font-size:11px;color:var(--dim)}
+/* anki */
+.anki{width:min(720px,94vw);background:#12161c;border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.anki .h{padding:14px 18px;border-bottom:1px solid var(--line);display:flex;align-items:center}
+.anki table{width:100%;border-collapse:collapse;font-size:12px}
+.anki td,.anki th{border-bottom:1px solid var(--line);padding:8px 12px;text-align:left;vertical-align:top}
+.anki th{color:var(--dim);font-weight:500;font-size:11px;text-transform:uppercase}
+.anki .tag{color:var(--teal);font-family:monospace;font-size:11px}
+.anki .foot{padding:12px 18px;color:var(--dim);font-size:12px;display:flex;gap:10px;align-items:center}
+</style></head>
+<body>
+<header><h1>K-MAPS · <span style="color:var(--gold2)">/srs</span></h1>
+ <span style="color:var(--dim);font-size:13px">Spaced repetition · Surah decks → Anki</span>
+ <span class="u">user demo · workspace 1</span></header>
+<div class="wrap">
+ <div class="side">
+   <h2>Decks</h2>
+   <div class="dk active">
+     <div class="t ar" style="text-align:right">سورة الزُّمر · az-Zumar</div>
+     <div class="s">Vocabulary + verses + concepts</div>
+     <div class="due"><span class="pill new">55 new</span><span class="pill due">0 due</span></div>
+   </div>
+   <div class="dk todo"><div class="t ar" style="text-align:right">سورة يوسف · Yusuf</div><div class="s">not built yet</div></div>
+   <div class="dk todo"><div class="t ar" style="text-align:right">سورة البقرة · al-Baqarah</div><div class="s">not built yet</div></div>
+   <div class="note">One <b>deck per Surah</b> in <code>ar_srs_decks</code>;
+     cards in <code>ar_srs_cards</code> (FSRS). Reviews log to <code>ar_srs_reviews</code>.</div>
+ </div>
+ <div class="main">
+   <div class="dhead">
+     <div><div class="tt">Sūrah 39 · <span class="ar">az-Zumar</span> — Vocabulary</div>
+       <div class="sub">Passage 1 (39:1–5) · 55 cards · FSRS · <code style="color:var(--gold2)">deck_type=quran_vocab</code></div></div>
+     <div class="actions"><button class="btn study" onclick="study()">▶ Study (55)</button>
+       <button class="btn anki" onclick="document.getElementById('ankiM').classList.add('open')">⬇ Export to Anki</button></div>
+   </div>
+   <div class="cats" id="cats"></div>
+   <div class="kinds" id="kinds"></div>
+   <div class="note">A Surah deck is a <b>mixed deck</b>. Card content (the Memlets) is rendered from the
+     AL backbone via <code>resource_ref</code>; <code>front_text/back_text/tags</code> are the Anki export snapshot.
+     Verse cards carry a <code>kind</code> (important · difficult · grammar · balāgha · tafsīr · historical) —
+     one card per analytical lens.</div>
+ </div>
+</div>
+
+<!-- review modal -->
+<div class="modal" id="revM"><div class="rev">
+  <div class="top"><span class="cat-tag" id="rCat"></span><span id="rProg" class="prog"></span>
+    <button class="x" onclick="document.getElementById('revM').classList.remove('open')">✕</button></div>
+  <div class="face"><div id="rFace" class="front ar"></div></div>
+  <div class="ctrl"><button class="flip" id="rFlip" onclick="flip()">Show answer</button>
+    <div class="rate" id="rRate" style="display:none">
+      <button class="rb a" onclick="next()">Again<small>10m</small></button>
+      <button class="rb h" onclick="next()">Hard<small>1d</small></button>
+      <button class="rb g" onclick="next()">Good<small>3d</small></button>
+      <button class="rb e" onclick="next()">Easy<small>7d</small></button></div></div>
+</div></div>
+
+<!-- anki modal -->
+<div class="modal" id="ankiM"><div class="anki">
+  <div class="h"><b>Export → az-Zumar.apkg</b><button class="x" style="margin-left:auto;border:none;background:none;color:var(--dim);font-size:20px;cursor:pointer" onclick="document.getElementById('ankiM').classList.remove('open')">✕</button></div>
+  <div style="max-height:60vh;overflow:auto"><table><thead><tr><th>Front</th><th>Back</th><th>Tags</th></tr></thead><tbody id="ankiRows"></tbody></table></div>
+  <div class="foot">↳ 55 notes · note type <b style="color:var(--gold2)">qr_vocab / qr_verse / qr_concept</b> · fields from <code>front_text/back_text</code> · tags hierarchical. <span style="margin-left:auto">Generated from <code>ar_srs_cards</code></span></div>
+</div></div>
+
+<script>
+const CATS=[
+ {l:"Vocabulary",n:43,c:"var(--gold)"},{l:"Verses",n:7,c:"var(--violet)"},
+ {l:"Verbal Idioms",n:2,c:"var(--teal)"},{l:"Key Concepts",n:2,c:"var(--green)"},{l:"Expressions",n:1,c:"var(--amber)"}];
+document.getElementById("cats").innerHTML=CATS.map(c=>`<div class="cat"><div class="n" style="color:${c.c}">${c.n}</div><div class="l">${c.l}</div><div class="bar" style="background:${c.c};width:${Math.min(100,c.n/55*100*2)}%"></div></div>`).join("");
+document.getElementById("kinds").innerHTML='<span style="font-size:12px;color:var(--dim);margin-right:6px">verse lenses:</span>'+
+ [["important",2],["difficult",1],["grammar (iʿrāb)",1],["balāgha",1],["tafsīr",1],["historical",1]].map(k=>`<span class="kchip">${k[0]} <b>${k[1]}</b></span>`).join("");
+
+// sample cards (one per category) — real front/back/tags from ar_srs_cards
+const CARDS=[
+ {cat:"root",col:"var(--gold)",f:"خلص",b:"<b>kh-l-ṣ</b> · purity, sincerity, unmixedness (ikhlāṣ)<br><small>first 39:2</small>",t:"Quran::az-Zumar::P1 type::root"},
+ {cat:"sense",col:"var(--gold)",f:"مُخْلِصًا",b:"sincerity; exclusive devotion of religion to God<br><small>QR 39:2 · root خ ل ص</small>",t:"Quran::az-Zumar::P1 type::sense"},
+ {cat:"idiom",col:"var(--teal)",f:"أَخْلَصَ لله الدِّينَ",b:"<b>Verbal idiom</b> — to devote religion exclusively to God<br><small>Mir · 39:2</small>",t:"Quran::az-Zumar::P1 type::idiom"},
+ {cat:"expression",col:"var(--amber)",f:"يُكَوِّرُ اللَّيْلَ عَلَى النَّهَارِ",b:"He wraps the night over the day — the coiling of time<br><small>39:5 · root ك و ر</small>",t:"Quran::az-Zumar::P1 type::expression"},
+ {cat:"verse · important",col:"var(--violet)",f:"أَلَا لِلَّهِ الدِّينُ الْخَالِصُ",b:"<b>Important verse</b> — thesis of the sūra: to God alone belongs the pure religion (tawḥīd)<br><small>39:3</small>",t:"type::verse::important"},
+ {cat:"verse · balāgha",col:"var(--violet)",f:"هَلْ يَسْتَوِي الَّذِينَ يَعْلَمُونَ وَالَّذِينَ لَا يَعْلَمُونَ",b:"<b>Balāgha</b> — istifhām inkārī: question in form, emphatic negation in force<br><small>39:9</small>",t:"type::verse::balagha"},
+ {cat:"verse · historical",col:"var(--violet)",f:"يَا عِبَادِيَ الَّذِينَ أَسْرَفُوا",b:"<b>Asbāb al-nuzūl</b> — concerning those who sinned gravely (reports of Waḥshī) and feared no repentance<br><small>39:53</small>",t:"type::verse::historical"},
+ {cat:"concept · theology",col:"var(--green)",f:"الإخلاص وتوحيد العبادة",b:"<b>Key concept</b> — worship owed to God alone; the refutation of intercession-shirk (zulfā, 39:3)<br><small>domain: theology</small>",t:"type::concept domain::theology"}];
+document.getElementById("ankiRows").innerHTML=CARDS.map(c=>`<tr><td class="ar" style="font-size:16px">${c.f}</td><td>${c.b}</td><td class="tag">${c.t}</td></tr>`).join("")+`<tr><td colspan="3" style="color:var(--dim);text-align:center">… 47 more notes</td></tr>`;
+
+let qi=0, flipped=false;
+function study(){qi=0;show();document.getElementById('revM').classList.add('open');}
+function show(){const c=CARDS[qi%CARDS.length];flipped=false;
+ document.getElementById('rCat').textContent=c.cat;document.getElementById('rCat').style.background=c.col;document.getElementById('rCat').style.color="#10141a";
+ document.getElementById('rFace').className="front ar";document.getElementById('rFace').innerHTML=c.f;
+ document.getElementById('rFlip').style.display="block";document.getElementById('rRate').style.display="none";
+ document.getElementById('rProg').textContent=`card ${(qi%CARDS.length)+1} / ${CARDS.length} sample · deck 55`;}
+function flip(){const c=CARDS[qi%CARDS.length];document.getElementById('rFace').className="back";document.getElementById('rFace').innerHTML=c.b;
+ document.getElementById('rFlip').style.display="none";document.getElementById('rRate').style.display="grid";}
+function next(){qi++;show();}
+document.querySelectorAll('.modal').forEach(m=>m.onclick=(e)=>{if(e.target===m)m.classList.remove('open')});
+</script>
+</body></html>

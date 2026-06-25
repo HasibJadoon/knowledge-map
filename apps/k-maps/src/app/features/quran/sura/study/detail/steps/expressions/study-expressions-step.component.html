@@ -8,25 +8,24 @@
     <p class="count">{{ lesson.expressions.length }} expression{{ lesson.expressions.length !== 1 ? 's' : '' }}</p>
 
     <div class="expr-list">
-      @for (expr of lesson.expressions; track expr.expression_id) {
+      @for (expr of lesson.expressions; track expr.id) {
         <div class="expr-card">
-          <div class="expr-card__top">
-            @if (expr.expression_text || expr.text) {
-              <span class="expr-card__ar">{{ expr.expression_text ?? expr.text }}</span>
+          @if (expr.ar) {
+            <div class="expr-card__top">
+              <span class="expr-card__ar" dir="rtl" lang="ar">{{ expr.ar }}</span>
+            </div>
+          }
+
+          @if (expr.en) {
+            <p class="expr-card__meaning">{{ expr.en }}</p>
+          }
+
+          <div class="expr-card__foot">
+            @if (expr.type) {
+              <span class="expr-card__type">{{ expr.type }}</span>
             }
+            <span class="expr-card__ref">{{ lesson.surahId }}:{{ expr.ayah }}</span>
           </div>
-
-          @if (expr.expression_meaning || expr.meaning || expr.gloss) {
-            <p class="expr-card__meaning">
-              {{ expr.expression_meaning ?? expr.meaning ?? expr.gloss }}
-            </p>
-          }
-
-          @if (expr.expression_type) {
-            <span class="expr-card__type">{{ expr.expression_type }}</span>
-          }
-
-          <span class="expr-card__ref">{{ lesson.surahId }}:{{ expr.ayah }}</span>
         </div>
       }
     </div>

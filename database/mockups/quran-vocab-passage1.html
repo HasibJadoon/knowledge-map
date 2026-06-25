@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K-MAPS · Sūrah 39 Passage 1 — Vocabulary</title>
+<style>
+  :root{
+    --bg:#0e1117; --panel:#161b24; --panel2:#1d242f; --line:#2a3340;
+    --ink:#e8edf4; --dim:#9aa7b8; --gold:#d9b15a; --indigo:#7c83ff;
+    --green:#46c08a; --amber:#e0a33a; --red:#e06a6a; --teal:#3fb6c4;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.5}
+  .ar{font-family:"Scheherazade New","Amiri","Traditional Arabic",serif;direction:rtl}
+  header{padding:14px 20px;border-bottom:1px solid var(--line);display:flex;
+         align-items:baseline;gap:14px;background:linear-gradient(180deg,#131a24,#0e1117)}
+  header h1{font-size:16px;margin:0;font-weight:600}
+  header .sub{color:var(--dim);font-size:13px}
+  header .pill{margin-inline-start:auto;font-size:12px;color:var(--gold);
+         border:1px solid var(--line);border-radius:20px;padding:4px 12px}
+  .wrap{display:grid;grid-template-columns:280px 1fr 300px;gap:0;height:calc(100vh - 53px)}
+  .col{overflow-y:auto;padding:16px}
+  .col.deck{border-inline-end:1px solid var(--line);background:var(--panel)}
+  .col.srs{border-inline-start:1px solid var(--line);background:var(--panel)}
+  .deck h2,.srs h2{font-size:12px;text-transform:uppercase;letter-spacing:.08em;
+         color:var(--dim);margin:0 0 12px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .chip{background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+        padding:8px 10px;cursor:pointer;position:relative;transition:.15s}
+  .chip:hover{border-color:var(--indigo);transform:translateY(-1px)}
+  .chip.active{border-color:var(--gold);box-shadow:0 0 0 1px var(--gold) inset}
+  .chip .r{font-size:20px;font-weight:600}
+  .chip .g{font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;
+        text-overflow:ellipsis}
+  .chip .dot{position:absolute;top:8px;inset-inline-end:8px;width:8px;height:8px;border-radius:50%}
+  .dot.new{background:#55617a}.dot.growing{background:var(--amber)}
+  .dot.well{background:var(--green)}.dot.depth{box-shadow:0 0 0 2px var(--gold)}
+  .ayahtag{display:inline-block;font-size:10px;color:var(--dim);margin-top:3px}
+
+  /* card */
+  .cardhead{display:flex;align-items:flex-start;gap:16px;margin-bottom:6px}
+  .cardhead .big{font-size:46px;font-weight:700;line-height:1}
+  .cardhead .lat{color:var(--gold);font-size:14px;letter-spacing:.04em}
+  .cardhead .core{color:var(--ink);font-size:15px;margin-top:4px}
+  .cardhead .freq{color:var(--dim);font-size:12px;margin-top:2px}
+  .badges{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0 18px}
+  .badge{font-size:11px;border:1px solid var(--line);border-radius:6px;padding:2px 8px;color:var(--dim)}
+  .badge.depth{color:var(--gold);border-color:#5a4a22}
+
+  .memlet{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+          padding:14px 16px;margin-bottom:12px}
+  .memlet>.mh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+  .memlet .mh .ic{width:22px;height:22px;border-radius:6px;display:grid;place-items:center;
+          font-size:12px;background:var(--panel2);border:1px solid var(--line)}
+  .memlet .mh .t{font-size:12px;text-transform:uppercase;letter-spacing:.07em;color:var(--dim)}
+  .memlet .mh .map{margin-inline-start:auto;font-size:10px;color:#6b7689}
+
+  .sense{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line)}
+  .sense:first-of-type{border-top:none}
+  .sense .n{flex:0 0 22px;height:22px;border-radius:50%;background:var(--indigo);
+        color:#fff;font-size:12px;display:grid;place-items:center;margin-top:2px}
+  .sense .ar{font-size:20px}
+  .sense .en{font-size:13px;color:var(--dim)}
+  .sense .ref{font-size:11px;color:var(--teal);margin-top:2px}
+
+  .sarf{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+  .form{border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--panel2)}
+  .form .lab{font-size:11px;color:var(--gold)}
+  .form .row{display:flex;justify-content:space-between;font-size:13px;margin-top:3px}
+  .form .row span:first-child{color:var(--dim)}
+
+  .ayah{border-inline-start:3px solid var(--gold);padding:6px 12px;margin:8px 0;background:var(--panel2);border-radius:0 8px 8px 0}
+  .ayah .t{font-size:21px}
+  .ayah .ref{font-size:11px;color:var(--teal)}
+  .occ{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .occ b{font-size:11px;font-weight:600;background:#10212a;color:var(--teal);
+        border:1px solid #1c3a44;border-radius:6px;padding:2px 7px}
+
+  .constel{position:relative;display:flex;flex-direction:column;gap:10px}
+  .star{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .star .lab{font-size:11px;color:var(--dim);flex:0 0 88px}
+  .tok{font-size:16px;border-radius:6px;padding:2px 9px}
+  .tok.syn{background:#15281f;border:1px solid #234a36;color:#8fe3b6}
+  .tok.ant{background:#2a1717;border:1px solid #4a2323;color:#e39a9a}
+  .tok.sense{background:#1a1f33;border:1px solid #2d3656;color:#aeb6ff}
+  .src{font-size:10px;color:#6b7689;margin-top:4px}
+
+  .hook{display:flex;gap:10px;padding:8px 0;border-top:1px dashed var(--line)}
+  .hook:first-of-type{border-top:none}
+  .hook .k{flex:0 0 54px;font-size:10px;text-transform:uppercase;color:var(--gold);margin-top:3px}
+  .hook .b{font-size:13.5px}
+  .hook em{color:var(--gold);font-style:normal}
+
+  .ex{border:1px solid var(--line);border-radius:8px;padding:10px;margin-bottom:8px;background:var(--panel2)}
+  .ex .q{font-size:13px;margin-bottom:8px}
+  .ex .kind{font-size:10px;color:var(--indigo);text-transform:uppercase;letter-spacing:.05em}
+  .opts{display:flex;flex-direction:column;gap:5px}
+  .opt{border:1px solid var(--line);border-radius:6px;padding:6px 10px;font-size:14px;cursor:pointer}
+  .opt:hover{border-color:var(--indigo)}
+  .opt.right{border-color:var(--green);background:#15281f}
+
+  .illus{display:flex;gap:14px;align-items:center}
+  .illus svg{flex:0 0 130px}
+  .illus .cap{font-size:13px;color:var(--dim)}
+
+  /* SRS */
+  .ring{display:flex;flex-direction:column;align-items:center;margin-bottom:14px}
+  .ring .state{font-size:13px;margin-top:8px;font-weight:600}
+  .ring .due{font-size:12px;color:var(--dim)}
+  .stat{display:flex;justify-content:space-between;font-size:12px;padding:5px 0;border-bottom:1px solid var(--line)}
+  .stat span:first-child{color:var(--dim)}
+  .rate{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+  .rbtn{border:none;border-radius:8px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;color:#0e1117}
+  .rbtn small{display:block;font-weight:400;font-size:10px;opacity:.8}
+  .rb-again{background:var(--red)}.rb-hard{background:var(--amber)}
+  .rb-good{background:var(--green)}.rb-easy{background:var(--teal)}
+  .legend{margin-top:18px;font-size:11px;color:var(--dim)}
+  .legend div{padding:3px 0;display:flex;gap:8px}
+  .legend .b{flex:0 0 88px;color:var(--ink)}
+  .note{font-size:11px;color:#6b7689;margin-top:10px;border-top:1px solid var(--line);padding-top:10px}
+</style>
+</head>
+<body>
+<header>
+  <h1>K-MAPS · Vocabulary</h1>
+  <span class="sub ar">سورة الزُّمر · المقطع ١ (٣٩:١-٥)</span>
+  <span class="sub">Sūrah az-Zumar — Passage 1 · 35 content roots</span>
+  <span class="pill">workspace 1 · user demo</span>
+</header>
+
+<div class="wrap">
+  <!-- DECK -->
+  <div class="col deck">
+    <h2>Passage 1 — Deck (35)</h2>
+    <div class="grid" id="deck"></div>
+    <div class="note">Gold ring = built to full depth (all 9 Memlets). Dot =
+      your mastery: <span style="color:#55617a">new</span> /
+      <span style="color:var(--amber)">growing</span> /
+      <span style="color:var(--green)">well-learned</span>.</div>
+  </div>
+
+  <!-- CARD -->
+  <div class="col card" id="card"></div>
+
+  <!-- SRS -->
+  <div class="col srs" id="srs"></div>
+</div>
+
+<script>
+const AYAH = {
+ "39:2":"إِنَّا أَنزَلْنَا إِلَيْكَ الْكِتَابَ بِالْحَقِّ فَاعْبُدِ اللَّهَ مُخْلِصًا لَّهُ الدِّينَ",
+ "39:3a":"أَلَا لِلَّهِ الدِّينُ الْخَالِصُ",
+ "39:3z":"مَا نَعْبُدُهُمْ إِلَّا لِيُقَرِّبُونَا إِلَى اللَّهِ زُلْفَىٰ",
+ "11:114":"وَأَقِمِ الصَّلَاةَ طَرَفَيِ النَّهَارِ وَزُلَفًا مِّنَ اللَّيْلِ",
+ "67:27":"فَلَمَّا رَأَوْهُ زُلْفَةً سِيئَتْ وُجُوهُ الَّذِينَ كَفَرُوا",
+ "26:90":"وَأُزْلِفَتِ الْجَنَّةُ لِلْمُتَّقِينَ",
+ "16:66":"نُسْقِيكُم مِّمَّا فِي بُطُونِهِ مِن بَيْنِ فَرْثٍ وَدَمٍ لَّبَنًا خَالِصًا",
+ "38:83":"إِلَّا عِبَادَكَ مِنْهُمُ الْمُخْلَصِينَ",
+ "12:80":"فَلَمَّا اسْتَيْأَسُوا مِنْهُ خَلَصُوا نَجِيًّا"
+};
+
+// ----- full-depth roots -----
+const ZULF = {
+ root:"زلف", lat:"z-l-f", core:"nearness as elevated standing (rank, not bare proximity)",
+ freq:10, depth:true, mastery:"growing", ayah:3,
+ senses:[
+  {n:1,ar:"زُلْفَىٰ",en:"nearness as elevated rank/standing before God",ref:"39:3"},
+  {n:2,ar:"أُزْلِفَت",en:"to be brought near (the Garden brought near)",ref:"26:90"},
+  {n:3,ar:"زُلَف الليل",en:"portions / approaches of the night",ref:"11:114"},
+  {n:4,ar:"زُلْفَة",en:"nearness at hand (concrete closeness)",ref:"67:27"}],
+ sarf:[
+  {lab:"Form I — زَلَفَ",rows:[["past","زَلَفَ"],["present","يَزْلِفُ"],["maṣdar","زُلْفَى"]]},
+  {lab:"Form IV — أَزْلَفَ",rows:[["past","أَزْلَفَ"],["present","يُزْلِفُ"],["passive","أُزْلِفَتْ"]]}],
+ context:[{ref:"39:3z",label:"39:3"},{ref:"11:114",label:"11:114"},{ref:"67:27",label:"67:27"},{ref:"26:90",label:"26:90"}],
+ occ:["34:37","38:25","38:40","50:31","81:13","26:64"],
+ syn:["قُرْب","دَرَجة","مَنزِلة","حُظوة"], ant:["بُعْد","قَصْوَى"],
+ synsrc:"reuses ar_ling_near_synonym_sets · زَلَفَ ∈ “To be near” · زُلَف ∈ “Time”",
+ hooks:[
+  {k:"sound",b:"Hear zulfā in <em>zeal</em>ous: an eager advance into nearness — a courtier brought near into rank, not merely standing close."},
+  {k:"S1",b:"A courtier ushered to the front row before the throne — <em>zulfā</em> is rank-nearness, the privileged step toward the King."},
+  {k:"S3",b:"<em>Zulaf</em> of the night = the night drawing its folds near — the early hours that step toward dawn."}],
+ illus:"ascent", illusCap:"Ascent / courtier brought near — each step a darajah; zulfā as elevated standing.",
+ idiom:null,
+ ex:[{kind:"def · 39:3",q:"What does زُلْفَىٰ mean?",opts:["mere physical closeness","nearness as elevated rank/standing","intercession"],a:1},
+     {kind:"cloze · 11:114",q:"…طَرَفَيِ النَّهَارِ وَ____ مِّنَ اللَّيْلِ",opts:["زُلَفًا","زُخْرُفًا","زُمَرًا"],a:0},
+     {kind:"ṣarf · 26:90",q:"أُزْلِفَتِ الْجَنَّةُ is the passive of which form?",opts:["Form I","Form IV","Form VIII"],a:1}]
+};
+const KHLS = {
+ root:"خلص", lat:"kh-l-ṣ", core:"purity, sincerity, unmixedness (ikhlāṣ)",
+ freq:31, depth:true, mastery:"new", ayah:2,
+ senses:[
+  {n:1,ar:"مُخْلِصًا",en:"sincerity; exclusive, unmixed devotion of religion to God",ref:"39:2"},
+  {n:2,ar:"خَلَصُوا",en:"to withdraw apart / become free and clear",ref:"12:80"},
+  {n:3,ar:"مُخْلَص",en:"the servants whom God has chosen and purified",ref:"38:83"},
+  {n:4,ar:"خَالِص",en:"pure and unmixed; reserved exclusively for",ref:"16:66"}],
+ sarf:[
+  {lab:"Form I — خَلَصَ",rows:[["past","خَلَصَ"],["present","يَخْلُصُ"],["maṣdar","خُلُوص"]]},
+  {lab:"Form IV — أَخْلَصَ",rows:[["active","مُخْلِص"],["passive","مُخْلَص"],["maṣdar","إِخْلَاص"]]},
+  {lab:"Form X — اِسْتَخْلَصَ",rows:[["past","اِسْتَخْلَصَ"],["sense","select for oneself"],["ref","12:54"]]}],
+ context:[{ref:"39:2",label:"39:2"},{ref:"39:3a",label:"39:3"},{ref:"16:66",label:"16:66"},{ref:"38:83",label:"38:83"},{ref:"12:80",label:"12:80"}],
+ occ:["7:29","98:5","40:14","15:40","37:40","7:32","12:54"],
+ syn:["صفو (اصطفى)","طُهْر","نقاء","صِدْق"], ant:["شِرْك","رِياء","خَلْط"],
+ synsrc:"added to ar_ling_near_synonym_sets · NS:PURE + NS:…DEVOTION",
+ hooks:[
+  {k:"sound",b:"<em>khāliṣ</em> sounds like <em>cleanse / clear</em>: clear a thing of every admixture — sincerity is devotion cleared of all but God."},
+  {k:"S1",b:"<em>mukhliṣ</em>: religion run through a <em>filter</em> until only God remains — the opposite of shirk."},
+  {k:"S3",b:"<em>mukhlaṣ</em> carries the passive a: not self-purified but <em>purified by God</em> — drawn out like refined gold."}],
+ illus:"pour", illusCap:"Pure milk pressed clear from between refuse and blood (16:66) — khāliṣ is the unmixed essence; ikhlāṣ pours devotion to God alone.",
+ idiom:{ar:"أَخْلَصَ لله الدِّين",en:"to make religion exclusively God’s",ref:"ar_ling_expressions · AREX:VI:6D9734851E670643 · 39:2, 7:29, 40:65, 98:5"},
+ ex:[{kind:"def · 39:2",q:"مُخْلِصًا لَّهُ الدِّينَ — مُخْلِصًا means?",opts:["fearing Him","devoting religion purely to Him","obeying in public"],a:1},
+     {kind:"cloze · 39:3",q:"أَلَا لِلَّهِ الدِّينُ الْ____",opts:["خَالِصُ","خَاشِعُ","حَاكِمُ"],a:0},
+     {kind:"antonym",q:"Theological opposite of الإخلاص?",opts:["الصبر","الشِّرك والرياء","التوكّل"],a:1}]
+};
+
+// ----- breadth roots (core + hook) -----
+const B=(root,lat,core,ayah,hook)=>({root,lat,core,ayah,hook,depth:false,mastery:"new"});
+const BREADTH=[
+ B("نزل","n-z-l","sending down; revelation in stages",1,"Tanzīl: the Book sent <em>down</em>, descending stage by stage."),
+ B("كتب","k-t-b","writing; prescribing; a Book/decree",1,"kitāb = a written <em>writ</em> — inscribed, prescribed, decreed."),
+ B("عزز","ʿ-z-z","might, honour, invincibility",1,"al-ʿAzīz: prized <em>and</em> mighty — precious yet unconquerable."),
+ B("حكم","ḥ-k-m","to judge/decide; wisdom",1,"ḥukm = a wise <em>verdict</em> — to judge with wisdom (Ḥakīm)."),
+ B("حقق","ḥ-q-q","truth, right, reality",2,"ḥaqq = the <em>real right</em> — truth and what is rightly due."),
+ B("عبد","ʿ-b-d","to worship and serve",2,"ʿabd = a servant <em>bonded</em> to his Lord in worship."),
+ B("دين","d-y-n","religion, devotion; recompense",2,"dīn = both a way of <em>devotion</em> and the day of <em>reckoning</em>."),
+ B("اخذ","ʾ-kh-dh","to take, seize; ittakhadha to adopt",3,"akhadha = to seize; ittakhadha = to take for oneself."),
+ B("ولي","w-l-y","ally, protector; nearness",3,"walī = a near <em>ally/patron</em> standing close by."),
+ B("قرب","q-r-b","nearness; to draw/bring near",3,"qaruba = <em>proximity</em>; qarraba = to bring near (cf. zulfā)."),
+ B("خلف","kh-l-f","to come after; to differ; succeed",3,"khalafa = follow behind; ikhtalafa = to <em>diverge/dispute</em>."),
+ B("هدي","h-d-y","guidance; to guide",3,"hadā = to <em>guide</em> along the way (hudā)."),
+ B("كذب","k-dh-b","lying, falsehood",3,"kadhaba = to lie; kādhib = a liar."),
+ B("كفر","k-f-r","to cover/deny; disbelief, ingratitude",3,"kafara = to <em>cover over</em> truth — disbelief and ingratitude."),
+ B("رود","r-w-d","to seek, will, intend",4,"arāda = to <em>will/intend</em> — what one is set upon."),
+ B("ولد","w-l-d","to beget; child, offspring",4,"walad = a child begotten — God takes no walad."),
+ B("صفو","ṣ-f-w","purity; to choose the best",4,"iṣṭafā = to pick the <em>choicest</em>, pure-select."),
+ B("خلق","kh-l-q","to create, originate, shape",4,"khalaqa = to <em>create/shape</em> out of nothing."),
+ B("شيا","sh-y-ʾ","to will; a thing",4,"shāʾa = to <em>will</em> — whatever He wills comes to be."),
+ B("سبح","s-b-ḥ","to glorify; declare transcendence",4,"subḥān = <em>far removed</em> — glory beyond every flaw."),
+ B("وحد","w-ḥ-d","oneness; to be one",4,"wāḥid = <em>one alone</em> — sheer uniqueness."),
+ B("قهر","q-h-r","to dominate, subdue",4,"Qahhār = <em>conquering</em> — the irresistible Subduer."),
+ B("سمو","s-m-w","height; heaven; (naming/appointing)",5,"samāʾ = the <em>high</em> heaven; musamman = a <em>named/fixed</em> term."),
+ B("ارض","ʾ-r-ḍ","earth, land",5,"arḍ = the <em>earth</em> (terra) spread beneath."),
+ B("كور","k-w-r","to wind, coil, wrap",5,"kawwara = to <em>coil/wind</em> — night wound over day."),
+ B("ليل","l-y-l","night",5,"layl = <em>night</em> — when the world lies low in dark."),
+ B("نهر","n-h-r","daytime; (also river)",5,"nahār = broad <em>daytime</em> light."),
+ B("سخر","s-kh-r","to subject, make subservient",5,"sakhkhara = to <em>harness/subject</em> — sun and moon pressed to serve."),
+ B("شمس","sh-m-s","the sun",5,"shams = the <em>sun</em>, a shimmering blaze."),
+ B("قمر","q-m-r","the moon",5,"qamar = the <em>moon</em> in its phases."),
+ B("جري","j-r-y","to run, flow, course",5,"jarā = to <em>run/flow</em> — each orb runs its course."),
+ B("اجل","ʾ-j-l","a fixed term, appointed time",5,"ajal = an <em>appointed</em> term, a set deadline."),
+ B("غفر","gh-f-r","to cover, forgive",5,"ghafara = to <em>cover over</em> sins — the oft-Forgiving (Ghaffār).")
+];
+// assemble deck in āyah order, depth roots placed at their first occurrence
+const ALL=[...BREADTH, ZULF, KHLS].sort((a,b)=>a.ayah-b.ayah || (b.depth?1:0)-(a.depth?1:0));
+
+const ICON={def:"📖",sums:"🧩",ctx:"🕮",const:"✦",img:"🎨",hook:"🪝",root:"🌱",syn:"🔗",ex:"✎"};
+const ILLUS={
+ ascent:`<svg viewBox="0 0 130 110"><defs></defs>
+   <rect x="92" y="14" width="30" height="40" rx="3" fill="#1d242f" stroke="#d9b15a"/>
+   <path d="M92 20 q15 -10 30 0" fill="none" stroke="#d9b15a" stroke-width="2"/>
+   <g fill="#2a3340" stroke="#7c83ff">
+     <rect x="6" y="92" width="22" height="12"/><rect x="24" y="78" width="22" height="26"/>
+     <rect x="42" y="64" width="22" height="40"/><rect x="60" y="50" width="22" height="54"/>
+     <rect x="78" y="36" width="22" height="68"/></g>
+   <circle cx="70" cy="42" r="6" fill="#d9b15a"/><rect x="66" y="48" width="8" height="14" rx="3" fill="#d9b15a"/>
+ </svg>`,
+ pour:`<svg viewBox="0 0 130 110">
+   <path d="M30 18 h40 l-6 26 a14 14 0 0 1 -28 0 z" fill="#1d242f" stroke="#3fb6c4"/>
+   <rect x="44" y="46" width="6" height="40" fill="#e8edf4" opacity=".9"/>
+   <ellipse cx="47" cy="92" rx="26" ry="8" fill="#0e1117" stroke="#2a3340"/>
+   <path d="M24 90 q23 -14 46 0" fill="none" stroke="#46c08a" stroke-width="3"/>
+   <path d="M28 96 q19 -7 38 0" fill="none" stroke="#7a4a2a" stroke-width="3" opacity=".6"/>
+ </svg>`
+};
+
+let CUR=ZULF, SRS={state:"growing",reps:2,stab:6.1,diff:0.31,ease:2.5,due:"in 3 days"};
+
+function deck(){
+ document.getElementById("deck").innerHTML=ALL.map((w,i)=>`
+  <div class="chip ${w===CUR?'active':''}" onclick="pick(${i})">
+    <div class="dot ${w.mastery==='well-learned'?'well':w.mastery} ${w.depth?'depth':''}"></div>
+    <div class="r ar">${w.root}</div>
+    <div class="g">${w.core}</div>
+    <div class="ayahtag">39:${w.ayah}</div>
+  </div>`).join("");
+}
+function pick(i){CUR=ALL[i];
+ SRS=CUR.depth?{state:CUR.mastery,reps:CUR.mastery==='growing'?2:0,stab:CUR.mastery==='growing'?6.1:1.0,diff:0.3,ease:2.5,due:CUR.mastery==='growing'?'in 3 days':'now (new)'}
+              :{state:'new',reps:0,stab:1.0,diff:0.3,ease:2.5,due:'now (new)'};
+ deck();render();srs();}
+
+function memlet(ic,title,map,body){return `<div class="memlet"><div class="mh">
+  <div class="ic">${ic}</div><div class="t">${title}</div><div class="map">${map}</div></div>${body}</div>`;}
+
+function render(){
+ const w=CUR, c=document.getElementById("card");
+ let h=`<div class="cardhead">
+   <div class="big ar">${w.root}</div>
+   <div><div class="lat">${w.lat}</div>
+     <div class="core">${w.core}</div>
+     <div class="freq">root · ${w.freq?w.freq+' occurrences in Qurʾān':'Qurʾānic root'} · first seen 39:${w.ayah}</div></div></div>
+   <div class="badges">
+     <span class="badge ${w.depth?'depth':''}">${w.depth?'★ full depth — 9 Memlets':'core card — 4 Memlets'}</span>
+     <span class="badge">QR ↔ AL typed-ref</span>
+     <span class="badge">Passage 1 deck</span></div>`;
+
+ // 1 Definition
+ if(w.senses){
+   h+=memlet(ICON.def,"Definition Memlet","ar_ling_senses",
+     w.senses.map(s=>`<div class="sense"><div class="n">${s.n}</div><div>
+       <div class="ar" style="font-size:20px">${s.ar}</div>
+       <div class="en">${s.en}</div><div class="ref">QR ${s.ref}</div></div></div>`).join(""));
+ } else {
+   h+=memlet(ICON.def,"Definition Memlet","ar_ling_root_vocab.core_sense",
+     `<div class="en" style="font-size:14px;color:var(--ink)">${w.core}</div>`);
+ }
+
+ // 2 Word Sums (ṣarf)
+ if(w.sarf){
+   h+=memlet(ICON.sums,"Word Sums Memlet · ṣarf","form_paradigms + conjugation_templates",
+    `<div class="sarf">`+w.sarf.map(f=>`<div class="form"><div class="lab ar">${f.lab}</div>`+
+      f.rows.map(r=>`<div class="row"><span>${r[0]}</span><span class="ar">${r[1]}</span></div>`).join("")+`</div>`).join("")+`</div>`);
+ }
+
+ // 3 Context Relationship
+ if(w.context){
+   h+=memlet(ICON.ctx,"Context Relationship Memlet","qr_word_occurrences ↔ ar_ling_quran_links",
+    w.context.map(x=>`<div class="ayah"><div class="t ar">${AYAH[x.ref]||''}</div><div class="ref">QR ${x.label}</div></div>`).join("")
+    + (w.occ?`<div class="occ"><span style="font-size:11px;color:var(--dim)">also recurs:</span>`+w.occ.map(o=>`<b>${o}</b>`).join("")+`</div>`:''));
+ }
+
+ // 4 Constellation
+ if(w.syn){
+   h+=memlet(ICON.const,"Word Constellation Memlet","ar_ling_near_synonym_sets + sense_relations",
+    `<div class="constel">
+       <div class="star"><div class="lab">senses</div>`+w.senses.map(s=>`<span class="tok sense ar">${s.ar}</span>`).join("")+`</div>
+       <div class="star"><div class="lab">near-synonyms</div>`+w.syn.map(s=>`<span class="tok syn ar">${s}</span>`).join("")+`</div>
+       <div class="star"><div class="lab">antonyms</div>`+w.ant.map(s=>`<span class="tok ant ar">${s}</span>`).join("")+`</div>
+       <div class="src">↳ ${w.synsrc}</div></div>`);
+ }
+
+ // 5 Images
+ if(w.illus){
+   h+=memlet(ICON.img,"Images / Video Stories Memlet","ar_ling_vocab_illustrations",
+    `<div class="illus">${ILLUS[w.illus]}<div class="cap">${w.illusCap}</div></div>`);
+ }
+
+ // 6 Hooks
+ if(w.hooks){
+   h+=memlet(ICON.hook,"Hooks Memlet (mnemonic)","ar_ling_vocab_memory_hooks",
+    w.hooks.map(k=>`<div class="hook"><div class="k">${k.k}</div><div class="b">${k.b}</div></div>`).join(""));
+ } else {
+   h+=memlet(ICON.hook,"Hooks Memlet (mnemonic)","ar_ling_root_vocab.membean_hook",
+    `<div class="hook"><div class="k">sound</div><div class="b">${w.hook}</div></div>`);
+ }
+
+ // 7 Synonyms / verbal idiom
+ if(w.idiom){
+   h+=memlet(ICON.syn,"Verbal Idiom (Mir)","ar_ling_expressions",
+    `<div class="ayah"><div class="t ar">${w.idiom.ar}</div>
+       <div class="en" style="margin-top:4px">${w.idiom.en}</div>
+       <div class="src">↳ ${w.idiom.ref}</div></div>`);
+ }
+
+ // 8 Examples / retrieval
+ if(w.ex){
+   h+=memlet(ICON.ex,"Examples · Retrieval Memlet","ar_ling_vocab_exercises",
+    w.ex.map((e,ei)=>`<div class="ex"><div class="kind">${e.kind}</div><div class="q ar" style="direction:ltr">${e.q}</div>
+      <div class="opts">`+e.opts.map((o,oi)=>`<div class="opt ${oi===e.a?'right':''} ar" style="direction:rtl">${o}</div>`).join("")+`</div></div>`).join(""));
+ }
+
+ // Sinai note for depth words
+ if(w.depth){
+   h+=`<div class="memlet" style="opacity:.6"><div class="mh"><div class="ic">🗝️</div>
+     <div class="t">Sinai Key-Term Memlet</div><div class="map">ar_ling_root_scholarship · src_sinai_2023_keyterms</div></div>
+     <div class="en">Source registered, entries not yet ingested — shown empty rather than fabricated.</div></div>`;
+ }
+ c.innerHTML=h;
+}
+
+function srs(){
+ const col=Math.round((SRS.stab/14)*100);
+ const ang=Math.min(360,Math.round((SRS.reps/6)*360));
+ const ringcol=SRS.state==='well-learned'?'var(--green)':SRS.state==='growing'?'var(--amber)':'#55617a';
+ document.getElementById("srs").innerHTML=`
+  <h2>Spaced Repetition</h2>
+  <div class="ring">
+    <svg width="120" height="120" viewBox="0 0 120 120">
+      <circle cx="60" cy="60" r="50" fill="none" stroke="#222b36" stroke-width="10"/>
+      <circle cx="60" cy="60" r="50" fill="none" stroke="${ringcol}" stroke-width="10"
+        stroke-dasharray="${(ang/360)*314} 314" stroke-linecap="round" transform="rotate(-90 60 60)"/>
+      <text x="60" y="56" text-anchor="middle" fill="#e8edf4" font-size="26" class="ar">${CUR.root}</text>
+      <text x="60" y="76" text-anchor="middle" fill="#9aa7b8" font-size="11">${CUR.lat}</text>
+    </svg>
+    <div class="state" style="color:${ringcol}">${SRS.state.toUpperCase()}</div>
+    <div class="due">next review: ${SRS.due}</div>
+  </div>
+  <div class="stat"><span>card state</span><b>${SRS.reps===0?'new':'review'}</b></div>
+  <div class="stat"><span>reps / lapses</span><b>${SRS.reps} / 0</b></div>
+  <div class="stat"><span>stability (FSRS)</span><b>${SRS.stab.toFixed(1)} d</b></div>
+  <div class="stat"><span>difficulty</span><b>${SRS.diff.toFixed(2)}</b></div>
+  <div class="stat"><span>scope</span><b>root + ${CUR.senses?CUR.senses.length:0} senses</b></div>
+  <div class="rate">
+    <button class="rbtn rb-again" onclick="rate(0)">Again<small>~10 min</small></button>
+    <button class="rbtn rb-hard" onclick="rate(1)">Hard<small>~1 day</small></button>
+    <button class="rbtn rb-good" onclick="rate(2)">Good<small>~3 days</small></button>
+    <button class="rbtn rb-easy" onclick="rate(3)">Easy<small>~7 days</small></button>
+  </div>
+  <div class="legend">
+    <div><span class="b">writes →</span> ar_qr_vocab_reviews</div>
+    <div><span class="b">updates →</span> ar_qr_vocab_cards (FSRS)</div>
+    <div><span class="b">rolls up →</span> ar_qr_vocab_progress</div>
+  </div>
+  <div class="note">Surah-passage model: per user + workspace, organized 39 → passage 1.
+    “Allow some forgetting” — intervals stretch as stability grows.</div>`;
+}
+function rate(r){
+ const map=[{d:'in 10 min',s:Math.max(0.5,SRS.stab*0.4),l:1},{d:'in 1 day',s:SRS.stab*0.9,rep:1},
+            {d:'in 3 days',s:SRS.stab*1.6,rep:1},{d:'in 7 days',s:SRS.stab*2.4,rep:1}][r];
+ SRS.stab=map.s; if(map.rep)SRS.reps++; SRS.due=map.d;
+ SRS.state=SRS.reps>=3?'well-learned':SRS.reps>=1?'growing':'new';
+ CUR.mastery=SRS.state;
+ deck();srs();
+}
+deck();render();srs();
+</script>
+</body>
+</html>

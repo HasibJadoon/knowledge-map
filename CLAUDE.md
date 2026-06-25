@@ -209,6 +209,14 @@ npm run deploy:ionic
 wrangler deploy --config workers/backend/wrangler.toml
 ```
 
+## Qurʾān Vocabulary / Morphology Study Step
+
+For any work on the Surah → Passage → **Morphology** study step (vocabulary
+backbone, Membean-style Memlet word view, or the per-Surah **SRS decks** at
+`/srs` that feed Anki), read **`docs/quran-morphology-step-process.md`** first.
+It is the canonical process memory: key tables across QR/AL/AR, the card
+taxonomy, the Memlet→table mapping, the per-passage pipeline, and conventions.
+
 ## Current Priority
 
 The repo is now worker-first and database assets are organized. New backend work should target `workers/`. New data import work should target `database/ingestion/`, then emit outputs to `database/seeds/` or the correct worker/domain migration path depending on whether the result is seed data or schema/data migration.

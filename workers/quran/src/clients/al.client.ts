@@ -21,11 +21,31 @@ export interface MorphologyInfo {
   tags: string | null;
 }
 
+export interface ExpressionItem {
+  id: string;
+  ayah: number;
+  ar: string | null;
+  en: string | null;
+  type: string | null;
+}
+
 export class AlClient {
   constructor(private fetcher: Fetcher) {}
 
   getLemma(id: string): Promise<{ ok: true; data: LemmaInfo }> {
     return callService(this.fetcher, `/al/lemmas/${encodeURIComponent(id)}`);
+  }
+
+  /** Table-sourced expressions for a passage's surah:ayah range. */
+  getExpressionsByQuran(
+    surah: number,
+    from: number,
+    to: number,
+  ): Promise<{ ok: true; data: ExpressionItem[] }> {
+    return callService(
+      this.fetcher,
+      `/al/expressions/by-quran/${surah}?from=${from}&to=${to}`,
+    );
   }
 
   getMorphology(id: string): Promise<{ ok: true; data: MorphologyInfo }> {
