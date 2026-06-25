@@ -111,6 +111,17 @@
           @if (sel.kind === 'sentence') {
             <p class="ssm-muted">Select a clause or word to inspect its grammar. The full analysis is in the panels below.</p>
           }
+
+          <!-- Authored constituency node (no clause/word data): show text + role -->
+          @if (sel.kind !== 'sentence' && !sel.word && !sel.clause) {
+            <h4 class="ssm-word" dir="rtl">{{ sel.title }}</h4>
+            @if (sel.subtitle) {
+              <div class="ssm-word__meta">
+                <span class="ssm-pill" [style.borderColor]="sel.color" dir="rtl">{{ sel.subtitle }}</span>
+              </div>
+            }
+            <p class="ssm-muted">Grammatical constituent — see the grammarian details and tafsīr below for the full per-book analysis.</p>
+          }
         </section>
       }
 

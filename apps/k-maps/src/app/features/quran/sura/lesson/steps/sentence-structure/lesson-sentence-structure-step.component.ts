@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { StudyLessonResponse } from '../../../../../../shared/services/quran/quran-surah.service';
 import { SentenceStructureMiroComponent }
@@ -28,7 +29,11 @@ import { SentenceStructureMiroComponent }
 export class LessonSentenceStructureStepComponent {
   @Input({ required: true }) lesson!: StudyLessonResponse;
 
-  onOpenLexicon(_e: { root: string; word: string }): void {
-    // Hook for the Five-Lens lexicon cross-reference (root → lexicon).
+  private readonly router = inject(Router);
+
+  /** Five-Lens lexicon cross-reference: open the root in the lexicon book reader. */
+  onOpenLexicon(e: { root: string; word: string }): void {
+    if (!e.root) return;
+    this.router.navigate(['/lexicon/books/lane_lexicon'], { queryParams: { root: e.root } });
   }
 }
