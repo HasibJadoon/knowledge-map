@@ -434,6 +434,7 @@ export interface StudyLessonResponse {
   vocabulary: { nouns: StudyWordVm[]; verbs: StudyWordVm[] };
   expressions: StudyExpressionVm[];
   sentenceStructure?: SsStepData | null;
+  passageStructure?: PassageSectionVm[] | null;
   tasks: UnitTaskVm[];
 }
 
@@ -443,6 +444,24 @@ export interface StudySentenceStructureResponse {
   passageNo: number;
   unit: StudyUnitVm;
   sentenceStructure: SsStepData;
+}
+
+/** One passage-structure analysis card (renderer + its editorial body). */
+export interface PassageSectionVm {
+  key: string | null;
+  title: string | null;
+  badge: string | null;
+  tone: string | null;
+  renderer: string;
+  data: unknown;
+}
+
+export interface StudyPassageStructureResponse {
+  ok: boolean;
+  surahId: number;
+  passageNo: number;
+  unit: StudyUnitVm;
+  passageStructure: PassageSectionVm[];
 }
 
 export interface StudyTaskCommitResponse {
@@ -883,16 +902,38 @@ export class QuranSurahService {
       );
   }
 
-  getStudyPassageStructure(surahId: number, passageNo: number): Observable<StudyTaskResponse> {
-    return this.getStudyLesson(surahId, passageNo).pipe(
-      map((lesson) => ({
-        ok: true,
-        surahId,
-        passageNo,
-        unit: lesson.unit,
-        task: this.findTask(lesson.tasks, 'passage_structure'),
-      })),
-    );
+  getStudyPassageStructure(surahId: number, passageNo: number): Observable<StudyPassageStructureResponse> {
+    // Lazy, table-sourced: hits the per-step passage-structure endpoint, which
+    // reads the authored analysis cards from qr_passage_sections (one row per
+    // renderer card) — not task_json. Lean payload: { ayahFrom, ayahTo, sections }.
+    return this.api
+      .getData<{
+        surah?: number;
+        passage?: number;
+        ayahFrom?: number;
+        ayahTo?: number;
+        sections?: PassageSectionVm[];
+      }>('qr', ['study', 'surahs', surahId, 'passages', passageNo, 'steps', 'passage_structure'])
+      .pipe(
+        map((data) => {
+          const ayahFrom = Number(data.ayahFrom ?? 0);
+          const ayahTo = Number(data.ayahTo ?? ayahFrom);
+          return {
+            ok: true,
+            surahId,
+            passageNo,
+            unit: {
+              unit_id: `U:C:QURAN:${surahId}:${ayahFrom}-${ayahTo}`,
+              order_index: passageNo,
+              ayah_from: ayahFrom,
+              ayah_to: ayahTo,
+              start_ref: `${surahId}:${ayahFrom}`,
+              end_ref: `${surahId}:${ayahTo}`,
+            },
+            passageStructure: (data.sections ?? []).filter((s) => !!s && !!s.renderer),
+          };
+        }),
+      );
   }
 
   getStudyTasks(surahId: number, passageNo: number): Observable<StudyTasksResponse> {

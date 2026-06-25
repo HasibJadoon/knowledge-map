@@ -525,6 +525,46 @@ export class StudyRepo {
   }
 
   /**
+   * Passage-structure step — table-sourced (no task_json). Reads the authored
+   * analysis cards from qr_passage_sections (one row per renderer card), parsing
+   * each card's renderer-specific body. Lean payload: the section list the deck
+   * UI renders directly.
+   */
+  async passageStructureStep(surahId: number, passageNo: number) {
+    const passages = await this._passages(surahId);
+    const p = passages.find((x) => x.passage_no === passageNo);
+    if (!p) return null;
+
+    const rows = await query<{
+      section_key: string | null; title: string | null; badge: string | null;
+      tone: string | null; renderer: string; data_json: string | null; sort_order: number;
+    }>(
+      this.db,
+      `SELECT section_key, title, badge, tone, renderer, data_json, sort_order
+       FROM qr_passage_sections
+       WHERE passage_id = ? AND status = 'active'
+       ORDER BY sort_order, section_key`,
+      [p.id],
+    ).catch(() => []);
+
+    return {
+      step:     'passage_structure',
+      surah:    surahId,
+      passage:  passageNo,
+      ayahFrom: p.ayah_from,
+      ayahTo:   p.ayah_to,
+      sections: rows.map((r) => ({
+        key:      r.section_key,
+        title:    r.title,
+        badge:    r.badge,
+        tone:     r.tone,
+        renderer: r.renderer,
+        data:     parseJson(r.data_json),
+      })),
+    };
+  }
+
+  /**
    * Sentence-structure step — fully grounded, table-sourced (no task_json).
    *
    * Fuses every available analytical layer for the passage, per sentence:
@@ -893,6 +933,7 @@ export class StudyRepo {
       case 'comprehension': return this.comprehensionStep(surahId, passageNo);
       case 'expressions':   return this.expressionsStep(surahId, passageNo, al);
       case 'sentence_structure': return this.sentenceStructureStep(surahId, passageNo);
+      case 'passage_structure':  return this.passageStructureStep(surahId, passageNo);
       default: {
         const task = await this.taskByStepType(surahId, passageNo, stepType);
         if (task === null) return null;
