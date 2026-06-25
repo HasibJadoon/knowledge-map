@@ -385,6 +385,8 @@ export interface SsConstituencyNodeVm {
   label_ar?: string;
   note?: string;
   word_id?: string;
+  /** This role audited against the classical iʿrāb books for the ayah. */
+  audit?: { status: 'corroborated' | 'divergent' | 'unverified'; books: { book: string; role: string }[] };
   children?: SsConstituencyNodeVm[];
 }
 
