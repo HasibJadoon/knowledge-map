@@ -22,6 +22,7 @@ import { scholarshipRoutes }  from './routes/scholarship';
 import { expressionRoutes } from './routes/expressions';
 import { nearSynonymRoutes } from './routes/near_synonyms';
 import { sourceRagRoutes } from './routes/source_rag';
+import { wordAnalysisRoutes } from './routes/word_analysis';
 
 const router = new Router<ArLinguisticsEnv>();
 
@@ -45,6 +46,7 @@ scholarshipRoutes(router);
 expressionRoutes(router);
 nearSynonymRoutes(router);
 sourceRagRoutes(router);
+wordAnalysisRoutes(router);
 
 export default {
   fetch: (request: Request, env: ArLinguisticsEnv) => router.handle(request, env),

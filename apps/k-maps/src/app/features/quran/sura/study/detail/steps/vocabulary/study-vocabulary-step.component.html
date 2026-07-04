@@ -1,65 +1,53 @@
-<div class="vocab-tab">
+<div class="vocab-tab" dir="rtl">
 
-  @if (hasVocabularySplit()) {
-    <div class="vocab-toggle">
-      <button class="toggle-btn" [class.toggle-btn--active]="showNouns()" (click)="showNouns.set(true)">
-        Nouns <span class="badge">{{ nouns().length }}</span>
-      </button>
-      <button class="toggle-btn" [class.toggle-btn--active]="!showNouns()" (click)="showNouns.set(false)">
-        Verbs <span class="badge">{{ verbs().length }}</span>
-      </button>
-    </div>
-  } @else if (splitPending()) {
-    <div class="vocab-status">
-      Morphology data is still pending from the study API for this passage.
-    </div>
+  @if (loading()) {
+    <div class="v-status">…جارٍ بناء تحليل الصرف والمفردات</div>
+  } @else if (error()) {
+    <div class="v-status v-status--err">{{ error() }}</div>
+  } @else if (words().length === 0) {
+    <div class="v-status">لا توجد بيانات صرفية لهذا المقطع.</div>
   } @else {
-    <div class="vocab-status">
-      No morphology data is available for this passage.
-    </div>
-  }
 
-  @if (hasVocabularySplit() && showNouns()) {
-    <div class="word-grid">
-      @for (word of nouns(); track word.word_id) {
-        <div class="word-card">
-          <span class="word-card__ar">{{ word.word }}</span>
-          @if (word.translation) {
-            <span class="word-card__trans">{{ word.translation }}</span>
-          }
-          @if (word.root) {
-            <span class="word-card__root">Root: <span class="word-card__root-value">{{ word.root }}</span></span>
-          }
-          @if (word.gloss) {
-            <span class="word-card__gloss">{{ word.gloss }}</span>
-          }
-          <span class="word-card__ref">{{ lesson.surahId }}:{{ word.ayah }}</span>
-        </div>
-      }
-      @if (nouns().length === 0) {
-        <p class="empty">No nouns found for this passage.</p>
-      }
+    <!-- filter / counts -->
+    <div class="v-toolbar">
+      <button class="v-fbtn" [class.on]="filter() === 'all'" (click)="setFilter('all')">
+        الكل <span class="badge">{{ counts().all }}</span>
+      </button>
+      <button class="v-fbtn" [class.on]="filter() === 'noun'" (click)="setFilter('noun')">
+        الأسماء <span class="badge">{{ counts().noun }}</span>
+      </button>
+      <button class="v-fbtn" [class.on]="filter() === 'verb'" (click)="setFilter('verb')">
+        الأفعال <span class="badge">{{ counts().verb }}</span>
+      </button>
+      <span class="v-hint">اضغط أيّ كلمة لفتح تحليلها الكامل ✦</span>
     </div>
-  } @else if (hasVocabularySplit()) {
-    <div class="word-grid">
-      @for (word of verbs(); track word.word_id) {
-        <div class="word-card word-card--verb">
-          <span class="word-card__ar">{{ word.word }}</span>
-          @if (word.translation) {
-            <span class="word-card__trans">{{ word.translation }}</span>
+
+    <!-- word grid, grouped by ayah -->
+    @for (g of groups(); track g.ayah) {
+      <div class="v-ayah">
+        <span class="v-aref">{{ lesson.surahId }}:{{ g.ayah }}</span>
+        <div class="v-words">
+          @for (w of g.words; track w.word_id) {
+            <button class="wchip" [class.wchip--verb]="w.group === 'verb'"
+                    [style.--chip]="chipColor(w)" (click)="open(w)">
+              <span class="wchip__ar">{{ w.surface_ar }}</span>
+              @if (w.irab?.term?.label_ar) {
+                <span class="wchip__role">{{ w.irab!.term!.label_ar }}</span>
+              } @else if (w.qac.pos_ar) {
+                <span class="wchip__role">{{ w.qac.pos_ar }}</span>
+              }
+            </button>
           }
-          @if (word.root) {
-            <span class="word-card__root">Root: <span class="word-card__root-value">{{ word.root }}</span></span>
-          }
-          @if (word.morphology?.verb_form) {
-            <span class="word-card__morph">{{ word.morphology!.verb_form }}</span>
-          }
-          <span class="word-card__ref">{{ lesson.surahId }}:{{ word.ayah }}</span>
         </div>
-      }
-      @if (verbs().length === 0) {
-        <p class="empty">No verbs found for this passage.</p>
-      }
-    </div>
+      </div>
+    }
   }
 </div>
+
+@if (selected(); as w) {
+  <km-study-word-modal
+    [word]="w"
+    [surahId]="lesson.surahId"
+    (closed)="onClosed()"
+    (graded)="onGraded($event)" />
+}

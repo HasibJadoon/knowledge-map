@@ -7,8 +7,73 @@
 //         qr_surahs, qr_translations, qr_translation_sources
 
 import { query } from '../../../shared/src/db';
+import { parseQacMorphology, posGroup, QacMorphology } from '../lib/qac-morph';
 
 // ─── types ─────────────────────────────────────────────────────────────────────
+
+export interface TermRef { key: string; label_ar: string | null; color: string | null; }
+
+export interface WordSegment {
+  index: number;
+  text: string;
+  type: string | null;
+  term: TermRef | null;
+}
+
+export interface WordIrab {
+  position: string | null;
+  position_ar: string | null;
+  sign: string | null;
+  sign_ar: string | null;
+  syntactic_function: string | null;
+  is_disputed: boolean;
+  dispute_note: string | null;
+  sources: string[];
+  term: TermRef | null;
+}
+
+export interface WordCard {
+  word_id: string;
+  sml_id: string | null;
+  surah: number;
+  ayah: number;
+  word_index: number;
+  surface_ar: string;
+  surface_bare: string | null;
+  lemma_ar: string | null;
+  root: string | null;
+  pos: string | null;
+  group: 'noun' | 'verb' | 'other';
+  qac: QacMorphology;
+  irab: WordIrab | null;
+  segments: WordSegment[];
+  lemma_stats: { total_occurrences: number; lx_lemma_ref: string | null } | null;
+}
+
+export interface PassageMorphology {
+  surah: number;
+  passage_no: number;
+  ayah_from: number;
+  ayah_to: number;
+  label: string | null;
+  words: WordCard[];
+  roots: string[];
+}
+
+interface WordOccRow {
+  id: string; surah: number; ayah: number; word_index: number;
+  word_text: string; word_text_bare: string | null;
+  root: string | null; lemma: string | null; pos: string | null;
+  morphology_tag_json: string | null;
+}
+interface SmlRow {
+  id: string; scope_id: string; lx_morph_ref: string | null;
+  irab_position: string | null; irab_sign: string | null; syntactic_function: string | null;
+  is_disputed: number | null; dispute_note: string | null; note_md: string | null;
+}
+interface SegRow {
+  word_occurrence_id: string; segment_index: number; segment_text: string; segment_type: string | null;
+}
 
 type JsonRecord = Record<string, unknown>;
 
@@ -65,6 +130,34 @@ function asNum(v: unknown): number | null {
 
 function asRec(v: unknown): JsonRecord | null {
   return v && typeof v === 'object' && !Array.isArray(v) ? (v as JsonRecord) : null;
+}
+
+// iʿrāb position / sign Arabic labels (values seen in qr_ss_scope_morph_link)
+const IRAB_POS_AR: Record<string, string> = {
+  rafa: 'رفع', raf: 'رفع', nasb: 'نصب', jarr: 'جرّ', jarr_qasam: 'جرّ', jazm: 'جزم',
+  mabni: 'مبنيّ', mabni_mahall: 'مبنيّ في محلّ',
+};
+const IRAB_SIGN_AR: Record<string, string> = {
+  damma: 'ضمّة', fatha: 'فتحة', kasra: 'كسرة', sukun: 'سكون', ya: 'الياء', waw: 'الواو',
+  alif: 'الألف', thubut_nun: 'ثبوت النون', hadhf_nun: 'حذف النون', muqaddara: 'مقدّرة',
+};
+
+/** lx_morph_ref "AL:nahw:naat" / "AL:sarf:x" → term_key "naat". */
+function stripTermPrefix(ref: string | null): string | null {
+  if (!ref) return null;
+  return ref.replace(/^AL:(nahw|sarf):/i, '');
+}
+
+function termOf(map: Map<string, TermRef>, key: string | null): TermRef | null {
+  if (!key) return null;
+  return map.get(key) ?? null;
+}
+
+/** parse note_md {"sources":[...]} into a string[] */
+function sourcesFromNote(note: string | null): string[] {
+  const rec = asRec(parseJson(note));
+  const arr = rec && Array.isArray(rec['sources']) ? rec['sources'] : [];
+  return arr.filter((s): s is string => typeof s === 'string');
 }
 
 // Task sort order: explicit display_order wins; fall back to known step type order.
@@ -202,6 +295,178 @@ export class StudyRepo {
     return tasks.find(t => t.task_type === stepType) ?? undefined;
   }
 
+  // ── Morphology / vocabulary (from the relational tables) ────────────────────
+
+  /**
+   * Full per-word morphology for a passage, built from qr_word_occurrences (QAC)
+   * + qr_ss_scope_morph_link (iʿrāb) × qr_ss_term (labels) + qr_ss_occ_segment.
+   * Every word emits a card, so this works for any surah (SML/segments fill in
+   * where present). Returns the distinct root list for AL enrichment.
+   */
+  async passageMorphology(surahId: number, passageNo: number): Promise<PassageMorphology | null> {
+    const passages = await this._passages(surahId);
+    const passage = passages.find(p => p.passage_no === passageNo);
+    if (!passage) return null;
+
+    const cards = await this._buildWordCards(surahId, passage.ayah_from, passage.ayah_to);
+    const roots = [...new Set(cards.map(c => c.root).filter((r): r is string => !!r))];
+
+    return {
+      surah: surahId,
+      passage_no: passage.passage_no,
+      ayah_from: passage.ayah_from,
+      ayah_to: passage.ayah_to,
+      label: passage.title ?? null,
+      words: cards,
+      roots,
+    };
+  }
+
+  /** Single word card by word-occurrence id (word-hash) — for the detail modal. */
+  async wordById(wordId: string): Promise<WordCard | null> {
+    const rows = await query<WordOccRow>(
+      this.db,
+      `SELECT id, surah, ayah, word_index, word_text, word_text_bare, root, lemma, pos, morphology_tag_json
+       FROM qr_word_occurrences WHERE id = ?`,
+      [wordId],
+    ).catch(() => []);
+    if (!rows.length) return null;
+    const cards = await this._buildWordCards(rows[0].surah, rows[0].ayah, rows[0].ayah, wordId);
+    return cards.find(c => c.word_id === wordId) ?? cards[0] ?? null;
+  }
+
+  /** Ayah text + default translation for the modal's context line. */
+  async ayahContext(surah: number, ayah: number): Promise<{ ayah: number; text: string | null; translation: string | null }> {
+    const [a] = await query<{ text: string | null }>(
+      this.db,
+      `SELECT COALESCE(text_uthmani_clean, text_uthmani, text_bare, text) AS text
+       FROM qr_ayah WHERE surah = ? AND ayah = ? LIMIT 1`,
+      [surah, ayah],
+    ).catch(() => [] as { text: string | null }[]);
+    const [t] = await query<{ text: string | null }>(
+      this.db,
+      `SELECT tr.translation_text AS text
+       FROM qr_translations tr JOIN qr_translation_sources ts ON ts.id = tr.source_id
+       WHERE ts.is_default = 1 AND tr.surah = ? AND tr.ayah = ? LIMIT 1`,
+      [surah, ayah],
+    ).catch(() => [] as { text: string | null }[]);
+    return { ayah, text: a?.text ?? null, translation: t?.text ?? null };
+  }
+
+  /** Tafsīr snippets covering a single ayah (for the word modal). */
+  async tafsirForAyah(surah: number, ayah: number): Promise<{ scholar_id: string; snippet: string }[]> {
+    const rows = await query<{ scholar_id: string; content_ar: string | null }>(
+      this.db,
+      `SELECT scholar_id, substr(content_ar, 1, 600) AS content_ar
+       FROM qr_tafsir_entries
+       WHERE surah = ? AND ayah_from <= ? AND ayah_to >= ?
+       ORDER BY scholar_id`,
+      [surah, ayah, ayah],
+    ).catch(() => []);
+    return rows
+      .filter(r => !!r.content_ar)
+      .map(r => ({ scholar_id: r.scholar_id, snippet: (r.content_ar ?? '').trim() }));
+  }
+
+  private async _buildWordCards(
+    surahId: number,
+    ayahFrom: number,
+    ayahTo: number,
+    onlyWordId?: string,
+  ): Promise<WordCard[]> {
+    const [words, terms, sml, segs, lemmas] = await Promise.all([
+      query<WordOccRow>(
+        this.db,
+        `SELECT id, surah, ayah, word_index, word_text, word_text_bare, root, lemma, pos, morphology_tag_json
+         FROM qr_word_occurrences
+         WHERE surah = ? AND ayah BETWEEN ? AND ?
+         ORDER BY ayah, word_index`,
+        [surahId, ayahFrom, ayahTo],
+      ).catch(() => [] as WordOccRow[]),
+      query<{ term_key: string; label_ar: string | null; color: string | null }>(
+        this.db,
+        `SELECT term_key, label_ar, color FROM qr_ss_term`,
+      ).catch(() => []),
+      query<SmlRow>(
+        this.db,
+        `SELECT id, scope_id, lx_morph_ref, irab_position, irab_sign, syntactic_function,
+                is_disputed, dispute_note, note_md
+         FROM qr_ss_scope_morph_link WHERE id LIKE ?`,
+        [`QR:SML:${surahId}:%`],
+      ).catch(() => []),
+      query<SegRow>(
+        this.db,
+        `SELECT word_occurrence_id, segment_index, segment_text, segment_type
+         FROM qr_ss_occ_segment
+         WHERE surah = ? AND ayah BETWEEN ? AND ?
+         ORDER BY word_occurrence_id, segment_index`,
+        [surahId, ayahFrom, ayahTo],
+      ).catch(() => []),
+      query<{ word_occurrence_id: string; total_occurrences: number; lx_lemma_ref: string | null }>(
+        this.db,
+        `SELECT lo.word_occurrence_id, l.total_occurrences, l.lx_lemma_ref
+         FROM qr_lemma_occurrences lo JOIN qr_lemmas l ON l.id = lo.lemma_id
+         WHERE lo.surah = ? AND lo.ayah BETWEEN ? AND ?`,
+        [surahId, ayahFrom, ayahTo],
+      ).catch(() => []),
+    ]);
+
+    const termMap = new Map<string, TermRef>(
+      terms.map(t => [t.term_key, { key: t.term_key, label_ar: t.label_ar, color: t.color }]),
+    );
+    const smlByScope = new Map<string, SmlRow>(sml.map(r => [r.scope_id, r]));
+    const segsByWord = new Map<string, SegRow[]>();
+    for (const s of segs) {
+      if (!segsByWord.has(s.word_occurrence_id)) segsByWord.set(s.word_occurrence_id, []);
+      segsByWord.get(s.word_occurrence_id)!.push(s);
+    }
+    const lemmaByWord = new Map(lemmas.map(l => [l.word_occurrence_id, l]));
+
+    const source = onlyWordId ? words.filter(w => w.id === onlyWordId) : words;
+
+    return source.map((w): WordCard => {
+      const qac = parseQacMorphology(w.morphology_tag_json);
+      const smlRow = smlByScope.get(w.id) ?? null;
+      const irab: WordIrab | null = smlRow
+        ? {
+            position: smlRow.irab_position,
+            position_ar: smlRow.irab_position ? (IRAB_POS_AR[smlRow.irab_position] ?? null) : null,
+            sign: smlRow.irab_sign,
+            sign_ar: smlRow.irab_sign ? (IRAB_SIGN_AR[smlRow.irab_sign] ?? null) : null,
+            syntactic_function: smlRow.syntactic_function,
+            is_disputed: !!smlRow.is_disputed,
+            dispute_note: smlRow.dispute_note,
+            sources: sourcesFromNote(smlRow.note_md),
+            term: termOf(termMap, stripTermPrefix(smlRow.lx_morph_ref) ?? smlRow.syntactic_function),
+          }
+        : null;
+      const segments: WordSegment[] = (segsByWord.get(w.id) ?? []).map(s => ({
+        index: Number(s.segment_index),
+        text: s.segment_text,
+        type: s.segment_type,
+        term: termOf(termMap, s.segment_type),
+      }));
+      const ls = lemmaByWord.get(w.id);
+      return {
+        word_id: w.id,
+        sml_id: smlRow?.id ?? null,
+        surah: Number(w.surah),
+        ayah: Number(w.ayah),
+        word_index: Number(w.word_index),
+        surface_ar: w.word_text,
+        surface_bare: w.word_text_bare,
+        lemma_ar: w.lemma,
+        root: w.root,
+        pos: w.pos,
+        group: posGroup(w.pos),
+        qac,
+        irab,
+        segments,
+        lemma_stats: ls ? { total_occurrences: Number(ls.total_occurrences), lx_lemma_ref: ls.lx_lemma_ref } : null,
+      };
+    });
+  }
+
   // ── Private SQL methods ─────────────────────────────────────────────────────
 
   private async _passages(surahId: number): Promise<PassageRow[]> {
@@ -313,13 +578,13 @@ export class StudyRepo {
               pos
        FROM qr_word_occurrences
        WHERE surah = ? AND ayah BETWEEN ? AND ?
-         AND LOWER(COALESCE(pos, '')) IN ('noun', 'verb')
        ORDER BY ayah, word_index`,
       [passage.surah_id, passage.ayah_from, passage.ayah_to],
     );
+    // pos is QAC (N/V/PN/ADJ) or lowercase (noun/verb) in curated rows — map both.
     return {
-      nouns: rows.filter(w => w.pos?.toLowerCase() === 'noun'),
-      verbs: rows.filter(w => w.pos?.toLowerCase() === 'verb'),
+      nouns: rows.filter(w => posGroup(w.pos) === 'noun'),
+      verbs: rows.filter(w => posGroup(w.pos) === 'verb'),
     };
   }
 
@@ -342,9 +607,9 @@ export class StudyRepo {
       for (const w of words) {
         if (w.ayah < p.ayah_from || w.ayah > p.ayah_to) continue;
         counts.total++;
-        const pos = w.pos?.toLowerCase();
-        if (pos === 'noun') counts.nouns++;
-        if (pos === 'verb') counts.verbs++;
+        const g = posGroup(w.pos);
+        if (g === 'noun') counts.nouns++;
+        if (g === 'verb') counts.verbs++;
       }
       out.set(p.id, counts);
     }

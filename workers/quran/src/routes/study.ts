@@ -19,6 +19,7 @@ import {
   vocabularyFromMorphology,
   expressionsFromTasks,
 } from '../repositories/study.repo';
+import { createAlClient } from '../clients/al.client';
 
 function parseSurahPassage(
   surahId: string,
@@ -99,6 +100,47 @@ export function studyRoutes(router: Router<QuranEnv>) {
       return ok(vocabularyFromMorphology(tasks));
     },
   );
+
+  // ── Morphology (API 1) — every word in the passage as a built card ───────────
+  // Basic + aesthetic vocab list: surface, lemma, root, pos, QAC sarf, iʿrāb
+  // colour-chip, segments. Built from the relational tables; works for any surah.
+
+  router.get(
+    '/qr/study/surahs/:surahId/passages/:passageNo/morphology',
+    async (_req, env, { surahId, passageNo }) => {
+      const sp = parseSurahPassage(surahId, passageNo);
+      if (!sp) return badRequest('Invalid surahId or passageNo');
+      const data = await new StudyRepo(env.DB_QR).passageMorphology(sp.s, sp.p);
+      return data ? ok(data) : notFound(`passage ${sp.s}:${sp.p}`);
+    },
+  );
+
+  // ── Word detail (API 2) — the deep modal for one clicked word ────────────────
+  // Occurrence card + tafsīr for its ayah + the AL root analysis (5 lenses, hook,
+  // senses, constellation, illustration). AL is best-effort — never blocks.
+
+  router.get('/qr/study/words/:wordId', async (_req, env, { wordId }) => {
+    if (!wordId) return badRequest('wordId is required');
+    const repo = new StudyRepo(env.DB_QR);
+    const word = await repo.wordById(wordId);
+    if (!word) return notFound(`word ${wordId}`);
+
+    const [ayah, tafsir] = await Promise.all([
+      repo.ayahContext(word.surah, word.ayah),
+      repo.tafsirForAyah(word.surah, word.ayah),
+    ]);
+
+    let root_analysis: unknown = null;
+    const al = createAlClient(env);
+    if (al && word.root) {
+      try {
+        const res = await al.getWordAnalysis([word.root]);
+        root_analysis = res?.data?.[word.root] ?? null;
+      } catch { root_analysis = null; }
+    }
+
+    return ok({ word, ayah, tafsir, root_analysis });
+  });
 
   // ── Expressions ───────────────────────────────────────────────────────────────
 

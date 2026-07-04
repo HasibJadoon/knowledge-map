@@ -34,15 +34,43 @@ export class QuranSurahsComponent implements OnInit, AfterViewInit {
   viewMode = signal<'grid' | 'list'>('grid');
 
   filteredSurahs = computed(() => {
-    const q = this.searchQuery().toLowerCase().trim();
     const t = this.typeFilter();
+
+    // Split the query into whitespace-separated tokens so any combination
+    // works — "yusuf 12", "the opening 1", "an nas", "الفاتحة", "114".
+    const tokens = this.searchQuery()
+      .trim()
+      .split(/\s+/)
+      .filter((tok) => tok.length > 0);
+
     return this.quranState.surahs().filter((s) => {
-      const matchesSearch =
-        !q ||
-        s.transliteratedName.toLowerCase().includes(q) ||
-        s.arabicName.includes(q);
-      const matchesType = t === 'all' || s.revelationType === t;
-      return matchesSearch && matchesType;
+      if (tokens.length > 0) {
+        // Pre-normalize each searchable field once per surah.
+        const name = normalizeLatin(s.transliteratedName);
+        const eng = normalizeLatin(s.englishName ?? '');
+        const slug = normalizeLatin(s.slug ?? '');
+        const ar = normalizeArabic(s.arabicName ?? '');
+        const num = String(s.surahNumber);
+
+        // Every token must match at least one field (AND across tokens,
+        // OR across fields) so mixed queries narrow the results.
+        const matchesSearch = tokens.every((tok) => {
+          const latin = normalizeLatin(tok);
+          const arabic = normalizeArabic(tok);
+          return (
+            (latin.length > 0 &&
+              (name.includes(latin) ||
+                eng.includes(latin) ||
+                slug.includes(latin))) ||
+            (arabic.length > 0 && ar.includes(arabic)) ||
+            num === tok ||
+            num.includes(tok)
+          );
+        });
+        if (!matchesSearch) return false;
+      }
+
+      return t === 'all' || s.revelationType === t;
     });
   });
 
@@ -78,4 +106,27 @@ export class QuranSurahsComponent implements OnInit, AfterViewInit {
   back(): void {
     this.router.navigate(['/quran']);
   }
+}
+
+/** Lowercase and strip Latin accents/diacritics for forgiving name matching. */
+function normalizeLatin(value: string): string {
+  return value
+    .normalize('NFD')
+    .replace(/[̀-ͯ]/g, '')
+    .toLowerCase()
+    .trim();
+}
+
+/**
+ * Normalize Arabic so a query matches regardless of harakat or letter
+ * variants: strip tashkeel/tatweel, unify alef forms, taa marbuta and
+ * alef maqsura. Lets "الفاتحه" or an undiacritized query hit "الفاتِحة".
+ */
+function normalizeArabic(value: string): string {
+  return value
+    .replace(/[ً-ْٰـ]/g, '') // tashkeel, dagger alef, tatweel
+    .replace(/[آأإٱ]/g, 'ا') // آأإٱ → ا
+    .replace(/ة/g, 'ه') // ة → ه
+    .replace(/ى/g, 'ي') // ى → ي
+    .trim();
 }

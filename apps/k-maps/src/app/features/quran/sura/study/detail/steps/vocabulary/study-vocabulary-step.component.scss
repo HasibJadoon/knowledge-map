@@ -1,7 +1,52 @@
 .vocab-tab {
   display: flex;
   flex-direction: column;
-  gap: 1.4rem;
+  gap: 1.1rem;
+  --v-gold:#c9a84c; --v-gold-2:#e0c56e; --v-edge:#2b2b38; --v-panel:#1b1b25;
+  --v-ink:#ece7d8; --v-muted:#948f80; --v-ar:"SF Arabic","Geeza Pro","Noto Naskh Arabic",serif;
+}
+
+.v-status {
+  text-align: center; color: var(--v-muted); font-size: .9rem; padding: 2rem 1rem;
+  &--err { color: #e0645f; }
+}
+
+.v-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem;
+}
+.v-fbtn {
+  font: inherit; font-family: var(--v-ar); font-size: .95rem; cursor: pointer;
+  padding: .3rem .8rem; border-radius: 999px; border: 1px solid var(--v-edge);
+  background: var(--v-panel); color: var(--v-muted);
+  .badge { font-size: .7rem; margin-inline-start: .35rem; color: var(--v-gold-2); }
+  &.on { border-color: var(--v-gold); color: var(--v-gold-2); background: rgba(201,168,76,.09); }
+}
+.v-hint { margin-inline-start: auto; font-size: .72rem; color: var(--v-muted); font-family: var(--v-ar); }
+
+.v-ayah {
+  display: flex; gap: .7rem; align-items: flex-start;
+  padding-block: .4rem; border-top: 1px dashed var(--v-edge);
+  &:first-of-type { border-top: 0; }
+}
+.v-aref {
+  flex: none; font-family: ui-monospace, monospace; font-size: .7rem;
+  color: var(--v-gold); padding-top: .5rem; min-width: 3.2rem;
+}
+.v-words { display: flex; flex-wrap: wrap; gap: .5rem; }
+
+.wchip {
+  --chip: #93b8d6;
+  font: inherit; cursor: pointer; text-align: center;
+  display: inline-flex; flex-direction: column; gap: .1rem;
+  padding: .4rem .8rem; border-radius: .7rem;
+  border: 1px solid color-mix(in srgb, var(--chip) 45%, var(--v-edge));
+  background: color-mix(in srgb, var(--chip) 8%, var(--v-panel));
+  transition: transform .16s ease, border-color .16s ease, box-shadow .16s ease;
+  &__ar { font-family: var(--v-ar); font-size: 1.35rem; color: var(--v-ink); line-height: 1.2; }
+  &__role { font-family: var(--v-ar); font-size: .68rem; color: color-mix(in srgb, var(--chip) 80%, #fff); }
+  &:hover { transform: translateY(-2px); border-color: var(--chip);
+    box-shadow: 0 10px 22px -12px color-mix(in srgb, var(--chip) 60%, #000); }
+  &:focus-visible { outline: 2px solid var(--v-gold-2); outline-offset: 2px; }
 }
 
 .vocab-toggle {
