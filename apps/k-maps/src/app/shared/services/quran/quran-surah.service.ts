@@ -478,6 +478,77 @@ export interface StudyVocabularyResponse {
 
 export type StudyMorphologyResponse = StudyVocabularyResponse;
 
+// ─── Word Backbone 360 — API shapes (built server-side; consumed verbatim) ─────
+
+export interface TermRefVm { key: string; label_ar: string | null; color: string | null; }
+
+export interface QacVm {
+  pos: string | null; pos_ar: string | null; pos_en: string | null;
+  case: string | null; case_ar: string | null;
+  state: string | null; state_ar: string | null;
+  gender: string | null; gender_ar: string | null;
+  number: string | null; number_ar: string | null;
+  person: string | null;
+  aspect: string | null; aspect_ar: string | null;
+  voice: string | null; voice_ar: string | null;
+  form: string | null; lemma_ar: string | null; root_ar: string | null;
+  prefixes: { form_ar: string | null; label_ar: string | null }[];
+  stem: { form_ar: string | null; label_ar: string | null } | null;
+  suffixes: { form_ar: string | null; label_ar: string | null }[];
+  raw: string | null;
+}
+
+export interface WordIrabVm {
+  position: string | null; position_ar: string | null;
+  sign: string | null; sign_ar: string | null;
+  syntactic_function: string | null;
+  is_disputed: boolean; dispute_note: string | null; sources: string[];
+  term: TermRefVm | null;
+}
+
+export interface WordSegmentVm { index: number; text: string; type: string | null; term: TermRefVm | null; }
+
+export interface WordCardVm {
+  word_id: string; sml_id: string | null;
+  surah: number; ayah: number; word_index: number;
+  surface_ar: string; surface_bare: string | null;
+  lemma_ar: string | null; root: string | null; pos: string | null;
+  group: 'noun' | 'verb' | 'other';
+  qac: QacVm;
+  irab: WordIrabVm | null;
+  segments: WordSegmentVm[];
+  lemma_stats: { total_occurrences: number; lx_lemma_ref: string | null } | null;
+}
+
+export interface PassageMorphologyResponse {
+  surah: number; passage_no: number; ayah_from: number; ayah_to: number;
+  label: string | null; words: WordCardVm[]; roots: string[];
+}
+
+export interface FiveLensVm { sarf: string | null; irab: string | null; dalala: string | null; balagha: string | null; tarjama: string | null; }
+export interface LensEntryVm { source: string; heading: string | null; text: string; page: number | null; }
+
+export interface RootAnalysisVm {
+  root: string; root_letters: string | null; root_type: string | null; weak_pattern: string | null;
+  frequency_quran: number | null; meaning_core_ar: string | null; meaning_core_en: string | null;
+  hook: string | null; senses: string[]; examples: string[];
+  near_synonyms: unknown[];
+  antonyms: { ar: string; en: string | null; root: string | null }[];
+  five_lens: FiveLensVm | null;
+  lenses: { maqayis: LensEntryVm | null; mufradat: LensEntryVm | null; lane: LensEntryVm | null; sinai: LensEntryVm | null; others: LensEntryVm[] };
+  gems: unknown[];
+  illustration: { title: string | null; caption_md: string | null; palette: string | null; svg_inline: string | null } | null;
+  diagram: { kind: string | null; spec_json: unknown; renderer_key: string | null } | null;
+  coverage: Record<string, boolean>;
+}
+
+export interface WordDetailResponse {
+  word: WordCardVm;
+  ayah: { ayah: number; text: string | null; translation: string | null };
+  tafsir: { scholar_id: string; snippet: string }[];
+  root_analysis: RootAnalysisVm | null;
+}
+
 export interface StudyExpressionsResponse {
   ok: boolean;
   surahId: number;
@@ -798,6 +869,19 @@ export class QuranSurahService {
 
   getStudyVocabulary(surahId: number, passageNo: number): Observable<StudyVocabularyResponse> {
     return this.getStudyMorphology(surahId, passageNo);
+  }
+
+  /** API 1 — every word in the passage as a built morphology card. */
+  getPassageMorphology(surahId: number, passageNo: number): Observable<PassageMorphologyResponse> {
+    return this.api.getData<PassageMorphologyResponse>(
+      'qr',
+      ['study', 'surahs', surahId, 'passages', passageNo, 'morphology'],
+    );
+  }
+
+  /** API 2 — the deep word backbone for the modal (occurrence + tafsīr + root). */
+  getWordDetail(wordId: string): Observable<WordDetailResponse> {
+    return this.api.getData<WordDetailResponse>('qr', ['study', 'words', wordId]);
   }
 
   getStudyExpressions(surahId: number, passageNo: number): Observable<StudyExpressionsResponse> {

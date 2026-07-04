@@ -87,3 +87,35 @@ CREATE TABLE st_sessions (
 );
 CREATE INDEX idx_st_sessions_code ON st_sessions(room_code);
 CREATE INDEX idx_st_sessions_episode ON st_sessions(episode_ref, status);
+
+CREATE TABLE st_capture_sessions (
+  id             TEXT PRIMARY KEY,
+  episode_ref    TEXT NOT NULL,                         -- the episode being recorded
+  core_user_ref  TEXT NOT NULL,                         -- the operator
+  concept        TEXT NOT NULL DEFAULT 'talking_head',  -- talking_head|continuity|log_only
+  started_at     TEXT,
+  ended_at       TEXT,
+  sync_marker_tc TEXT,                                  -- clapper / sync timecode
+  device_json    TEXT,                                  -- camera / device metadata
+  created_at     TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (episode_ref) REFERENCES st_episodes(id)
+);
+CREATE INDEX idx_st_capture_sessions_episode ON st_capture_sessions(episode_ref);
+
+CREATE TABLE st_capture_markers (
+  id           TEXT PRIMARY KEY,
+  session_ref  TEXT NOT NULL,                       -- owning capture session
+  point_ref    TEXT NOT NULL,                       -- the talking point this take covers
+  section_ref  TEXT,                                -- denormalised section, for grouping
+  take_number  INTEGER NOT NULL DEFAULT 1,
+  start_tc     TEXT,
+  end_tc       TEXT,
+  status       TEXT NOT NULL DEFAULT 'good',        -- good|redo|skip
+  note         TEXT,
+  clip_ref     TEXT,                                -- external clip / file reference
+  seq          INTEGER NOT NULL DEFAULT 0,
+  created_at   TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (session_ref) REFERENCES st_capture_sessions(id),
+  FOREIGN KEY (point_ref) REFERENCES st_talking_points(id)
+);
+CREATE INDEX idx_st_capture_markers_session ON st_capture_markers(session_ref, seq);

@@ -1,224 +1,112 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, effect, inject, signal } from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input,
+  OnChanges, SimpleChanges, computed, inject, signal,
+} from '@angular/core';
 import gsap from 'gsap';
-import { StudyLessonResponse, StudyWordVm, UnitTaskVm } from '../../../../../../../shared/services/quran/quran-surah.service';
+import {
+  QuranSurahService, StudyLessonResponse, WordCardVm,
+} from '../../../../../../../shared/services/quran/quran-surah.service';
+import { StudyWordModalComponent } from './study-word-modal.component';
 
-type JsonRecord = Record<string, unknown>;
+interface AyahGroup { ayah: number; words: WordCardVm[]; }
 
+/**
+ * Morphology / vocabulary step — the passage word grid.
+ * Renders every word from the built morphology API (API 1); clicking a word
+ * opens the deep Word Backbone 360 modal (API 2). No UI-side normalization.
+ */
 @Component({
   selector: 'km-study-vocabulary-step',
   standalone: true,
+  imports: [StudyWordModalComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './study-vocabulary-step.component.html',
   styleUrl: './study-vocabulary-step.component.scss',
 })
-export class StudyVocabularyStepComponent {
+export class StudyVocabularyStepComponent implements OnChanges, AfterViewInit {
+  private readonly svc = inject(QuranSurahService);
   private readonly elRef = inject(ElementRef<HTMLElement>);
-  private viewReady = false;
-  private hoverCleanup: Array<() => void> = [];
 
   @Input({ required: true }) lesson!: StudyLessonResponse;
-  showNouns = signal(true);
 
-  constructor() {
-    effect(() => {
-      this.showNouns();
-      if (!this.viewReady) return;
-      queueMicrotask(() => this.animateCards());
-    });
+  readonly words = signal<WordCardVm[]>([]);
+  readonly loading = signal(true);
+  readonly error = signal<string | null>(null);
+  readonly filter = signal<'all' | 'noun' | 'verb'>('all');
+  readonly selected = signal<WordCardVm | null>(null);
+
+  private loadedKey = '';
+  private viewReady = false;
+
+  readonly groups = computed<AyahGroup[]>(() => {
+    const f = this.filter();
+    const map = new Map<number, WordCardVm[]>();
+    for (const w of this.words()) {
+      if (f !== 'all' && w.group !== f) continue;
+      if (!map.has(w.ayah)) map.set(w.ayah, []);
+      map.get(w.ayah)!.push(w);
+    }
+    return [...map.entries()].sort((a, b) => a[0] - b[0]).map(([ayah, words]) => ({ ayah, words }));
+  });
+
+  readonly counts = computed(() => {
+    const w = this.words();
+    return {
+      all: w.length,
+      noun: w.filter(x => x.group === 'noun').length,
+      verb: w.filter(x => x.group === 'verb').length,
+    };
+  });
+
+  ngOnChanges(ch: SimpleChanges): void {
+    if (ch['lesson'] && this.lesson) this.load();
   }
 
   ngAfterViewInit(): void {
     this.viewReady = true;
-    queueMicrotask(() => this.animateCards());
+    queueMicrotask(() => this.animateChips());
   }
 
-  ngOnDestroy(): void {
-    this.clearHoverHandlers();
-  }
-
-  nouns(): StudyWordVm[] {
-    if (this.lesson.vocabulary.nouns.length > 0) return this.lesson.vocabulary.nouns;
-    return this.fallbackMorphology().nouns;
-  }
-
-  verbs(): StudyWordVm[] {
-    if (this.lesson.vocabulary.verbs.length > 0) return this.lesson.vocabulary.verbs;
-    return this.fallbackMorphology().verbs;
-  }
-
-  hasVocabularySplit(): boolean {
-    return this.nouns().length > 0 || this.verbs().length > 0;
-  }
-
-  splitPending(): boolean {
-    return !this.hasVocabularySplit() && !!this.lesson.unit?.text_cache?.trim();
-  }
-
-  private fallbackMorphology(): { nouns: StudyWordVm[]; verbs: StudyWordVm[] } {
-    const morphologyTask = this.lesson.tasks.find((task) => task.task_type === 'morphology');
-    if (!morphologyTask) return { nouns: [], verbs: [] };
-
-    const payloads = [
-      this.parseJsonLike(morphologyTask.task_json),
-      ...((morphologyTask.children ?? []).map((child) => this.parseJsonLike(child.task_json))),
-    ];
-
-    const items = payloads.flatMap((payload) => this.extractItems(payload));
-    const nouns = items
-      .filter((item) => this.normalizePos(item['pos']) === 'noun')
-      .map((item) => this.toWord(item, 'noun'));
-    const verbs = items
-      .filter((item) => this.normalizePos(item['pos']) === 'verb')
-      .map((item) => this.toWord(item, 'verb'));
-
-    return { nouns, verbs };
-  }
-
-  private extractItems(raw: unknown): JsonRecord[] {
-    const payload = this.asRecord(raw);
-    if (!payload) return [];
-
-    const items = this.asRecordArray(payload['items']);
-    if (items.length > 0) return items;
-
-    const lexiconMorphology = this.asRecordArray(payload['lexicon_morphology']);
-    return lexiconMorphology;
-  }
-
-  private toWord(raw: JsonRecord, pos: 'noun' | 'verb'): StudyWordVm {
-    const translation = this.asRecord(raw['translation']);
-    const morphology = this.asRecord(raw['morphology']);
-    const morphFeatures = this.asRecord(raw['morph_features']);
-    const morphologyFeatures = this.asRecord(morphology?.['morph_features']);
-    const surfaceAnalysis = this.asRecord(morphFeatures?.['surface_analysis']) ?? this.asRecord(morphologyFeatures?.['surface_analysis']);
-
-    return {
-      word_id: this.asString(raw['ar_token_occ_id'])
-        ?? this.asString(raw['word_location'])
-        ?? `${this.asNumber(raw['ayah']) ?? 0}:${this.asNumber(raw['token_index']) ?? 0}:${pos}`,
-      ayah: this.asNumber(raw['ayah']) ?? 0,
-      position: this.asNumber(raw['token_index']) ?? 0,
-      word: this.asString(raw['surface_ar']) ?? this.asString(raw['lemma_ar']) ?? '',
-      simple: this.asString(raw['surface_norm']) ?? undefined,
-      translation: this.asString(translation?.['primary']) ?? undefined,
-      lemma: this.asString(raw['lemma_ar']) ?? undefined,
-      root: this.asString(raw['root_norm']) ?? undefined,
-      gloss: this.asString(translation?.['primary']) ?? this.firstString(raw['meanings']) ?? undefined,
-      meanings: this.firstString(raw['meanings']) ?? undefined,
-      verb_form: this.asString(morphFeatures?.['form_number']) ?? this.asString(morphologyFeatures?.['form_number']) ?? undefined,
-      pattern: this.asString(raw['morph_pattern']) ?? undefined,
-      transitivity: this.asString(morphFeatures?.['transitivity']) ?? this.asString(morphologyFeatures?.['transitivity']) ?? undefined,
-      morphology: {
-        verb_form: this.asString(morphFeatures?.['form_number']) ?? this.asString(morphologyFeatures?.['form_number']) ?? undefined,
-        derived_pattern: this.asString(raw['morph_pattern']) ?? undefined,
-        noun_number: this.asString(surfaceAnalysis?.['number']) ?? this.asString(morphFeatures?.['number_base']) ?? this.asString(morphologyFeatures?.['number_base']) ?? undefined,
-        transitivity: this.asString(morphFeatures?.['transitivity']) ?? this.asString(morphologyFeatures?.['transitivity']) ?? undefined,
+  private load(): void {
+    const key = `${this.lesson.surahId}:${this.lesson.passageNo}`;
+    if (key === this.loadedKey) return;
+    this.loadedKey = key;
+    this.loading.set(true);
+    this.error.set(null);
+    this.svc.getPassageMorphology(this.lesson.surahId, this.lesson.passageNo).subscribe({
+      next: res => {
+        this.words.set(res.words ?? []);
+        this.loading.set(false);
+        queueMicrotask(() => this.animateChips());
       },
-    };
-  }
-
-  private parseJsonLike(raw: unknown): unknown {
-    if (typeof raw !== 'string') return raw;
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return null;
-    }
-  }
-
-  private asRecord(value: unknown): JsonRecord | null {
-    return value && typeof value === 'object' && !Array.isArray(value) ? (value as JsonRecord) : null;
-  }
-
-  private asRecordArray(value: unknown): JsonRecord[] {
-    return Array.isArray(value)
-      ? value.filter((entry): entry is JsonRecord => !!entry && typeof entry === 'object' && !Array.isArray(entry))
-      : [];
-  }
-
-  private asString(value: unknown): string | null {
-    return typeof value === 'string' && value.trim() ? value.trim() : null;
-  }
-
-  private asNumber(value: unknown): number | null {
-    return typeof value === 'number' && Number.isFinite(value) ? value : null;
-  }
-
-  private firstString(value: unknown): string | null {
-    if (!Array.isArray(value)) return null;
-    const first = value.find((entry) => typeof entry === 'string' && entry.trim());
-    return typeof first === 'string' ? first.trim() : null;
-  }
-
-  private normalizePos(value: unknown): 'noun' | 'verb' | null {
-    const pos = this.asString(value)?.toLowerCase();
-    if (pos === 'noun' || pos === 'verb') return pos;
-    return null;
-  }
-
-  private animateCards(): void {
-    const host = this.elRef.nativeElement;
-    const cards = Array.from(host.querySelectorAll('.word-card')).filter(
-      (card): card is HTMLElement => card instanceof HTMLElement,
-    );
-    const toggleNode = host.querySelector('.vocab-toggle');
-    const toggle = toggleNode instanceof HTMLElement ? toggleNode : null;
-
-    this.clearHoverHandlers();
-    gsap.killTweensOf(cards);
-    if (toggle) {
-      gsap.killTweensOf(toggle);
-      gsap.fromTo(toggle, { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.28, ease: 'power2.out' });
-    }
-    if (!cards.length) return;
-
-    gsap.set(cards, { opacity: 0, y: 18, scale: 0.985, rotateX: -6, transformOrigin: '50% 100%' });
-    gsap.to(cards, {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      rotateX: 0,
-      duration: 0.42,
-      ease: 'power3.out',
-      stagger: 0.05,
-      clearProps: 'transform',
-    });
-
-    cards.forEach((card) => {
-      const enter = () => {
-        gsap.to(card, {
-          y: -6,
-          scale: 1.015,
-          boxShadow: '0 18px 38px rgba(0, 0, 0, 0.28)',
-          borderColor: card.classList.contains('word-card--verb')
-            ? 'rgba(77, 217, 168, 0.38)'
-            : 'rgba(201, 168, 76, 0.34)',
-          duration: 0.22,
-          ease: 'power2.out',
-        });
-      };
-      const leave = () => {
-        gsap.to(card, {
-          y: 0,
-          scale: 1,
-          boxShadow: '0 0 0 rgba(0, 0, 0, 0)',
-          borderColor: 'var(--km-border)',
-          duration: 0.24,
-          ease: 'power2.out',
-        });
-      };
-
-      card.addEventListener('pointerenter', enter);
-      card.addEventListener('pointerleave', leave);
-      this.hoverCleanup.push(() => {
-        card.removeEventListener('pointerenter', enter);
-        card.removeEventListener('pointerleave', leave);
-      });
+      error: () => {
+        this.error.set('تعذّر تحميل تحليل الكلمات لهذا المقطع.');
+        this.loading.set(false);
+      },
     });
   }
 
-  private clearHoverHandlers(): void {
-    this.hoverCleanup.forEach((dispose) => dispose());
-    this.hoverCleanup = [];
+  private animateChips(): void {
+    if (!this.viewReady) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const chips = this.elRef.nativeElement.querySelectorAll('.wchip');
+    if (chips.length) {
+      gsap.fromTo(chips, { opacity: 0, y: 12, scale: 0.96 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.34, stagger: 0.012, ease: 'power3.out', clearProps: 'transform' });
+    }
+  }
+
+  setFilter(f: 'all' | 'noun' | 'verb'): void {
+    this.filter.set(f);
+    queueMicrotask(() => this.animateChips());
+  }
+
+  open(w: WordCardVm): void { this.selected.set(w); }
+  onClosed(): void { this.selected.set(null); }
+  onGraded(_ev: { wordId: string; grade: string }): void { /* P2: write ar_ling_vocab_srs via API */ }
+
+  chipColor(w: WordCardVm): string {
+    return w.irab?.term?.color
+      || (w.group === 'verb' ? '#d8a35d' : w.group === 'noun' ? '#93b8d6' : '#6b6759');
   }
 }

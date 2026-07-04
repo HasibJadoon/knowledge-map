@@ -11,6 +11,7 @@ import type { StudioEnv } from './env';
 import { templateRoutes } from './routes/templates';
 import { episodeRoutes } from './routes/episodes';
 import { sessionRoutes } from './routes/sessions';
+import { captureRoutes } from './routes/capture';
 
 const router = new Router<StudioEnv>();
 
@@ -21,6 +22,7 @@ router.get('/health', async (_req, env) =>
 templateRoutes(router);   // GET /st/templates, GET/POST /st/templates(/:id)
 episodeRoutes(router);    // /st/episodes + participants / sections / points
 sessionRoutes(router);    // /st/sessions — live synced sessions (Durable Object)
+captureRoutes(router);    // /st/captures + /st/markers — talking-point capture log
 
 export default {
   fetch: (request: Request, env: StudioEnv) => router.handle(request, env),

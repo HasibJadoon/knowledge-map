@@ -58,6 +58,14 @@ export class AlClient {
       `/al/lemmas?root=${encodeURIComponent(rootText)}`,
     );
   }
+
+  /** Deep root layer for the word modal — batched by root_norm. */
+  getWordAnalysis(roots: string[]): Promise<{ ok: true; data: Record<string, unknown> }> {
+    return callService(
+      this.fetcher,
+      `/al/word-analysis?roots=${encodeURIComponent(roots.join(','))}`,
+    );
+  }
 }
 
 /** Create an AlClient from a QuranEnv, or return null if binding is absent. */
