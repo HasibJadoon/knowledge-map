@@ -6,7 +6,7 @@ import gsap from 'gsap';
 import {
   QuranSurahService, StudyLessonResponse, WordCardVm,
 } from '../../../../../../../shared/services/quran/quran-surah.service';
-import { StudyWordModalComponent } from './study-word-modal.component';
+import { MorphWordModalComponent } from './morph-word-modal.component';
 
 interface AyahGroup { ayah: number; words: WordCardVm[]; }
 
@@ -18,7 +18,7 @@ interface AyahGroup { ayah: number; words: WordCardVm[]; }
 @Component({
   selector: 'km-study-vocabulary-step',
   standalone: true,
-  imports: [StudyWordModalComponent],
+  imports: [MorphWordModalComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './study-vocabulary-step.component.html',
   styleUrl: './study-vocabulary-step.component.scss',

@@ -49,7 +49,9 @@
         <div class="pb">
           <div class="featgrid">
             @if (word.qac.pos_ar) { <div class="feat"><u>نوع · pos</u><b class="ar">{{ word.qac.pos_ar }}</b></div> }
-            @if (word.qac.form) { <div class="feat"><u>وزن · form</u><b>{{ word.qac.form }}</b></div> }
+            @if (word.qac.derived_ar) { <div class="feat"><u>اشتقاق · type</u><b class="ar">{{ word.qac.derived_ar }}</b></div> }
+            @if (word.qac.wazn_ar) { <div class="feat"><u>وزن · wazn</u><b class="ar">{{ word.qac.wazn_ar }}</b></div> }
+            @if (word.qac.form) { <div class="feat"><u>باب · form</u><b>{{ word.qac.form }}</b></div> }
             @if (word.qac.aspect_ar) { <div class="feat"><u>زمن · aspect</u><b class="ar">{{ word.qac.aspect_ar }}</b></div> }
             @if (word.qac.voice_ar) { <div class="feat"><u>بناء · voice</u><b class="ar">{{ word.qac.voice_ar }}</b></div> }
             @if (word.qac.gender_ar) { <div class="feat"><u>جنس · gender</u><b class="ar">{{ word.qac.gender_ar }}</b></div> }
@@ -108,6 +110,11 @@
                 @if (a.meaning_core_ar) { <span class="ar">{{ a.meaning_core_ar }}</span> }
                 @if (a.meaning_core_en) { <span class="core-en"> — {{ a.meaning_core_en }}</span> }
               </p>
+            }
+            @if (a.family && a.family.length) {
+              <div class="senses on-reveal">
+                @for (f of a.family; track f.lemma_ar) { <span class="sense ar">{{ f.lemma_ar }}</span> }
+              </div>
             }
             @if (a.hook) {
               <div class="hook on-reveal">

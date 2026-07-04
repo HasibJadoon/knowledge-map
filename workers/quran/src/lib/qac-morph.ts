@@ -32,6 +32,10 @@ export interface QacMorphology {
   aspect_ar: string | null;     // ماضٍ / مضارع / أمر
   voice: string | null;         // active | passive
   voice_ar: string | null;      // معلوم / مبني للمجهول
+  derived: string | null;       // active_participle | passive_participle | verbal_noun
+  derived_ar: string | null;    // اسم فاعل / اسم مفعول / مصدر
+  derived_en: string | null;    // active participle / passive participle / verbal noun
+  wazn_ar: string | null;       // مُفْعِل / فَاعِل / أَفْعَلَ … (pattern for the form+derivation)
   form: string | null;          // I..XII (verb form / وزن)
   lemma_ar: string | null;
   root_ar: string | null;
@@ -89,6 +93,21 @@ const SEG_ROLE_AR: Record<string, string> = {
 
 const ROMAN = ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'];
 
+// Participle / verb patterns (أوزان) per verb form. Sound-root shapes; weak roots
+// still read correctly as the abstract pattern (مُبِين ← مُفْعِل من أبان).
+const WAZN_ACT_PCPL: Record<string, string> = {
+  I: 'فَاعِل', II: 'مُفَعِّل', III: 'مُفَاعِل', IV: 'مُفْعِل', V: 'مُتَفَعِّل',
+  VI: 'مُتَفَاعِل', VII: 'مُنْفَعِل', VIII: 'مُفْتَعِل', IX: 'مُفْعَلّ', X: 'مُسْتَفْعِل',
+};
+const WAZN_PASS_PCPL: Record<string, string> = {
+  I: 'مَفْعُول', II: 'مُفَعَّل', III: 'مُفَاعَل', IV: 'مُفْعَل', V: 'مُتَفَعَّل',
+  VI: 'مُتَفَاعَل', VII: 'مُنْفَعَل', VIII: 'مُفْتَعَل', X: 'مُسْتَفْعَل',
+};
+const WAZN_VERB: Record<string, string> = {
+  I: 'فَعَلَ', II: 'فَعَّلَ', III: 'فَاعَلَ', IV: 'أَفْعَلَ', V: 'تَفَعَّلَ',
+  VI: 'تَفَاعَلَ', VII: 'اِنْفَعَلَ', VIII: 'اِفْتَعَلَ', IX: 'اِفْعَلَّ', X: 'اِسْتَفْعَلَ',
+};
+
 // ── core ──────────────────────────────────────────────────────────────────────
 
 /** Parse the flags array of the STEM segment into structured features. */
@@ -103,6 +122,8 @@ function readFlags(flags: string[]): Partial<QacMorphology> {
     if (f === 'PERF' || f === 'IMPF' || f === 'IMPV') { out.aspect = ASPECT_EN[f]; out.aspect_ar = ASPECT_AR[f]; continue; }
     if (f === 'PASS') { out.voice = 'passive'; out.voice_ar = 'مبني للمجهول'; continue; }
     if (f === 'ACT') { out.voice = 'active'; out.voice_ar = 'معلوم'; continue; }
+    if (f === 'PCPL') { out.derived = 'participle'; continue; }
+    if (f === 'VN') { out.derived = 'verbal_noun'; continue; }
 
     // Verb form: "(IV)", "(X)"…
     const form = /^\(([IVX]+)\)$/.exec(f);
@@ -144,9 +165,34 @@ function readSegment(seg: Rec): QacSegment {
 const EMPTY: QacMorphology = {
   pos: null, pos_ar: null, pos_en: null, case: null, case_ar: null, state: null, state_ar: null,
   gender: null, gender_ar: null, number: null, number_ar: null, person: null,
-  aspect: null, aspect_ar: null, voice: null, voice_ar: null, form: null,
+  aspect: null, aspect_ar: null, voice: null, voice_ar: null,
+  derived: null, derived_ar: null, derived_en: null, wazn_ar: null, form: null,
   lemma_ar: null, root_ar: null, prefixes: [], stem: null, suffixes: [], raw: null,
 };
+
+/**
+ * Resolve the derivation type + wazn once all flags are read.
+ * QAC marks participles as ACT|PCPL / PASS|PCPL — for a participle the ACT/PASS
+ * token is part of the derivation, not a verbal voice, so voice is folded in.
+ */
+function finishDerivation(feats: Partial<QacMorphology>): void {
+  const form = feats.form ?? 'I';
+  if (feats.derived === 'participle') {
+    const passive = feats.voice === 'passive';
+    feats.derived = passive ? 'passive_participle' : 'active_participle';
+    feats.derived_ar = passive ? 'اسم مفعول' : 'اسم فاعل';
+    feats.derived_en = passive ? 'passive participle' : 'active participle';
+    feats.wazn_ar = (passive ? WAZN_PASS_PCPL : WAZN_ACT_PCPL)[form] ?? null;
+    feats.voice = null; feats.voice_ar = null;
+    return;
+  }
+  if (feats.derived === 'verbal_noun') {
+    feats.derived_ar = 'مصدر';
+    feats.derived_en = 'verbal noun';
+    return;
+  }
+  if (feats.aspect && feats.form) feats.wazn_ar = WAZN_VERB[feats.form] ?? null;
+}
 
 /** Parse a qr_word_occurrences.morphology_tag_json value into a sarf card. */
 export function parseQacMorphology(json: unknown): QacMorphology {
@@ -156,6 +202,7 @@ export function parseQacMorphology(json: unknown): QacMorphology {
   const stem = asObj(obj['stem']) ?? {};
   const flags = asArr(stem['flags']).filter((x): x is string => typeof x === 'string');
   const feats = readFlags(flags);
+  finishDerivation(feats);
   const pos = asStr(stem['pos']) ?? asStr(stem['tag']);
 
   const segRecs = asArr(obj['segments']).map(asObj).filter((s): s is Rec => !!s).map(readSegment);

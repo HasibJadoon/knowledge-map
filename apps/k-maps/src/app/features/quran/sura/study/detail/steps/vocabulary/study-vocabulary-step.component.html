@@ -45,9 +45,10 @@
 </div>
 
 @if (selected(); as w) {
-  <km-study-word-modal
-    [word]="w"
-    [surahId]="lesson.surahId"
-    (closed)="onClosed()"
-    (graded)="onGraded($event)" />
+  <km-morph-word-modal
+    [surah]="w.surah"
+    [ayah]="w.ayah"
+    [wordIndex]="w.word_index"
+    [surfacePreview]="w.surface_ar"
+    (closed)="onClosed()" />
 }

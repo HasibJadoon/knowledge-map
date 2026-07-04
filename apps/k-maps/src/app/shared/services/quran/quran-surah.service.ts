@@ -491,6 +491,8 @@ export interface QacVm {
   person: string | null;
   aspect: string | null; aspect_ar: string | null;
   voice: string | null; voice_ar: string | null;
+  derived: string | null; derived_ar: string | null; derived_en: string | null;
+  wazn_ar: string | null;
   form: string | null; lemma_ar: string | null; root_ar: string | null;
   prefixes: { form_ar: string | null; label_ar: string | null }[];
   stem: { form_ar: string | null; label_ar: string | null } | null;
@@ -534,6 +536,7 @@ export interface RootAnalysisVm {
   hook: string | null; senses: string[]; examples: string[];
   near_synonyms: unknown[];
   antonyms: { ar: string; en: string | null; root: string | null }[];
+  family: { lemma_ar: string; pos: string | null; verb_form: string | null; is_quran_word: boolean }[];
   five_lens: FiveLensVm | null;
   lenses: { maqayis: LensEntryVm | null; mufradat: LensEntryVm | null; lane: LensEntryVm | null; sinai: LensEntryVm | null; others: LensEntryVm[] };
   gems: unknown[];
@@ -547,6 +550,39 @@ export interface WordDetailResponse {
   ayah: { ayah: number; text: string | null; translation: string | null };
   tafsir: { scholar_id: string; snippet: string }[];
   root_analysis: RootAnalysisVm | null;
+}
+
+// ── Morphology display layer (trilingual, tier-merged word view) ───────────────
+
+export type Lang = 'en' | 'ar' | 'ur';
+export interface Tri { ar: string | null; en: string | null; ur: string | null; }
+
+export interface MorphWordVm {
+  id: string; surah: number; ayah: number; word_index: number; ayah_key: string | null;
+  surface_ar: string; surface_bare: string | null; lemma_ar: string | null;
+  root_ar: string | null; root_display: string | null; group: 'noun' | 'verb' | string;
+  pos: Tri; gloss: Tri;
+  sarf: { derived_ar: string | null; derived_en: string | null; derived_ur: string | null;
+          wazn_ar: string | null; form_roman: string | null; features: unknown };
+  badge_color: string | null; is_anchor: boolean;
+  importance: number; difficulty: number | null; frequency_quran: number | null;
+}
+export interface MorphBlockVm {
+  type: string; subtype: string | null; tier: 'occurrence' | 'ayah' | 'root' | string; order: number;
+  title: Tri; text: Tri; data: any;
+  source_slug: string | null; source_ref: string | null; source_page: string | null;
+  is_synthesis: boolean; register: string | null;
+}
+export interface MorphSourceVm {
+  kind: string; title_ar: string | null; title_en: string | null;
+  author_ar: string | null; author_en: string | null; author_ur: string | null;
+  death_h: number | null; register: string | null;
+  badge_color: string | null; badge_glyph: string | null; order: number;
+}
+export interface MorphWordView {
+  word: MorphWordVm;
+  blocks: MorphBlockVm[];
+  sources: Record<string, MorphSourceVm>;
 }
 
 export interface StudyExpressionsResponse {
@@ -882,6 +918,11 @@ export class QuranSurahService {
   /** API 2 — the deep word backbone for the modal (occurrence + tafsīr + root). */
   getWordDetail(wordId: string): Observable<WordDetailResponse> {
     return this.api.getData<WordDetailResponse>('qr', ['study', 'words', wordId]);
+  }
+
+  /** Morphology display layer — the trilingual, tier-merged WORD view (blocks). */
+  getMorphWord(surah: number, ayah: number, wordIndex: number): Observable<MorphWordView> {
+    return this.api.getData<MorphWordView>('qr', ['study', 'morph', 'word', surah, ayah, wordIndex]);
   }
 
   getStudyExpressions(surahId: number, passageNo: number): Observable<StudyExpressionsResponse> {

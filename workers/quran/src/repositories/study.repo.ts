@@ -1057,7 +1057,7 @@ export class StudyRepo {
   async tafsirForAyah(surah: number, ayah: number): Promise<{ scholar_id: string; snippet: string }[]> {
     const rows = await query<{ scholar_id: string; content_ar: string | null }>(
       this.db,
-      `SELECT scholar_id, substr(content_ar, 1, 600) AS content_ar
+      `SELECT scholar_id, substr(content_ar, 1, 300) AS content_ar
        FROM qr_tafsir_entries
        WHERE surah = ? AND ayah_from <= ? AND ayah_to >= ?
        ORDER BY scholar_id`,

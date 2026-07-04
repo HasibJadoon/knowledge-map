@@ -20,6 +20,7 @@ import {
   vocabularyFromMorphology,
   expressionsFromTasks,
 } from '../repositories/study.repo';
+import { MorphDisplayRepo } from '../repositories/morph-display.repo';
 import { createAlClient } from '../clients/al.client';
 
 function parseSurahPassage(
@@ -112,6 +113,26 @@ export function studyRoutes(router: Router<QuranEnv>) {
       if (!sp) return badRequest('Invalid surahId or passageNo');
       const data = await new StudyRepo(env.DB_QR).passageMorphology(sp.s, sp.p);
       return data ? ok(data) : notFound(`passage ${sp.s}:${sp.p}`);
+    },
+  );
+
+  // ── Morphology display layer — the WORD view straight from qr_morph_display_* ─
+  // Render-ready, trilingual, tier-merged blocks. The morphology step's grid and
+  // deep word modal both bind to these with zero UI logic.
+
+  router.get('/qr/study/morph/grid/:surahId', async (_req, env, { surahId }) => {
+    const s = parseIntParam(surahId);
+    if (!s) return badRequest('Invalid surahId');
+    return ok(await new MorphDisplayRepo(env.DB_QR).grid(s));
+  });
+
+  router.get(
+    '/qr/study/morph/word/:surahId/:ayahNo/:wordIndex',
+    async (_req, env, { surahId, ayahNo, wordIndex }) => {
+      const s = parseIntParam(surahId), a = parseIntParam(ayahNo), w = parseIntParam(wordIndex);
+      if (!s || !a || w == null) return badRequest('Invalid surah/ayah/wordIndex');
+      const data = await new MorphDisplayRepo(env.DB_QR).wordView(s, a, w);
+      return data ? ok(data) : notFound(`morph word ${s}:${a}:${w}`);
     },
   );
 

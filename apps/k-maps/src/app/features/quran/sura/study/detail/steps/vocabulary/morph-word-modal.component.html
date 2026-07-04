@@ -1,0 +1,202 @@
+<div class="mscrim" #scrim (click)="onScrim($event)">
+  <div class="msheet" #sheet dir="rtl" role="dialog" aria-modal="true" aria-label="تحليل الكلمة">
+
+    <!-- ── HERO ─────────────────────────────────────────────────────────── -->
+    <header class="mhero">
+      <div class="mhero__bg" aria-hidden="true"></div>
+
+      <button class="mhero__close" (click)="close()" aria-label="إغلاق">✕</button>
+
+      <div class="mhero__lang" role="tablist" aria-label="لغة الفهم">
+        @for (l of langs; track l.key) {
+          <button class="mlang" [class.on]="lang() === l.key" (click)="setLang(l.key)">{{ l.label }}</button>
+        }
+      </div>
+
+      @if (word(); as w) {
+        <div class="mhero__word">{{ w.surface_ar }}</div>
+        <div class="mhero__meta">
+          @if (w.lemma_ar) { <span class="mchip lemma">{{ w.lemma_ar }}</span> }
+          @if (w.sarf.derived_ar) { <span class="mchip pos">{{ w.sarf.derived_ar }}</span> }
+          @if (w.root_display) { <span class="mchip root">{{ w.root_display }}</span> }
+          <span class="mchip ref">{{ w.surah }}:{{ w.ayah }}</span>
+          @if (w.frequency_quran) { <span class="mchip freq">{{ arNum(w.frequency_quran) }}× في القرآن</span> }
+          @if (w.is_anchor) { <span class="mchip anchor">كلمة الجذر المِحوريّة ✦</span> }
+        </div>
+        @if (t(w.gloss)) {
+          <p class="mhero__gloss" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(w.gloss) }}</p>
+        }
+      } @else {
+        <div class="mhero__word">{{ surfacePreview }}</div>
+      }
+
+      @if (nav().length) {
+        <nav class="mnav" aria-label="أقسام">
+          @for (n of nav(); track n.i) {
+            <button class="mnav__i" (click)="scrollTo(n.i)">{{ n.label }}</button>
+          }
+        </nav>
+      }
+    </header>
+
+    <!-- ── BODY ─────────────────────────────────────────────────────────── -->
+    <div class="mbody">
+      @if (loading()) {
+        <div class="mstate"><div class="mspin"></div><p>…يُبنى تحليل الكلمة</p></div>
+      } @else if (error()) {
+        <div class="mstate mstate--err"><p>تعذّر تحميل تحليل هذه الكلمة.</p></div>
+      } @else {
+        @for (b of blocks(); track b.order) {
+          <section class="mblock" [attr.data-type]="b.type" [attr.data-tier]="b.tier">
+            <div class="mblock__head">
+              <h3 class="mblock__term">{{ b.title.ar || b.type }}</h3>
+              @if (b.is_synthesis) { <span class="mtag syn">تأليف كِمابس</span> }
+              @if (b.register === 'modern') { <span class="mtag modern">قراءة حديثة</span> }
+              @if (b.source_page) { <span class="mtag page">ص {{ b.source_page }}</span> }
+            </div>
+
+            <div class="mblock__body">
+              @switch (b.type) {
+
+                <!-- CONTEXT — the verse, word highlighted -->
+                @case ('context') {
+                  <p class="ayah ar">
+                    @for (p of ayahParts(b.text.ar, word()?.surface_ar); track $index) {
+                      <span [class.hit]="p.hit">{{ p.t }}</span>
+                    }
+                  </p>
+                  @if (lang() !== 'ar' && (lang() === 'ur' ? b.text.ur : b.text.en)) {
+                    <p class="say" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ lang() === 'ur' ? b.text.ur : b.text.en }}</p>
+                  }
+                }
+
+                <!-- SARF — feature grid + understanding -->
+                @case ('sarf') {
+                  @if (b.data?.features?.length) {
+                    <div class="featgrid">
+                      @for (f of b.data.features; track f.key_ar) {
+                        <div class="feat"><u>{{ f.key_ar }}</u><b class="ar">{{ f.val_ar }}</b></div>
+                      }
+                    </div>
+                  }
+                  @if (t(b.text)) { <p class="say" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p> }
+                }
+
+                <!-- IRAB — occurrence-level, from SML -->
+                @case ('irab') {
+                  <div class="irow">
+                    @if (b.data?.role_ar) {
+                      <span class="irole ar" [style.--c]="b.data.role_color || '#c9a84c'">{{ b.data.role_ar }}</span>
+                    }
+                    @if (b.data?.position_ar) { <span class="ipill ar">{{ b.data.position_ar }}</span> }
+                    @if (b.data?.sign_ar) { <span class="ipill ar">بعلامة {{ b.data.sign_ar }}</span> }
+                  </div>
+                  @if (t(b.text)) { <p class="say" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p> }
+                  @if (b.data?.sources?.length) {
+                    <div class="srcs">@for (s of b.data.sources; track s) { <span class="src">{{ s }}</span> }</div>
+                  }
+                }
+
+                <!-- ROOT — letters + core meaning -->
+                @case ('root') {
+                  <div class="rootline">
+                    <span class="rletters ar">{{ b.data?.letters }}</span>
+                    @if (b.data?.type_ar) { <span class="mchip">{{ b.data.type_ar }}</span> }
+                    @if (b.data?.weak_ar) { <span class="mchip">{{ b.data.weak_ar }}</span> }
+                    @if (b.data?.frequency_quran) { <span class="mchip freq">{{ arNum(b.data.frequency_quran) }}× جذر</span> }
+                  </div>
+                  @if (t(b.text)) { <p class="say core" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p> }
+                }
+
+                <!-- FAMILY — grouped derivatives -->
+                @case ('family') {
+                  @if (t(b.text)) { <p class="say muted" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p> }
+                  <div class="fam">
+                    @for (g of b.data?.groups; track g.label_ar) {
+                      <div class="famg">
+                        <span class="famg__lab">{{ g.label_ar }}</span>
+                        <div class="famg__items">
+                          @for (it of g.items; track it) { <span class="ftok ar">{{ it }}</span> }
+                        </div>
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- HOOK — retention mnemonic -->
+                @case ('hook') {
+                  <div class="hook"><span class="hook__glyph">✦</span>
+                    <p [dir]="isRtlText() ? 'rtl' : 'ltr'" [innerHTML]="emph(t(b.text))"></p>
+                  </div>
+                }
+
+                <!-- LENS — five-lens synthesis rows, or a lexicon shade -->
+                @case ('lens') {
+                  @if (b.subtype === 'five_lens' && b.data?.rows?.length) {
+                    <div class="lens5">
+                      @for (r of b.data.rows; track r.term_ar) {
+                        <div class="lens5__row">
+                          <span class="lens5__term ar">{{ r.term_ar }}</span>
+                          <p class="lens5__txt" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ tr(r) }}</p>
+                        </div>
+                      }
+                    </div>
+                  } @else if (b.data?.terms?.length) {
+                    <div class="terms">@for (tm of b.data.terms; track tm) { <span class="term">{{ tm }}</span> }</div>
+                    @if (t(b.text)) { <p class="say" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p> }
+                  } @else {
+                    @if (b.text.ar) { <p class="say ar">{{ b.text.ar }}</p> }
+                    @if (t(b.text) && t(b.text) !== b.text.ar) {
+                      <p class="say shade" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p>
+                    }
+                  }
+                }
+
+                <!-- SENSES — shades of meaning -->
+                @case ('senses') {
+                  <div class="senses">
+                    @for (s of b.data?.senses; track s.ar) {
+                      <div class="sense"><b class="ar">{{ s.ar }}</b>
+                        <span class="sense__say" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ tr(s) }}</span>
+                      </div>
+                    }
+                  </div>
+                }
+
+                <!-- EXAMPLES — complete-thought attestations from the SS layer -->
+                @case ('examples') {
+                  @if (t(b.text)) { <p class="say muted" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p> }
+                  <div class="shwd">
+                    @for (it of b.data?.items; track it.ayah_key) {
+                      <article class="thought" [class.focus]="it.focus">
+                        <div class="thought__top">
+                          <span class="thought__ref">{{ it.ayah_key }}</span>
+                          <span class="thought__kind">{{ it.kind_ar }}</span>
+                        </div>
+                        <p class="thought__ar ar">
+                          @for (p of ayahParts(it.thought_ar, it.surface_ar); track $index) {
+                            <span [class.hit]="p.hit">{{ p.t }}</span>
+                          }
+                        </p>
+                        <p class="thought__say" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ tr(it) }}</p>
+                      </article>
+                    }
+                  </div>
+                }
+
+                <!-- TAFSIR — word-focused synthesis (not verse commentary) -->
+                @case ('tafsir') {
+                  <p class="say tafsir" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p>
+                }
+
+                @default {
+                  @if (t(b.text)) { <p class="say">{{ t(b.text) }}</p> }
+                }
+              }
+            </div>
+          </section>
+        }
+      }
+    </div>
+  </div>
+</div>
