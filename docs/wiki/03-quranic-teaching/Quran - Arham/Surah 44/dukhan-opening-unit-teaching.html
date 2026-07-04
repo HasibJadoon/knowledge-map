@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ad-Dukhān 44:1–6 — Teaching Notes · K-MAPS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Gentium+Plus:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --km-bg:#050505; --km-bg-soft:#0b0a07; --km-card:#111111; --km-card-2:#161411;
+  --km-gold:#e7c75f; --km-gold-soft:rgba(231,199,95,.18); --km-border:rgba(231,199,95,.24);
+  --km-text:#f1ead8; --km-muted:#8e897c; --km-danger:#d8a35d;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  background:var(--km-bg);
+  background-image:radial-gradient(ellipse 80% 50% at 50% -10%, rgba(231,199,95,.06), transparent);
+  color:var(--km-text);
+  font-family:'EB Garamond',serif;
+  font-size:19px; line-height:1.75;
+  padding:0 16px 90px;
+}
+.page{max-width:760px;margin:0 auto}
+
+/* ── Masthead ─────────────────────────── */
+.masthead{text-align:center;padding:56px 0 8px}
+.masthead .brand{
+  font-family:'Cinzel',serif;font-weight:600;letter-spacing:.42em;
+  font-size:15px;color:var(--km-gold);text-indent:.42em;
+}
+.masthead .sub{
+  font-family:'Cinzel',serif;font-weight:400;letter-spacing:.3em;
+  font-size:10px;color:var(--km-muted);text-transform:uppercase;margin-top:6px;text-indent:.3em;
+}
+.unit-hero{text-align:center;padding:34px 0 10px}
+.unit-hero .basmala{
+  font-family:'Amiri',serif;font-size:30px;color:var(--km-gold);opacity:.9;direction:rtl;
+}
+.unit-hero .surah-ar{
+  font-family:'Amiri',serif;font-weight:700;font-size:64px;color:var(--km-text);
+  direction:rtl;line-height:1.4;margin-top:10px;
+  text-shadow:0 0 60px rgba(231,199,95,.15);
+}
+.unit-hero .surah-en{
+  font-family:'Cinzel',serif;font-size:14px;letter-spacing:.35em;color:var(--km-gold);
+  margin-top:6px;text-indent:.35em;
+}
+.unit-hero .range{
+  font-family:'Gentium Plus',serif;font-style:italic;font-size:15px;color:var(--km-muted);margin-top:10px;
+}
+.unit-hero .arc{
+  max-width:560px;margin:26px auto 0;font-size:17.5px;color:var(--km-muted);font-style:italic;
+}
+.unit-hero .arc b{color:var(--km-gold);font-style:normal;font-weight:500}
+
+/* ── Ornamental divider ───────────────── */
+.divider{display:flex;align-items:center;gap:14px;margin:54px 0 40px}
+.divider::before,.divider::after{content:"";flex:1;height:1px;
+  background:linear-gradient(90deg,transparent,var(--km-border),transparent)}
+.divider .gem{color:var(--km-gold);font-size:14px;letter-spacing:.5em;text-indent:.5em;white-space:nowrap}
+
+/* ── Chapter header ───────────────────── */
+.chapter-label{
+  font-family:'Cinzel',serif;font-size:11px;letter-spacing:.32em;color:var(--km-muted);
+  text-transform:uppercase;text-align:center;text-indent:.32em;
+}
+h1.chapter{
+  font-family:'Cinzel',serif;font-weight:500;font-size:clamp(22px,4.6vw,30px);
+  color:var(--km-gold);text-align:center;line-height:1.45;margin:10px 0 30px;letter-spacing:.04em;
+}
+
+/* ── Verse card (signature) ───────────── */
+.verse-card{
+  position:relative;background:linear-gradient(160deg,var(--km-card-2),var(--km-card));
+  border:1px solid var(--km-border);border-radius:22px;
+  padding:38px 30px 30px;margin:0 0 36px;text-align:center;
+  box-shadow:0 10px 40px rgba(0,0,0,.5), inset 0 0 80px rgba(231,199,95,.03);
+}
+.verse-card .corner{position:absolute;color:var(--km-gold);opacity:.7;font-size:15px}
+.verse-card .tl{top:12px;left:16px}.verse-card .tr{top:12px;right:16px}
+.verse-card .bl{bottom:10px;left:16px}.verse-card .br{bottom:10px;right:16px}
+.verse-card .ayah-ar{
+  font-family:'Amiri',serif;font-size:clamp(28px,5.4vw,38px);font-weight:400;
+  direction:rtl;line-height:2.15;color:var(--km-text);
+}
+.verse-card .ayah-ar .marker{color:var(--km-gold);font-size:.8em}
+.verse-card .ayah-en{
+  font-family:'Gentium Plus',serif;font-style:italic;font-size:17px;color:var(--km-muted);
+  margin-top:16px;max-width:520px;margin-left:auto;margin-right:auto;
+}
+.verse-card .ref{
+  display:inline-block;margin-top:16px;font-family:'Cinzel',serif;font-size:11px;
+  letter-spacing:.25em;color:var(--km-gold);border:1px solid var(--km-border);
+  border-radius:100px;padding:5px 16px 4px;background:var(--km-gold-soft);text-indent:.25em;
+}
+.lede{font-size:18.5px;font-style:italic;color:var(--km-muted);text-align:center;
+  max-width:580px;margin:0 auto 40px}
+.lede b{color:var(--km-text);font-style:normal;font-weight:500}
+
+/* ── Sections ─────────────────────────── */
+h2.sec{
+  font-family:'Cinzel',serif;font-weight:500;font-size:17.5px;color:var(--km-gold);
+  letter-spacing:.06em;margin:44px 0 16px;display:flex;align-items:baseline;gap:14px;
+}
+h2.sec .n{
+  font-family:'Gentium Plus',serif;font-style:italic;font-size:15px;color:var(--km-muted);
+  flex:none;
+}
+p{margin:0 0 18px}
+p b,p strong{color:var(--km-gold);font-weight:600}
+.ar-inline{font-family:'Amiri',serif;font-size:1.18em;color:var(--km-gold)}
+.translit{font-family:'Gentium Plus',serif;font-style:italic}
+
+/* ── Role callouts ────────────────────── */
+.callout{
+  border:1px solid var(--km-border);border-radius:20px;padding:22px 24px 18px;
+  margin:22px 0 26px;background:linear-gradient(150deg,var(--km-card-2),var(--km-card));
+  position:relative;
+}
+.callout .tag{
+  font-family:'Cinzel',serif;font-size:10px;letter-spacing:.3em;text-transform:uppercase;
+  color:var(--km-gold);display:flex;align-items:center;gap:10px;margin-bottom:10px;text-indent:0;
+}
+.callout .tag .icon{font-size:14px}
+.callout p{margin:0;font-size:18.5px}
+.callout.teach{border-color:rgba(231,199,95,.34)}
+.callout.teach p{color:var(--km-text)}
+.callout.nuance{border-color:rgba(216,163,93,.36);background:linear-gradient(150deg,#151009,var(--km-card))}
+.callout.nuance .tag{color:var(--km-danger)}
+.callout.nuance p{color:#cfc4ad;font-size:17.5px}
+.callout.summary{text-align:center;border-color:rgba(231,199,95,.4)}
+.callout.summary p{font-style:italic;color:var(--km-text)}
+.callout.bedtime{
+  background:radial-gradient(ellipse 120% 100% at 50% 0%,#14110a,var(--km-card));
+  border-color:rgba(231,199,95,.3);
+}
+.callout.bedtime p{font-style:italic;font-size:19px;line-height:1.85}
+
+/* ── Provenance ───────────────────────── */
+.prov{
+  font-family:'Gentium Plus',serif;font-size:14.5px;color:var(--km-muted);
+  border-top:1px solid var(--km-border);padding-top:16px;margin-top:40px;line-height:1.7;
+}
+.prov .k{font-family:'Cinzel',serif;font-size:10px;letter-spacing:.28em;color:var(--km-gold)}
+
+/* ── Colophon ─────────────────────────── */
+.colophon{text-align:center;margin-top:70px;color:var(--km-muted)}
+.colophon .rosette{color:var(--km-gold);font-size:20px;letter-spacing:.6em;text-indent:.6em}
+.colophon p{font-family:'Gentium Plus',serif;font-style:italic;font-size:14.5px;margin-top:14px}
+
+@media (max-width:520px){
+  body{font-size:18px}
+  .verse-card{padding:32px 18px 26px}
+  h2.sec{margin-top:38px}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ═══ MASTHEAD ═══ -->
+  <header class="masthead">
+    <div class="brand">K · M A P S</div>
+    <div class="sub">Quran Researcher · Teaching Series</div>
+  </header>
+
+  <section class="unit-hero">
+    <div class="basmala">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَـٰنِ ٱلرَّحِیمِ</div>
+    <div class="surah-ar">سُورَةُ الدُّخَان</div>
+    <div class="surah-en">AD-DUKHĀN · THE SMOKE</div>
+    <div class="range">The Opening Unit — Verses 1–6 · child-level teaching notes</div>
+    <p class="arc">One arc in six verses: <b>the letters</b> → <b>the oath</b> → <b>the night</b> → <b>the writing</b> → <b>the source</b> → <b>the reason</b>. Everything descends from Allah; everything descends as mercy.</p>
+  </section>
+
+  <div class="divider"><span class="gem">✦ ◆ ✦</span></div>
+
+  <!-- ═══════════ NOTE I · 44:1–2 ═══════════ -->
+  <article>
+    <div class="chapter-label">Note I · Verses 1–2</div>
+    <h1 class="chapter">The Mysterious Letters &amp; the Oath</h1>
+
+    <div class="verse-card">
+      <span class="corner tl">❧</span><span class="corner tr">❧</span>
+      <span class="corner bl">❧</span><span class="corner br">❧</span>
+      <div class="ayah-ar">حمۤ <span class="marker">﴿١﴾</span> وَٱلۡكِتَـٰبِ ٱلۡمُبِینِ <span class="marker">﴿٢﴾</span></div>
+      <div class="ayah-en">"Ḥā Mīm. By the Clear Book."</div>
+      <span class="ref">AD-DUKHĀN 44 : 1–2</span>
+    </div>
+
+    <p class="lede">The doorway of the surah. Two verses, two wonders: <b>letters nobody can fully explain</b>, and <b>an oath sworn by the Book itself</b>.</p>
+
+    <h2 class="sec"><span class="n">i.</span> What is "Ḥā Mīm"?</h2>
+    <p>Just two letters of the alphabet — like saying "H. M." Twenty-nine surahs open with letters like these, and the honest answer of the scholars is: <b>Allah knows best</b> what they mean. But Ibn ʿĀshūr points to what they <b>do</b>: they are a challenge. The Qurʾān is built from the very same letters the Arabs used every day — <span class="ar-inline">ح، م، ا، ل</span> — yet nobody could ever build anything like it.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"Everyone has the same 26 letters, but nobody writes like Shakespeare. Everyone had the same Arabic letters — ḥā, mīm — but nobody could make anything like the Qurʾān. It is as if Allah opens the surah saying: here are the letters, they are on your tongue every day — now try. Nobody ever could."</p>
+    </div>
+
+    <div class="callout nuance">
+      <div class="tag"><span class="icon">◈</span> Nuance</div>
+      <p>It is also good to teach humility here — the ṣaḥāba and great scholars did not claim to know the meaning of these letters with certainty. Saying "Allah knows best" about some things is part of knowledge, not a failure of it.</p>
+    </div>
+
+    <h2 class="sec"><span class="n">ii.</span> Why does Allah swear an oath — and by the Book?</h2>
+    <p>The wāw in <span class="ar-inline">وَٱلۡكِتَـٰبِ</span> is the wāw of oath — "<b>by</b> the Clear Book." People swear by what is great and dear. When Allah swears by the Qurʾān, He is announcing its greatness before saying anything else. And here is the marvel Rāzī noticed: Allah swears <b>by</b> the Book <b>about</b> the Book — like a person of honor saying "I ask you, by your own honor." The Qurʾān is so noble it can vouch for itself.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"When people want you to really believe them, they swear by something precious: 'by my mother!' Allah opens this surah with an oath, and the precious thing He swears by is the Qurʾān itself. That tells you, before anything else is said: this Book is the treasure."</p>
+    </div>
+
+    <h2 class="sec"><span class="n">iii.</span> What does "Mubīn" — Clear — mean?</h2>
+    <p>Ibn ʿAṭiyya gives two readings that are both true: the Book is clear <b>in itself</b> (its truth shines), and it <b>makes things clear</b> — it shows people the path, the ḥalāl and ḥarām, where they came from and where they are going. A lamp is bright in itself, and it lights the room.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"A flashlight does two things at once: it is bright, and it shows you the way in the dark. The Qurʾān is Mubīn like that — bright in itself, and lighting the road for us."</p>
+    </div>
+
+    <div class="callout nuance">
+      <div class="tag"><span class="icon">◈</span> Nuance</div>
+      <p>Rāzī records that "the Book" could also mean the earlier revealed books or the Preserved Tablet — but the dominant reading (Zamakhsharī, Abū Ḥayyān: <span class="ar-inline">الظاهر</span>) is the Qurʾān itself, since the very next verse says "We sent <em>it</em> down."</p>
+    </div>
+
+    <div class="callout bedtime">
+      <div class="tag"><span class="icon">☾</span> One-minute bedtime version</div>
+      <p>"This surah opens with a riddle and a promise. The riddle: two little letters, Ḥā Mīm — the same letters everyone uses, yet nobody could ever write a book like this one. The promise: Allah swears an oath — and He swears by the Qurʾān itself, the way you swear by the most precious thing you have. Then He calls it the Clear Book: bright like a lamp, and lighting our way like one too."</p>
+    </div>
+
+    <div class="prov"><span class="k">SOURCE BASIS</span> — Ibn ʿĀshūr (taḥaddī function of the muqaṭṭaʿāt), Rāzī (oath-by-itself analogy; kitāb referent options), Ibn ʿAṭiyya (mubīn dual reading), Zamakhsharī (wāw qasam), Abū Ḥayyān (al-ẓāhir: the Qurʾān).</div>
+  </article>
+
+  <div class="divider"><span class="gem">✦ ◆ ✦</span></div>
+
+  <!-- ═══════════ NOTE II · 44:3 ═══════════ -->
+  <article>
+    <div class="chapter-label">Note II · Verse 3</div>
+    <h1 class="chapter">The Blessed Night</h1>
+
+    <div class="verse-card">
+      <span class="corner tl">❧</span><span class="corner tr">❧</span>
+      <span class="corner bl">❧</span><span class="corner br">❧</span>
+      <div class="ayah-ar">إِنَّاۤ أَنزَلۡنَـٰهُ فِی لَیۡلَةࣲ مُّبَـٰرَكَةٍۚ إِنَّا كُنَّا مُنذِرِینَ <span class="marker">﴿٣﴾</span></div>
+      <div class="ayah-en">"We sent it down in a blessed night — surely, We have always been warners."</div>
+      <span class="ref">AD-DUKHĀN 44 : 3</span>
+    </div>
+
+    <p class="lede">Three ideas a child can hold: <b>the gift</b> (Qurʾān), <b>the night</b> (Laylat al-Qadr), <b>the reason</b> (Allah's mercy expressed as warning).</p>
+
+    <h2 class="sec"><span class="n">i.</span> Who is "We" and what is "it"?</h2>
+    <p>"We" is Allah speaking. When Allah says "We" instead of "I," it is like a king speaking — it shows greatness, not that there is more than one. "It" is the Qurʾān — the verse right before mentions "the Clear Book," so "it" points back to that.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"Allah is telling us about the most precious gift He ever sent to people — the Qurʾān — and He is telling us <em>when</em> He sent it, because the timing itself is special."</p>
+    </div>
+
+    <h2 class="sec"><span class="n">ii.</span> What is the "blessed night"?</h2>
+    <p>The heart of the verse. Almost all the great scholars — Ṭabarī, Rāzī, Ibn Kathīr, Ibn ʿĀshūr — say this night is <b>Laylat al-Qadr</b>, the Night of Power in Ramaḍān. How do they know? The Qurʾān explains itself. Elsewhere Allah says the exact same words: "Indeed We sent it down in Laylat al-Qadr" (97:1). And in al-Baqarah He says the Qurʾān was sent down in "the month of Ramaḍān" (2:185). Put the three verses together like puzzle pieces.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"It is like Allah gave us three clues in three different places, and when you put the clues together, you find the treasure: the night the Qurʾān came down is the Night of Power in Ramaḍān — the night that is better than a thousand months."</p>
+    </div>
+
+    <div class="callout nuance">
+      <div class="tag"><span class="icon">◈</span> Nuance</div>
+      <p>A few early scholars (like ʿIkrima) thought it was mid-Shaʿbān — Laylat al-Barāʾa. The strongest scholars checked the evidence and said no: the Qurʾān itself says Ramaḍān, and the Shaʿbān reports are not strong enough to argue with the Qurʾān's own words. Ibn Kathīr: whoever says Shaʿbān has "wandered far from the well." Mid-Shaʿbān may still be honored — but <em>this verse</em> is about Laylat al-Qadr.</p>
+    </div>
+
+    <h2 class="sec"><span class="n">iii.</span> One night — yet twenty-three years?</h2>
+    <p>The question a smart 10-year-old will actually ask — and the same question a man once asked Ibn ʿAbbās. His answer became the classic explanation: the Qurʾān came down in <b>two stages</b>. First, the whole Qurʾān descended in one night — from the Preserved Tablet down to the lowest heaven. Then, from there, Jibrīl brought it to the Prophet ﷺ piece by piece over 23 years.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"Imagine a whole library being delivered to a house near your school in one single night. Then, every day for years, the librarian brings you exactly the book you need for that day. The library arrived all at once — but you received it lesson by lesson, because that is how you learn."</p>
+    </div>
+
+    <div class="callout nuance">
+      <div class="tag"><span class="icon">◈</span> Nuance</div>
+      <p>Ibn ʿĀshūr read it slightly differently — "We sent it down that night" means the <em>first revelation began</em> that night, in the cave of Ḥirāʾ, and every verse after joined it like drops joining a river. Both readings agree on the night; they differ only on the mechanism. Either way you teach it, you are on solid ground.</p>
+    </div>
+
+    <h2 class="sec"><span class="n">iv.</span> Why "blessed" (mubāraka)?</h2>
+    <p>A beautiful subtlety hides in the Arabic grammar. The word <span class="ar-inline">مُبَارَكَة</span> is a passive form — "a night that was <b>made</b> blessed." The night is not magical by itself. Allah <b>chose</b> it and <b>poured blessing into it</b> — and the greatest blessing He poured into it was the Qurʾān itself. Rāzī made this point with pure logic: time is just time; if a night is noble, it must be because of what happened in it — and nothing greater ever happened in any night than the Qurʾān coming down.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"Why is your birthday special? The day itself is 24 hours like any other day. It is special because of what <em>happened</em> on it — you arrived! This night is the most blessed night ever because the best thing that ever came to humanity arrived in it."</p>
+    </div>
+
+    <h2 class="sec"><span class="n">v.</span> "We have always been warners"</h2>
+    <p>Notice Allah does not say "We warned once." The Arabic <span class="ar-inline">كُنَّا مُنذِرِينَ</span> means "warning has always been Our way." This answers the hidden question <b>why</b> send the Qurʾān at all? Because Allah, out of mercy, never leaves people walking toward danger without telling them. A warner is not someone angry at you — a warner is someone who <b>loves you enough to shout before you get hurt</b>.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"If you were about to cross a road and a truck was coming, and I saw it — would I stay quiet? Never. I would shout your name. That is what a warner is. Allah saw people heading toward harm, and because He is kind, He has <em>always</em> sent warnings — through every prophet, and finally through the Qurʾān. A warning is actually a gift of love."</p>
+    </div>
+
+    <div class="callout summary">
+      <div class="tag" style="justify-content:center"><span class="icon">✦</span> The verse in one breath</div>
+      <p>The Qurʾān — this Book We swear by — We sent it down in the greatest night of the year, a night We filled with blessing, and We did it because We never stop caring enough to warn.</p>
+    </div>
+
+    <div class="callout bedtime">
+      <div class="tag"><span class="icon">☾</span> One-minute bedtime version</div>
+      <p>"A very long time ago, in the quietest, most special night of Ramaḍān, Allah sent His greatest gift down from the highest heaven — the Qurʾān. He picked that night and filled it with blessing, the way we fill a room with light for someone we love. And why did He send it? Because Allah never lets the people He loves walk into danger without calling out to them. The Qurʾān is Allah calling out to us — every single day."</p>
+    </div>
+
+    <div class="prov"><span class="k">SOURCE BASIS</span> — Ṭabarī, Zamakhsharī, Ibn ʿAṭiyya, Rāzī, Ibn Kathīr, Abū Ḥayyān, Ibn ʿĀshūr, Ālūsī — full eight-scholar synthesis from qr_tafsir_entries.</div>
+  </article>
+
+  <div class="divider"><span class="gem">✦ ◆ ✦</span></div>
+
+  <!-- ═══════════ NOTE III · 44:4 ═══════════ -->
+  <article>
+    <div class="chapter-label">Note III · Verse 4</div>
+    <h1 class="chapter">The Night the Year Is Written</h1>
+
+    <div class="verse-card">
+      <span class="corner tl">❧</span><span class="corner tr">❧</span>
+      <span class="corner bl">❧</span><span class="corner br">❧</span>
+      <div class="ayah-ar">فِیهَا یُفۡرَقُ كُلُّ أَمۡرٍ حَكِیمٍ <span class="marker">﴿٤﴾</span></div>
+      <div class="ayah-en">"In it every wise matter is made distinct."</div>
+      <span class="ref">AD-DUKHĀN 44 : 4</span>
+    </div>
+
+    <p class="lede">Verse 3 told us <b>which night</b>; verse 4 tells us <b>what happens</b> in it besides the Qurʾān coming down. This is the verse about how Allah runs the coming year.</p>
+
+    <h2 class="sec"><span class="n">i.</span> What does "yufraq" mean?</h2>
+    <p>The word <span class="ar-inline">یُفۡرَقُ</span> comes from the same root as "furqān" — to <b>separate</b>, to spell out clearly. The scholars (Ṭabarī, Ibn Kathīr) explain: on this night, everything decreed for the coming year is separated out from Allah's great record and written down in detail — item by item, name by name.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"Imagine the biggest school in the world. The head teacher has one master book with everything in it. Then, one special night each year, the plans for the coming year are copied out — class by class, student by student — and handed to the teachers. Laylat al-Qadr is the night Allah's plans for the whole year are written out and handed to the angels."</p>
+    </div>
+
+    <h2 class="sec"><span class="n">ii.</span> What exactly gets written?</h2>
+    <p>Ibn ʿAbbās lists it: who will be born this year, who will pass away, what provision each person will receive, even the rain — and amazingly, even the pilgrims: <em>"so-and-so will do Ḥajj, and so-and-so will do Ḥajj,"</em> written by name. Ḥasan al-Baṣrī was asked: does this happen every Ramaḍān? He answered with an oath: <b>"Yes, by Allah — it is in every Ramaḍān."</b></p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"On that one night, this year's list is written: the babies who will come, the rain that will fall, what each family will earn — even the names of the people who will stand at Ḥajj this year. Your name might be on lists you know nothing about!"</p>
+    </div>
+
+    <h2 class="sec"><span class="n">iii.</span> Why "ḥakīm" — a wise matter?</h2>
+    <p>Ḥakīm here means <b>muḥkam</b> — firm, sealed, precise. Ālūsī gives the sharpest explanation: while a decree is still with Allah in the Preserved Tablet, He "erases what He wills and confirms" (13:39). But once it is written out on this night and handed to the angels, it does not change — it is sealed for delivery. And "wise" also because every single item carries wisdom: nothing on the list is random.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"When the plan leaves Allah's book and goes to the angels, it is like a sealed envelope — nobody can change what is inside. And everything inside was chosen with perfect wisdom, the way a doctor measures medicine exactly — nothing extra, nothing missing, nothing by accident."</p>
+    </div>
+
+    <div class="callout nuance">
+      <div class="tag"><span class="icon">◈</span> Nuance — for the parent</div>
+      <p>Mujāhid was asked about the duʿāʾ "O Allah, if my name is among the wretched, erase it and write me among the felicitous." He pointed to this verse — the <em>yearly operations</em> (provision, hardship) are re-issued each year; but the book of ultimate felicity and wretchedness is fixed — <span class="ar-inline">ثابت لا يُغيَّر</span>. Two registers: the annual working ledger, and the eternal decree. Do not collapse them when teaching.</p>
+    </div>
+
+    <h2 class="sec"><span class="n">iv.</span> The angels receive their assignments</h2>
+    <p>Some scholars (transmitted by Zamakhsharī, Rāzī, Ālūsī as a <em>report</em>, not a certainty) describe the delivery: provisions to Mīkāʾīl; wars, earthquakes and lightning to Jibrīl; deeds to Ismāʿīl, the great angel of the lowest heaven; calamities to the Angel of Death. Teach it as "the scholars mention" — a beautiful picture of an organized kingdom, not a verse of the Qurʾān itself.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"Allah's kingdom is more organized than any army and any company. Each great angel receives his own sealed list for the year: one carries the provisions, one the weather and the great events, one records the deeds. Nothing in the universe just happens — everything is assigned, carried, and delivered."</p>
+    </div>
+
+    <h2 class="sec"><span class="n">v.</span> Why this makes it the night of duʿāʾ</h2>
+    <p>Connect the dots for the child: if the coming year is written out on this night, and Allah hears every request before the ink is set — then this is <b>the</b> night to ask. This is why the Prophet ﷺ sought it in the last ten nights. Ibn ʿĀshūr: the verb is present-tense (<span class="translit">yufraq</span>) — it <b>keeps happening</b>, every year, on the anniversary of the Qurʾān's descent.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"If you knew the exact night the whole year gets planned, and you knew the King listens especially closely that night — would you sleep through it? That is why we search for Laylat al-Qadr and ask Allah for everything good: the year is being written, and duʿāʾ reaches the Writer."</p>
+    </div>
+
+    <div class="callout summary">
+      <div class="tag" style="justify-content:center"><span class="icon">✦</span> The two verses together</div>
+      <p>Verse 3: the greatest gift came down in the greatest night. Verse 4: and in that same night, every year, the coming year is written with perfect wisdom. The night of revelation is also the night of destiny.</p>
+    </div>
+
+    <div class="callout bedtime">
+      <div class="tag"><span class="icon">☾</span> One-minute bedtime version</div>
+      <p>"Remember the special night the Qurʾān came down? Something else happens on that night — every single year. Allah's plans for the whole coming year are written out: the babies, the rain, what people will have, even who will visit His House. Each great angel receives a sealed list to carry. Nothing is random, nothing is forgotten — and on that night, Allah listens extra closely to everyone who asks. So when that night comes, we stay awake and we ask."</p>
+    </div>
+
+    <div class="prov"><span class="k">SOURCE BASIS</span> — Ibn ʿAbbās (year-list incl. Ḥajj roster), Ḥasan al-Baṣrī (every Ramaḍān), Mujāhid (two-registers guardrail), Ālūsī (muḥkam-after-release), angelic registers as transmitted report. Eight-scholar synthesis.</div>
+  </article>
+
+  <div class="divider"><span class="gem">✦ ◆ ✦</span></div>
+
+  <!-- ═══════════ NOTE IV · 44:5–6 ═══════════ -->
+  <article>
+    <div class="chapter-label">Note IV · Verses 5–6</div>
+    <h1 class="chapter">A Command from Us, a Mercy from Your Lord</h1>
+
+    <div class="verse-card">
+      <span class="corner tl">❧</span><span class="corner tr">❧</span>
+      <span class="corner bl">❧</span><span class="corner br">❧</span>
+      <div class="ayah-ar">أَمۡرࣰا مِّنۡ عِندِنَاۤۚ إِنَّا كُنَّا مُرۡسِلِینَ <span class="marker">﴿٥﴾</span> رَحۡمَةࣰ مِّن رَّبِّكَۚ إِنَّهُۥ هُوَ ٱلسَّمِیعُ ٱلۡعَلِیمُ <span class="marker">﴿٦﴾</span></div>
+      <div class="ayah-en">"A command from Us — surely We have always been senders — a mercy from your Lord. Indeed He is the All-Hearing, the All-Knowing."</div>
+      <span class="ref">AD-DUKHĀN 44 : 5–6</span>
+    </div>
+
+    <p class="lede">The close of the opening unit. Verse 4 said the year's matters are written; verses 5–6 tell us <b>where they come from</b> (directly from Allah) and <b>why it all happens</b> (mercy).</p>
+
+    <h2 class="sec"><span class="n">i.</span> "A command from Us" — why repeat "amr"?</h2>
+    <p>Verse 4 already said "every wise matter (<span class="translit">amr</span>)." Now Allah says it again: "an amr from Us." Ibn ʿĀshūr explains the repetition: it is for majesty (<span class="translit">tafkhīm</span>). First the decree was called <b>wise</b>; now it is stamped with its origin — from <b>Our</b> presence, <span class="ar-inline">مِّنۡ عِندِنَا</span>. Not from angels, not from stars, not from luck — from the King Himself.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"When a letter arrives from the palace, the envelope says: FROM THE OFFICE OF THE KING. That is what 'from Us' means. Everything written on that night carries Allah's own seal — it comes straight from Him, not from anyone in between."</p>
+    </div>
+
+    <h2 class="sec"><span class="n">ii.</span> "We have always been senders"</h2>
+    <p>The twin of "We have always been warners" in verse 3. Sending messengers is Allah's constant way — Ādam, Nūḥ, Ibrāhīm, Mūsā, ʿĪsā, and finally Muḥammad ﷺ. Ibn Kathīr adds: the need was pressing — people had lost the way, so the Messenger came reciting clear verses. Allah never left any people without guidance reaching them.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"In the whole story of the world, Allah never went silent. Every time people forgot the way, He sent someone to remind them — prophet after prophet, like lighthouse after lighthouse along a dark coast, so no ship is ever without a light."</p>
+    </div>
+
+    <h2 class="sec"><span class="n">iii.</span> "A mercy from your Lord" — the reason behind everything</h2>
+    <p>Grammar carries the meaning here. "<span class="translit">Raḥmatan</span>" answers <b>why</b>: We sent it all — the Book, the messengers, the decrees — <b>for mercy</b> (the scholars call this <span class="translit">mafʿūl lahu</span>, the "because-of" word). And notice: Allah does not say "a mercy from Us" but "a mercy from <b>your Lord</b>." Zamakhsharī and Ibn ʿĀshūr both stop at this: being a Rabb — the One who raises, feeds, and cares — by its very nature brings mercy. A true caretaker cannot help but be merciful.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"Why does a mother pack your lunch, check your homework, and call out when you are near the road? One reason sits under all of them: love. This verse tells us the one reason under everything Allah does for us — the Book, the prophets, the plans for every year: MERCY. And He says 'your Lord' — the One who has been taking care of you since before you could talk."</p>
+    </div>
+
+    <div class="callout nuance">
+      <div class="tag"><span class="icon">◈</span> Nuance</div>
+      <p>"Min rabbika" — <em>your</em> Lord — turns to address the Prophet ﷺ personally (Ibn ʿĀshūr: the address shifts to honor him, since the sending is mercy and he himself is the mercy: "We sent you only as a mercy to the worlds," 21:107). Teaching hook: the Messenger is not just the carrier of the mercy — he <em>is</em> part of the mercy.</p>
+    </div>
+
+    <h2 class="sec"><span class="n">iv.</span> "The All-Hearing, the All-Knowing" — mercy that fits perfectly</h2>
+    <p>Rāzī closes the circle beautifully: people in need either <b>say</b> their need — and He is al-Samīʿ, He hears every word — or they cannot even put it into words — and He is al-ʿAlīm, He knows it anyway. So His mercy always fits the need exactly, spoken or unspoken. Ibn ʿĀshūr adds: "He and only He" (the emphatic <span class="translit">huwa</span>) — not the idols people were calling on, which hear nothing and know nothing.</p>
+
+    <div class="callout teach">
+      <div class="tag"><span class="icon">🗣</span> For your child</div>
+      <p>"Sometimes you tell your mother what you need. Sometimes you do not even have the words — and she still knows. Allah is like that, but perfectly: He hears every duʿāʾ you say out loud, and He knows the ones stuck in your heart that you cannot say. Nobody else — nothing else — can do that."</p>
+    </div>
+
+    <div class="callout summary">
+      <div class="tag" style="justify-content:center"><span class="icon">✦</span> The opening unit, complete</div>
+      <p>Six verses, one arc: the letters (a challenge) → the oath (by the Book itself) → the night (Laylat al-Qadr, the gift) → the writing (the year decreed with wisdom) → the source (from Us directly) → the reason (mercy, from a Lord who hears and knows). Everything descends from Allah; everything descends as mercy.</p>
+    </div>
+
+    <div class="callout bedtime">
+      <div class="tag"><span class="icon">☾</span> One-minute bedtime version</div>
+      <p>"Remember the night the year gets written? Tonight's verses answer two questions. Where do those plans come from? Straight from Allah — sealed from the King Himself, nobody in between. And why does He do all of it — the Book, the prophets, the plans? One word: mercy. He is your Lord — the One who has cared for you since before you were born. He hears every wish you say out loud, and He knows the ones you cannot even find words for. So you are never, ever unheard."</p>
+    </div>
+
+    <div class="prov"><span class="k">SOURCE BASIS</span> — Ibn ʿĀshūr (iʿādat "amran" li-tafkhīm; iẓhār "rabbika"; Samīʿ/ʿAlīm as taʿlīl + ḥaṣr), Zamakhsharī (raḥmatan mafʿūl lahu; rubūbiyya entails raḥma), Rāzī (spoken/unspoken needs), Ibn Kathīr (the pressing need), Ṭabarī (naṣb readings). Completes the 44:1–6 series.</div>
+  </article>
+
+  <!-- ═══ COLOPHON ═══ -->
+  <footer class="colophon">
+    <div class="rosette">✦ ✦ ✦</div>
+    <p>K-MAPS · Quran Researcher — Teaching Series, Sūrat ad-Dukhān, Opening Unit<br>
+    Synthesized from eight classical tafāsīr · km_quran corpus · drafts CM:…V12 / V3 / V4 / V56</p>
+  </footer>
+
+</div>
+</body>
+</html>

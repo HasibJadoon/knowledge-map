@@ -1,0 +1,23 @@
+<section class="wv-poem" dir="rtl" lang="fa">
+  <header class="wv-poem__head">
+    @if (poem().title) {
+      <h2 class="wv-poem__title">{{ poem().title }}</h2>
+    }
+    @if (poem().poet) {
+      <p class="wv-poem__poet">{{ poem().poet }}</p>
+    }
+    @if (poem().meter) {
+      <p class="wv-poem__meter">{{ poem().meter }}</p>
+    }
+  </header>
+
+  <ol class="wv-poem__couplets">
+    @for (c of poem().couplets; track c.n) {
+      <li class="couplet">
+        <span class="hemistich hemistich--m1">{{ c.m1 }}</span>
+        <span class="hemistich hemistich--m2">{{ c.m2 }}</span>
+        <span class="couplet__n" aria-hidden="true">{{ persianNumeral(c.n) }}</span>
+      </li>
+    }
+  </ol>
+</section>

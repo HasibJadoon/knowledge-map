@@ -1,0 +1,89 @@
+:host {
+  display: block;
+}
+
+.wv-poem {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 2.25rem;
+  // Persian/Arabic display face from the app's global stack.
+  --poem-font: var(--app-font-ar, "Noto Naskh Arabic", "Scheherazade New", "Amiri", serif);
+}
+
+.wv-poem__head {
+  text-align: center;
+  margin-bottom: 1.85rem;
+
+  .wv-poem__title {
+    font-family: var(--poem-font);
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--r-gold, #c9a84c);
+    margin: 0 0 0.35rem;
+  }
+  .wv-poem__poet {
+    font-family: var(--poem-font);
+    font-size: 0.95rem;
+    color: var(--r-text-2, rgba(255, 255, 255, 0.62));
+    margin: 0;
+  }
+  .wv-poem__meter {
+    font-family: var(--poem-font);
+    font-size: 0.8rem;
+    color: var(--r-text-3, rgba(255, 255, 255, 0.4));
+    margin: 0.2rem 0 0;
+  }
+}
+
+.wv-poem__couplets {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.couplet {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem 2.5rem;
+  align-items: start;
+  margin-block: 1.2rem;
+}
+
+.hemistich {
+  font-family: var(--poem-font);
+  font-size: 1.34rem;
+  line-height: 2.15;
+  text-align: center;
+  color: var(--r-text, rgba(255, 255, 255, 0.92));
+  // RTL on the container puts the first child (m1) in the RIGHT cell automatically.
+}
+
+.couplet__n {
+  position: absolute;
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  bottom: -0.55rem;
+  font-family: var(--poem-font);
+  font-size: 0.7rem;
+  color: var(--r-gold, #c9a84c);
+  opacity: 0.5;
+}
+
+@media (max-width: 640px) {
+  .couplet {
+    grid-template-columns: 1fr;
+    gap: 0.25rem;
+  }
+  .hemistich {
+    font-size: 1.2rem;
+    line-height: 2;
+  }
+  .couplet__n {
+    position: static;
+    transform: none;
+    display: block;
+    text-align: center;
+    margin-top: 0.2rem;
+  }
+}

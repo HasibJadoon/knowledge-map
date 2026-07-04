@@ -8,6 +8,7 @@ import { firstValueFrom } from 'rxjs';
 import { WorldviewLibraryApiService } from '../../../../shared/services/worldview/worldview-library-api.service';
 import { WvGraphShellComponent } from '../../wv-graph/wv-graph-shell/wv-graph-shell.component';
 import { WvIllustrationsComponent } from '../../../../shared/components/wv-illustrations/wv-illustrations.component';
+import { WvPoemComponent, PoemData } from './components/wv-poem/wv-poem.component';
 
 interface WvSource {
   id: string;
@@ -43,6 +44,7 @@ interface WvUnit {
   page_end?: number | null;
   text_excerpt?: string | null;
   description_md?: string | null;
+  meta_json?: string | Record<string, unknown> | null;
   // Full unit fields from /worldview/units/:id
   readingBody?: string[] | null;
   readingBlocks?: ReadingBlock[] | null;
@@ -153,7 +155,7 @@ interface ClassifiedBlock { text: string; type: BlockType; url?: string; }
 @Component({
   selector: 'app-worldview-unit-reader',
   standalone: true,
-  imports: [CommonModule, IonicModule, WvGraphShellComponent, WvIllustrationsComponent],
+  imports: [CommonModule, IonicModule, WvGraphShellComponent, WvIllustrationsComponent, WvPoemComponent],
   templateUrl: './worldview-unit-reader.page.html',
   styleUrl: './worldview-unit-reader.page.scss',
 })
@@ -199,6 +201,20 @@ export class WorldviewUnitReaderPage implements OnInit, AfterViewInit, OnDestroy
   readonly tocItems = computed(() => flattenUnits(this.rootUnits()));
 
   readonly unit = computed(() => this.unitsById().get(this.unitId()) ?? null);
+
+  /** Persian/Arabic poem parsed off `unit.meta_json.poem`, when present. */
+  readonly poem = computed<PoemData | null>(() => {
+    const raw = this.unit()?.meta_json;
+    if (!raw) return null;
+    let meta: Record<string, unknown> | null = null;
+    if (typeof raw === 'string') {
+      try { meta = JSON.parse(raw); } catch { return null; }
+    } else {
+      meta = raw;
+    }
+    const poem = meta?.['poem'] as PoemData | undefined;
+    return poem && Array.isArray(poem.couplets) && poem.couplets.length > 0 ? poem : null;
+  });
 
   readonly children = computed(() => {
     const u = this.unit();

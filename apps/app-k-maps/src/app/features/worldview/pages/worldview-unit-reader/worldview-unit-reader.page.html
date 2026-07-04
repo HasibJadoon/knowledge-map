@@ -61,6 +61,11 @@
           </div>
         </header>
 
+        <!-- Poem (RTL verse — rendered from unit.meta_json.poem) -->
+        @if (poem(); as p) {
+          <app-wv-poem [poem]="p"></app-wv-poem>
+        }
+
         <!-- Summary (intro abstract) -->
         @if (summaryBlocks().length > 0) {
           <div class="reading__summary" #summaryEl>
