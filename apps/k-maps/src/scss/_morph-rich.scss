@@ -1,0 +1,28 @@
+// Cross-cutting classes for the Morph Display Layer. GLOBAL because:
+//  (a) .rk/.rc/.ra/.rarrow style sanitized [innerHTML] (component encapsulation can't reach it);
+//  (b) .ar/.say are shared prose helpers used by every per-layer component — kept here so the
+//      layer components need only their own layer-specific inline styles + inherited palette tokens
+//      (the tokens are defined on the word-page :host / .mw and inherit down the DOM).
+
+// rich-markup output (from richMarkup())
+.rk { color: var(--gold2, #e8c96a); font-weight: 600; }
+.rc { color: #ff5f7e; font-weight: 700; text-shadow: 0 0 14px rgba(255, 80, 110, .6); }
+.ra {
+  font-family: var(--ar, 'Amiri', serif); color: var(--gold, #c9a84c); font-weight: 500; white-space: nowrap;
+  &.key { color: var(--gold2, #e8c96a); }
+  &.crit { color: #ff5f7e; }
+}
+.rarrow {
+  color: var(--gold2, #e8c96a); font-weight: 800; font-size: 1.28em; padding: 0 5px;
+  text-shadow: 0 0 10px rgba(201, 168, 76, .55);
+  &.crit { color: #ff5f7e; }
+}
+
+// shared prose helpers (used inside the morph word page, where the palette tokens are defined)
+.mw .ar, km-morph-block-host .ar { font-family: var(--ar, 'Amiri', serif); }
+.mw .say, km-morph-block-host .say {
+  font-size: calc(15px * var(--fscale, 1)); line-height: 1.64; color: var(--ink2, rgba(255,255,255,.74)); margin: 0;
+  &.muted { color: var(--muted, rgba(255,255,255,.55)); margin-bottom: 14px; }
+  &.italic { font-style: italic; }
+  & + & { margin-top: 10px; }
+}

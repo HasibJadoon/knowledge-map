@@ -6,7 +6,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   QuranSurahService, MorphWordView, MorphBlockVm, MorphContextVm, Lang,
 } from '../../../../../../../shared/services/quran/quran-surah.service';
-import { MorphBlockComponent } from './morph-block.component';
+import { MorphBlockHostComponent } from './morph-block-host.component';
+import { provideMorphIcons } from './morph-icons';
 import { richMarkup } from './morph-rich';
 
 /** One TOC entry — mirrors a rendered block, scrolls to it. */
@@ -31,7 +32,8 @@ const REG_ORDER = ['quran', 'classical', 'msa', 'linguistic', 'modern', 'tafsir'
 @Component({
   selector: 'km-morph-word-page',
   standalone: true,
-  imports: [MorphBlockComponent],
+  imports: [MorphBlockHostComponent],
+  providers: [provideMorphIcons()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './morph-word-page.component.html',
   styleUrl: './morph-word-page.component.scss',
