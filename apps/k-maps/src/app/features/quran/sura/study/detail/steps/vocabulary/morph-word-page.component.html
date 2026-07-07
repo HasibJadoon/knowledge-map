@@ -133,7 +133,7 @@
             </div>
             @for (b of coreBlocks(); track domId('core', b)) {
               <div [id]="domId('core', b)" class="mw-blkwrap">
-                <km-morph-block [block]="b" [lang]="lang()" [focusSurface]="focusSurface()" />
+                <km-morph-block [block]="b" [lang]="lang()" [focusSurface]="focusSurface()" [heroWord]="lemmaBare()" />
               </div>
             }
           }
@@ -182,7 +182,7 @@
 
             @for (b of temporalBlocks(); track domId('temp', b)) {
               <div [id]="domId('temp', b)" class="mw-blkwrap">
-                <km-morph-block [block]="b" [lang]="lang()" [focusSurface]="focusSurface()" />
+                <km-morph-block [block]="b" [lang]="lang()" [focusSurface]="focusSurface()" [heroWord]="lemmaBare()" />
               </div>
             }
           }

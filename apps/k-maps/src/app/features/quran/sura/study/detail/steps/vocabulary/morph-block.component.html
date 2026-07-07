@@ -100,6 +100,31 @@
 
       <!-- SYNTHESIS -->
       @case ('synthesis') {
+        @if (synWeave(); as sw) {
+          <div class="synweave">
+            <svg class="synweave__svg" viewBox="0 0 600 210" preserveAspectRatio="none" aria-hidden="true">
+              @for (o of sw.origins; track o.concept) {
+                <path [attr.d]="o.path" fill="none" [attr.stroke]="o.color" stroke-width="7" stroke-linecap="round" opacity="0.16"/>
+                <path [attr.d]="o.path" fill="none" [attr.stroke]="o.color" stroke-width="2.2" stroke-linecap="round"/>
+              }
+              <path [attr.d]="sw.producePath" fill="none" stroke="#e8c96a" stroke-width="8" stroke-linecap="round" opacity="0.16"/>
+              <path [attr.d]="sw.producePath" fill="none" stroke="#e8c96a" stroke-width="2.6" stroke-linecap="round"/>
+            </svg>
+            @for (o of sw.origins; track o.concept) {
+              <div class="synweave__origin" [style.top]="o.topPct" [style.--c]="o.color">
+                <span class="synweave__dot"></span>
+                <b class="synweave__concept" [innerHTML]="rich(o.concept)"></b>
+              </div>
+            }
+            <div class="synweave__center"><span class="ar">{{ sw.center }}</span></div>
+            @if (sw.output) {
+              <div class="synweave__produces">
+                <span class="synweave__plabel">produces</span>
+                <b class="synweave__output">{{ sw.output }}</b>
+              </div>
+            }
+          </div>
+        }
         <div class="synstrands">
           @for (s of strands(); track s.source) {
             <div class="synstrand" [style.--c]="s.accent">
@@ -335,7 +360,10 @@
                 <line [attr.x1]="n.x1" [attr.y1]="n.y1" [attr.x2]="n.x2" [attr.y2]="n.y2" [attr.stroke]="n.color" stroke-opacity="0.32" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
               }
             </svg>
-            <div class="cst__center"><span class="cst__center-word ar">{{ g.center }}</span></div>
+            <div class="cst__center">
+              <span class="cst__center-word ar">{{ g.centerAr }}</span>
+              @if (g.centerRoot) { <span class="cst__center-root ar">{{ g.centerRoot }}</span> }
+            </div>
             @for (n of g.nodes; track n.label) {
               <div class="cst__node" [class.l]="!n.right" [style.left.%]="n.xPct" [style.top.%]="n.yPct" [style.--c]="n.color">
                 <span class="cst__dot"></span>
