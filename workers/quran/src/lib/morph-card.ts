@@ -147,7 +147,12 @@ export function waznOf(
   if (m.wazn_ar && m.wazn_ar.trim()) return m.wazn_ar.trim();
   // maṣdar of an augmented verb → its regular pattern
   if (m.derived === 'verbal_noun' && m.form && MASDAR_AR[m.form]) return MASDAR_AR[m.form];
-  if (bucket === 'noun') return deriveNounWazn(lemma, root);
+  if (bucket === 'noun') {
+    // Derive from the passed (column) lemma; if that fails — because the lemma
+    // column is misaligned to another word, or unvocalised — fall back to the
+    // QAC tag's own lemma, which is position-correct and vocalised.
+    return deriveNounWazn(lemma, root) ?? deriveNounWazn(m.lemma_ar, root);
+  }
   return null;
 }
 
