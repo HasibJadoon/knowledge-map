@@ -102,15 +102,23 @@ function rootLetters(root: string | null | undefined): string[] {
 export function deriveNounWazn(lemma: string | null | undefined, root: string | null | undefined): string | null {
   const R = rootLetters(root);
   if (R.length < 3 || R.length > 4) return null;
-  for (let k = 0; k + 1 < R.length; k++) if (normLetter(R[k]) === normLetter(R[k + 1])) return null;
   let ri = 0;
   let out = '';
+  let dbl = false;   // last-matched letter is the first of an identical pair (gemination)
   for (const c of Array.from(lemma ?? '')) {
-    if (isHarakah(c)) { out += c; continue; }
-    if (ri < R.length && normLetter(c) === normLetter(R[ri])) { out += MIZAN[ri]; ri++; }
-    else out += c;
+    if (isHarakah(c)) {
+      // a shadda over a geminated radical spells the pair out as عْل (رَبّ → فَعْل)
+      if (c === 'ّ' && dbl) { out += 'ْ' + MIZAN[ri]; ri++; dbl = false; }
+      else out += c;
+      continue;
+    }
+    if (ri < R.length && normLetter(c) === normLetter(R[ri])) {
+      out += MIZAN[ri];
+      dbl = ri + 1 < R.length && normLetter(R[ri]) === normLetter(R[ri + 1]);
+      ri++;
+    } else { out += c; dbl = false; }
   }
-  return ri === R.length ? out : null;
+  return ri === R.length ? out : null;   // weak/irregular roots don't fully align → null
 }
 
 /**
