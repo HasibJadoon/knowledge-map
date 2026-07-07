@@ -1,0 +1,213 @@
+DELETE FROM qr_morph_display_blocks WHERE root_ar='بين' OR ayah_key IN ('44:2','26:195','36:12','2:168','16:35','5:110','67:26');
+INSERT OR REPLACE INTO qr_morph_display_words
+ (id, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, surface_ar, surface_bare, lemma_ar,
+  root_ar, root_display, word_group, pos_ar, pos_en, pos_ur, gloss_ar, gloss_en, gloss_ur,
+  badge_color, derived_type_ar, derived_type_en, derived_type_ur, wazn_ar, form_roman, form_ar,
+  is_anchor, importance, difficulty, frequency_quran, is_promoted, is_content_word, status)
+ VALUES ('MDW:44:2:2', '44:2:2', 44, 2, 2, '44:2', 'الْمُبِينِ', 'المبين', 'مُبِين',
+  'بين', 'ب ي ن', 'noun', 'اسم', 'noun (participle)', 'اسم', '==انفصالٌ يُظهِر==: ما بانَ انكشف واتّضح، فالمُبينُ بيِّنٌ في نفسه مُبينٌ لغيره', '==Clarity through separation== — what stands apart shows itself; مُبِين is clear in itself and clarity-giving to others.', 'علیحدگی سے وضوح — جو الگ ہو کر نمایاں ہو؛ مبین خود بھی واضح اور دوسروں کو واضح کرنے والا',
+  '#c9a84c', 'اسم فاعل', 'active participle', 'اسم فاعل', 'مُفْعِل', 'IV', 'الإفعال',
+  1, 5, 3, 523, 1, 1, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:root_dna', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'root_dna', NULL, 1, 'الجذر', 'Root DNA', 'جڑ', 'يردّ ابن فارس الجذر كلَّه إلى أصلٍ واحد: بُعْدُ الشيء وانكشافُه — فالبَيْنُ هو الانفصال، وبانَ الشيءُ وأبانَ إذا اتّضح وانكشف.', 'Ibn Fāris fixes the whole root to a single core: ==separation and disclosure== — what parts and stands apart becomes clear and manifest. البَيْن is the separation itself; بانَ / أبانَ is the moment a thing shows.', 'ابن فارس پورے مادّے کو ایک اصل کی طرف لوٹاتے ہیں: کسی چیز کا جدا ہونا اور ظاہر ہونا۔',
+  '{"letters":["ب","ي","ن"],"core_ar":"بُعْدُ الشيءِ وانكشافُه","frequency_quran":523}', 'saaid_maqayis_al_lugha', 0, 'classical', '["classical"]', 'kmaps-media/roots/byn/root-dna-diagram.svg', 'image', 'ب ي ن core — a road parting the land, dawn breaking from night, meaning stepping into view', 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:sarf', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'sarf', NULL, 2, 'الصرف والوزن', 'Wazn & Ṣarf', 'صرف و وزن', 'اسم فاعل من الفعل الرباعي (أبانَ يُبينُ) على وزن مُفْعِل. الجذر أجوف يائي: فمُبْيِن الأصلية أُعِلَّت بالنقل فصارت مُبِين. وباب الإفعال هنا لازم ومتعدٍّ معًا، فالوصف يحمل المعنيين.', 'Active participle (اسم فاعل) of Form IV أبانَ–يُبين on the pattern مُفْعِل. The root is أجوف يائي: the theoretical مُبْيِن undergoes إعلال بالنقل — the yāʾ''s kasra moves to the bāʾ and the yāʾ rests as a long vowel: مُبِين. Form IV is used both intransitively (أبانَ = became clear) and transitively (أبانَ = made clear), so the participle ==carries both readings at once==.', '',
+  '{"pattern_ar":"مُفْعِل","from_ar":"مُبْيِن","to_ar":"مُبِين","rule":"إعلال بالنقل — kasra shifts, yāʾ rests as madd","features":[{"k":"wazn","v":"مُفْعِل"},{"k":"form","v":"الإفعال (IV)"},{"k":"root type","v":"أجوف يائي"},{"k":"transitivity","v":"لازم / متعدٍّ"}]}', 'qac_morphology', 0, 'quran', '["quran","classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:derivations', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'derivations', NULL, 3, 'الاشتقاق', 'Derived Family', 'اشتقاق', 'جذرٌ واحد بأبنية شتّى؛ كلُّ مشتقٍّ هو الأصل نفسه ==(الانفصال ← الوضوح)== منكسرًا في وزن. هذه أبنية الجذر في القرآن.', 'One root, many builds — every derivation is the same core ==(separation → clarity)== refracted through a pattern. These are the shapes the root ب ي ن actually takes in the Qurʾān.', '',
+  '{"groups":[{"form_ar":"الفعل — Verb","items":[{"ar":"بانَ","en":"became clear (I)"},{"ar":"بَيَّنَ","en":"made clear (II)"},{"ar":"تَبَيَّنَ","en":"became distinct (V)"},{"ar":"أبانَ","en":"clarified (IV)"},{"ar":"اسْتَبانَ","en":"sought clarity (X)"}]},{"form_ar":"اسم الفاعل — Active ptcp.","items":[{"ar":"مُبِين","en":"clear / clarifying"},{"ar":"مُبَيِّن","en":"one who makes clear"},{"ar":"مُسْتَبِين","en":"becoming manifest"}]},{"form_ar":"المصدر — Verbal noun","items":[{"ar":"بَيَان","en":"clear exposition"},{"ar":"تِبْيَان","en":"full clarification"}]},{"form_ar":"الصفة / الاسم — Adj. & noun","items":[{"ar":"بَيِّنَة","en":"clear proof"},{"ar":"مُبَيِّنَة","en":"manifest (fem.)"},{"ar":"بَيْن","en":"the interval between"}]}]}', 'kmaps_five_lens', 1, 'quran', '["quran","classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:lexicon', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'lexicon', NULL, 4, 'المعاجم', 'Classical Lexicons', 'لغت', 'الظلال التي يضيفها كلُّ معجميّ.', '==The shade each lexicographer adds== — not raw entries.', '',
+  '{"entries":[{"source":"Maqāyīs al-Lugha","death":"d. 395 AH","shade_ar":"بُعْدُ الشيء وانكشافُه — أصلٌ واحد","shade_en":"One core: parting and disclosure. البَيْن is separation; بانَ وأبانَ is to become clear."},{"source":"al-Rāghib, Mufradāt","death":"d. 502 AH","shade_ar":"بانَ = انفصلَ وظهرَ ما كان مستترًا","shade_en":"بَيْن names the interval between two things; بانَ = separated AND manifested what was hidden — each half usable alone (بانَ الصُّبح, the dawn showed)."},{"source":"Sinai, Key Terms","death":"contemp.","shade_ar":"بَيان · مُبَيِّن · مُسْتَبِين","shade_en":"Groups the root''s Qurʾānic key-terms of clarity/exposition: بيان, مُبيِّن, مُستبين."}]}', 'kmaps_five_lens', 1, 'classical', '["classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:attestations', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'attestations', NULL, 5, 'الاستعمال الأقدم', 'Earliest Usage', 'قدیم ترین استعمال', 'قبل أن يصير وصفًا للوحي، عاش الجذر «ب ي ن» في الصحراء والخيمة. أقدمُ استعمالاته حسّيٌّ واجتماعيّ — فِراقٌ، وفجرٌ، وظعائنُ ترحل، وبيانُ خطيبٍ — وكلٌّ منها يترك صورةً لا يفارقها المعنى المتأخّر.', 'Before it was ever an epithet of revelation, ب ي ن lived in the desert and the tent. Its oldest attested uses are ==physical and social== — parting, dawn, the pulling-away of a caravan, the plain speech of an orator — and each leaves a picture the later meaning never sheds.', '',
+  '{"witnesses":[{"era_ar":"الجاهلية","era_en":"Pre-Islamic","kind_ar":"البَيْن · الفِراق","phrase_ar":"غُرابُ البَيْن","gloss_en":"“the crow of parting” — a fixed idiom: the raven whose cawing over an abandoned camp was read as the omen that the tribe, and the beloved, would depart.","image_ar":"غرابٌ أسود ينعق فوق ديارٍ خاوية","image_en":"a black crow over an emptied campsite — separation announced","lex_source":"ابن فارس · مقاييس اللغة","lex_ar":"البَيْنُ هو الانفصال","lex_en":"al-bayn = the separation itself (d. 395 AH)","motif":"parting"},{"era_ar":"مَثَلٌ سائر","era_en":"Proverb","kind_ar":"بانَ · ظَهَر","phrase_ar":"قد بانَ الصُّبْحُ لِذي عَيْنَيْن","gloss_en":"“the dawn has shown itself to anyone with eyes” — the proverb for a truth now beyond any denial; what parts from the dark becomes plain to all.","image_ar":"فجرٌ ينفصل عن الليل فيراه كلُّ ذي بصر","image_en":"dawn splitting off from night, plain to every eye","lex_source":"الرّاغب · المفردات","lex_ar":"بانَ الصُّبحُ: ظهرَ ما كان مُستترًا","lex_en":"al-Rāghib''s own shāhid: bāna l-ṣubḥ — the dawn showed (d. 502 AH)","motif":"arrival"},{"era_ar":"النَّسيب","era_en":"Ode-opening","kind_ar":"بانَ الخَليط · المسافة","phrase_ar":"بانَ الخَليطُ ولم يَأْذَنوا برَحيلِهِمِ","gloss_en":"“the companions parted and gave no warning of leaving” — the ode''s classic opening formula: the mingled camp pulls away across the sand and the interval (بَيْن) between lovers opens.","image_ar":"ظَعائنُ ترحل والغبارُ يفصل بين الأحبّة","image_en":"a caravan pulling away, dust widening the gap between lovers","lex_source":"الرّاغب · المفردات","lex_ar":"البَيْن: الفَصلُ بين الشيئين","lex_en":"al-bayn = the interval between two things (d. 502 AH)","motif":"split"},{"era_ar":"الخَطابة","era_en":"Oratory","kind_ar":"البَيان · الفصاحة","phrase_ar":"أوتِيَ بَيانًا","gloss_en":"“he was granted bayān” — clear, distinct speech that sets each meaning apart from the next; the most prized virtue of the pre-Islamic orator.","image_ar":"لسانٌ يفصل المعاني فتقفُ كلٌّ على حِدَة","image_en":"a tongue that separates meanings so each stands on its own","lex_source":"الرّاغب · سِنائي","lex_ar":"بَيان · مُبَيِّن · مُستَبِين","lex_en":"the root''s clarity-cluster — Rāghib & Sinai","motif":"family"}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:synthesis', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'synthesis', NULL, 6, 'التخليص الجامع', 'Synthesis', '', 'أربعةُ مصادرَ وقراءةٌ واحدة: المعاجمُ تُعطي الصورة، وسِنائي يُسمّي ألفاظَ الوضوح القرآنية، والتركيبُ الاصطلاحيّ يكشف نحوَ الجذر، والمفسّرون يُطبّقونه — وكلُّها تقول شيئًا واحدًا: المُبِينُ انفصالٌ صار مرئيًّا، والوحيُ أعلى حالاته.', 'Four sources, one reading. The lexicons give the picture, Sinai names the Qurʾānic clarity-vocabulary, the verbal idiom shows the syntax the root prefers, and the mufassirūn apply it — together they say one thing: مُبِين is ==separation made visible, and revelation== is its highest case.', '',
+  '{"strands":[{"kind":"lexicon","badge":"المعجم","source":"ابن فارس · الرَّاغب","ar":"بُعْدٌ وانكشاف؛ فصلٌ ثمّ ظهور","en":"A single core of parting + disclosure — what separates then shows itself.","concept":"parting → disclosure"},{"kind":"sinai","badge":"Key Terms · Sinai","source":"Sinai, Key Terms of the Qurʾān","ar":"بيان · مُبيِّن · مُستبين","en":"The root’s Qurʾānic clarity-cluster: exposition (بيان), one-who-clarifies (مُبيِّن), becoming-manifest (مُستبين).","concept":"the clarity vocabulary"},{"kind":"verbal_idiom","badge":"التركيب","source":"المدوّنة · ٢:٢٥٦","ar":"تَبَيَّنَ … مِنْ — «قد تبيّن الرشدُ من الغيّ»","en":"The root’s signature construction: X becomes distinct FROM Y — guidance from error (2:256). Clarity is always clarity-apart-from-something.","concept":"distinct-from-something"},{"kind":"tafsir","badge":"التفسير","source":"الطبري · ابن عاشور","ar":"يُبيّن ما يحتاجه الناس؛ بيِّنٌ ومُبيِّنٌ معًا","en":"Ṭabarī: it makes plain the guidance and rulings people need. Ibn ʿĀshūr: manifest in itself and clarifying at once.","concept":"clear + clarifying"}],"output":"separation made visible"}', 'kmaps_synthesis', 1, 'quran', '["quran","classical","msa"]', 'kmaps-media/roots/byn/synthesis-weave.svg', 'image', 'four source-strands (lexicon · Sinai · idiom · tafsīr) weaving into one reading', 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:metaphor', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'metaphor', NULL, 7, 'التصوير الذهني', 'Conceptual Metaphor', 'تصور', 'الفهمُ أن ترى الشيء يخرج من خلفيّته فيتميّز. الصورةُ الحسّيّة للجذر — طريقٌ يشقّ الأرض، وصبحٌ ينفصل عن الليل (بانَ الصبح) — تُحمَل كما هي إلى المعنى المجرّد: فالكتاب المبين قد بانت حقائقُه من الالتباس فصارت ظاهرة.', 'To understand is to see something step out of a background and stand apart. The root''s physical picture — a road parting the land, dawn breaking off from night (بانَ الصُّبح) — is carried whole into the abstract: a clear Book is one whose truths have ==separated out from confusion== and now stand visible.', '',
+  '{"source_ar":"الانفصال الحسّي","target_ar":"الوضوح الذهني","mapping":"CLARITY IS SEPARATION"}', 'kmaps_five_lens', 1, 'classical', '["classical","quran"]', 'kmaps-media/roots/byn/metaphor-dawn.webp', 'image', 'CLARITY IS SEPARATION — dawn separating from night as a thing becoming visible', 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:kindred', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'kindred', NULL, 8, 'النظائر والأضداد', 'Kindred & Contrast', 'نظائر و اضداد', 'موقع «مبين» بين نظائره في الوضوح.', 'Where مُبِين sits among its ==neighbours of clarity==.', '',
+  '{"synonyms":[{"ar":"ظاهر","en":"ẓāhir","note":"outwardly evident — surface visibility, not clarity by separation."},{"ar":"واضح","en":"wāḍiḥ","note":"clear/plain (MSA default) — result-focused, lacks the causative half."},{"ar":"جَلِيّ","en":"jaliyy","note":"polished-bright, unmistakable — intensity of clearness."}],"contrast":[{"ar":"مُبْهَم","en":"mubham","note":"vague, unseparated — the exact opposite: nothing stands apart."},{"ar":"خَفِيّ","en":"khafiyy","note":"hidden, still merged with its background."}]}', 'kmaps_five_lens', 1, 'classical', '["classical","msa"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:constellation', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'constellation', NULL, 9, 'كوكبة الكلمة', 'Word Constellation', 'كلمے كا جھرمٹ', 'الجذر كلُّه في نظرة. «مُبِين» في المركز، وتدور حوله مشتقّاتُه أقربَ (ذهبيّ)، ثمّ نظائرُ الوضوح أبعدَ (أزرق)، وأضدادُه — المُبْهَم والخَفِيّ — على الطرف (أحمر).', '==The whole root at a glance.== مُبِين sits at the centre; its own derivations orbit closest (gold), the near-synonyms of clarity sit further out (blue), and its opposites — the un-separated, the still-hidden — mark the far edge (red).', '',
+  '{"center":{"ar":"مُبِين","root":"ب ي ن"},"nodes":[{"ar":"بَيان","en":"exposition","ring":1,"angle":0,"kind":"derived"},{"ar":"بَيَّنَ","en":"made clear","ring":1,"angle":60,"kind":"derived"},{"ar":"أبانَ","en":"clarified","ring":1,"angle":120,"kind":"derived"},{"ar":"بَيِّنة","en":"clear proof","ring":1,"angle":180,"kind":"derived"},{"ar":"تِبْيان","en":"full clarifying","ring":1,"angle":240,"kind":"derived"},{"ar":"بانَ","en":"became clear","ring":1,"angle":300,"kind":"derived"},{"ar":"واضح","en":"plain","ring":2,"angle":30,"kind":"synonym"},{"ar":"ظاهر","en":"evident","ring":2,"angle":90,"kind":"synonym"},{"ar":"جَلِيّ","en":"unmistakable","ring":2,"angle":150,"kind":"synonym"},{"ar":"مُبْهَم","en":"vague","ring":2,"angle":210,"kind":"contrast"},{"ar":"خَفِيّ","en":"hidden","ring":2,"angle":270,"kind":"contrast"}]}', 'kmaps_five_lens', 1, 'quran', '["quran","classical","msa"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:occurrences', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'occurrences', NULL, 10, 'الشواهد القرآنية', 'Qurʾānic Occurrences', 'شواہد', 'ليست تكرارَ افتتاح «كتاب مبين»، بل ما يصفه «مبين» من موصوفاتٍ مختلفة في القرآن — كلُّ موصوفٍ يُنزِل الأصلَ ==(الانفصال ← الوضوح)== منزلةً جديدة.', 'Not the repeated كتاب-مبين opening, but the distinct things مُبِين describes across the Qurʾān — each noun bends the same core ==(separation → clarity)== a different way.', '',
+  '{"items":[{"ayah_key":"44:2","kind_ar":"الكتاب","en":"the Book","motif":"arrival","text_ar":"وَالْكِتَابِ الْمُبِينِ","note":"Book — clear in itself and clarifying: the study locus.","focus":true},{"ayah_key":"26:195","kind_ar":"اللسان","en":"the tongue","motif":"family","text_ar":"بِلِسَانٍ عَرَبِيٍّ مُبِينٍ","note":"Tongue — a clear Arabic speech; clarity as intelligible language."},{"ayah_key":"36:12","kind_ar":"السِّجِلّ","en":"the record","motif":"shape","text_ar":"أَحْصَيْنَاهُ فِي إِمَامٍ مُبِينٍ","note":"Record — a register that lays every deed out plainly; eschatological ledger."},{"ayah_key":"2:168","kind_ar":"العداوة","en":"the enemy","motif":"split","text_ar":"إِنَّهُ لَكُمْ عَدُوٌّ مُبِينٌ","note":"Enemy — Satan as an open, declared foe; clarity as being out in the open."},{"ayah_key":"16:35","kind_ar":"التبليغ","en":"the conveyance","motif":"parting","text_ar":"إِلَّا الْبَلَاغُ الْمُبِينُ","note":"Conveyance — the messengers'' task is only the clear delivery itself."},{"ayah_key":"5:110","kind_ar":"على ألسنة المنكرين","en":"on deniers’ tongues","motif":"debate","text_ar":"إِنْ هَٰذَا إِلَّا سِحْرٌ مُبِينٌ","note":"Sorcery — مُبِين on the deniers'' tongue: ''plain magic'', clarity turned into accusation."},{"ayah_key":"67:26","kind_ar":"الإنذار","en":"the warning","motif":"debate","text_ar":"وَإِنَّمَا أَنَا نَذِيرٌ مُبِينٌ","note":"Warner — the Prophet himself as the one who makes the warning plain."}]}', NULL, 0, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:development', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'development', NULL, 11, 'التطور الدلالي', 'Semantic Development', 'ارتقائے معنی', 'كيف ينتقل المعنى عبر القرآن — من الانفصال الحسّي، إلى الظهور، إلى وصف الوحي ذاته.', 'How the sense travels across the Qurʾān — from a physical parting, to visible manifestation, to the ==epithet of revelation itself==.', '',
+  '{"stages":[{"label_ar":"الانفصال","label_en":"Separation","note":"بَيْن — the physical interval / parting between two things."},{"label_ar":"الظهور","label_en":"Manifestation","note":"بانَ الصُّبح — what parts becomes visible; a thing shows itself."},{"label_ar":"الإبانة","label_en":"Clarifying","note":"أبانَ / بيَّنَ — actively making distinct for others."},{"label_ar":"وصف الوحي","label_en":"Epithet of revelation","note":"كتاب مبين — the Book that is clear and makes clear."}]}', 'kmaps_five_lens', 1, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:usage_map', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'usage_map', NULL, 12, 'خريطة الاستعمال', 'Usage Map', 'نقشۂ استعمال', 'لكلّ موضعٍ من الجذر: أين يقع المعنى؟ كلُّ صفٍّ مشهد، وكلُّ عمودٍ حقلٌ دلاليّ. فيرى الدارسُ التوزيع دفعةً واحدة.', 'For every occurrence of the root, where does the meaning land? Each row is a scene; each column a semantic register. The student sees the distribution at a glance — مُبِين ==clusters in the manifest/spiritual band==, rarely the legal.', '',
+  '{"axes":[{"ar":"حسّي","en":"Literal"},{"ar":"مجازي","en":"Metaphorical"},{"ar":"تشريعي","en":"Legal"},{"ar":"روحي","en":"Spiritual"},{"ar":"كوني","en":"Cosmic"},{"ar":"أخروي","en":"Eschatological"}],"rows":[{"ref":"44:2","label":"كتاب مبين","weights":[0,2,1,3,1,2]},{"ref":"12:1","label":"آيات الكتاب","weights":[0,2,1,3,0,0]},{"ref":"27:1","label":"كتاب مبين","weights":[0,2,1,3,1,1]},{"ref":"36:12","label":"إمام مُبِين","weights":[0,1,2,2,1,3]},{"ref":"6:59","label":"كتاب مبين (غيب)","weights":[0,1,1,2,3,2]},{"ref":"26:195","label":"لسان مُبِين","weights":[3,1,0,1,0,0]}]}', 'kmaps_usage_map', 1, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:root:بين:master_story', 'root', 'بين', NULL, 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'master_story', NULL, 13, 'القصة الجامعة', 'Master Story', 'جامع کہانی', 'يبدأ الجذرُ صورةً للانفصال — طريقٌ يشقّ الصحراء، وصبحٌ ينفصل عن الليل. ومن هذا الأصل الواحد «ب ي ن» تنمو أسرةٌ كاملة: البَيْن، وبانَ، وبيَّنَ وأبانَ، والبيان، والبيّنة. كلُّ بناءٍ هو الفكرةُ نفسها: انفصالٌ يُفضي إلى الرؤية. وفي (44:2) يجيء الجذرُ «مبينًا» — اسمَ فاعلٍ من الإفعال على وزن مُفْعِل؛ ولأنّ البابَ لازمٌ ومتعدٍّ، تدّعي الكلمةُ أمرين معًا: الكتابُ بيِّنٌ في نفسه، ومُبيِّنٌ لغيره. ويجعله النحاةُ نعتًا للكتاب مجرورًا في القسم، ويكشف البلاغيّون أنّ القسمَ هو الحجّة: أقسم بالكتاب على الكتاب، وحملت الصفةُ «مبين» البرهان. ومن ثمّ اختلف المترجمون؛ فرأت خريطةُ الاستعمال الشكلَ نفسه: يتجمّع «مبين» في الحقلين الروحيّ والظاهر، ويرقّ نحو التشريعيّ — فهو أقربُ إلى وصف الوحي وهو يخرج من الخفاء ليقفَ في العَراء.', 'begins as a picture of parting — a road cutting the desert, dawn breaking off from night. From that one root, ب ي ن, Arabic grows a whole family: بَيْن (the gap between), بانَ (to show), بيَّنَ and أبانَ (to make show), بيان (clear speech), بيِّنة (a proof that stands out). Every build is the same idea refracted — ==separation that leads to sight==. At 44:2 the root arrives as مُبِين, the active participle of Form IV on the pattern مُفْعِل; because that form is at once intransitive and transitive, the word claims two things in one breath: the Book is clear in itself and it makes all else clear. The grammarians place it as a mere adjective of الكتاب, genitive in the oath — yet the rhetoricians show the oath is the argument: God swears by the Book, about the Book, and the single epithet مُبِين carries the proof. This is why translators split — ''the clear Book'' keeps only half; ''the Book that makes things clear'' recovers the causative that the formula كتاب مبين, echoing across 43:2, 12:1, 26:2, 27:1 and 28:2, is really asserting. Read the usage map and the same shape appears: مُبِين gathers in the spiritual and manifest bands, thinning toward the legal — it is less a word about rules than about revelation stepping out of concealment and standing, at last, in the open.', '',
+  '{"medallion_ar":"مُبِين","medallion_root":"ب ي ن","threads":["root DNA","wazn IV","derivations","iʿrāb","lexicons","balāgha","translators","usage map"],"movements":[{"no":"I","motif":"parting","en":"The Picture","ar":"الصورة","accent":"#c9a84c","text":"It begins as a picture of parting — a road cutting the desert, dawn breaking off from night. The root’s oldest sense is a separation that leads to sight: what stands apart becomes visible."},{"no":"II","motif":"family","en":"The Family","ar":"الأسرة","accent":"#7fb58f","text":"From that one root, ب ي ن, Arabic grows a whole family — every build the same idea refracted through a pattern.","chips":[{"ar":"بَيْن","en":"the gap between"},{"ar":"بانَ","en":"to show"},{"ar":"بيَّنَ","en":"to make clear"},{"ar":"أبانَ","en":"to clarify"},{"ar":"بيان","en":"clear speech"},{"ar":"بيِّنة","en":"a standing proof"}]},{"no":"III","motif":"arrival","en":"The Arrival","ar":"الورود","accent":"#e8c96a","text":"At 44:2 the root arrives as مُبِين — the active participle of Form IV on the pattern مُفْعِل. Because that form is at once intransitive and transitive, the word claims two things in one breath: the Book is clear in itself, and it makes all else clear."},{"no":"IV","motif":"debate","en":"The Argument","ar":"الحجّة","accent":"#93b8d6","text":"The grammarians place it as a mere adjective of الكتاب, genitive in the oath. Yet the rhetoricians show the oath itself IS the argument: God swears by the Book, about the Book — and the single epithet مُبِين carries the whole proof."},{"no":"V","motif":"split","en":"The Split","ar":"الترجمة","accent":"#b3a6f6","text":"This is why translators split. “The clear Book” keeps only half; “the Book that makes things clear” recovers the causative — the claim the formula كتاب مبين is really making, echoing across 43:2, 12:1, 26:2, 27:1 and 28:2."},{"no":"VI","motif":"shape","en":"The Shape","ar":"الخريطة","accent":"#c9a84c","text":"Read the usage map and the same shape appears: مُبِين gathers in the spiritual and manifest bands, thinning toward the legal. It is less a word about rules than about revelation stepping out of concealment — standing, at last, in the open."}]}', 'kmaps_master_story', 1, 'quran', '["quran","classical","msa"]', 'kmaps-media/roots/byn/master-story.mp4', 'image', 'animated arc: parting → manifestation → the Book that clarifies', 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:44:2:irab', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'مجرور وعلامته الكسرة، وهو نعتٌ للكتاب في القسم «وَالْكِتَابِ الْمُبِينِ»: قال الميسّر الواو واو القسم، والكتاب مجرور بها، والمبين نعتٌ له. ولا خلاف في هذا الموضع.', '==Genitive (مجرور)== with kasra, functioning as نعت (adjective) of الكتاب inside the oath وَالكتابِ المُبِين: al-Muyassar reads the wāw as wāw al-qasam, الكتاب genitive by it (governed by an elided أُقسِمُ), and المُبِين its adjective. No dispute is recorded for this position in the iʿrāb works consulted.', '',
+  '{"role_ar":"نعت","role_en":"adjective","position_ar":"مجرور","sign_ar":"الكسرة","sources":["al-Muyassar 44:2","Iʿrāb al-Qurʾān"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:44:2:balagha', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'balagha', NULL, 2, 'البلاغة', 'Balāgha', 'بلاغہ', 'قسمٌ بالكتاب على الكتاب: المُقسَمُ به هو نفسُه دليلُ المُقسَمِ عليه (إنّا أنزلناه). وصفةٌ واحدة «مبين» تحمل الحجّة — وصفٌ من الإفعال يجمع دعويين: بيِّنٌ في نفسه، مُبيِّنٌ لغيره.', 'The oath swears BY the Book about the Book: the المُقسَم به is itself the proof of the المُقسَم عليه (إنّا أنزلناه, 44:3). Its single epithet مُبِين does the argumentative work — a Form IV participle ==compressing two claims at once==: the Book is clear in itself and gives clarity about everything else.', '',
+  '{"formula_ar":"كِتَاب + مُبِين","formula_en":"the كتاب-مبين formula binds revelation to intelligibility","refs":["43:2","12:1","26:2","27:1","28:2"]}', 'kmaps_five_lens', 1, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:44:2:translators', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'translators', NULL, 3, 'الترجمة', 'Translator Choices', 'ترجمہ', 'لأنّ أبانَ لازمٌ ومتعدٍّ، فالمبين بيِّنٌ ومُبيِّنٌ معًا. وأكثر التراجم تُبقي النصفَ اللازم فقط، والمفقود هو المعنى المتعدّي الذي يدّعيه تركيبُ «كتاب مبين».', 'Because أبانَ is both intransitive and transitive, مُبِين is simultaneously بيِّن (clear) and مُبيِّن (clarity-giving). Most renderings keep only the intransitive half; the causative force that the formula كتاب مبين is claiming is ==the controlled loss==.', '',
+  '{"renderings":[{"translator":"Abdel Haleem","text":"the Scripture that makes things clear","reading":"causative"},{"translator":"Pickthall","text":"the Scripture that maketh plain","reading":"causative"},{"translator":"Yusuf Ali","text":"the Book that makes things clear","reading":"causative"},{"translator":"Sahih International","text":"the clear Book","reading":"partial"},{"translator":"K-MAPS gloss","text":"the Book — clear in itself and clarifying","reading":"both"}]}', 'kmaps_five_lens', 1, 'quran', '["quran","msa"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:44:2:tafsir', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
+  'tafsir', NULL, 4, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
+  '{"entries":[{"scholar":"al-Ṭabarī","work":"Jāmiʿ al-Bayān","text":"al-Ṭabarī reads مُبِين for what the Book does: it lays everything out plainly — the guidance to follow, the rulings to live by, and where the lawful ends and the unlawful begins — so that truth stands apart from falsehood for anyone who reflects on it."},{"scholar":"al-Zamakhsharī","work":"al-Kashshāf","text":"al-Zamakhsharī notes that مُبِين can be read two ways, since the verb behind it works both ways. Either the Book makes the truth clear to us — setting out right guidance and the sacred law — or the Book is clear in and of itself: plainly a miracle that no one can imitate."},{"scholar":"Ibn ʿĀshūr","work":"al-Taḥrīr wa-l-Tanwīr","text":"Ibn ʿĀshūr holds that مُبِين carries both senses on purpose, at the same time: the Book is clear in itself, and it makes its meaning clear to others. That double clarity is just what makes it worthy to be sworn by — the oath draws its force from it."}]}', 'TABARI', 0, 'classical', '["classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:26:195:irab', 'context', '26:195', '44:2:2', 44, 2, 2, '26:195', 'بين', 'مُبِين',
+  'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـلسانٍ عربيّ، وعلامتُه الكسرة.', 'In this verse مُبِين is a genitive adjective (نعت) of lisān — the tongue — genitive; describing a clear, intelligible Arabic tongue.', '',
+  '{"role_ar":"نعت","role_en":"adjective","position_ar":"مجرور","sign_ar":"الكسرة","sources":["Iʿrāb al-Qurʾān · 26:195"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:26:195:tafsir', 'context', '26:195', '44:2:2', 44, 2, 2, '26:195', 'بين', 'مُبِين',
+  'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
+  '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 26:195","text":"Tongue — a clear Arabic speech; clarity as intelligible language."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:36:12:irab', 'context', '36:12', '44:2:2', 44, 2, 2, '36:12', 'بين', 'مُبِين',
+  'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـإمامٍ (السِّجِلّ)، وعلامتُه الكسرة.', 'In this verse مُبِين is a genitive adjective (نعت) of imām — the record — genitive after فِي; the register that lays every deed out plainly.', '',
+  '{"role_ar":"نعت","role_en":"adjective","position_ar":"مجرور","sign_ar":"الكسرة","sources":["Iʿrāb al-Qurʾān · 36:12"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:36:12:tafsir', 'context', '36:12', '44:2:2', 44, 2, 2, '36:12', 'بين', 'مُبِين',
+  'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
+  '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 36:12","text":"Record — a register that lays every deed out plainly; eschatological ledger."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:2:168:irab', 'context', '2:168', '44:2:2', 44, 2, 2, '2:168', 'بين', 'مُبِين',
+  'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـعدوٌّ، وعلامتُه الضمة.', 'In this verse مُبِين is a nominative adjective (نعت) of ʿaduww — the enemy — nominative predicate; Satan as an open, declared foe.', '',
+  '{"role_ar":"نعت","role_en":"adjective","position_ar":"مرفوع","sign_ar":"الضمة","sources":["Iʿrāb al-Qurʾān · 2:168"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:2:168:tafsir', 'context', '2:168', '44:2:2', 44, 2, 2, '2:168', 'بين', 'مُبِين',
+  'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
+  '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 2:168","text":"Enemy — Satan as an open, declared foe; clarity as being out in the open."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:16:35:irab', 'context', '16:35', '44:2:2', 44, 2, 2, '16:35', 'بين', 'مُبِين',
+  'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـالبلاغُ، وعلامتُه الضمة.', 'In this verse مُبِين is a nominative adjective (نعت) of al-balāgh — the conveyance — nominative; the messengers’ task is only the clear delivery.', '',
+  '{"role_ar":"نعت","role_en":"adjective","position_ar":"مرفوع","sign_ar":"الضمة","sources":["Iʿrāb al-Qurʾān · 16:35"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:16:35:tafsir', 'context', '16:35', '44:2:2', 44, 2, 2, '16:35', 'بين', 'مُبِين',
+  'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
+  '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 16:35","text":"Conveyance — the messengers'' task is only the clear delivery itself."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:5:110:irab', 'context', '5:110', '44:2:2', 44, 2, 2, '5:110', 'بين', 'مُبِين',
+  'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـسِحرٌ، وعلامتُه الضمة.', 'In this verse مُبِين is a nominative adjective (نعت) of siḥr — magic — nominative; on the deniers’ tongue — ‘plain magic’.', '',
+  '{"role_ar":"نعت","role_en":"adjective","position_ar":"مرفوع","sign_ar":"الضمة","sources":["Iʿrāb al-Qurʾān · 5:110"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:5:110:tafsir', 'context', '5:110', '44:2:2', 44, 2, 2, '5:110', 'بين', 'مُبِين',
+  'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
+  '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 5:110","text":"Sorcery — مُبِين on the deniers'' tongue: ''plain magic'', clarity turned into accusation."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:67:26:irab', 'context', '67:26', '44:2:2', 44, 2, 2, '67:26', 'بين', 'مُبِين',
+  'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـنذيرٌ، وعلامتُه الضمة.', 'In this verse مُبِين is a nominative adjective (نعت) of nadhīr — a warner — nominative; the Prophet as the one who makes the warning plain.', '',
+  '{"role_ar":"نعت","role_en":"adjective","position_ar":"مرفوع","sign_ar":"الضمة","sources":["Iʿrāb al-Qurʾān · 67:26"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, 'live');
+INSERT INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
+  data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, status)
+ VALUES ('MDB:ctx:67:26:tafsir', 'context', '67:26', '44:2:2', 44, 2, 2, '67:26', 'بين', 'مُبِين',
+  'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
+  '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 67:26","text":"Warner — the Prophet himself as the one who makes the warning plain."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, 'live');

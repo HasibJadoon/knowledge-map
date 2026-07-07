@@ -29,7 +29,8 @@ interface WordRow {
   root_meaning_ar: string | null; root_meaning_en: string | null; quran_meanings_json: string | null;
 }
 interface BlockRow {
-  scope_level: string; block_type: string; block_subtype: string | null; display_order: number;
+  scope_level: string; scope_key: string | null; ayah_key: string | null;
+  block_type: string; block_subtype: string | null; display_order: number;
   title_ar: string | null; title_en: string | null; title_ur: string | null;
   text_ar: string | null; text_en: string | null; text_ur: string | null;
   data_json: string | null; source_slug: string | null; source_ref: string | null; source_page: string | null;
@@ -56,21 +57,19 @@ export class MorphDisplayRepo {
     );
     if (!w) return null;
 
-    const scopeKeys = [w.word_occ_ref, w.ayah_key, w.root_ar].filter(Boolean) as string[];
-    const ph = scopeKeys.map(() => '?').join(',');
+    // All display blocks for this root: scope_level='root' → CORE (static, shared by every
+    // context); scope_level='context' → TEMPORAL (belongs to one Qurʾānic occurrence, keyed
+    // by scope_key = ayah_key). Legacy 'occurrence'/'ayah' rows fold into TEMPORAL too.
     const blocks = await query<BlockRow>(
       this.db,
-      `SELECT scope_level, block_type, block_subtype, display_order,
+      `SELECT scope_level, scope_key, ayah_key, block_type, block_subtype, display_order,
               title_ar, title_en, title_ur, text_ar, text_en, text_ur,
               data_json, source_slug, source_ref, source_page, is_synthesis, register, meta_json,
               registers_json, media_r2_key, media_kind, media_alt
          FROM qr_morph_display_blocks
-        WHERE status = 'live'
-          AND ( (scope_level = 'occurrence' AND scope_key = ?)
-             OR (scope_level = 'ayah'       AND scope_key = ?)
-             OR (scope_level = 'root'       AND scope_key = ?) )
+        WHERE status = 'live' AND root_ar = ?
         ORDER BY display_order`,
-      [w.word_occ_ref ?? '', w.ayah_key ?? '', w.root_ar ?? ''],
+      [w.root_ar ?? ''],
     ).catch(() => [] as BlockRow[]);
 
     const slugs = [...new Set(blocks.map(b => b.source_slug).filter(Boolean))] as string[];
@@ -98,6 +97,45 @@ export class MorphDisplayRepo {
     const mkNav = (s: { ayah_no: number; word_index: number; surface_ar: string } | undefined) =>
       s ? { surah, ayah: s.ayah_no, word_index: s.word_index, surface_ar: s.surface_ar } : null;
 
+    // ── shape one block for the client ──
+    const mapBlock = (b: BlockRow) => ({
+      type: b.block_type, subtype: b.block_subtype,
+      tier: b.scope_level, scope: b.scope_level === 'root' ? 'root' : 'word',
+      order: b.display_order,
+      title: { ar: b.title_ar, en: b.title_en, ur: b.title_ur },
+      text: { ar: b.text_ar, en: b.text_en, ur: b.text_ur },
+      data: hydrate(b.data_json), source_slug: b.source_slug, source_ref: b.source_ref,
+      source_page: b.source_page, is_synthesis: !!b.is_synthesis, register: b.register,
+      registers: (hydrate(b.registers_json) as string[] | null) ?? (b.register ? [b.register] : []),
+      illustration: b.media_r2_key
+        ? { url: `/assets/morph-media/${b.block_type}.png`, alt: b.media_alt, kind: b.media_kind }
+        : ((hydrate(b.meta_json) as { illustration?: unknown })?.illustration ?? null),
+    });
+
+    // CORE (scope root) renders top; TEMPORAL (context) is grouped by its ayah_key.
+    const coreBlocks = blocks.filter(b => b.scope_level === 'root').map(mapBlock);
+    const tempByKey = new Map<string, ReturnType<typeof mapBlock>[]>();
+    for (const b of blocks) {
+      if (b.scope_level === 'root') continue;
+      const key = b.scope_key ?? b.ayah_key ?? '';
+      if (!tempByKey.has(key)) tempByKey.set(key, []);
+      tempByKey.get(key)!.push(mapBlock(b));
+    }
+
+    // The occurrences block enumerates the contexts; attach each context's temporal blocks.
+    const occ = coreBlocks.find(b => b.type === 'occurrences');
+    const occItems: any[] = (occ?.data as { items?: any[] })?.items ?? [];
+    const contexts = occItems.map(it => ({
+      key: it.ayah_key, ayah_key: it.ayah_key, kind_ar: it.kind_ar, en: it.en,
+      text_ar: it.text_ar, note: it.note ?? '', source: it.source ?? 'Qurʾān', focus: !!it.focus,
+      blocks: tempByKey.get(it.ayah_key) ?? [],
+    }));
+
+    // Distinct language-world registers present (drives the sidebar filter).
+    const regsAvail = [...new Set(
+      [...coreBlocks, ...contexts.flatMap(c => c.blocks)].flatMap(b => b.registers ?? []),
+    )];
+
     return {
       nav: { prev: mkNav(sibs[idx - 1]), next: mkNav(sibs[idx + 1]), index: idx, total: sibs.length },
       word: {
@@ -111,19 +149,9 @@ export class MorphDisplayRepo {
         badge_color: w.badge_color, is_anchor: !!w.is_anchor,
         importance: w.importance, difficulty: w.difficulty, frequency_quran: w.frequency_quran,
       },
-      blocks: blocks.map(b => ({
-        type: b.block_type, subtype: b.block_subtype, tier: b.scope_level, order: b.display_order,
-        title: { ar: b.title_ar, en: b.title_en, ur: b.title_ur },
-        text: { ar: b.text_ar, en: b.text_en, ur: b.text_ur },
-        data: hydrate(b.data_json), source_slug: b.source_slug, source_ref: b.source_ref,
-        source_page: b.source_page, is_synthesis: !!b.is_synthesis, register: b.register,
-        // language-world registers (["quran","classical","msa"]) drive the sidebar filter
-        registers: (hydrate(b.registers_json) as string[] | null) ?? (b.register ? [b.register] : []),
-        // R2-keyed media → bundled illustration (pilot: /assets/morph-media/<block_type>.png)
-        illustration: b.media_r2_key
-          ? { url: `/assets/morph-media/${b.block_type}.png`, alt: b.media_alt, kind: b.media_kind }
-          : ((hydrate(b.meta_json) as { illustration?: unknown })?.illustration ?? null),
-      })),
+      registers_available: regsAvail,
+      blocks: coreBlocks,
+      contexts,
       sources: Object.fromEntries(sources.map(s => [s.source_slug, {
         kind: s.kind, title_ar: s.title_ar, title_en: s.title_en,
         author_ar: s.author_name_ar, author_en: s.author_name_en, author_ur: s.author_name_ur,

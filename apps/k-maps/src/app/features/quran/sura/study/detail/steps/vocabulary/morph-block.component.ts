@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MorphBlockVm, Tri, Lang } from '../../../../../../../shared/services/quran/quran-surah.service';
+import { richMarkup } from './morph-rich';
 
 interface RegChip { label: string; cls: string; }
 
@@ -147,45 +148,7 @@ export class MorphBlockComponent {
     return this.sanitizer.bypassSecurityTrustHtml(this.richHtml(this.t(tri)));
   }
 
-  private esc(s: string): string {
-    return s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c] as string));
-  }
-  private richHtml(str: string): string {
-    if (!str) return '';
-    const arCount = (str.match(/[؀-ۿ]/g) || []).length;
-    const latCount = (str.match(/[A-Za-z]/g) || []).length;
-    const arP = this.lang === 'ar' || arCount > latCount;
-    const seg = (text: string, mode: 'plain' | 'key' | 'crit'): string => {
-      const tok = /([؀-ۿ](?:[؀-ۿ]|\s(?=[؀-ۿ]))*)|([←→⟶])/g;
-      let out = '', last = 0, m: RegExpExecArray | null;
-      const wrap = (t: string) => {
-        const e = this.esc(t);
-        if (mode === 'crit') return `<b class="rc">${e}</b>`;
-        if (mode === 'key') return `<b class="rk">${e}</b>`;
-        return e;
-      };
-      while ((m = tok.exec(text))) {
-        if (m.index > last) out += wrap(text.slice(last, m.index));
-        if (m[1]) {
-          out += (arP && mode === 'plain') ? this.esc(m[1]) : `<span dir="rtl" class="ra ${mode}">${this.esc(m[1])}</span>`;
-        } else if (m[2]) {
-          out += `<span class="rarrow ${mode}">${m[2]}</span>`;
-        }
-        last = tok.lastIndex;
-      }
-      if (last < text.length) out += wrap(text.slice(last));
-      return out;
-    };
-    const mk = /(==)([^=]+)==|(\*\*)([^*]+)\*\*/g;
-    let out = '', last = 0, m: RegExpExecArray | null;
-    while ((m = mk.exec(str))) {
-      if (m.index > last) out += seg(str.slice(last, m.index), 'plain');
-      out += m[1] === '==' ? seg(m[2], 'crit') : seg(m[4], 'key');
-      last = mk.lastIndex;
-    }
-    if (last < str.length) out += seg(str.slice(last), 'plain');
-    return out;
-  }
+  private richHtml(str: string): string { return richMarkup(str, this.lang); }
 
   private norm(s: string): string {
     return s.replace(/[ً-ْٰـ۝]/g, '').replace(/[آأإٱ]/g, 'ا');

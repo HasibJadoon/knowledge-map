@@ -1,11 +1,13 @@
 import {
   ChangeDetectionStrategy, Component, OnInit, computed, inject, signal,
 } from '@angular/core';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  QuranSurahService, MorphWordView, MorphBlockVm, Lang,
+  QuranSurahService, MorphWordView, MorphBlockVm, MorphContextVm, Lang,
 } from '../../../../../../../shared/services/quran/quran-surah.service';
 import { MorphBlockComponent } from './morph-block.component';
+import { richMarkup } from './morph-rich';
 
 /** One TOC entry — mirrors a rendered block, scrolls to it. */
 interface TocItem { ord: string; title: string; titleAr: string; domId: string; hot: boolean; }
@@ -38,6 +40,17 @@ export class MorphWordPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly svc = inject(QuranSurahService);
+  private readonly sanitizer = inject(DomSanitizer);
+
+  /** Rich inline markup (==critical== / **key** / arrows) for the hero gloss + context line. */
+  rich(str: string | null | undefined): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(richMarkup(str, this.lang()));
+  }
+  glossHtml(): SafeHtml {
+    const w = this.word();
+    const g = this.lang() === 'ar' ? w?.gloss.ar : (this.lang() === 'ur' ? w?.gloss.ur : w?.gloss.en);
+    return this.rich(g);
+  }
 
   readonly view = signal<MorphWordView | null>(null);
   readonly loading = signal(true);
@@ -48,6 +61,7 @@ export class MorphWordPageComponent implements OnInit {
   readonly reg = signal<string>('all');
   readonly coreOpen = signal(true);
   readonly ctxOpen = signal(true);
+  readonly ctxKey = signal<string>('');   // selected context (ayah_key); '' = focus/default
 
   private surahId = 0; private passageNo = 1; private fromGrid = false;
 
@@ -67,10 +81,13 @@ export class MorphWordPageComponent implements OnInit {
     return (b.registers && b.registers.length) ? b.registers : (b.register ? [b.register] : []);
   }
 
-  /** Register options actually present in this word's blocks (+ "All"). */
+  /** Register options — language-worlds present in this word (+ "All"). */
   readonly regOptions = computed<RegOption[]>(() => {
-    const present = new Set<string>();
-    for (const b of this.view()?.blocks ?? []) for (const r of this.regsOf(b)) present.add(r);
+    const v = this.view();
+    const present = new Set<string>(v?.registers_available ?? []);
+    if (!present.size) {
+      for (const b of v?.blocks ?? []) for (const r of this.regsOf(b)) present.add(r);
+    }
     const sorted = [...present].sort((a, b) => REG_ORDER.indexOf(a) - REG_ORDER.indexOf(b));
     return [{ key: 'all', label: 'All' }, ...sorted.map(r => ({ key: r, label: REG_LABELS[r] ?? r }))];
   });
@@ -81,20 +98,28 @@ export class MorphWordPageComponent implements OnInit {
 
   /** CORE band — root-scope blocks (shared by every context), register-filtered. */
   readonly coreBlocks = computed<MorphBlockVm[]>(() =>
-    (this.view()?.blocks ?? []).filter(b => b.tier === 'root' && this.regOk(b)),
+    (this.view()?.blocks ?? []).filter(b => this.regOk(b)),
   );
 
-  /** TEMPORAL band — this occurrence's verse-bound blocks (ṣarf, iʿrāb …). */
+  /** Every Qurʾānic occurrence of the word — the context switcher. */
+  readonly contexts = computed(() => this.view()?.contexts ?? []);
+
+  /** The selected context (defaults to the focus occurrence). */
+  readonly activeContext = computed<MorphContextVm | null>(() => {
+    const cs = this.contexts();
+    const key = this.ctxKey();
+    return cs.find(c => c.ayah_key === key) ?? cs.find(c => c.focus) ?? cs[0] ?? null;
+  });
+
+  /** TEMPORAL band — the active context's verse-bound blocks (iʿrāb, balāgha …). */
   readonly temporalBlocks = computed<MorphBlockVm[]>(() =>
-    (this.view()?.blocks ?? []).filter(b => (b.tier === 'occurrence' || b.tier === 'ayah') && b.type !== 'context' && this.regOk(b)),
+    (this.activeContext()?.blocks ?? []).filter(b => this.regOk(b)),
   );
 
-  /** The studied verse that heads the Temporal band — from the occurrences focus item. */
+  /** The active verse that heads the Temporal band. */
   readonly contextVerse = computed<{ text_ar: string; note: string; ayah_key: string } | null>(() => {
-    const occ = (this.view()?.blocks ?? []).find(b => b.type === 'occurrences');
-    const items: any[] = occ?.data?.items ?? [];
-    const focus = items.find(it => it.focus) ?? items[0];
-    return focus ? { text_ar: focus.text_ar, note: focus.note ?? '', ayah_key: focus.ayah_key } : null;
+    const c = this.activeContext();
+    return c ? { text_ar: c.text_ar, note: c.note, ayah_key: c.ayah_key } : null;
   });
 
   readonly tocCore = computed<TocItem[]>(() => this.coreBlocks().map((b, i) => this.toc(b, 'core', i)));
@@ -124,7 +149,7 @@ export class MorphWordPageComponent implements OnInit {
   }
 
   private load(ayah: number, wordIndex: number): void {
-    this.loading.set(true); this.error.set(false); this.reg.set('all');
+    this.loading.set(true); this.error.set(false); this.reg.set('all'); this.ctxKey.set('');
     this.svc.getMorphWord(this.surahId, ayah, wordIndex).subscribe({
       next: v => { this.view.set(v); this.loading.set(false); window.scrollTo({ top: 0 }); },
       error: () => { this.error.set(true); this.loading.set(false); },
@@ -133,6 +158,7 @@ export class MorphWordPageComponent implements OnInit {
 
   setLang(l: Lang): void { this.lang.set(l); }
   setReg(r: string): void { this.reg.set(r); }
+  setContext(ayahKey: string): void { this.ctxKey.set(ayahKey); }
   toggleToc(): void { this.tocHidden.update(v => !v); }
   toggleCore(): void { this.coreOpen.update(v => !v); }
   toggleCtx(): void { this.ctxOpen.update(v => !v); }

@@ -582,10 +582,18 @@ export interface MorphSourceVm {
   badge_color: string | null; badge_glyph: string | null; order: number;
 }
 export interface MorphNavRef { surah: number; ayah: number; word_index: number; surface_ar: string; }
+/** One Qurʾānic occurrence of the word — a context the switcher can select. */
+export interface MorphContextVm {
+  key: string; ayah_key: string; kind_ar: string; en: string;
+  text_ar: string; note: string; source: string; focus: boolean;
+  blocks: MorphBlockVm[];        // this context's TEMPORAL layers (re-scoped on switch)
+}
 export interface MorphWordView {
   nav: { prev: MorphNavRef | null; next: MorphNavRef | null; index: number; total: number };
   word: MorphWordVm;
-  blocks: MorphBlockVm[];
+  registers_available?: string[];
+  blocks: MorphBlockVm[];        // CORE (scope root) — shared by every context
+  contexts?: MorphContextVm[];   // one per occurrence; each carries its temporal blocks
   sources: Record<string, MorphSourceVm>;
 }
 

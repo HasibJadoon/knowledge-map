@@ -158,6 +158,31 @@
     max-width: 720px; margin: 18px auto 0; font-style: italic;
     font-size: calc(17px * var(--fscale,1)); line-height: 1.6; color: var(--ink2);
   }
+  &__reading {
+    margin-top: 16px; font: 500 11px/1 var(--mono); letter-spacing: .04em; color: var(--faint);
+    .ar { font-family: var(--ar); font-size: 14px; color: var(--sky); }
+  }
+}
+
+// ── context switcher ────────────────────────────────────
+.mw-switch {
+  border: 1px solid rgba(147,184,214,.28); border-radius: 14px;
+  background: radial-gradient(500px 120px at 0 0, rgba(147,184,214,.06), transparent), var(--g2); padding: 15px 17px;
+  &__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+  &__t { font: 600 10px/1 var(--head); letter-spacing: .2em; text-transform: uppercase; color: var(--sky);
+    .ar { text-transform: none; letter-spacing: 0; font-size: 13px; color: var(--faint); } }
+  &__note { font-size: 11px; color: var(--faint); }
+  &__grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+}
+.mw-cx {
+  display: flex; flex-direction: column; gap: 4px; text-align: start; padding: 10px 14px; border-radius: 10px;
+  cursor: pointer; border: 1px solid var(--edge); background: var(--well);
+  &__ar { font-family: var(--ar); font-size: 16px; color: var(--ink2); }
+  &__en { font: 500 9.5px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+  &__key { font: 600 9px/1 var(--mono); color: var(--faint); letter-spacing: .03em; }
+  &:hover { border-color: var(--golddim); }
+  &.on { border-color: var(--golddim); background: rgba(201,168,76,.09);
+    .mw-cx__ar { color: var(--gold2); } .mw-cx__en { color: var(--gold); } }
 }
 .chip {
   font-size: 12px; padding: 6px 13px; border-radius: 5px; color: var(--muted); border: 1px solid var(--edge);
@@ -182,6 +207,7 @@
   &__rule { flex: 1; min-width: 30px; height: 1px; background: linear-gradient(90deg, var(--golddim), transparent);
     &--sky { background: linear-gradient(90deg, rgba(147,184,214,.5), transparent); } }
   &__note { font-size: 11px; color: var(--faint); }
+  &__key { font: 600 10px/1 var(--mono); color: var(--muted); }
   &--core { .mw-band__dot { background: var(--gold); box-shadow: 0 0 10px var(--gold); } .mw-band__t { color: var(--gold2); } }
   &--temp { .mw-band__dot { background: var(--sky); box-shadow: 0 0 10px var(--sky); } .mw-band__t { color: var(--sky); } .mw-band__ar { color: var(--gold2); } }
 }
