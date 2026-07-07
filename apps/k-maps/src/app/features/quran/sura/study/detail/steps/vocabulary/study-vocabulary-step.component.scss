@@ -28,7 +28,10 @@
 /* ayah group */
 .v-ayah { margin-bottom: 22px; }
 .v-aref { display: inline-block; font: 600 11px/1 var(--mono); letter-spacing: .06em; color: var(--gold); margin-bottom: 10px; opacity: .8; }
-.v-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 14px; }
+/* Flex (not full-width grid) so a verse with few words doesn't leave a big
+   empty void — cards keep a consistent size and centre within the row. */
+.v-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; }
+.v-grid km-morph-word-card { flex: 1 1 200px; max-width: 240px; }
 
 /* The word card (design + 3D pointer-tilt) is the shared
    <km-morph-word-card> (features/quran/shared/morph-word-card.component). */
