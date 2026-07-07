@@ -517,6 +517,14 @@ export interface QrMorphMeaning {
   en: string;
 }
 
+/** Grammatical-feature chip. `cat` picks the card colour; `ar` is the label. */
+export type QrMorphFeatCat = 'status' | 'number' | 'gender' | 'type' | 'tense' | 'voice';
+export interface QrMorphFeat {
+  cat: QrMorphFeatCat;
+  ar: string;
+  en: string | null;
+}
+
 /**
  * One morphology card. Fully shaped by the worker: QAC essentials (lemma,
  * surface, root, derived type) for every word, enriched with the curated Memlet
@@ -542,6 +550,9 @@ export interface QrMorphWord {
   quran_meanings: QrMorphMeaning[] | null;  // short authored sense list
   root_meaning_en: string | null;       // authored root gloss, e.g. "clarity"
   is_anchor: boolean;                   // root anchor word
+  feats: QrMorphFeat[];                 // grammatical-feature chips (case/number/gender/type · tense/voice)
+  sense_arc_en: string | null;          // 360° semantic arc, e.g. "separation → clarity"
+  sense_range_en: string | null;        // compact range of meanings (falls back to sense list)
 }
 
 export interface QrMorphologyPayload {

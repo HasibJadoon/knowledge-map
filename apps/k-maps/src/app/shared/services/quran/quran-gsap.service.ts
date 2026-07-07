@@ -242,6 +242,89 @@ export class QuranGsapService {
     );
   }
 
+  /**
+   * 3D entrance for morphology cards — each card tips up from a back-tilted
+   * plane as it scrolls into view, in a light per-row stagger.
+   */
+  reveal3dCards(elements: Element[]): void {
+    if (!elements.length) return;
+    if (prefersReducedMotion()) { gsap.set(elements, { opacity: 1, y: 0 }); return; }
+    elements.forEach((el, i) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 30, rotateX: -16, transformPerspective: 900 },
+        {
+          opacity: 1, y: 0, rotateX: 0,
+          duration: 0.55,
+          delay: (i % 4) * 0.05,
+          ease: 'power3.out',
+          clearProps: 'transform',
+          scrollTrigger: { trigger: el, start: 'top 92%', once: true },
+        },
+      );
+    });
+  }
+
+  /**
+   * Pointer-tracked 3D tilt + parallax for one morphology card.
+   * The inner plane rotates toward the cursor; layers marked `[data-depth]`
+   * float at their depth; a gold glare follows the pointer. Returns a cleanup.
+   */
+  setup3dCard(el: HTMLElement): () => void {
+    if (prefersReducedMotion()) return () => { /* motion disabled */ };
+
+    const inner  = el.querySelector<HTMLElement>('.wcard__inner') ?? el;
+    const glare  = el.querySelector<HTMLElement>('.wcard__glare');
+    const layers = Array.from(el.querySelectorAll<HTMLElement>('[data-depth]'));
+    const MAX = 10; // max tilt in degrees
+
+    const onEnter = (): void => {
+      gsap.to(el, {
+        scale: 1.035, z: 44,
+        boxShadow: '0 34px 64px -30px rgba(0,0,0,.85), 0 0 0 1px rgba(201,168,76,.4)',
+        duration: 0.3, ease: 'power2.out', overwrite: 'auto',
+      });
+    };
+
+    const onMove = (e: MouseEvent): void => {
+      const r  = el.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width;   // 0..1
+      const py = (e.clientY - r.top) / r.height;   // 0..1
+      gsap.to(inner, {
+        rotateX: (0.5 - py) * MAX, rotateY: (px - 0.5) * MAX,
+        transformPerspective: 720, transformOrigin: 'center',
+        duration: 0.4, ease: 'power2.out', overwrite: 'auto',
+      });
+      layers.forEach((l) => {
+        const d = parseFloat(l.dataset['depth'] ?? '0');
+        gsap.to(l, { x: (px - 0.5) * d * 24, y: (py - 0.5) * d * 24, duration: 0.5, ease: 'power2.out', overwrite: 'auto' });
+      });
+      if (glare) {
+        gsap.to(glare, {
+          opacity: 1,
+          background: `radial-gradient(220px circle at ${px * 100}% ${py * 100}%, rgba(232,201,106,.22), transparent 62%)`,
+          duration: 0.3, ease: 'power2.out', overwrite: 'auto',
+        });
+      }
+    };
+
+    const onLeave = (): void => {
+      gsap.to(inner, { rotateX: 0, rotateY: 0, duration: 0.7, ease: 'elastic.out(1,.55)', overwrite: 'auto' });
+      gsap.to(layers, { x: 0, y: 0, duration: 0.55, ease: 'power2.out', overwrite: 'auto' });
+      gsap.to(el, { scale: 1, z: 0, boxShadow: '0 0 0 0 rgba(0,0,0,0)', duration: 0.55, ease: 'power2.out', overwrite: 'auto' });
+      if (glare) gsap.to(glare, { opacity: 0, duration: 0.4, ease: 'power2.out', overwrite: 'auto' });
+    };
+
+    el.addEventListener('mouseenter', onEnter);
+    el.addEventListener('mousemove', onMove);
+    el.addEventListener('mouseleave', onLeave);
+    return () => {
+      el.removeEventListener('mouseenter', onEnter);
+      el.removeEventListener('mousemove', onMove);
+      el.removeEventListener('mouseleave', onLeave);
+    };
+  }
+
   /** ScrollTrigger-based reveal: each element fades in as it enters viewport */
   revealOnScroll(elements: Element[]): void {
     if (!elements.length) return;

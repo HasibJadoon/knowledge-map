@@ -606,6 +606,9 @@ export interface MorphGridCard {
   root_meaning: { ar: string | null; en: string | null };
   quran_meanings: { ar: string; en: string }[] | null;
   badge_color: string | null; is_anchor: boolean; frequency_quran: number | null;
+  feats: { cat: string; ar: string; en: string | null }[];   // case/number/gender/type · tense/voice
+  sense_arc_en: string | null;                                // 360° semantic arc
+  sense_range_en: string | null;                              // compact range of meanings
 }
 
 export interface StudyExpressionsResponse {

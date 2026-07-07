@@ -26,6 +26,7 @@ import { ok, badRequest, internalError } from '../../../shared/src/response';
 import { query } from '../../../shared/src/db';
 import { parseIntParam } from '../../../shared/src/validate';
 import type { QuranEnv } from '../env';
+import { buildFeats, rangeOf, type MorphFeat } from '../lib/morph-card';
 
 // ── Joined row (BASE qr_word_occurrences ⟕ RICH qr_morph_display_words) ────────
 
@@ -52,6 +53,8 @@ interface JoinedRow {
   d_quran_meanings_json: string | null;
   d_root_meaning_en: string | null;
   d_is_anchor: number | null;
+  d_sense_arc_en: string | null;
+  d_sense_range_en: string | null;
 }
 
 // ── Shaped output (the client paints this verbatim) ───────────────────────────
@@ -80,6 +83,9 @@ interface MorphWord {
   quran_meanings: QuranMeaning[] | null;  // short authored sense list
   root_meaning_en: string | null;     // authored root gloss, e.g. "clarity"
   is_anchor: boolean;                 // root anchor word
+  feats: MorphFeat[];                 // grammatical-feature chips (case/number/gender/type · tense/voice)
+  sense_arc_en: string | null;        // 360° semantic arc, e.g. "separation → clarity"
+  sense_range_en: string | null;      // compact range of meanings (falls back to quran_meanings)
 }
 
 // ── QAC flag → derived-type maps ──────────────────────────────────────────────
@@ -200,7 +206,9 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
             d.form_roman          AS d_form_roman,
             d.quran_meanings_json AS d_quran_meanings_json,
             d.root_meaning_en     AS d_root_meaning_en,
-            d.is_anchor           AS d_is_anchor
+            d.is_anchor           AS d_is_anchor,
+            d.sense_arc_en        AS d_sense_arc_en,
+            d.sense_range_en      AS d_sense_range_en
           FROM qr_word_occurrences w
           LEFT JOIN qr_morph_display_words d
             ON d.surah_no = w.surah
@@ -224,6 +232,10 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
         const flags = stem?.flags ?? [];
         const qacType = deriveType((tag ?? '').toUpperCase(), flags);
 
+        const derivedTypeEn = clean(row.d_derived_type_en) ?? qacType?.en ?? null;
+        const derivedTypeAr = clean(row.d_derived_type_ar) ?? qacType?.ar ?? null;
+        const meanings      = parseMeanings(row.d_quran_meanings_json);
+
         words.push({
           surah:           row.surah,
           ayah:            row.ayah,
@@ -236,14 +248,17 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
           group:           kind.bucket,
           pos_en:          clean(row.d_pos_en) ?? kind.label,
           gloss_en:        clean(row.d_gloss_en),
-          derived_type_en: clean(row.d_derived_type_en) ?? qacType?.en ?? null,
-          derived_type_ar: clean(row.d_derived_type_ar) ?? qacType?.ar ?? null,
+          derived_type_en: derivedTypeEn,
+          derived_type_ar: derivedTypeAr,
           wazn_ar:         clean(row.d_wazn_ar),
           form_ar:         clean(row.d_form_ar),
           form_roman:      clean(row.d_form_roman),
-          quran_meanings:  parseMeanings(row.d_quran_meanings_json),
+          quran_meanings:  meanings,
           root_meaning_en: clean(row.d_root_meaning_en),
           is_anchor:       !!row.d_is_anchor,
+          feats:           buildFeats(kind.bucket, row.morphology_tag_json, derivedTypeAr, derivedTypeEn),
+          sense_arc_en:    clean(row.d_sense_arc_en),
+          sense_range_en:  rangeOf(clean(row.d_sense_range_en), meanings),
         });
         count.all += 1;
         count[kind.bucket] += 1;

@@ -1,12 +1,11 @@
 import {
-  Component, OnInit, AfterViewInit, ViewChildren, QueryList,
-  ElementRef, inject, signal, computed, ChangeDetectionStrategy,
+  Component, OnInit, inject, signal, computed, ChangeDetectionStrategy,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { QuranApiService } from '../../../../shared/services/quran/quran-api.service';
 import { QrMorphWord } from '../../../../shared/models/quran/qr.models';
 import { QuranPageShellComponent } from '../../shared/quran-page-shell.component';
-import { QuranGsapService } from '../../../../shared/services/quran/quran-gsap.service';
+import { MorphWordCardComponent, MorphCardVm } from '../../shared/morph-word-card.component';
 
 export type MorphFilter = 'all' | 'noun' | 'verb';
 
@@ -24,18 +23,15 @@ interface AyahGroup { ayah: number; ref: string; words: QrMorphWord[]; }
 @Component({
   selector: 'km-surah-morphology',
   standalone: true,
-  imports: [QuranPageShellComponent],
+  imports: [QuranPageShellComponent, MorphWordCardComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './surah-morphology.component.html',
   styleUrl: './surah-morphology.component.scss',
 })
-export class SurahMorphologyComponent implements OnInit, AfterViewInit {
+export class SurahMorphologyComponent implements OnInit {
   private route  = inject(ActivatedRoute);
   private router = inject(Router);
   private qrApi  = inject(QuranApiService);
-  private gsap   = inject(QuranGsapService);
-
-  @ViewChildren('wordCard') cardEls!: QueryList<ElementRef>;
 
   surahId  = signal(0);
   allWords = signal<QrMorphWord[]>([]);
@@ -76,11 +72,21 @@ export class SurahMorphologyComponent implements OnInit, AfterViewInit {
       .map(([ayah, words]) => ({ ayah, ref: `${this.surahId()}:${ayah}`, words }));
   });
 
-  ngAfterViewInit(): void {
-    this.cardEls.changes.subscribe((list: QueryList<ElementRef>) => {
-      const els = list.toArray().map(e => e.nativeElement);
-      if (els.length) this.gsap.revealOnScroll(els);
-    });
+  /** Map a shaped word row onto the shared card view-model. */
+  toVm(w: QrMorphWord): MorphCardVm {
+    return {
+      group: w.group,
+      posLabel: w.pos_en || (w.group === 'verb' ? 'Verb' : 'Noun'),
+      ref: w.ref,
+      isAnchor: w.is_anchor,
+      feats: w.feats ?? [],
+      surfaceAr: w.surface_ar,
+      arc: w.sense_arc_en,
+      rangeText: w.sense_range_en || w.gloss_en,
+      waznAr: w.wazn_ar,
+      rootDisplay: w.root_display,
+      rootAr: w.root_ar,
+    };
   }
 
   ngOnInit(): void {

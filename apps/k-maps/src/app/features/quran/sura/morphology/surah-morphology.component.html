@@ -35,63 +35,11 @@
           <span class="morph-ayah__ref">{{ g.ref }}</span>
           <div class="morph-grid">
             @for (w of g.words; track (w.ayah + ':' + w.word_index)) {
-              <button
-                type="button"
-                class="wcard"
-                #wordCard
-                [attr.data-group]="w.group"
-                (click)="open(w)"
-              >
-                <!-- headline: dictionary form (lemma) · anchor mark -->
-                <div class="wcard__top">
-                  <span class="wcard__word" dir="rtl">{{ w.lemma_ar || w.surface_ar }}</span>
-                  @if (w.is_anchor) { <span class="wcard__anchor" title="Root anchor">✦</span> }
-                </div>
-                @if (w.surface_ar && w.surface_ar !== w.lemma_ar) {
-                  <span class="wcard__occ" dir="rtl">{{ w.surface_ar }}</span>
-                }
-
-                <!-- English-primary gloss -->
-                @if (w.gloss_en) {
-                  <p class="wcard__gloss">{{ w.gloss_en }}</p>
-                }
-
-                <!-- morphology chips: derived type · wazn · form -->
-                <div class="wcard__morph">
-                  @if (w.derived_type_en) {
-                    <span class="mtag">{{ w.derived_type_en }}</span>
-                  } @else {
-                    <span class="mtag">{{ w.pos_en }}</span>
-                  }
-                  @if (w.wazn_ar) { <span class="mtag wazn" dir="rtl">{{ w.wazn_ar }}</span> }
-                  @if (w.form_ar) { <span class="mtag wazn" dir="rtl">باب {{ w.form_ar }}</span> }
-                </div>
-
-                <!-- authored sense list -->
-                @if (w.quran_meanings?.length) {
-                  <ul class="wcard__means">
-                    @for (m of w.quran_meanings!.slice(0, 3); track m.en) { <li>{{ m.en }}</li> }
-                  </ul>
-                }
-
-                <!-- footer: root (tappable → root page) · root meaning -->
-                <div class="wcard__foot">
-                  @if (w.root_display) {
-                    <span
-                      class="wcard__root"
-                      dir="rtl"
-                      role="link"
-                      tabindex="0"
-                      title="Open root page"
-                      (click)="openRoot(w.root_ar, $event)"
-                      (keydown.enter)="openRoot(w.root_ar, $event)"
-                    >{{ w.root_display }}</span>
-                  }
-                  @if (w.root_meaning_en) {
-                    <span class="wcard__rootmean">{{ w.root_meaning_en }}</span>
-                  }
-                </div>
-              </button>
+              <km-morph-word-card
+                [card]="toVm(w)"
+                (open)="open(w)"
+                (openRoot)="openRoot(w.root_ar)"
+              />
             }
           </div>
         </section>

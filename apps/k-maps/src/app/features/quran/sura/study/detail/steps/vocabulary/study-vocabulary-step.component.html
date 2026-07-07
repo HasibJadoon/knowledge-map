@@ -18,35 +18,13 @@
     @for (g of groups(); track g.ayah) {
       <div class="v-ayah">
         <span class="v-aref">{{ lesson.surahId }}:{{ g.ayah }}</span>
-        <div class="v-grid">
+        <div class="v-grid" dir="ltr">
           @for (w of g.words; track w.id) {
-            <button class="wcard" [attr.data-group]="w.group" (click)="open(w)">
-              <div class="wcard__top">
-                <span class="wcard__word">{{ w.lemma_ar || w.surface_ar }}</span>
-                @if (w.is_anchor) { <span class="wcard__anchor" title="root anchor">✦</span> }
-              </div>
-              @if (w.surface_ar !== w.lemma_ar) { <span class="wcard__occ">{{ w.surface_ar }}</span> }
-
-              <p class="wcard__gloss">{{ w.gloss.en }}</p>
-
-              <div class="wcard__morph">
-                @if (w.derived_type_en) { <span class="mtag">{{ w.derived_type_en }}</span> }
-                @else if (w.pos_en) { <span class="mtag">{{ w.pos_en }}</span> }
-                @if (w.wazn_ar) { <span class="mtag wazn ar">{{ w.wazn_ar }}</span> }
-                @if (w.form_ar) { <span class="mtag wazn ar">باب {{ w.form_ar }}</span> }
-              </div>
-
-              @if (w.quran_meanings?.length) {
-                <ul class="wcard__means">
-                  @for (m of w.quran_meanings!.slice(0, 3); track m.en) { <li>{{ m.en }}</li> }
-                </ul>
-              }
-
-              <div class="wcard__foot">
-                @if (w.root_display) { <span class="wcard__root ar">{{ w.root_display }}</span> }
-                @if (w.root_meaning.en) { <span class="wcard__rootmean">{{ w.root_meaning.en }}</span> }
-              </div>
-            </button>
+            <km-morph-word-card
+              [card]="toVm(w)"
+              (open)="open(w)"
+              (openRoot)="openRoot(w.root_ar)"
+            />
           }
         </div>
       </div>

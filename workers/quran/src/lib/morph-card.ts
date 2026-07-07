@@ -1,0 +1,58 @@
+// ─── Morphology card shaping — shared by both word-card grids ─────────────────
+// The full-surah grid (/qr/surahs/:id/morphology) and the passage study grid
+// (/qr/study/morph/grid/:id) paint the SAME card. This module derives the two
+// card fields that come from the QAC morphology tag / sense list so both
+// endpoints stay identical: the grammatical-feature chips and the compact
+// range-of-meanings line. Pure, I/O-free.
+
+import { parseQacMorphology } from './qac-morph';
+
+/** A grammatical-feature chip. `cat` drives the card colour; `ar` is the label. */
+export type FeatCat = 'status' | 'number' | 'gender' | 'type' | 'tense' | 'voice';
+export interface MorphFeat { cat: FeatCat; ar: string; en: string | null }
+
+type Bucket = 'noun' | 'verb';
+
+/**
+ * Grammatical-feature chips from the QAC stem, ordered as the card reads them.
+ * Nouns: case (iʿrāb) · number · gender · type. Verbs: tense · voice.
+ * `typeAr`/`typeEn` are the curated/parsed derived type (اسم فاعل / مصدر …).
+ *
+ * QAC leaves the unmarked defaults implicit, so we restore them: a noun with a
+ * gender but no number token is singular (مفرد); a finite verb with no voice
+ * token is active (معلوم) — the Arabic defaults.
+ */
+export function buildFeats(
+  bucket: Bucket,
+  tagJson: unknown,
+  typeAr: string | null,
+  typeEn: string | null,
+): MorphFeat[] {
+  const m = parseQacMorphology(tagJson);
+  const out: MorphFeat[] = [];
+  const push = (cat: FeatCat, ar: string | null, en: string | null): void => {
+    if (ar) out.push({ cat, ar, en: en ?? null });
+  };
+
+  if (bucket === 'verb') {
+    push('tense', m.aspect_ar, m.aspect);
+    push('voice', m.voice_ar ?? (m.aspect_ar ? 'معلوم' : null), m.voice ?? (m.aspect_ar ? 'active' : null));
+    return out;
+  }
+
+  push('status', m.case_ar, m.case);
+  push('number', m.number_ar ?? (m.gender_ar ? 'مفرد' : null), m.number ?? (m.gender_ar ? 'singular' : null));
+  push('gender', m.gender_ar, m.gender);
+  push('type', typeAr, typeEn);
+  return out;
+}
+
+/** Compact range of meanings — authored range, else the sense list joined. */
+export function rangeOf(
+  senseRange: string | null,
+  meanings: Array<{ en?: string | null }> | null,
+): string | null {
+  if (senseRange && senseRange.trim()) return senseRange.trim();
+  const joined = (meanings ?? []).map((m) => (m?.en ?? '').trim()).filter(Boolean).join(' · ');
+  return joined || null;
+}

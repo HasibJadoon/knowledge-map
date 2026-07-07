@@ -8,6 +8,7 @@
 //   terms stay Arabic. No shaping logic here beyond JSON hydration + ordering.
 
 import { query, queryOne } from '../../../shared/src/db';
+import { buildFeats, rangeOf } from '../lib/morph-card';
 
 function hydrate(v: unknown): unknown {
   if (v == null) return null;
@@ -162,25 +163,42 @@ export class MorphDisplayRepo {
     };
   }
 
-  /** Grid: promoted content words for a surah (noun/verb cards, never ḥarf). */
+  /** Grid: promoted content words for a surah (noun/verb cards, never ḥarf).
+   *  The card matches the full-surah morphology grid: the QAC occurrence tag is
+   *  joined so the same grammatical-feature chips + range synopsis are shaped. */
   async grid(surah: number): Promise<unknown[]> {
-    const rows = await query<WordRow>(
+    type GridRow = WordRow & {
+      sense_arc_en: string | null;
+      sense_range_en: string | null;
+      morphology_tag_json: string | null;
+    };
+    const rows = await query<GridRow>(
       this.db,
-      `SELECT * FROM qr_morph_display_words
-        WHERE surah_no = ? AND is_promoted = 1 AND status = 'live'
-        ORDER BY ayah_no, word_index`,
+      `SELECT d.*, o.morphology_tag_json AS morphology_tag_json
+         FROM qr_morph_display_words d
+         LEFT JOIN qr_word_occurrences o
+           ON o.surah = d.surah_no AND o.ayah = d.ayah_no AND o.word_index = d.word_index
+        WHERE d.surah_no = ? AND d.is_promoted = 1 AND d.status = 'live'
+        ORDER BY d.ayah_no, d.word_index`,
       [surah],
-    ).catch(() => [] as WordRow[]);
-    return rows.map(w => ({
-      id: w.id, surah: w.surah_no, ayah: w.ayah_no, word_index: w.word_index,
-      surface_ar: w.surface_ar, lemma_ar: w.lemma_ar, root_ar: w.root_ar, root_display: w.root_display,
-      group: w.word_group, pos_ar: w.pos_ar, pos_en: w.pos_en,
-      gloss: { ar: w.gloss_ar, en: w.gloss_en, ur: w.gloss_ur },
-      derived_type_ar: w.derived_type_ar, derived_type_en: w.derived_type_en,
-      wazn_ar: w.wazn_ar, form_roman: w.form_roman, form_ar: w.form_ar,
-      root_meaning: { ar: w.root_meaning_ar, en: w.root_meaning_en },
-      quran_meanings: hydrate(w.quran_meanings_json),
-      badge_color: w.badge_color, is_anchor: !!w.is_anchor, frequency_quran: w.frequency_quran,
-    }));
+    ).catch(() => [] as GridRow[]);
+    return rows.map(w => {
+      const meanings = (hydrate(w.quran_meanings_json) as Array<{ ar: string; en: string }> | null) ?? null;
+      const bucket = w.word_group === 'verb' ? 'verb' : 'noun';
+      return {
+        id: w.id, surah: w.surah_no, ayah: w.ayah_no, word_index: w.word_index,
+        surface_ar: w.surface_ar, lemma_ar: w.lemma_ar, root_ar: w.root_ar, root_display: w.root_display,
+        group: w.word_group, pos_ar: w.pos_ar, pos_en: w.pos_en,
+        gloss: { ar: w.gloss_ar, en: w.gloss_en, ur: w.gloss_ur },
+        derived_type_ar: w.derived_type_ar, derived_type_en: w.derived_type_en,
+        wazn_ar: w.wazn_ar, form_roman: w.form_roman, form_ar: w.form_ar,
+        root_meaning: { ar: w.root_meaning_ar, en: w.root_meaning_en },
+        quran_meanings: meanings,
+        badge_color: w.badge_color, is_anchor: !!w.is_anchor, frequency_quran: w.frequency_quran,
+        feats: buildFeats(bucket, w.morphology_tag_json, w.derived_type_ar, w.derived_type_en),
+        sense_arc_en: w.sense_arc_en ?? null,
+        sense_range_en: rangeOf(w.sense_range_en, meanings),
+      };
+    });
   }
 }
