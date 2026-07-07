@@ -1,20 +1,15 @@
 import {
   ChangeDetectionStrategy, Component, OnInit, computed, inject, signal,
 } from '@angular/core';
-import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
   QuranSurahService, MorphWordView, MorphBlockVm, MorphContextVm, Lang,
 } from '../../../../../../../shared/services/quran/quran-surah.service';
 import { MorphBlockHostComponent } from './morph-block-host.component';
+import { MorphHeroComponent } from './parts/morph-hero.component';
+import { MorphTocRailComponent, TocItem, RegOption } from './parts/morph-toc-rail.component';
+import { MorphContextSwitcherComponent } from './parts/morph-context-switcher.component';
 import { provideMorphIcons } from './morph-icons';
-import { richMarkup } from './morph-rich';
-
-/** One TOC entry — mirrors a rendered block, scrolls to it. */
-interface TocItem { ord: string; title: string; titleAr: string; domId: string; hot: boolean; }
-
-/** Register filter option, derived from the blocks actually present. */
-interface RegOption { key: string; label: string; }
 
 const REG_LABELS: Record<string, string> = {
   quran: 'Qurʾān', classical: 'Classical', msa: 'MSA',
@@ -32,7 +27,7 @@ const REG_ORDER = ['quran', 'classical', 'msa', 'linguistic', 'modern', 'tafsir'
 @Component({
   selector: 'km-morph-word-page',
   standalone: true,
-  imports: [MorphBlockHostComponent],
+  imports: [MorphBlockHostComponent, MorphHeroComponent, MorphTocRailComponent, MorphContextSwitcherComponent],
   providers: [provideMorphIcons()],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './morph-word-page.component.html',
@@ -42,18 +37,6 @@ export class MorphWordPageComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly svc = inject(QuranSurahService);
-  private readonly sanitizer = inject(DomSanitizer);
-
-  /** Rich inline markup (==critical== / **key** / arrows) for the hero gloss + context line. */
-  rich(str: string | null | undefined): SafeHtml {
-    return this.sanitizer.bypassSecurityTrustHtml(richMarkup(str, this.lang()));
-  }
-  glossHtml(): SafeHtml {
-    const w = this.word();
-    const g = this.lang() === 'ar' ? w?.gloss.ar : (this.lang() === 'ur' ? w?.gloss.ur : w?.gloss.en);
-    return this.rich(g);
-  }
-
   readonly view = signal<MorphWordView | null>(null);
   readonly loading = signal(true);
   readonly error = signal(false);
@@ -193,5 +176,4 @@ export class MorphWordPageComponent implements OnInit {
     document.getElementById(domId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  focusSurface(): string | null { return this.word()?.surface_ar ?? null; }
 }

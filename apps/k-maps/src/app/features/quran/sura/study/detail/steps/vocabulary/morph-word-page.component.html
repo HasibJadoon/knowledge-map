@@ -36,50 +36,18 @@
 
     <!-- ── TOC rail ─────────────────────────────────────── -->
     @if (!tocHidden()) {
-      <aside class="mw-toc">
-        <div class="mw-toc__head">
-          <span class="mw-toc__title">The Word's Story</span>
-          <span class="mw-toc__title-ar ar">قصة الكلمة</span>
-        </div>
-
-        @if (regOptions().length > 1) {
-          <div class="mw-toc__reg">
-            @for (r of regOptions(); track r.key) {
-              <button [class.on]="reg() === r.key" (click)="setReg(r.key)">{{ r.label }}</button>
-            }
-          </div>
-        }
-
-        <nav class="mw-toc__nav">
-          <div class="mw-toc__sec mw-toc__sec--core" (click)="toggleCore()">
-            <span class="dot"></span><span class="lbl">Core · static</span>
-            <span class="chev" [class.closed]="!coreOpen()">▾</span>
-          </div>
-          @if (coreOpen()) {
-            @for (t of tocCore(); track t.domId) {
-              <button class="mw-toc__item" [class.hot]="t.hot" (click)="scrollTo(t.domId)">
-                <span class="n">{{ t.ord }}</span>
-                <span class="tx"><span class="en">{{ t.title }}</span><span class="ar">{{ t.titleAr }}</span></span>
-              </button>
-            }
-          }
-
-          @if (tocTemporal().length) {
-            <div class="mw-toc__sec mw-toc__sec--temp" (click)="toggleCtx()">
-              <span class="dot"></span><span class="lbl">Temporal · context</span>
-              <span class="chev" [class.closed]="!ctxOpen()">▾</span>
-            </div>
-            @if (ctxOpen()) {
-              @for (t of tocTemporal(); track t.domId) {
-                <button class="mw-toc__item" [class.hot]="t.hot" (click)="scrollTo(t.domId)">
-                  <span class="n">{{ t.ord }}</span>
-                  <span class="tx"><span class="en">{{ t.title }}</span><span class="ar">{{ t.titleAr }}</span></span>
-                </button>
-              }
-            }
-          }
-        </nav>
-      </aside>
+      <km-morph-toc-rail
+        [tocCore]="tocCore()"
+        [tocTemporal]="tocTemporal()"
+        [regOptions]="regOptions()"
+        [reg]="reg()"
+        [coreOpen]="coreOpen()"
+        [ctxOpen]="ctxOpen()"
+        (setReg)="setReg($event)"
+        (toggleCore)="toggleCore()"
+        (toggleCtx)="toggleCtx()"
+        (scrollTo)="scrollTo($event)"
+      />
     }
 
     <!-- ── main reader ──────────────────────────────────── -->
@@ -92,33 +60,12 @@
       } @else if (word(); as w) {
 
         <!-- hero -->
-        <section class="mw-hero">
-          <h1 class="mw-hero__word ar">{{ lemmaBare() }}</h1>
-          <div class="mw-hero__occ">
-            <span class="ar">{{ w.surface_ar }}</span>
-            <span class="note">as it occurs · {{ w.ayah_key }}</span>
-          </div>
-          <div class="mw-hero__chips">
-            @if (w.sarf.derived_en || w.pos.en) {
-              <span class="chip chip--sky">{{ w.sarf.derived_en || w.pos.en }}</span>
-            }
-            @if (w.sarf.wazn_ar) { <span class="chip chip--gold ar">{{ w.sarf.wazn_ar }}</span> }
-            @if (w.sarf.form_ar) { <span class="chip chip--gold ar">باب {{ w.sarf.form_ar }}</span> }
-            @if (w.root_display) {
-              <span class="chip chip--root ar" (click)="openRoot()" title="Open root page">{{ w.root_display }} <span class="rk">root ›</span></span>
-            }
-            @if (w.frequency_quran) { <span class="chip">{{ w.frequency_quran }}× root in Qurʾān</span> }
-            @if (w.is_anchor) { <span class="chip chip--anchor">✦ root anchor</span> }
-          </div>
-          @if (lang() === 'ar' ? w.gloss.ar : (lang() === 'ur' ? w.gloss.ur : w.gloss.en)) {
-            <p class="mw-hero__gloss" [dir]="lang() === 'en' ? 'ltr' : 'rtl'" [innerHTML]="glossHtml()"></p>
-          }
-          @if (activeContext(); as ac) {
-            <div class="mw-hero__reading">
-              reading in context — <span class="ar">{{ ac.kind_ar }} {{ lemmaBare() }}</span> · Qurʾān {{ ac.ayah_key }}
-            </div>
-          }
-        </section>
+        <km-morph-hero
+          [word]="word()"
+          [lang]="lang()"
+          [activeContext]="activeContext()"
+          (openRoot)="openRoot()"
+        />
 
         <div class="mw-col">
 
@@ -140,25 +87,12 @@
 
           <!-- CONTEXT switcher — one card per Qurʾānic occurrence -->
           @if (contexts().length > 1) {
-            <div class="mw-switch">
-              <div class="mw-switch__head">
-                <span class="mw-switch__t">Choose a context <span class="ar">· مواضع الجذر</span></span>
-                <span class="mw-switch__note">same core above · this verse below</span>
-              </div>
-              <div class="mw-switch__grid">
-                @for (c of contexts(); track c.ayah_key) {
-                  <button
-                    class="mw-cx"
-                    [class.on]="activeContext()?.ayah_key === c.ayah_key"
-                    (click)="setContext(c.ayah_key)"
-                  >
-                    <span class="mw-cx__ar ar">{{ c.kind_ar }} {{ lemmaBare() }}</span>
-                    <span class="mw-cx__en">{{ c.en }}</span>
-                    <span class="mw-cx__key">Qurʾān · {{ c.ayah_key }}</span>
-                  </button>
-                }
-              </div>
-            </div>
+            <km-morph-context-switcher
+              [contexts]="contexts()"
+              [activeAyahKey]="activeContext()?.ayah_key ?? null"
+              [lemmaBare]="lemmaBare()"
+              (select)="setContext($event)"
+            />
           }
 
           <!-- TEMPORAL band header -->
