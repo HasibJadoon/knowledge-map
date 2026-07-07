@@ -1,0 +1,60 @@
+------------------------------------------------------------------------------
+-- Seed · Lemma wazn (batch 3) — weak-root nominal lemmas, Qurʾān-wide top freq.
+-- Authored by qr_lemmas.id (robust to āʾ/dagger-alif spelling). Contested forms
+-- (تقوى, مائة, سعة, سيما, نبوّة) left null rather than guessed.
+------------------------------------------------------------------------------
+
+UPDATE qr_lemmas SET wazn_ar = 'فُعَال'    WHERE id = '1f1431063f2d2fcff92c074c3e'; -- نَّاس · نوس
+UPDATE qr_lemmas SET wazn_ar = 'فَعْل'     WHERE id = 'fe44b628fb9227be87acf0d207'; -- يَد · يدي
+UPDATE qr_lemmas SET wazn_ar = 'فُعْلَىٰ'  WHERE id = '57ccd4a89a9eb98c40d48301ef'; -- دُنْيَا · دنو
+UPDATE qr_lemmas SET wazn_ar = 'فَعَل'     WHERE id = '17e78a6b64449e6141ab66df0e'; -- نَار · نور
+UPDATE qr_lemmas SET wazn_ar = 'فَعَل'     WHERE id = 'ed9e570929b54ebaf067d42ce6'; -- مَال · مول
+UPDATE qr_lemmas SET wazn_ar = 'فَعْل'     WHERE id = 'bd0098ce74a151df075634f156'; -- أَخ · اخو
+UPDATE qr_lemmas SET wazn_ar = 'فَعِيل'    WHERE id = '0de2092b6aedb1058fcd98515a'; -- نَبِيّ · نبا
+UPDATE qr_lemmas SET wazn_ar = 'فِعْل'     WHERE id = '4a5ce91daa0e4bedc4b4a16c8d'; -- ابْن · بني
+UPDATE qr_lemmas SET wazn_ar = 'فَعَل'     WHERE id = '0ad862d438d50c1bd02116d474'; -- مَاء · موه
+UPDATE qr_lemmas SET wazn_ar = 'فِعَال'    WHERE id = '29e0d45443942eecc017ae983b'; -- نِسَاء · نسو
+UPDATE qr_lemmas SET wazn_ar = 'فَعْلَة'   WHERE id = 'd11a253ba70083131d25b326ed'; -- سَاعَة · سوع
+UPDATE qr_lemmas SET wazn_ar = 'فَعَل'     WHERE id = '7b49d80cfedc2c67cbe92a8435'; -- دَار · دور
+UPDATE qr_lemmas SET wazn_ar = 'فَعْل'     WHERE id = '68fedbcf13e717951eb78b579d'; -- أَب · ابو
+UPDATE qr_lemmas SET wazn_ar = 'فَعَال'    WHERE id = '2778292528b592c9c3785e4044'; -- جَزَاء · جزي
+UPDATE qr_lemmas SET wazn_ar = 'فَيْعِل'   WHERE id = 'ef7576e3edde95cf035b2c5998'; -- مَيِّت · موت
+UPDATE qr_lemmas SET wazn_ar = 'فَعَل'     WHERE id = 'c3a06bf9fd3c06c548ba0de2d4'; -- عَصَا · عصي
+UPDATE qr_lemmas SET wazn_ar = 'فَيْعِلَات' WHERE id = '9dd50ad9997671ad60fda7cf6c'; -- سَيِّئَات · سوا
+UPDATE qr_lemmas SET wazn_ar = 'أَفْعَال'  WHERE id = '819d03ae6e69e3c09a3ffae42d'; -- آلَاء · الو
+UPDATE qr_lemmas SET wazn_ar = 'فُعْلَة'   WHERE id = 'efa19138d5e8d0207a0a57334b'; -- قُوَّة · قوي
+UPDATE qr_lemmas SET wazn_ar = 'فَعَل'     WHERE id = '36af9e0867aab4260edb1c9283'; -- بَاب · بوب
+UPDATE qr_lemmas SET wazn_ar = 'مَفْعَل'   WHERE id = '909c8c9bd867c1f0b61c014063'; -- مَكَان · كون
+UPDATE qr_lemmas SET wazn_ar = 'مِفْعَال'  WHERE id = 'c7bf8eaf1ab5c8cccee49ba3bb'; -- مِيثَاق · وثق
+UPDATE qr_lemmas SET wazn_ar = 'فِعْل'     WHERE id = '989c0aed00971bf86bcae4291c'; -- رِيح · روح
+UPDATE qr_lemmas SET wazn_ar = 'فَاعِلَة'  WHERE id = '59c6850f8e13d9e97724d683c8'; -- طَائِفَة · طوف
+UPDATE qr_lemmas SET wazn_ar = 'فَيْعِلَة' WHERE id = '38c5920116d651b98484b3d5f0'; -- سَيِّئَة · سوا
+UPDATE qr_lemmas SET wazn_ar = 'فَعَل'     WHERE id = 'e7e73d3bb6c35f386ba415f540'; -- آل · اول
+UPDATE qr_lemmas SET wazn_ar = 'فَعَلَات'  WHERE id = '846bc27b02d9cf14895458eb24'; -- بَنَات · بني
+UPDATE qr_lemmas SET wazn_ar = 'أَفْعَال'  WHERE id = 'f16152754aa210a1863085e844'; -- أَهْوَاء · هوي
+UPDATE qr_lemmas SET wazn_ar = 'مِفْعَال'  WHERE id = '4fcd7c57975466940a5cf84752'; -- مِيزَان · وزن
+UPDATE qr_lemmas SET wazn_ar = 'فُعْل'     WHERE id = 'ac752d6af6964211fcbcc92177'; -- أُخْت · اخو
+UPDATE qr_lemmas SET wazn_ar = 'أَفْعَل'   WHERE id = 'd74bb3011aa75e636614e20cd5'; -- أَدْنَى · دنو
+UPDATE qr_lemmas SET wazn_ar = 'فِعِين'    WHERE id = 'f86e7b3a0994a2271e41f7dc0e'; -- سِنِين · سنو
+UPDATE qr_lemmas SET wazn_ar = 'فَعَال'    WHERE id = '0256184cdb4d785de7ff8e5f57'; -- هَوَاء · هوي
+UPDATE qr_lemmas SET wazn_ar = 'فَعِيل'    WHERE id = '5ef03b8f0d81cdacd97cca89c3'; -- عَلِيّ · علو
+UPDATE qr_lemmas SET wazn_ar = 'فُعُل'     WHERE id = 'd4e0d8e15e8f4aa5940745ac1e'; -- هُزُو · هزا
+UPDATE qr_lemmas SET wazn_ar = 'فَعِيل'    WHERE id = '9394a6e20f7efc1b03b1135ec8'; -- عَشِيّ · عشو
+UPDATE qr_lemmas SET wazn_ar = 'فَعْل'     WHERE id = '82641e0beb7ff1d7a867da7604'; -- دَم · دمو
+UPDATE qr_lemmas SET wazn_ar = 'مَفْعَل'   WHERE id = '147ef76c3d5e7f02027224a59c'; -- مَآب · اوب
+UPDATE qr_lemmas SET wazn_ar = 'فِعَال'    WHERE id = 'c561c723251f98829000d5ef79'; -- صِيَام · صوم
+UPDATE qr_lemmas SET wazn_ar = 'فَعَل'     WHERE id = '5a99957ce0a03e18339600d5e7'; -- عَام · عوم
+UPDATE qr_lemmas SET wazn_ar = 'فَعِيلَة'  WHERE id = 'dcc0ec0829462e1a0325775ca8'; -- خَطِيئَة · خطا
+UPDATE qr_lemmas SET wazn_ar = 'فَعَلُوت'  WHERE id = '6b7627072df786fea1a54cdb01'; -- طَاغُوت · طغي
+UPDATE qr_lemmas SET wazn_ar = 'فِعَال'    WHERE id = 'e9355496ccfd64fb8a0d46f2d9'; -- ثِيَاب · ثوب
+UPDATE qr_lemmas SET wazn_ar = 'فَعْلَة'   WHERE id = '5ef9a0c8eb852c7022fccff31e'; -- نَاقَة · نوق
+UPDATE qr_lemmas SET wazn_ar = 'فَاعِل'    WHERE id = 'fe6e3a73542be9fda0f46b113a'; -- وَاد · ودي
+UPDATE qr_lemmas SET wazn_ar = 'فِعَة'     WHERE id = '7086c3904cad5022ba17268481'; -- فِئَة · فاي
+UPDATE qr_lemmas SET wazn_ar = 'فَعْلَة'   WHERE id = 'b2b6ea637c1ad63dd43750481b'; -- مَيْتَة · موت
+UPDATE qr_lemmas SET wazn_ar = 'مِفْعَال'  WHERE id = '56799fdb4e8479ed087c3e5a7c'; -- مِيعَاد · وعد
+UPDATE qr_lemmas SET wazn_ar = 'فِعْلَة'   WHERE id = '343a90841ab98866400e25dc64'; -- خِيفَة · خوف
+UPDATE qr_lemmas SET wazn_ar = 'مَفْعَلَة' WHERE id = 'aa9d292052e714af22119ccc74'; -- مَكَانَة · كون
+UPDATE qr_lemmas SET wazn_ar = 'فَعْل'     WHERE id = '2ff9be9a6d2e1b49dd4f48bb6d'; -- غَد · غدو
+UPDATE qr_lemmas SET wazn_ar = 'فَعَال'    WHERE id = '962ddf37c9284de4a5fd47c8c2'; -- عَطَاء · عطو
+UPDATE qr_lemmas SET wazn_ar = 'فَيْعِل'   WHERE id = 'd4218f781deb0aef13d7e70614'; -- قَيِّم · قوم
+UPDATE qr_lemmas SET wazn_ar = 'فَعْل'     WHERE id = '4458a1ae56abf24d541ab751a8'; -- مَيْت · موت
