@@ -107,6 +107,7 @@ export class MorphDisplayRepo {
       data: hydrate(b.data_json), source_slug: b.source_slug, source_ref: b.source_ref,
       source_page: b.source_page, is_synthesis: !!b.is_synthesis, register: b.register,
       registers: (hydrate(b.registers_json) as string[] | null) ?? (b.register ? [b.register] : []),
+      icon: (hydrate(b.meta_json) as { icon?: string } | null)?.icon ?? null,
       illustration: b.media_r2_key
         ? { url: `/assets/morph-media/${b.block_type}.png`, alt: b.media_alt, kind: b.media_kind }
         : ((hydrate(b.meta_json) as { illustration?: unknown })?.illustration ?? null),

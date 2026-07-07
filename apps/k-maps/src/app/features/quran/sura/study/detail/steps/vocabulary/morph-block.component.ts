@@ -1,5 +1,11 @@
 import { ChangeDetectionStrategy, Component, Input, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import {
+  LucideAngularModule, LUCIDE_ICONS, LucideIconProvider,
+  Dna, Ruler, GitFork, Tag, BookOpen, Landmark, Waypoints, Feather, Eye,
+  GitCompare, Languages, ListOrdered, TrendingUp, Library, Grid3x3, Sparkles, Orbit,
+  Sunrise, Star, Scale, Split, LayoutGrid, KeyRound, Link, Circle, MapPin, Quote,
+} from 'lucide-angular';
 import { MorphBlockVm, Tri, Lang } from '../../../../../../../shared/services/quran/quran-surah.service';
 import { richMarkup } from './morph-rich';
 
@@ -14,25 +20,12 @@ const REG_CHIP: Record<string, RegChip> = {
   msa:        { label: 'MSA',        cls: 'reg-msa' },
 };
 
-// SVG icon glyph per block type (design's _icon set). viewBox 0 0 24 24.
-const D = (cx: number, cy: number) => `<circle cx="${cx}" cy="${cy}" r="1.3" fill="currentColor"/>`;
-const ICONS: Record<string, string> = {
-  root_dna:      '<circle cx="12" cy="6" r="3"/><path d="M12 9v4M12 13l-4 5M12 13l4 5M12 13v5"/>',
-  sarf:          '<path d="M4 8h16M4 12h16M4 16h16M9 6v12"/>',
-  derivations:   '<path d="M6 12h5M11 12l6-5M11 12l6 5M11 7v10"/>',
-  irab:          '<path d="M4 7h10l4 5-4 5H4z"/>' + D(8, 12),
-  lexicon:       '<path d="M12 6c-2-1.5-5-1.5-7 0v11c2-1.5 5-1.5 7 0M12 6c2-1.5 5-1.5 7 0v11c-2-1.5-5-1.5-7 0M12 6v11"/>',
-  synthesis:     '<circle cx="9" cy="10" r="4"/><circle cx="15" cy="10" r="4"/><circle cx="12" cy="15" r="4"/>',
-  balagha:       '<path d="M8 7c-2 1-3 3-3 6h4V7zM17 7c-2 1-3 3-3 6h4V7z"/>',
-  metaphor:      '<path d="M3 12s3-6 9-6 9 6 9 6-3 6-9 6-9-6-9-6z"/><circle cx="12" cy="12" r="2.2"/>',
-  kindred:       '<circle cx="9" cy="12" r="5"/><circle cx="15" cy="12" r="5"/>',
-  translators:   '<path d="M4 7h7M7 7v10M4 17h6M14 9l4 8M18 9l3 8M15.2 14h5.6"/>',
-  occurrences:   '<path d="M8 7h12M8 12h12M8 17h12"/>' + D(4.5, 7) + D(4.5, 12) + D(4.5, 17),
-  development:   '<path d="M4 18l5-5 4 3 7-8M20 8h-4M20 8v4"/>',
-  tafsir:        '<path d="M7 5h10v14l-5-3-5 3zM9.5 9h5M9.5 12h5"/>',
-  usage_map:     D(8, 8) + D(12, 8) + D(16, 8) + D(8, 12) + D(12, 12) + D(16, 12) + D(8, 16) + D(12, 16) + D(16, 16),
-  master_story:  '<path d="M12 4l2 5 5 .5-4 3.5 1.5 5-4.5-3-4.5 3 1.5-5-4-3.5 5-.5z"/>',
-  constellation: '<circle cx="12" cy="12" r="1.3" fill="currentColor"/><path d="M12 12L12 5M12 12L18 16M12 12L6 16"/>',
+// Registered Lucide pool. The icon *name* comes from the data (block.icon / item.icon);
+// this is just the available set — no per-block icon logic in the component.
+const LUCIDE_POOL = {
+  Dna, Ruler, GitFork, Tag, BookOpen, Landmark, Waypoints, Feather, Eye, GitCompare,
+  Languages, ListOrdered, TrendingUp, Library, Grid3x3, Sparkles, Orbit,
+  Sunrise, Star, Scale, Split, LayoutGrid, KeyRound, Link, Circle, MapPin, Quote,
 };
 
 // usage-map weight (0..3) → dot size / colour / glow
@@ -64,6 +57,8 @@ const STRAND_ACCENT: Record<string, string> = {
 @Component({
   selector: 'km-morph-block',
   standalone: true,
+  imports: [LucideAngularModule],
+  providers: [{ provide: LUCIDE_ICONS, multi: true, useValue: new LucideIconProvider(LUCIDE_POOL) }],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './morph-block.component.html',
   styleUrl: './morph-block.component.scss',
@@ -95,11 +90,8 @@ export class MorphBlockComponent {
   /** Suppress the generic bordered illustration for blocks that render their own banner. */
   showIllu(): boolean { return !!this.block.illustration?.url && this.block.type !== 'master_story'; }
 
-  iconSvg(): SafeHtml {
-    const paths = ICONS[this.block.type] ?? '<circle cx="12" cy="12" r="3"/>';
-    const svg = `<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="display:block">${paths}</svg>`;
-    return this.sanitizer.bypassSecurityTrustHtml(svg);
-  }
+  /** Icon name (Lucide token) for the block header — from the data. */
+  headIcon(): string { return this.block.icon || 'circle'; }
 
   regChips(): RegChip[] {
     const regs = (this.block.registers && this.block.registers.length)

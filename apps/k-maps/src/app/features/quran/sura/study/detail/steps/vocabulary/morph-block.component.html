@@ -2,7 +2,7 @@
 
   <!-- chrome: icon · ord · title · registers · collapse -->
   <header class="mb__head" (click)="toggle()">
-    <span class="mb__icon" [innerHTML]="iconSvg()"></span>
+    <span class="mb__icon"><lucide-icon [name]="headIcon()" [size]="20"></lucide-icon></span>
     <span class="mb__ord">{{ ord() }}</span>
     <span class="mb__title">{{ titleEn() }}</span>
     @if (block.title.ar) { <span class="mb__title-ar ar">{{ block.title.ar }}</span> }
@@ -104,6 +104,7 @@
           @for (s of strands(); track s.source) {
             <div class="synstrand" [style.--c]="s.accent">
               <div class="synstrand__head">
+                <span class="synstrand__icon" [style.color]="s.accent"><lucide-icon [name]="s.icon || 'waypoints'" [size]="16"></lucide-icon></span>
                 <span class="synstrand__badge ar">{{ s.badge }}</span>
                 <span class="synstrand__src ar" dir="rtl">{{ s.source }}</span>
               </div>
@@ -172,9 +173,16 @@
         <div class="occ">
           @for (it of occItems(); track it.ayah_key) {
             <article class="occc" [class.focus]="it.focus">
-              <div class="occc__top"><span class="occc__kind ar">{{ it.kind_ar }}</span><span class="occc__ref">Q {{ it.ayah_key }}</span></div>
-              <p class="occc__ar ar" dir="rtl">{{ it.text_ar }}</p>
-              <p class="occc__note">{{ it.note }}</p>
+              <span class="occc__ref">§ Q {{ it.ayah_key }}</span>
+              <div class="occc__side">
+                <div class="occc__motif"><lucide-icon [name]="it.icon || 'map-pin'" [size]="26"></lucide-icon></div>
+                <span class="occc__en">{{ it.en }}</span>
+              </div>
+              <div class="occc__body">
+                <div class="occc__top"><span class="occc__kind ar">{{ it.kind_ar }}</span>@if (it.focus) { <span class="occc__badge">study locus</span> }</div>
+                <p class="occc__ar ar" dir="rtl">{{ it.text_ar }}</p>
+                <p class="occc__note">{{ it.note }}</p>
+              </div>
             </article>
           }
         </div>
@@ -238,17 +246,20 @@
             <div class="story__masthead">
               <span class="story__rule"></span>
               <span class="story__mast-mid">
-                <span class="story__star">✦</span>
+                <span class="story__star"><lucide-icon [name]="headIcon()" [size]="16"></lucide-icon></span>
                 <span class="story__mast-en">The Complete Story</span>
                 <span class="story__mast-ar ar">القصة الجامعة</span>
               </span>
               <span class="story__rule story__rule--r"></span>
             </div>
 
-            @if (block.data?.dropcap) {
+            @if (block.data?.medallion_ar || block.data?.dropcap) {
               <div class="story__medallion">
                 <div class="story__med-ring"></div>
-                <div class="story__med-word ar">{{ bare(block.data.dropcap) }}</div>
+                <div class="story__med-text">
+                  <div class="story__med-word ar">{{ bare(block.data.medallion_ar || block.data.dropcap) }}</div>
+                  @if (block.data?.medallion_root) { <div class="story__med-root ar">{{ block.data.medallion_root }}</div> }
+                </div>
               </div>
             }
 
@@ -256,10 +267,16 @@
               <div class="story__movements">
                 @for (m of block.data.movements; track m.no; let last = $last) {
                   <div class="mv" [style.--c]="m.accent || '#c9a84c'">
-                    <div class="mv__rail"><span class="mv__no">{{ m.no }}</span>@if (!last) { <span class="mv__line"></span> }</div>
+                    <div class="mv__rail">
+                      <span class="mv__tile"><lucide-icon [name]="m.icon || 'star'" [size]="26"></lucide-icon><span class="mv__no">{{ m.no }}</span></span>
+                      @if (!last) { <span class="mv__line"></span> }
+                    </div>
                     <div class="mv__body">
                       <div class="mv__head"><span class="mv__en">{{ m.en }}</span><span class="mv__ar ar">{{ m.ar }}</span></div>
                       <p class="mv__text" [innerHTML]="rich(m.text)"></p>
+                      @if (m.chips?.length) {
+                        <div class="mv__chips">@for (c of m.chips; track c.ar) { <span class="mv__chip"><b class="ar">{{ c.ar }}</b><small>{{ c.en }}</small></span> }</div>
+                      }
                     </div>
                   </div>
                 }
@@ -285,7 +302,7 @@
           @for (wt of block.data?.witnesses; track wt.phrase_ar) {
             <div class="attw">
               <div class="attw__side">
-                <div class="attw__motif">◈</div>
+                <div class="attw__motif"><lucide-icon [name]="wt.icon || 'quote'" [size]="28"></lucide-icon></div>
                 <span class="attw__era">{{ wt.era_en }}</span>
               </div>
               <div class="attw__body">

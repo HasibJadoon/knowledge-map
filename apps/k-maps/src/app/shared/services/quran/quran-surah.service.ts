@@ -573,6 +573,7 @@ export interface MorphBlockVm {
   title: Tri; text: Tri; data: any;
   source_slug: string | null; source_ref: string | null; source_page: string | null;
   is_synthesis: boolean; register: string | null; registers?: string[] | null;
+  icon?: string | null;          // Lucide icon token (data-driven, per word)
   illustration?: MorphIllustration | null;
 }
 export interface MorphSourceVm {
