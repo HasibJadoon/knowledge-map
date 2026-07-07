@@ -8,7 +8,7 @@
 //   terms stay Arabic. No shaping logic here beyond JSON hydration + ordering.
 
 import { query, queryOne } from '../../../shared/src/db';
-import { buildFeats, rangeOf } from '../lib/morph-card';
+import { buildFeats, rangeOf, waznOf } from '../lib/morph-card';
 
 function hydrate(v: unknown): unknown {
   if (v == null) return null;
@@ -192,7 +192,7 @@ export class MorphDisplayRepo {
         group: w.word_group, pos_ar: w.pos_ar, pos_en: w.pos_en,
         gloss: { ar: w.gloss_ar, en: w.gloss_en, ur: w.gloss_ur },
         derived_type_ar: w.derived_type_ar, derived_type_en: w.derived_type_en,
-        wazn_ar: w.wazn_ar, form_roman: w.form_roman, form_ar: w.form_ar,
+        wazn_ar: waznOf(w.wazn_ar, w.morphology_tag_json, w.lemma_ar, w.root_ar, bucket), form_roman: w.form_roman, form_ar: w.form_ar,
         root_meaning: { ar: w.root_meaning_ar, en: w.root_meaning_en },
         quran_meanings: meanings,
         badge_color: w.badge_color, is_anchor: !!w.is_anchor, frequency_quran: w.frequency_quran,

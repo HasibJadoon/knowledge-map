@@ -55,16 +55,83 @@ export function buildFeats(
 
   push('status', m.case_ar, m.case);
   // definiteness (maʿrifa / nakira) — Arabic-only noun property. QAC flags
-  // nakira (INDEF) on the stem but marks maʿrifa via the ال (DET) prefix, so
-  // infer معرفة from a determiner prefix when no stem flag is present.
-  const hasDet = m.prefixes.some((p) => (p.tag ?? '').toUpperCase() === 'DET');
-  const stateAr = m.state_ar ?? (hasDet ? 'معرفة' : null);
-  const stateEn = m.state ?? (hasDet ? 'definite' : null);
+  // nakira (INDEF, tanwīn) on the stem; maʿrifa is inferred from the ال (DET)
+  // prefix, a proper noun, or a pronoun suffix (definite by annexation). A bare
+  // muḍāf with none of these stays contextual → no chip.
+  const definite =
+    m.pos === 'PN' ||
+    m.prefixes.some((p) => (p.tag ?? '').toUpperCase() === 'DET') ||
+    m.suffixes.some((sf) => (sf.tag ?? '').toUpperCase() === 'PRON');
+  const stateAr = m.state_ar ?? (definite ? 'معرفة' : null);
+  const stateEn = m.state ?? (definite ? 'definite' : null);
   push('state', stateAr, stateEn);
   push('number', m.number_ar ?? (m.gender_ar ? 'مفرد' : null), m.number ?? (m.gender_ar ? 'singular' : null));
   push('gender', m.gender_ar, m.gender);
   push('type', typeAr, typeEn);
   return out;
+}
+
+// ── plain-noun mīzān derivation ───────────────────────────────────────────────
+// QAC gives no pattern for plain nouns, so we derive it from the vocalised lemma
+// by aligning the root letters to ف/ع/ل. Sound triliteral/quadriliteral roots
+// only — doubled and weak roots (where a root letter is assimilated/transformed)
+// return null rather than a guessed pattern.
+
+const HARAKAT = new Set([...'ًٌٍَُِّْٰـ']);
+const isHarakah = (c: string): boolean => HARAKAT.has(c);
+const MIZAN = ['ف', 'ع', 'ل', 'ل', 'ل'];
+
+/** Normalise a consonant for root matching (hamza/alif family, yā/ā-maqṣūra, tā-marbūṭa). */
+function normLetter(c: string): string {
+  if ('أإآاٱءؤئ'.includes(c)) return 'ء';
+  if (c === 'ى') return 'ي';
+  if (c === 'ة') return 'ت';
+  return c;
+}
+
+function rootLetters(root: string | null | undefined): string[] {
+  return Array.from((root ?? '').replace(/[ـ\s]/g, '')).filter((c) => !isHarakah(c));
+}
+
+/**
+ * Derive a plain-noun wazn from its vocalised lemma + root. Walk the lemma;
+ * consonants matching the next root letter (in order) become ف/ع/ل keeping their
+ * harakah, other consonants are copied literally. Doubled roots are skipped, and
+ * if any root letter isn't placed in order (weak/irregular) → null.
+ */
+export function deriveNounWazn(lemma: string | null | undefined, root: string | null | undefined): string | null {
+  const R = rootLetters(root);
+  if (R.length < 3 || R.length > 4) return null;
+  for (let k = 0; k + 1 < R.length; k++) if (normLetter(R[k]) === normLetter(R[k + 1])) return null;
+  let ri = 0;
+  let out = '';
+  for (const c of Array.from(lemma ?? '')) {
+    if (isHarakah(c)) { out += c; continue; }
+    if (ri < R.length && normLetter(c) === normLetter(R[ri])) { out += MIZAN[ri]; ri++; }
+    else out += c;
+  }
+  return ri === R.length ? out : null;
+}
+
+/**
+ * Best available wazn (pattern) for a word: the curated value, else what QAC
+ * gives for the forms it covers — participles (مُفْعِل / مَفْعُول), finite verbs
+ * (أَفْعَلَ / فَعَلَ …), verbal nouns — else, for a plain noun, the mīzān derived
+ * from its lemma + root (sound roots only). Null when nothing is derivable.
+ */
+export function waznOf(
+  curated: string | null | undefined,
+  tagJson: unknown,
+  lemma: string | null = null,
+  root: string | null = null,
+  bucket: Bucket = 'noun',
+): string | null {
+  const c = typeof curated === 'string' ? curated.trim() : '';
+  if (c) return c;
+  const w = parseQacMorphology(tagJson).wazn_ar;
+  if (w && w.trim()) return w.trim();
+  if (bucket === 'noun') return deriveNounWazn(lemma, root);
+  return null;
 }
 
 /** Compact range of meanings — authored range, else the sense list joined. */

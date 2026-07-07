@@ -26,7 +26,7 @@ import { ok, badRequest, internalError } from '../../../shared/src/response';
 import { query } from '../../../shared/src/db';
 import { parseIntParam } from '../../../shared/src/validate';
 import type { QuranEnv } from '../env';
-import { buildFeats, rangeOf, type MorphFeat } from '../lib/morph-card';
+import { buildFeats, rangeOf, waznOf, type MorphFeat } from '../lib/morph-card';
 
 // ── Joined row (BASE qr_word_occurrences ⟕ RICH qr_morph_display_words) ────────
 
@@ -252,7 +252,7 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
           gloss_en:        clean(row.d_gloss_en),
           derived_type_en: derivedTypeEn,
           derived_type_ar: derivedTypeAr,
-          wazn_ar:         clean(row.d_wazn_ar),
+          wazn_ar:         waznOf(row.d_wazn_ar, row.morphology_tag_json, clean(row.d_lemma_ar) ?? clean(row.lemma), clean(row.root), kind.bucket),
           form_ar:         clean(row.d_form_ar),
           form_roman:      clean(row.d_form_roman),
           quran_meanings:  meanings,
