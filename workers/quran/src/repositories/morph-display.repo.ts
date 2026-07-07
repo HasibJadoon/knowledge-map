@@ -172,13 +172,15 @@ export class MorphDisplayRepo {
       sense_range_en: string | null;
       verb_form_ar: string | null;
       morphology_tag_json: string | null;
+      lemma_wazn_ar: string | null;
     };
     const rows = await query<GridRow>(
       this.db,
-      `SELECT d.*, o.morphology_tag_json AS morphology_tag_json
+      `SELECT d.*, o.morphology_tag_json AS morphology_tag_json, ql.wazn_ar AS lemma_wazn_ar
          FROM qr_morph_display_words d
          LEFT JOIN qr_word_occurrences o
            ON o.surah = d.surah_no AND o.ayah = d.ayah_no AND o.word_index = d.word_index
+         LEFT JOIN qr_lemmas ql ON ql.lemma_text = o.lemma
         WHERE d.surah_no = ? AND d.is_promoted = 1 AND d.status = 'live'
         ORDER BY d.ayah_no, d.word_index`,
       [surah],
@@ -192,7 +194,7 @@ export class MorphDisplayRepo {
         group: w.word_group, pos_ar: w.pos_ar, pos_en: w.pos_en,
         gloss: { ar: w.gloss_ar, en: w.gloss_en, ur: w.gloss_ur },
         derived_type_ar: w.derived_type_ar, derived_type_en: w.derived_type_en,
-        wazn_ar: waznOf(w.wazn_ar, w.morphology_tag_json, w.lemma_ar, w.root_ar, bucket), form_roman: w.form_roman, form_ar: w.form_ar,
+        wazn_ar: waznOf(w.wazn_ar ?? w.lemma_wazn_ar, w.morphology_tag_json, w.lemma_ar, w.root_ar, bucket), form_roman: w.form_roman, form_ar: w.form_ar,
         root_meaning: { ar: w.root_meaning_ar, en: w.root_meaning_en },
         quran_meanings: meanings,
         badge_color: w.badge_color, is_anchor: !!w.is_anchor, frequency_quran: w.frequency_quran,

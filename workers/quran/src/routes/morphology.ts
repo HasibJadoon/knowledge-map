@@ -56,6 +56,7 @@ interface JoinedRow {
   d_sense_arc_en: string | null;
   d_sense_range_en: string | null;
   d_verb_form_ar: string | null;
+  l_wazn_ar: string | null;
 }
 
 // ── Shaped output (the client paints this verbatim) ───────────────────────────
@@ -210,13 +211,15 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
             d.is_anchor           AS d_is_anchor,
             d.sense_arc_en        AS d_sense_arc_en,
             d.sense_range_en      AS d_sense_range_en,
-            d.verb_form_ar        AS d_verb_form_ar
+            d.verb_form_ar        AS d_verb_form_ar,
+            ql.wazn_ar            AS l_wazn_ar
           FROM qr_word_occurrences w
           LEFT JOIN qr_morph_display_words d
             ON d.surah_no = w.surah
            AND d.ayah_no  = w.ayah
            AND d.word_index = w.word_index
            AND d.status = 'live'
+          LEFT JOIN qr_lemmas ql ON ql.lemma_text = w.lemma
           WHERE ${conditions.join(' AND ')}
           ORDER BY w.ayah, w.word_index`,
         params,
@@ -252,7 +255,7 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
           gloss_en:        clean(row.d_gloss_en),
           derived_type_en: derivedTypeEn,
           derived_type_ar: derivedTypeAr,
-          wazn_ar:         waznOf(row.d_wazn_ar, row.morphology_tag_json, clean(row.d_lemma_ar) ?? clean(row.lemma), clean(row.root), kind.bucket),
+          wazn_ar:         waznOf(row.d_wazn_ar ?? row.l_wazn_ar, row.morphology_tag_json, clean(row.d_lemma_ar) ?? clean(row.lemma), clean(row.root), kind.bucket),
           form_ar:         clean(row.d_form_ar),
           form_roman:      clean(row.d_form_roman),
           quran_meanings:  meanings,
