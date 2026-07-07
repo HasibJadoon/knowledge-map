@@ -127,6 +127,13 @@ export function deriveNounWazn(lemma: string | null | undefined, root: string | 
  * (أَفْعَلَ / فَعَلَ …), verbal nouns — else, for a plain noun, the mīzān derived
  * from its lemma + root (sound roots only). Null when nothing is derivable.
  */
+// Verbal-noun (maṣdar) pattern by verb form — regular for the augmented forms.
+// Form I maṣdars and Form III (فِعَال vs مُفَاعَلَة) are irregular → not derived.
+const MASDAR_AR: Record<string, string> = {
+  II: 'تَفْعِيل', IV: 'إِفْعَال', V: 'تَفَعُّل', VI: 'تَفَاعُل',
+  VII: 'اِنْفِعَال', VIII: 'اِفْتِعَال', IX: 'اِفْعِلَال', X: 'اِسْتِفْعَال',
+};
+
 export function waznOf(
   curated: string | null | undefined,
   tagJson: unknown,
@@ -136,8 +143,10 @@ export function waznOf(
 ): string | null {
   const c = typeof curated === 'string' ? curated.trim() : '';
   if (c) return c;
-  const w = parseQacMorphology(tagJson).wazn_ar;
-  if (w && w.trim()) return w.trim();
+  const m = parseQacMorphology(tagJson);
+  if (m.wazn_ar && m.wazn_ar.trim()) return m.wazn_ar.trim();
+  // maṣdar of an augmented verb → its regular pattern
+  if (m.derived === 'verbal_noun' && m.form && MASDAR_AR[m.form]) return MASDAR_AR[m.form];
   if (bucket === 'noun') return deriveNounWazn(lemma, root);
   return null;
 }
