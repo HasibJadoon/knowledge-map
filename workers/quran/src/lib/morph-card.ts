@@ -8,7 +8,7 @@
 import { parseQacMorphology } from './qac-morph';
 
 /** A grammatical-feature chip. `cat` drives the card colour; `ar` is the label. */
-export type FeatCat = 'status' | 'number' | 'gender' | 'type' | 'tense' | 'voice';
+export type FeatCat = 'status' | 'state' | 'number' | 'gender' | 'type' | 'tense' | 'voice';
 export interface MorphFeat { cat: FeatCat; ar: string; en: string | null }
 
 type Bucket = 'noun' | 'verb';
@@ -36,11 +36,20 @@ export function buildFeats(
 
   if (bucket === 'verb') {
     push('tense', m.aspect_ar, m.aspect);
-    push('voice', m.voice_ar ?? (m.aspect_ar ? 'معلوم' : null), m.voice ?? (m.aspect_ar ? 'active' : null));
+    // voice as maʿlūm / majhūl (short Arabic names). Active is unmarked in QAC.
+    const voiceAr = m.voice === 'passive' ? 'مجهول' : (m.voice_ar ?? (m.aspect_ar ? 'معلوم' : null));
+    push('voice', voiceAr, m.voice ?? (m.aspect_ar ? 'active' : null));
     return out;
   }
 
   push('status', m.case_ar, m.case);
+  // definiteness (maʿrifa / nakira) — Arabic-only noun property. QAC flags
+  // nakira (INDEF) on the stem but marks maʿrifa via the ال (DET) prefix, so
+  // infer معرفة from a determiner prefix when no stem flag is present.
+  const hasDet = m.prefixes.some((p) => (p.tag ?? '').toUpperCase() === 'DET');
+  const stateAr = m.state_ar ?? (hasDet ? 'معرفة' : null);
+  const stateEn = m.state ?? (hasDet ? 'definite' : null);
+  push('state', stateAr, stateEn);
   push('number', m.number_ar ?? (m.gender_ar ? 'مفرد' : null), m.number ?? (m.gender_ar ? 'singular' : null));
   push('gender', m.gender_ar, m.gender);
   push('type', typeAr, typeEn);

@@ -41,9 +41,10 @@ export interface MorphCardVm {
 
       <div class="wcard__inner">
 
-        <!-- header: POS badge · ayah ref -->
+        <!-- header: POS badge · wazn · ayah ref -->
         <div class="wcard__head" data-depth="0.35">
           <span class="wcard__pos">{{ card().posLabel }}</span>
+          @if (card().waznAr) { <span class="wcard__wazn" dir="rtl">{{ card().waznAr }}</span> }
           <span class="wcard__ref">{{ card().ref }}</span>
           @if (card().isAnchor) { <span class="wcard__anchor" title="Root anchor">✦</span> }
         </div>
@@ -75,9 +76,8 @@ export interface MorphCardVm {
           <div class="wcard__range wcard__range--solo" data-depth="0.5">{{ card().rangeText }}</div>
         }
 
-        <!-- footer: wazn · root -->
+        <!-- footer: root -->
         <div class="wcard__foot" data-depth="0.3">
-          @if (card().waznAr) { <span class="wcard__wazn" dir="rtl">{{ card().waznAr }}</span> }
           @if (card().rootDisplay) {
             <span
               class="wcard__root"
@@ -100,7 +100,7 @@ export interface MorphCardVm {
     :host { display: block; perspective: 1000px; }
 
     .wcard {
-      position: relative; overflow: hidden; cursor: pointer; width: 100%;
+      position: relative; overflow: hidden; cursor: pointer; width: 100%; direction: ltr;
       border: 1px solid var(--edge, rgba(255,255,255,.08)); border-radius: 14px;
       background:
         linear-gradient(180deg, rgba(201,168,76,.05), rgba(20,20,20,0) 48%),
@@ -154,6 +154,7 @@ export interface MorphCardVm {
       &--number, &--voice { color: #93b8d6; border-color: rgba(147,184,214,.38); background: rgba(147,184,214,.10); }
       &--gender { color: #7fb58f; border-color: rgba(127,181,143,.38); background: rgba(127,181,143,.10); }
       &--type { color: var(--indigo2, #b3a6f6); border-color: rgba(136,120,226,.42); background: rgba(136,120,226,.12); }
+      &--state { color: #d9a9b8; border-color: rgba(217,169,184,.4); background: rgba(217,169,184,.10); }
     }
 
     @media (prefers-reduced-motion: reduce) {

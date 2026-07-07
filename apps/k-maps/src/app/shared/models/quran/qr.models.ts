@@ -518,7 +518,7 @@ export interface QrMorphMeaning {
 }
 
 /** Grammatical-feature chip. `cat` picks the card colour; `ar` is the label. */
-export type QrMorphFeatCat = 'status' | 'number' | 'gender' | 'type' | 'tense' | 'voice';
+export type QrMorphFeatCat = 'status' | 'state' | 'number' | 'gender' | 'type' | 'tense' | 'voice';
 export interface QrMorphFeat {
   cat: QrMorphFeatCat;
   ar: string;
