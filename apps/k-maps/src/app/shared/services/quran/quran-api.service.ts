@@ -8,6 +8,7 @@ import {
   QrPagePayload,
   QrPassage,
   QrReaderPayload,
+  QrMorphologyPayload,
 } from '../../models/quran/qr.models';
 import { BackendApiService } from '../backend-api.service';
 
@@ -24,6 +25,11 @@ export class QuranApiService {
       .set('page', '1')
       .set('limit', String(pageSize));
     return this.api.getResponse<QrReaderPayload>('qr', ['surahs', surah, 'reader'], { params });
+  }
+
+  /** Per-word morphology grid for a surah — fully shaped, reading order, content words only. */
+  getSurahMorphology(surah: number): Observable<QrApiResponse<QrMorphologyPayload>> {
+    return this.api.getResponse<QrMorphologyPayload>('qr', ['surahs', surah, 'morphology']);
   }
 
   getPage(page: number): Observable<QrApiResponse<QrPagePayload>> {

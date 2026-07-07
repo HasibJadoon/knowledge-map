@@ -1,138 +1,184 @@
-.mod-header {
-  margin-bottom: 1.5rem;
-  &__title {
-    font-family: var(--km-font-heading);
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    color: var(--km-gold);
-    letter-spacing: .08em;
-    margin: 0 0 .3rem;
-  }
-  &__sub { color: var(--km-text-3); font-size: .88rem; margin: 0; }
+// ═══════════════════════════════════════════════════════════════════════════
+// Surah Morphology — rich word-card grid, arranged by verse.
+// English-primary card: dictionary form (lemma) headline, occurrence beneath,
+// English gloss, morphology chips (derived type · wazn), authored sense list,
+// and the root. Mirrors the app's study-vocabulary card on the dark-gold
+// palette. The component is a pure renderer; nothing here derives data.
+// ═══════════════════════════════════════════════════════════════════════════
+
+:host {
+  --ink:    var(--km-text, rgba(255, 255, 255, .92));
+  --ink2:   rgba(255, 255, 255, .74);
+  --muted:  var(--km-text-2, rgba(255, 255, 255, .55));
+  --faint:  var(--km-text-3, rgba(255, 255, 255, .32));
+  --gold:   var(--km-gold, #c9a84c);
+  --gold2:  var(--km-gold-bright, #e8c96a);
+  --golddim: var(--km-gold-dim, #7a6432);
+  --noun:   #5fc99a;
+  --verb:   #a78bfa;
+  --indigo2: #b3a6f6;
+  --edge:   var(--km-border, rgba(255, 255, 255, .08));
+  --edge2:  rgba(255, 255, 255, .05);
+  --panel:  var(--km-surface-2, #141414);
+
+  --head: var(--km-font-heading, 'Cinzel', Georgia, serif);
+  --ar:   var(--km-font-arabic-ui, 'AmiriQuran', 'Amiri', 'Noto Naskh Arabic', serif);
+  --en:   var(--km-font-body, 'Poppins', system-ui, sans-serif);
+  --mono: ui-monospace, 'SF Mono', Menlo, monospace;
 }
 
+.morph-page { max-width: 1180px; margin: 0 auto; }
+
+// ── Module header ───────────────────────────────────────
+.mod-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--edge);
+
+  &__title {
+    font-family: var(--head);
+    font-size: 26px; font-weight: 600; letter-spacing: .04em;
+    color: var(--gold2); margin: 0 0 6px;
+  }
+  &__sub {
+    font-family: var(--en);
+    font-size: 12px; letter-spacing: .05em; text-transform: uppercase;
+    color: var(--faint); margin: 0;
+  }
+}
+
+// ── States ──────────────────────────────────────────────
 .qstate {
   display: flex; flex-direction: column; align-items: center;
-  gap: 1rem; padding: 5rem 0; color: var(--km-text-3); font-size: .9rem;
+  gap: 1rem; padding: 5rem 0; color: var(--muted);
+  font-family: var(--en); font-size: .9rem; text-align: center;
   &--error { color: rgba(255, 100, 100, .85); }
   &__spinner {
     width: 28px; height: 28px;
-    border: 2px solid var(--km-border);
-    border-top-color: var(--km-gold);
+    border: 2px solid var(--edge);
+    border-top-color: var(--gold);
     border-radius: 50%;
-    animation: spin .8s linear infinite;
+    animation: morph-spin .8s linear infinite;
   }
 }
-@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes morph-spin { to { transform: rotate(360deg); } }
 
 // ── Filter bar ──────────────────────────────────────────
-.morph-filters {
-  display: flex;
-  gap: .4rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.5rem;
-}
+.morph-filters { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
 
 .morph-filter {
+  font-family: var(--en);
   background: transparent;
-  border: 1px solid var(--km-border);
-  border-radius: 20px;
-  color: var(--km-text-2);
-  font-family: var(--km-font-body);
-  font-size: .78rem;
-  letter-spacing: .05em;
-  padding: .35rem .85rem;
-  cursor: pointer;
-  transition: all .15s;
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 12px; font-weight: 500; letter-spacing: .04em;
+  padding: 7px 15px; cursor: pointer;
+  transition: color .16s, border-color .16s, background .16s;
 
-  &:hover { border-color: var(--km-gold); color: var(--km-gold); }
-
+  &__count { font-family: var(--mono); font-size: 11px; margin-left: 6px; color: var(--faint); }
+  &:hover { color: var(--ink); border-color: var(--golddim); }
   &--active {
-    background: var(--km-gold-glow);
-    border-color: var(--km-gold);
-    color: var(--km-gold);
+    border-color: var(--golddim);
+    color: var(--gold2);
+    background: linear-gradient(180deg, rgba(201, 168, 76, .12), rgba(201, 168, 76, .04));
+    .morph-filter__count { color: var(--gold2); }
   }
 }
 
-// ── Word card grid ──────────────────────────────────────
-.morph-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
-  gap: .65rem;
-}
-
-.morph-card {
-  background: var(--km-surface);
-  border: 1px solid var(--km-border);
-  border-radius: 10px;
-  padding: .85rem .75rem .65rem;
-  display: flex;
-  flex-direction: column;
-  gap: .3rem;
-  align-items: flex-end;
-  transition: border-color .15s;
-
-  &:hover { border-color: var(--km-border-gold); }
-
-  // Colour-code left border by POS
-  &[data-pos='noun']     { border-left: 3px solid rgba(52, 211, 153, .55); }  // emerald
-  &[data-pos='verb']     { border-left: 3px solid rgba(167, 139, 250, .55); } // violet
-  &[data-pos='particle'] { border-left: 3px solid rgba(251, 191, 36, .35); }  // amber
-
-  &__word {
-    font-family: var(--km-font-arabic-ui);
-    font-size: 1.45rem;
-    line-height: 1.8;
-    color: var(--km-text);
-    width: 100%;
-    text-align: right;
-  }
-
-  &__badges {
-    display: flex;
-    gap: .3rem;
-    flex-wrap: wrap;
-    justify-content: flex-end;
-  }
-
-  &__root {
-    font-family: var(--km-font-arabic-ui);
-    font-size: .82rem;
-    color: var(--km-gold);
-    opacity: .75;
-  }
-
-  &__lemma {
-    font-size: .7rem;
-    color: var(--km-text-3);
-    text-align: right;
-    width: 100%;
-  }
+// ── By-verse arrangement ────────────────────────────────
+.morph-ayah {
+  margin-bottom: 26px;
 
   &__ref {
-    font-size: .62rem;
-    color: var(--km-text-3);
-    opacity: .5;
-    align-self: flex-start;
-    margin-top: auto;
-    padding-top: .25rem;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    color: var(--gold2); margin-bottom: 12px; opacity: .85;
+
+    &::after {
+      content: ''; display: inline-block;
+      width: 120px; max-width: 40vw; height: 1px;
+      background: linear-gradient(90deg, var(--golddim), transparent);
+    }
   }
 }
 
-// ── POS badge colours ───────────────────────────────────
-.morph-badge {
-  font-size: .58rem;
-  padding: .12rem .45rem;
-  border-radius: 20px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  border: 1px solid;
+.morph-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  align-items: stretch;
+}
 
-  &[data-pos='noun']     { color: rgba(52, 211, 153, .9);  border-color: rgba(52, 211, 153, .3); }
-  &[data-pos='verb']     { color: rgba(167, 139, 250, .9); border-color: rgba(167, 139, 250, .3); }
-  &[data-pos='particle'] { color: rgba(251, 191, 36, .8);  border-color: rgba(251, 191, 36, .25); }
+// ── Word card ───────────────────────────────────────────
+.wcard {
+  position: relative; overflow: hidden; cursor: pointer;
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 14px 16px 12px;
+  border: 1px solid var(--edge); border-radius: 12px;
+  background: linear-gradient(180deg, var(--panel), #101018);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .05), 0 4px 14px -8px #000;
+  text-align: left; font-family: var(--en);
+  transition: border-color .16s, transform .16s, box-shadow .16s;
 
-  &--dim {
-    color: var(--km-text-3);
-    border-color: var(--km-border);
+  &::before {
+    content: ''; position: absolute; inset: 0 auto 0 0; width: 3px;
+    background: var(--muted);
   }
+  &[data-group='noun']::before { background: linear-gradient(180deg, var(--noun), transparent 85%); }
+  &[data-group='verb']::before { background: linear-gradient(180deg, var(--verb), transparent 85%); }
+
+  &:hover {
+    border-color: var(--golddim);
+    transform: translateY(-2px);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .07), 0 12px 26px -12px #000;
+  }
+  &:focus-visible { outline: 2px solid var(--golddim); outline-offset: 2px; }
+
+  // headline: dictionary form (lemma), anchor mark to the far side
+  &__top { display: flex; align-items: baseline; gap: 8px; justify-content: flex-end; }
+  &__word { font-family: var(--ar); font-size: 27px; font-weight: 600; color: var(--gold2); line-height: 1.7; direction: rtl; }
+  &__anchor { order: -1; margin-right: auto; color: var(--indigo2); font-size: 13px; }
+  &__occ { display: block; text-align: right; font-family: var(--ar); font-size: 15px; color: var(--muted); margin-top: -2px; direction: rtl; }
+
+  // English-primary gloss
+  &__gloss { margin: 0; font-family: var(--en); font-size: 14.5px; line-height: 1.45; color: var(--ink); }
+
+  // morphology chips
+  &__morph { display: flex; flex-wrap: wrap; gap: 5px; }
+
+  // authored sense list
+  &__means { list-style: none; margin: 2px 0 0; padding: 0; display: flex; flex-direction: column; gap: 3px; }
+  &__means li {
+    position: relative; font-family: var(--en); font-size: 12px; line-height: 1.35;
+    color: var(--muted); padding-left: 12px;
+    &::before { content: '·'; position: absolute; left: 2px; color: var(--golddim); }
+  }
+
+  // footer: root (right) · root meaning (left)
+  &__foot {
+    display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
+    gap: 6px 10px; margin-top: auto; padding-top: 9px; border-top: 1px solid var(--edge2);
+  }
+  &__root {
+    order: 2; font-family: var(--ar); font-size: 15px; letter-spacing: 3px;
+    color: var(--gold); cursor: pointer; direction: rtl;
+    border-bottom: 1px dashed transparent; transition: color .15s, border-color .15s;
+    &:hover { color: var(--gold2); border-bottom-color: var(--golddim); }
+    &:focus-visible { outline: 2px solid var(--golddim); outline-offset: 2px; }
+  }
+  &__rootmean { order: 1; font-family: var(--en); font-style: italic; font-size: 11px; color: var(--faint); }
+}
+
+.mtag {
+  font: 600 11px/1.3 var(--en);
+  padding: 3px 8px; border-radius: 4px;
+  border: 1px solid var(--edge2); color: var(--ink2); background: rgba(255, 255, 255, .03);
+
+  &.wazn { font-family: var(--ar); font-weight: 400; font-size: 13px; color: var(--gold2); }
+}
+
+@media (max-width: 520px) {
+  .morph-grid { grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
 }

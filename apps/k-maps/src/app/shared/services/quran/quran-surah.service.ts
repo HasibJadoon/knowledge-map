@@ -563,15 +563,17 @@ export interface MorphWordVm {
   root_ar: string | null; root_display: string | null; group: 'noun' | 'verb' | string;
   pos: Tri; gloss: Tri;
   sarf: { derived_ar: string | null; derived_en: string | null; derived_ur: string | null;
-          wazn_ar: string | null; form_roman: string | null; features: unknown };
+          wazn_ar: string | null; form_roman: string | null; form_ar: string | null; features: unknown };
   badge_color: string | null; is_anchor: boolean;
   importance: number; difficulty: number | null; frequency_quran: number | null;
 }
+export interface MorphIllustration { url?: string | null; alt?: string | null; kind?: string | null; r2_key?: string | null; }
 export interface MorphBlockVm {
   type: string; subtype: string | null; tier: 'occurrence' | 'ayah' | 'root' | string; order: number;
   title: Tri; text: Tri; data: any;
   source_slug: string | null; source_ref: string | null; source_page: string | null;
-  is_synthesis: boolean; register: string | null;
+  is_synthesis: boolean; register: string | null; registers?: string[] | null;
+  illustration?: MorphIllustration | null;
 }
 export interface MorphSourceVm {
   kind: string; title_ar: string | null; title_en: string | null;
@@ -579,10 +581,22 @@ export interface MorphSourceVm {
   death_h: number | null; register: string | null;
   badge_color: string | null; badge_glyph: string | null; order: number;
 }
+export interface MorphNavRef { surah: number; ayah: number; word_index: number; surface_ar: string; }
 export interface MorphWordView {
+  nav: { prev: MorphNavRef | null; next: MorphNavRef | null; index: number; total: number };
   word: MorphWordVm;
   blocks: MorphBlockVm[];
   sources: Record<string, MorphSourceVm>;
+}
+
+export interface MorphGridCard {
+  id: string; surah: number; ayah: number; word_index: number;
+  surface_ar: string; lemma_ar: string | null; root_ar: string | null; root_display: string | null;
+  group: 'noun' | 'verb' | string; pos_ar: string | null; pos_en: string | null;
+  gloss: Tri; derived_type_ar: string | null; derived_type_en: string | null; wazn_ar: string | null; form_roman: string | null; form_ar: string | null;
+  root_meaning: { ar: string | null; en: string | null };
+  quran_meanings: { ar: string; en: string }[] | null;
+  badge_color: string | null; is_anchor: boolean; frequency_quran: number | null;
 }
 
 export interface StudyExpressionsResponse {
@@ -923,6 +937,11 @@ export class QuranSurahService {
   /** Morphology display layer — the trilingual, tier-merged WORD view (blocks). */
   getMorphWord(surah: number, ayah: number, wordIndex: number): Observable<MorphWordView> {
     return this.api.getData<MorphWordView>('qr', ['study', 'morph', 'word', surah, ayah, wordIndex]);
+  }
+
+  /** Curated grid of promoted content-word cards for a surah (nouns/verbs). */
+  getMorphGrid(surah: number): Observable<MorphGridCard[]> {
+    return this.api.getData<MorphGridCard[]>('qr', ['study', 'morph', 'grid', surah]);
   }
 
   getStudyExpressions(surahId: number, passageNo: number): Observable<StudyExpressionsResponse> {

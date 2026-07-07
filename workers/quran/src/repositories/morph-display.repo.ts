@@ -24,15 +24,17 @@ interface WordRow {
   pos_ar: string | null; pos_en: string | null; pos_ur: string | null;
   gloss_ar: string | null; gloss_en: string | null; gloss_ur: string | null; badge_color: string | null;
   derived_type_ar: string | null; derived_type_en: string | null; derived_type_ur: string | null;
-  wazn_ar: string | null; form_roman: string | null; features_json: string | null;
+  wazn_ar: string | null; form_roman: string | null; form_ar: string | null; features_json: string | null;
   is_anchor: number; importance: number; difficulty: number | null; frequency_quran: number | null;
+  root_meaning_ar: string | null; root_meaning_en: string | null; quran_meanings_json: string | null;
 }
 interface BlockRow {
   scope_level: string; block_type: string; block_subtype: string | null; display_order: number;
   title_ar: string | null; title_en: string | null; title_ur: string | null;
   text_ar: string | null; text_en: string | null; text_ur: string | null;
   data_json: string | null; source_slug: string | null; source_ref: string | null; source_page: string | null;
-  is_synthesis: number; register: string | null;
+  is_synthesis: number; register: string | null; meta_json: string | null;
+  registers_json: string | null; media_r2_key: string | null; media_kind: string | null; media_alt: string | null;
 }
 interface SourceRow {
   source_slug: string; kind: string; title_ar: string | null; title_en: string | null;
@@ -60,7 +62,8 @@ export class MorphDisplayRepo {
       this.db,
       `SELECT scope_level, block_type, block_subtype, display_order,
               title_ar, title_en, title_ur, text_ar, text_en, text_ur,
-              data_json, source_slug, source_ref, source_page, is_synthesis, register
+              data_json, source_slug, source_ref, source_page, is_synthesis, register, meta_json,
+              registers_json, media_r2_key, media_kind, media_alt
          FROM qr_morph_display_blocks
         WHERE status = 'live'
           AND ( (scope_level = 'occurrence' AND scope_key = ?)
@@ -83,7 +86,20 @@ export class MorphDisplayRepo {
       ).catch(() => []);
     }
 
+    // Prev/next promoted word in the surah (for full-page word navigation).
+    const sibs = await query<{ ayah_no: number; word_index: number; surface_ar: string }>(
+      this.db,
+      `SELECT ayah_no, word_index, surface_ar FROM qr_morph_display_words
+        WHERE surah_no = ? AND is_promoted = 1 AND status = 'live'
+        ORDER BY ayah_no, word_index`,
+      [surah],
+    ).catch(() => []);
+    const idx = sibs.findIndex(s => s.ayah_no === ayah && s.word_index === wordIndex);
+    const mkNav = (s: { ayah_no: number; word_index: number; surface_ar: string } | undefined) =>
+      s ? { surah, ayah: s.ayah_no, word_index: s.word_index, surface_ar: s.surface_ar } : null;
+
     return {
+      nav: { prev: mkNav(sibs[idx - 1]), next: mkNav(sibs[idx + 1]), index: idx, total: sibs.length },
       word: {
         id: w.id, surah: w.surah_no, ayah: w.ayah_no, word_index: w.word_index, ayah_key: w.ayah_key,
         surface_ar: w.surface_ar, surface_bare: w.surface_bare, lemma_ar: w.lemma_ar,
@@ -91,7 +107,7 @@ export class MorphDisplayRepo {
         pos: { ar: w.pos_ar, en: w.pos_en, ur: w.pos_ur },
         gloss: { ar: w.gloss_ar, en: w.gloss_en, ur: w.gloss_ur },
         sarf: { derived_ar: w.derived_type_ar, derived_en: w.derived_type_en, derived_ur: w.derived_type_ur,
-                wazn_ar: w.wazn_ar, form_roman: w.form_roman, features: hydrate(w.features_json) },
+                wazn_ar: w.wazn_ar, form_roman: w.form_roman, form_ar: w.form_ar, features: hydrate(w.features_json) },
         badge_color: w.badge_color, is_anchor: !!w.is_anchor,
         importance: w.importance, difficulty: w.difficulty, frequency_quran: w.frequency_quran,
       },
@@ -101,6 +117,12 @@ export class MorphDisplayRepo {
         text: { ar: b.text_ar, en: b.text_en, ur: b.text_ur },
         data: hydrate(b.data_json), source_slug: b.source_slug, source_ref: b.source_ref,
         source_page: b.source_page, is_synthesis: !!b.is_synthesis, register: b.register,
+        // language-world registers (["quran","classical","msa"]) drive the sidebar filter
+        registers: (hydrate(b.registers_json) as string[] | null) ?? (b.register ? [b.register] : []),
+        // R2-keyed media → bundled illustration (pilot: /assets/morph-media/<block_type>.png)
+        illustration: b.media_r2_key
+          ? { url: `/assets/morph-media/${b.block_type}.png`, alt: b.media_alt, kind: b.media_kind }
+          : ((hydrate(b.meta_json) as { illustration?: unknown })?.illustration ?? null),
       })),
       sources: Object.fromEntries(sources.map(s => [s.source_slug, {
         kind: s.kind, title_ar: s.title_ar, title_en: s.title_en,
@@ -123,10 +145,13 @@ export class MorphDisplayRepo {
     return rows.map(w => ({
       id: w.id, surah: w.surah_no, ayah: w.ayah_no, word_index: w.word_index,
       surface_ar: w.surface_ar, lemma_ar: w.lemma_ar, root_ar: w.root_ar, root_display: w.root_display,
-      group: w.word_group, pos_ar: w.pos_ar,
+      group: w.word_group, pos_ar: w.pos_ar, pos_en: w.pos_en,
       gloss: { ar: w.gloss_ar, en: w.gloss_en, ur: w.gloss_ur },
-      derived_type_ar: w.derived_type_ar, wazn_ar: w.wazn_ar, badge_color: w.badge_color,
-      is_anchor: !!w.is_anchor, frequency_quran: w.frequency_quran,
+      derived_type_ar: w.derived_type_ar, derived_type_en: w.derived_type_en,
+      wazn_ar: w.wazn_ar, form_roman: w.form_roman, form_ar: w.form_ar,
+      root_meaning: { ar: w.root_meaning_ar, en: w.root_meaning_en },
+      quran_meanings: hydrate(w.quran_meanings_json),
+      badge_color: w.badge_color, is_anchor: !!w.is_anchor, frequency_quran: w.frequency_quran,
     }));
   }
 }

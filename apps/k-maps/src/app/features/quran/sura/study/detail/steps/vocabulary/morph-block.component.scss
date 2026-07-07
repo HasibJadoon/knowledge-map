@@ -1,0 +1,241 @@
+// ═══════════════════════════════════════════════════════════════════════════
+// MorphBlock — one illuminated layer card (chrome + design-typed body).
+// Dark-gold palette; matches the Morph Display Layer design.
+// ═══════════════════════════════════════════════════════════════════════════
+
+:host {
+  --ink:   var(--km-text, rgba(255,255,255,.93));
+  --ink2:  rgba(255,255,255,.74);
+  --muted: var(--km-text-2, rgba(255,255,255,.55));
+  --faint: var(--km-text-3, rgba(255,255,255,.30));
+  --gold:  var(--km-gold, #c9a84c);
+  --gold2: var(--km-gold-bright, #e8c96a);
+  --golddim: var(--km-gold-dim, #7a6432);
+  --indigo: #8878e2;
+  --indigo2: #b3a6f6;
+  --sky:   #93b8d6;
+  --red:   #e0645f;
+  --g2:    var(--km-surface, #0d0d0d);
+  --panel: var(--km-surface-2, #141414);
+  --panel3: #202020;
+  --edge:  var(--km-border, rgba(255,255,255,.08));
+  --edge2: rgba(255,255,255,.05);
+  --head:  var(--km-font-heading, 'Cinzel', Georgia, serif);
+  --serif: 'Cormorant Garamond', 'Amiri', Georgia, serif;
+  --ar:    var(--km-font-arabic-ui, 'Amiri', serif);
+  --quran: var(--km-font-arabic-quran, 'AmiriQuran', 'Amiri', serif);
+  --en:    var(--km-font-body, 'Poppins', system-ui, sans-serif);
+  --mono:  ui-monospace, 'SF Mono', Menlo, monospace;
+  --fscale: 1;
+  display: block;
+}
+.ar { font-family: var(--ar); }
+
+.mb {
+  border: 1px solid var(--edge); border-radius: 12px; background: var(--g2);
+  overflow: hidden; box-shadow: 0 12px 40px -28px #000;
+
+  &__head {
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+    padding: 14px 22px; border-bottom: 1px solid var(--edge2);
+    background: linear-gradient(180deg, rgba(255,255,255,.02), transparent); cursor: pointer; user-select: none;
+  }
+  &__icon { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px;
+    border-radius: 8px; color: var(--gold2); background: rgba(201,168,76,.08); border: 1px solid var(--golddim); flex: none; }
+  &__ord { font: 600 11px/1 var(--head); letter-spacing: .12em; color: var(--gold); border: 1px solid var(--golddim); border-radius: 6px; padding: 6px 8px; }
+  &__title { font: 600 15px/1 var(--head); letter-spacing: .11em; text-transform: uppercase; color: var(--ink); }
+  &__title-ar { font-family: var(--ar); font-size: 15px; color: var(--muted); }
+  &__chips { margin-inline-start: auto; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  &__reg {
+    font: 600 9px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px;
+    color: var(--gold2); border: 1px solid var(--golddim); background: rgba(201,168,76,.08);
+    &.reg-classical { color: var(--indigo2); border-color: #8878e2; background: rgba(136,120,226,.08); }
+    &.reg-msa { color: var(--sky); border-color: rgba(147,184,214,.4); background: rgba(147,184,214,.08); }
+    &.reg-modern { color: var(--indigo2); border-color: #8878e2; }
+    &.reg-tafsir { color: var(--sky); border-color: rgba(147,184,214,.4); }
+    &.reg-kmaps { color: var(--indigo2); border-color: #8878e2; }
+  }
+  &__chev { font-size: 13px; color: var(--muted); transition: transform .18s; &.closed { transform: rotate(-90deg); } }
+
+  &__body { padding: 20px 22px; }
+  &__illu { padding: 16px 22px 0;
+    img { width: 100%; max-height: 320px; object-fit: cover; border-radius: 10px; border: 1px solid var(--edge); display: block; } }
+}
+
+// ── rich inline prose ───────────────────────────────────
+.say { font-size: calc(15px * var(--fscale,1)); line-height: 1.64; color: var(--ink2); margin: 0; }
+.say.muted { color: var(--muted); margin-bottom: 14px; }
+.say.italic { font-style: italic; }
+.say + .say, .featgrid + .say, .irow + .say { margin-top: 10px; }
+::ng-deep .rk { color: var(--gold2); font-weight: 600; }
+::ng-deep .rc { color: #ff5f7e; font-weight: 700; text-shadow: 0 0 14px rgba(255,80,110,.6); }
+::ng-deep .ra { font-family: var(--ar); color: var(--gold); font-weight: 500; white-space: nowrap; &.key { color: var(--gold2); } &.crit { color: #ff5f7e; } }
+::ng-deep .rarrow { color: var(--gold2); font-weight: 800; font-size: 1.28em; padding: 0 5px; text-shadow: 0 0 10px rgba(201,168,76,.55); &.crit { color: #ff5f7e; } }
+
+// ── root DNA ────────────────────────────────────────────
+.rootdna { display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+  &__letters { display: flex; gap: 9px; direction: rtl;
+    span { width: 60px; height: 60px; display: grid; place-items: center; font-family: var(--ar); font-size: 36px; color: var(--gold2);
+      border: 1px solid var(--golddim); border-radius: 12px; background: radial-gradient(circle at 50% 30%, rgba(201,168,76,.14), transparent); } }
+  &__meaning { flex: 1; min-width: 240px; }
+  &__core { font-family: var(--ar); font-size: 22px; color: var(--gold2); line-height: 1.5; } }
+
+// ── ṣarf ────────────────────────────────────────────────
+.sarf { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+  &__pat { text-align: center; padding: 10px 16px; border: 1px dashed var(--golddim); border-radius: 10px; background: rgba(201,168,76,.05);
+    .ar { font-size: 30px; color: var(--gold2); line-height: 1; } small { display: block; font: 600 9px/1 var(--mono); letter-spacing: .1em; color: var(--muted); margin-top: 6px; } }
+  &__arrow { font-size: 22px; color: var(--faint); }
+  &__from { font-family: var(--ar); font-size: 26px; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(224,100,95,.6); }
+  &__to-arrow { font-size: 16px; color: var(--faint); }
+  &__to { font-family: var(--ar); font-size: 28px; color: var(--gold2); }
+  &__rule { font: 500 11px/1.3 var(--en); color: var(--muted); border: 1px solid var(--edge); border-radius: 6px; padding: 6px 10px; max-width: 220px; } }
+.featgrid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+.feat { display: inline-flex; align-items: baseline; gap: 7px; padding: 7px 12px; border-radius: 6px; border: 1px solid var(--edge); background: var(--panel);
+  u { font: 500 10px/1 var(--mono); color: var(--faint); text-decoration: none; } b { font-family: var(--ar); font-size: 15px; color: var(--ink); font-weight: 500; } }
+
+// ── derived family ──────────────────────────────────────
+.fam { display: flex; flex-direction: column; gap: 10px; }
+.famg { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 10px 4px; border-bottom: 1px solid var(--edge2);
+  &__lab { flex: 0 0 128px; font-family: var(--ar); font-size: 15px; color: var(--gold); }
+  &__items { display: flex; flex-wrap: wrap; gap: 7px; flex: 1; } }
+.ftok { display: inline-flex; align-items: baseline; gap: 6px; padding: 5px 11px; border-radius: 6px; border: 1px solid var(--edge); background: var(--panel);
+  b { font-family: var(--ar); font-size: 17px; color: var(--ink); font-weight: 500; } small { font: 400 10.5px/1 var(--en); color: var(--faint); } }
+
+// ── iʿrāb ───────────────────────────────────────────────
+.irow { display: flex; flex-wrap: wrap; gap: 9px; align-items: center; margin-bottom: 12px; }
+.irole { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; border-radius: 8px; color: #12100a; background: linear-gradient(180deg, var(--gold2), var(--gold));
+  b { font-family: var(--ar); font-size: 18px; } small { font: 600 10px/1 var(--mono); opacity: .7; } }
+.ipill { font-family: var(--ar); font-size: 16px; padding: 7px 13px; border-radius: 8px; color: var(--ink); border: 1px solid var(--edge); background: var(--panel); &.gold { color: var(--gold2); } }
+.srcs { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 10px; }
+.src { font: 500 10px/1 var(--mono); color: var(--muted); border: 1px solid var(--edge); border-radius: 999px; padding: 5px 9px; }
+
+// ── classical lexicons ──────────────────────────────────
+.lexgrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 14px; }
+.lexc { display: flex; flex-direction: column; border: 1px solid var(--edge); border-radius: 14px; overflow: hidden;
+  background: linear-gradient(180deg, rgba(201,168,76,.045), rgba(20,20,20,0) 46%), var(--panel);
+  &__head { display: flex; align-items: center; gap: 10px; padding: 13px 15px; border-bottom: 1px solid var(--edge2);
+    b { flex: 1; font: 600 12.5px/1.25 var(--head); letter-spacing: .04em; color: var(--gold2); }
+    small { font: 600 8.5px/1 var(--mono); text-transform: uppercase; color: var(--faint); border: 1px solid var(--edge); border-radius: 999px; padding: 4px 8px; white-space: nowrap; } }
+  &__ar { font-family: var(--ar); font-size: 21px; line-height: 1.95; color: var(--ink); padding: 14px 16px 0; text-align: right; }
+  &__en { font-size: calc(13px * var(--fscale,1)); line-height: 1.65; color: var(--muted); margin: 12px 16px 16px; padding-top: 12px; border-top: 1px solid var(--edge2); } }
+
+// ── synthesis ───────────────────────────────────────────
+.synstrands { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; margin-bottom: 16px; }
+.synstrand { display: flex; flex-direction: column; border: 1px solid var(--edge); border-top: 2px solid var(--c); border-radius: 10px; padding: 14px 15px; background: var(--panel);
+  &__head { display: flex; align-items: center; gap: 9px; margin-bottom: 11px; }
+  &__badge { font-family: var(--ar); font-size: 15px; color: var(--c); }
+  &__src { margin-inline-start: auto; font-family: var(--ar); font-size: 12px; color: var(--faint); }
+  &__ar { font-family: var(--ar); font-size: 18px; line-height: 1.85; color: var(--ink); text-align: right; margin-bottom: 10px; }
+  &__en { font-size: calc(12.5px * var(--fscale,1)); line-height: 1.6; color: var(--muted); margin: auto 0 0; padding-top: 10px; border-top: 1px solid var(--edge2); } }
+.say.synout { color: var(--ink); border-inline-start: 2px solid var(--golddim); padding-inline-start: 16px; }
+
+// ── balāgha ─────────────────────────────────────────────
+.formula { text-align: center; padding: 14px; margin-bottom: 14px; border: 1px solid var(--golddim); border-radius: 10px; background: radial-gradient(400px 120px at 50% 0, rgba(201,168,76,.1), transparent);
+  &__ar { font-family: var(--quran); font-size: 24px; color: var(--gold2); line-height: 1.5; }
+  &__en { font: italic 500 13.5px/1.5 var(--en); color: var(--muted); margin-top: 9px; } }
+.refs { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 12px; }
+.ref { font: 500 10.5px/1 var(--mono); color: var(--gold2); border: 1px solid var(--golddim); border-radius: 6px; padding: 5px 9px; }
+
+// ── metaphor ────────────────────────────────────────────
+.meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+  &__src { padding: 9px 15px; border-radius: 8px; font-family: var(--ar); font-size: 17px; color: var(--sky); border: 1px solid rgba(147,184,214,.35); background: rgba(147,184,214,.08); }
+  &__is { font-size: 15px; color: var(--faint); letter-spacing: .1em; }
+  &__tgt { padding: 9px 15px; border-radius: 8px; font-family: var(--ar); font-size: 17px; color: var(--gold2); border: 1px solid var(--golddim); background: rgba(201,168,76,.08); }
+  &__map { font: 600 10px/1 var(--mono); letter-spacing: .08em; color: var(--faint); text-transform: uppercase; } }
+
+// ── kindred & contrast ──────────────────────────────────
+.kin { display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  &__lab { font: 600 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; &.syn { color: var(--sky); } &.con { color: var(--red); } }
+  &__item { padding: 9px 12px; border-radius: 8px; margin-bottom: 8px;
+    b { font-family: var(--ar); font-size: 17px; color: var(--ink); font-weight: 500; } small { color: var(--faint); }
+    p { font-size: 12px; line-height: 1.5; color: var(--muted); margin: 3px 0 0; }
+    &.syn { border: 1px solid rgba(147,184,214,.22); background: rgba(147,184,214,.05); } &.con { border: 1px solid rgba(224,100,95,.22); background: rgba(224,100,95,.05); } } }
+
+// ── translators ─────────────────────────────────────────
+.trans { display: flex; flex-direction: column; gap: 1px; border: 1px solid var(--edge); border-radius: 10px; overflow: hidden;
+  &__row { display: flex; align-items: center; gap: 14px; padding: 12px 15px; background: var(--panel); }
+  &__who { flex: 0 0 132px; font: 500 12px/1.3 var(--en); color: var(--muted); }
+  &__txt { flex: 1; font: 500 15px/1.4 var(--en); color: var(--ink); }
+  &__tag { flex: none; font: 600 9px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 5px 9px; border-radius: 999px; border: 1px solid; } }
+
+// ── occurrences ─────────────────────────────────────────
+.occ { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 12px; }
+.occc { padding: 15px 16px; border: 1px solid var(--edge); border-radius: 12px; background: var(--panel);
+  &.focus { border-color: var(--golddim); box-shadow: 0 0 0 1px rgba(201,168,76,.25); }
+  &__top { display: flex; align-items: baseline; justify-content: space-between; gap: 9px; margin-bottom: 8px; }
+  &__kind { font-family: var(--ar); font-size: 15px; color: var(--gold); }
+  &__ref { font: 600 9.5px/1 var(--mono); color: var(--gold); background: rgba(201,168,76,.06); border: 1px solid var(--golddim); border-radius: 999px; padding: 4px 9px; }
+  &__ar { font-family: var(--quran); font-size: 20px; line-height: 1.9; color: var(--ink); margin: 0; text-align: right; }
+  &__note { font-size: calc(12.5px * var(--fscale,1)); line-height: 1.55; color: var(--muted); margin: 9px 0 0; } }
+
+// ── semantic development ────────────────────────────────
+.dev { display: flex; gap: 0; align-items: stretch; overflow-x: auto; padding-bottom: 4px; }
+.dev__stage { flex: 1; min-width: 150px; padding: 0 14px;
+  .dev__mark { display: flex; align-items: center; gap: 8px; margin-bottom: 10px;
+    span { width: 11px; height: 11px; border-radius: 50%; background: var(--gold); box-shadow: 0 0 0 4px rgba(201,168,76,.14); } }
+  .dev__ar { font-family: var(--ar); font-size: 18px; color: var(--gold2); }
+  .dev__en { font: 600 10px/1 var(--mono); letter-spacing: .06em; color: var(--muted); text-transform: uppercase; margin-top: 3px; }
+  .dev__note { font-size: 12.5px; line-height: 1.55; color: var(--ink2); margin: 8px 0 0; } }
+
+// ── tafsīr ──────────────────────────────────────────────
+.taf { display: flex; flex-direction: column; gap: 12px; }
+.taf__e { border-inline-start: 2px solid var(--golddim); padding: 4px 0 4px 16px;
+  .taf__who { display: flex; align-items: baseline; gap: 9px; margin-bottom: 5px; b { font: 600 13px/1 var(--head); letter-spacing: .04em; color: var(--gold2); } small { font: 500 9.5px/1 var(--mono); color: var(--faint); } }
+  .taf__txt { font-size: calc(14.5px * var(--fscale,1)); line-height: 1.6; color: var(--ink2); margin: 0; } }
+
+// ── usage map ───────────────────────────────────────────
+.umap { display: grid; grid-template-columns: 120px repeat(var(--cols, 6), minmax(56px, 1fr)); gap: 0; overflow-x: auto;
+  &__cell { border-bottom: 1px solid var(--edge2); }
+  &__corner, &__ax { border-bottom: 1px solid var(--edge); }
+  &__ax { padding: 0 4px 10px; text-align: center; .ar { display: block; font-size: 13px; color: var(--gold2); } small { display: block; font: 600 8.5px/1.1 var(--mono); text-transform: uppercase; color: var(--muted); margin-top: 3px; } }
+  &__rl { display: flex; flex-direction: column; justify-content: center; padding: 10px 8px; b { font: 600 11px/1 var(--mono); color: var(--ink); } small { font-size: 10.5px; color: var(--faint); margin-top: 2px; } }
+  &__dot { display: grid; place-items: center; padding: 10px 0; span { border-radius: 50%; } } }
+
+// ── master story — full-bleed ceremonial finale ─────────
+.story {
+  margin: -20px -22px; position: relative; overflow: hidden;
+  background: radial-gradient(920px 320px at 50% -8%, rgba(201,168,76,.15), transparent 62%), linear-gradient(180deg, #100d07, #0a0a0a 58%);
+
+  &__banner { position: relative;
+    img { width: 100%; height: 230px; object-fit: cover; display: block; }
+    .story__scrim { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(16,13,7,.85)); border-bottom: 1px solid var(--golddim); } }
+  &__scrim { pointer-events: none; }
+  &__play { position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 54px; height: 54px; display: grid; place-items: center;
+    border-radius: 50%; color: var(--gold2); border: 1px solid var(--golddim); background: rgba(0,0,0,.5); font-size: 17px; padding-inline-start: 3px; }
+
+  &__inner { padding: 32px clamp(24px, 6%, 64px) 38px; }
+
+  &__masthead { display: flex; align-items: center; gap: 14px; justify-content: center; margin-bottom: 24px; }
+  &__rule { flex: 1; height: 1px; max-width: 130px; background: linear-gradient(90deg, transparent, var(--golddim)); &--r { background: linear-gradient(270deg, transparent, var(--golddim)); } }
+  &__mast-mid { display: flex; align-items: center; gap: 11px; }
+  &__star { color: var(--gold2); }
+  &__mast-en { font: 600 13px/1 var(--head); letter-spacing: .24em; text-transform: uppercase; color: var(--gold2); }
+  &__mast-ar { font-family: var(--ar); font-size: 17px; color: var(--gold); }
+
+  &__medallion { display: flex; justify-content: center; margin: 0 auto 30px; position: relative; width: 154px; height: 154px;
+    place-items: center; border-radius: 50%; align-items: center;
+    background: radial-gradient(circle at 50% 36%, rgba(201,168,76,.22), rgba(0,0,0,.25));
+    box-shadow: 0 0 0 1px var(--golddim), inset 0 0 44px rgba(201,168,76,.14), 0 22px 54px -22px rgba(201,168,76,.55); }
+  &__med-ring { position: absolute; inset: 9px; border-radius: 50%; border: 1px solid rgba(201,168,76,.28); }
+  &__med-word { font-family: var(--quran); font-size: calc(52px * var(--fscale,1)); line-height: 1; color: var(--gold2); text-shadow: 0 4px 26px rgba(201,168,76,.55); }
+
+  &__prose { max-width: 640px; margin: 0 auto; font-family: var(--serif); font-size: calc(19px * var(--fscale,1)); line-height: 1.7; color: var(--ink2); text-wrap: pretty; }
+  &__movements { max-width: 640px; margin: 0 auto; display: flex; flex-direction: column; gap: 6px; }
+
+  &__threads { max-width: 66ch; margin: 28px auto 0; padding-top: 18px; border-top: 1px solid var(--edge2); }
+  &__wov { font: 600 9px/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--faint); margin-bottom: 13px; text-align: center; }
+  &__chips { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+}
+.thread { font: 600 10px/1 var(--mono); letter-spacing: .04em; text-transform: uppercase; color: var(--gold2); border: 1px solid var(--golddim); border-radius: 999px; padding: 6px 12px; background: rgba(201,168,76,.06); }
+// story movements (when authored)
+.mv { display: grid; grid-template-columns: 72px 1fr; gap: 20px; align-items: start;
+  &__rail { display: flex; flex-direction: column; align-items: center; }
+  &__no { width: 30px; height: 30px; border-radius: 999px; display: grid; place-items: center; font: 600 11px/1 var(--mono); color: #12100a; background: var(--c); }
+  &__line { width: 2px; flex: 1; min-height: 34px; margin-top: 8px; background: linear-gradient(180deg, var(--c), transparent); opacity: .6; }
+  &__body { padding: 3px 0 14px; }
+  &__head { display: flex; align-items: baseline; gap: 11px; margin-bottom: 8px; flex-wrap: wrap; }
+  &__en { font: 600 12px/1 var(--head); letter-spacing: .17em; text-transform: uppercase; color: var(--c); }
+  &__ar { font-family: var(--ar); font-size: 17px; color: var(--muted); }
+  &__text { font-family: var(--serif); font-size: calc(19px * var(--fscale,1)); line-height: 1.6; color: var(--ink2); margin: 0; } }
+
+@media (max-width: 620px) { .kin { grid-template-columns: 1fr; } }

@@ -504,3 +504,49 @@ export interface QrDisplaySearchHit {
   hit: string;
   rank_score: number;
 }
+
+// ── Surah Morphology grid ─────────────────────────────────────────────────────
+// Fully shaped by the worker (GET /qr/surahs/:id/morphology). The component is a
+// logic-free renderer: it paints `words[]` and never parses a linguistic token.
+
+export type QrMorphPos = 'noun' | 'verb';
+
+/** One authored Qurʾānic sense of the word (trilingual; ur may be absent). */
+export interface QrMorphMeaning {
+  ar: string;
+  en: string;
+}
+
+/**
+ * One morphology card. Fully shaped by the worker: QAC essentials (lemma,
+ * surface, root, derived type) for every word, enriched with the curated Memlet
+ * layer (gloss, sense list, wazn, root meaning) where a word has been authored.
+ */
+export interface QrMorphWord {
+  surah: number;
+  ayah: number;
+  word_index: number;
+  ref: string;                          // "44:2"
+  surface_ar: string;                   // occurrence form
+  lemma_ar: string | null;              // dictionary form — the card headline
+  root_ar: string | null;               // bare root, e.g. "كتب" (for navigation)
+  root_display: string | null;          // spaced root, e.g. "ك ت ب"
+  group: QrMorphPos;                    // filter bucket
+  pos_en: string;                       // Noun | Proper Noun | Verb
+  gloss_en: string | null;              // authored English meaning
+  derived_type_en: string | null;       // e.g. "active participle"
+  derived_type_ar: string | null;       // e.g. "اسم فاعل"
+  wazn_ar: string | null;               // pattern, e.g. "مُفْعِل"
+  form_ar: string | null;               // verb form (باب), e.g. "إفعال"
+  form_roman: string | null;            // e.g. "IV"
+  quran_meanings: QrMorphMeaning[] | null;  // short authored sense list
+  root_meaning_en: string | null;       // authored root gloss, e.g. "clarity"
+  is_anchor: boolean;                   // root anchor word
+}
+
+export interface QrMorphologyPayload {
+  surah_id: number;
+  scope: { ayah_from: number; ayah_to: number };
+  count: { all: number; noun: number; verb: number };
+  words: QrMorphWord[];
+}

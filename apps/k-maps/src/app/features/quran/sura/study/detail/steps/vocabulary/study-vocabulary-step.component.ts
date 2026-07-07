@@ -2,45 +2,45 @@ import {
   AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, Input,
   OnChanges, SimpleChanges, computed, inject, signal,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import gsap from 'gsap';
 import {
-  QuranSurahService, StudyLessonResponse, WordCardVm,
+  QuranSurahService, StudyLessonResponse, MorphGridCard,
 } from '../../../../../../../shared/services/quran/quran-surah.service';
-import { MorphWordModalComponent } from './morph-word-modal.component';
 
-interface AyahGroup { ayah: number; words: WordCardVm[]; }
+interface AyahGroup { ayah: number; words: MorphGridCard[]; }
 
 /**
- * Morphology / vocabulary step — the passage word grid.
- * Renders every word from the built morphology API (API 1); clicking a word
- * opens the deep Word Backbone 360 modal (API 2). No UI-side normalization.
+ * Morphology step — the curated WORD-CARD grid. Shows only PROMOTED content
+ * words (major nouns/verbs, no ḥarf/common words), each a rich card with the
+ * word, its meaning summary, root, and basic morphology. Clicking a card opens
+ * the full-page word reader. All data from the display layer; no UI logic.
  */
 @Component({
   selector: 'km-study-vocabulary-step',
   standalone: true,
-  imports: [MorphWordModalComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './study-vocabulary-step.component.html',
   styleUrl: './study-vocabulary-step.component.scss',
 })
 export class StudyVocabularyStepComponent implements OnChanges, AfterViewInit {
   private readonly svc = inject(QuranSurahService);
+  private readonly router = inject(Router);
   private readonly elRef = inject(ElementRef<HTMLElement>);
 
   @Input({ required: true }) lesson!: StudyLessonResponse;
 
-  readonly words = signal<WordCardVm[]>([]);
+  readonly words = signal<MorphGridCard[]>([]);
   readonly loading = signal(true);
   readonly error = signal<string | null>(null);
   readonly filter = signal<'all' | 'noun' | 'verb'>('all');
-  readonly selected = signal<WordCardVm | null>(null);
 
   private loadedKey = '';
   private viewReady = false;
 
   readonly groups = computed<AyahGroup[]>(() => {
     const f = this.filter();
-    const map = new Map<number, WordCardVm[]>();
+    const map = new Map<number, MorphGridCard[]>();
     for (const w of this.words()) {
       if (f !== 'all' && w.group !== f) continue;
       if (!map.has(w.ayah)) map.set(w.ayah, []);
@@ -51,62 +51,35 @@ export class StudyVocabularyStepComponent implements OnChanges, AfterViewInit {
 
   readonly counts = computed(() => {
     const w = this.words();
-    return {
-      all: w.length,
-      noun: w.filter(x => x.group === 'noun').length,
-      verb: w.filter(x => x.group === 'verb').length,
-    };
+    return { all: w.length, noun: w.filter(x => x.group === 'noun').length, verb: w.filter(x => x.group === 'verb').length };
   });
 
-  ngOnChanges(ch: SimpleChanges): void {
-    if (ch['lesson'] && this.lesson) this.load();
-  }
-
-  ngAfterViewInit(): void {
-    this.viewReady = true;
-    queueMicrotask(() => this.animateChips());
-  }
+  ngOnChanges(ch: SimpleChanges): void { if (ch['lesson'] && this.lesson) this.load(); }
+  ngAfterViewInit(): void { this.viewReady = true; queueMicrotask(() => this.animateCards()); }
 
   private load(): void {
-    const key = `${this.lesson.surahId}:${this.lesson.passageNo}`;
+    const key = `${this.lesson.surahId}`;
     if (key === this.loadedKey) return;
     this.loadedKey = key;
-    this.loading.set(true);
-    this.error.set(null);
-    this.svc.getPassageMorphology(this.lesson.surahId, this.lesson.passageNo).subscribe({
-      next: res => {
-        this.words.set(res.words ?? []);
-        this.loading.set(false);
-        queueMicrotask(() => this.animateChips());
-      },
-      error: () => {
-        this.error.set('تعذّر تحميل تحليل الكلمات لهذا المقطع.');
-        this.loading.set(false);
-      },
+    this.loading.set(true); this.error.set(null);
+    this.svc.getMorphGrid(this.lesson.surahId).subscribe({
+      next: res => { this.words.set(res ?? []); this.loading.set(false); queueMicrotask(() => this.animateCards()); },
+      error: () => { this.error.set('تعذّر تحميل كلمات هذا المقطع.'); this.loading.set(false); },
     });
   }
 
-  private animateChips(): void {
-    if (!this.viewReady) return;
-    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
-    const chips = this.elRef.nativeElement.querySelectorAll('.wchip');
-    if (chips.length) {
-      gsap.fromTo(chips, { opacity: 0, y: 12, scale: 0.96 },
-        { opacity: 1, y: 0, scale: 1, duration: 0.34, stagger: 0.012, ease: 'power3.out', clearProps: 'transform' });
+  private animateCards(): void {
+    if (!this.viewReady || window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const cards = this.elRef.nativeElement.querySelectorAll('.wcard');
+    if (cards.length) {
+      gsap.fromTo(cards, { opacity: 0, y: 14, scale: 0.98 },
+        { opacity: 1, y: 0, scale: 1, duration: 0.34, stagger: 0.02, ease: 'power3.out', clearProps: 'transform' });
     }
   }
 
-  setFilter(f: 'all' | 'noun' | 'verb'): void {
-    this.filter.set(f);
-    queueMicrotask(() => this.animateChips());
-  }
+  setFilter(f: 'all' | 'noun' | 'verb'): void { this.filter.set(f); queueMicrotask(() => this.animateCards()); }
 
-  open(w: WordCardVm): void { this.selected.set(w); }
-  onClosed(): void { this.selected.set(null); }
-  onGraded(_ev: { wordId: string; grade: string }): void { /* P2: write ar_ling_vocab_srs via API */ }
-
-  chipColor(w: WordCardVm): string {
-    return w.irab?.term?.color
-      || (w.group === 'verb' ? '#d8a35d' : w.group === 'noun' ? '#93b8d6' : '#6b6759');
+  open(w: MorphGridCard): void {
+    this.router.navigate(['/quran/surahs', this.lesson.surahId, 'study', this.lesson.passageNo, 'word', w.ayah, w.word_index]);
   }
 }

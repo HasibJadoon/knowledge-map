@@ -17,6 +17,7 @@ import { pageRoutes } from './routes/pages';
 import { menuRoutes } from './routes/menu';
 import { readerRoutes } from './routes/reader';
 import { vocabularyRoutes } from './routes/vocabulary';
+import { morphologyRoutes } from './routes/morphology';
 import { worldviewRoutes } from './routes/worldview';
 import { tafsirRoutes } from './routes/tafsir';
 import { irabRoutes } from './routes/irab';
@@ -38,6 +39,7 @@ menuRoutes(router);          // GET /qr/menu — navigation dataset
 surahRoutes(router);         // GET /qr/surahs, /qr/surahs/:id
 readerRoutes(router);        // GET /qr/surahs/:id/reader — combined ayah+translation payload
 vocabularyRoutes(router);    // GET /qr/surahs/:id/vocabulary — POS-grouped words
+morphologyRoutes(router);    // GET /qr/surahs/:id/morphology — per-word morphology grid
 worldviewRoutes(router);     // GET /qr/surahs/:id/worldview — Quran-scoped worldview projection data
 ayahRoutes(router);          // GET /qr/ayahs, /qr/ayahs/search, /qr/ayahs/:s/:a
 passageRoutes(router);       // GET /qr/passages, by-ayah, single, create, delete

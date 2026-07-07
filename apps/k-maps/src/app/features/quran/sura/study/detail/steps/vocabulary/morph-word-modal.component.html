@@ -1,5 +1,6 @@
 <div class="mscrim" #scrim (click)="onScrim($event)">
-  <div class="msheet" #sheet dir="rtl" role="dialog" aria-modal="true" aria-label="تحليل الكلمة">
+  <div class="msheet" #sheet dir="rtl" role="dialog" aria-modal="true" aria-label="تحليل الكلمة"
+       [style.--fscale]="fontScale()">
 
     <!-- ── HERO ─────────────────────────────────────────────────────────── -->
     <header class="mhero">
@@ -7,10 +8,22 @@
 
       <button class="mhero__close" (click)="close()" aria-label="إغلاق">✕</button>
 
-      <div class="mhero__lang" role="tablist" aria-label="لغة الفهم">
-        @for (l of langs; track l.key) {
-          <button class="mlang" [class.on]="lang() === l.key" (click)="setLang(l.key)">{{ l.label }}</button>
-        }
+      <div class="mhero__controls">
+        <div class="mfont" role="group" aria-label="عرض">
+          <button class="mfbtn board" [class.on]="boardView() === 'board'" (click)="toggleBoard()" aria-label="لوحة قابلة للسحب">⊞</button>
+          @if (boardView() === 'board') {
+            <button class="mfbtn" (click)="resetBoard()" aria-label="إعادة الترتيب">↺</button>
+          }
+        </div>
+        <div class="mfont" role="group" aria-label="حجم الخط">
+          <button class="mfbtn" (click)="stepFont(-1)" aria-label="تصغير الخط">A−</button>
+          <button class="mfbtn" (click)="stepFont(1)" aria-label="تكبير الخط">A+</button>
+        </div>
+        <div class="mhero__lang" role="tablist" aria-label="لغة الفهم">
+          @for (l of langs; track l.key) {
+            <button class="mlang" [class.on]="lang() === l.key" (click)="setLang(l.key)">{{ l.label }}</button>
+          }
+        </div>
       </div>
 
       @if (word(); as w) {
@@ -40,15 +53,23 @@
     </header>
 
     <!-- ── BODY ─────────────────────────────────────────────────────────── -->
-    <div class="mbody">
+    <div class="mbody" #board
+         [class.mbody--board]="boardView() === 'board'"
+         (pointerdown)="onBoardDown($event)" (pointermove)="onBoardMove($event)"
+         (pointerup)="onBoardUp()" (pointerleave)="onBoardUp()" (wheel)="onBoardWheel($event)">
       @if (loading()) {
         <div class="mstate"><div class="mspin"></div><p>…يُبنى تحليل الكلمة</p></div>
       } @else if (error()) {
         <div class="mstate mstate--err"><p>تعذّر تحميل تحليل هذه الكلمة.</p></div>
       } @else {
+       <div class="mcanvas"
+            [style.transform]="boardView() === 'board' ? 'translate(' + panX() + 'px,' + panY() + 'px) scale(' + zoom() + ')' : null">
         @for (b of blocks(); track b.order) {
-          <section class="mblock" [attr.data-type]="b.type" [attr.data-tier]="b.tier">
-            <div class="mblock__head">
+          <section class="mblock" [attr.data-type]="b.type" [attr.data-tier]="b.tier"
+                   [class.mblock--free]="boardView() === 'board'"
+                   [style.left.px]="boardView() === 'board' ? (pos()[b.order]?.x ?? 0) : null"
+                   [style.top.px]="boardView() === 'board' ? (pos()[b.order]?.y ?? 0) : null">
+            <div class="mblock__head" (pointerdown)="onPanelDown($event, b.order)">
               <h3 class="mblock__term">{{ b.title.ar || b.type }}</h3>
               @if (b.is_synthesis) { <span class="mtag syn">تأليف كِمابس</span> }
               @if (b.register === 'modern') { <span class="mtag modern">قراءة حديثة</span> }
@@ -184,9 +205,67 @@
                   </div>
                 }
 
+                <!-- ROOT DISCUSSION — the contronym insight -->
+                @case ('root_discussion') {
+                  @if (b.data?.aspects?.length) {
+                    <div class="aspects">
+                      @for (a of b.data.aspects; track a.ar) {
+                        <span class="aspect"><b class="ar">{{ a.ar }}</b><i>{{ a.en }}</i></span>
+                      }
+                    </div>
+                  }
+                  <p class="say" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p>
+                }
+
+                <!-- CONSTELLATION — the Memlet word-web -->
+                @case ('constellation') {
+                  @if (constel(b.data); as g) {
+                    <div class="constel">
+                      <svg viewBox="0 0 440 300" role="img" [attr.aria-label]="t(b.text)">
+                        @for (n of g.nodes; track n.label) {
+                          <line [attr.x1]="g.cx" [attr.y1]="g.cy" [attr.x2]="n.x" [attr.y2]="n.y"
+                                [attr.stroke]="nodeColor(n.kind)" stroke-opacity="0.35"/>
+                        }
+                        <circle [attr.cx]="g.cx" [attr.cy]="g.cy" r="30" fill="#d4b45a"/>
+                        <text [attr.x]="g.cx" [attr.y]="g.cy + 7" text-anchor="middle" font-size="20" font-weight="700" fill="#12100a" class="ar">{{ b.data.center }}</text>
+                        @for (n of g.nodes; track n.label) {
+                          <circle [attr.cx]="n.x" [attr.cy]="n.y" r="4" [attr.fill]="nodeColor(n.kind)"/>
+                          <text [attr.x]="n.x" [attr.y]="n.y - 9" text-anchor="middle" font-size="13" class="ar" [attr.fill]="nodeColor(n.kind)">{{ n.label }}</text>
+                          <text [attr.x]="n.x" [attr.y]="n.y + 16" text-anchor="middle" font-size="8.5" fill="#9a9385">{{ n.en }}</text>
+                        }
+                      </svg>
+                    </div>
+                  }
+                }
+
                 <!-- TAFSIR — word-focused synthesis (not verse commentary) -->
                 @case ('tafsir') {
                   <p class="say tafsir" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p>
+                }
+
+                <!-- EXERCISES — active recall (reveal to check) -->
+                @case ('exercises') {
+                  @if (t(b.text)) { <p class="say muted" [dir]="isRtlText() ? 'rtl' : 'ltr'">{{ t(b.text) }}</p> }
+                  <div class="exers">
+                    @for (ex of b.data?.items; track $index) {
+                      <div class="exer" (click)="toggleReveal($index)">
+                        <p class="exer__q ar">{{ ex.q_ar }}</p>
+                        @if (ex.q_en) { <p class="exer__qen">{{ ex.q_en }}</p> }
+                        @if (ex.options?.length) {
+                          <div class="exer__opts">
+                            @for (o of ex.options; track o) {
+                              <span class="opt ar" [class.right]="isRevealed($index) && o === ex.answer">{{ o }}</span>
+                            }
+                          </div>
+                        }
+                        @if (isRevealed($index)) {
+                          <p class="exer__a ar">✓ {{ ex.answer }}</p>
+                        } @else {
+                          <span class="exer__hint">اضغط للكشف · reveal</span>
+                        }
+                      </div>
+                    }
+                  </div>
                 }
 
                 @default {
@@ -196,6 +275,7 @@
             </div>
           </section>
         }
+       </div>
       }
     </div>
   </div>
