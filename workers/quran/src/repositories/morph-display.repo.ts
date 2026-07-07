@@ -170,6 +170,7 @@ export class MorphDisplayRepo {
     type GridRow = WordRow & {
       sense_arc_en: string | null;
       sense_range_en: string | null;
+      verb_form_ar: string | null;
       morphology_tag_json: string | null;
     };
     const rows = await query<GridRow>(
@@ -195,7 +196,7 @@ export class MorphDisplayRepo {
         root_meaning: { ar: w.root_meaning_ar, en: w.root_meaning_en },
         quran_meanings: meanings,
         badge_color: w.badge_color, is_anchor: !!w.is_anchor, frequency_quran: w.frequency_quran,
-        feats: buildFeats(bucket, w.morphology_tag_json, w.derived_type_ar, w.derived_type_en),
+        feats: buildFeats(bucket, w.morphology_tag_json, w.derived_type_ar, w.derived_type_en, w.verb_form_ar ?? null),
         sense_arc_en: w.sense_arc_en ?? null,
         sense_range_en: rangeOf(w.sense_range_en, meanings),
       };

@@ -155,6 +155,7 @@ export interface MorphCardVm {
       &--gender { color: #7fb58f; border-color: rgba(127,181,143,.38); background: rgba(127,181,143,.10); }
       &--type { color: var(--indigo2, #b3a6f6); border-color: rgba(136,120,226,.42); background: rgba(136,120,226,.12); }
       &--state { color: #d9a9b8; border-color: rgba(217,169,184,.4); background: rgba(217,169,184,.10); }
+      &--form { color: #6fc2b0; border-color: rgba(111,194,176,.4); background: rgba(111,194,176,.10); }
     }
 
     @media (prefers-reduced-motion: reduce) {

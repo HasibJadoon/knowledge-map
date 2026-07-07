@@ -55,6 +55,7 @@ interface JoinedRow {
   d_is_anchor: number | null;
   d_sense_arc_en: string | null;
   d_sense_range_en: string | null;
+  d_verb_form_ar: string | null;
 }
 
 // ── Shaped output (the client paints this verbatim) ───────────────────────────
@@ -208,7 +209,8 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
             d.root_meaning_en     AS d_root_meaning_en,
             d.is_anchor           AS d_is_anchor,
             d.sense_arc_en        AS d_sense_arc_en,
-            d.sense_range_en      AS d_sense_range_en
+            d.sense_range_en      AS d_sense_range_en,
+            d.verb_form_ar        AS d_verb_form_ar
           FROM qr_word_occurrences w
           LEFT JOIN qr_morph_display_words d
             ON d.surah_no = w.surah
@@ -256,7 +258,7 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
           quran_meanings:  meanings,
           root_meaning_en: clean(row.d_root_meaning_en),
           is_anchor:       !!row.d_is_anchor,
-          feats:           buildFeats(kind.bucket, row.morphology_tag_json, derivedTypeAr, derivedTypeEn),
+          feats:           buildFeats(kind.bucket, row.morphology_tag_json, derivedTypeAr, derivedTypeEn, clean(row.d_verb_form_ar)),
           sense_arc_en:    clean(row.d_sense_arc_en),
           sense_range_en:  rangeOf(clean(row.d_sense_range_en), meanings),
         });

@@ -8,10 +8,17 @@
 import { parseQacMorphology } from './qac-morph';
 
 /** A grammatical-feature chip. `cat` drives the card colour; `ar` is the label. */
-export type FeatCat = 'status' | 'state' | 'number' | 'gender' | 'type' | 'tense' | 'voice';
+export type FeatCat = 'status' | 'state' | 'number' | 'gender' | 'type' | 'tense' | 'voice' | 'form';
 export interface MorphFeat { cat: FeatCat; ar: string; en: string | null }
 
 type Bucket = 'noun' | 'verb';
+
+/** Augmented verb forms (II–X) → model verb. Form I is authored per word (its
+ *  family depends on the present-tense vowel, which the QAC tag doesn't give). */
+const FORM_MODEL_AR: Record<string, string> = {
+  II: 'فَعَّلَ', III: 'فَاعَلَ', IV: 'أَفْعَلَ', V: 'تَفَعَّلَ', VI: 'تَفَاعَلَ',
+  VII: 'اِنْفَعَلَ', VIII: 'اِفْتَعَلَ', IX: 'اِفْعَلَّ', X: 'اِسْتَفْعَلَ',
+};
 
 /**
  * Grammatical-feature chips from the QAC stem, ordered as the card reads them.
@@ -27,6 +34,7 @@ export function buildFeats(
   tagJson: unknown,
   typeAr: string | null,
   typeEn: string | null,
+  verbFormAr: string | null = null,
 ): MorphFeat[] {
   const m = parseQacMorphology(tagJson);
   const out: MorphFeat[] = [];
@@ -39,6 +47,9 @@ export function buildFeats(
     // voice as maʿlūm / majhūl (short Arabic names). Active is unmarked in QAC.
     const voiceAr = m.voice === 'passive' ? 'مجهول' : (m.voice_ar ?? (m.aspect_ar ? 'معلوم' : null));
     push('voice', voiceAr, m.voice ?? (m.aspect_ar ? 'active' : null));
+    // form / family: authored (Form I family) else the augmented model from QAC.
+    const formAr = verbFormAr ?? (m.form && m.form !== 'I' ? (FORM_MODEL_AR[m.form] ?? null) : null);
+    push('form', formAr, m.form ?? null);
     return out;
   }
 

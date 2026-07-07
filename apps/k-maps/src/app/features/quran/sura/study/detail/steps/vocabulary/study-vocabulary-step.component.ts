@@ -80,7 +80,8 @@ export class StudyVocabularyStepComponent implements OnChanges {
       surfaceAr: w.surface_ar,
       arc: w.sense_arc_en,
       rangeText: w.sense_range_en || w.gloss.en,
-      waznAr: w.wazn_ar,
+      // verbs carry their pattern as the form/family chip → no redundant header wazn
+      waznAr: w.group === 'verb' ? null : w.wazn_ar,
       rootDisplay: w.root_display,
       rootAr: w.root_ar,
     };
