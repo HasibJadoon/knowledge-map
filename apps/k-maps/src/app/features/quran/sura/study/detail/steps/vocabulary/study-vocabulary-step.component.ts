@@ -73,7 +73,7 @@ export class StudyVocabularyStepComponent implements OnChanges {
   toVm(w: MorphGridCard): MorphCardVm {
     return {
       group: w.group,
-      posLabel: w.pos_en || (w.group === 'verb' ? 'Verb' : 'Noun'),
+      posLabel: w.pos_ar || (w.group === 'verb' ? 'فعل' : 'اسم'),
       ref: `${w.surah}:${w.ayah}`,
       isAnchor: w.is_anchor,
       feats: w.feats ?? [],

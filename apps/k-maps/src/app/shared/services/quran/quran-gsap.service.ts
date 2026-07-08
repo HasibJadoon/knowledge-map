@@ -244,25 +244,25 @@ export class QuranGsapService {
 
   /**
    * 3D entrance for morphology cards — each card tips up from a back-tilted
-   * plane as it scrolls into view, in a light per-row stagger.
+   * plane on mount. Fires immediately (NOT ScrollTrigger): these cards live in
+   * containers that scroll internally (the study panel's overflow:auto), where a
+   * window-scroll trigger never fires and would leave off-screen cards stuck at
+   * opacity 0. An immediate reveal always lands them visible.
    */
   reveal3dCards(elements: Element[]): void {
     if (!elements.length) return;
     if (prefersReducedMotion()) { gsap.set(elements, { opacity: 1, y: 0 }); return; }
-    elements.forEach((el, i) => {
-      gsap.fromTo(
-        el,
-        { opacity: 0, y: 30, rotateX: -16, transformPerspective: 900 },
-        {
-          opacity: 1, y: 0, rotateX: 0,
-          duration: 0.55,
-          delay: (i % 4) * 0.05,
-          ease: 'power3.out',
-          clearProps: 'transform',
-          scrollTrigger: { trigger: el, start: 'top 92%', once: true },
-        },
-      );
-    });
+    gsap.fromTo(
+      elements,
+      { opacity: 0, y: 24, rotateX: -14, transformPerspective: 900 },
+      {
+        opacity: 1, y: 0, rotateX: 0,
+        duration: 0.5,
+        stagger: 0.04,
+        ease: 'power3.out',
+        clearProps: 'transform',
+      },
+    );
   }
 
   /**

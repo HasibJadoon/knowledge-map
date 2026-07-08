@@ -43,7 +43,7 @@ export interface MorphCardVm {
 
         <!-- header: POS badge · wazn · ayah ref -->
         <div class="wcard__head" data-depth="0.35">
-          <span class="wcard__pos">{{ card().posLabel }}</span>
+          <span class="wcard__pos" [class.wcard__pos--ar]="posIsAr()">{{ card().posLabel }}</span>
           @if (card().waznAr) { <span class="wcard__wazn" dir="rtl">{{ card().waznAr }}</span> }
           <span class="wcard__ref">{{ card().ref }}</span>
           @if (card().isAnchor) { <span class="wcard__anchor" title="Root anchor">✦</span> }
@@ -119,12 +119,13 @@ export interface MorphCardVm {
 
       &__head { display: flex; align-items: center; gap: 8px; }
       &__pos { font: 600 8.5px/1.4 var(--en); letter-spacing: .07em; text-transform: uppercase; padding: 4px 9px; border-radius: 999px; white-space: nowrap;
-        color: var(--noun, #5fc99a); border: 1px solid rgba(127,181,143,.35); background: rgba(127,181,143,.14); }
+        color: var(--noun, #5fc99a); border: 1px solid rgba(127,181,143,.35); background: rgba(127,181,143,.14);
+        &--ar { font-family: var(--ar, 'Amiri', serif); font-size: 12px; font-weight: 500; letter-spacing: 0; text-transform: none; } }
       &[data-group='verb'] &__pos { color: var(--verb, #a78bfa); border-color: rgba(136,120,226,.35); background: rgba(136,120,226,.14); }
       &__ref { margin-left: auto; font: 400 9.5px/1 var(--mono, ui-monospace, monospace); letter-spacing: .06em; color: var(--faint, rgba(255,255,255,.32)); }
       &__anchor { color: var(--indigo2, #b3a6f6); font-size: 12px; }
 
-      &__feats { display: flex; flex-wrap: wrap; gap: 4px; }
+      &__feats { display: flex; flex-wrap: wrap; gap: 4px; justify-content: flex-end; }
 
       &__word { font-family: var(--ar, 'AmiriQuran', 'Amiri', serif); font-size: 31px; line-height: 1.5; color: var(--ink, rgba(255,255,255,.92)); direction: rtl; text-align: right; margin-top: 2px; }
 
@@ -145,9 +146,9 @@ export interface MorphCardVm {
     }
 
     .feat {
-      font-family: var(--ar, 'Amiri', serif); font-size: 12.5px; line-height: 1;
+      font-family: var(--ar, 'Amiri', serif); font-size: 12.5px; line-height: 1.55;
       display: inline-flex; align-items: center; justify-content: center;
-      padding: 4px 7px; border-radius: 8px; white-space: nowrap;
+      padding: 3px 8px; border-radius: 8px; white-space: nowrap;
       border: 1px solid var(--edge2, rgba(255,255,255,.05)); color: var(--ink2, rgba(255,255,255,.74)); background: rgba(255,255,255,.03);
 
       &--status, &--tense { color: var(--gold2, #e8c96a); border-color: rgba(201,168,76,.42); background: rgba(201,168,76,.10); }
@@ -190,6 +191,9 @@ export class MorphWordCardComponent implements AfterViewInit, OnDestroy {
       .filter(s => s.length)
       .map(s => ({ t: s, arrow: /^[→←⟶⟵]$/.test(s) }));
   }
+
+  /** True when the POS label is Arabic (so the badge drops uppercase/tracking). */
+  posIsAr(): boolean { return /[؀-ۿ]/.test(this.card().posLabel); }
 
   onRoot(e: Event): void { e.stopPropagation(); this.openRoot.emit(); }
 }
