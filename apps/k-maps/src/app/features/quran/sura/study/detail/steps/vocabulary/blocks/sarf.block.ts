@@ -16,7 +16,7 @@ import { SarfData } from '../morph-block.types';
         <span class="sarf__from ar">{{ d.from_ar }}</span><span class="sarf__to-arrow">⇢</span>
         <span class="sarf__to ar">{{ d.to_ar }}</span>
       }
-      @if (d.rule) { <span class="sarf__rule">{{ d.rule }}</span> }
+      @if (d.rule) { <span class="sarf__rule ar" dir="rtl">{{ d.rule }}</span> }
     </div>
     @if (d.features?.length) {
       <div class="featgrid">
@@ -33,7 +33,7 @@ import { SarfData } from '../morph-block.types';
       &__from { font-family: var(--ar); font-size: 26px; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(224,100,95,.6); }
       &__to-arrow { font-size: 16px; color: var(--faint); }
       &__to { font-family: var(--ar); font-size: 28px; color: var(--gold2); }
-      &__rule { font: 500 11px/1.3 var(--en); color: var(--muted); border: 1px solid var(--edge); border-radius: 6px; padding: 6px 10px; max-width: 220px; } }
+      &__rule { font-family: var(--ar); font-size: 15px; line-height: 1.7; color: var(--ink2); direction: rtl; text-align: right; border: 1px solid var(--edge); border-radius: 6px; padding: 7px 12px; max-width: 320px; } }
     .featgrid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
     .feat { display: inline-flex; align-items: baseline; gap: 7px; padding: 7px 12px; border-radius: 6px; border: 1px solid var(--edge); background: var(--panel);
       u { font: 500 10px/1 var(--mono); color: var(--faint); text-decoration: none; } b { font-family: var(--ar); font-size: 15px; color: var(--ink); font-weight: 500; } }

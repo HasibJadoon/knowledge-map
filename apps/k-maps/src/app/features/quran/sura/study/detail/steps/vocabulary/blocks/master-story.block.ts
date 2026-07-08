@@ -48,7 +48,8 @@ import { MasterStoryData } from '../morph-block.types';
                 </div>
                 <div class="mv__body">
                   <div class="mv__head"><span class="mv__en">{{ m.en }}</span><span class="mv__ar ar">{{ m.ar }}</span></div>
-                  <p class="mv__text" [innerHTML]="rich(m.text)"></p>
+                  <p class="mv__text ar" dir="rtl" [innerHTML]="rich(m.text)"></p>
+                  @if (m.text_en) { <p class="mv__text-en" dir="ltr" [innerHTML]="rich(m.text_en)"></p> }
                   @if (m.chips?.length) {
                     <div class="mv__chips">@for (c of m.chips; track c.ar) { <span class="mv__chip"><b class="ar">{{ c.ar }}</b><small>{{ c.en }}</small></span> }</div>
                   }
@@ -110,7 +111,8 @@ import { MasterStoryData } from '../morph-block.types';
       &__head { display: flex; align-items: baseline; gap: 11px; margin-bottom: 8px; flex-wrap: wrap; }
       &__en { font: 600 12px/1 var(--head); letter-spacing: .17em; text-transform: uppercase; color: var(--c); }
       &__ar { font-family: var(--ar); font-size: 17px; color: var(--muted); }
-      &__text { font-family: var(--serif); font-size: calc(19px * var(--fscale,1)); line-height: 1.6; color: var(--ink2); margin: 0; }
+      &__text { font-family: var(--ar); font-size: calc(20px * var(--fscale,1)); line-height: 1.95; color: var(--ink); margin: 0; text-align: right; }
+      &__text-en { font-family: var(--serif); font-size: calc(15.5px * var(--fscale,1)); line-height: 1.6; color: var(--muted); margin: 9px 0 0; }
       &__chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 12px; }
       &__chip { display: inline-flex; align-items: baseline; gap: 7px; padding: 6px 12px; border-radius: 7px; border: 1px solid var(--edge); background: var(--panel);
         b { font-family: var(--ar); font-size: 17px; color: var(--ink); font-weight: 500; } small { font: 400 11px/1 var(--en); color: var(--faint); } } }

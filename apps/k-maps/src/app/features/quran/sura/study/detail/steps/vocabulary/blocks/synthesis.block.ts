@@ -101,6 +101,7 @@ export class SynthesisBlock extends MorphBlockBase {
         path: `M${originX} ${y.toFixed(1)} C ${(0.34 * W).toFixed(0)} ${y.toFixed(1)}, ${(meetX - 66).toFixed(0)} ${(cvy + (y - cvy) * 0.14).toFixed(1)}, ${meetX.toFixed(0)} ${cvy.toFixed(1)}`,
       };
     });
-    return { center: this.heroWord || 'مبين', output: this.d.output ?? '', origins, producePath: `M${exitX} ${cvy} L ${W} ${cvy}` };
+    const out = typeof this.d.output === 'string' ? this.d.output : this.t(this.d.output);
+    return { center: this.heroWord || 'مبين', output: out, origins, producePath: `M${exitX} ${cvy} L ${W} ${cvy}` };
   }
 }

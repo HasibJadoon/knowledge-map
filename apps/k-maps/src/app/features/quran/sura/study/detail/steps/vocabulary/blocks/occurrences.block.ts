@@ -21,7 +21,8 @@ import { OccurrencesData } from '../morph-block.types';
           <div class="occc__body">
             <div class="occc__top"><span class="occc__kind ar">{{ it.kind_ar }}</span>@if (it.focus) { <span class="occc__badge">study locus</span> }</div>
             <p class="occc__ar ar" dir="rtl">{{ it.text_ar }}</p>
-            <p class="occc__note">{{ it.note }}</p>
+            @if (it.note) { <p class="occc__note ar" dir="rtl">{{ it.note }}</p> }
+            @if (it.note_en) { <p class="occc__note-en" dir="ltr">{{ it.note_en }}</p> }
           </div>
         </article>
       }
@@ -40,7 +41,8 @@ import { OccurrencesData } from '../morph-block.types';
       &__kind { font-family: var(--ar); font-size: 15px; color: var(--gold); }
       &__badge { font: 600 8px/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--gold2); border: 1px solid var(--golddim); border-radius: 999px; padding: 4px 8px; }
       &__ar { font-family: var(--quran); font-size: 20px; line-height: 1.9; color: var(--ink); margin: 0; text-align: right; }
-      &__note { font-size: calc(12.5px * var(--fscale,1)); line-height: 1.55; color: var(--muted); margin: 9px 0 0; } }
+      &__note { font-size: calc(15px * var(--fscale,1)); line-height: 1.85; color: var(--ink2); margin: 9px 0 0; text-align: right; }
+      &__note-en { font-size: calc(12.5px * var(--fscale,1)); line-height: 1.55; color: var(--muted); margin: 6px 0 0; } }
   `,
 })
 export class OccurrencesBlock extends MorphBlockBase {
