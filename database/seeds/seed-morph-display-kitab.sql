@@ -78,7 +78,7 @@ INSERT OR REPLACE INTO qr_morph_display_blocks
   text_ar, text_en, text_ur, data_json, source_slug, is_synthesis, register, registers_json, meta_json, status)
  VALUES ('MDB:root:كتب:occurrences', 'root', 'كتب', 'كتب', '44:2', 44, 2, 1,
   'occurrences', NULL, 10, 'الشواهد القرآنية', 'Qurʾānic Occurrences', 'قرآنی شواہد',
-  'يردُ الجذرُ نحوَ ٣١٩ مرّةً بمعانٍ متضامّة: الوحيُ المنزَّل، والفَرْضُ المقضيّ، وسِجِلُّ الأعمال، والرسالةُ المكتوبة. وموضعُ الدراسة هنا: ﴿وَالْكِتَابِ الْمُبِينِ﴾.', 'The root occurs ~319 times across kindred senses — revealed Scripture, settled decree, the record of deeds, a written letter. The study locus here is ﴿وَالْكِتَابِ الْمُبِينِ﴾.', 'جڑ تقریباً ۳۱۹ بار: وحی، فرض، اعمال نامہ، خط۔ مطالعہ: ﴿وَالْکِتَابِ الْمُبِینِ﴾۔', '{"items":[{"ayah_key":"44:2","kind_ar":"الكتاب المبين","en":"the clear Book","motif":"parting","text_ar":"وَالْكِتَابِ الْمُبِينِ","note":"القرآنُ المُقسَمُ به، الموصوفُ بالإبانة — موضعُ الدراسة","focus":true,"icon":"star"}]}', NULL, 0, 'quran', '["quran"]', '{"icon":"map-pin"}', 'live');
+  'يردُ الجذرُ نحوَ ٣١٩ مرّةً بمعانٍ متضامّة: الوحيُ المنزَّل، والفَرْضُ المقضيّ، وسِجِلُّ الأعمال، والرسالةُ المكتوبة. وموضعُ الدراسة هنا: ﴿وَالْكِتَابِ الْمُبِينِ﴾.', 'The root occurs ~319 times across kindred senses — revealed Scripture, settled decree, the record of deeds, a written letter. The study locus here is ﴿وَالْكِتَابِ الْمُبِينِ﴾.', 'جڑ تقریباً ۳۱۹ بار: وحی، فرض، اعمال نامہ، خط۔ مطالعہ: ﴿وَالْکِتَابِ الْمُبِینِ﴾۔', '{"items":[{"ayah_key":"44:2","kind_ar":"الكتاب المبين","en":"the clear Book","motif":"revelation","text_ar":"وَالْكِتَابِ الْمُبِينِ","note":"القرآنُ المُقسَمُ به، الموصوفُ بالإبانة","focus":true,"icon":"star"},{"ayah_key":"17:14","kind_ar":"كتابُ الأعمال","en":"the record of deeds","motif":"split","text_ar":"اقْرَأْ كِتَابَكَ","note":"صحيفةُ العمل التي كتبها الحفَظة، يقرؤها المرءُ على نفسه","icon":"quote"},{"ayah_key":"27:28","kind_ar":"كتابُ سليمان","en":"a written letter","motif":"arrival","text_ar":"اذْهَب بِّكِتَابِي هَٰذَا","note":"رسالةٌ مكتوبة أرسلها سليمانُ إلى ملكة سبأ","icon":"feather"},{"ayah_key":"13:39","kind_ar":"أمُّ الكتاب","en":"the archetype/decree","motif":"shape","text_ar":"وَعِندَهُ أُمُّ الْكِتَابِ","note":"أصلُ الكتاب وجملتُه عند الله — الثابتُ الذي عليه المحوُ والإثبات","icon":"key-round"}]}', NULL, 0, 'quran', '["quran"]', '{"icon":"map-pin"}', 'live');
 
 INSERT OR REPLACE INTO qr_morph_display_blocks
  (id, scope_level, scope_key, root_ar, ayah_key, surah_no, ayah_no, word_index,
@@ -135,6 +135,54 @@ INSERT OR REPLACE INTO qr_morph_display_blocks
  VALUES ('MDB:ctx:44:2:tafsir', 'context', '44:2', 'كتب', '44:2', 44, 2, 1,
   'tafsir', NULL, 4, 'التفسير', 'Tafsīr & Scholars', 'تفسیر',
   'أجمعَ المفسّرون أنّ الواو للقسم، وأنّ ﴿الكتاب المبين﴾ هو القرآن؛ ورَدَّه الطبريُّ إلى أمِّ الكتاب / اللوح المحفوظ، وجعل ﴿إنّا أنزلناه﴾ جوابَ القسم.', 'The exegetes agree the wāw is an oath and that ﴿الكتاب المبين﴾ is the Qurʾān; al-Ṭabarī ties it to أمّ الكتاب / the Preserved Tablet, with ﴿إنّا أنزلناه﴾ as the oath’s response.', 'مفسرین: واو قسم؛ ﴿الکتاب المبین﴾ = قرآن؛ طبری: امّ الکتاب/لوح محفوظ۔', '{"entries":[{"scholar":"al-Ṭabarī","work":"Jāmiʿ al-Bayān","text":"أقسمَ اللهُ بهذا الكتابِ أنّه أنزله في ليلةٍ مباركة؛ والكتابُ يُرَدُّ إلى أمِّ الكتاب واللوحِ المحفوظ."},{"scholar":"al-Zamakhsharī","work":"al-Kashshāf","text":"الواوُ واوُ القسم، و﴿إنّا أنزلناه﴾ جوابُه؛ و﴿الكتابُ المبينُ﴾: القرآن."}]}', 'TABARI', 0, 'tafsir', '["tafsir"]', '{"icon":"quote"}', 'live');
+
+INSERT OR REPLACE INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, root_ar, ayah_key, surah_no, ayah_no, word_index,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur,
+  text_ar, text_en, text_ur, data_json, source_slug, is_synthesis, register, registers_json, meta_json, status)
+ VALUES ('MDB:ctx:17:14:irab', 'context', '17:14', 'كتب', '17:14', 44, 2, 1,
+  'irab', NULL, 1, 'الإعراب في السياق', 'Iʿrāb in Context', 'اعراب',
+  '﴿كِتابَكَ﴾ ==مفعولٌ به منصوب== لفعل الأمر ﴿اقرأ﴾، وعلامةُ نصبِه الفتحة، والكافُ مضافٌ إليه. وجملةُ ﴿اقرأ كتابك﴾ في محلِّ نصبٍ ==مقولُ قولٍ محذوف== تقديرُه: يُقالُ له.', '﴿كِتابَكَ﴾ is the ==direct object (accusative)== of the imperative ﴿اقرأ﴾ (sign: fatḥa), the attached ك being muḍāf ilayh. The clause is ==the object of an elided verb of saying== (يُقال له, “it is said to him”).', '﴿کتابک﴾ فعلِ امر ﴿اقرأ﴾ کا مفعول بہ منصوب؛ کاف مضاف الیہ؛ جملہ محذوف قول کا مقول۔', '{"role_ar":"مفعولٌ به","role_en":"direct object (accusative)","position_ar":"مقولُ قولٍ محذوف (يُقالُ له)؛ الكافُ مضافٌ إليه","sign_ar":"الفتحة","sources":["الإعراب الميسّر: ﴿اقرأ كتابك﴾ في موضع نصبٍ مقولُ قولٍ محذوف؛ ﴿كتابك﴾ مفعولٌ به","إعراب الدعّاس: ﴿كتاب﴾ مفعولٌ به والكافُ مضافٌ إليه، والجملةُ مقولُ القول لفعلٍ محذوف تقديره يُقال له","التبيان (العُكبري): ﴿اقرأ﴾ أي يُقال له"]}', 'muyassar_irab', 0, 'classical', '["classical"]', '{"icon":"waypoints"}', 'live');
+
+INSERT OR REPLACE INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, root_ar, ayah_key, surah_no, ayah_no, word_index,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur,
+  text_ar, text_en, text_ur, data_json, source_slug, is_synthesis, register, registers_json, meta_json, status)
+ VALUES ('MDB:ctx:17:14:tafsir', 'context', '17:14', 'كتب', '17:14', 44, 2, 1,
+  'tafsir', NULL, 4, 'التفسير', 'Tafsīr & Scholars', 'تفسیر',
+  'الكِتابُ هنا ==صحيفةُ عملِ العبد== التي كتبها الحفَظة في الدنيا، يُقرِئُه اللهُ إيّاها فيكون حسيبَ نفسِه.', 'Here كِتاب is ==the record of one’s own deeds==, written by the recording angels, which one is made to read against oneself — one’s own reckoner.', 'یہاں کتاب اعمال کا نامہ ہے جسے فرشتوں نے لکھا؛ انسان خود اسے پڑھے گا۔', '{"entries":[{"scholar":"al-Ṭabarī","work":"Jāmiʿ al-Bayān","text":"اقرأ كتابَ عملِك الذي عملتَه في الدنيا، الذي كان كاتبانا يكتبانه ونُحصيه عليك — حسبُك اليومَ نفسُك عليك حسيباً."},{"scholar":"al-Zamakhsharī","work":"al-Kashshāf","text":"طائرُه عملُه لازمٌ له لزومَ القلادةِ أو الغُلّ؛ ﴿اقرأ﴾ على إرادةِ القول، والكتابُ صحيفةُ العمل."},{"scholar":"Ibn Kathīr","work":"Tafsīr al-Qurʾān al-ʿAẓīm","text":"ما طار عنه من عملِه من خيرٍ وشرّ يُلزَمُ به ويُجازى عليه — ﴿كراماً كاتبين يعلمون ما تفعلون﴾، تفصيلُ الأعمال في صحيفةٍ منشورة."}]}', 'TABARI', 0, 'tafsir', '["tafsir"]', '{"icon":"quote"}', 'live');
+
+INSERT OR REPLACE INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, root_ar, ayah_key, surah_no, ayah_no, word_index,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur,
+  text_ar, text_en, text_ur, data_json, source_slug, is_synthesis, register, registers_json, meta_json, status)
+ VALUES ('MDB:ctx:27:28:irab', 'context', '27:28', 'كتب', '27:28', 44, 2, 1,
+  'irab', NULL, 1, 'الإعراب في السياق', 'Iʿrāb in Context', 'اعراب',
+  '﴿بِكِتابِي﴾ ==جارٌّ ومجرور==؛ الباءُ حرفُ جرّ و﴿كتابي﴾ مجرورٌ بها وعلامةُ جرّه الكسرة، والياءُ مضافٌ إليه، والجارُّ والمجرورُ متعلّقان بـ﴿اذهب﴾. و﴿هٰذا﴾ نعتٌ لـ﴿كتابي﴾ أو بدلٌ منه (عطفُ بيان).', '﴿بِكِتابِي﴾ is a ==prepositional phrase==: بِ + كتاب (genitive, sign: kasra), the ي being muḍāf ilayh, the whole phrase hanging on ﴿اذهب﴾. ﴿هٰذا﴾ is its adjective / appositive.', '﴿بکتابی﴾ جار و مجرور، ﴿اذهب﴾ سے متعلق؛ یاء مضاف الیہ؛ ﴿ہذا﴾ نعت/بدل۔', '{"role_ar":"اسمٌ مجرورٌ بالباء","role_en":"genitive after the preposition bāʾ","position_ar":"جارٌّ ومجرور متعلّقان بـ﴿اذهب﴾؛ الياءُ مضافٌ إليه؛ ﴿هذا﴾ نعتٌ أو بدلٌ/عطفُ بيان","sign_ar":"الكسرة","sources":["الإعراب الميسّر: ﴿بكتابي﴾ جارٌّ ومجرور متعلّقان بـ﴿اذهب﴾، و﴿هذا﴾ نعتٌ لكتابي أو بدلٌ منه","الجدول في إعراب القرآن: ﴿بكتابي﴾ متعلّق بـ﴿اذهب﴾؛ ﴿هذا﴾ عطفُ بيانٍ على كتابي أو بدلٌ منه في محلّ جرّ","إعراب الدرويش: ثم كتب سليمانُ كتاباً هذه صورتُه — أي كتابٌ مكتوبٌ مُرسَل"]}', 'muyassar_irab', 0, 'classical', '["classical"]', '{"icon":"waypoints"}', 'live');
+
+INSERT OR REPLACE INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, root_ar, ayah_key, surah_no, ayah_no, word_index,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur,
+  text_ar, text_en, text_ur, data_json, source_slug, is_synthesis, register, registers_json, meta_json, status)
+ VALUES ('MDB:ctx:27:28:tafsir', 'context', '27:28', 'كتب', '27:28', 44, 2, 1,
+  'tafsir', NULL, 4, 'التفسير', 'Tafsīr & Scholars', 'تفسیر',
+  'الكِتابُ هنا ==رسالةٌ مكتوبة== أنشأها سليمانُ وأرسلها إلى ملكة سبأ يدعوها إلى طاعته والإسلام؛ وفيها دليلُ جوازِ مكاتبةِ غيرِ المسلمين بالدعوة.', 'Here كِتاب is ==a written letter== Solomon composed and sent to the Queen of Sheba, summoning her to obedience and faith — grounding the ruling that letters of daʿwa may be sent to non-Muslims.', 'یہاں کتاب ایک لکھا خط ہے جو سلیمان نے ملکہ سبا کو دعوت کے لیے بھیجا۔', '{"entries":[{"scholar":"Ibn ʿĀshūr","work":"al-Taḥrīr wa-l-Tanwīr","text":"ألهمَ اللهُ سليمانَ أن يجعلَ طريقَ المراسلة، فكتبَ إلى ملكةِ سبأ كتاباً لتأتيَه وتدخلَ في طاعتِه وتُصلحَ ديانةَ قومِها."},{"scholar":"al-Ālūsī","work":"Rūḥ al-Maʿānī","text":"بعدما كتبَ كتابَه في ذلك المجلس؛ وفي الآيةِ دليلٌ على جوازِ إرسالِ الكتبِ إلى المشركين لإبلاغِ الدعوة، وقد كتبَ رسولُ الله ﷺ إلى كسرى وقيصر."}]}', 'TABARI', 0, 'tafsir', '["tafsir"]', '{"icon":"quote"}', 'live');
+
+INSERT OR REPLACE INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, root_ar, ayah_key, surah_no, ayah_no, word_index,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur,
+  text_ar, text_en, text_ur, data_json, source_slug, is_synthesis, register, registers_json, meta_json, status)
+ VALUES ('MDB:ctx:13:39:irab', 'context', '13:39', 'كتب', '13:39', 44, 2, 1,
+  'irab', NULL, 1, 'الإعراب في السياق', 'Iʿrāb in Context', 'اعراب',
+  '﴿عِندَهُ﴾ ظرفٌ متعلّقٌ بمحذوفٍ ==خبرٌ مقدَّم==، و﴿أُمُّ﴾ ==مبتدأٌ مؤخَّرٌ مرفوع== وعلامةُ رفعِه الضمة، و﴿الكتابِ﴾ ==مضافٌ إليه مجرور== بالكسرة. والجملةُ استئنافيّة.', '﴿عِندَهُ﴾ is a fronted adverbial ==predicate==; ﴿أُمُّ﴾ is the ==delayed subject== (marfūʿ, sign: ḍamma); ﴿الكتابِ﴾ is the ==second term of the iḍāfa== (genitive). The clause is an opener (isti’nāf).', '﴿عندہ﴾ خبر مقدم؛ ﴿أمّ﴾ مبتدأ مؤخر مرفوع؛ ﴿الکتاب﴾ مضاف الیہ مجرور۔', '{"role_ar":"مبتدأٌ مؤخَّر (أُمّ) في إضافةِ ﴿أُمّ الكتاب﴾","role_en":"delayed subject in the iḍāfa “Mother of the Book”","position_ar":"الخبرُ مقدَّمٌ شبهُ جملة (عنده)؛ ﴿الكتابِ﴾ مضافٌ إليه مجرور","sign_ar":"الضمة (أُمّ) / الكسرة (الكتاب)","sources":["الإعراب الميسّر: ﴿عنده﴾ ظرفٌ متعلّقٌ بمحذوفٍ خبرٍ مقدَّم، و﴿أمّ﴾ مبتدأٌ مؤخَّر، و﴿الكتاب﴾ مضافٌ إليه","إعراب الدعّاس: ﴿أمّ﴾ مبتدأٌ مؤخَّر، ﴿عند﴾ ظرفٌ متعلّقٌ بالخبرِ المقدَّم، ﴿الكتاب﴾ مضافٌ إليه، والجملةُ مستأنفة","الجدول: لا محلَّ لها معطوفةٌ على الاستئنافيّة؛ وفي ﴿لكلِّ أجلٍ كتاب﴾ فنُّ الاستخدام (الأجلُ المكتوب والسِّجِلّ)"]}', 'muyassar_irab', 0, 'classical', '["classical"]', '{"icon":"waypoints"}', 'live');
+
+INSERT OR REPLACE INTO qr_morph_display_blocks
+ (id, scope_level, scope_key, root_ar, ayah_key, surah_no, ayah_no, word_index,
+  block_type, block_subtype, display_order, title_ar, title_en, title_ur,
+  text_ar, text_en, text_ur, data_json, source_slug, is_synthesis, register, registers_json, meta_json, status)
+ VALUES ('MDB:ctx:13:39:tafsir', 'context', '13:39', 'كتب', '13:39', 44, 2, 1,
+  'tafsir', NULL, 4, 'التفسير', 'Tafsīr & Scholars', 'تفسیر',
+  '﴿أمُّ الكتاب﴾ ==أصلُ الكتاب وجملتُه== عند الله: المرجعُ الثابتُ الذي منه المحوُ والإثبات، لا يناله تبديل. وعن كعب: جعلَ اللهُ علمَه كتاباً.', '﴿أمُّ الكتاب﴾ is ==the origin and whole of the Book== with God — the fixed master from which erasing and confirming proceed, untouched by change. Per Kaʿb: God made His knowledge a Book.', '﴿أمّ الکتاب﴾ کتاب کی اصل و جملہ اللہ کے پاس؛ ثابت مرجع جس سے محو و اثبات ہوتا ہے۔', '{"entries":[{"scholar":"al-Ṭabarī","work":"Jāmiʿ al-Bayān","text":"أولى الأقوال أنّ عنده أصلَ الكتاب وجملتَه: الناسخُ والمنسوخُ وما يُبدَّلُ وما يُثبَت، كلُّ ذلك في كتاب؛ إلا الشقاءَ والسعادةَ فإنهما لا يُغَيَّران. وعن كعب: قال اللهُ لعلمِه كُنْ كتاباً فكان."},{"scholar":"al-Ālūsī","work":"Rūḥ al-Maʿānī","text":"يمحو اللهُ ويُثبِتُ نسخاً للأحكامِ بحسب الحكمةِ والوقت، أو من ديوانِ الحفَظة، أو آجالُ الحياةِ والموت — والكلُّ محكومٌ بأمِّ الكتابِ الثابتِ عنده."}]}', 'TABARI', 0, 'tafsir', '["tafsir"]', '{"icon":"quote"}', 'live');
 
 UPDATE qr_morph_display_words SET
   is_anchor=1, frequency_quran=319, difficulty=3, badge_color='#c9a84c',
