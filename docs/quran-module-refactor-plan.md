@@ -64,7 +64,20 @@ Rules for every phase:
 - Route **URLs never change** except the `tafseer`→`tafsir` URL in Phase 3
   (which keeps a redirect). Only `loadComponent` import paths change.
 
-### Phase 0 — Pre-flight (no code changes)
+### Phase 0 — Pre-flight (no code changes) — ✅ EXECUTED 2026-07-09
+
+> **Outcome differed from the written steps.** The iCloud copy's sync container
+> was wedged (stalled daemon, 42k evicted files, conflicted `.angular` cache
+> record); downloads would not flow. Instead of fighting it, the refactor now
+> runs in a **fresh clone at `~/dev/knowledge-map`** (outside iCloud), branch
+> `refactor/quran-structure`. The iCloud working tree's uncommitted work
+> (folderized morph word-view, registry/types/icons edits, fonts, docs) was
+> diffed file-by-file against the clone and ported as commit `d394edd3a`.
+> Baseline `npm run build -w apps/k-maps` passes (8.6s). Ionic app confirmed
+> decoupled (its `features/quran` is its own folder). Remaining loose end:
+> untracked QPC font glyphs + worker SQL imports are still evicted in the
+> iCloud copy only — recover them there before deleting that copy.
+
 
 1. Materialize the 4 dataless files: `brctl download <path>` for each (or
    open them once in Finder/editor); verify with
