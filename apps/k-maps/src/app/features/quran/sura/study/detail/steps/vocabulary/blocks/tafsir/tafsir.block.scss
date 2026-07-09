@@ -1,0 +1,7 @@
+    .taf { display: flex; flex-direction: column; gap: 12px; }
+    .taf__e { border-inline-start: 2px solid var(--golddim); padding: 4px 0 4px 16px;
+      .taf__who { display: flex; align-items: baseline; gap: 9px; margin-bottom: 5px; b { font: 600 13px/1 var(--head); letter-spacing: .04em; color: var(--gold2); } small { font: 500 9.5px/1 var(--mono); color: var(--faint); } }
+      .taf__txt { font-size: calc(14.5px * var(--fscale,1)); line-height: 1.66; color: var(--ink2); margin: 0; text-align: left;
+        &.ar { font-family: var(--ar); font-size: calc(17px * var(--fscale,1)); line-height: 1.95; text-align: right; } }
+      .taf__tr { font-size: calc(12.5px * var(--fscale,1)); line-height: 1.6; color: var(--muted); margin: 7px 0 0; }
+      .taf__tr--ur { font-family: var(--ar); font-size: calc(14px * var(--fscale,1)); line-height: 1.8; text-align: right; color: var(--faint); } }

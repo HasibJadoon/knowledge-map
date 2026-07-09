@@ -1,0 +1,9 @@
+    <div class="meta">
+      <span class="meta__src ar">{{ d.source_ar }}</span>
+      <span class="meta__is">IS</span>
+      <span class="meta__tgt ar">{{ d.target_ar }}</span>
+      @if (pick(d.mapping, d.mapping_ur)) { <span class="meta__map" [class.ur]="isUr(d.mapping_ur)">{{ pick(d.mapping, d.mapping_ur) }}</span> }
+    </div>
+    @if (showTextAr()) { <p class="say italic ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say italic" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say italic ur" dir="rtl" [innerHTML]="richTextUr()"></p> }

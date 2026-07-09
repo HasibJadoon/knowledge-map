@@ -1,0 +1,22 @@
+    <div class="sarf">
+      @if (d.pattern_ar) {
+        <div class="sarf__pat"><div class="ar">{{ d.pattern_ar }}</div><small>PATTERN</small></div>
+        <span class="sarf__arrow">→</span>
+      }
+      @if (d.from_ar) {
+        <span class="sarf__from ar">{{ d.from_ar }}</span><span class="sarf__to-arrow">⇢</span>
+        <span class="sarf__to ar">{{ d.to_ar }}</span>
+      }
+      @if (pick(d.rule, d.rule_ur)) { <span class="sarf__rule ar" [class.ur]="isUr(d.rule_ur)" dir="rtl">{{ pick(d.rule, d.rule_ur) }}</span> }
+      @if (d.plural_ar) {
+        <span class="sarf__plural"><small>PLURAL · الجمع</small><b class="ar" dir="rtl">{{ d.plural_ar }}</b>@if (d.plural_en) { <i>{{ d.plural_en }}</i> }</span>
+      }
+    </div>
+    @if (d.features?.length) {
+      <div class="featgrid">
+        @for (f of d.features; track f.k) { <span class="feat"><u>{{ f.k }}</u><b class="ar">{{ f.v }}</b></span> }
+      </div>
+    }
+    @if (showTextAr()) { <p class="say ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say ur" dir="rtl" [innerHTML]="richTextUr()"></p> }

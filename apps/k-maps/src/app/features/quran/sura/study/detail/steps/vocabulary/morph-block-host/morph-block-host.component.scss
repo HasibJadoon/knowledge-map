@@ -1,0 +1,17 @@
+    :host { display: block; }
+    .mb { border: 1px solid var(--edge); border-radius: 12px; background: var(--g2); overflow: hidden; box-shadow: 0 12px 40px -28px #000;
+      &__head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 14px 22px; border-bottom: 1px solid var(--edge2); background: linear-gradient(180deg, rgba(255,255,255,.02), transparent); cursor: pointer; user-select: none; }
+      &__icon { display: flex; align-items: center; justify-content: center; width: 32px; height: 32px; border-radius: 8px; color: var(--gold2); background: rgba(201,168,76,.08); border: 1px solid var(--golddim); flex: none; }
+      &__ord { font: 600 11px/1 var(--head); letter-spacing: .12em; color: var(--gold); border: 1px solid var(--golddim); border-radius: 6px; padding: 6px 8px; }
+      &__title { font: 600 15px/1 var(--head); letter-spacing: .11em; text-transform: uppercase; color: var(--ink); }
+      &__title-ar { font-family: var(--ar); font-size: 15px; color: var(--muted); }
+      &__chips { margin-inline-start: auto; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+      &__reg { font: 600 9px/1 var(--mono); letter-spacing: .09em; text-transform: uppercase; padding: 5px 8px; border-radius: 999px; color: var(--gold2); border: 1px solid var(--golddim); background: rgba(201,168,76,.08);
+        &.reg-classical { color: var(--indigo2); border-color: #8878e2; background: rgba(136,120,226,.08); }
+        &.reg-msa { color: var(--sky); border-color: rgba(147,184,214,.4); background: rgba(147,184,214,.08); }
+        &.reg-modern { color: var(--indigo2); border-color: #8878e2; }
+        &.reg-tafsir { color: var(--sky); border-color: rgba(147,184,214,.4); }
+        &.reg-kmaps { color: var(--indigo2); border-color: #8878e2; } }
+      &__chev { font-size: 13px; color: var(--muted); transition: transform .18s; &.closed { transform: rotate(-90deg); } }
+      &__body { padding: 20px 22px; }
+      &__illu { padding: 16px 22px 0; img { width: 100%; max-height: 320px; object-fit: cover; border-radius: 10px; border: 1px solid var(--edge); display: block; } } }

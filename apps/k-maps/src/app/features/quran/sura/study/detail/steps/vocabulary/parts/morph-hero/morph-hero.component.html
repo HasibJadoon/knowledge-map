@@ -1,0 +1,29 @@
+    @if (word; as w) {
+      <section class="mw-hero">
+        <h1 class="mw-hero__word ar">{{ lemmaBare() }}</h1>
+        <div class="mw-hero__occ">
+          <span class="ar">{{ w.surface_ar }}</span>
+          <span class="note">as it occurs · {{ w.ayah_key }}</span>
+        </div>
+        <div class="mw-hero__chips">
+          @if (w.sarf.derived_en || w.pos.en) {
+            <span class="chip chip--sky">{{ w.sarf.derived_en || w.pos.en }}</span>
+          }
+          @if (w.sarf.wazn_ar) { <span class="chip chip--gold ar">{{ w.sarf.wazn_ar }}</span> }
+          @if (w.sarf.form_ar) { <span class="chip chip--gold ar">باب {{ w.sarf.form_ar }}</span> }
+          @if (w.root_display) {
+            <span class="chip chip--root ar" (click)="openRoot.emit()" title="Open root page">{{ w.root_display }} <span class="rk">root ›</span></span>
+          }
+          @if (w.frequency_quran) { <span class="chip">{{ w.frequency_quran }}× root in Qurʾān</span> }
+          @if (w.is_anchor) { <span class="chip chip--anchor">✦ root anchor</span> }
+        </div>
+        @for (g of glosses(); track g.cls) {
+          <p class="mw-hero__gloss" [class.ur]="g.cls === 'ur'" [class.ar]="g.cls === 'ar'" [dir]="g.cls === 'en' ? 'ltr' : 'rtl'" [innerHTML]="g.text"></p>
+        }
+        @if (activeContext; as ac) {
+          <div class="mw-hero__reading">
+            reading in context — <span class="ar">{{ ac.kind_ar }} {{ lemmaBare() }}</span> · Qurʾān {{ ac.ayah_key }}
+          </div>
+        }
+      </section>
+    }

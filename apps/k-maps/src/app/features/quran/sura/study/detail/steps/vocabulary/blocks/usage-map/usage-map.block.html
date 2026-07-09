@@ -1,0 +1,15 @@
+    @if (showTextAr()) { <p class="say muted ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say muted" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say muted ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    @if (usageMap(); as um) {
+      <div class="umap" [style.--cols]="um.axes.length">
+        <div class="umap__cell umap__corner"></div>
+        @for (ax of um.axes; track ax.en) { <div class="umap__cell umap__ax"><span class="ar">{{ ax.ar }}</span><small [class.ur]="isUr(ax.ur)">{{ pick(ax.en, ax.ur) }}</small></div> }
+        @for (row of um.rows; track row.ref) {
+          <div class="umap__cell umap__rl"><b>{{ row.ref }}</b><small class="ar">{{ row.label }}</small></div>
+          @for (c of row.cells; track $index) {
+            <div class="umap__cell umap__dot"><span [style.width]="c.size" [style.height]="c.size" [style.background]="c.color" [style.box-shadow]="c.glow"></span></div>
+          }
+        }
+      </div>
+    }

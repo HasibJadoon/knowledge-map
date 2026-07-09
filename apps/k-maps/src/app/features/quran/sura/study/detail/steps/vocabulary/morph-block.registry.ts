@@ -4,19 +4,19 @@
 import { Type } from '@angular/core';
 import { MorphBlockBody } from './morph-block.types';
 
-import { RootDnaBlock } from './blocks/root-dna.block';
-import { SarfBlock } from './blocks/sarf.block';
-import { DerivationsBlock } from './blocks/derivations.block';
-import { IrabBlock } from './blocks/irab.block';
-import { LexiconBlock } from './blocks/lexicon.block';
-import { BalaghaBlock } from './blocks/balagha.block';
-import { MetaphorBlock } from './blocks/metaphor.block';
-import { KindredBlock } from './blocks/kindred.block';
-import { TranslatorsBlock } from './blocks/translators.block';
-import { OccurrencesBlock } from './blocks/occurrences.block';
-import { DevelopmentBlock } from './blocks/development.block';
-import { TafsirBlock } from './blocks/tafsir.block';
-import { AttestationsBlock } from './blocks/attestations.block';
+import { RootDnaBlock } from './blocks/root-dna/root-dna.block';
+import { SarfBlock } from './blocks/sarf/sarf.block';
+import { DerivationsBlock } from './blocks/derivations/derivations.block';
+import { IrabBlock } from './blocks/irab/irab.block';
+import { LexiconBlock } from './blocks/lexicon/lexicon.block';
+import { BalaghaBlock } from './blocks/balagha/balagha.block';
+import { MetaphorBlock } from './blocks/metaphor/metaphor.block';
+import { KindredBlock } from './blocks/kindred/kindred.block';
+import { TranslatorsBlock } from './blocks/translators/translators.block';
+import { OccurrencesBlock } from './blocks/occurrences/occurrences.block';
+import { DevelopmentBlock } from './blocks/development/development.block';
+import { TafsirBlock } from './blocks/tafsir/tafsir.block';
+import { AttestationsBlock } from './blocks/attestations/attestations.block';
 
 export type RegistryEntry =
   | { cmp: Type<MorphBlockBody> }
@@ -37,8 +37,8 @@ export const MORPH_BLOCK_REGISTRY: Record<string, RegistryEntry> = {
   tafsir:       { cmp: TafsirBlock },
   attestations: { cmp: AttestationsBlock },
   // heavy → lazy-loaded on demand
-  synthesis:     { load: () => import('./blocks/synthesis.block').then(m => m.SynthesisBlock) },
-  constellation: { load: () => import('./blocks/constellation.block').then(m => m.ConstellationBlock) },
-  usage_map:     { load: () => import('./blocks/usage-map.block').then(m => m.UsageMapBlock) },
-  master_story:  { load: () => import('./blocks/master-story.block').then(m => m.MasterStoryBlock) },
+  synthesis:     { load: () => import('./blocks/synthesis/synthesis.block').then(m => m.SynthesisBlock) },
+  constellation: { load: () => import('./blocks/constellation/constellation.block').then(m => m.ConstellationBlock) },
+  usage_map:     { load: () => import('./blocks/usage-map/usage-map.block').then(m => m.UsageMapBlock) },
+  master_story:  { load: () => import('./blocks/master-story/master-story.block').then(m => m.MasterStoryBlock) },
 };

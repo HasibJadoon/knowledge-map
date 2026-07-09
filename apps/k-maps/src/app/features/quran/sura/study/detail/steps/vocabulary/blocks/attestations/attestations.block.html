@@ -1,0 +1,26 @@
+    @if (showTextAr()) { <p class="say muted ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say muted" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say muted ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    <div class="att">
+      @for (wt of d.witnesses; track wt.phrase_ar) {
+        <div class="attw">
+          <div class="attw__side">
+            <div class="attw__motif"><lucide-icon [name]="icon(wt.icon, 'quote')" [size]="28"></lucide-icon></div>
+            <span class="attw__era">{{ wt.era_en }}</span>
+          </div>
+          <div class="attw__body">
+            <div class="attw__top"><span class="attw__era-ar ar">{{ wt.era_ar }}</span><span class="attw__kind ar">{{ wt.kind_ar }}</span></div>
+            <div class="attw__phrase ar" dir="rtl">{{ wt.phrase_ar }}</div>
+            @if (showEn(null, wt.gloss_en, wt.gloss_ur)) { <p class="attw__gloss" dir="ltr">{{ wt.gloss_en }}</p> }
+            @if (showUr(null, wt.gloss_en, wt.gloss_ur)) { <p class="attw__gloss ur" dir="rtl">{{ wt.gloss_ur }}</p> }
+            @if (wt.lex_ar || wt.lex_en) {
+              <div class="attw__line"><span class="attw__tag">Lexicon</span><span class="ar">{{ wt.lex_ar }}</span>@if (showEn(wt.lex_ar, wt.lex_en, wt.lex_ur)) { <i dir="ltr">{{ wt.lex_en }}</i> }@if (showUr(wt.lex_ar, wt.lex_en, wt.lex_ur)) { <i class="ur" dir="rtl">{{ wt.lex_ur }}</i> }</div>
+            }
+            @if (wt.image_ar || wt.image_en) {
+              <div class="attw__line attw__line--img"><span class="attw__tag sky">The image</span><span class="ar sky">{{ wt.image_ar }}</span>@if (showEn(wt.image_ar, wt.image_en, wt.image_ur)) { <i dir="ltr">{{ wt.image_en }}</i> }@if (showUr(wt.image_ar, wt.image_en, wt.image_ur)) { <i class="ur" dir="rtl">{{ wt.image_ur }}</i> }</div>
+            }
+          </div>
+          @if (wt.lex_source) { <span class="attw__src">§ {{ wt.lex_source }}</span> }
+        </div>
+      }
+    </div>

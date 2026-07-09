@@ -1,0 +1,11 @@
+    @if (d.formula_ar) {
+      <div class="formula">
+        <div class="formula__ar ar">{{ d.formula_ar }}</div>
+        @if (showEn(null, d.formula_en, d.formula_ur)) { <div class="formula__en" dir="ltr" [innerHTML]="rich(d.formula_en)"></div> }
+        @if (showUr(null, d.formula_en, d.formula_ur)) { <div class="formula__en ur" dir="rtl" [innerHTML]="rich(d.formula_ur)"></div> }
+      </div>
+    }
+    @if (showTextAr()) { <p class="say ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    @if (d.refs?.length) { <div class="refs">@for (r of d.refs; track r) { <span class="ref">{{ r }}</span> }</div> }

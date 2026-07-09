@@ -97,7 +97,7 @@ export interface MorphCardVm {
     </button>
   `,
   styles: `
-    :host { display: block; perspective: 1000px; }
+    :host { display: block; perspective: 1000px; --ar: 'AmiriQuran', 'UthmanicHafs', serif; }
 
     .wcard {
       position: relative; overflow: hidden; cursor: pointer; width: 100%; direction: ltr;

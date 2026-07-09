@@ -1,0 +1,42 @@
+    @if (synWeave(); as sw) {
+      <div class="synweave">
+        <svg class="synweave__svg" viewBox="0 0 600 210" preserveAspectRatio="none" aria-hidden="true">
+          @for (o of sw.origins; track o.concept) {
+            <path [attr.d]="o.path" fill="none" [attr.stroke]="o.color" stroke-width="7" stroke-linecap="round" opacity="0.16"/>
+            <path [attr.d]="o.path" fill="none" [attr.stroke]="o.color" stroke-width="2.2" stroke-linecap="round"/>
+          }
+          <path [attr.d]="sw.producePath" fill="none" stroke="#e8c96a" stroke-width="8" stroke-linecap="round" opacity="0.16"/>
+          <path [attr.d]="sw.producePath" fill="none" stroke="#e8c96a" stroke-width="2.6" stroke-linecap="round"/>
+        </svg>
+        @for (o of sw.origins; track o.concept) {
+          <div class="synweave__origin" [style.top]="o.topPct" [style.--c]="o.color">
+            <span class="synweave__dot"></span>
+            <b class="synweave__concept" [class.ur]="o.isUr" [innerHTML]="rich(o.concept)"></b>
+          </div>
+        }
+        <div class="synweave__center"><span class="ar">{{ sw.center }}</span></div>
+        @if (sw.output) {
+          <div class="synweave__produces">
+            <span class="synweave__plabel">produces</span>
+            <b class="synweave__output" [class.ar]="isAr(sw.output) && !isUrduScript(sw.output)" [class.ur]="isUrduScript(sw.output)" [dir]="isAr(sw.output) || isUrduScript(sw.output) ? 'rtl' : 'ltr'">{{ sw.output }}</b>
+          </div>
+        }
+      </div>
+    }
+    <div class="synstrands">
+      @for (s of strands(); track s.source) {
+        <div class="synstrand" [style.--c]="s.accent">
+          <div class="synstrand__head">
+            <span class="synstrand__icon" [style.color]="s.accent"><lucide-icon [name]="icon(s.icon, 'waypoints')" [size]="16"></lucide-icon></span>
+            <span class="synstrand__badge ar">{{ s.badge }}</span>
+            <span class="synstrand__src ar" dir="rtl">{{ s.source }}</span>
+          </div>
+          @if (showAr(s.ar, s.en, s.ur)) { <div class="synstrand__ar ar" dir="rtl">{{ s.ar }}</div> }
+          @if (showEn(s.ar, s.en, s.ur)) { <p class="synstrand__en" dir="ltr">{{ s.en }}</p> }
+          @if (showUr(s.ar, s.en, s.ur)) { <p class="synstrand__en ur" dir="rtl">{{ s.ur }}</p> }
+        </div>
+      }
+    </div>
+    @if (showTextAr()) { <p class="say synout ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say synout" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say synout ur" dir="rtl" [innerHTML]="richTextUr()"></p> }

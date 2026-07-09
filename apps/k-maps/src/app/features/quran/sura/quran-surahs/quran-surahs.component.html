@@ -85,23 +85,7 @@
       @if (viewMode() === 'grid') {
         <div class="surahs-grid" #cardsContainer>
           @for (surah of filteredSurahs(); track surah.surahNumber) {
-            <div class="surah-card" (click)="navigateToSurah(surah.surahNumber)">
-              <div class="surah-card__header">
-                <div class="surah-number">{{ surah.surahNumber }}</div>
-                <span class="type-badge" [class.type-badge--madani]="surah.revelationType === 'madani'">
-                  {{ surah.revelationType | titlecase }}
-                </span>
-              </div>
-              <div class="surah-card__arabic">{{ surah.arabicName }}</div>
-              <div class="surah-card__name">{{ surah.transliteratedName }}</div>
-              <div class="surah-card__meta">
-                <span class="surah-card__ayahs">{{ surah.ayahCount }} ayahs</span>
-                @if (surah.juz) {
-                  <span class="surah-card__juz">Juz {{ surah.juz }}</span>
-                }
-              </div>
-              <km-surah-actions [surahId]="surah.surahNumber" />
-            </div>
+            <km-surah-card [surah]="surah" (open)="navigateToSurah($event)" />
           }
         </div>
       }

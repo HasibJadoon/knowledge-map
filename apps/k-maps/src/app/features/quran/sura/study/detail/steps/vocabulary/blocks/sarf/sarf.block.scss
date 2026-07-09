@@ -1,0 +1,15 @@
+    .sarf { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 14px;
+      &__pat { text-align: center; padding: 10px 16px; border: 1px dashed var(--golddim); border-radius: 10px; background: rgba(201,168,76,.05);
+        .ar { font-size: 30px; color: var(--gold2); line-height: 1; } small { display: block; font: 600 9px/1 var(--mono); letter-spacing: .1em; color: var(--muted); margin-top: 6px; } }
+      &__arrow { font-size: 22px; color: var(--faint); }
+      &__from { font-family: var(--ar); font-size: 26px; color: var(--muted); text-decoration: line-through; text-decoration-color: rgba(224,100,95,.6); }
+      &__to-arrow { font-size: 16px; color: var(--faint); }
+      &__to { font-family: var(--ar); font-size: 28px; color: var(--gold2); }
+      &__rule { font-family: var(--ar); font-size: 15px; line-height: 1.7; color: var(--ink2); direction: rtl; text-align: right; border: 1px solid var(--edge); border-radius: 6px; padding: 7px 12px; max-width: 320px; }
+      &__plural { display: inline-flex; align-items: center; gap: 9px; padding: 8px 14px; border-radius: 10px; border: 1px dashed rgba(95,201,154,.45); background: rgba(95,201,154,.06);
+        small { font: 600 8.5px/1 var(--mono); letter-spacing: .1em; color: var(--noun, #5fc99a); white-space: nowrap; }
+        b { font-family: var(--ar); font-size: 22px; color: var(--noun, #5fc99a); font-weight: 500; }
+        i { font: italic 400 11px/1 var(--en); color: var(--faint); } } }
+    .featgrid { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .feat { display: inline-flex; align-items: baseline; gap: 7px; padding: 7px 12px; border-radius: 6px; border: 1px solid var(--edge); background: var(--panel);
+      u { font: 500 10px/1 var(--mono); color: var(--faint); text-decoration: none; } b { font-family: var(--ar); font-size: 15px; color: var(--ink); font-weight: 500; } }

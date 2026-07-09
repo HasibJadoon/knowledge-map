@@ -1,0 +1,19 @@
+    <div class="mw-switch">
+      <div class="mw-switch__head">
+        <span class="mw-switch__t">Choose a context <span class="ar">· مواضع الجذر</span></span>
+        <span class="mw-switch__note">same core above · this verse below</span>
+      </div>
+      <div class="mw-switch__grid">
+        @for (c of contexts; track c.ayah_key) {
+          <button
+            class="mw-cx"
+            [class.on]="activeAyahKey === c.ayah_key"
+            (click)="select.emit(c.ayah_key)"
+          >
+            <span class="mw-cx__ar ar">{{ c.kind_ar }} {{ lemmaBare }}</span>
+            <span class="mw-cx__en">{{ c.en }}</span>
+            <span class="mw-cx__key">Qurʾān · {{ c.ayah_key }}</span>
+          </button>
+        }
+      </div>
+    </div>

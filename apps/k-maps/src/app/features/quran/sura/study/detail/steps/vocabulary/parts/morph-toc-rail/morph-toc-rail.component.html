@@ -1,0 +1,44 @@
+    <aside class="mw-toc">
+      <div class="mw-toc__head">
+        <span class="mw-toc__title">The Word's Story</span>
+        <span class="mw-toc__title-ar ar">قصة الكلمة</span>
+      </div>
+
+      @if (regOptions.length > 1) {
+        <div class="mw-toc__reg">
+          @for (r of regOptions; track r.key) {
+            <button [class.on]="reg === r.key" (click)="setReg.emit(r.key)">{{ r.label }}</button>
+          }
+        </div>
+      }
+
+      <nav class="mw-toc__nav">
+        <div class="mw-toc__sec mw-toc__sec--core" (click)="toggleCore.emit()">
+          <span class="dot"></span><span class="lbl">Core · static</span>
+          <span class="chev" [class.closed]="!coreOpen">▾</span>
+        </div>
+        @if (coreOpen) {
+          @for (t of tocCore; track t.domId) {
+            <button class="mw-toc__item" [class.hot]="t.hot" (click)="scrollTo.emit(t.domId)">
+              <span class="n">{{ t.ord }}</span>
+              <span class="tx"><span class="en" [class.ur]="t.isUr">{{ t.title }}</span><span class="ar">{{ t.titleAr }}</span></span>
+            </button>
+          }
+        }
+
+        @if (tocTemporal.length) {
+          <div class="mw-toc__sec mw-toc__sec--temp" (click)="toggleCtx.emit()">
+            <span class="dot"></span><span class="lbl">Temporal · context</span>
+            <span class="chev" [class.closed]="!ctxOpen">▾</span>
+          </div>
+          @if (ctxOpen) {
+            @for (t of tocTemporal; track t.domId) {
+              <button class="mw-toc__item" [class.hot]="t.hot" (click)="scrollTo.emit(t.domId)">
+                <span class="n">{{ t.ord }}</span>
+                <span class="tx"><span class="en" [class.ur]="t.isUr">{{ t.title }}</span><span class="ar">{{ t.titleAr }}</span></span>
+              </button>
+            }
+          }
+        }
+      </nav>
+    </aside>

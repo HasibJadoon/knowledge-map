@@ -1,0 +1,9 @@
+    <div class="irow">
+      @if (d.role_ar) { <span class="irole"><b class="ar">{{ d.role_ar }}</b>@if (pick(d.role_en, d.role_ur)) { <small [class.ur]="isUr(d.role_ur)">{{ pick(d.role_en, d.role_ur) }}</small> }</span> }
+      @if (d.position_ar) { <span class="ipill"><b class="ar">{{ d.position_ar }}</b></span> }
+      @if (d.sign_ar) { <span class="ipill gold"><b class="ar">بعلامة {{ d.sign_ar }}</b></span> }
+    </div>
+    @if (showTextAr()) { <p class="say ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    @if (d.sources?.length) { <div class="srcs">@for (s of d.sources; track s) { <span class="src ar" dir="rtl">{{ s }}</span> }</div> }

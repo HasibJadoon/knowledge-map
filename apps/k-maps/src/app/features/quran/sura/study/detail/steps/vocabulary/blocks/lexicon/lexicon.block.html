@@ -1,0 +1,13 @@
+    @if (showTextAr()) { <p class="say muted ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say muted" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say muted ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    <div class="lexgrid">
+      @for (e of d.entries; track e.source) {
+        <div class="lexc">
+          <div class="lexc__head"><b>{{ e.source }}</b><small>{{ e.death }}</small></div>
+          @if (showAr(e.shade_ar, e.shade_en, e.shade_ur)) { <div class="lexc__ar ar" dir="rtl">{{ e.shade_ar }}</div> }
+          @if (showEn(e.shade_ar, e.shade_en, e.shade_ur)) { <p class="lexc__en" dir="ltr">{{ e.shade_en }}</p> }
+          @if (showUr(e.shade_ar, e.shade_en, e.shade_ur)) { <p class="lexc__en ur" dir="rtl">{{ e.shade_ur }}</p> }
+        </div>
+      }
+    </div>

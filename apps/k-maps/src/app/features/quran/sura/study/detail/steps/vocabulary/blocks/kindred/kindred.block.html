@@ -1,0 +1,10 @@
+    <div class="kin">
+      <div class="kin__col">
+        <div class="kin__lab syn">Near-synonyms · النظائر</div>
+        @for (s of d.synonyms; track s.ar) { <div class="kin__item syn"><b class="ar">{{ s.ar }}</b> <small>{{ s.en }}</small>@if (showEn(null, s.note, s.note_ur)) { <p dir="ltr">{{ s.note }}</p> }@if (showUr(null, s.note, s.note_ur)) { <p class="ur" dir="rtl">{{ s.note_ur }}</p> }</div> }
+      </div>
+      <div class="kin__col">
+        <div class="kin__lab con">Contrast · الأضداد</div>
+        @for (c of d.contrast; track c.ar) { <div class="kin__item con"><b class="ar">{{ c.ar }}</b> <small>{{ c.en }}</small>@if (showEn(null, c.note, c.note_ur)) { <p dir="ltr">{{ c.note }}</p> }@if (showUr(null, c.note, c.note_ur)) { <p class="ur" dir="rtl">{{ c.note_ur }}</p> }</div> }
+      </div>
+    </div>

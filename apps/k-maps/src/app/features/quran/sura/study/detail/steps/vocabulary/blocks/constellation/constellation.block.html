@@ -1,0 +1,30 @@
+    @if (showTextAr()) { <p class="say muted ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say muted" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say muted ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    @if (constel(); as g) {
+      <div class="cst">
+        <div class="cst__ring cst__ring--1"></div>
+        <div class="cst__ring cst__ring--2"></div>
+        <div class="cst__ring cst__ring--3"></div>
+        <svg class="cst__lines" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+          @for (n of g.nodes; track n.label) {
+            <line [attr.x1]="n.x1" [attr.y1]="n.y1" [attr.x2]="n.x2" [attr.y2]="n.y2" [attr.stroke]="n.color" stroke-opacity="0.32" stroke-width="0.5" vector-effect="non-scaling-stroke"/>
+          }
+        </svg>
+        <div class="cst__center">
+          <span class="cst__center-word ar">{{ g.centerAr }}</span>
+          @if (g.centerRoot) { <span class="cst__center-root ar">{{ g.centerRoot }}</span> }
+        </div>
+        @for (n of g.nodes; track n.label) {
+          <div class="cst__node" [class.l]="!n.right" [style.left.%]="n.xPct" [style.top.%]="n.yPct" [style.--c]="n.color">
+            <span class="cst__dot"></span>
+            <span class="cst__lab"><b class="ar">{{ n.label }}</b><small [class.ur]="n.isUr">{{ n.en }}</small></span>
+          </div>
+        }
+      </div>
+      <div class="cst__legend">
+        <span><i style="--c:#e8c96a"></i>same root · مشتقّات</span>
+        <span><i style="--c:#93b8d6"></i>aspect · وجوه</span>
+        <span><i style="--c:#e0645f"></i>opposite · أضداد</span>
+      </div>
+    }

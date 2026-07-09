@@ -1,0 +1,15 @@
+    @if (showTextAr()) { <p class="say muted ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say muted" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say muted ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    <div class="dev">
+      @for (st of d.stages; track st.label_en) {
+        <div class="dev__stage">
+          <div class="dev__mark"><span></span></div>
+          <div class="dev__ar ar">{{ st.label_ar }}</div>
+          <div class="dev__en" [class.ur]="isUr(st.label_ur)">{{ pick(st.label_en, st.label_ur) }}</div>
+          @if (showAr(priAr(st.note), priEn(st.note), st.note_ur)) { <p class="dev__note ar" dir="rtl">{{ priAr(st.note) }}</p> }
+          @if (showEn(priAr(st.note), priEn(st.note), st.note_ur)) { <p class="dev__note" dir="ltr">{{ priEn(st.note) }}</p> }
+          @if (showUr(priAr(st.note), priEn(st.note), st.note_ur)) { <p class="dev__note ur" dir="rtl">{{ st.note_ur }}</p> }
+        </div>
+      }
+    </div>

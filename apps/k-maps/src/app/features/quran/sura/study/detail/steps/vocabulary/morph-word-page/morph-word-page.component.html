@@ -1,0 +1,128 @@
+<div class="mw" [style.--fscale]="fontScale()">
+
+  <!-- ── header ─────────────────────────────────────────── -->
+  <header class="mw-head">
+    <button class="mw-back" (click)="back()">← <span class="ar">الكلمات</span></button>
+
+    <div class="mw-title">
+      @if (word(); as w) {
+        <span class="mw-title__word ar">{{ w.surface_ar }}</span>
+        <span class="mw-title__root ar" (click)="openRoot()" title="Open root page">{{ w.root_display }}</span>
+        <span class="mw-title__locus">Q {{ w.surah }} : {{ w.ayah }}</span>
+      }
+    </div>
+
+    <div class="mw-ctrls">
+      <div class="mw-seg">
+        <button (click)="stepFont(-1)">A−</button>
+        <button (click)="stepFont(1)">A+</button>
+      </div>
+      <div class="mw-seg">
+        @for (l of langs; track l.key) {
+          <button [class.on]="lang() === l.key" (click)="setLang(l.key)">{{ l.label }}</button>
+        }
+      </div>
+      @if (nav(); as n) {
+        <div class="mw-pager">
+          <button [disabled]="!n.prev" (click)="goTo(n.prev)">‹</button>
+          <span>{{ (n.index + 1).toString().padStart(2, '0') }} / {{ n.total }}</span>
+          <button [disabled]="!n.next" (click)="goTo(n.next)">›</button>
+        </div>
+      }
+    </div>
+  </header>
+
+  <div class="mw-body">
+
+    <!-- ── TOC rail ─────────────────────────────────────── -->
+    @if (!tocHidden()) {
+      <km-morph-toc-rail
+        [tocCore]="tocCore()"
+        [tocTemporal]="tocTemporal()"
+        [regOptions]="regOptions()"
+        [reg]="reg()"
+        [coreOpen]="coreOpen()"
+        [ctxOpen]="ctxOpen()"
+        (setReg)="setReg($event)"
+        (toggleCore)="toggleCore()"
+        (toggleCtx)="toggleCtx()"
+        (scrollTo)="scrollTo($event)"
+      />
+    }
+
+    <!-- ── main reader ──────────────────────────────────── -->
+    <main class="mw-main" #mwMain>
+
+      @if (loading()) {
+        <div class="mw-state"><div class="mw-spin"></div><p>Building the word analysis…</p></div>
+      } @else if (error()) {
+        <div class="mw-state mw-state--err"><p>Could not load this word.</p></div>
+      } @else if (word(); as w) {
+
+        <!-- hero -->
+        <km-morph-hero
+          [word]="word()"
+          [lang]="lang()"
+          [activeContext]="activeContext()"
+          (openRoot)="openRoot()"
+        />
+
+        <div class="mw-col">
+
+          <!-- CORE band -->
+          @if (coreBlocks().length) {
+            <div class="mw-band mw-band--core">
+              <span class="mw-band__dot"></span>
+              <span class="mw-band__t">Core — the root itself</span>
+              <span class="mw-band__ar ar">الطبقات الثابتة</span>
+              <span class="mw-band__rule"></span>
+              <span class="mw-band__note">root + lexicon · shared by every context</span>
+            </div>
+            @for (b of coreBlocks(); track domId('core', b)) {
+              <div [id]="domId('core', b)" class="mw-blkwrap">
+                <km-morph-block-host [block]="b" [lang]="lang()" [heroWord]="lemmaBare()" />
+              </div>
+            }
+          }
+
+          <!-- CONTEXT switcher — one card per Qurʾānic occurrence -->
+          @if (contexts().length > 1) {
+            <km-morph-context-switcher
+              [contexts]="contexts()"
+              [activeAyahKey]="activeContext()?.ayah_key ?? null"
+              [lemmaBare]="lemmaBare()"
+              (select)="setContext($event)"
+            />
+          }
+
+          <!-- TEMPORAL band header -->
+          @if (temporalBlocks().length) {
+            <div class="mw-band mw-band--temp">
+              <span class="mw-band__dot"></span>
+              <span class="mw-band__t">This context</span>
+              <span class="mw-band__ar ar">{{ activeContext()?.kind_ar }} {{ lemmaBare() }}</span>
+              <span class="mw-band__key">Qurʾān · {{ activeContext()?.ayah_key }}</span>
+              <span class="mw-band__rule mw-band__rule--sky"></span>
+              <span class="mw-band__note">re-scopes per context</span>
+            </div>
+
+            <!-- the active verse -->
+            @if (contextVerse(); as cv) {
+              <div class="mw-ctx">
+                <p class="mw-ctx__text ar" dir="rtl">{{ cv.text_ar }}</p>
+                @if (cv.note) { <p class="mw-ctx__say">{{ cv.note }}</p> }
+              </div>
+            }
+
+            @for (b of temporalBlocks(); track domId('temp', b)) {
+              <div [id]="domId('temp', b)" class="mw-blkwrap">
+                <km-morph-block-host [block]="b" [lang]="lang()" [heroWord]="lemmaBare()" />
+              </div>
+            }
+          }
+
+        </div>
+      }
+    </main>
+  </div>
+</div>
