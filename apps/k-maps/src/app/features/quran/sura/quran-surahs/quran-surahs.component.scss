@@ -209,68 +209,7 @@
   gap: 1rem;
 }
 
-.surah-card {
-  background: var(--km-surface);
-  border: 1px solid var(--km-border-gold);
-  border-radius: 14px;
-  padding: 1.25rem 1.1rem 1.1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  cursor: pointer;
-  text-align: left;
-  color: inherit;
-  transition: border-color 0.2s, background 0.2s, transform 0.2s, box-shadow 0.2s;
-
-  &:hover {
-    border-color: var(--km-gold);
-    background: rgba(201, 168, 76, 0.04);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 24px rgba(201, 168, 76, 0.1);
-  }
-
-  &__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 0.4rem;
-  }
-
-  &__arabic {
-    font-family: var(--km-font-arabic);
-    font-size: 1.7rem;
-    color: var(--km-gold);
-    direction: rtl;
-    text-align: right;
-    line-height: 1.4;
-    margin: 0.25rem 0;
-  }
-
-  &__name {
-    font-family: var(--km-font-heading);
-    font-size: 0.85rem;
-    letter-spacing: 0.07em;
-    color: var(--km-text);
-    text-transform: uppercase;
-  }
-
-  &__meta {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 0.25rem;
-  }
-
-  &__ayahs {
-    font-size: 0.78rem;
-    color: var(--km-text-2);
-  }
-
-  &__juz {
-    font-size: 0.74rem;
-    color: var(--km-text-3);
-  }
-}
+// .surah-card styles live in km-surah-card (sura/surah-card/).
 
 // ── Number Badge ─────────────────────────────────────────
 .surah-number {

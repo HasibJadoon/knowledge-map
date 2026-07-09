@@ -1,0 +1,13 @@
+    @if (showTextAr()) { <p class="say muted ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say muted" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say muted ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    <div class="fam">
+      @for (g of d.groups; track g.form_ar) {
+        <div class="famg">
+          <span class="famg__lab ar">{{ g.form_ar }}</span>
+          <div class="famg__items">
+            @for (it of g.items; track it.ar) { <span class="ftok"><b class="ar">{{ it.ar }}</b><small [class.ur]="isUr(it.ur)" [dir]="isUr(it.ur) ? 'rtl' : 'ltr'">{{ pick(it.en, it.ur) }}</small></span> }
+          </div>
+        </div>
+      }
+    </div>

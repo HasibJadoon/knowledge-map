@@ -1,0 +1,12 @@
+    @if (showTextAr()) { <p class="say muted ar" dir="rtl" [innerHTML]="richTextAr()"></p> }
+    @if (showTextEn()) { <p class="say muted" dir="ltr" [innerHTML]="richTextEn()"></p> }
+    @if (showTextUr()) { <p class="say muted ur" dir="rtl" [innerHTML]="richTextUr()"></p> }
+    <div class="trans">
+      @for (r of renderings(); track r.translator) {
+        <div class="trans__row">
+          <span class="trans__who">{{ r.translator }}</span>
+          <span class="trans__txt" [class.ur]="isAr(r.text)" [dir]="isAr(r.text) ? 'rtl' : 'ltr'">{{ isAr(r.text) ? '«' + r.text + '»' : '“' + r.text + '”' }}</span>
+          <span class="trans__tag" [class.ur]="isAr(r.reading)" [style.color]="r.fg" [style.border-color]="r.bd">{{ r.reading }}</span>
+        </div>
+      }
+    </div>

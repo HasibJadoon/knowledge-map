@@ -1,0 +1,6 @@
+    .umap { display: grid; grid-template-columns: 120px repeat(var(--cols, 6), minmax(56px, 1fr)); gap: 0; overflow-x: auto;
+      &__cell { border-bottom: 1px solid var(--edge2); }
+      &__corner, &__ax { border-bottom: 1px solid var(--edge); }
+      &__ax { padding: 0 4px 10px; text-align: center; .ar { display: block; font-size: 13px; color: var(--gold2); } small { display: block; font: 600 8.5px/1.1 var(--mono); text-transform: uppercase; color: var(--muted); margin-top: 3px; } }
+      &__rl { display: flex; flex-direction: column; justify-content: center; padding: 10px 8px; b { font: 600 11px/1 var(--mono); color: var(--ink); } small { font-size: 10.5px; color: var(--faint); margin-top: 2px; } }
+      &__dot { display: grid; place-items: center; padding: 10px 0; span { border-radius: 50%; } } }

@@ -1,0 +1,5 @@
+    .formula { text-align: center; padding: 14px; margin-bottom: 14px; border: 1px solid var(--golddim); border-radius: 10px; background: radial-gradient(400px 120px at 50% 0, rgba(201,168,76,.1), transparent);
+      &__ar { font-family: var(--quran); font-size: 24px; color: var(--gold2); line-height: 1.5; }
+      &__en { font: italic 500 13.5px/1.5 var(--en); color: var(--muted); margin-top: 9px; } }
+    .refs { display: flex; gap: 7px; flex-wrap: wrap; margin-top: 12px; }
+    .ref { font: 500 10.5px/1 var(--mono); color: var(--gold2); border: 1px solid var(--golddim); border-radius: 6px; padding: 5px 9px; }

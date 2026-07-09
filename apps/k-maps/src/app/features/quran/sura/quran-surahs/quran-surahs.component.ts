@@ -15,11 +15,12 @@ import gsap from 'gsap';
 import { QuranStateService } from '../../../../shared/services/quran/quran-state.service';
 import { HomePlaneButtonComponent } from '../../../../shared/components/home-plane-button/home-plane-button.component';
 import { SurahActionsComponent } from '../surah-actions/surah-actions.component';
+import { SurahCardComponent } from '../surah-card/surah-card.component';
 
 @Component({
   selector: 'km-quran-surahs',
   standalone: true,
-  imports: [FormsModule, TitleCasePipe, SurahActionsComponent, HomePlaneButtonComponent],
+  imports: [FormsModule, TitleCasePipe, SurahActionsComponent, HomePlaneButtonComponent, SurahCardComponent],
   templateUrl: './quran-surahs.component.html',
   styleUrl: './quran-surahs.component.scss',
 })

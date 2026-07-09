@@ -75,3 +75,19 @@
   font-display: swap;
   src: url('/assets/fonts/surah-name-v2.woff2') format('woff2');
 }
+
+// ─── Noto Nastaliq Urdu (Urdu display text — AmiriQuran lacks Urdu glyphs) ───
+@font-face {
+  font-family: 'NotoNastaliqUrdu';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/assets/fonts/noto-nastaliq-urdu-400-normal.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'NotoNastaliqUrdu';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url('/assets/fonts/noto-nastaliq-urdu-700-normal.woff2') format('woff2');
+}

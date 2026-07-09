@@ -8,7 +8,7 @@
 .rk { color: var(--gold2, #e8c96a); font-weight: 600; }
 .rc { color: #ff5f7e; font-weight: 700; text-shadow: 0 0 14px rgba(255, 80, 110, .6); }
 .ra {
-  font-family: var(--ar, 'Amiri', serif); color: var(--gold, #c9a84c); font-weight: 500; white-space: nowrap;
+  font-family: var(--ar, 'AmiriQuran', 'UthmanicHafs', serif); color: var(--gold, #c9a84c); font-weight: 500; white-space: nowrap;
   &.key { color: var(--gold2, #e8c96a); }
   &.crit { color: #ff5f7e; }
 }
@@ -17,9 +17,22 @@
   text-shadow: 0 0 10px rgba(201, 168, 76, .55);
   &.crit { color: #ff5f7e; }
 }
+// richMarkup() classes Arabic-script highlights as .ra — but inside Urdu prose
+// (.ur containers) those highlights are Urdu words: keep the Urdu face.
+.ur .ra { font-family: var(--ur, 'NotoNastaliqUrdu', 'AmiriQuran', serif) !important; white-space: normal; }
 
 // shared prose helpers (used inside the morph word page, where the palette tokens are defined)
-.mw .ar, km-morph-block-host .ar { font-family: var(--ar, 'Amiri', serif); }
+.mw .ar, km-morph-block-host .ar { font-family: var(--ar, 'AmiriQuran', 'UthmanicHafs', serif); }
+// Urdu prose — AmiriQuran/UthmanicHafs are Qurʾān-glyph fonts and MISS Urdu letters
+// (ے ٹ ڈ ڑ ں ھ گ چ پ render as tofu). Nastaliq needs the taller line box.
+// Declared after .ar so .ur wins when both classes land on one element.
+// !important: several layer components pin font-family: var(--ar) on the same
+// element (e.g. .taf__tr--ur) with higher effective specificity — but Urdu must
+// never render in a Qurʾān-glyph face, so the .ur face always wins.
+.mw .ur, km-morph-block-host .ur {
+  font-family: var(--ur, 'NotoNastaliqUrdu', 'AmiriQuran', serif) !important;
+  line-height: 2.15;
+}
 .mw .say, km-morph-block-host .say {
   font-size: calc(15px * var(--fscale, 1)); line-height: 1.64; color: var(--ink2, rgba(255,255,255,.74)); margin: 0;
   &.muted { color: var(--muted, rgba(255,255,255,.55)); margin-bottom: 14px; }

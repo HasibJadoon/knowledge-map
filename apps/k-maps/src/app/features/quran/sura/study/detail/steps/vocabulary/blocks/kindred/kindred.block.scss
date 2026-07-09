@@ -1,0 +1,7 @@
+    .kin { display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+      &__lab { font: 600 10px/1 var(--mono); letter-spacing: .12em; text-transform: uppercase; margin-bottom: 10px; &.syn { color: var(--sky); } &.con { color: var(--red); } }
+      &__item { padding: 9px 12px; border-radius: 8px; margin-bottom: 8px;
+        b { font-family: var(--ar); font-size: 17px; color: var(--ink); font-weight: 500; } small { color: var(--faint); }
+        p { font-size: 12px; line-height: 1.5; color: var(--muted); margin: 3px 0 0; }
+        &.syn { border: 1px solid rgba(147,184,214,.22); background: rgba(147,184,214,.05); } &.con { border: 1px solid rgba(224,100,95,.22); background: rgba(224,100,95,.05); } } }
+    @media (max-width: 620px) { .kin { grid-template-columns: 1fr; } }

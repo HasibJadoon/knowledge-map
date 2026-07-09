@@ -1,0 +1,10 @@
+    <div class="taf">
+      @for (e of d.entries; track e.scholar) {
+        <div class="taf__e">
+          <div class="taf__who"><b>{{ e.scholar }}</b><small>{{ e.work }}</small></div>
+          @if (showAr(priAr(e.text), priEn(e.text, e.text_en), e.text_ur)) { <p class="taf__txt ar" dir="rtl">{{ priAr(e.text) }}</p> }
+          @if (showEn(priAr(e.text), priEn(e.text, e.text_en), e.text_ur)) { <p class="taf__tr" [class.taf__txt]="!priAr(e.text)" dir="ltr">{{ priEn(e.text, e.text_en) }}</p> }
+          @if (showUr(priAr(e.text), priEn(e.text, e.text_en), e.text_ur)) { <p class="taf__tr taf__tr--ur ur" dir="rtl">{{ e.text_ur }}</p> }
+        </div>
+      }
+    </div>

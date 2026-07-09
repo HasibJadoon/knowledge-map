@@ -103,111 +103,111 @@ INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:44:2:irab', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:44:2:irab', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
   'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'مجرور وعلامته الكسرة، وهو نعتٌ للكتاب في القسم «وَالْكِتَابِ الْمُبِينِ»: قال الميسّر الواو واو القسم، والكتاب مجرور بها، والمبين نعتٌ له. ولا خلاف في هذا الموضع.', '==Genitive (مجرور)== with kasra, functioning as نعت (adjective) of الكتاب inside the oath وَالكتابِ المُبِين: al-Muyassar reads the wāw as wāw al-qasam, الكتاب genitive by it (governed by an elided أُقسِمُ), and المُبِين its adjective. No dispute is recorded for this position in the iʿrāb works consulted.', '',
   '{"role_ar":"نعت","role_en":"adjective","position_ar":"مجرور","sign_ar":"الكسرة","sources":["al-Muyassar 44:2","Iʿrāb al-Qurʾān"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, '{"icon":"tag"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:44:2:balagha', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:44:2:balagha', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
   'balagha', NULL, 2, 'البلاغة', 'Balāgha', 'بلاغہ', 'قسمٌ بالكتاب على الكتاب: المُقسَمُ به هو نفسُه دليلُ المُقسَمِ عليه (إنّا أنزلناه). وصفةٌ واحدة «مبين» تحمل الحجّة — وصفٌ من الإفعال يجمع دعويين: بيِّنٌ في نفسه، مُبيِّنٌ لغيره.', 'The oath swears BY the Book about the Book: the المُقسَم به is itself the proof of the المُقسَم عليه (إنّا أنزلناه, 44:3). Its single epithet مُبِين does the argumentative work — a Form IV participle ==compressing two claims at once==: the Book is clear in itself and gives clarity about everything else.', '',
   '{"formula_ar":"كِتَاب + مُبِين","formula_en":"the كتاب-مبين formula binds revelation to intelligibility","refs":["43:2","12:1","26:2","27:1","28:2"]}', 'kmaps_five_lens', 1, 'quran', '["quran"]', NULL, NULL, NULL, '{"icon":"feather"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:44:2:translators', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:44:2:translators', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
   'translators', NULL, 3, 'الترجمة', 'Translator Choices', 'ترجمہ', 'لأنّ أبانَ لازمٌ ومتعدٍّ، فالمبين بيِّنٌ ومُبيِّنٌ معًا. وأكثر التراجم تُبقي النصفَ اللازم فقط، والمفقود هو المعنى المتعدّي الذي يدّعيه تركيبُ «كتاب مبين».', 'Because أبانَ is both intransitive and transitive, مُبِين is simultaneously بيِّن (clear) and مُبيِّن (clarity-giving). Most renderings keep only the intransitive half; the causative force that the formula كتاب مبين is claiming is ==the controlled loss==.', '',
   '{"renderings":[{"translator":"Abdel Haleem","text":"the Scripture that makes things clear","reading":"causative"},{"translator":"Pickthall","text":"the Scripture that maketh plain","reading":"causative"},{"translator":"Yusuf Ali","text":"the Book that makes things clear","reading":"causative"},{"translator":"Sahih International","text":"the clear Book","reading":"partial"},{"translator":"K-MAPS gloss","text":"the Book — clear in itself and clarifying","reading":"both"}]}', 'kmaps_five_lens', 1, 'quran', '["quran","msa"]', NULL, NULL, NULL, '{"icon":"languages"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:44:2:tafsir', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:44:2:tafsir', 'context', '44:2', '44:2:2', 44, 2, 2, '44:2', 'بين', 'مُبِين',
   'tafsir', NULL, 4, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
   '{"entries":[{"scholar":"al-Ṭabarī","work":"Jāmiʿ al-Bayān","text":"al-Ṭabarī reads مُبِين for what the Book does: it lays everything out plainly — the guidance to follow, the rulings to live by, and where the lawful ends and the unlawful begins — so that truth stands apart from falsehood for anyone who reflects on it."},{"scholar":"al-Zamakhsharī","work":"al-Kashshāf","text":"al-Zamakhsharī notes that مُبِين can be read two ways, since the verb behind it works both ways. Either the Book makes the truth clear to us — setting out right guidance and the sacred law — or the Book is clear in and of itself: plainly a miracle that no one can imitate."},{"scholar":"Ibn ʿĀshūr","work":"al-Taḥrīr wa-l-Tanwīr","text":"Ibn ʿĀshūr holds that مُبِين carries both senses on purpose, at the same time: the Book is clear in itself, and it makes its meaning clear to others. That double clarity is just what makes it worthy to be sworn by — the oath draws its force from it."}]}', 'TABARI', 0, 'classical', '["classical"]', NULL, NULL, NULL, '{"icon":"library"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:26:195:irab', 'context', '26:195', '44:2:2', 44, 2, 2, '26:195', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:26:195:irab', 'context', '26:195', '44:2:2', 44, 2, 2, '26:195', 'بين', 'مُبِين',
   'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـلسانٍ عربيّ، وعلامتُه الكسرة.', 'In this verse مُبِين is a genitive adjective (نعت) of lisān — the tongue — genitive; describing a clear, intelligible Arabic tongue.', '',
   '{"role_ar":"نعت","role_en":"adjective","position_ar":"مجرور","sign_ar":"الكسرة","sources":["Iʿrāb al-Qurʾān · 26:195"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, '{"icon":"tag"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:26:195:tafsir', 'context', '26:195', '44:2:2', 44, 2, 2, '26:195', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:26:195:tafsir', 'context', '26:195', '44:2:2', 44, 2, 2, '26:195', 'بين', 'مُبِين',
   'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
   '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 26:195","text":"Tongue — a clear Arabic speech; clarity as intelligible language."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, '{"icon":"library"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:36:12:irab', 'context', '36:12', '44:2:2', 44, 2, 2, '36:12', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:36:12:irab', 'context', '36:12', '44:2:2', 44, 2, 2, '36:12', 'بين', 'مُبِين',
   'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـإمامٍ (السِّجِلّ)، وعلامتُه الكسرة.', 'In this verse مُبِين is a genitive adjective (نعت) of imām — the record — genitive after فِي; the register that lays every deed out plainly.', '',
   '{"role_ar":"نعت","role_en":"adjective","position_ar":"مجرور","sign_ar":"الكسرة","sources":["Iʿrāb al-Qurʾān · 36:12"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, '{"icon":"tag"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:36:12:tafsir', 'context', '36:12', '44:2:2', 44, 2, 2, '36:12', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:36:12:tafsir', 'context', '36:12', '44:2:2', 44, 2, 2, '36:12', 'بين', 'مُبِين',
   'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
   '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 36:12","text":"Record — a register that lays every deed out plainly; eschatological ledger."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, '{"icon":"library"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:2:168:irab', 'context', '2:168', '44:2:2', 44, 2, 2, '2:168', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:2:168:irab', 'context', '2:168', '44:2:2', 44, 2, 2, '2:168', 'بين', 'مُبِين',
   'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـعدوٌّ، وعلامتُه الضمة.', 'In this verse مُبِين is a nominative adjective (نعت) of ʿaduww — the enemy — nominative predicate; Satan as an open, declared foe.', '',
   '{"role_ar":"نعت","role_en":"adjective","position_ar":"مرفوع","sign_ar":"الضمة","sources":["Iʿrāb al-Qurʾān · 2:168"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, '{"icon":"tag"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:2:168:tafsir', 'context', '2:168', '44:2:2', 44, 2, 2, '2:168', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:2:168:tafsir', 'context', '2:168', '44:2:2', 44, 2, 2, '2:168', 'بين', 'مُبِين',
   'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
   '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 2:168","text":"Enemy — Satan as an open, declared foe; clarity as being out in the open."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, '{"icon":"library"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:16:35:irab', 'context', '16:35', '44:2:2', 44, 2, 2, '16:35', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:16:35:irab', 'context', '16:35', '44:2:2', 44, 2, 2, '16:35', 'بين', 'مُبِين',
   'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـالبلاغُ، وعلامتُه الضمة.', 'In this verse مُبِين is a nominative adjective (نعت) of al-balāgh — the conveyance — nominative; the messengers’ task is only the clear delivery.', '',
   '{"role_ar":"نعت","role_en":"adjective","position_ar":"مرفوع","sign_ar":"الضمة","sources":["Iʿrāb al-Qurʾān · 16:35"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, '{"icon":"tag"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:16:35:tafsir', 'context', '16:35', '44:2:2', 44, 2, 2, '16:35', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:16:35:tafsir', 'context', '16:35', '44:2:2', 44, 2, 2, '16:35', 'بين', 'مُبِين',
   'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
   '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 16:35","text":"Conveyance — the messengers'' task is only the clear delivery itself."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, '{"icon":"library"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:5:110:irab', 'context', '5:110', '44:2:2', 44, 2, 2, '5:110', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:5:110:irab', 'context', '5:110', '44:2:2', 44, 2, 2, '5:110', 'بين', 'مُبِين',
   'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـسِحرٌ، وعلامتُه الضمة.', 'In this verse مُبِين is a nominative adjective (نعت) of siḥr — magic — nominative; on the deniers’ tongue — ‘plain magic’.', '',
   '{"role_ar":"نعت","role_en":"adjective","position_ar":"مرفوع","sign_ar":"الضمة","sources":["Iʿrāb al-Qurʾān · 5:110"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, '{"icon":"tag"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:5:110:tafsir', 'context', '5:110', '44:2:2', 44, 2, 2, '5:110', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:5:110:tafsir', 'context', '5:110', '44:2:2', 44, 2, 2, '5:110', 'بين', 'مُبِين',
   'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
   '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 5:110","text":"Sorcery — مُبِين on the deniers'' tongue: ''plain magic'', clarity turned into accusation."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, '{"icon":"library"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:67:26:irab', 'context', '67:26', '44:2:2', 44, 2, 2, '67:26', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:67:26:irab', 'context', '67:26', '44:2:2', 44, 2, 2, '67:26', 'بين', 'مُبِين',
   'irab', NULL, 1, 'الإعراب', 'Iʿrāb in Context', 'اعراب', 'في هذا الموضع «مبين» نعتٌ لـنذيرٌ، وعلامتُه الضمة.', 'In this verse مُبِين is a nominative adjective (نعت) of nadhīr — a warner — nominative; the Prophet as the one who makes the warning plain.', '',
   '{"role_ar":"نعت","role_en":"adjective","position_ar":"مرفوع","sign_ar":"الضمة","sources":["Iʿrāb al-Qurʾān · 67:26"]}', 'muyassar_irab', 0, 'quran', '["quran"]', NULL, NULL, NULL, '{"icon":"tag"}', 'live');
 INSERT INTO qr_morph_display_blocks
  (id, scope_level, scope_key, word_occ_ref, surah_no, ayah_no, word_index, ayah_key, root_ar, lemma_ar,
   block_type, block_subtype, display_order, title_ar, title_en, title_ur, text_ar, text_en, text_ur,
   data_json, source_slug, is_synthesis, register, registers_json, media_r2_key, media_kind, media_alt, meta_json, status)
- VALUES ('MDB:ctx:67:26:tafsir', 'context', '67:26', '44:2:2', 44, 2, 2, '67:26', 'بين', 'مُبِين',
+ VALUES ('MDB:ctx:بين:67:26:tafsir', 'context', '67:26', '44:2:2', 44, 2, 2, '67:26', 'بين', 'مُبِين',
   'tafsir', NULL, 2, 'التفسير والعلماء', 'Tafsīr & Scholars', 'تفسیر', '', '', '',
   '{"entries":[{"scholar":"Contextual reading","work":"Qurʾān · 67:26","text":"Warner — the Prophet himself as the one who makes the warning plain."}]}', 'kmaps_five_lens', 0, 'classical', '["classical"]', NULL, NULL, NULL, '{"icon":"library"}', 'live');
