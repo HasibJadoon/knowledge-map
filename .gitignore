@@ -84,3 +84,6 @@ tmp/
 
 # Local import-output artifacts (large generated SQL, not source)
 out/
+
+# QPC per-page mushaf fonts are served from R2 (k-maps-assets/fonts/qpc-v2/, https://assets.k-maps.com) — never bundle them
+apps/*/src/assets/fonts/QPC*

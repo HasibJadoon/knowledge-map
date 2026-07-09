@@ -18,6 +18,9 @@ const FIRST_PAGE = 1;
 const LAST_PAGE = 604;
 const PAGE_BATCH_SIZE = 4;
 const MUSHAF_LAYOUT = 'qpc-v2-15-lines';
+// Per-page mushaf glyph fonts are served from R2 (bucket k-maps-assets),
+// not bundled with the app — 604 files, ~87 MB.
+const QPC_FONT_BASE = 'https://assets.k-maps.com/fonts/qpc-v2';
 
 @Component({
   selector: 'km-al-quran',
@@ -275,7 +278,8 @@ export class AlQuranComponent implements OnInit {
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url('/assets/fonts/QPC%20V2%20Font.woff2/p${page}.woff2') format('woff2');
+  src: url('${QPC_FONT_BASE}/p${page}.woff2') format('woff2'),
+       url('https://static-cdn.tarteel.ai/qul/fonts/quran_fonts/v2/woff2/p${page}.woff2?v=3.1') format('woff2');
 }`;
       doc.head.appendChild(style);
     }
