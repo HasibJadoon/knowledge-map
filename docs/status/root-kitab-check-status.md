@@ -98,3 +98,68 @@ Memlet backing still un-linked to canonical tables for كتب: memory-hooks,
 illustration, near-synonym membership, verbal-idiom links, exercises (table absent),
 antonyms. Blocks currently render from inline `data_json`. SRS deck/cards for كتب
 also pending.
+
+---
+
+## F. Root-Ling (AL) level — the authoritative layer status
+> Correction of level: the root's canonical linguistic truth lives in
+> **`km_arabic_linguistic` (AL)**, not QR. `qr_morph_display_blocks` (section A) is
+> the render-time **projection**; AL is the source of truth. The canonical per-root
+> tracker is **`ar_ling_root_build_status`** and the layer contract is the registry
+> **`ar_ling_reg_build_layer`** (22 layers) + **`ar_ling_reg_sub_layer`** (24 bands).
+
+**Build tracker — `ar_ling_root_build_status` (كتب):**
+`book_scope = 44:1–9` (Sūrat ad-Dukhān passage) · `total_books = 11` ·
+`done_books = 4` · **status = in_progress** (updated 2026-07-19). → This root is a
+live **passage build**, not complete.
+
+**Registry layer coverage for كتب** (`ar_ling_reg_build_layer`, scope = root/lemma):
+| Layer | Band | Carrier table | كتب | Status |
+|---|---|---|---|---|
+| 100 root | 00-CORE / 10-DNA | `ar_ling_roots`, `ar_ling_root_dna` | 1 / 1 | ✅ |
+| 100 root | 14-SENSE | `ar_ling_root_senses` | 8 | ✅ |
+| 100 root | 16-AXES | `ar_ling_root_sense_axes` | 0 | ❌ |
+| 100 root | 18-STAGE | `ar_ling_root_development_stages` | 0 | ❌ |
+| 100 root | 30-KIN | `ar_ling_root_antonyms` | 0 | ❌ |
+| 100 root | 52-SCHOL | `ar_ling_root_scholarship` | 1 | 🟡 thin |
+| 070 vocab | 70-VOCAB | `ar_ling_root_vocab` | 1 | ✅ live |
+| 010 source | 50-META | `ar_ling_lexicon_blocks` | 590 / 9 books | ✅ |
+| 010 source | 52 | `ar_ling_lexicon_root_entries` | 10 (1 clean, 1 live, 8 raw) | 🟡 4/11 built |
+| 200 lemma | 20-GOV | `ar_ling_verb_government` | 9 | ✅ |
+| 200 lemma | (lemmas) | `ar_ling_lemmas` | 40 | ✅ |
+| 400 kindred | — | `ar_ling_near_synonym_members` | 0 | ❌ |
+| 500 expression | — | `ar_ling_expressions` (`ar_applied_balagha` absent) | 0 | ❌ |
+| 600 memlet | 72-MEM | `ar_ling_vocab_memory_hooks` | 0 | ❌ |
+| — article | — | `ar_ling_root_article_block` | full raw article | 🟡 status=raw (unpublished) |
+
+**Verdict (Root-Ling):** the identity + معجم + sarf-government + senses spine is
+**built**; the **synthesis/learn bands are empty** (sense-axes, development-stages,
+antonyms, near-synonyms, expressions, memory-hooks) and the long-form root article
+is still `raw`. Lexicon build is **4/11 books** for the 44:1–9 scope.
+
+## G. Balāgha — source check (lexicon + grammar books in D1)
+Per the directive to ground balāgha in real D1 sources:
+- **Lexicon (معاجم):** ✅ strong — `ar_ling_lexicon_blocks` for كتب = **590 blocks
+  across 9 dictionaries** (Tāj al-ʿArūs 268, Mufradāt 168, Lane 51, Lisān 35,
+  Maqāyīs 25, Jamhara 12, ʿAyn 11, Ṣiḥāḥ 10, Miṣbāḥ 10).
+- **Grammar / balāgha books:** ✅ corpus present — `ar_ling_gram_chunks`
+  `discipline='BL'` = **4,125 chunks / 923 bābs** (alongside NH 8,138 / SF 9,056).
+  **Not yet linked to كتب** — balāgha for the passage must be sourced by searching
+  this BL corpus (FTS) + the معاجم, not authored free-hand.
+- **Gaps:** `ar_ling_gram_terms` has **no BL rows** (only NH 2 / SF 2); the AL
+  balāgha-concept tables `ar_ling_balagha_concepts` / `ar_ling_balagha_examples`
+  (referenced by `balagha.repo.ts`) are **absent from D1** — so balāgha currently has
+  a corpus but no concept taxonomy or per-root linkage.
+
+## H. Next actions (Root-Ling build)
+1. Continue the lexicon build 4/11 → 11/11 for scope 44:1–9 via the
+   **`kmaps-lexicon-builder`** skill (trilingual entry + ṣarf family panel + footnote
+   apparatus per source; verified against the source text).
+2. Fill the empty synthesis bands (sense-axes, development-stages, antonyms,
+   near-synonyms) from the built معاجم — no fabrication.
+3. Ground the āyah-level balāgha (44:2 etc.) against the `BL` gram-chunk corpus +
+   معاجم via **`kmaps-ss-builder`**; only then project to `qr_morph_display_blocks`.
+4. Publish `ar_ling_root_article_block` (raw → live) once bands 1–3 are filled.
+
+> Note: the QR context-lens fill in section E is the display **projection** and stays
+> valid, but it is downstream of the AL Root-Ling build above.
