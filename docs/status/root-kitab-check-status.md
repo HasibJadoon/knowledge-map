@@ -151,6 +151,38 @@ Per the directive to ground balāgha in real D1 sources:
   (referenced by `balagha.repo.ts`) are **absent from D1** — so balāgha currently has
   a corpus but no concept taxonomy or per-root linkage.
 
+### G.1 Books present in D1 (the grounding corpus)
+**Balāgha / rhetoric books — `ar_ling_gram_chunks` `discipline='BL'` (12 books):**
+| Book | Author (d. AH) | Chunks |
+|---|---|---|
+| المثل السائر | Ibn al-Athīr | 992 |
+| دلائل الإعجاز | al-Jurjānī (471) | 689 |
+| الطراز | al-ʿAlawī (745) | 682 |
+| الإيضاح في علوم البلاغة | al-Qazwīnī (739) | 638 |
+| مفتاح العلوم | al-Sakkākī (626) | 590 |
+| أسرار البلاغة | al-Jurjānī (471) | 421 |
+| شرح المفصل | Ibn Yaʿīsh | 42 |
+| المقتضب | al-Mubarrad | 34 |
+| همع الهوامع | al-Suyūṭī | 21 |
+| الكتاب | Sībawayh | 7 |
+| جامع الدروس | al-Ghalāyīnī | 5 |
+| شرح قطر الندى | Ibn Hishām | 4 |
+
+**Lexicon books (11 target معاجم) — `ar_ling_lexicon_blocks` / `ar_ling_sources`:**
+al-Khalīl *ʿAyn* (170) · Ibn Durayd *Jamhara* (321) · al-Jawharī *Ṣiḥāḥ* (393) ·
+Ibn Fāris *Maqāyīs* (395) · al-Rāghib *Mufradāt* (502) · al-Ṣaghānī *ʿUbāb* (650) ·
+Ibn Manẓūr *Lisān* (711) · al-Fayyūmī *Miṣbāḥ* (770) · al-Fīrūzābādī *Qāmūs* (817) ·
+al-Zabīdī *Tāj* (1205) · *Lane* — plus Sinai *Key Terms* & Mir *Verbal Idioms*.
+For كتب: blocks present in **9/11** (missing ʿUbāb, Qāmūs); **4/11 cleaned**.
+
+### G.2 How balāgha grounds (method)
+The balāgha books are organized **by device/bāb, not by āyah** — `«الكتاب المبين»`
+returns 0 text hits. Ground the āyah's balāgha by its **device**: 44:2 is an
+**oath (qasam) + descriptive epithet (mubīn)**, and the qasam bāb is richly covered
+(`القسم/أقسم`: Ibn al-Athīr 143 · Sakkākī 51 · al-ʿAlawī 28 · Asrār 21 · Īḍāḥ 17 ·
+Dalāʾil 13). So a grounded balāgha block cites those chunks + the معجم sense — never
+free-hand. (The QR balāgha in section E is a placeholder pending this grounding.)
+
 ## H. Next actions (Root-Ling build)
 1. Continue the lexicon build 4/11 → 11/11 for scope 44:1–9 via the
    **`kmaps-lexicon-builder`** skill (trilingual entry + ṣarf family panel + footnote
