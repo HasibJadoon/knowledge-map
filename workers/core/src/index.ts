@@ -15,6 +15,7 @@ import { workspaceRoleRoutes } from './routes/workspace-roles';
 import { activityRoutes } from './routes/activity';
 import { grantRoutes } from './routes/grants';
 import { srsRegistryRoutes } from './routes/srs-registry';
+import { dashboardRoutes } from './routes/dashboard';
 
 const router = new Router<CoreEnv>();
 
@@ -32,6 +33,7 @@ workspaceRoleRoutes(router);
 activityRoutes(router);
 grantRoutes(router);
 srsRegistryRoutes(router);   // GET/POST/DELETE /core/srs/registry — SRS enrollment index
+dashboardRoutes(router);     // GET /core/dashboard — control-system snapshot (admin)
 
 export default {
   fetch: (request: Request, env: CoreEnv) => router.handle(request, env),

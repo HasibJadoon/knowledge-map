@@ -1,0 +1,188 @@
+<div class="ctl" #page>
+  <!-- Ambient grid + particles -->
+  <div class="ctl__bg" aria-hidden="true">
+    <div class="ctl__scan"></div>
+    @for (p of particles; track p) {
+      <span class="ctl__particle" [style.--i]="p"></span>
+    }
+  </div>
+
+  <!-- Header -->
+  <header class="ctl__header" #header>
+    <km-back-button route="/home" label="Home"></km-back-button>
+
+    <div class="ctl__title-group">
+      <p class="ctl__eyebrow">km-core · cybernetic control system</p>
+      <h1 class="ctl__title">Control Deck</h1>
+      <div class="ctl__rule"></div>
+    </div>
+
+    <button
+      class="ctl__refresh"
+      (click)="refresh()"
+      [disabled]="refreshing() || loading()"
+      aria-label="Refresh control snapshot"
+    >
+      <span class="ctl__refresh-icon" [class.is-spinning]="refreshing()">↻</span>
+      <span>{{ refreshing() ? 'Syncing…' : 'Refresh' }}</span>
+    </button>
+  </header>
+
+  <main class="ctl__main">
+    <!-- Loading -->
+    @if (loading()) {
+      <div class="ctl__state">
+        <div class="ctl__spinner"></div>
+        <p class="ctl__state-text">Establishing link to core systems…</p>
+      </div>
+    }
+
+    <!-- Error -->
+    @if (!loading() && error()) {
+      <div class="ctl__state ctl__state--error">
+        <span class="ctl__state-icon">⚠</span>
+        <p class="ctl__state-text">{{ error() }}</p>
+        <button class="ctl__retry" (click)="load()">Re-establish link</button>
+      </div>
+    }
+
+    <!-- Dashboard -->
+    @if (!loading() && !error() && snapshot(); as snap) {
+      <!-- Command bar: health ring + top-line KPIs -->
+      <section class="ctl-command">
+        <div class="ctl-command__health">
+          <svg class="ctl-ring" viewBox="0 0 120 120" aria-hidden="true">
+            <circle class="ctl-ring__track" cx="60" cy="60" r="52" />
+            <circle
+              class="ctl-ring__value"
+              [class.is-good]="health() >= 90"
+              [class.is-warn]="health() < 70"
+              cx="60" cy="60" r="52"
+              [style.stroke-dasharray]="ringCircumference"
+              [style.stroke-dashoffset]="ringOffset()"
+            />
+          </svg>
+          <div class="ctl-command__health-text">
+            <span class="ctl-command__health-num">{{ health() }}</span>
+            <span class="ctl-command__health-pct">%</span>
+          </div>
+        </div>
+
+        <div class="ctl-command__readout">
+          <p class="ctl-command__status" [class.is-alert]="health() < 70">
+            <span class="ctl-command__status-dot"></span>
+            {{ healthLabel() }}
+          </p>
+          <div class="ctl-command__metrics">
+            <div class="ctl-command__metric">
+              <span class="ctl-command__metric-val">{{ snap.totals['users_active'] }}</span>
+              <span class="ctl-command__metric-lbl">Active users</span>
+            </div>
+            <div class="ctl-command__metric">
+              <span class="ctl-command__metric-val">{{ snap.totals['sessions_live'] }}</span>
+              <span class="ctl-command__metric-lbl">Live sessions</span>
+            </div>
+            <div class="ctl-command__metric">
+              <span class="ctl-command__metric-val">{{ snap.totals['workspaces_active'] }}</span>
+              <span class="ctl-command__metric-lbl">Workspaces</span>
+            </div>
+            <div class="ctl-command__metric">
+              <span class="ctl-command__metric-val">{{ activeCount() }}</span>
+              <span class="ctl-command__metric-lbl">Systems live</span>
+            </div>
+            <div class="ctl-command__metric" [class.is-alert]="alertCount() > 0">
+              <span class="ctl-command__metric-val">{{ alertCount() }}</span>
+              <span class="ctl-command__metric-lbl">Alerts</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Subsystem grid -->
+      <section class="ctl-section">
+        <h2 class="ctl-section__title">Subsystems</h2>
+        <div class="ctl-grid">
+          @for (s of subsystems(); track s.key) {
+            <article class="ctl-tile" [class]="statusClass(s.status)">
+              <div class="ctl-tile__top">
+                <span class="ctl-tile__glyph">{{ glyph(s.key) }}</span>
+                <span class="ctl-tile__status">
+                  <span class="ctl-tile__status-dot"></span>{{ s.status }}
+                </span>
+              </div>
+              <p class="ctl-tile__value">{{ s.total }}</p>
+              <p class="ctl-tile__label">{{ s.label }}</p>
+              <div class="ctl-tile__meter" role="presentation">
+                <span class="ctl-tile__meter-fill" [style.width.%]="fillFraction(s) * 100"></span>
+              </div>
+              <p class="ctl-tile__sub">{{ s.active }} active</p>
+            </article>
+          }
+        </div>
+      </section>
+
+      <!-- Lower deck: feature flags + telemetry feed -->
+      <section class="ctl-deck">
+        <!-- Feature flags -->
+        <div class="ctl-panel">
+          <div class="ctl-panel__head">
+            <h2 class="ctl-panel__title">Feature Flags</h2>
+            <span class="ctl-panel__count">{{ snap.totals['flags_on'] }} / {{ snap.totals['flags'] }} on</span>
+          </div>
+          @if (flags().length) {
+            <ul class="ctl-flags">
+              @for (f of flags(); track f.flag_key) {
+                <li class="ctl-flags__row">
+                  <span class="ctl-flags__toggle" [class.is-on]="f.is_enabled">
+                    <span class="ctl-flags__knob"></span>
+                  </span>
+                  <span class="ctl-flags__info">
+                    <span class="ctl-flags__name">{{ f.title }}</span>
+                    <span class="ctl-flags__key">{{ f.flag_key }}</span>
+                  </span>
+                  <span class="ctl-flags__rollout">
+                    {{ f.is_enabled ? f.rollout_percent + '%' : 'off' }}
+                  </span>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="ctl-panel__empty">No feature flags registered.</p>
+          }
+        </div>
+
+        <!-- Telemetry feed -->
+        <div class="ctl-panel">
+          <div class="ctl-panel__head">
+            <h2 class="ctl-panel__title">Telemetry</h2>
+            <span class="ctl-panel__count">{{ snap.totals['events_total'] }} events</span>
+          </div>
+          @if (feed().length) {
+            <ul class="ctl-feed">
+              @for (e of feed(); track e.id) {
+                <li class="ctl-feed__row" [class.is-audit]="e.kind === 'audit'">
+                  <span class="ctl-feed__kind">{{ e.kind === 'audit' ? 'AUD' : 'EVT' }}</span>
+                  <span class="ctl-feed__body">
+                    <span class="ctl-feed__label">{{ e.label }}</span>
+                    <span class="ctl-feed__meta">
+                      {{ shortRef(e.actor_user_ref) }}
+                      @if (e.resource_ref) { <span class="ctl-feed__sep">→</span> {{ shortRef(e.resource_ref) }} }
+                    </span>
+                  </span>
+                  <span class="ctl-feed__time">{{ relativeTime(e.created_at) }}</span>
+                </li>
+              }
+            </ul>
+          } @else {
+            <p class="ctl-panel__empty">No recent telemetry.</p>
+          }
+        </div>
+      </section>
+
+      <footer class="ctl__footer">
+        <span class="ctl__footer-dot"></span>
+        snapshot · {{ relativeTime(snap.generated_at) }}
+      </footer>
+    }
+  </main>
+</div>
