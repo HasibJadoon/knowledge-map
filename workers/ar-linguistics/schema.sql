@@ -1418,3 +1418,26 @@ CREATE VIRTUAL TABLE IF NOT EXISTS ar_ling_lexicon_entry_sections_fts USING fts5
   section_type, text_ar, text_en,
   content='ar_ling_lexicon_entry_sections', content_rowid='rowid'
 );
+
+CREATE TABLE ar_ling_citations (
+  id            TEXT PRIMARY KEY,
+  root_norm     TEXT,
+  from_layer    TEXT NOT NULL,
+  from_id       TEXT NOT NULL,
+  to_ref        TEXT NOT NULL,
+  to_kind       TEXT NOT NULL,
+  relation      TEXT NOT NULL DEFAULT 'grounds',
+  source_slug   TEXT,
+  page_no       INTEGER,
+  quote_ar      TEXT,
+  confidence    REAL,
+  origin        TEXT NOT NULL DEFAULT 'backfill',
+  status        TEXT NOT NULL DEFAULT 'live',
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  UNIQUE (from_layer, from_id, to_ref, relation)
+);
+CREATE INDEX idx_alc_root   ON ar_ling_citations(root_norm);
+CREATE INDEX idx_alc_from   ON ar_ling_citations(from_layer, from_id);
+CREATE INDEX idx_alc_toref  ON ar_ling_citations(to_ref);
+CREATE INDEX idx_alc_tokind ON ar_ling_citations(to_kind);
+CREATE INDEX idx_alc_slug   ON ar_ling_citations(source_slug);

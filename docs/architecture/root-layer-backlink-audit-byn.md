@@ -114,6 +114,53 @@ Roam's model = (1) a reference is a first-class link to a page/block, and
    passage.
 5. Roll بين's pattern out to the rest of the root corpus.
 
+## Implemented — بين pilot (2026-07-24)
+
+The spine is built and backfilled for بين. Migration
+`workers/ar-linguistics/migrations/0023_citation_spine.sql` creates one edge
+table `ar_ling_citations` whose target is a **typed resource ref** (not an FK),
+so it spans domains: `ALB:`<block> · `ALE:`<entry> · `ALS:`<scholarship> ·
+`SRC:`<source> · `ALGEN:`<synthesis> · `AREX:`<expression> · `QRT:`<tafsir> ·
+`QR:`<S:A> · `SS:`<node>.
+
+Backfill (three-tier resolution, all resolvable + reverse-indexed):
+
+- `root_stage` (112 claims) → `ALB` where a diacritic-normalised quote↔block
+  match exists (20 precise), else `ALE` book+root+page (51), else `SRC` for
+  un-ingested classical works (19), else `ALGEN` for internal projections (22).
+- Synthesis layers inherit their grounding resource: `root_beat`/`root_story`/
+  `root_dev_stage` via the existing `SYN:STG:…` chain (21 edges);
+  `root_sense`/`root_dna` via each `provenance_json` slug → that dictionary's
+  entry (64 edges).
+- **197 citations total for بين.** Reverse index verified: e.g.
+  `ALB:blk_mqy2_p1` (a Maqāyīs paragraph) is *referenced-by* `root_stage`,
+  `root_beat`, and `root_story` — the "Linked References" panel.
+
+Endpoints (`workers/ar-linguistics/src/routes/citations.ts`):
+`GET /al/citations/:root` (forward, grouped by layer) ·
+`GET /al/citations/:root/resources` (distinct resources + ref counts) ·
+`GET /al/referenced-by?ref=<typed ref>` (reverse).
+
+### Rollout to "everything" (SS · expressions · memlets · tafsīr)
+
+Same table, new `from_layer` / `to_kind` values — no schema change:
+
+- **Expressions** — `from_layer='expression'`, resolve `ar_ling_expressions.qr_refs_json`
+  → `QR:<S:A>` (āyah) and primary lemma → `ALE`.
+- **Memlet panels** — `from_layer='memlet'`; each panel already maps to a table
+  (senses/ṣarf/constellation/hook) → cite that panel's underlying resource so a
+  Memlet card shows "read the source."
+- **Tafsīr** — `from_layer='tafsir_use'`, `to_ref='QRT:'<id>` /
+  `QR:<S:A>`; the tafsīr rows live in QR, so QR gets a mirror `qr_citations`
+  table with the same shape, and the backend gateway UNIONs AL + QR
+  "referenced-by" over service bindings.
+- **Sentence structure (SS / iʿrāb)** — `from_layer='ss'`; SS nodes (QR) cite
+  `AL:` grammar/balāgha rows and `QR:<S:A>`; again a `qr_citations` mirror +
+  gateway aggregation, since SS is QR-owned.
+
+Next: repair remaining dangling `root_stage.source_native_id` corpus-wide, then
+template this backfill per root.
+
 ## Coverage note / caveat
 
 This is row-level for بين plus structural for the layer set. Numbers are live
