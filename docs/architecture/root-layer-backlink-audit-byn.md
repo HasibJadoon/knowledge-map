@@ -123,6 +123,16 @@ so it spans domains: `ALB:`<block> · `ALE:`<entry> · `ALS:`<scholarship> ·
 `SRC:`<source> · `ALGEN:`<synthesis> · `AREX:`<expression> · `QRT:`<tafsir> ·
 `QR:`<S:A> · `SS:`<node>.
 
+**Corpus run (all 6 roots with layer data — بين نزل نذر ليل برك كتب):
+527 citations, 0 dangling / 0 malformed, 80.8% resolving to a specific block.**
+Block-level targets, since *all sources have block/chunk representations*:
+`ALB:` `ar_ling_lexicon_blocks` (dictionaries), `ALG:` `ar_ling_gram_chunks`
+(grammar/ṣarf works — Sībawayh, Rāḍī, Ibn Jinnī…). Tafsīr/iʿrāb works keep
+`SRC:` because their blocks live in the QR database (resolved once the QR
+mirror lands); internal projections keep `ALGEN:`. Final mix: lexicon_block
+416 · gram_chunk 10 · source 45 · synthesis 35 · lexicon_entry 21. Full,
+idempotent backfill: `database/seeds/backfill-citations.sql`.
+
 Backfill (three-tier resolution, all resolvable + reverse-indexed):
 
 - `root_stage` (112 claims) → `ALB` where a diacritic-normalised quote↔block

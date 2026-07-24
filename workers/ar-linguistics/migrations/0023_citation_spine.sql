@@ -9,6 +9,7 @@
 --
 -- to_ref schemes:
 --   ALB:<block_id>     — ar_ling_lexicon_blocks         (precise passage)
+--   ALG:<chunk_id>     — ar_ling_gram_chunks            (grammar/ṣarf work chunk)
 --   ALE:<entry_id>     — ar_ling_lexicon_root_entries   (book + root + page)
 --   ALS:<schol_id>     — ar_ling_root_scholarship
 --   SRC:<slug>         — ar_ling_sources                (un-ingested classical work)
