@@ -1,7 +1,7 @@
-// ─── SurahPatternRepo — qr_surah_symmetry_patterns + qr_surah_diamond_patterns +
-//     qr_surah_sequence_patterns + qr_surah_motif_clusters +
-//     qr_surah_coherence_signals + qr_surah_clause_patterns +
-//     qr_surah_register_shifts + qr_surah_ellipsis_patterns ──────────────────
+// ─── SurahPatternRepo — qr_surah_symmetry_pattern + qr_surah_diamond_pattern +
+//     qr_surah_sequence_pattern + qr_surah_motif_cluster +
+//     qr_surah_coherence_signal + qr_surah_clause_pattern +
+//     qr_surah_register_shift + qr_surah_ellipsis_pattern ──────────────────
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -191,17 +191,17 @@ export interface SurahEllipsisPatternsUpsert {
 export class SurahPatternRepo {
   constructor(private db: D1Database) {}
 
-  // ── qr_surah_symmetry_patterns ─────────────────────────────────────────────
+  // ── qr_surah_symmetry_pattern ─────────────────────────────────────────────
 
   symmetryPatterns(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahSymmetryPattern>(
       this.db,
       `SELECT id, surah, structure_reading_id, pattern_type, center_ayah_from, center_ayah_to,
               pattern_notation, pairs_json, summary_md, note_md, created_at
-       FROM qr_surah_symmetry_patterns
+       FROM qr_surah_symmetry_pattern
        WHERE surah = ?
        ORDER BY created_at`,
-      `SELECT COUNT(*) AS count FROM qr_surah_symmetry_patterns WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_symmetry_pattern WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -212,7 +212,7 @@ export class SurahPatternRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_symmetry_patterns
+      `INSERT INTO qr_surah_symmetry_pattern
          (id, surah, structure_reading_id, pattern_type, center_ayah_from, center_ayah_to,
           pattern_notation, pairs_json, summary_md, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -234,12 +234,12 @@ export class SurahPatternRepo {
       this.db,
       `SELECT id, surah, structure_reading_id, pattern_type, center_ayah_from, center_ayah_to,
               pattern_notation, pairs_json, summary_md, note_md, created_at
-       FROM qr_surah_symmetry_patterns WHERE id = ?`,
+       FROM qr_surah_symmetry_pattern WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_diamond_patterns ──────────────────────────────────────────────
+  // ── qr_surah_diamond_pattern ──────────────────────────────────────────────
 
   diamondPatterns(surahId: number): Promise<SurahDiamondPattern[]> {
     return query<SurahDiamondPattern>(
@@ -247,7 +247,7 @@ export class SurahPatternRepo {
       `SELECT id, surah, structure_reading_id, pattern_type,
               top_section_from, top_section_to, center_from, center_to,
               bottom_section_from, bottom_section_to, balance_note, note_md, created_at
-       FROM qr_surah_diamond_patterns
+       FROM qr_surah_diamond_pattern
        WHERE surah = ?
        ORDER BY created_at`,
       [surahId],
@@ -259,7 +259,7 @@ export class SurahPatternRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_diamond_patterns
+      `INSERT INTO qr_surah_diamond_pattern
          (id, surah, structure_reading_id, pattern_type, top_section_from, top_section_to,
           center_from, center_to, bottom_section_from, bottom_section_to, balance_note, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -284,18 +284,18 @@ export class SurahPatternRepo {
       `SELECT id, surah, structure_reading_id, pattern_type,
               top_section_from, top_section_to, center_from, center_to,
               bottom_section_from, bottom_section_to, balance_note, note_md, created_at
-       FROM qr_surah_diamond_patterns WHERE id = ?`,
+       FROM qr_surah_diamond_pattern WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_sequence_patterns ─────────────────────────────────────────────
+  // ── qr_surah_sequence_pattern ─────────────────────────────────────────────
 
   sequencePatterns(surahId: number): Promise<SurahSequencePattern[]> {
     return query<SurahSequencePattern>(
       this.db,
       `SELECT id, surah, sequence_type, stages_json, description, note_md, created_at
-       FROM qr_surah_sequence_patterns
+       FROM qr_surah_sequence_pattern
        WHERE surah = ?
        ORDER BY created_at`,
       [surahId],
@@ -307,7 +307,7 @@ export class SurahPatternRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_sequence_patterns
+      `INSERT INTO qr_surah_sequence_pattern
          (id, surah, sequence_type, stages_json, description, note_md)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [
@@ -323,22 +323,22 @@ export class SurahPatternRepo {
     return queryOne<SurahSequencePattern>(
       this.db,
       `SELECT id, surah, sequence_type, stages_json, description, note_md, created_at
-       FROM qr_surah_sequence_patterns WHERE id = ?`,
+       FROM qr_surah_sequence_pattern WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_motif_clusters ────────────────────────────────────────────────
+  // ── qr_surah_motif_cluster ────────────────────────────────────────────────
 
   motifClusters(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahMotifCluster>(
       this.db,
       `SELECT id, surah, cluster_label, cluster_label_ar, motif_keys,
               ayah_range_json, semantic_role, note_md, created_at
-       FROM qr_surah_motif_clusters
+       FROM qr_surah_motif_cluster
        WHERE surah = ?
        ORDER BY created_at`,
-      `SELECT COUNT(*) AS count FROM qr_surah_motif_clusters WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_motif_cluster WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -349,7 +349,7 @@ export class SurahPatternRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_motif_clusters
+      `INSERT INTO qr_surah_motif_cluster
          (id, surah, cluster_label, cluster_label_ar, motif_keys, ayah_range_json, semantic_role, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -368,21 +368,21 @@ export class SurahPatternRepo {
       this.db,
       `SELECT id, surah, cluster_label, cluster_label_ar, motif_keys,
               ayah_range_json, semantic_role, note_md, created_at
-       FROM qr_surah_motif_clusters WHERE id = ?`,
+       FROM qr_surah_motif_cluster WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_coherence_signals ─────────────────────────────────────────────
+  // ── qr_surah_coherence_signal ─────────────────────────────────────────────
 
   coherenceSignals(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahCoherenceSignal>(
       this.db,
       `SELECT id, surah, signal_type, description, ayahs_json, note_md, created_at
-       FROM qr_surah_coherence_signals
+       FROM qr_surah_coherence_signal
        WHERE surah = ?
        ORDER BY created_at`,
-      `SELECT COUNT(*) AS count FROM qr_surah_coherence_signals WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_coherence_signal WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -393,7 +393,7 @@ export class SurahPatternRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_coherence_signals
+      `INSERT INTO qr_surah_coherence_signal
          (id, surah, signal_type, description, ayahs_json, note_md)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [
@@ -409,12 +409,12 @@ export class SurahPatternRepo {
     return queryOne<SurahCoherenceSignal>(
       this.db,
       `SELECT id, surah, signal_type, description, ayahs_json, note_md, created_at
-       FROM qr_surah_coherence_signals WHERE id = ?`,
+       FROM qr_surah_coherence_signal WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_clause_patterns (surah-level rollup) ──────────────────────────
+  // ── qr_surah_clause_pattern (surah-level rollup) ──────────────────────────
 
   clausePatterns(surahId: number): Promise<SurahClausePatterns | null> {
     return queryOne<SurahClausePatterns>(
@@ -422,7 +422,7 @@ export class SurahPatternRepo {
       `SELECT surah, dominant_clause_type, nominal_clause_pct, verbal_clause_pct,
               conditional_count, oath_count, interrogative_count, dominant_mood,
               note_md, created_at, updated_at
-       FROM qr_surah_clause_patterns
+       FROM qr_surah_clause_pattern
        WHERE surah = ?`,
       [surahId],
     );
@@ -434,7 +434,7 @@ export class SurahPatternRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_clause_patterns
+        `INSERT INTO qr_surah_clause_pattern
            (surah, dominant_clause_type, nominal_clause_pct, verbal_clause_pct,
             conditional_count, oath_count, interrogative_count, dominant_mood, note_md)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -464,22 +464,22 @@ export class SurahPatternRepo {
       if (data.note_md !== undefined)              { sets.push('note_md = ?');              vals.push(data.note_md); }
 
       vals.push(surahId);
-      await execute(this.db, `UPDATE qr_surah_clause_patterns SET ${sets.join(', ')} WHERE surah = ?`, vals);
+      await execute(this.db, `UPDATE qr_surah_clause_pattern SET ${sets.join(', ')} WHERE surah = ?`, vals);
     }
 
     return this.clausePatterns(surahId);
   }
 
-  // ── qr_surah_register_shifts ───────────────────────────────────────────────
+  // ── qr_surah_register_shift ───────────────────────────────────────────────
 
   registerShifts(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahRegisterShift>(
       this.db,
       `SELECT id, surah, ayah_shift, shift_axis, from_state, to_state, note_md, created_at
-       FROM qr_surah_register_shifts
+       FROM qr_surah_register_shift
        WHERE surah = ?
        ORDER BY ayah_shift`,
-      `SELECT COUNT(*) AS count FROM qr_surah_register_shifts WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_register_shift WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -490,7 +490,7 @@ export class SurahPatternRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_register_shifts
+      `INSERT INTO qr_surah_register_shift
          (id, surah, ayah_shift, shift_axis, from_state, to_state, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -507,19 +507,19 @@ export class SurahPatternRepo {
     return queryOne<SurahRegisterShift>(
       this.db,
       `SELECT id, surah, ayah_shift, shift_axis, from_state, to_state, note_md, created_at
-       FROM qr_surah_register_shifts WHERE id = ?`,
+       FROM qr_surah_register_shift WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_ellipsis_patterns (surah-level rollup) ────────────────────────
+  // ── qr_surah_ellipsis_pattern (surah-level rollup) ────────────────────────
 
   ellipsisPatterns(surahId: number): Promise<SurahEllipsisPatterns | null> {
     return queryOne<SurahEllipsisPatterns>(
       this.db,
       `SELECT surah, dominant_ellipsis_type, total_ellipsis_count, typical_effect,
               notable_instances, note_md, created_at
-       FROM qr_surah_ellipsis_patterns
+       FROM qr_surah_ellipsis_pattern
        WHERE surah = ?`,
       [surahId],
     );
@@ -531,7 +531,7 @@ export class SurahPatternRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_ellipsis_patterns
+        `INSERT INTO qr_surah_ellipsis_pattern
            (surah, dominant_ellipsis_type, total_ellipsis_count, typical_effect,
             notable_instances, note_md)
          VALUES (?, ?, ?, ?, ?, ?)`,
@@ -556,7 +556,7 @@ export class SurahPatternRepo {
 
       if (sets.length > 0) {
         vals.push(surahId);
-        await execute(this.db, `UPDATE qr_surah_ellipsis_patterns SET ${sets.join(', ')} WHERE surah = ?`, vals);
+        await execute(this.db, `UPDATE qr_surah_ellipsis_pattern SET ${sets.join(', ')} WHERE surah = ?`, vals);
       }
     }
 

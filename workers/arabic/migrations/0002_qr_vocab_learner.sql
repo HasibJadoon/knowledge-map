@@ -3,11 +3,11 @@
 -- Correction to an earlier design: Qur'anic vocabulary review does NOT get its
 -- own table family. It reuses the existing, Anki-exportable SRS engine that
 -- powers /srs:
---   ar_srs_decks   — one row per (user, Surah), deck_type = 'quran_vocab'
---   ar_srs_cards   — one row per vocab item (resource_ref -> AL backbone),
+--   ar_learn_srs_deck   — one row per (user, Surah), deck_type = 'quran_vocab'
+--   ar_learn_srs_card   — one row per vocab item (resource_ref -> AL backbone),
 --                    with front_text/back_text/tags/extra_json snapshots so the
 --                    deck exports cleanly to Anki (.apkg)
---   ar_srs_reviews — FSRS rating log
+--   ar_learn_srs_review — FSRS rating log
 --
 -- Card conventions:
 --   resource_type = 'qr_vocab_root' | 'qr_vocab_sense'
@@ -38,5 +38,5 @@ DROP TABLE IF EXISTS ar_qr_vocab_progress;
 DROP TABLE IF EXISTS ar_qr_vocab_decks;
 
 -- Helpful indexes for the /srs deck + Anki export queries.
-CREATE INDEX IF NOT EXISTS idx_ar_srs_decks_type ON ar_srs_decks(core_user_ref, deck_type);
-CREATE INDEX IF NOT EXISTS idx_ar_srs_cards_restype ON ar_srs_cards(deck_id, resource_type);
+CREATE INDEX IF NOT EXISTS idx_ar_learn_srs_deck_type ON ar_learn_srs_deck(core_user_ref, deck_type);
+CREATE INDEX IF NOT EXISTS idx_ar_learn_srs_card_restype ON ar_learn_srs_card(deck_id, resource_type);

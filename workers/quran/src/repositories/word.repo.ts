@@ -1,5 +1,5 @@
-// ─── WordRepo — all SQL for qr_word_occurrences ───────────────────────────────
-// qr_word_occurrences is the single canonical owner of visible Quranic words.
+// ─── WordRepo — all SQL for qr_word_occurrence ───────────────────────────────
+// qr_word_occurrence is the single canonical owner of visible Quranic words.
 // Column names must match the live D1 schema (word_index / word_text / root /
 // lemma / pos) — the older alias set is no longer present in the table.
 
@@ -11,7 +11,7 @@ const SELECT = `
   id, surah, ayah, word_index,
   word_text, word_text_bare,
   root, lemma, pos, morphology_tag, morphology_tag_json
-FROM qr_word_occurrences`;
+FROM qr_word_occurrence`;
 
 export class WordRepo {
   constructor(private db: D1Database) {}
@@ -43,7 +43,7 @@ export class WordRepo {
     return paginate<WordOccurrence>(
       this.db,
       `SELECT ${SELECT} WHERE lemma = ? ORDER BY surah, ayah, word_index`,
-      `SELECT COUNT(*) AS count FROM qr_word_occurrences WHERE lemma = ?`,
+      `SELECT COUNT(*) AS count FROM qr_word_occurrence WHERE lemma = ?`,
       [lemma],
       opts,
     );
@@ -54,7 +54,7 @@ export class WordRepo {
     return paginate<WordOccurrence>(
       this.db,
       `SELECT ${SELECT} WHERE root = ? ORDER BY surah, ayah, word_index`,
-      `SELECT COUNT(*) AS count FROM qr_word_occurrences WHERE root = ?`,
+      `SELECT COUNT(*) AS count FROM qr_word_occurrence WHERE root = ?`,
       [root],
       opts,
     );

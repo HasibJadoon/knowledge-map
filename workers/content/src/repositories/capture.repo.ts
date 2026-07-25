@@ -1,5 +1,14 @@
-// ─── CaptureRepo — cm_captures ────────────────────────────────────────────────
+// ─── CaptureRepo — cm_capture_entries ────────────────────────────────────────
 // Quick captures: highlights, quotes, bookmarks from any source.
+//
+// The table is `cm_capture_entries` (the old `cm_captures` name went away in
+// the CM rename). Column mapping, kept behind aliases so the `Capture` shape
+// callers see is unchanged:
+//   id         → capture_id
+//   text       → raw_text
+//   source_ref → meta_json.$.source_ref   (no dedicated column)
+//   color      → meta_json.$.color        (no dedicated column)
+// `core_user_ref` is NOT NULL, so writes carry the caller's user id.
 
 import { queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -16,30 +25,37 @@ export interface Capture {
 
 export interface CaptureCreate {
   text: string;
+  core_user_ref: string;
   capture_type?: string;
   source_ref?: string | null;
   color?: string | null;
 }
 
-const COLS = `id, capture_type, text, source_ref, color, created_at`;
+const COLS = `
+  capture_id                            AS id,
+  capture_type,
+  raw_text                              AS text,
+  json_extract(meta_json, '$.source_ref') AS source_ref,
+  json_extract(meta_json, '$.color')      AS color,
+  created_at`;
 
 export class CaptureRepo {
   constructor(private db: D1Database) {}
 
   list(sourceRef: string | null, opts: PaginateOptions = {}) {
-    const where  = sourceRef ? 'WHERE source_ref = ?' : '';
+    const where  = sourceRef ? `WHERE json_extract(meta_json, '$.source_ref') = ?` : '';
     const params = sourceRef ? [sourceRef] : [];
     return paginate<Capture>(
       this.db,
-      `SELECT ${COLS} FROM cm_captures ${where} ORDER BY created_at DESC`,
-      `SELECT COUNT(*) AS count FROM cm_captures ${where}`,
+      `SELECT ${COLS} FROM cm_capture_entries ${where} ORDER BY created_at DESC`,
+      `SELECT COUNT(*) AS count FROM cm_capture_entries ${where}`,
       params, opts,
     );
   }
 
   findById(id: string): Promise<Capture | null> {
     return queryOne<Capture>(
-      this.db, `SELECT ${COLS} FROM cm_captures WHERE id = ?`, [id],
+      this.db, `SELECT ${COLS} FROM cm_capture_entries WHERE capture_id = ?`, [id],
     );
   }
 
@@ -48,10 +64,15 @@ export class CaptureRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO cm_captures (id, capture_type, text, source_ref, color, created_at)
-       VALUES (?, ?, ?, ?, ?, ?)`,
-      [id, input.capture_type ?? 'highlight', input.text,
-       input.source_ref ?? null, input.color ?? null, now],
+      `INSERT INTO cm_capture_entries
+         (capture_id, core_user_ref, capture_type, raw_text, meta_json, captured_at, created_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?)`,
+      [id, input.core_user_ref, input.capture_type ?? 'highlight', input.text,
+       JSON.stringify({
+         source_ref: input.source_ref ?? null,
+         color:      input.color ?? null,
+       }),
+       now, now],
     );
     return (await this.findById(id))!;
   }

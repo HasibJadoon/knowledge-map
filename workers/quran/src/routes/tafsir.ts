@@ -1,5 +1,5 @@
 // ─── /qr/tafsir routes ────────────────────────────────────────────────────────
-// Exposes qr_tafsir_entries for the source-rag bundle endpoint.
+// Exposes qr_tafsir_entry for the source-rag bundle endpoint.
 // The backend composite route at /api/quran/:surah/:ayah/sources calls this.
 
 import type { Router } from '../../../shared/src/router';
@@ -20,8 +20,8 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
                sp.birth_year_ce, sp.death_year_ce,
                sp.era, sp.madhab, sp.specialization,
                COUNT(te.id) AS entry_count
-        FROM qr_scholar_profiles sp
-        LEFT JOIN qr_tafsir_entries te ON te.scholar_id = sp.id
+        FROM qr_scholar_profile sp
+        LEFT JOIN qr_tafsir_entry te ON te.scholar_id = sp.id
         GROUP BY sp.id
         ORDER BY entry_count DESC
       `)
@@ -37,7 +37,7 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
   });
 
   // GET /qr/works?work_type=tafsir|irab — list works joined with scholar info and entry counts
-  // Edge-cached: entry-count aggregate over qr_tafsir_entries (>1M rows) is
+  // Edge-cached: entry-count aggregate over qr_tafsir_entry (>1M rows) is
   // the long pole. Works + scholar metadata only change on ingestion.
   router.get('/qr/works', (req, env) => cached(req, async () => {
     const url = new URL(req.url);
@@ -56,9 +56,9 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
                sp.birth_year_hijri, sp.death_year_hijri,
                sp.birth_year_ce, sp.death_year_ce,
                COUNT(te.id) AS entry_count
-        FROM qr_scholar_works sw
-        LEFT JOIN qr_scholar_profiles sp ON sp.id = sw.scholar_id
-        LEFT JOIN qr_tafsir_entries te ON te.work_id = sw.id
+        FROM qr_scholar_work sw
+        LEFT JOIN qr_scholar_profile sp ON sp.id = sw.scholar_id
+        LEFT JOIN qr_tafsir_entry te ON te.work_id = sw.id
         ${typeClause}
         GROUP BY sw.id
         ORDER BY entry_count DESC
@@ -99,7 +99,7 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
 
     const [countRes, dataRes] = await Promise.all([
       env.DB_QR
-        .prepare(`SELECT COUNT(*) AS count FROM qr_tafsir_entries te ${whereClause}`)
+        .prepare(`SELECT COUNT(*) AS count FROM qr_tafsir_entry te ${whereClause}`)
         .bind(...params)
         .first<{ count: number }>(),
       env.DB_QR
@@ -108,7 +108,7 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
                  te.scholar_id, te.work_id, te.content_ar, te.content_en,
                  te.source_page,
                  a.text_uthmani AS ayah_text
-          FROM qr_tafsir_entries te
+          FROM qr_tafsir_entry te
           LEFT JOIN qr_ayah a ON a.surah = te.surah AND a.ayah = te.ayah_from
           ${whereClause}
           ORDER BY te.surah, te.ayah_from, te.created_at
@@ -136,14 +136,14 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
     await Promise.all([
       scholarIds.length
         ? env.DB_QR
-            .prepare(`SELECT id, name_ar, name_en FROM qr_scholar_profiles WHERE id IN (${scholarIds.map(() => '?').join(',')})`)
+            .prepare(`SELECT id, name_ar, name_en FROM qr_scholar_profile WHERE id IN (${scholarIds.map(() => '?').join(',')})`)
             .bind(...scholarIds)
             .all<{ id: string; name_ar: string; name_en: string | null }>()
             .then(r => r.results.forEach(s => { scholars[s.id] = { name_ar: s.name_ar, name_en: s.name_en }; }))
         : Promise.resolve(),
       workIds.length
         ? env.DB_QR
-            .prepare(`SELECT id, title_ar, title_en, work_type FROM qr_scholar_works WHERE id IN (${workIds.map(() => '?').join(',')})`)
+            .prepare(`SELECT id, title_ar, title_en, work_type FROM qr_scholar_work WHERE id IN (${workIds.map(() => '?').join(',')})`)
             .bind(...workIds)
             .all<{ id: string; title_ar: string; title_en: string | null; work_type: string }>()
             .then(r => r.results.forEach(w => { works[w.id] = { title_ar: w.title_ar, title_en: w.title_en, work_type: w.work_type }; }))
@@ -160,7 +160,7 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
   }));
 
   // GET /qr/tafsir/by-ids?ids=id1,id2,...
-  // Batch-fetch specific qr_tafsir_entries rows by ID.
+  // Batch-fetch specific qr_tafsir_entry rows by ID.
   // Used by the backend composite endpoint to resolve Qdrant hit target_ids.
   router.get('/qr/tafsir/by-ids', async (req, env) => {
     const url = new URL(req.url);
@@ -178,9 +178,9 @@ export function tafsirRoutes(router: Router<QuranEnv>) {
                 sp.name_ar AS scholar_name_ar, sp.name_en AS scholar_name_en,
                 sw.title_ar AS work_title_ar, sw.title_en AS work_title_en,
                 sw.work_type
-         FROM qr_tafsir_entries te
-         LEFT JOIN qr_scholar_profiles sp ON sp.id = te.scholar_id
-         LEFT JOIN qr_scholar_works    sw ON sw.id = te.work_id
+         FROM qr_tafsir_entry te
+         LEFT JOIN qr_scholar_profile sp ON sp.id = te.scholar_id
+         LEFT JOIN qr_scholar_work    sw ON sw.id = te.work_id
          WHERE te.id IN (${ph})`,
       )
       .bind(...ids)

@@ -2,9 +2,9 @@
 // Ports the previous Quran study implementation into the repository pattern.
 // All SQL targets the deployed qr_* D1 schema.
 //
-// Tables: qr_surah_study_passages, qr_surah_study_steps, qr_surah_study_tasks,
-//         qr_surah_study_task_json_chunks, qr_word_occurrences, qr_ayah,
-//         qr_surahs, qr_translations, qr_translation_sources
+// Tables: qr_surah_study_passage, qr_surah_study_steps, qr_surah_study_task,
+//         qr_surah_study_task_chunk, qr_word_occurrence, qr_ayah,
+//         qr_surah, qr_translation, qr_translation_source
 
 import { query } from '../../../shared/src/db';
 import type { AlClient } from '../clients/al.client';
@@ -87,7 +87,7 @@ interface PassageRow {
   title: string | null;
   theme: string | null;
   status: string;
-  name_ar: string | null;   // from qr_surahs join
+  name_ar: string | null;   // from qr_surah join
   name_en: string | null;
 }
 
@@ -115,7 +115,7 @@ export interface StudyTask {
 }
 
 // One reading token of an ayah, both script forms, sourced from
-// qr_word_occurrences (not from any task_json payload).
+// qr_word_occurrence (not from any task_json payload).
 export interface AyahWordToken {
   position: number;
   text: string;              // diacritic (harakāt)
@@ -382,7 +382,7 @@ export class StudyRepo {
     };
   }
 
-  /** Comprehension step — questions straight from qr_study_questions. */
+  /** Comprehension step — questions straight from qr_study_question. */
   async comprehensionStep(surahId: number, passageNo: number) {
     const passages = await this._passages(surahId);
     const passage  = passages.find(p => p.passage_no === passageNo);
@@ -393,7 +393,7 @@ export class StudyRepo {
       `SELECT id, scope_ref, ayah_from, ayah_to, question_type,
               question_en, question_ar, options_json, answer_md,
               difficulty, sort_order
-       FROM qr_study_questions
+       FROM qr_study_question
        WHERE surah = ? AND passage_id = ? AND status != 'deleted'
        ORDER BY sort_order, ayah_from, id`,
       [passage.surah_id, passage.id],
@@ -412,10 +412,10 @@ export class StudyRepo {
    *   • ṣarf  : root, lemma, pos and the features parsed from the QAC tag, plus
    *             the lexicon root key so the per-word Five-Lens lookup resolves.
    *   • iʿrāb : the parse from every iʿrāb book, attributed per author/book
-   *             (qr_irab_book_entries linked to the word).
+   *             (qr_irab_book_entry linked to the word).
    *   • qirāʾāt / disputed readings : word-scoped qr_ss_scope_reading rows with
    *             their scholar reference.
-   *   • tafsīr : the mufassir discussion for the verse (qr_tafsir_entries),
+   *   • tafsīr : the mufassir discussion for the verse (qr_tafsir_entry),
    *             attributed per work, as the deeper discussion layer.
    * All from the tables — no task_json. Lexicon bodies stay lazy (Five-Lens
    * lookup per tapped word over the AR_LINGUISTICS binding).
@@ -437,7 +437,7 @@ export class StudyRepo {
         this.db,
         `SELECT w.id, w.ayah, w.word_index, w.word_text, w.word_text_bare,
                 w.root, w.lemma, w.pos, w.morphology_tag, m.syntactic_function
-         FROM qr_word_occurrences w
+         FROM qr_word_occurrence w
          LEFT JOIN qr_ss_scope_morph_link m ON m.scope_id = w.id
          WHERE w.surah = ? AND w.ayah BETWEEN ? AND ?
          ORDER BY w.ayah, w.word_index`,
@@ -449,8 +449,8 @@ export class StudyRepo {
         this.db,
         `SELECT e.word_occurrence_id AS wid, e.source_slug, e.source_title,
                 e.grammar_role_ar AS role, e.irab_text_ar AS text
-         FROM qr_irab_book_entries e
-         JOIN qr_word_occurrences w ON w.id = e.word_occurrence_id
+         FROM qr_irab_book_entry e
+         JOIN qr_word_occurrence w ON w.id = e.word_occurrence_id
          WHERE w.surah = ? AND w.ayah BETWEEN ? AND ? AND e.word_link_status = 'linked'
            AND (e.grammar_role_ar IS NOT NULL OR e.irab_text_ar IS NOT NULL)`,
         [surah, from, to],
@@ -462,7 +462,7 @@ export class StudyRepo {
         `SELECT r.scope_id AS wid, r.reading_type, r.scholar_ref,
                 r.reading_text_ar AS text_ar, r.is_contested, r.is_minority
          FROM qr_ss_scope_reading r
-         JOIN qr_word_occurrences w ON w.id = r.scope_id
+         JOIN qr_word_occurrence w ON w.id = r.scope_id
          WHERE r.scope_type = 'word' AND r.reading_type <> 'synthesis'
            AND w.surah = ? AND w.ayah BETWEEN ? AND ?`,
         [surah, from, to],
@@ -473,8 +473,8 @@ export class StudyRepo {
         this.db,
         `SELECT t.ayah_from, t.ayah_to, t.scholar_id, wk.title_ar AS work,
                 substr(t.content_ar, 1, 700) AS text
-         FROM qr_tafsir_entries t
-         JOIN qr_scholar_works wk ON wk.id = t.work_id
+         FROM qr_tafsir_entry t
+         JOIN qr_scholar_work wk ON wk.id = t.work_id
          WHERE t.surah = ? AND t.ayah_from <= ? AND t.ayah_to >= ?
            AND t.content_ar IS NOT NULL AND TRIM(t.content_ar) <> ''
          ORDER BY t.ayah_from`,
@@ -485,7 +485,7 @@ export class StudyRepo {
         this.db,
         `SELECT r.scope_id AS wid, r.reading_text AS text, r.reading_text_ar AS text_ar, r.is_contested AS contested
          FROM qr_ss_scope_reading r
-         JOIN qr_word_occurrences w ON w.id = r.scope_id
+         JOIN qr_word_occurrence w ON w.id = r.scope_id
          WHERE r.scope_type = 'word' AND r.reading_type = 'synthesis'
            AND w.surah = ? AND w.ayah BETWEEN ? AND ?`,
         [surah, from, to],
@@ -498,8 +498,8 @@ export class StudyRepo {
                 ev.locator, ev.content_text_ar AS text_ar, ev.is_disputed AS disputed
          FROM qr_ss_scope_reading r
          JOIN qr_ss_scope_reading_evidence_link l ON l.reading_id = r.id
-         JOIN qr_evidence_items ev ON ev.id = l.evidence_id
-         JOIN qr_word_occurrences w ON w.id = r.scope_id
+         JOIN qr_evidence ev ON ev.id = l.evidence_id
+         JOIN qr_word_occurrence w ON w.id = r.scope_id
          WHERE r.scope_type = 'word' AND r.reading_type = 'synthesis'
            AND w.surah = ? AND w.ayah BETWEEN ? AND ?`,
         [surah, from, to],
@@ -623,14 +623,14 @@ export class StudyRepo {
    * Fuses every available analytical layer for the passage, per sentence:
    *   • the clause hierarchy (qr_ss_occ_clause, nested via parent_clause_id)
    *     with each clause's words attached by word-index span;
-   *   • per-word iʿrāb grounding (qr_irab_book_entries) — the grammatical role
+   *   • per-word iʿrāb grounding (qr_irab_book_entry) — the grammatical role
    *     reconciled across the classical books by majority vote, with EVERY book's
    *     role + full iʿrāb text kept and attributed (the grammarian detail);
    *   • the authored word-level constituency tree (qr_ss_tree / qr_ss_tree_node)
    *     when one has been curated for the sentence;
    *   • balāgha annotations (qr_ss_scope_balagha_link) and ellipsis events
    *     (qr_ss_ellipsis_event) scoped to the sentence/clause;
-   *   • the mufassir discussion for the ayah (qr_tafsir_entries), attributed.
+   *   • the mufassir discussion for the ayah (qr_tafsir_entry), attributed.
    * Colours + Arabic/English labels come from the global term dictionary
    * (qr_ss_term). The per-word `root` lets the UI cross-reference the Five-Lens
    * lexicon lazily on tap.
@@ -673,7 +673,7 @@ export class StudyRepo {
                 lemma: string | null; pos: string | null }>(
           this.db,
           `SELECT id, ayah, word_index, word_text, word_text_bare, root, lemma, pos
-           FROM qr_word_occurrences
+           FROM qr_word_occurrence
            WHERE surah = ? AND ayah BETWEEN ? AND ?
            ORDER BY ayah, word_index`,
           [surah, from, to],
@@ -683,8 +683,8 @@ export class StudyRepo {
           this.db,
           `SELECT e.word_occurrence_id AS wid, w.ayah, e.source_slug, e.source_title,
                   e.grammar_role_ar AS role, e.irab_text_ar AS text
-           FROM qr_irab_book_entries e
-           JOIN qr_word_occurrences w ON w.id = e.word_occurrence_id
+           FROM qr_irab_book_entry e
+           JOIN qr_word_occurrence w ON w.id = e.word_occurrence_id
            WHERE w.surah = ? AND w.ayah BETWEEN ? AND ? AND e.word_link_status = 'linked'
              AND (e.grammar_role_ar IS NOT NULL OR e.irab_text_ar IS NOT NULL)`,
           [surah, from, to],
@@ -713,8 +713,8 @@ export class StudyRepo {
           this.db,
           `SELECT t.ayah_from, t.ayah_to, t.scholar_id, wk.title_ar AS work,
                   substr(t.content_ar, 1, 900) AS text
-           FROM qr_tafsir_entries t
-           LEFT JOIN qr_scholar_works wk ON wk.id = t.work_id
+           FROM qr_tafsir_entry t
+           LEFT JOIN qr_scholar_work wk ON wk.id = t.work_id
            WHERE t.surah = ? AND t.ayah_from <= ? AND t.ayah_to >= ?
              AND t.content_ar IS NOT NULL AND TRIM(t.content_ar) <> ''
            ORDER BY t.ayah_from`,
@@ -758,7 +758,7 @@ export class StudyRepo {
           `SELECT ayah_from AS ayah, source_slug, source_title, entry_order,
                   target_text_ar AS phrase, grammar_role_ar AS role,
                   grammar_case_ar AS gcase, mahal_ar AS mahal, irab_text_ar AS text
-           FROM qr_irab_book_entries
+           FROM qr_irab_book_entry
            WHERE surah = ? AND ayah_from BETWEEN ? AND ?
              AND irab_text_ar IS NOT NULL AND TRIM(irab_text_ar) <> ''
            ORDER BY ayah_from, source_slug, entry_order`,
@@ -998,7 +998,7 @@ export class StudyRepo {
   // ── Morphology / vocabulary (from the relational tables) ────────────────────
 
   /**
-   * Full per-word morphology for a passage, built from qr_word_occurrences (QAC)
+   * Full per-word morphology for a passage, built from qr_word_occurrence (QAC)
    * + qr_ss_scope_morph_link (iʿrāb) × qr_ss_term (labels) + qr_ss_occ_segment.
    * Every word emits a card, so this works for any surah (SML/segments fill in
    * where present). Returns the distinct root list for AL enrichment.
@@ -1027,7 +1027,7 @@ export class StudyRepo {
     const rows = await query<WordOccRow>(
       this.db,
       `SELECT id, surah, ayah, word_index, word_text, word_text_bare, root, lemma, pos, morphology_tag_json
-       FROM qr_word_occurrences WHERE id = ?`,
+       FROM qr_word_occurrence WHERE id = ?`,
       [wordId],
     ).catch(() => []);
     if (!rows.length) return null;
@@ -1046,7 +1046,7 @@ export class StudyRepo {
     const [t] = await query<{ text: string | null }>(
       this.db,
       `SELECT tr.translation_text AS text
-       FROM qr_translations tr JOIN qr_translation_sources ts ON ts.id = tr.source_id
+       FROM qr_translation tr JOIN qr_translation_source ts ON ts.id = tr.source_id
        WHERE ts.is_default = 1 AND tr.surah = ? AND tr.ayah = ? LIMIT 1`,
       [surah, ayah],
     ).catch(() => [] as { text: string | null }[]);
@@ -1058,7 +1058,7 @@ export class StudyRepo {
     const rows = await query<{ scholar_id: string; content_ar: string | null }>(
       this.db,
       `SELECT scholar_id, substr(content_ar, 1, 300) AS content_ar
-       FROM qr_tafsir_entries
+       FROM qr_tafsir_entry
        WHERE surah = ? AND ayah_from <= ? AND ayah_to >= ?
        ORDER BY scholar_id`,
       [surah, ayah, ayah],
@@ -1078,7 +1078,7 @@ export class StudyRepo {
       query<WordOccRow>(
         this.db,
         `SELECT id, surah, ayah, word_index, word_text, word_text_bare, root, lemma, pos, morphology_tag_json
-         FROM qr_word_occurrences
+         FROM qr_word_occurrence
          WHERE surah = ? AND ayah BETWEEN ? AND ?
          ORDER BY ayah, word_index`,
         [surahId, ayahFrom, ayahTo],
@@ -1105,7 +1105,7 @@ export class StudyRepo {
       query<{ word_occurrence_id: string; total_occurrences: number; lx_lemma_ref: string | null }>(
         this.db,
         `SELECT lo.word_occurrence_id, l.total_occurrences, l.lx_lemma_ref
-         FROM qr_lemma_occurrences lo JOIN qr_lemmas l ON l.id = lo.lemma_id
+         FROM qr_lemma_occurrence lo JOIN qr_lemma l ON l.id = lo.lemma_id
          WHERE lo.surah = ? AND lo.ayah BETWEEN ? AND ?`,
         [surahId, ayahFrom, ayahTo],
       ).catch(() => []),
@@ -1176,8 +1176,8 @@ export class StudyRepo {
               COALESCE(p.title_en, p.label) AS title,
               p.theme, p.status,
               s.name_ar, s.name_en
-       FROM qr_surah_study_passages p
-       LEFT JOIN qr_surahs s ON s.id = p.surah
+       FROM qr_surah_study_passage p
+       LEFT JOIN qr_surah s ON s.id = p.surah
        WHERE p.surah = ? AND p.status != 'deleted'
        ORDER BY p.passage_no`,
       [surahId],
@@ -1202,7 +1202,7 @@ export class StudyRepo {
               t.status,
               t.task_json     AS payload_json,
               t.updated_at
-       FROM qr_surah_study_tasks t
+       FROM qr_surah_study_task t
        WHERE t.passage_id = ?
        ORDER BY t.parent_task_id NULLS FIRST, COALESCE(t.step_no, 99999), t.id`,
       [passageId],
@@ -1212,7 +1212,7 @@ export class StudyRepo {
     const chunks = await query<{ task_id: string; chunk_index: number; chunk_text: string }>(
       this.db,
       `SELECT task_id, chunk_index, chunk_text
-       FROM qr_surah_study_task_json_chunks
+       FROM qr_surah_study_task_chunk
        WHERE passage_id = ?
        ORDER BY task_id, chunk_index`,
       [passageId],
@@ -1256,8 +1256,8 @@ export class StudyRepo {
       query<{ ayah: number; text: string }>(
         this.db,
         `SELECT t.ayah, t.translation_text AS text
-         FROM qr_translations t
-         JOIN qr_translation_sources ts ON ts.id = t.source_id
+         FROM qr_translation t
+         JOIN qr_translation_source ts ON ts.id = t.source_id
          WHERE ts.is_default = 1
            AND t.surah = ? AND t.ayah BETWEEN ? AND ?
          ORDER BY t.ayah`,
@@ -1273,7 +1273,7 @@ export class StudyRepo {
         `SELECT ayah, word_index AS position,
                 word_text AS text, word_text_bare AS simple,
                 lemma, root, pos
-         FROM qr_word_occurrences
+         FROM qr_word_occurrence
          WHERE surah = ? AND ayah BETWEEN ? AND ?
          ORDER BY ayah, word_index`,
         [passage.surah_id, passage.ayah_from, passage.ayah_to],
@@ -1317,7 +1317,7 @@ export class StudyRepo {
     });
   }
 
-  /** Vocabulary from qr_word_occurrences — fallback when morphology tasks lack payloads. */
+  /** Vocabulary from qr_word_occurrence — fallback when morphology tasks lack payloads. */
   private async _wordsAsVocabulary(passage: PassageRow) {
     const rows = await query<{
       word_id: string; ayah: number; position: number;
@@ -1333,7 +1333,7 @@ export class StudyRepo {
               lemma,
               root,
               pos
-       FROM qr_word_occurrences
+       FROM qr_word_occurrence
        WHERE surah = ? AND ayah BETWEEN ? AND ?
        ORDER BY ayah, word_index`,
       [passage.surah_id, passage.ayah_from, passage.ayah_to],
@@ -1354,8 +1354,8 @@ export class StudyRepo {
     const rows = await query<{ passage_id: string; task_type: string }>(
       this.db,
       `SELECT t.passage_id, t.task_type
-       FROM qr_surah_study_tasks t
-       JOIN qr_surah_study_passages p ON p.id = t.passage_id
+       FROM qr_surah_study_task t
+       JOIN qr_surah_study_passage p ON p.id = t.passage_id
        WHERE p.surah = ?
        GROUP BY t.passage_id, t.task_type`,
       [surahId],
@@ -1387,7 +1387,7 @@ export class StudyRepo {
               COUNT(*) AS total,
               SUM(CASE WHEN LOWER(COALESCE(pos, '')) = 'noun' THEN 1 ELSE 0 END) AS nouns,
               SUM(CASE WHEN LOWER(COALESCE(pos, '')) = 'verb' THEN 1 ELSE 0 END) AS verbs
-       FROM qr_word_occurrences
+       FROM qr_word_occurrence
        WHERE surah = ?
        GROUP BY ayah`,
       [surahId],
@@ -1519,7 +1519,7 @@ export function buildTaskTree(rows: RawTaskRow[]): StudyTask[] {
 
 /**
  * Extract vocabulary (nouns + verbs) from morphology task payloads.
- * Preferred over raw qr_word_occurrences when morphology tasks have payloads
+ * Preferred over raw qr_word_occurrence when morphology tasks have payloads
  * (richer data: glosses, verb forms, patterns).
  */
 export function vocabularyFromMorphology(

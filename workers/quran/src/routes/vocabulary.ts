@@ -18,7 +18,7 @@
 // New vs. legacy:
 //   Legacy queried two stale tables (quran_ayah_lemmas, ar_u_tokens) with no
 //   stable IDs and no cross-module refs. This version is entirely grounded in
-//   the canonical qr_word_occurrences table and uses AL:ULID refs.
+//   the canonical qr_word_occurrence table and uses AL:ULID refs.
 
 import type { Router } from '../../../shared/src/router';
 import { ok, badRequest, internalError } from '../../../shared/src/response';
@@ -33,7 +33,7 @@ type PosGroup = 'verbs' | 'nouns' | 'adjectives' | 'proper_nouns' | 'particles' 
 function normPos(tag: string | null): PosGroup {
   if (!tag) return 'other';
   const t = tag.toUpperCase();
-  // QAC short codes (dominant in qr_word_occurrences)
+  // QAC short codes (dominant in qr_word_occurrence)
   if (t === 'V'   || t === 'VERB')                        return 'verbs';
   if (t === 'N'   || t === 'NOUN' || t === 'IMPN')        return 'nouns';
   if (t === 'ADJ' || t === 'SUP')                         return 'adjectives';
@@ -133,7 +133,7 @@ export function vocabularyRoutes(router: Router<QuranEnv>) {
       params.push(limit);
 
       // GROUP BY lemma, root, pos — one row per unique lemma.
-      // qr_word_occurrences columns: lemma, root, pos, word_text (not lx_lemma_ref etc.)
+      // qr_word_occurrence columns: lemma, root, pos, word_text (not lx_lemma_ref etc.)
       // Alias to the VocabLemmaRow field names so the rest of the handler stays unchanged.
       // GROUP_CONCAT(DISTINCT word_text) gives up to ~5 sample surface forms (trimmed below).
       const rows = await query<VocabLemmaRow>(
@@ -146,7 +146,7 @@ export function vocabularyRoutes(router: Router<QuranEnv>) {
            GROUP_CONCAT(DISTINCT word_text) AS sample_forms,
            MIN(surah)       AS first_surah,
            MIN(ayah)        AS first_ayah
-         FROM qr_word_occurrences
+         FROM qr_word_occurrence
          WHERE ${conditions.join(' AND ')}
          GROUP BY lemma, root, pos
          ORDER BY ${orderBy}

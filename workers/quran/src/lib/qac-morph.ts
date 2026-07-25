@@ -1,6 +1,6 @@
 // ─── QAC morphology parser ────────────────────────────────────────────────────
 // Pure, I/O-free. Turns the QAC-derived `morphology_tag_json` stored on
-// qr_word_occurrences into a structured sarf card with Arabic + English labels.
+// qr_word_occurrence into a structured sarf card with Arabic + English labels.
 //
 // Input shape (QAC-0.4), e.g. for آيَاتُ:
 //   { source, raw, stem:{ tag:"N", flags:["FP","NOM"], features:{POS,LEM,ROOT},
@@ -194,7 +194,7 @@ function finishDerivation(feats: Partial<QacMorphology>): void {
   if (feats.aspect && feats.form) feats.wazn_ar = WAZN_VERB[feats.form] ?? null;
 }
 
-/** Parse a qr_word_occurrences.morphology_tag_json value into a sarf card. */
+/** Parse a qr_word_occurrence.morphology_tag_json value into a sarf card. */
 export function parseQacMorphology(json: unknown): QacMorphology {
   const obj = asObj(json);
   if (!obj) return { ...EMPTY };

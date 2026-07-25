@@ -1,4 +1,4 @@
-// ─── SrsRepo — ar_srs_decks + ar_srs_cards + ar_srs_reviews ──────────────────
+// ─── SrsRepo — ar_learn_srs_deck + ar_learn_srs_card + ar_learn_srs_review ──────────────────
 // The K-MAPS spaced-repetition engine. Decks hold Anki-style cards (explicit
 // front/back plus a typed resource_ref); each card tracks SM-2 scheduling
 // state. Reviews log every rating event. Scheduling math lives in
@@ -158,8 +158,8 @@ export class SrsRepo {
   decks(userRef: string, opts: PaginateOptions = {}) {
     return paginate<SrsDeck>(
       this.db,
-      `SELECT ${DECK_COLS} FROM ar_srs_decks WHERE core_user_ref = ? ORDER BY created_at DESC`,
-      `SELECT COUNT(*) AS count FROM ar_srs_decks WHERE core_user_ref = ?`,
+      `SELECT ${DECK_COLS} FROM ar_learn_srs_deck WHERE core_user_ref = ? ORDER BY created_at DESC`,
+      `SELECT COUNT(*) AS count FROM ar_learn_srs_deck WHERE core_user_ref = ?`,
       [userRef],
       opts,
     );
@@ -178,8 +178,8 @@ export class SrsRepo {
               COALESCE(SUM(
                 CASE WHEN c.suspended = 0
                       AND c.card_state = 'new' THEN 1 ELSE 0 END), 0) AS new_count
-       FROM ar_srs_decks d
-       LEFT JOIN ar_srs_cards c ON c.deck_id = d.id
+       FROM ar_learn_srs_deck d
+       LEFT JOIN ar_learn_srs_card c ON c.deck_id = d.id
        WHERE d.core_user_ref = ?
        GROUP BY d.id
        ORDER BY d.created_at DESC`,
@@ -190,7 +190,7 @@ export class SrsRepo {
   findDeckById(id: string): Promise<SrsDeck | null> {
     return queryOne<SrsDeck>(
       this.db,
-      `SELECT ${DECK_COLS} FROM ar_srs_decks WHERE id = ?`,
+      `SELECT ${DECK_COLS} FROM ar_learn_srs_deck WHERE id = ?`,
       [id],
     );
   }
@@ -200,7 +200,7 @@ export class SrsRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_srs_decks
+      `INSERT INTO ar_learn_srs_deck
          (id, core_user_ref, core_ws_ref, title, deck_type,
           description, card_count, is_shared, meta_json, created_at)
        VALUES (?, ?, ?, ?, ?, ?, 0, ?, ?, ?)`,
@@ -228,7 +228,7 @@ export class SrsRepo {
     if (patch.is_shared   !== undefined) { sets.push('is_shared = ?');   vals.push(patch.is_shared); }
     if (sets.length === 0) return this.findDeckById(id);
     vals.push(id);
-    await execute(this.db, `UPDATE ar_srs_decks SET ${sets.join(', ')} WHERE id = ?`, vals);
+    await execute(this.db, `UPDATE ar_learn_srs_deck SET ${sets.join(', ')} WHERE id = ?`, vals);
     return this.findDeckById(id);
   }
 
@@ -236,11 +236,11 @@ export class SrsRepo {
   async deleteDeck(id: string): Promise<void> {
     await execute(
       this.db,
-      `DELETE FROM ar_srs_reviews WHERE card_id IN (SELECT id FROM ar_srs_cards WHERE deck_id = ?)`,
+      `DELETE FROM ar_learn_srs_review WHERE card_id IN (SELECT id FROM ar_learn_srs_card WHERE deck_id = ?)`,
       [id],
     );
-    await execute(this.db, `DELETE FROM ar_srs_cards WHERE deck_id = ?`, [id]);
-    await execute(this.db, `DELETE FROM ar_srs_decks WHERE id = ?`, [id]);
+    await execute(this.db, `DELETE FROM ar_learn_srs_card WHERE deck_id = ?`, [id]);
+    await execute(this.db, `DELETE FROM ar_learn_srs_deck WHERE id = ?`, [id]);
   }
 
   // ── Cards ────────────────────────────────────────────────────────────────────
@@ -249,7 +249,7 @@ export class SrsRepo {
   cardsInDeck(deckId: string): Promise<SrsCard[]> {
     return query<SrsCard>(
       this.db,
-      `SELECT ${CARD_COLS} FROM ar_srs_cards WHERE deck_id = ? ORDER BY created_at DESC`,
+      `SELECT ${CARD_COLS} FROM ar_learn_srs_card WHERE deck_id = ? ORDER BY created_at DESC`,
       [deckId],
     );
   }
@@ -259,7 +259,7 @@ export class SrsRepo {
     const now = new Date().toISOString();
     return query<SrsCard>(
       this.db,
-      `SELECT ${CARD_COLS} FROM ar_srs_cards
+      `SELECT ${CARD_COLS} FROM ar_learn_srs_card
        WHERE deck_id = ? AND core_user_ref = ? AND suspended = 0
          AND (next_review_at IS NULL OR next_review_at <= ?)
        ORDER BY next_review_at IS NOT NULL, next_review_at ASC, created_at ASC
@@ -273,7 +273,7 @@ export class SrsRepo {
     const now = new Date().toISOString();
     return query<SrsCard>(
       this.db,
-      `SELECT ${CARD_COLS} FROM ar_srs_cards
+      `SELECT ${CARD_COLS} FROM ar_learn_srs_card
        WHERE core_user_ref = ? AND suspended = 0
          AND (next_review_at IS NULL OR next_review_at <= ?)
        ORDER BY next_review_at IS NOT NULL, next_review_at ASC, created_at ASC
@@ -285,7 +285,7 @@ export class SrsRepo {
   findCardById(id: string): Promise<SrsCard | null> {
     return queryOne<SrsCard>(
       this.db,
-      `SELECT ${CARD_COLS} FROM ar_srs_cards WHERE id = ?`,
+      `SELECT ${CARD_COLS} FROM ar_learn_srs_card WHERE id = ?`,
       [id],
     );
   }
@@ -295,7 +295,7 @@ export class SrsRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_srs_cards
+      `INSERT INTO ar_learn_srs_card
          (id, deck_id, core_user_ref, resource_ref, resource_type,
           card_template, front_text, back_text, extra_json, tags, suspended,
           stability, difficulty, elapsed_days, scheduled_days,
@@ -320,7 +320,7 @@ export class SrsRepo {
     );
     await execute(
       this.db,
-      `UPDATE ar_srs_decks SET card_count = card_count + 1 WHERE id = ?`,
+      `UPDATE ar_learn_srs_deck SET card_count = card_count + 1 WHERE id = ?`,
       [input.deck_id],
     );
     return (await this.findCardById(id))!;
@@ -349,16 +349,16 @@ export class SrsRepo {
     if (patch.next_review_at !== undefined) set('next_review_at', patch.next_review_at);
 
     vals.push(id);
-    await execute(this.db, `UPDATE ar_srs_cards SET ${sets.join(', ')} WHERE id = ?`, vals);
+    await execute(this.db, `UPDATE ar_learn_srs_card SET ${sets.join(', ')} WHERE id = ?`, vals);
     return this.findCardById(id);
   }
 
   async deleteCard(card: SrsCard): Promise<void> {
-    await execute(this.db, `DELETE FROM ar_srs_reviews WHERE card_id = ?`, [card.id]);
-    await execute(this.db, `DELETE FROM ar_srs_cards WHERE id = ?`, [card.id]);
+    await execute(this.db, `DELETE FROM ar_learn_srs_review WHERE card_id = ?`, [card.id]);
+    await execute(this.db, `DELETE FROM ar_learn_srs_card WHERE id = ?`, [card.id]);
     await execute(
       this.db,
-      `UPDATE ar_srs_decks SET card_count = MAX(0, card_count - 1) WHERE id = ?`,
+      `UPDATE ar_learn_srs_deck SET card_count = MAX(0, card_count - 1) WHERE id = ?`,
       [card.deck_id],
     );
   }
@@ -370,7 +370,7 @@ export class SrsRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_srs_reviews
+      `INSERT INTO ar_learn_srs_review
          (id, card_id, core_user_ref, rating, stability_after,
           difficulty_after, scheduled_days_after, state_after,
           review_duration_secs, reviewed_at)
@@ -390,7 +390,7 @@ export class SrsRepo {
     );
     return (await queryOne<SrsReview>(
       this.db,
-      `SELECT ${REVIEW_COLS} FROM ar_srs_reviews WHERE id = ?`,
+      `SELECT ${REVIEW_COLS} FROM ar_learn_srs_review WHERE id = ?`,
       [id],
     ))!;
   }
@@ -402,7 +402,7 @@ export class SrsRepo {
     const row = await queryOne<Record<string, number>>(
       this.db,
       `SELECT
-         (SELECT COUNT(*) FROM ar_srs_decks WHERE core_user_ref = ?) AS decks,
+         (SELECT COUNT(*) FROM ar_learn_srs_deck WHERE core_user_ref = ?) AS decks,
          COUNT(*) AS cards,
          SUM(CASE WHEN suspended = 0 AND next_review_at IS NOT NULL
                    AND next_review_at <= ? THEN 1 ELSE 0 END) AS due,
@@ -411,7 +411,7 @@ export class SrsRepo {
                    AND card_state IN ('learning', 'relearning') THEN 1 ELSE 0 END) AS learning,
          SUM(CASE WHEN suspended = 0 AND card_state = 'review' THEN 1 ELSE 0 END) AS review,
          SUM(CASE WHEN suspended = 1 THEN 1 ELSE 0 END) AS suspended
-       FROM ar_srs_cards WHERE core_user_ref = ?`,
+       FROM ar_learn_srs_card WHERE core_user_ref = ?`,
       [userRef, now, userRef],
     );
     return {

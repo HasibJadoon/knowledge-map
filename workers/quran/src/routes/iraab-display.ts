@@ -113,8 +113,8 @@ export function iraabDisplayRoutes(router: Router<QuranEnv>) {
                s.badge_color, s.badge_glyph,
                s.short_description, s.long_description, s.cover_image_url,
                s.display_order, s.is_visible,
-               (SELECT COUNT(*) FROM qr_iraab_book_display_blocks b WHERE b.source_slug = s.source_slug) AS block_count
-        FROM qr_iraab_book_display_sources s
+               (SELECT COUNT(*) FROM qr_irab_book_display_block b WHERE b.source_slug = s.source_slug) AS block_count
+        FROM qr_irab_book_display_source s
         WHERE s.is_visible = 1
         ORDER BY s.display_order ASC, s.source_slug
       `).all();
@@ -135,7 +135,7 @@ export function iraabDisplayRoutes(router: Router<QuranEnv>) {
     const groupSql = `
       SELECT DISTINCT source_slug, ayah_group_key,
              MIN(ayah_no) AS group_start, MAX(COALESCE(ayah_to, ayah_no)) AS group_end
-      FROM qr_iraab_book_display_blocks
+      FROM qr_irab_book_display_block
       WHERE surah_no = ?
         AND ayah_no <= ? AND COALESCE(ayah_to, ayah_no) >= ?
         ${slug ? 'AND source_slug = ?' : ''}
@@ -154,7 +154,7 @@ export function iraabDisplayRoutes(router: Router<QuranEnv>) {
     const groupKeys = [...new Set(groupRes.results.map((r: GroupResolverRow) => r.ayah_group_key))];
     const placeholders = groupKeys.map(() => '?').join(',');
     const blockSql = `
-      SELECT * FROM qr_iraab_book_display_blocks
+      SELECT * FROM qr_irab_book_display_block
       WHERE surah_no = ?
         AND ayah_group_key IN (${placeholders})
         ${slug ? 'AND source_slug = ?' : ''}
@@ -173,16 +173,16 @@ export function iraabDisplayRoutes(router: Router<QuranEnv>) {
     const idPlaceholders = blockIds.map(() => '?').join(',');
 
     const [tagsRes, refsRes, notesRes] = await Promise.all([
-      env.DB_QR.prepare(`SELECT * FROM qr_iraab_book_display_tags WHERE block_id IN (${idPlaceholders})`).bind(...blockIds).all(),
-      env.DB_QR.prepare(`SELECT * FROM qr_iraab_book_display_refs WHERE block_id IN (${idPlaceholders})`).bind(...blockIds).all(),
-      env.DB_QR.prepare(`SELECT * FROM qr_iraab_book_display_notes WHERE block_id IN (${idPlaceholders}) AND review_status != 'rejected'`).bind(...blockIds).all(),
+      env.DB_QR.prepare(`SELECT * FROM qr_irab_book_display_tag WHERE block_id IN (${idPlaceholders})`).bind(...blockIds).all(),
+      env.DB_QR.prepare(`SELECT * FROM qr_irab_book_display_ref WHERE block_id IN (${idPlaceholders})`).bind(...blockIds).all(),
+      env.DB_QR.prepare(`SELECT * FROM qr_irab_book_display_note WHERE block_id IN (${idPlaceholders}) AND review_status != 'rejected'`).bind(...blockIds).all(),
     ]);
 
     // 4) Source registry — only the sources actually present.
     const presentSlugs: string[] = Array.from(new Set(blocks.map((b: { source_slug: string }) => b.source_slug)));
     const slugPlaceholders = presentSlugs.map(() => '?').join(',');
     const sourcesRes = await env.DB_QR
-      .prepare(`SELECT * FROM qr_iraab_book_display_sources WHERE source_slug IN (${slugPlaceholders}) ORDER BY display_order ASC`)
+      .prepare(`SELECT * FROM qr_irab_book_display_source WHERE source_slug IN (${slugPlaceholders}) ORDER BY display_order ASC`)
       .bind(...presentSlugs).all();
 
     // 5) Group envelope: pick the widest span across sources for the canonical
@@ -223,7 +223,7 @@ export function iraabDisplayRoutes(router: Router<QuranEnv>) {
 
     // FTS5 with diacritic-folded unicode61 tokenizer (configured in migration).
     // `snippet()` highlights the matched terms with «…» markers; we cap at 12 tokens.
-    const where: string[] = ['qr_iraab_book_display_blocks_fts MATCH ?'];
+    const where: string[] = ['qr_irab_book_display_block_fts MATCH ?'];
     const params: unknown[] = [q];
     if (surah)  { where.push('surah_no = ?');     params.push(parseInt(surah, 10)); }
     if (bType)  { where.push('block_type = ?');   params.push(bType); }
@@ -231,9 +231,9 @@ export function iraabDisplayRoutes(router: Router<QuranEnv>) {
 
     const sql = `
       SELECT block_id, source_slug, surah_no, ayah_no, ayah_key, ayah_group_key, block_type,
-             snippet(qr_iraab_book_display_blocks_fts, -1, '«', '»', '…', 12) AS hit,
-             bm25(qr_iraab_book_display_blocks_fts) AS rank_score
-      FROM qr_iraab_book_display_blocks_fts
+             snippet(qr_irab_book_display_block_fts, -1, '«', '»', '…', 12) AS hit,
+             bm25(qr_irab_book_display_block_fts) AS rank_score
+      FROM qr_irab_book_display_block_fts
       WHERE ${where.join(' AND ')}
       ORDER BY rank_score
       LIMIT ?

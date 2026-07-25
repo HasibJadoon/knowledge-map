@@ -1,4 +1,4 @@
-// ─── SurahRepo — all SQL for qr_surahs ────────────────────────────────────────
+// ─── SurahRepo — all SQL for qr_surah ────────────────────────────────────────
 
 import { query, queryOne, execute } from '../../../shared/src/db';
 import type { Surah, SurahPatch } from '../schemas/surah.schema';
@@ -11,7 +11,7 @@ export class SurahRepo {
       this.db,
       `SELECT id, name_ar, name_en, name_transliteration,
               revelation_type, ayah_count, juz_start, page_start
-       FROM qr_surahs
+       FROM qr_surah
        ORDER BY id`,
     );
   }
@@ -21,7 +21,7 @@ export class SurahRepo {
       this.db,
       `SELECT id, name_ar, name_en, name_transliteration,
               revelation_type, ayah_count, juz_start, page_start
-       FROM qr_surahs
+       FROM qr_surah
        WHERE id = ?`,
       [id],
     );
@@ -40,7 +40,7 @@ export class SurahRepo {
     if (sets.length === 0) return this.findById(id);
 
     vals.push(id);
-    await execute(this.db, `UPDATE qr_surahs SET ${sets.join(', ')} WHERE id = ?`, vals);
+    await execute(this.db, `UPDATE qr_surah SET ${sets.join(', ')} WHERE id = ?`, vals);
     return this.findById(id);
   }
 }

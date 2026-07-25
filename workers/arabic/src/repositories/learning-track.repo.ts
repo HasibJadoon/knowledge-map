@@ -1,4 +1,4 @@
-// ─── LearningTrackRepo — ar_learning_tracks + ar_user_track_profiles ──────────
+// ─── LearningTrackRepo — ar_curriculum_track + ar_learn_track_profile ──────────
 // Fluency tracks (Quranic, Classical, MSA, Sarf, Nahw, Balagha) and per-user
 // learner state. XP accumulates per track; current_level is a CEFR band.
 
@@ -71,8 +71,8 @@ export class LearningTrackRepo {
   list(opts: PaginateOptions = {}) {
     return paginate<LearningTrack>(
       this.db,
-      `SELECT ${TRACK_COLS} FROM ar_learning_tracks ORDER BY sort_order, title`,
-      `SELECT COUNT(*) AS count FROM ar_learning_tracks`,
+      `SELECT ${TRACK_COLS} FROM ar_curriculum_track ORDER BY sort_order, title`,
+      `SELECT COUNT(*) AS count FROM ar_curriculum_track`,
       [],
       opts,
     );
@@ -81,7 +81,7 @@ export class LearningTrackRepo {
   findById(id: string): Promise<LearningTrack | null> {
     return queryOne<LearningTrack>(
       this.db,
-      `SELECT ${TRACK_COLS} FROM ar_learning_tracks WHERE id = ?`,
+      `SELECT ${TRACK_COLS} FROM ar_curriculum_track WHERE id = ?`,
       [id],
     );
   }
@@ -89,7 +89,7 @@ export class LearningTrackRepo {
   findBySlug(slug: string): Promise<LearningTrack | null> {
     return queryOne<LearningTrack>(
       this.db,
-      `SELECT ${TRACK_COLS} FROM ar_learning_tracks WHERE slug = ?`,
+      `SELECT ${TRACK_COLS} FROM ar_curriculum_track WHERE slug = ?`,
       [slug],
     );
   }
@@ -99,7 +99,7 @@ export class LearningTrackRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_learning_tracks
+      `INSERT INTO ar_curriculum_track
          (id, slug, title, title_ar, track_type, cefr_from, cefr_to,
           description_md, prerequisites_json, sort_order, is_public, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -126,7 +126,7 @@ export class LearningTrackRepo {
   userProfile(userRef: string, trackId: string): Promise<UserTrackProfile | null> {
     return queryOne<UserTrackProfile>(
       this.db,
-      `SELECT ${PROFILE_COLS} FROM ar_user_track_profiles
+      `SELECT ${PROFILE_COLS} FROM ar_learn_track_profile
        WHERE core_user_ref = ? AND track_id = ?`,
       [userRef, trackId],
     );
@@ -150,7 +150,7 @@ export class LearningTrackRepo {
         vals.push(existing.id);
         await execute(
           this.db,
-          `UPDATE ar_user_track_profiles SET ${sets.join(', ')} WHERE id = ?`,
+          `UPDATE ar_learn_track_profile SET ${sets.join(', ')} WHERE id = ?`,
           vals,
         );
       }
@@ -160,7 +160,7 @@ export class LearningTrackRepo {
     const id = typedId('AR');
     await execute(
       this.db,
-      `INSERT INTO ar_user_track_profiles
+      `INSERT INTO ar_learn_track_profile
          (id, core_user_ref, track_id, current_level, started_at, last_activity_at, total_xp, meta_json)
        VALUES (?, ?, ?, ?, ?, ?, 0, ?)`,
       [
@@ -183,7 +183,7 @@ export class LearningTrackRepo {
     await this.upsertProfile(userRef, trackId, { last_activity_at: now });
     await execute(
       this.db,
-      `UPDATE ar_user_track_profiles
+      `UPDATE ar_learn_track_profile
        SET total_xp = total_xp + ?, last_activity_at = ?
        WHERE core_user_ref = ? AND track_id = ?`,
       [xp, now, userRef, trackId],

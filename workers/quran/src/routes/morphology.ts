@@ -10,10 +10,10 @@
 //
 //   ALL shaping happens here — the client is a logic-free renderer. Two data
 //   layers are merged:
-//     • BASE  — qr_word_occurrences (QAC-0.4). Full coverage: every content
+//     • BASE  — qr_word_occurrence (QAC-0.4). Full coverage: every content
 //               word of every surah. Gives lemma, surface, root, POS, and the
 //               derived type (participle / adjective) parsed from the QAC flags.
-//     • RICH  — qr_morph_display_words (the curated Memlet display layer). A
+//     • RICH  — qr_morph_display_word (the curated Memlet display layer). A
 //               LEFT JOIN enriches promoted words with an authored gloss, sense
 //               list, wazn/form, and root meaning. Absent → the card gracefully
 //               shows the QAC essentials only.
@@ -28,7 +28,7 @@ import { parseIntParam } from '../../../shared/src/validate';
 import type { QuranEnv } from '../env';
 import { buildFeats, rangeOf, waznOf, type MorphFeat } from '../lib/morph-card';
 
-// ── Joined row (BASE qr_word_occurrences ⟕ RICH qr_morph_display_words) ────────
+// ── Joined row (BASE qr_word_occurrence ⟕ RICH qr_morph_display_word) ────────
 
 interface JoinedRow {
   surah: number;
@@ -213,13 +213,13 @@ export function morphologyRoutes(router: Router<QuranEnv>) {
             d.sense_range_en      AS d_sense_range_en,
             d.verb_form_ar        AS d_verb_form_ar,
             ql.wazn_ar            AS l_wazn_ar
-          FROM qr_word_occurrences w
-          LEFT JOIN qr_morph_display_words d
+          FROM qr_word_occurrence w
+          LEFT JOIN qr_morph_display_word d
             ON d.surah_no = w.surah
            AND d.ayah_no  = w.ayah
            AND d.word_index = w.word_index
            AND d.status = 'live'
-          LEFT JOIN qr_lemmas ql ON ql.lemma_text = w.lemma
+          LEFT JOIN qr_lemma ql ON ql.lemma_text = w.lemma
           WHERE ${conditions.join(' AND ')}
           ORDER BY w.ayah, w.word_index`,
         params,

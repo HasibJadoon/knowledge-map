@@ -1,7 +1,7 @@
 // ─── OuterHorizonRepo — Layer 11: Outer Historical + Textual + Civilizational ─
 // Tables: qr_context_topics, qr_context_topic_links, qr_context_claims,
-//         qr_context_evidence_items, qr_context_evidence_links,
-//         qr_historical_context_profiles,
+//         qr_evidence, qr_context_evidence_links,
+//         qr_historical_context,
 //         qr_academic_question_registry, qr_academic_positions
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
@@ -328,7 +328,7 @@ export class OuterHorizonRepo {
       `SELECT cei.id, cei.evidence_type, cei.provenance, cei.locator,
               cei.content_text, cei.is_disputed, cei.dispute_note,
               cei.note_md, cei.created_at
-       FROM qr_context_evidence_items cei
+       FROM qr_evidence cei
        INNER JOIN qr_context_evidence_links cel
          ON cel.evidence_id = cei.id
        WHERE cel.claim_id = ?
@@ -340,7 +340,7 @@ export class OuterHorizonRepo {
   findContextEvidenceById(id: string): Promise<ContextEvidenceItem | null> {
     return queryOne<ContextEvidenceItem>(
       this.db,
-      `SELECT ${CEI_COLS} FROM qr_context_evidence_items WHERE id = ?`,
+      `SELECT ${CEI_COLS} FROM qr_evidence WHERE id = ?`,
       [id],
     );
   }
@@ -349,7 +349,7 @@ export class OuterHorizonRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_context_evidence_items
+      `INSERT INTO qr_evidence
          (id, evidence_type, provenance, locator, content_text,
           is_disputed, dispute_note, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -398,14 +398,14 @@ export class OuterHorizonRepo {
       // Single-surah lookup — skip paginate overhead
       return queryOne<HistoricalContextProfile>(
         this.db,
-        `SELECT ${HCP_COLS} FROM qr_historical_context_profiles WHERE surah = ?`,
+        `SELECT ${HCP_COLS} FROM qr_historical_context WHERE surah = ?`,
         [surahId],
       );
     }
     return paginate<HistoricalContextProfile>(
       this.db,
-      `SELECT ${HCP_COLS} FROM qr_historical_context_profiles ORDER BY surah`,
-      `SELECT COUNT(*) AS count FROM qr_historical_context_profiles`,
+      `SELECT ${HCP_COLS} FROM qr_historical_context ORDER BY surah`,
+      `SELECT COUNT(*) AS count FROM qr_historical_context`,
       [],
       opts,
     );
@@ -417,14 +417,14 @@ export class OuterHorizonRepo {
   ): Promise<HistoricalContextProfile> {
     const existing = await queryOne<{ surah: number }>(
       this.db,
-      `SELECT surah FROM qr_historical_context_profiles WHERE surah = ?`,
+      `SELECT surah FROM qr_historical_context WHERE surah = ?`,
       [surahId],
     );
 
     if (existing) {
       await execute(
         this.db,
-        `UPDATE qr_historical_context_profiles SET
+        `UPDATE qr_historical_context SET
            arabian_milieu = ?,
            political_context = ?,
            late_antique_setting = ?,
@@ -443,7 +443,7 @@ export class OuterHorizonRepo {
     } else {
       await execute(
         this.db,
-        `INSERT INTO qr_historical_context_profiles
+        `INSERT INTO qr_historical_context
            (surah, arabian_milieu, political_context,
             late_antique_setting, inter_scriptural_env, note_md)
          VALUES (?, ?, ?, ?, ?, ?)`,
@@ -460,7 +460,7 @@ export class OuterHorizonRepo {
 
     return (await queryOne<HistoricalContextProfile>(
       this.db,
-      `SELECT ${HCP_COLS} FROM qr_historical_context_profiles WHERE surah = ?`,
+      `SELECT ${HCP_COLS} FROM qr_historical_context WHERE surah = ?`,
       [surahId],
     ))!;
   }

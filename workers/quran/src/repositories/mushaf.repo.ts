@@ -52,7 +52,7 @@ export class MushafRepo {
       this.db,
       `SELECT line_number, line_type, is_centered, first_token_id, last_token_id,
               surah_number, text_qpc_hafs, tokens_json
-       FROM qr_mushaf_layout_lines
+       FROM qr_mushaf_layout_line
        WHERE layout_key = ? AND page_number = ?
        ORDER BY line_number`,
       [layoutKey, pageNo],
@@ -72,7 +72,7 @@ export class MushafRepo {
           this.db,
           `SELECT id, name_ar, name_en, name_transliteration,
                   revelation_type, ayah_count, juz_start, page_start
-           FROM qr_surahs
+           FROM qr_surah
            WHERE id IN (${surahIds.map(() => '?').join(',')})
            ORDER BY id`,
           surahIds,
@@ -81,7 +81,7 @@ export class MushafRepo {
 
     // Bulk-fetch morphology+plain text for every word token on this page.
     // tokens_json only carries QPC PUA codepoints — the human-readable
-    // Arabic + root/lemma live in qr_word_occurrences, keyed by
+    // Arabic + root/lemma live in qr_word_occurrence, keyed by
     // (surah, ayah, word_index). One query for the whole page beats N queries.
     const wordTokens = allTokens.filter(t => t.char_type === 'word');
     const wordMap = await this.fetchWordOccurrences(wordTokens);
@@ -147,7 +147,7 @@ export class MushafRepo {
       this.db,
       `SELECT surah, ayah, word_index, word_text, word_text_bare,
               root, lemma, pos, morphology_tag, morphology_tag_json
-       FROM qr_word_occurrences
+       FROM qr_word_occurrence
        WHERE ${conds}`,
       params,
     );

@@ -1,6 +1,6 @@
 // ─── Translation schemas & types ──────────────────────────────────────────────
 
-// ── qr_translation_sources ───────────────────────────────────────────────────
+// ── qr_translation_source ───────────────────────────────────────────────────
 
 export interface QrTranslationSource {
   id: string;                         // QR:ULID
@@ -27,7 +27,7 @@ export interface QrTranslationSourcePatch {
   is_default?: boolean;
 }
 
-// ── qr_translations ───────────────────────────────────────────────────────────
+// ── qr_translation ───────────────────────────────────────────────────────────
 
 export interface QrTranslation {
   id: string;                         // QR:ULID

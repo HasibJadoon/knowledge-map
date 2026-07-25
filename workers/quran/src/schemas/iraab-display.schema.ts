@@ -115,8 +115,8 @@ export interface QrIraabBookDisplaySourceRow {
 export interface QrIraabBookDisplayBlockRow {
   id: string;
   source_id: string | null;
-  source_chunk_id: string | null;       // → qr_irab_source_chunks.id  (Phase B/C)
-  source_entry_id: string | null;       // → qr_irab_book_entries.id   (Phase A)
+  source_chunk_id: string | null;       // → qr_irab_source_chunk.id  (Phase B/C)
+  source_entry_id: string | null;       // → qr_irab_book_entry.id   (Phase A)
   source_slug: string;
   book_title: string | null;
   author: string | null;

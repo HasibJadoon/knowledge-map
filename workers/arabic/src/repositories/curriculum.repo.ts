@@ -1,4 +1,4 @@
-// ─── CurriculumRepo — ar_curricula + ar_curriculum_units ─────────────────────
+// ─── CurriculumRepo — ar_curriculum + ar_curriculum_unit ─────────────────────
 // Formal 3-discipline curriculum trees (nahw, sarf, balagha, combined).
 // Units form a tree (parent_id self-ref) and carry AL:ULID concept refs.
 
@@ -82,8 +82,8 @@ export class CurriculumRepo {
     const params = trackId ? [trackId] : [];
     return paginate<Curriculum>(
       this.db,
-      `SELECT ${CURR_COLS} FROM ar_curricula ${where} ORDER BY sort_order, title`,
-      `SELECT COUNT(*) AS count FROM ar_curricula ${where}`,
+      `SELECT ${CURR_COLS} FROM ar_curriculum ${where} ORDER BY sort_order, title`,
+      `SELECT COUNT(*) AS count FROM ar_curriculum ${where}`,
       params,
       opts,
     );
@@ -92,7 +92,7 @@ export class CurriculumRepo {
   findById(id: string): Promise<Curriculum | null> {
     return queryOne<Curriculum>(
       this.db,
-      `SELECT ${CURR_COLS} FROM ar_curricula WHERE id = ?`,
+      `SELECT ${CURR_COLS} FROM ar_curriculum WHERE id = ?`,
       [id],
     );
   }
@@ -100,7 +100,7 @@ export class CurriculumRepo {
   findBySlug(slug: string): Promise<Curriculum | null> {
     return queryOne<Curriculum>(
       this.db,
-      `SELECT ${CURR_COLS} FROM ar_curricula WHERE slug = ?`,
+      `SELECT ${CURR_COLS} FROM ar_curriculum WHERE slug = ?`,
       [slug],
     );
   }
@@ -110,7 +110,7 @@ export class CurriculumRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_curricula
+      `INSERT INTO ar_curriculum
          (id, slug, title, discipline, level, track_id, container_id,
           description_md, sort_order, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -136,7 +136,7 @@ export class CurriculumRepo {
   units(curriculumId: string): Promise<CurriculumUnit[]> {
     return query<CurriculumUnit>(
       this.db,
-      `SELECT ${UNIT_COLS} FROM ar_curriculum_units
+      `SELECT ${UNIT_COLS} FROM ar_curriculum_unit
        WHERE curriculum_id = ?
        ORDER BY unit_index`,
       [curriculumId],
@@ -146,7 +146,7 @@ export class CurriculumRepo {
   findUnitById(id: string): Promise<CurriculumUnit | null> {
     return queryOne<CurriculumUnit>(
       this.db,
-      `SELECT ${UNIT_COLS} FROM ar_curriculum_units WHERE id = ?`,
+      `SELECT ${UNIT_COLS} FROM ar_curriculum_unit WHERE id = ?`,
       [id],
     );
   }
@@ -156,7 +156,7 @@ export class CurriculumRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_curriculum_units
+      `INSERT INTO ar_curriculum_unit
          (id, curriculum_id, parent_id, title, al_concept_ref,
           unit_index, description_md, examples_json, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -187,7 +187,7 @@ export class CurriculumRepo {
     vals.push(id);
     await execute(
       this.db,
-      `UPDATE ar_curriculum_units SET ${sets.join(', ')} WHERE id = ?`,
+      `UPDATE ar_curriculum_unit SET ${sets.join(', ')} WHERE id = ?`,
       vals,
     );
     return this.findUnitById(id);

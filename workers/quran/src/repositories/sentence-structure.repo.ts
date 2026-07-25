@@ -2,14 +2,14 @@
 //
 // Tables covered:
 //   qr_ss_occ_segment, qr_ss_occ_sentence, qr_ss_occ_clause, qr_ss_occ_phrase
-//   qr_ss_scope_member_map, qr_ss_scope_relations, qr_ss_syntax_relations
+//   qr_ss_scope_member_map, qr_ss_scope_link, qr_ss_syntax_link
 //   qr_ss_scope_morph_link, qr_ss_scope_grammar_link, qr_ss_scope_balagha_link
 //   qr_ss_scope_nuance, qr_ss_ellipsis_event, qr_ss_scope_reading,
 //   qr_ss_scope_reading_evidence_link, qr_ss_tree, qr_ss_tree_node,
-//   qr_ss_tree_edge, qr_ss_tree_layout_cache
+//   qr_ss_tree_edge, qr_ss_tree_layout
 //
 // ARCHITECTURE RULES (do not violate):
-//   • qr_word_occurrences = single canonical word owner; no qr_ss_occ_word
+//   • qr_word_occurrence = single canonical word owner; no qr_ss_occ_word
 //   • qr_ss_occ_segment = sub-word attached elements only
 //   • Scope rows populate BEFORE tree rows are generated
 //   • Tree rows are downstream projections, NOT the primary store of truth
@@ -659,17 +659,17 @@ export class SentenceStructureRepo {
     );
   }
 
-  // ── qr_ss_scope_relations ──────────────────────────────────────────────────
+  // ── qr_ss_scope_link ──────────────────────────────────────────────────
 
   scopeRelations(scopeRef: { from_scope_type: string; from_scope_id: string }, opts: PaginateOptions = {}) {
     return paginate<ScopeRelation>(
       this.db,
       `SELECT id, from_scope_type, from_scope_id, to_scope_type, to_scope_id,
               relation_type, lx_relation_ref, note_md, created_at
-       FROM qr_ss_scope_relations
+       FROM qr_ss_scope_link
        WHERE from_scope_type = ? AND from_scope_id = ?
        ORDER BY created_at`,
-      `SELECT COUNT(*) AS count FROM qr_ss_scope_relations WHERE from_scope_type = ? AND from_scope_id = ?`,
+      `SELECT COUNT(*) AS count FROM qr_ss_scope_link WHERE from_scope_type = ? AND from_scope_id = ?`,
       [scopeRef.from_scope_type, scopeRef.from_scope_id],
       opts,
     );
@@ -680,7 +680,7 @@ export class SentenceStructureRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_ss_scope_relations
+      `INSERT INTO qr_ss_scope_link
          (id, from_scope_type, from_scope_id, to_scope_type, to_scope_id,
           relation_type, lx_relation_ref, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -700,22 +700,22 @@ export class SentenceStructureRepo {
       this.db,
       `SELECT id, from_scope_type, from_scope_id, to_scope_type, to_scope_id,
               relation_type, lx_relation_ref, note_md, created_at
-       FROM qr_ss_scope_relations WHERE id = ?`,
+       FROM qr_ss_scope_link WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_ss_syntax_relations ─────────────────────────────────────────────────
+  // ── qr_ss_syntax_link ─────────────────────────────────────────────────
 
   syntaxRelations(surah: number, opts: PaginateOptions = {}) {
     return paginate<SyntaxRelation>(
       this.db,
       `SELECT id, surah, ayah, head_word_id, dep_word_id, relation_label,
               lx_rel_type_ref, note_md, created_at
-       FROM qr_ss_syntax_relations
+       FROM qr_ss_syntax_link
        WHERE surah = ?
        ORDER BY ayah, created_at`,
-      `SELECT COUNT(*) AS count FROM qr_ss_syntax_relations WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_ss_syntax_link WHERE surah = ?`,
       [surah],
       opts,
     );
@@ -726,7 +726,7 @@ export class SentenceStructureRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_ss_syntax_relations
+      `INSERT INTO qr_ss_syntax_link
          (id, surah, ayah, head_word_id, dep_word_id, relation_label, lx_rel_type_ref, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -745,7 +745,7 @@ export class SentenceStructureRepo {
       this.db,
       `SELECT id, surah, ayah, head_word_id, dep_word_id, relation_label,
               lx_rel_type_ref, note_md, created_at
-       FROM qr_ss_syntax_relations WHERE id = ?`,
+       FROM qr_ss_syntax_link WHERE id = ?`,
       [id],
     );
   }
@@ -1157,13 +1157,13 @@ export class SentenceStructureRepo {
     );
   }
 
-  // ── qr_ss_tree_layout_cache ────────────────────────────────────────────────
+  // ── qr_ss_tree_layout ────────────────────────────────────────────────
 
   treeLayoutCache(treeId: string): Promise<TreeLayoutCache | null> {
     return queryOne<TreeLayoutCache>(
       this.db,
       `SELECT tree_id, layout_json, renderer, generated_at
-       FROM qr_ss_tree_layout_cache
+       FROM qr_ss_tree_layout
        WHERE tree_id = ?`,
       [treeId],
     );
@@ -1172,7 +1172,7 @@ export class SentenceStructureRepo {
   async setLayoutCache(treeId: string, layoutJson: string, renderer = 'd3_tidy_tree'): Promise<TreeLayoutCache | null> {
     await execute(
       this.db,
-      `INSERT INTO qr_ss_tree_layout_cache (tree_id, layout_json, renderer)
+      `INSERT INTO qr_ss_tree_layout (tree_id, layout_json, renderer)
        VALUES (?, ?, ?)
        ON CONFLICT(tree_id) DO UPDATE SET
          layout_json  = excluded.layout_json,

@@ -1,5 +1,5 @@
 // ─── /qr/irab routes ──────────────────────────────────────────────────────────
-// Exposes qr_irab_sources and qr_irab_book_entries from km_quran D1.
+// Exposes qr_irab_source and qr_irab_book_entry from km_quran D1.
 
 import type { Router } from '../../../shared/src/router';
 import { ok, badRequest } from '../../../shared/src/response';
@@ -10,7 +10,7 @@ import type { QuranEnv } from '../env';
 export function irabRoutes(router: Router<QuranEnv>) {
 
   // GET /qr/irab/book-sources — all irab source books with entry counts
-  // Edge-cached: entry-count aggregate over qr_irab_book_entries is the
+  // Edge-cached: entry-count aggregate over qr_irab_book_entry is the
   // long pole here (>1.5s cold). Source list changes only on ingest.
   router.get('/qr/irab/book-sources', (req, env) => cached(req, async () => {
     const { results } = await env.DB_QR
@@ -18,8 +18,8 @@ export function irabRoutes(router: Router<QuranEnv>) {
         SELECT s.id, s.source_slug, s.source_title_ar, s.source_title_en,
                s.source_kind, s.note_md,
                COUNT(e.id) AS entry_count
-        FROM qr_irab_sources s
-        LEFT JOIN qr_irab_book_entries e ON e.source_slug = s.source_slug
+        FROM qr_irab_source s
+        LEFT JOIN qr_irab_book_entry e ON e.source_slug = s.source_slug
         WHERE s.source_kind = 'irab_book'
         GROUP BY s.id
         ORDER BY entry_count DESC
@@ -64,7 +64,7 @@ export function irabRoutes(router: Router<QuranEnv>) {
     const offset = (page - 1) * limit;
 
     const whereClause = `WHERE ${where.join(' AND ')}`;
-    const countSql = `SELECT COUNT(*) AS count FROM qr_irab_book_entries e ${whereClause}`;
+    const countSql = `SELECT COUNT(*) AS count FROM qr_irab_book_entry e ${whereClause}`;
     const dataSql  = `
       SELECT e.id, e.source_slug, e.source_title, e.ayah_key,
              e.surah, e.ayah_from, e.ayah_to,
@@ -75,7 +75,7 @@ export function irabRoutes(router: Router<QuranEnv>) {
              e.grammar_concept_ref, e.case_concept_ref, e.mahal_concept_ref,
              e.entry_order,
              a.text_uthmani AS ayah_text
-      FROM qr_irab_book_entries e
+      FROM qr_irab_book_entry e
       LEFT JOIN qr_ayah a ON a.surah = e.surah AND a.ayah = e.ayah_from
       ${whereClause}
       ORDER BY e.surah, e.ayah_from, e.entry_order, e.id

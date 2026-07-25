@@ -1,4 +1,4 @@
-// ─── TranslationRepo — all SQL for qr_translations + qr_translation_sources ──
+// ─── TranslationRepo — all SQL for qr_translation + qr_translation_source ──
 
 import { query, queryOne } from '../../../shared/src/db';
 
@@ -26,7 +26,7 @@ export class TranslationRepo {
     return query<TranslationSource>(
       this.db,
       `SELECT id, source_code AS slug, language, translator_name AS author, edition AS title, is_default
-       FROM qr_translation_sources
+       FROM qr_translation_source
        ORDER BY language, translator_name`,
     );
   }
@@ -35,7 +35,7 @@ export class TranslationRepo {
     return queryOne<TranslationSource>(
       this.db,
       `SELECT id, source_code AS slug, language, translator_name AS author, edition AS title, is_default
-       FROM qr_translation_sources WHERE id = ?`,
+       FROM qr_translation_source WHERE id = ?`,
       [id],
     );
   }
@@ -45,7 +45,7 @@ export class TranslationRepo {
     return query<Translation>(
       this.db,
       `SELECT t.id, t.surah, t.ayah, t.source_id, t.translation_text AS text
-       FROM qr_translations t
+       FROM qr_translation t
        WHERE t.surah = ? AND t.ayah = ?`,
       [surahId, ayahNum],
     );
@@ -61,7 +61,7 @@ export class TranslationRepo {
     return query<Translation>(
       this.db,
       `SELECT id, surah, ayah, source_id, translation_text AS text
-       FROM qr_translations
+       FROM qr_translation
        WHERE source_id = ? AND surah = ? AND ayah BETWEEN ? AND ?
        ORDER BY ayah`,
       [sourceId, surahId, from, to],

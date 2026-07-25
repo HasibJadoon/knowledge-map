@@ -30,11 +30,16 @@ export function captureRoutes(router: Router<ContentEnv>) {
   router.post('/cm/captures', async (req, env) => {
     const b = await req.json() as Record<string, unknown>;
     if (!b.text) return badRequest('text required');
+    // cm_capture_entries.core_user_ref is NOT NULL — the gateway injects the
+    // caller's id after validating the JWT.
+    const userId = req.headers.get('X-KM-User-Id');
+    if (!userId) return badRequest('authenticated user required');
     return created(await new CaptureRepo(env.DB_CM).create({
-      text:         String(b.text),
-      capture_type: b.capture_type ? String(b.capture_type) : undefined,
-      source_ref:   (b.source_ref as string | null) ?? null,
-      color:        (b.color as string | null) ?? null,
+      text:          String(b.text),
+      core_user_ref: `CORE:${userId}`,
+      capture_type:  b.capture_type ? String(b.capture_type) : undefined,
+      source_ref:    (b.source_ref as string | null) ?? null,
+      color:         (b.color as string | null) ?? null,
     }));
   });
 }

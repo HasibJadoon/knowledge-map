@@ -1,4 +1,4 @@
-// ─── ContainerRepo — ar_containers ────────────────────────────────────────────
+// ─── ContainerRepo — ar_curriculum_container ────────────────────────────────────────────
 // Curriculum containers: courses, books, units, chapters.
 // Owned by AR worker. Cross-module content referenced via typed refs only.
 
@@ -33,8 +33,8 @@ export class ContainerRepo {
     const params = type ? [type] : [];
     return paginate<Container>(
       this.db,
-      `SELECT ${COLS} FROM ar_containers ${where} ORDER BY sort_order, title`,
-      `SELECT COUNT(*) AS count FROM ar_containers ${where}`,
+      `SELECT ${COLS} FROM ar_curriculum_container ${where} ORDER BY sort_order, title`,
+      `SELECT COUNT(*) AS count FROM ar_curriculum_container ${where}`,
       params,
       opts,
     );
@@ -43,7 +43,7 @@ export class ContainerRepo {
   findById(id: string): Promise<Container | null> {
     return queryOne<Container>(
       this.db,
-      `SELECT ${COLS} FROM ar_containers WHERE id = ?`,
+      `SELECT ${COLS} FROM ar_curriculum_container WHERE id = ?`,
       [id],
     );
   }
@@ -51,7 +51,7 @@ export class ContainerRepo {
   children(parentId: string): Promise<Container[]> {
     return query<Container>(
       this.db,
-      `SELECT ${COLS} FROM ar_containers WHERE parent_id = ? ORDER BY sort_order`,
+      `SELECT ${COLS} FROM ar_curriculum_container WHERE parent_id = ? ORDER BY sort_order`,
       [parentId],
     );
   }
@@ -61,7 +61,7 @@ export class ContainerRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_containers
+      `INSERT INTO ar_curriculum_container
          (id, title, container_type, parent_id, sort_order, status, created_at)
        VALUES (?, ?, ?, ?, ?, 'active', ?)`,
       [id, input.title, input.container_type,
@@ -78,7 +78,7 @@ export class ContainerRepo {
     if (patch.sort_order !== undefined) { sets.push('sort_order = ?'); vals.push(patch.sort_order); }
     if (!sets.length) return this.findById(id);
     vals.push(id);
-    await execute(this.db, `UPDATE ar_containers SET ${sets.join(', ')} WHERE id = ?`, vals);
+    await execute(this.db, `UPDATE ar_curriculum_container SET ${sets.join(', ')} WHERE id = ?`, vals);
     return this.findById(id);
   }
 }

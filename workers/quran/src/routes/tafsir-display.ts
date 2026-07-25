@@ -75,8 +75,8 @@ export function tafsirDisplayRoutes(router: Router<QuranEnv>) {
                s.specialization, s.badge_color, s.badge_glyph, s.markup_tier,
                s.short_description, s.long_description, s.cover_image_url,
                s.display_order, s.is_visible,
-               (SELECT COUNT(*) FROM qr_tafsir_book_display_blocks b WHERE b.source_slug = s.source_slug) AS block_count
-        FROM qr_tafsir_book_display_sources s
+               (SELECT COUNT(*) FROM qr_tafsir_book_display_block b WHERE b.source_slug = s.source_slug) AS block_count
+        FROM qr_tafsir_book_display_source s
         WHERE s.is_visible = 1
         ORDER BY s.death_year_hijri ASC NULLS LAST, s.display_order ASC
       `).all();
@@ -111,7 +111,7 @@ export function tafsirDisplayRoutes(router: Router<QuranEnv>) {
       SELECT DISTINCT source_slug, scholar_id, ayah_group_key,
              MIN(ayah_no) AS group_start,
              MAX(COALESCE(ayah_to, ayah_no)) AS group_end
-      FROM qr_tafsir_book_display_blocks
+      FROM qr_tafsir_book_display_block
       WHERE ${groupFilters.join(' AND ')}
       GROUP BY source_slug, scholar_id, ayah_group_key
     `;
@@ -134,7 +134,7 @@ export function tafsirDisplayRoutes(router: Router<QuranEnv>) {
     if (madhab)    { blockFilters.push('madhab = ?');     blockParams.push(madhab); }
 
     const blockSql = `
-      SELECT * FROM qr_tafsir_book_display_blocks
+      SELECT * FROM qr_tafsir_book_display_block
       WHERE ${blockFilters.join(' AND ')}
       ORDER BY death_year_hijri ASC NULLS LAST, scholar_id, display_order, paragraph_index NULLS FIRST, id
     `;
@@ -146,17 +146,17 @@ export function tafsirDisplayRoutes(router: Router<QuranEnv>) {
     const blockIds: string[] = blocks.map((b: { id: string }) => b.id);
     const idPh = blockIds.map(() => '?').join(',');
     const [tagsRes, refsRes, notesRes, linksRes] = await Promise.all([
-      env.DB_QR.prepare(`SELECT * FROM qr_tafsir_book_display_tags WHERE block_id IN (${idPh})`).bind(...blockIds).all(),
-      env.DB_QR.prepare(`SELECT * FROM qr_tafsir_book_display_refs WHERE block_id IN (${idPh})`).bind(...blockIds).all(),
-      env.DB_QR.prepare(`SELECT * FROM qr_tafsir_book_display_notes WHERE block_id IN (${idPh}) AND review_status != 'rejected'`).bind(...blockIds).all(),
-      env.DB_QR.prepare(`SELECT * FROM qr_tafsir_book_display_links WHERE from_block_id IN (${idPh}) OR to_block_id IN (${idPh})`).bind(...blockIds, ...blockIds).all(),
+      env.DB_QR.prepare(`SELECT * FROM qr_tafsir_book_display_tag WHERE block_id IN (${idPh})`).bind(...blockIds).all(),
+      env.DB_QR.prepare(`SELECT * FROM qr_tafsir_book_display_ref WHERE block_id IN (${idPh})`).bind(...blockIds).all(),
+      env.DB_QR.prepare(`SELECT * FROM qr_tafsir_book_display_note WHERE block_id IN (${idPh}) AND review_status != 'rejected'`).bind(...blockIds).all(),
+      env.DB_QR.prepare(`SELECT * FROM qr_tafsir_book_display_link WHERE from_block_id IN (${idPh}) OR to_block_id IN (${idPh})`).bind(...blockIds, ...blockIds).all(),
     ]);
 
     // 4) Sources actually present
     const presentSlugs: string[] = Array.from(new Set(blocks.map((b: { source_slug: string }) => b.source_slug)));
     const slugPh = presentSlugs.map(() => '?').join(',');
     const sourcesRes = await env.DB_QR
-      .prepare(`SELECT * FROM qr_tafsir_book_display_sources WHERE source_slug IN (${slugPh}) ORDER BY death_year_hijri ASC NULLS LAST, display_order ASC`)
+      .prepare(`SELECT * FROM qr_tafsir_book_display_source WHERE source_slug IN (${slugPh}) ORDER BY death_year_hijri ASC NULLS LAST, display_order ASC`)
       .bind(...presentSlugs).all();
 
     // 5) Envelope
@@ -232,7 +232,7 @@ export function tafsirDisplayRoutes(router: Router<QuranEnv>) {
 
     const ph = scholarIds.map(() => '?').join(',');
     const sql = `
-      SELECT * FROM qr_tafsir_book_display_blocks
+      SELECT * FROM qr_tafsir_book_display_block
       WHERE surah_no = ?
         AND ayah_no <= ? AND COALESCE(ayah_to, ayah_no) >= ?
         AND scholar_id IN (${ph})

@@ -43,7 +43,7 @@ export function depGraphRoutes(router: Router<QuranEnv>) {
     const row = await env.DB_QR
       .prepare(
         `SELECT id, source_record_id, ayah_key, group_ayah_key, ayah_from, ayah_to, clean_text
-         FROM qr_irab_source_chunks
+         FROM qr_irab_source_chunk
          WHERE source_slug = 'qul_dep_graphs' AND surah = ? AND ayah_from = ?
          LIMIT 1`,
       )

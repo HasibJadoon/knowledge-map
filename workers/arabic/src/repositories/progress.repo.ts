@@ -1,4 +1,4 @@
-// ─── ProgressRepo — ar_task_completions + ar_unit_progress + ar_mastery_profiles
+// ─── ProgressRepo — ar_learn_task_completion + ar_learn_unit_progress + ar_learn_mastery
 // Learner telemetry: task-level completions, unit-level progress state,
 // and per-skill mastery scores per track.
 
@@ -93,13 +93,13 @@ export class ProgressRepo {
     // Attempt upsert: unique constraint on (task_id, core_user_ref)
     const existing = await queryOne<TaskCompletion>(
       this.db,
-      `SELECT ${TC_COLS} FROM ar_task_completions WHERE task_id = ? AND core_user_ref = ?`,
+      `SELECT ${TC_COLS} FROM ar_learn_task_completion WHERE task_id = ? AND core_user_ref = ?`,
       [taskId, userRef],
     );
     if (existing) {
       await execute(
         this.db,
-        `UPDATE ar_task_completions
+        `UPDATE ar_learn_task_completion
          SET completed_at = ?, time_spent_mins = ?, notes = ?
          WHERE task_id = ? AND core_user_ref = ?`,
         [now, timeMins, notes ?? null, taskId, userRef],
@@ -107,7 +107,7 @@ export class ProgressRepo {
     } else {
       await execute(
         this.db,
-        `INSERT INTO ar_task_completions
+        `INSERT INTO ar_learn_task_completion
            (id, task_id, core_user_ref, completed_at, time_spent_mins, notes)
          VALUES (?, ?, ?, ?, ?, ?)`,
         [id, taskId, userRef, now, timeMins, notes ?? null],
@@ -115,7 +115,7 @@ export class ProgressRepo {
     }
     return (await queryOne<TaskCompletion>(
       this.db,
-      `SELECT ${TC_COLS} FROM ar_task_completions WHERE task_id = ? AND core_user_ref = ?`,
+      `SELECT ${TC_COLS} FROM ar_learn_task_completion WHERE task_id = ? AND core_user_ref = ?`,
       [taskId, userRef],
     ))!;
   }
@@ -123,7 +123,7 @@ export class ProgressRepo {
   taskCompletions(taskId: string): Promise<TaskCompletion[]> {
     return query<TaskCompletion>(
       this.db,
-      `SELECT ${TC_COLS} FROM ar_task_completions
+      `SELECT ${TC_COLS} FROM ar_learn_task_completion
        WHERE task_id = ? ORDER BY completed_at DESC`,
       [taskId],
     );
@@ -134,7 +134,7 @@ export class ProgressRepo {
   unitProgress(userRef: string, unitId: string): Promise<UnitProgress | null> {
     return queryOne<UnitProgress>(
       this.db,
-      `SELECT ${UP_COLS} FROM ar_unit_progress
+      `SELECT ${UP_COLS} FROM ar_learn_unit_progress
        WHERE core_user_ref = ? AND unit_id = ?`,
       [userRef, unitId],
     );
@@ -155,7 +155,7 @@ export class ProgressRepo {
         vals.push(existing.id);
         await execute(
           this.db,
-          `UPDATE ar_unit_progress SET ${sets.join(', ')} WHERE id = ?`,
+          `UPDATE ar_learn_unit_progress SET ${sets.join(', ')} WHERE id = ?`,
           vals,
         );
       }
@@ -163,7 +163,7 @@ export class ProgressRepo {
       const id = typedId('AR');
       await execute(
         this.db,
-        `INSERT INTO ar_unit_progress
+        `INSERT INTO ar_learn_unit_progress
            (id, unit_id, core_user_ref, status, progress_pct,
             last_activity_at, completed_at, meta_json)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -192,14 +192,14 @@ export class ProgressRepo {
     if (trackId) {
       return queryOne<MasteryProfile>(
         this.db,
-        `SELECT ${MP_COLS} FROM ar_mastery_profiles
+        `SELECT ${MP_COLS} FROM ar_learn_mastery
          WHERE core_user_ref = ? AND track_id = ? AND skill = ?`,
         [userRef, trackId, skill],
       );
     }
     return queryOne<MasteryProfile>(
       this.db,
-      `SELECT ${MP_COLS} FROM ar_mastery_profiles
+      `SELECT ${MP_COLS} FROM ar_learn_mastery
        WHERE core_user_ref = ? AND track_id IS NULL AND skill = ?`,
       [userRef, skill],
     );
@@ -215,7 +215,7 @@ export class ProgressRepo {
     if (existing) {
       await execute(
         this.db,
-        `UPDATE ar_mastery_profiles
+        `UPDATE ar_learn_mastery
          SET mastery_score = ?, items_mastered = ?, items_learning = ?,
              last_assessed_at = ?, meta_json = ?, updated_at = ?
          WHERE id = ?`,
@@ -233,7 +233,7 @@ export class ProgressRepo {
       const id = typedId('AR');
       await execute(
         this.db,
-        `INSERT INTO ar_mastery_profiles
+        `INSERT INTO ar_learn_mastery
            (id, core_user_ref, track_id, skill, mastery_score,
             items_mastered, items_learning, last_assessed_at,
             meta_json, created_at, updated_at)

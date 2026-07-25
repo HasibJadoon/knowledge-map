@@ -1,4 +1,4 @@
-// ─── LessonRepo — ar_lessons ──────────────────────────────────────────────────
+// ─── LessonRepo — ar_curriculum_lesson ──────────────────────────────────────────────────
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -29,8 +29,8 @@ export class LessonRepo {
   byContainer(containerId: string, opts: PaginateOptions = {}) {
     return paginate<Lesson>(
       this.db,
-      `SELECT ${COLS} FROM ar_lessons WHERE container_id = ? ORDER BY sort_order`,
-      `SELECT COUNT(*) AS count FROM ar_lessons WHERE container_id = ?`,
+      `SELECT ${COLS} FROM ar_curriculum_lesson WHERE container_id = ? ORDER BY sort_order`,
+      `SELECT COUNT(*) AS count FROM ar_curriculum_lesson WHERE container_id = ?`,
       [containerId],
       opts,
     );
@@ -39,7 +39,7 @@ export class LessonRepo {
   findById(id: string): Promise<Lesson | null> {
     return queryOne<Lesson>(
       this.db,
-      `SELECT ${COLS} FROM ar_lessons WHERE id = ?`,
+      `SELECT ${COLS} FROM ar_curriculum_lesson WHERE id = ?`,
       [id],
     );
   }
@@ -49,7 +49,7 @@ export class LessonRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_lessons
+      `INSERT INTO ar_curriculum_lesson
          (id, container_id, title, lesson_type, sort_order, status, created_at)
        VALUES (?, ?, ?, ?, ?, 'draft', ?)`,
       [id, input.container_id, input.title, input.lesson_type,
@@ -60,7 +60,7 @@ export class LessonRepo {
 
   async publish(id: string): Promise<Lesson | null> {
     await execute(
-      this.db, `UPDATE ar_lessons SET status = 'published' WHERE id = ?`, [id],
+      this.db, `UPDATE ar_curriculum_lesson SET status = 'published' WHERE id = ?`, [id],
     );
     return this.findById(id);
   }

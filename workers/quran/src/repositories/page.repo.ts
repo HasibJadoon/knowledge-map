@@ -1,7 +1,7 @@
 // ─── PageRepo — Mushaf page rendering ──────────────────────────────────────────
 // Loads one mushaf page: ayahs, words, surahs, layout lines, default translation.
-// Tables: qr_ayah, qr_word_occurrences, qr_surahs, qr_page_layout_lines,
-//         qr_translations, qr_translation_sources
+// Tables: qr_ayah, qr_word_occurrence, qr_surah, qr_mushaf_layout_line,
+//         qr_translation, qr_translation_source
 
 import { query, queryOne } from '../../../shared/src/db';
 import {
@@ -98,7 +98,7 @@ export class PageRepo {
                 w.pos AS pos_tag,
                 w.morphology_tag,
                 w.morphology_tag_json
-         FROM qr_word_occurrences w
+         FROM qr_word_occurrence w
          JOIN qr_ayah a ON a.surah = w.surah AND a.ayah = w.ayah
          WHERE a.page_number = ?
          ORDER BY w.surah, w.ayah, w.word_position`,
@@ -108,7 +108,7 @@ export class PageRepo {
         this.db,
         `SELECT id, name_ar, name_en, name_transliteration,
                 revelation_type, ayah_count, juz_start, page_start
-         FROM qr_surahs
+         FROM qr_surah
          WHERE id IN (${surahPh})
          ORDER BY id`,
         surahIds,
@@ -126,14 +126,14 @@ export class PageRepo {
                 ayah_to,
                 word_from_index,
                 word_to_index
-         FROM qr_page_layout_lines
+         FROM qr_mushaf_layout_line
          WHERE page_number = ?
          ORDER BY line_number`,
         [pageNo],
       ).catch(() => []),
       queryOne<{ id: string }>(
         this.db,
-        `SELECT id FROM qr_translation_sources WHERE is_default = 1 LIMIT 1`,
+        `SELECT id FROM qr_translation_source WHERE is_default = 1 LIMIT 1`,
       ).catch(() => null),
     ]);
 
@@ -142,7 +142,7 @@ export class PageRepo {
       ? await query<{ surah: number; ayah: number; text: string }>(
           this.db,
           `SELECT t.surah, t.ayah, t.text
-           FROM qr_translations t
+           FROM qr_translation t
            JOIN qr_ayah a ON a.surah = t.surah AND a.ayah = t.ayah
            WHERE a.page_number = ? AND t.source_id = ?
            ORDER BY t.surah, t.ayah`,

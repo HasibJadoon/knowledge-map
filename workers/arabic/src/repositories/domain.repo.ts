@@ -1,4 +1,4 @@
-// ─── DomainRepo — ar_domains + ar_domain_phrases + ar_scenarios ───────────────
+// ─── DomainRepo — ar_curriculum_domain + ar_curriculum_domain_phrase + ar_curriculum_scenario ───────────────
 // Semantic domain registry for contextual acquisition.
 // Domains group phrases and scenarios; scenarios carry vocab_set JSON.
 
@@ -90,8 +90,8 @@ export class DomainRepo {
   list(opts: PaginateOptions = {}) {
     return paginate<Domain>(
       this.db,
-      `SELECT ${DOMAIN_COLS} FROM ar_domains ORDER BY sort_order, title`,
-      `SELECT COUNT(*) AS count FROM ar_domains`,
+      `SELECT ${DOMAIN_COLS} FROM ar_curriculum_domain ORDER BY sort_order, title`,
+      `SELECT COUNT(*) AS count FROM ar_curriculum_domain`,
       [],
       opts,
     );
@@ -100,7 +100,7 @@ export class DomainRepo {
   findById(id: string): Promise<Domain | null> {
     return queryOne<Domain>(
       this.db,
-      `SELECT ${DOMAIN_COLS} FROM ar_domains WHERE id = ?`,
+      `SELECT ${DOMAIN_COLS} FROM ar_curriculum_domain WHERE id = ?`,
       [id],
     );
   }
@@ -108,7 +108,7 @@ export class DomainRepo {
   findBySlug(slug: string): Promise<Domain | null> {
     return queryOne<Domain>(
       this.db,
-      `SELECT ${DOMAIN_COLS} FROM ar_domains WHERE slug = ?`,
+      `SELECT ${DOMAIN_COLS} FROM ar_curriculum_domain WHERE slug = ?`,
       [slug],
     );
   }
@@ -118,7 +118,7 @@ export class DomainRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_domains
+      `INSERT INTO ar_curriculum_domain
          (id, slug, title, title_ar, description, sort_order, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -141,8 +141,8 @@ export class DomainRepo {
     const params = level ? [domainId, level] : [domainId];
     return paginate<DomainPhrase>(
       this.db,
-      `SELECT ${PHRASE_COLS} FROM ar_domain_phrases ${where} ORDER BY created_at`,
-      `SELECT COUNT(*) AS count FROM ar_domain_phrases ${where}`,
+      `SELECT ${PHRASE_COLS} FROM ar_curriculum_domain_phrase ${where} ORDER BY created_at`,
+      `SELECT COUNT(*) AS count FROM ar_curriculum_domain_phrase ${where}`,
       params,
       opts,
     );
@@ -153,7 +153,7 @@ export class DomainRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_domain_phrases
+      `INSERT INTO ar_curriculum_domain_phrase
          (id, domain_id, arabic, transliteration, meaning_en,
           usage_context, level, vocab_id, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -171,7 +171,7 @@ export class DomainRepo {
     );
     return (await queryOne<DomainPhrase>(
       this.db,
-      `SELECT ${PHRASE_COLS} FROM ar_domain_phrases WHERE id = ?`,
+      `SELECT ${PHRASE_COLS} FROM ar_curriculum_domain_phrase WHERE id = ?`,
       [id],
     ))!;
   }
@@ -181,8 +181,8 @@ export class DomainRepo {
   scenarios(domainId: string, opts: PaginateOptions = {}) {
     return paginate<Scenario>(
       this.db,
-      `SELECT ${SCENARIO_COLS} FROM ar_scenarios WHERE domain_id = ? ORDER BY created_at`,
-      `SELECT COUNT(*) AS count FROM ar_scenarios WHERE domain_id = ?`,
+      `SELECT ${SCENARIO_COLS} FROM ar_curriculum_scenario WHERE domain_id = ? ORDER BY created_at`,
+      `SELECT COUNT(*) AS count FROM ar_curriculum_scenario WHERE domain_id = ?`,
       [domainId],
       opts,
     );
@@ -191,7 +191,7 @@ export class DomainRepo {
   findScenario(id: string): Promise<Scenario | null> {
     return queryOne<Scenario>(
       this.db,
-      `SELECT ${SCENARIO_COLS} FROM ar_scenarios WHERE id = ?`,
+      `SELECT ${SCENARIO_COLS} FROM ar_curriculum_scenario WHERE id = ?`,
       [id],
     );
   }
@@ -201,7 +201,7 @@ export class DomainRepo {
     const now = new Date().toISOString();
     await execute(
       this.db,
-      `INSERT INTO ar_scenarios
+      `INSERT INTO ar_curriculum_scenario
          (id, domain_id, title, title_ar, scenario_type, level,
           description_md, vocab_set_json, meta_json, created_at)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,

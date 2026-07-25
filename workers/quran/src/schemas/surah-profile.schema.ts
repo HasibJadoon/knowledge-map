@@ -1,6 +1,6 @@
 // ─── Surah Profile schemas & types ────────────────────────────────────────────
 
-// ── qr_surah_profiles ─────────────────────────────────────────────────────────
+// ── qr_surah_profile ─────────────────────────────────────────────────────────
 
 export type SurahProfileAddresseeType =
   | 'believers'
@@ -39,7 +39,7 @@ export interface QrSurahProfileUpsert {
   note_md?: string | null;
 }
 
-// ── qr_surah_atomic_profiles ──────────────────────────────────────────────────
+// ── qr_surah_atomic_profile ──────────────────────────────────────────────────
 
 export type SurahStructuralType =
   | 'linear_escalation'

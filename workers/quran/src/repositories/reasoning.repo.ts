@@ -1,6 +1,6 @@
-// ─── ReasoningRepo — qr_analysis_scopes + qr_analysis_claims + qr_scope_nuances +
-//     qr_evidence_items + qr_claim_evidence_links + qr_arguments +
-//     qr_argument_relations + qr_debate_clusters ────────────────────────────
+// ─── ReasoningRepo — qr_analysis_scope + qr_analysis_claim + qr_scope_nuance +
+//     qr_evidence + qr_claim_evidence_link + qr_argument +
+//     qr_argument_link + qr_debate_cluster ────────────────────────────
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -190,7 +190,7 @@ export interface DebateClusterCreate {
 export class ReasoningRepo {
   constructor(private db: D1Database) {}
 
-  // ── qr_analysis_scopes ─────────────────────────────────────────────────────
+  // ── qr_analysis_scope ─────────────────────────────────────────────────────
 
   scopes(scopeRef?: { surah?: number; scope_type?: string }, opts: PaginateOptions = {}) {
     const conditions: string[] = [];
@@ -210,10 +210,10 @@ export class ReasoningRepo {
     return paginate<AnalysisScope>(
       this.db,
       `SELECT id, scope_type, surah, ayah_from, ayah_to, ref_id, label, note_md, created_at
-       FROM qr_analysis_scopes
+       FROM qr_analysis_scope
        ${whereClause}
        ORDER BY surah, ayah_from, created_at`,
-      `SELECT COUNT(*) AS count FROM qr_analysis_scopes ${whereClause}`,
+      `SELECT COUNT(*) AS count FROM qr_analysis_scope ${whereClause}`,
       params,
       opts,
     );
@@ -223,7 +223,7 @@ export class ReasoningRepo {
     return queryOne<AnalysisScope>(
       this.db,
       `SELECT id, scope_type, surah, ayah_from, ayah_to, ref_id, label, note_md, created_at
-       FROM qr_analysis_scopes
+       FROM qr_analysis_scope
        WHERE id = ?`,
       [id],
     );
@@ -234,7 +234,7 @@ export class ReasoningRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_analysis_scopes
+      `INSERT INTO qr_analysis_scope
          (id, scope_type, surah, ayah_from, ayah_to, ref_id, label, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -252,7 +252,7 @@ export class ReasoningRepo {
     return this.findScopeById(id);
   }
 
-  // ── qr_analysis_claims ─────────────────────────────────────────────────────
+  // ── qr_analysis_claim ─────────────────────────────────────────────────────
 
   claims(scopeId?: string, opts: PaginateOptions = {}) {
     const whereClause = scopeId ? 'WHERE scope_id = ?' : '';
@@ -262,10 +262,10 @@ export class ReasoningRepo {
       this.db,
       `SELECT id, scope_id, claim_type, claim_text, claim_text_ar,
               confidence, note_md, created_at, updated_at
-       FROM qr_analysis_claims
+       FROM qr_analysis_claim
        ${whereClause}
        ORDER BY claim_type, created_at`,
-      `SELECT COUNT(*) AS count FROM qr_analysis_claims ${whereClause}`,
+      `SELECT COUNT(*) AS count FROM qr_analysis_claim ${whereClause}`,
       params,
       opts,
     );
@@ -276,7 +276,7 @@ export class ReasoningRepo {
       this.db,
       `SELECT id, scope_id, claim_type, claim_text, claim_text_ar,
               confidence, note_md, created_at, updated_at
-       FROM qr_analysis_claims
+       FROM qr_analysis_claim
        WHERE id = ?`,
       [id],
     );
@@ -287,7 +287,7 @@ export class ReasoningRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_analysis_claims
+      `INSERT INTO qr_analysis_claim
          (id, scope_id, claim_type, claim_text, claim_text_ar, confidence, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -316,23 +316,23 @@ export class ReasoningRepo {
 
     if (sets.length > 1) {
       vals.push(id);
-      await execute(this.db, `UPDATE qr_analysis_claims SET ${sets.join(', ')} WHERE id = ?`, vals);
+      await execute(this.db, `UPDATE qr_analysis_claim SET ${sets.join(', ')} WHERE id = ?`, vals);
     }
 
     return this.findClaimById(id);
   }
 
-  // ── qr_scope_nuances ───────────────────────────────────────────────────────
+  // ── qr_scope_nuance ───────────────────────────────────────────────────────
 
   scopeNuances(scopeId: string, opts: PaginateOptions = {}) {
     return paginate<ScopeNuance>(
       this.db,
       `SELECT id, scope_id, claim_id, nuance_type, nuance_text, nuance_text_ar,
               discourse_force, note_md, created_at
-       FROM qr_scope_nuances
+       FROM qr_scope_nuance
        WHERE scope_id = ?
        ORDER BY nuance_type, created_at`,
-      `SELECT COUNT(*) AS count FROM qr_scope_nuances WHERE scope_id = ?`,
+      `SELECT COUNT(*) AS count FROM qr_scope_nuance WHERE scope_id = ?`,
       [scopeId],
       opts,
     );
@@ -343,7 +343,7 @@ export class ReasoningRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_scope_nuances
+      `INSERT INTO qr_scope_nuance
          (id, scope_id, claim_id, nuance_type, nuance_text, nuance_text_ar, discourse_force, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -362,12 +362,12 @@ export class ReasoningRepo {
       this.db,
       `SELECT id, scope_id, claim_id, nuance_type, nuance_text, nuance_text_ar,
               discourse_force, note_md, created_at
-       FROM qr_scope_nuances WHERE id = ?`,
+       FROM qr_scope_nuance WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_evidence_items ──────────────────────────────────────────────────────
+  // ── qr_evidence ──────────────────────────────────────────────────────
 
   evidence(claimId: string): Promise<EvidenceItem[]> {
     return query<EvidenceItem>(
@@ -375,8 +375,8 @@ export class ReasoningRepo {
       `SELECT e.id, e.evidence_type, e.provenance, e.locator, e.content_text,
               e.content_text_ar, e.is_disputed, e.dispute_note, e.source_ref,
               e.note_md, e.created_at, e.updated_at
-       FROM qr_evidence_items e
-       JOIN qr_claim_evidence_links l ON l.evidence_id = e.id
+       FROM qr_evidence e
+       JOIN qr_claim_evidence_link l ON l.evidence_id = e.id
        WHERE l.claim_id = ?
        ORDER BY e.evidence_type, e.created_at`,
       [claimId],
@@ -389,7 +389,7 @@ export class ReasoningRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_evidence_items
+      `INSERT INTO qr_evidence
          (id, evidence_type, provenance, locator, content_text, content_text_ar,
           is_disputed, dispute_note, source_ref, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -409,7 +409,7 @@ export class ReasoningRepo {
 
     await execute(
       this.db,
-      `INSERT OR IGNORE INTO qr_claim_evidence_links (id, claim_id, evidence_id, support_type)
+      `INSERT OR IGNORE INTO qr_claim_evidence_link (id, claim_id, evidence_id, support_type)
        VALUES (?, ?, ?, ?)`,
       [linkId, claimId, evidenceId, supportType],
     );
@@ -418,7 +418,7 @@ export class ReasoningRepo {
       this.db,
       `SELECT id, evidence_type, provenance, locator, content_text, content_text_ar,
               is_disputed, dispute_note, source_ref, note_md, created_at, updated_at
-       FROM qr_evidence_items WHERE id = ?`,
+       FROM qr_evidence WHERE id = ?`,
       [evidenceId],
     );
   }
@@ -426,13 +426,13 @@ export class ReasoningRepo {
   async removeEvidence(claimId: string, evidenceId: string): Promise<boolean> {
     const result = await execute(
       this.db,
-      `DELETE FROM qr_claim_evidence_links WHERE claim_id = ? AND evidence_id = ?`,
+      `DELETE FROM qr_claim_evidence_link WHERE claim_id = ? AND evidence_id = ?`,
       [claimId, evidenceId],
     );
     return (result.meta.changes ?? 0) > 0;
   }
 
-  // ── qr_arguments ───────────────────────────────────────────────────────────
+  // ── qr_argument ───────────────────────────────────────────────────────────
 
   args(claimId?: string, opts: PaginateOptions = {}) {
     if (claimId) {
@@ -442,10 +442,10 @@ export class ReasoningRepo {
         this.db,
         `SELECT id, surah, title, title_ar, argument_type, summary_md,
                 claims_json, evidence_ids_json, confidence, note_md, created_at, updated_at
-         FROM qr_arguments
+         FROM qr_argument
          WHERE claims_json LIKE ?
          ORDER BY argument_type, created_at`,
-        `SELECT COUNT(*) AS count FROM qr_arguments WHERE claims_json LIKE ?`,
+        `SELECT COUNT(*) AS count FROM qr_argument WHERE claims_json LIKE ?`,
         [`%${claimId}%`],
         opts,
       );
@@ -455,9 +455,9 @@ export class ReasoningRepo {
       this.db,
       `SELECT id, surah, title, title_ar, argument_type, summary_md,
               claims_json, evidence_ids_json, confidence, note_md, created_at, updated_at
-       FROM qr_arguments
+       FROM qr_argument
        ORDER BY argument_type, created_at`,
-      `SELECT COUNT(*) AS count FROM qr_arguments`,
+      `SELECT COUNT(*) AS count FROM qr_argument`,
       [],
       opts,
     );
@@ -468,7 +468,7 @@ export class ReasoningRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_arguments
+      `INSERT INTO qr_argument
          (id, surah, title, title_ar, argument_type, summary_md,
           claims_json, evidence_ids_json, confidence, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -490,18 +490,18 @@ export class ReasoningRepo {
       this.db,
       `SELECT id, surah, title, title_ar, argument_type, summary_md,
               claims_json, evidence_ids_json, confidence, note_md, created_at, updated_at
-       FROM qr_arguments WHERE id = ?`,
+       FROM qr_argument WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_argument_relations ──────────────────────────────────────────────────
+  // ── qr_argument_link ──────────────────────────────────────────────────
 
   argRelations(argId: string): Promise<ArgumentRelation[]> {
     return query<ArgumentRelation>(
       this.db,
       `SELECT id, from_argument_id, to_argument_id, relation_type, note_md, created_at
-       FROM qr_argument_relations
+       FROM qr_argument_link
        WHERE from_argument_id = ? OR to_argument_id = ?
        ORDER BY created_at`,
       [argId, argId],
@@ -513,7 +513,7 @@ export class ReasoningRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_argument_relations
+      `INSERT INTO qr_argument_link
          (id, from_argument_id, to_argument_id, relation_type, note_md)
        VALUES (?, ?, ?, ?, ?)`,
       [
@@ -528,12 +528,12 @@ export class ReasoningRepo {
     return queryOne<ArgumentRelation>(
       this.db,
       `SELECT id, from_argument_id, to_argument_id, relation_type, note_md, created_at
-       FROM qr_argument_relations WHERE id = ?`,
+       FROM qr_argument_link WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_debate_clusters ─────────────────────────────────────────────────────
+  // ── qr_debate_cluster ─────────────────────────────────────────────────────
 
   debateClusters(opts: PaginateOptions = {}, filter?: { surah?: number; cluster_type?: string }) {
     const conditions: string[] = [];
@@ -554,10 +554,10 @@ export class ReasoningRepo {
       this.db,
       `SELECT id, surah, title_en, title_ar, cluster_type, scope_description,
               arguments_json, summary_md, note_md, created_at, updated_at
-       FROM qr_debate_clusters
+       FROM qr_debate_cluster
        ${whereClause}
        ORDER BY cluster_type, created_at`,
-      `SELECT COUNT(*) AS count FROM qr_debate_clusters ${whereClause}`,
+      `SELECT COUNT(*) AS count FROM qr_debate_cluster ${whereClause}`,
       params,
       opts,
     );
@@ -568,7 +568,7 @@ export class ReasoningRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_debate_clusters
+      `INSERT INTO qr_debate_cluster
          (id, surah, title_en, title_ar, cluster_type, scope_description,
           arguments_json, summary_md, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -589,7 +589,7 @@ export class ReasoningRepo {
       this.db,
       `SELECT id, surah, title_en, title_ar, cluster_type, scope_description,
               arguments_json, summary_md, note_md, created_at, updated_at
-       FROM qr_debate_clusters WHERE id = ?`,
+       FROM qr_debate_cluster WHERE id = ?`,
       [id],
     );
   }

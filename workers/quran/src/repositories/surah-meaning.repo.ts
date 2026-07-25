@@ -1,6 +1,6 @@
-// ─── SurahMeaningRepo — qr_surah_topic_flows + qr_surah_rhetoric_profiles +
-//     qr_topic_registry + qr_scope_topics + qr_surah_theme_profiles +
-//     qr_surah_theology_profiles + qr_surah_worldview_profiles ───────────────
+// ─── SurahMeaningRepo — qr_surah_topic_flow + qr_surah_rhetoric_profile +
+//     qr_topic_registry + qr_scope_topic + qr_surah_theme_profile +
+//     qr_surah_theology_profile + qr_surah_worldview_profile ───────────────
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -211,7 +211,7 @@ export class SurahMeaningRepo {
     return this.findTopicById(id);
   }
 
-  // ── qr_scope_topics ────────────────────────────────────────────────────────
+  // ── qr_scope_topic ────────────────────────────────────────────────────────
 
   scopeTopics(scopeRef: { surah: number; scope_type?: string }, opts: PaginateOptions = {}) {
     const whereClause = scopeRef.scope_type
@@ -224,10 +224,10 @@ export class SurahMeaningRepo {
     return paginate<ScopeTopic>(
       this.db,
       `SELECT id, topic_id, scope_type, surah, ayah_from, ayah_to, prominence, note_md, created_at
-       FROM qr_scope_topics
+       FROM qr_scope_topic
        ${whereClause}
        ORDER BY prominence, created_at`,
-      `SELECT COUNT(*) AS count FROM qr_scope_topics ${whereClause}`,
+      `SELECT COUNT(*) AS count FROM qr_scope_topic ${whereClause}`,
       params,
       opts,
     );
@@ -238,7 +238,7 @@ export class SurahMeaningRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_scope_topics
+      `INSERT INTO qr_scope_topic
          (id, topic_id, scope_type, surah, ayah_from, ayah_to, prominence, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -256,22 +256,22 @@ export class SurahMeaningRepo {
     return queryOne<ScopeTopic>(
       this.db,
       `SELECT id, topic_id, scope_type, surah, ayah_from, ayah_to, prominence, note_md, created_at
-       FROM qr_scope_topics WHERE id = ?`,
+       FROM qr_scope_topic WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_topic_flows ───────────────────────────────────────────────────
+  // ── qr_surah_topic_flow ───────────────────────────────────────────────────
 
   topicFlows(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahTopicFlow>(
       this.db,
       `SELECT id, surah, flow_index, ayah_from, ayah_to, topic_label, topic_label_ar,
               flow_direction, transitions_from_id, note_md, created_at
-       FROM qr_surah_topic_flows
+       FROM qr_surah_topic_flow
        WHERE surah = ?
        ORDER BY flow_index`,
-      `SELECT COUNT(*) AS count FROM qr_surah_topic_flows WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_topic_flow WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -282,14 +282,14 @@ export class SurahMeaningRepo {
 
     const maxRow = await queryOne<{ max_idx: number | null }>(
       this.db,
-      `SELECT MAX(flow_index) AS max_idx FROM qr_surah_topic_flows WHERE surah = ?`,
+      `SELECT MAX(flow_index) AS max_idx FROM qr_surah_topic_flow WHERE surah = ?`,
       [input.surah],
     );
     const flow_index = (maxRow?.max_idx ?? 0) + 1;
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_topic_flows
+      `INSERT INTO qr_surah_topic_flow
          (id, surah, flow_index, ayah_from, ayah_to, topic_label, topic_label_ar,
           flow_direction, transitions_from_id, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -311,19 +311,19 @@ export class SurahMeaningRepo {
       this.db,
       `SELECT id, surah, flow_index, ayah_from, ayah_to, topic_label, topic_label_ar,
               flow_direction, transitions_from_id, note_md, created_at
-       FROM qr_surah_topic_flows WHERE id = ?`,
+       FROM qr_surah_topic_flow WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_rhetoric_profiles ─────────────────────────────────────────────
+  // ── qr_surah_rhetoric_profile ─────────────────────────────────────────────
 
   rhetoricsProfile(surahId: number): Promise<SurahRhetoricProfile | null> {
     return queryOne<SurahRhetoricProfile>(
       this.db,
       `SELECT surah, dominant_mode, clause_density, emphasis_patterns, suspension_use,
               contrast_patterns, rhetorical_devices, note_md, created_at
-       FROM qr_surah_rhetoric_profiles
+       FROM qr_surah_rhetoric_profile
        WHERE surah = ?`,
       [surahId],
     );
@@ -335,7 +335,7 @@ export class SurahMeaningRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_rhetoric_profiles
+        `INSERT INTO qr_surah_rhetoric_profile
            (surah, dominant_mode, clause_density, emphasis_patterns, suspension_use,
             contrast_patterns, rhetorical_devices, note_md)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -364,21 +364,21 @@ export class SurahMeaningRepo {
 
       if (sets.length > 0) {
         vals.push(surahId);
-        await execute(this.db, `UPDATE qr_surah_rhetoric_profiles SET ${sets.join(', ')} WHERE surah = ?`, vals);
+        await execute(this.db, `UPDATE qr_surah_rhetoric_profile SET ${sets.join(', ')} WHERE surah = ?`, vals);
       }
     }
 
     return this.rhetoricsProfile(surahId);
   }
 
-  // ── qr_surah_theme_profiles ────────────────────────────────────────────────
+  // ── qr_surah_theme_profile ────────────────────────────────────────────────
 
   themeProfile(surahId: number): Promise<SurahThemeProfile | null> {
     return queryOne<SurahThemeProfile>(
       this.db,
       `SELECT surah, primary_theme, secondary_themes, theological_axis, ethical_axis,
               note_md, created_at
-       FROM qr_surah_theme_profiles
+       FROM qr_surah_theme_profile
        WHERE surah = ?`,
       [surahId],
     );
@@ -390,7 +390,7 @@ export class SurahMeaningRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_theme_profiles
+        `INSERT INTO qr_surah_theme_profile
            (surah, primary_theme, secondary_themes, theological_axis, ethical_axis, note_md)
          VALUES (?, ?, ?, ?, ?, ?)`,
         [
@@ -414,21 +414,21 @@ export class SurahMeaningRepo {
 
       if (sets.length > 0) {
         vals.push(surahId);
-        await execute(this.db, `UPDATE qr_surah_theme_profiles SET ${sets.join(', ')} WHERE surah = ?`, vals);
+        await execute(this.db, `UPDATE qr_surah_theme_profile SET ${sets.join(', ')} WHERE surah = ?`, vals);
       }
     }
 
     return this.themeProfile(surahId);
   }
 
-  // ── qr_surah_theology_profiles ─────────────────────────────────────────────
+  // ── qr_surah_theology_profile ─────────────────────────────────────────────
 
   theologyProfile(surahId: number): Promise<SurahTheologyProfile | null> {
     return queryOne<SurahTheologyProfile>(
       this.db,
       `SELECT surah, divine_attributes, prophethood_aspects, eschatology_aspects,
               cosmology_aspects, note_md, created_at
-       FROM qr_surah_theology_profiles
+       FROM qr_surah_theology_profile
        WHERE surah = ?`,
       [surahId],
     );
@@ -440,7 +440,7 @@ export class SurahMeaningRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_theology_profiles
+        `INSERT INTO qr_surah_theology_profile
            (surah, divine_attributes, prophethood_aspects, eschatology_aspects, cosmology_aspects, note_md)
          VALUES (?, ?, ?, ?, ?, ?)`,
         [
@@ -464,21 +464,21 @@ export class SurahMeaningRepo {
 
       if (sets.length > 0) {
         vals.push(surahId);
-        await execute(this.db, `UPDATE qr_surah_theology_profiles SET ${sets.join(', ')} WHERE surah = ?`, vals);
+        await execute(this.db, `UPDATE qr_surah_theology_profile SET ${sets.join(', ')} WHERE surah = ?`, vals);
       }
     }
 
     return this.theologyProfile(surahId);
   }
 
-  // ── qr_surah_worldview_profiles ────────────────────────────────────────────
+  // ── qr_surah_worldview_profile ────────────────────────────────────────────
 
   worldviewProfile(surahId: number): Promise<SurahWorldviewProfile | null> {
     return queryOne<SurahWorldviewProfile>(
       this.db,
       `SELECT surah, anthropology_notes, value_architecture, moral_universe,
               divine_human_rel, worldview_tensions, note_md, created_at
-       FROM qr_surah_worldview_profiles
+       FROM qr_surah_worldview_profile
        WHERE surah = ?`,
       [surahId],
     );
@@ -490,7 +490,7 @@ export class SurahMeaningRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_worldview_profiles
+        `INSERT INTO qr_surah_worldview_profile
            (surah, anthropology_notes, value_architecture, moral_universe,
             divine_human_rel, worldview_tensions, note_md)
          VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -517,7 +517,7 @@ export class SurahMeaningRepo {
 
       if (sets.length > 0) {
         vals.push(surahId);
-        await execute(this.db, `UPDATE qr_surah_worldview_profiles SET ${sets.join(', ')} WHERE surah = ?`, vals);
+        await execute(this.db, `UPDATE qr_surah_worldview_profile SET ${sets.join(', ')} WHERE surah = ?`, vals);
       }
     }
 

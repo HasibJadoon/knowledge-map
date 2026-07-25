@@ -1,6 +1,6 @@
-// ─── SurahStructureRepo — qr_surah_openings + qr_surah_closures +
-//     qr_surah_structural_pivots + qr_surah_structure_units +
-//     qr_surah_structure_links + qr_surah_structure_readings ──────────────────
+// ─── SurahStructureRepo — qr_surah_opening + qr_surah_closure +
+//     qr_surah_structural_pivot + qr_surah_structure_unit +
+//     qr_surah_structure_link + qr_surah_structure_reading ──────────────────
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -141,14 +141,14 @@ export interface SurahStructureReadingCreate {
 export class SurahStructureRepo {
   constructor(private db: D1Database) {}
 
-  // ── qr_surah_openings ──────────────────────────────────────────────────────
+  // ── qr_surah_opening ──────────────────────────────────────────────────────
 
   openings(surahId: number): Promise<SurahOpening | null> {
     return queryOne<SurahOpening>(
       this.db,
       `SELECT surah, ayah_from, ayah_to, opening_type, rhetorical_force,
               sets_up_md, note_md, created_at
-       FROM qr_surah_openings
+       FROM qr_surah_opening
        WHERE surah = ?`,
       [surahId],
     );
@@ -160,7 +160,7 @@ export class SurahStructureRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_openings
+        `INSERT INTO qr_surah_opening
            (surah, ayah_from, ayah_to, opening_type, rhetorical_force, sets_up_md, note_md)
          VALUES (?, ?, ?, ?, ?, ?, ?)`,
         [
@@ -186,21 +186,21 @@ export class SurahStructureRepo {
 
       if (sets.length > 0) {
         vals.push(surahId);
-        await execute(this.db, `UPDATE qr_surah_openings SET ${sets.join(', ')} WHERE surah = ?`, vals);
+        await execute(this.db, `UPDATE qr_surah_opening SET ${sets.join(', ')} WHERE surah = ?`, vals);
       }
     }
 
     return this.openings(surahId);
   }
 
-  // ── qr_surah_closures ──────────────────────────────────────────────────────
+  // ── qr_surah_closure ──────────────────────────────────────────────────────
 
   closures(surahId: number): Promise<SurahClosure | null> {
     return queryOne<SurahClosure>(
       this.db,
       `SELECT surah, ayah_from, ayah_to, closure_type, echo_of_opening,
               rhetorical_force, note_md, created_at
-       FROM qr_surah_closures
+       FROM qr_surah_closure
        WHERE surah = ?`,
       [surahId],
     );
@@ -212,7 +212,7 @@ export class SurahStructureRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_closures
+        `INSERT INTO qr_surah_closure
            (surah, ayah_from, ayah_to, closure_type, echo_of_opening, rhetorical_force, note_md)
          VALUES (?, ?, ?, ?, ?, ?, ?)`,
         [
@@ -238,23 +238,23 @@ export class SurahStructureRepo {
 
       if (sets.length > 0) {
         vals.push(surahId);
-        await execute(this.db, `UPDATE qr_surah_closures SET ${sets.join(', ')} WHERE surah = ?`, vals);
+        await execute(this.db, `UPDATE qr_surah_closure SET ${sets.join(', ')} WHERE surah = ?`, vals);
       }
     }
 
     return this.closures(surahId);
   }
 
-  // ── qr_surah_structural_pivots ─────────────────────────────────────────────
+  // ── qr_surah_structural_pivot ─────────────────────────────────────────────
 
   pivots(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahStructuralPivot>(
       this.db,
       `SELECT id, surah, pivot_index, ayah, pivot_type, description, note_md, created_at
-       FROM qr_surah_structural_pivots
+       FROM qr_surah_structural_pivot
        WHERE surah = ?
        ORDER BY pivot_index`,
-      `SELECT COUNT(*) AS count FROM qr_surah_structural_pivots WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_structural_pivot WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -265,14 +265,14 @@ export class SurahStructureRepo {
 
     const maxRow = await queryOne<{ max_idx: number | null }>(
       this.db,
-      `SELECT MAX(pivot_index) AS max_idx FROM qr_surah_structural_pivots WHERE surah = ?`,
+      `SELECT MAX(pivot_index) AS max_idx FROM qr_surah_structural_pivot WHERE surah = ?`,
       [input.surah],
     );
     const pivot_index = (maxRow?.max_idx ?? 0) + 1;
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_structural_pivots
+      `INSERT INTO qr_surah_structural_pivot
          (id, surah, pivot_index, ayah, pivot_type, description, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [id, input.surah, pivot_index, input.ayah, input.pivot_type, input.description, input.note_md ?? null],
@@ -281,21 +281,21 @@ export class SurahStructureRepo {
     return queryOne<SurahStructuralPivot>(
       this.db,
       `SELECT id, surah, pivot_index, ayah, pivot_type, description, note_md, created_at
-       FROM qr_surah_structural_pivots WHERE id = ?`,
+       FROM qr_surah_structural_pivot WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_structure_units ───────────────────────────────────────────────
+  // ── qr_surah_structure_unit ───────────────────────────────────────────────
 
   structureUnits(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahStructureUnit>(
       this.db,
       `SELECT id, surah, unit_index, ayah_from, ayah_to, unit_role, label, reading_id, note_md, created_at
-       FROM qr_surah_structure_units
+       FROM qr_surah_structure_unit
        WHERE surah = ?
        ORDER BY unit_index`,
-      `SELECT COUNT(*) AS count FROM qr_surah_structure_units WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_structure_unit WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -305,7 +305,7 @@ export class SurahStructureRepo {
     return queryOne<SurahStructureUnit>(
       this.db,
       `SELECT id, surah, unit_index, ayah_from, ayah_to, unit_role, label, reading_id, note_md, created_at
-       FROM qr_surah_structure_units
+       FROM qr_surah_structure_unit
        WHERE id = ?`,
       [id],
     );
@@ -316,7 +316,7 @@ export class SurahStructureRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_structure_units
+      `INSERT INTO qr_surah_structure_unit
          (id, surah, unit_index, ayah_from, ayah_to, unit_role, label, reading_id, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -335,16 +335,16 @@ export class SurahStructureRepo {
     return this.findUnitById(id);
   }
 
-  // ── qr_surah_structure_links ───────────────────────────────────────────────
+  // ── qr_surah_structure_link ───────────────────────────────────────────────
 
   structureLinks(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahStructureLink>(
       this.db,
       `SELECT id, surah, from_unit_id, to_unit_id, link_type, link_evidence, note_md, created_at
-       FROM qr_surah_structure_links
+       FROM qr_surah_structure_link
        WHERE surah = ?
        ORDER BY created_at`,
-      `SELECT COUNT(*) AS count FROM qr_surah_structure_links WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_structure_link WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -355,7 +355,7 @@ export class SurahStructureRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_structure_links
+      `INSERT INTO qr_surah_structure_link
          (id, surah, from_unit_id, to_unit_id, link_type, link_evidence, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -372,22 +372,22 @@ export class SurahStructureRepo {
     return queryOne<SurahStructureLink>(
       this.db,
       `SELECT id, surah, from_unit_id, to_unit_id, link_type, link_evidence, note_md, created_at
-       FROM qr_surah_structure_links WHERE id = ?`,
+       FROM qr_surah_structure_link WHERE id = ?`,
       [id],
     );
   }
 
-  // ── qr_surah_structure_readings ────────────────────────────────────────────
+  // ── qr_surah_structure_reading ────────────────────────────────────────────
 
   readings(surahId: number, opts: PaginateOptions = {}) {
     return paginate<SurahStructureReading>(
       this.db,
       `SELECT id, surah, reading_label, structure_type, scholar_ref, paradigm_ref,
               confidence, summary_md, note_md, created_at, updated_at
-       FROM qr_surah_structure_readings
+       FROM qr_surah_structure_reading
        WHERE surah = ?
        ORDER BY created_at`,
-      `SELECT COUNT(*) AS count FROM qr_surah_structure_readings WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_surah_structure_reading WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -398,7 +398,7 @@ export class SurahStructureRepo {
 
     await execute(
       this.db,
-      `INSERT INTO qr_surah_structure_readings
+      `INSERT INTO qr_surah_structure_reading
          (id, surah, reading_label, structure_type, scholar_ref, paradigm_ref,
           confidence, summary_md, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -419,7 +419,7 @@ export class SurahStructureRepo {
       this.db,
       `SELECT id, surah, reading_label, structure_type, scholar_ref, paradigm_ref,
               confidence, summary_md, note_md, created_at, updated_at
-       FROM qr_surah_structure_readings WHERE id = ?`,
+       FROM qr_surah_structure_reading WHERE id = ?`,
       [id],
     );
   }

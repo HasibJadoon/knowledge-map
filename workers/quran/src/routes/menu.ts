@@ -2,7 +2,7 @@
 // Returns all 114 surahs with juz groupings and page stats.
 // Primary data source for the Angular navigation sidebar and Quran index page.
 //
-// New architecture advantage: qr_surahs stores juz_start and page_start
+// New architecture advantage: qr_surah stores juz_start and page_start
 // directly, so no JOIN to qr_ayah is needed (unlike the legacy implementation).
 
 import type { Router } from '../../../shared/src/router';
@@ -64,7 +64,7 @@ export function menuRoutes(router: Router<QuranEnv>) {
           env.DB_QR,
           `SELECT id, name_ar, name_en, name_transliteration,
                   revelation_type, ayah_count, juz_start, page_start
-           FROM qr_surahs
+           FROM qr_surah
            ORDER BY id`,
         ),
         queryOne<PageRangeRow>(

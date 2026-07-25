@@ -327,7 +327,7 @@ export class TafsirRepo {
     }
 
     const whereClause = where.length ? `WHERE ${where.join(' AND ')}` : '';
-    const base = `FROM qr_tafsir_entries ${whereClause}`;
+    const base = `FROM qr_tafsir_entry ${whereClause}`;
     const order = `ORDER BY surah, ayah_from, created_at`;
 
     return paginate<TafsirEntry>(
@@ -342,7 +342,7 @@ export class TafsirRepo {
   findEntryById(id: string): Promise<TafsirEntry | null> {
     return queryOne<TafsirEntry>(
       this.db,
-      `SELECT ${ENTRY_COLS} FROM qr_tafsir_entries WHERE id = ?`,
+      `SELECT ${ENTRY_COLS} FROM qr_tafsir_entry WHERE id = ?`,
       [id],
     );
   }
@@ -351,7 +351,7 @@ export class TafsirRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_tafsir_entries
+      `INSERT INTO qr_tafsir_entry
          (id, surah, ayah_from, ayah_to, entry_type,
           scholar_id, work_id, content_ar, content_en,
           source_page, note_md)
@@ -389,7 +389,7 @@ export class TafsirRepo {
 
     sets.push("updated_at = datetime('now')");
     vals.push(id);
-    await execute(this.db, `UPDATE qr_tafsir_entries SET ${sets.join(', ')} WHERE id = ?`, vals);
+    await execute(this.db, `UPDATE qr_tafsir_entry SET ${sets.join(', ')} WHERE id = ?`, vals);
     return this.findEntryById(id);
   }
 
@@ -398,8 +398,8 @@ export class TafsirRepo {
   scholars(opts: PaginateOptions = {}) {
     return paginate<ScholarProfile>(
       this.db,
-      `SELECT ${SCHOLAR_COLS} FROM qr_scholar_profiles ORDER BY name_en, name_ar`,
-      `SELECT COUNT(*) AS count FROM qr_scholar_profiles`,
+      `SELECT ${SCHOLAR_COLS} FROM qr_scholar_profile ORDER BY name_en, name_ar`,
+      `SELECT COUNT(*) AS count FROM qr_scholar_profile`,
       [],
       opts,
     );
@@ -408,7 +408,7 @@ export class TafsirRepo {
   findScholarById(id: string): Promise<ScholarProfile | null> {
     return queryOne<ScholarProfile>(
       this.db,
-      `SELECT ${SCHOLAR_COLS} FROM qr_scholar_profiles WHERE id = ?`,
+      `SELECT ${SCHOLAR_COLS} FROM qr_scholar_profile WHERE id = ?`,
       [id],
     );
   }
@@ -416,7 +416,7 @@ export class TafsirRepo {
   findScholarBySlug(nisba: string): Promise<ScholarProfile | null> {
     return queryOne<ScholarProfile>(
       this.db,
-      `SELECT ${SCHOLAR_COLS} FROM qr_scholar_profiles WHERE nisba = ? LIMIT 1`,
+      `SELECT ${SCHOLAR_COLS} FROM qr_scholar_profile WHERE nisba = ? LIMIT 1`,
       [nisba],
     );
   }
@@ -425,7 +425,7 @@ export class TafsirRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_scholar_profiles
+      `INSERT INTO qr_scholar_profile
          (id, name_ar, name_en, kunya, laqab, nisba,
           birth_year_hijri, death_year_hijri, birth_year_ce, death_year_ce,
           era, madhab, kalam_school, specialization, biography_md, note_md)
@@ -475,7 +475,7 @@ export class TafsirRepo {
 
     sets.push("updated_at = datetime('now')");
     vals.push(id);
-    await execute(this.db, `UPDATE qr_scholar_profiles SET ${sets.join(', ')} WHERE id = ?`, vals);
+    await execute(this.db, `UPDATE qr_scholar_profile SET ${sets.join(', ')} WHERE id = ?`, vals);
     return this.findScholarById(id);
   }
 
@@ -484,8 +484,8 @@ export class TafsirRepo {
   works(scholarId: string, opts: PaginateOptions = {}) {
     return paginate<ScholarWork>(
       this.db,
-      `SELECT ${WORK_COLS} FROM qr_scholar_works WHERE scholar_id = ? ORDER BY composition_year_hijri`,
-      `SELECT COUNT(*) AS count FROM qr_scholar_works WHERE scholar_id = ?`,
+      `SELECT ${WORK_COLS} FROM qr_scholar_work WHERE scholar_id = ? ORDER BY composition_year_hijri`,
+      `SELECT COUNT(*) AS count FROM qr_scholar_work WHERE scholar_id = ?`,
       [scholarId],
       opts,
     );
@@ -494,7 +494,7 @@ export class TafsirRepo {
   findWorkById(id: string): Promise<ScholarWork | null> {
     return queryOne<ScholarWork>(
       this.db,
-      `SELECT ${WORK_COLS} FROM qr_scholar_works WHERE id = ?`,
+      `SELECT ${WORK_COLS} FROM qr_scholar_work WHERE id = ?`,
       [id],
     );
   }
@@ -503,7 +503,7 @@ export class TafsirRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_scholar_works
+      `INSERT INTO qr_scholar_work
          (id, scholar_id, title_ar, title_en, work_type,
           composition_year_hijri, composition_year_ce, lx_source_ref,
           volumes, is_complete, print_edition, summary, note_md)
@@ -532,8 +532,8 @@ export class TafsirRepo {
   paradigms(opts: PaginateOptions = {}) {
     return paginate<ScholarlyParadigm>(
       this.db,
-      `SELECT ${PARADIGM_COLS} FROM qr_scholarly_paradigms ORDER BY paradigm_type, name_en`,
-      `SELECT COUNT(*) AS count FROM qr_scholarly_paradigms`,
+      `SELECT ${PARADIGM_COLS} FROM qr_scholarly_paradigm ORDER BY paradigm_type, name_en`,
+      `SELECT COUNT(*) AS count FROM qr_scholarly_paradigm`,
       [],
       opts,
     );
@@ -542,7 +542,7 @@ export class TafsirRepo {
   findParadigmById(id: string): Promise<ScholarlyParadigm | null> {
     return queryOne<ScholarlyParadigm>(
       this.db,
-      `SELECT ${PARADIGM_COLS} FROM qr_scholarly_paradigms WHERE id = ?`,
+      `SELECT ${PARADIGM_COLS} FROM qr_scholarly_paradigm WHERE id = ?`,
       [id],
     );
   }
@@ -551,7 +551,7 @@ export class TafsirRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_scholarly_paradigms
+      `INSERT INTO qr_scholarly_paradigm
          (id, name_ar, name_en, paradigm_type, description_md, era_range)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [
@@ -572,7 +572,7 @@ export class TafsirRepo {
     return query<ScholarParadigmLink>(
       this.db,
       `SELECT scholar_id, paradigm_id, affiliation_type, note_md
-       FROM qr_scholar_paradigm_links
+       FROM qr_scholar_paradigm_link
        WHERE scholar_id = ?
        ORDER BY affiliation_type`,
       [scholarId],
@@ -582,7 +582,7 @@ export class TafsirRepo {
   async addParadigmLink(scholarId: string, input: ParadigmLinkAdd): Promise<ScholarParadigmLink> {
     await execute(
       this.db,
-      `INSERT OR REPLACE INTO qr_scholar_paradigm_links
+      `INSERT OR REPLACE INTO qr_scholar_paradigm_link
          (scholar_id, paradigm_id, affiliation_type, note_md)
        VALUES (?, ?, ?, ?)`,
       [
@@ -595,7 +595,7 @@ export class TafsirRepo {
     const row = await queryOne<ScholarParadigmLink>(
       this.db,
       `SELECT scholar_id, paradigm_id, affiliation_type, note_md
-       FROM qr_scholar_paradigm_links
+       FROM qr_scholar_paradigm_link
        WHERE scholar_id = ? AND paradigm_id = ?`,
       [scholarId, input.paradigm_id],
     );
@@ -626,7 +626,7 @@ export class TafsirRepo {
     }
 
     const whereClause = where.length ? `WHERE ${where.join(' AND ')}` : '';
-    const base = `FROM qr_scholar_positions ${whereClause}`;
+    const base = `FROM qr_scholar_position ${whereClause}`;
     const order = `ORDER BY surah, ayah_from, created_at`;
 
     return paginate<ScholarPosition>(
@@ -641,7 +641,7 @@ export class TafsirRepo {
   findPositionById(id: string): Promise<ScholarPosition | null> {
     return queryOne<ScholarPosition>(
       this.db,
-      `SELECT ${POSITION_COLS} FROM qr_scholar_positions WHERE id = ?`,
+      `SELECT ${POSITION_COLS} FROM qr_scholar_position WHERE id = ?`,
       [id],
     );
   }
@@ -650,7 +650,7 @@ export class TafsirRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_scholar_positions
+      `INSERT INTO qr_scholar_position
          (id, scholar_id, work_id, scope_type, surah, ayah_from, ayah_to,
           position_type, position_text_ar, position_text_en, position_summary,
           original_page, is_minority_view, is_contested, note_md)
@@ -682,7 +682,7 @@ export class TafsirRepo {
     return query<ReceptionHistory>(
       this.db,
       `SELECT ${RECEPTION_COLS}
-       FROM qr_surah_reception_histories
+       FROM qr_surah_reception
        WHERE surah = ?
        ORDER BY era`,
       [surahId],
@@ -692,14 +692,14 @@ export class TafsirRepo {
   async upsertReceptionHistory(surahId: number, data: ReceptionHistoryData): Promise<ReceptionHistory> {
     const existing = await queryOne<{ id: string }>(
       this.db,
-      `SELECT id FROM qr_surah_reception_histories WHERE surah = ? AND era = ?`,
+      `SELECT id FROM qr_surah_reception WHERE surah = ? AND era = ?`,
       [surahId, data.era],
     );
 
     if (existing) {
       await execute(
         this.db,
-        `UPDATE qr_surah_reception_histories SET
+        `UPDATE qr_surah_reception SET
            dominant_methodology = ?,
            dominant_themes = ?,
            notable_scholars = ?,
@@ -719,7 +719,7 @@ export class TafsirRepo {
       );
       return (await queryOne<ReceptionHistory>(
         this.db,
-        `SELECT ${RECEPTION_COLS} FROM qr_surah_reception_histories WHERE id = ?`,
+        `SELECT ${RECEPTION_COLS} FROM qr_surah_reception WHERE id = ?`,
         [existing.id],
       ))!;
     }
@@ -727,7 +727,7 @@ export class TafsirRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_surah_reception_histories
+      `INSERT INTO qr_surah_reception
          (id, surah, era, dominant_methodology, dominant_themes,
           notable_scholars, tendencies_md, notable_shifts_md, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -745,7 +745,7 @@ export class TafsirRepo {
     );
     return (await queryOne<ReceptionHistory>(
       this.db,
-      `SELECT ${RECEPTION_COLS} FROM qr_surah_reception_histories WHERE id = ?`,
+      `SELECT ${RECEPTION_COLS} FROM qr_surah_reception WHERE id = ?`,
       [id],
     ))!;
   }
@@ -756,10 +756,10 @@ export class TafsirRepo {
     return paginate<InterpretiveDiff>(
       this.db,
       `SELECT ${DIFF_COLS}
-       FROM qr_interpretive_differences
+       FROM qr_interpretive_difference
        WHERE surah = ?
        ORDER BY ayah_from, difference_type`,
-      `SELECT COUNT(*) AS count FROM qr_interpretive_differences WHERE surah = ?`,
+      `SELECT COUNT(*) AS count FROM qr_interpretive_difference WHERE surah = ?`,
       [surahId],
       opts,
     );
@@ -769,7 +769,7 @@ export class TafsirRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_interpretive_differences
+      `INSERT INTO qr_interpretive_difference
          (id, scope_type, surah, ayah_from, ayah_to,
           question_ar, question_en, difference_type,
           positions_summary, majority_view, minority_view,
@@ -794,7 +794,7 @@ export class TafsirRepo {
     );
     const row = await queryOne<InterpretiveDiff>(
       this.db,
-      `SELECT ${DIFF_COLS} FROM qr_interpretive_differences WHERE id = ?`,
+      `SELECT ${DIFF_COLS} FROM qr_interpretive_difference WHERE id = ?`,
       [id],
     );
     return row!;

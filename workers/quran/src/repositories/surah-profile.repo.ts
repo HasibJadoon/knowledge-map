@@ -1,4 +1,4 @@
-// ─── SurahProfileRepo — qr_surah_profiles + qr_surah_atomic_profiles + qr_surah_ayah_meta ─
+// ─── SurahProfileRepo — qr_surah_profile + qr_surah_atomic_profile + qr_surah_ayah_meta ─
 
 import { query, queryOne, execute } from '../../../shared/src/db';
 
@@ -73,14 +73,14 @@ export interface SurahAyahMetaUpsert {
 export class SurahProfileRepo {
   constructor(private db: D1Database) {}
 
-  // ── qr_surah_profiles ──────────────────────────────────────────────────────
+  // ── qr_surah_profile ──────────────────────────────────────────────────────
 
   findBySurah(surahId: number): Promise<SurahProfile | null> {
     return queryOne<SurahProfile>(
       this.db,
       `SELECT surah, governing_movement, central_claim, opening_force, closure_force,
               dominant_addressee, dominant_tone, note_md, created_at, updated_at
-       FROM qr_surah_profiles
+       FROM qr_surah_profile
        WHERE surah = ?`,
       [surahId],
     );
@@ -92,7 +92,7 @@ export class SurahProfileRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_profiles
+        `INSERT INTO qr_surah_profile
            (surah, governing_movement, central_claim, opening_force, closure_force,
             dominant_addressee, dominant_tone, note_md)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -120,20 +120,20 @@ export class SurahProfileRepo {
       if (data.note_md !== undefined)            { sets.push('note_md = ?');            vals.push(data.note_md); }
 
       vals.push(surahId);
-      await execute(this.db, `UPDATE qr_surah_profiles SET ${sets.join(', ')} WHERE surah = ?`, vals);
+      await execute(this.db, `UPDATE qr_surah_profile SET ${sets.join(', ')} WHERE surah = ?`, vals);
     }
 
     return this.findBySurah(surahId);
   }
 
-  // ── qr_surah_atomic_profiles ───────────────────────────────────────────────
+  // ── qr_surah_atomic_profile ───────────────────────────────────────────────
 
   findAtomicBySurah(surahId: number): Promise<SurahAtomicProfile | null> {
     return queryOne<SurahAtomicProfile>(
       this.db,
       `SELECT surah, atomic_center, atomic_center_ar, structural_type, structural_type_note,
               resolution_pattern, interpretive_lens, note_md, created_at, updated_at
-       FROM qr_surah_atomic_profiles
+       FROM qr_surah_atomic_profile
        WHERE surah = ?`,
       [surahId],
     );
@@ -145,7 +145,7 @@ export class SurahProfileRepo {
     if (!existing) {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_atomic_profiles
+        `INSERT INTO qr_surah_atomic_profile
            (surah, atomic_center, atomic_center_ar, structural_type, structural_type_note,
             resolution_pattern, interpretive_lens, note_md)
          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -173,7 +173,7 @@ export class SurahProfileRepo {
       if (data.note_md !== undefined)            { sets.push('note_md = ?');            vals.push(data.note_md); }
 
       vals.push(surahId);
-      await execute(this.db, `UPDATE qr_surah_atomic_profiles SET ${sets.join(', ')} WHERE surah = ?`, vals);
+      await execute(this.db, `UPDATE qr_surah_atomic_profile SET ${sets.join(', ')} WHERE surah = ?`, vals);
     }
 
     return this.findAtomicBySurah(surahId);

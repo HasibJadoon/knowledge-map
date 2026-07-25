@@ -1,5 +1,5 @@
 // ─── Word occurrence schemas & types ──────────────────────────────────────────
-// Field names mirror the qr_word_occurrences D1 columns exactly. Older names
+// Field names mirror the qr_word_occurrence D1 columns exactly. Older names
 // (word_position, text_uthmani, text_clean, lx_lemma_ref, root_text, pos_tag)
 // were retired during the morphology import; do not reintroduce them here.
 

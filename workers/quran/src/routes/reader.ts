@@ -123,7 +123,7 @@ export function readerRoutes(router: Router<QuranEnv>) {
                     translator_name AS author,
                     COALESCE(edition, translator_name) AS title,
                     is_default
-             FROM qr_translation_sources
+             FROM qr_translation_source
              WHERE id = ?`,
           ).bind(sourceParam).first<TranslationSourceRow>()
         : env.DB_QR.prepare(
@@ -137,10 +137,10 @@ export function readerRoutes(router: Router<QuranEnv>) {
                       s.is_default,
                       CASE WHEN s.is_default = 1 THEN 0 ELSE 1 END AS default_rank,
                       CASE WHEN s.language = 'en' THEN 0 ELSE 1 END AS language_rank
-               FROM qr_translation_sources s
+               FROM qr_translation_source s
                WHERE EXISTS (
                  SELECT 1
-                 FROM qr_translations t
+                 FROM qr_translation t
                  WHERE t.source_id = s.id AND t.surah = ?
                  LIMIT 1
                )
@@ -154,7 +154,7 @@ export function readerRoutes(router: Router<QuranEnv>) {
           .prepare(
             `SELECT id, name_ar, name_en, name_transliteration,
                     revelation_type, ayah_count, juz_start, page_start
-             FROM qr_surahs WHERE id = ?`,
+             FROM qr_surah WHERE id = ?`,
           )
           .bind(surahId)
           .first<SurahRow>(),
@@ -208,7 +208,7 @@ export function readerRoutes(router: Router<QuranEnv>) {
           ? env.DB_QR
               .prepare(
                 `SELECT ayah, translation_text AS text
-                 FROM qr_translations
+                 FROM qr_translation
                  WHERE source_id = ? AND surah = ? AND ayah BETWEEN ? AND ?
                  ORDER BY ayah`,
               )

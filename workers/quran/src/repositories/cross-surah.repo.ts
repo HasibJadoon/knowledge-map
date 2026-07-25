@@ -1,5 +1,5 @@
 // ─── CrossSurahRepo — Layer 9: Cross-surah + Comparative ─────────────────────
-// Tables: qr_surah_relations, qr_quran_bil_quran_relations,
+// Tables: qr_surah_link, qr_quran_bil_quran_link,
 //         qr_tradition_sources, qr_comparative_claims, qr_civilizational_claims
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
@@ -145,11 +145,11 @@ export class CrossSurahRepo {
     return paginate<SurahRelation>(
       this.db,
       `SELECT ${SR_COLS}
-       FROM qr_surah_relations
+       FROM qr_surah_link
        WHERE surah_a = ? OR surah_b = ?
        ORDER BY surah_a, surah_b`,
       `SELECT COUNT(*) AS count
-       FROM qr_surah_relations
+       FROM qr_surah_link
        WHERE surah_a = ? OR surah_b = ?`,
       [surahId, surahId],
       opts,
@@ -160,7 +160,7 @@ export class CrossSurahRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_surah_relations
+      `INSERT INTO qr_surah_link
          (id, surah_a, surah_b, relation_type, description, evidence_summary, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -175,7 +175,7 @@ export class CrossSurahRepo {
     );
     return (await queryOne<SurahRelation>(
       this.db,
-      `SELECT ${SR_COLS} FROM qr_surah_relations WHERE id = ?`,
+      `SELECT ${SR_COLS} FROM qr_surah_link WHERE id = ?`,
       [id],
     ))!;
   }
@@ -195,7 +195,7 @@ export class CrossSurahRepo {
     }
 
     const whereClause = `WHERE ${where.join(' AND ')}`;
-    const base = `FROM qr_quran_bil_quran_relations ${whereClause}`;
+    const base = `FROM qr_quran_bil_quran_link ${whereClause}`;
     const order = `ORDER BY from_surah, from_ayah, to_surah, to_ayah`;
 
     return paginate<QbqRelation>(
@@ -211,7 +211,7 @@ export class CrossSurahRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_quran_bil_quran_relations
+      `INSERT INTO qr_quran_bil_quran_link
          (id, from_surah, from_ayah, to_surah, to_ayah,
           relation_type, scholar_ref, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -228,7 +228,7 @@ export class CrossSurahRepo {
     );
     return (await queryOne<QbqRelation>(
       this.db,
-      `SELECT ${QBQ_COLS} FROM qr_quran_bil_quran_relations WHERE id = ?`,
+      `SELECT ${QBQ_COLS} FROM qr_quran_bil_quran_link WHERE id = ?`,
       [id],
     ))!;
   }

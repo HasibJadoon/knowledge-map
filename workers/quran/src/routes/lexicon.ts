@@ -1,5 +1,5 @@
 // ─── /qr/lexicon routes ───────────────────────────────────────────────────────
-// Exposes qr_lemmas and qr_lemma_occurrences from km_quran D1.
+// Exposes qr_lemma and qr_lemma_occurrence from km_quran D1.
 // Lexicon search is root-primary: search by 3-letter root, then by lemma text.
 
 import type { Router } from '../../../shared/src/router';
@@ -32,10 +32,10 @@ export function lexiconRoutes(router: Router<QuranEnv>) {
       params = [`%${q}%`];
     }
 
-    const countSql = `SELECT COUNT(*) AS count FROM qr_lemmas ${where}`;
+    const countSql = `SELECT COUNT(*) AS count FROM qr_lemma ${where}`;
     const dataSql  = `
       SELECT id, lemma_text, root, total_occurrences, lx_lemma_ref
-      FROM qr_lemmas
+      FROM qr_lemma
       ${where}
       ORDER BY total_occurrences DESC, lemma_text
       LIMIT ? OFFSET ?
@@ -69,14 +69,14 @@ export function lexiconRoutes(router: Router<QuranEnv>) {
 
     const [lemmaRes, occRes] = await Promise.all([
       env.DB_QR
-        .prepare(`SELECT id, lemma_text, root, total_occurrences FROM qr_lemmas WHERE id = ?`)
+        .prepare(`SELECT id, lemma_text, root, total_occurrences FROM qr_lemma WHERE id = ?`)
         .bind(id)
         .first<{ id: string; lemma_text: string; root: string; total_occurrences: number }>(),
       env.DB_QR
         .prepare(`
           SELECT lo.id, lo.surah, lo.ayah, lo.word_index,
                  a.text_bare AS ayah_text
-          FROM qr_lemma_occurrences lo
+          FROM qr_lemma_occurrence lo
           LEFT JOIN qr_ayah a ON a.surah = lo.surah AND a.ayah = lo.ayah
           WHERE lo.lemma_id = ?
           ORDER BY lo.surah, lo.ayah, lo.word_index
@@ -109,7 +109,7 @@ export function lexiconRoutes(router: Router<QuranEnv>) {
     const { results } = await env.DB_QR
       .prepare(`
         SELECT root, COUNT(*) AS lemma_count, SUM(total_occurrences) AS total_occurrences
-        FROM qr_lemmas
+        FROM qr_lemma
         WHERE root LIKE ?
         GROUP BY root
         ORDER BY total_occurrences DESC

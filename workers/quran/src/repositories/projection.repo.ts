@@ -1,7 +1,7 @@
 // ─── ProjectionRepo — Layer 10: Projections + Bridges ────────────────────────
 // Tables: qr_worldview_nodes, qr_worldview_edges, qr_diagram_specs,
-//         qr_diagram_instances, qr_doc_links,
-//         qr_surah_analysis_cache, qr_passage_analysis_cache
+//         qr_diagram_instances, qr_doc_link,
+//         qr_surah_analysis, qr_passage_analysis
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -351,7 +351,7 @@ export class ProjectionRepo {
     return query<DocLink>(
       this.db,
       `SELECT ${DL_COLS}
-       FROM qr_doc_links
+       FROM qr_doc_link
        WHERE qr_scope_type = ? AND qr_scope_id = ?
        ORDER BY link_type, created_at`,
       [qrScopeType, qrScopeId],
@@ -366,7 +366,7 @@ export class ProjectionRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_doc_links
+      `INSERT INTO qr_doc_link
          (id, qr_scope_type, qr_scope_id, cm_doc_ref, link_type, note_md)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [
@@ -380,7 +380,7 @@ export class ProjectionRepo {
     );
     return (await queryOne<DocLink>(
       this.db,
-      `SELECT ${DL_COLS} FROM qr_doc_links WHERE id = ?`,
+      `SELECT ${DL_COLS} FROM qr_doc_link WHERE id = ?`,
       [id],
     ))!;
   }
@@ -390,7 +390,7 @@ export class ProjectionRepo {
   surahCache(surahId: number): Promise<SurahAnalysisCache | null> {
     return queryOne<SurahAnalysisCache>(
       this.db,
-      `SELECT ${SAC_COLS} FROM qr_surah_analysis_cache WHERE surah = ?`,
+      `SELECT ${SAC_COLS} FROM qr_surah_analysis WHERE surah = ?`,
       [surahId],
     );
   }
@@ -398,14 +398,14 @@ export class ProjectionRepo {
   async setSurahCache(surahId: number, payloadJson: string): Promise<SurahAnalysisCache> {
     const existing = await queryOne<{ surah: number }>(
       this.db,
-      `SELECT surah FROM qr_surah_analysis_cache WHERE surah = ?`,
+      `SELECT surah FROM qr_surah_analysis WHERE surah = ?`,
       [surahId],
     );
 
     if (existing) {
       await execute(
         this.db,
-        `UPDATE qr_surah_analysis_cache SET
+        `UPDATE qr_surah_analysis SET
            cache_version = cache_version + 1,
            cache_generated_at = datetime('now'),
            payload_json = ?
@@ -415,7 +415,7 @@ export class ProjectionRepo {
     } else {
       await execute(
         this.db,
-        `INSERT INTO qr_surah_analysis_cache
+        `INSERT INTO qr_surah_analysis
            (surah, cache_version, cache_generated_at, payload_json)
          VALUES (?, 1, datetime('now'), ?)`,
         [surahId, payloadJson],
@@ -430,7 +430,7 @@ export class ProjectionRepo {
   passageCache(passageId: string): Promise<PassageAnalysisCache | null> {
     return queryOne<PassageAnalysisCache>(
       this.db,
-      `SELECT ${PAC_COLS} FROM qr_passage_analysis_cache WHERE passage_id = ?`,
+      `SELECT ${PAC_COLS} FROM qr_passage_analysis WHERE passage_id = ?`,
       [passageId],
     );
   }
@@ -439,7 +439,7 @@ export class ProjectionRepo {
     return query<PassageAnalysisCache>(
       this.db,
       `SELECT ${PAC_COLS}
-       FROM qr_passage_analysis_cache
+       FROM qr_passage_analysis
        WHERE surah = ?
        ORDER BY passage_id`,
       [surahId],
@@ -453,14 +453,14 @@ export class ProjectionRepo {
   ): Promise<PassageAnalysisCache> {
     const existing = await queryOne<{ id: string }>(
       this.db,
-      `SELECT id FROM qr_passage_analysis_cache WHERE passage_id = ?`,
+      `SELECT id FROM qr_passage_analysis WHERE passage_id = ?`,
       [passageId],
     );
 
     if (existing) {
       await execute(
         this.db,
-        `UPDATE qr_passage_analysis_cache SET
+        `UPDATE qr_passage_analysis SET
            cache_version = cache_version + 1,
            cache_generated_at = datetime('now'),
            payload_json = ?
@@ -473,7 +473,7 @@ export class ProjectionRepo {
     const id = typedId('QR');
     await execute(
       this.db,
-      `INSERT INTO qr_passage_analysis_cache
+      `INSERT INTO qr_passage_analysis
          (id, surah, passage_id, cache_version, cache_generated_at, payload_json)
        VALUES (?, ?, ?, 1, datetime('now'), ?)`,
       [id, surahId, passageId, payloadJson],
