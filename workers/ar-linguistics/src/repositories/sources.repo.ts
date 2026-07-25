@@ -1,4 +1,4 @@
-// ─── SourcesRepo — ar_ling_sources metadata (single source of truth) ─────────
+// ─── SourcesRepo — ar_ling_source metadata (single source of truth) ─────────
 // Replaces the SOURCE_META / SOURCES / SOURCE_ORDER constants that used to
 // live inline in lexicon.ts, lexicon_v2.ts, lexicon_lane.ts,
 // lexicon_mufradat.ts, and lexicon_lisan.ts. After 0016/0017 every lexicon
@@ -21,7 +21,7 @@
 import { query, queryOne } from '../../../shared/src/db';
 
 /** A normalised lexicon-source row. Every field corresponds 1:1 to a column
- *  on ar_ling_sources after migration 0016 + seed 0017. `slug` is null for
+ *  on ar_ling_source after migration 0016 + seed 0017. `slug` is null for
  *  rows that don't correspond to a TS-side identifier (orphaned duplicates,
  *  scholarship sources, synonym datasets) — those are filtered out by every
  *  query below. */
@@ -58,7 +58,7 @@ interface SourceRow {
 const SELECT = `
   id, slug, title_ar, title_en, author_name, period_label,
   origin, bilingual, source_order, footnote_source, quran_block_shape, genre
-FROM ar_ling_sources`;
+FROM ar_ling_source`;
 
 function toSource(r: SourceRow): LexiconSource {
   return {
@@ -144,7 +144,7 @@ export class SourcesRepo {
   async knownSlugs(): Promise<Set<string>> {
     const rows = await query<{ slug: string }>(
       this.db,
-      `SELECT slug FROM ar_ling_sources WHERE slug IS NOT NULL`,
+      `SELECT slug FROM ar_ling_source WHERE slug IS NOT NULL`,
     );
     return new Set(rows.map(r => r.slug));
   }

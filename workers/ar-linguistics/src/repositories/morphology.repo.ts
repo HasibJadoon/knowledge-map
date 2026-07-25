@@ -1,4 +1,4 @@
-// ─── MorphologyRepo — ar_ling_morphology + ar_ling_form_paradigms ────────────
+// ─── MorphologyRepo — ar_ling_morphology + ar_ling_root_form_paradigm ────────────
 
 import { query, queryOne, paginate } from '../../../shared/src/db';
 import type { PaginateOptions } from '../../../shared/src/types';
@@ -49,8 +49,8 @@ export class MorphologyRepo {
     return paginate<FormParadigm>(
       this.db,
       `SELECT id, paradigm_name, category, pattern, example_ar
-       FROM ar_ling_form_paradigms ${where} ORDER BY category, paradigm_name`,
-      `SELECT COUNT(*) AS count FROM ar_ling_form_paradigms ${where}`,
+       FROM ar_ling_root_form_paradigm ${where} ORDER BY category, paradigm_name`,
+      `SELECT COUNT(*) AS count FROM ar_ling_root_form_paradigm ${where}`,
       params,
       opts,
     );

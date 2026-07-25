@@ -3,7 +3,7 @@
 //
 // This worker owns DB_AL (km_arabic_linguistic) only.
 // It covers:
-//   - ar_ling_source_chunks  → lexicon / irab / balagha / near-synonym chunks
+//   - ar_ling_source_chunk  → lexicon / irab / balagha / near-synonym chunks
 //   - ar_ling_vector_records → links to qr_tafsir_entries + qr_translations
 //     (text for those lives in km_quran, resolved by the backend proxy)
 //
@@ -86,7 +86,7 @@ export function sourceRagRoutes(router: Router<ArLinguisticsEnv>) {
   // ── health ─────────────────────────────────────────────────────────────────
   router.get('/al/source-rag/health', async (_req, env) => {
     const row = await env.DB_AL
-      .prepare('SELECT COUNT(*) as cnt FROM ar_ling_source_chunks WHERE is_embedded=1')
+      .prepare('SELECT COUNT(*) as cnt FROM ar_ling_source_chunk WHERE is_embedded=1')
       .first<{ cnt: number }>();
     const vr = await env.DB_AL
       .prepare('SELECT COUNT(*) as cnt FROM ar_ling_vector_records')
@@ -140,7 +140,7 @@ export function sourceRagRoutes(router: Router<ArLinguisticsEnv>) {
       SELECT id, chunk_kind, heading_norm, text_ar, text_en,
              page_no, volume_no, meta_json,
              surah_no, ayah_start, ayah_end
-      FROM ar_ling_source_chunks
+      FROM ar_ling_source_chunk
       WHERE ${conditions.join(' AND ')}
       ORDER BY chunk_kind, ayah_start, id
       LIMIT ?
@@ -263,7 +263,7 @@ export function sourceRagRoutes(router: Router<ArLinguisticsEnv>) {
       SELECT id, chunk_kind, heading_norm, text_ar, text_en,
              page_no, volume_no, meta_json,
              surah_no, ayah_start, ayah_end
-      FROM ar_ling_source_chunks
+      FROM ar_ling_source_chunk
       WHERE surah_no = ? ${ayahCondition}
         AND chunk_kind IN (${kindPlaceholders})
         AND is_embedded = 1

@@ -17,7 +17,7 @@ export interface ArLingNahwConcept {
   example_ar: string | null;
   irab_label: string | null;         // e.g. 'مبتدأ'|'خبر'|'فاعل'
   discipline_unit_id: string | null; // FK → ar_ling_discipline_units.id
-  source_ref: string | null;         // AL:<ar_ling_sources.id>
+  source_ref: string | null;         // AL:<ar_ling_source.id>
   note_md: string | null;
   created_at: string;
 }

@@ -1,4 +1,4 @@
-// ─── LexiconRepo — ar_ling_lexicon_entries + senses + semantic_fields ─────────
+// ─── LexiconRepo — ar_ling_lexicon_entry + senses + semantic_fields ─────────
 
 import { query, queryOne, paginate } from '../../../shared/src/db';
 import type { PaginateOptions } from '../../../shared/src/types';
@@ -55,7 +55,7 @@ export class LexiconRepo {
               root_id, source_id, source_slug, source_chunk_id, entry_kind,
               page_no, volume_no, gloss_ar, gloss_en, summary_ar, summary_en,
               ui_json, ai_json, status, ai_fill_state
-       FROM ar_ling_lexicon_entries WHERE id = ?`,
+       FROM ar_ling_lexicon_entry WHERE id = ?`,
       [id],
     );
   }
@@ -69,7 +69,7 @@ export class LexiconRepo {
               root_id, source_id, source_slug, source_chunk_id, entry_kind,
               page_no, volume_no, gloss_ar, gloss_en, summary_ar, summary_en,
               ui_json, ai_json, status, ai_fill_state
-       FROM ar_ling_lexicon_entries
+       FROM ar_ling_lexicon_entry
        WHERE lemma_id = ?
        ORDER BY sort_key, source_slug, source_entry_seq`,
       [lemmaId],
@@ -80,7 +80,7 @@ export class LexiconRepo {
     return query<LexiconSense>(
       this.db,
       `SELECT id, entry_id, sense_number, definition_ar, definition_en, domain, example_ar
-       FROM ar_ling_senses WHERE entry_id = ? ORDER BY sense_number`,
+       FROM ar_ling_root_sense WHERE entry_id = ? ORDER BY sense_number`,
       [entryId],
     );
   }
@@ -95,7 +95,7 @@ export class LexiconRepo {
               root_id, source_id, source_slug, source_chunk_id, entry_kind,
               page_no, volume_no, gloss_ar, gloss_en, summary_ar, summary_en,
               ui_json, ai_json, status, ai_fill_state
-       FROM ar_ling_lexicon_entries
+       FROM ar_ling_lexicon_entry
        WHERE entry_text LIKE ?
           OR heading_norm LIKE ?
           OR title_ar LIKE ?
@@ -106,7 +106,7 @@ export class LexiconRepo {
           OR summary_en LIKE ?
        ORDER BY heading_norm, source_slug, source_entry_seq`,
       `SELECT COUNT(*) AS count
-       FROM ar_ling_lexicon_entries
+       FROM ar_ling_lexicon_entry
        WHERE entry_text LIKE ?
           OR heading_norm LIKE ?
           OR title_ar LIKE ?

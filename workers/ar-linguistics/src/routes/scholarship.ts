@@ -11,7 +11,7 @@ import { cached } from '../../../shared/src/cache';
 import type { ArLinguisticsEnv } from '../env';
 
 // Genre → bilingual label. Adding a new genre here surfaces its label in
-// the UI; the genre values themselves come from `ar_ling_sources.genre`.
+// the UI; the genre values themselves come from `ar_ling_source.genre`.
 const GENRE_LABELS: Record<string, { ar: string; en: string }> = {
   qur_anic_hermeneutic: { ar: 'تأويل قرآني',           en: "Qur'ānic Hermeneutic"        },
   epigraphic:           { ar: 'نقوش',                    en: 'Epigraphic'                  },
@@ -102,7 +102,7 @@ function genreLabel(genre: string) {
   return GENRE_LABELS[genre] ?? { ar: genre, en: genre };
 }
 
-/** Pre-fetch the `ar_ling_sources` rows the request needs in one round-trip. */
+/** Pre-fetch the `ar_ling_source` rows the request needs in one round-trip. */
 async function fetchSourceRows(env: ArLinguisticsEnv, ids: string[]): Promise<Map<string, SourceRow>> {
   if (ids.length === 0) return new Map();
   // De-duplicate; SQLite IN with bound params.
@@ -111,7 +111,7 @@ async function fetchSourceRows(env: ArLinguisticsEnv, ids: string[]): Promise<Ma
   const rows = (await env.DB_AL.prepare(
     `SELECT id, title_ar, title_en, author_name, period_label,
             source_type, genre, note_md
-     FROM ar_ling_sources
+     FROM ar_ling_source
      WHERE id IN (${placeholders})`,
   ).bind(...uniq).all<SourceRow>()).results ?? [];
   return new Map(rows.map(r => [r.id, r]));

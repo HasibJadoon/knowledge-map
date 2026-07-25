@@ -1,4 +1,4 @@
-// ─── LemmaRepo — all SQL for ar_ling_lemmas ───────────────────────────────────
+// ─── LemmaRepo — all SQL for ar_ling_root_lemma ───────────────────────────────────
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -9,7 +9,7 @@ const SELECT = `
   l.id, l.lemma_ar,
   l.root_id, r.root_text,
   l.pos, l.gloss_en, l.gloss_ar, l.frequency
-FROM ar_ling_lemmas l
+FROM ar_ling_root_lemma l
 LEFT JOIN ar_ling_roots r ON r.id = l.root_id`;
 
 export class LemmaRepo {
@@ -38,7 +38,7 @@ export class LemmaRepo {
       `SELECT ${SELECT}
        WHERE l.lemma_ar LIKE ? OR l.gloss_en LIKE ?
        ORDER BY l.frequency DESC, l.lemma_ar`,
-      `SELECT COUNT(*) AS count FROM ar_ling_lemmas l
+      `SELECT COUNT(*) AS count FROM ar_ling_root_lemma l
        WHERE l.lemma_ar LIKE ? OR l.gloss_en LIKE ?`,
       [pattern, pattern],
       opts,
@@ -49,7 +49,7 @@ export class LemmaRepo {
     const id = typedId('AL');
     await execute(
       this.db,
-      `INSERT INTO ar_ling_lemmas (id, lemma_ar, root_id, pos, gloss_en, gloss_ar)
+      `INSERT INTO ar_ling_root_lemma (id, lemma_ar, root_id, pos, gloss_en, gloss_ar)
        VALUES (?, ?, ?, ?, ?, ?)`,
       [id, input.lemma_ar, input.root_id ?? null, input.pos ?? null,
        input.gloss_en ?? null, input.gloss_ar ?? null],

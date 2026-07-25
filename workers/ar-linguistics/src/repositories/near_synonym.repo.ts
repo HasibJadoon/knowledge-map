@@ -36,8 +36,8 @@ export class NearSynonymRepo {
     const params = domain ? [domain] : [];
     return paginate<NearSynonymSet>(
       this.db,
-      `SELECT ${SET_COLS} FROM ar_ling_near_synonym_sets ${where} ORDER BY set_name`,
-      `SELECT COUNT(*) AS count FROM ar_ling_near_synonym_sets ${where}`,
+      `SELECT ${SET_COLS} FROM ar_ling_root_lemma_furuq_set ${where} ORDER BY set_name`,
+      `SELECT COUNT(*) AS count FROM ar_ling_root_lemma_furuq_set ${where}`,
       params,
       page,
     );
@@ -46,7 +46,7 @@ export class NearSynonymRepo {
   findSetById(id: string): Promise<NearSynonymSet | null> {
     return queryOne<NearSynonymSet>(
       this.db,
-      `SELECT ${SET_COLS} FROM ar_ling_near_synonym_sets WHERE id = ?`,
+      `SELECT ${SET_COLS} FROM ar_ling_root_lemma_furuq_set WHERE id = ?`,
       [id],
     );
   }
@@ -54,7 +54,7 @@ export class NearSynonymRepo {
   findSetBySlug(slug: string): Promise<NearSynonymSet | null> {
     return queryOne<NearSynonymSet>(
       this.db,
-      `SELECT ${SET_COLS} FROM ar_ling_near_synonym_sets WHERE slug = ?`,
+      `SELECT ${SET_COLS} FROM ar_ling_root_lemma_furuq_set WHERE slug = ?`,
       [slug],
     );
   }
@@ -96,7 +96,7 @@ export class NearSynonymRepo {
     if (setAssignments.length > 1) {
       setValues.push(id);
       statements.push({
-        sql: `UPDATE ar_ling_near_synonym_sets SET ${setAssignments.join(', ')} WHERE id = ?`,
+        sql: `UPDATE ar_ling_root_lemma_furuq_set SET ${setAssignments.join(', ')} WHERE id = ?`,
         params: setValues,
       });
     }
@@ -127,7 +127,7 @@ export class NearSynonymRepo {
       if (memberAssignments.length) {
         memberValues.push(member.id, id);
         statements.push({
-          sql: `UPDATE ar_ling_near_synonym_members SET ${memberAssignments.join(', ')} WHERE id = ? AND set_id = ?`,
+          sql: `UPDATE ar_ling_root_lemma_furuq_member SET ${memberAssignments.join(', ')} WHERE id = ? AND set_id = ?`,
           params: memberValues,
         });
       }
@@ -140,7 +140,7 @@ export class NearSynonymRepo {
   membersForSet(setId: string): Promise<NearSynonymMember[]> {
     return query<NearSynonymMember>(
       this.db,
-      `SELECT ${MEMBER_COLS} FROM ar_ling_near_synonym_members
+      `SELECT ${MEMBER_COLS} FROM ar_ling_root_lemma_furuq_member
        WHERE set_id = ?
          AND NOT (arabic_display IS NULL AND source_status = 'ai_assisted')
        ORDER BY sort_order, arabic_display`,
@@ -151,7 +151,7 @@ export class NearSynonymRepo {
   evidenceForSet(setId: string): Promise<NearSynonymEvidence[]> {
     return query<NearSynonymEvidence>(
       this.db,
-      `SELECT ${EVIDENCE_COLS} FROM ar_ling_near_synonym_evidence
+      `SELECT ${EVIDENCE_COLS} FROM ar_ling_root_lemma_furuq_evidence
        WHERE set_id = ? ORDER BY surah, ayah`,
       [setId],
     );
@@ -166,7 +166,7 @@ export class NearSynonymRepo {
 
     const evidence = await query<NearSynonymEvidence>(
       this.db,
-      `SELECT ${EVIDENCE_COLS} FROM ar_ling_near_synonym_evidence
+      `SELECT ${EVIDENCE_COLS} FROM ar_ling_root_lemma_furuq_evidence
        WHERE surah = ? AND ayah = ? ORDER BY set_id`,
       [surah, ayah],
     );
@@ -194,10 +194,10 @@ export class NearSynonymRepo {
     const rows = await query<{ set_id: string }>(
       this.db,
       `SELECT DISTINCT e.set_id
-       FROM ar_ling_near_synonym_evidence e
+       FROM ar_ling_root_lemma_furuq_evidence e
        WHERE e.surah = ?
          AND EXISTS (
-           SELECT 1 FROM ar_ling_near_synonym_members m
+           SELECT 1 FROM ar_ling_root_lemma_furuq_member m
            WHERE m.set_id = e.set_id
              AND NOT (m.arabic_display IS NULL AND m.source_status = 'ai_assisted')
          )
@@ -219,8 +219,8 @@ export class NearSynonymRepo {
       `SELECT s.id, s.set_name, s.description_md, s.slug, s.canonical_en, s.canonical_ar, s.canonical_ur,
               s.semantic_domain_id, s.pos_hint, s.short_summary, s.source_status,
               s.confidence, s.review_status, s.created_at
-       FROM ar_ling_near_synonym_sets s
-       INNER JOIN ar_ling_near_synonym_members m ON m.set_id = s.id
+       FROM ar_ling_root_lemma_furuq_set s
+       INNER JOIN ar_ling_root_lemma_furuq_member m ON m.set_id = s.id
        WHERE m.lemma_id = ?`,
       [lemmaId],
     );

@@ -10,11 +10,11 @@
 //     GET /api/al/lexicon/five-lens/:rootNorm
 //
 // Assembles the full five-lens payload from km_arabic_linguistic (binding
-// DB_AL). The curated, bilingual content lives in ar_ling_lexicon_blocks as
+// DB_AL). The curated, bilingual content lives in ar_ling_lexicon_block as
 // sanitized HTML (text_html) — the ayah (Arabic + gloss) and each of the five
 // lens bodies (Arabic spans inline with English), plus the cross-ref block —
 // so the client renders the manuscript leaf directly. Provenance comes from
-// ar_ling_lexicon_root_entry_sources, grouped by kind. Only the root "زلف" has
+// ar_ling_lexicon_entry_source, grouped by kind. Only the root "زلف" has
 // an entry today (id re_kmaps_zlf_zumar_3); every other root resolves to
 // { found: false } so the modal can paint its empty state. Read-only — never
 // writes, never touches doc-space.
@@ -170,7 +170,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       env.DB_AL
         .prepare(
           `SELECT block_seq, block_type, title_ar, title_en, text_html, data_json
-             FROM ar_ling_lexicon_blocks
+             FROM ar_ling_lexicon_block
             WHERE root_entry_id = ?1
             ORDER BY block_seq`,
         )
@@ -179,7 +179,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       env.DB_AL
         .prepare(
           `SELECT source_kind, source_slug
-             FROM ar_ling_lexicon_root_entry_sources
+             FROM ar_ling_lexicon_entry_source
             WHERE root_entry_id = ?1`,
         )
         .bind(entry.id)
@@ -190,7 +190,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       env.DB_AL
         .prepare(
           `SELECT l.lemma_text, l.lemma_text_bare, l.part_of_speech, l.is_quran_word
-             FROM ar_ling_lemmas l
+             FROM ar_ling_root_lemma l
              JOIN ar_ling_roots r ON l.root_id = r.id
             WHERE r.root_text = ?1 AND l.part_of_speech <> 'root_entry'
             ORDER BY l.is_quran_word DESC, l.frequency_quran DESC, l.lemma_text`,
@@ -203,7 +203,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
       env.DB_AL
         .prepare(
           `SELECT source_slug, substr(coalesce(text_plain, text_html),1,800) txt
-             FROM ar_ling_lexicon_blocks
+             FROM ar_ling_lexicon_block
             WHERE root_norm = ?1 AND source_slug <> ?2
             LIMIT 1500`,
         )

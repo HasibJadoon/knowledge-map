@@ -167,7 +167,7 @@ export interface ArLingBalaghaExample {
   source_type: string;
   // 'quran'|'hadith'|'classical_poetry'|'classical_prose'|'modern'|'other'
   qr_ref: string | null;       // QR:2:255 shorthand or QR:<ULID>
-  source_ref: string | null;   // AL:<ar_ling_sources.id>
+  source_ref: string | null;   // AL:<ar_ling_source.id>
   analysis_md: string | null;
   note_md: string | null;
 }

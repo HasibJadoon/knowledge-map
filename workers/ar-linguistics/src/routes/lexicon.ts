@@ -2,7 +2,7 @@
 //
 // Two sets of routes:
 //
-// 1. Classical source-chunk lexicon (ar_ling_source_chunks):
+// 1. Classical source-chunk lexicon (ar_ling_source_chunk):
 //      GET /al/lexicon/dict/sources            — list all lexicon source DBs
 //      GET /al/lexicon/dict/root/:rootText      — entries for one root, grouped by source
 //      GET /al/lexicon/dict/entry/:chunkId      — single chunk by id
@@ -24,7 +24,7 @@ import { SourcesRepo, toResponseMeta, type LexiconSource } from '../repositories
 // ── Source-meta helpers (D1-backed) ──────────────────────────────────────────
 // Source titles / author / period / catalogue ordering used to live in two
 // hardcoded constants here (SOURCE_META + SOURCE_ORDER). Both are now columns
-// on ar_ling_sources, queried via SourcesRepo. Migrations 0016 + 0017 added
+// on ar_ling_source, queried via SourcesRepo. Migrations 0016 + 0017 added
 // the slug / origin / source_order columns and seeded every row that
 // corresponds to a TS slug.
 //
@@ -242,7 +242,7 @@ async function rebuildLaneQualityForRoot(
                WHERE b.lexicon_entry_id = e.id
                  AND b.block_type = 'arabic_form'
              ) AS has_arabic_form_block
-      FROM ar_ling_lexicon_entries e
+      FROM ar_ling_lexicon_entry e
       WHERE e.source_slug = 'lane_lexicon'
         AND e.root_text = ?
       ORDER BY e.page_no ASC, e.source_entry_seq ASC
@@ -327,7 +327,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                SUM(CASE WHEN sense_json IS NOT NULL THEN 1 ELSE 0 END) AS sense_json,
                SUM(CASE WHEN examples_json IS NOT NULL THEN 1 ELSE 0 END) AS examples_json,
                SUM(CASE WHEN citations_json IS NOT NULL THEN 1 ELSE 0 END) AS citations_json
-        FROM ar_ling_lexicon_entries
+        FROM ar_ling_lexicon_entry
         WHERE source_slug = 'lane_lexicon'
       `).first<Record<string, unknown>>(),
       env.DB_AL.prepare(`
@@ -383,7 +383,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                e.ai_fill_state,
                substr(e.definition_en, 1, 360) AS definition_preview
         FROM ar_ling_lane_quality_index q
-        JOIN ar_ling_lexicon_entries e ON e.id = q.lexicon_entry_id
+        JOIN ar_ling_lexicon_entry e ON e.id = q.lexicon_entry_id
         WHERE ${where.join(' AND ')}
         ORDER BY q.repair_priority DESC, q.page_no ASC, q.source_entry_seq ASC
         LIMIT ? OFFSET ?
@@ -408,7 +408,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                e.ai_fill_state,
                substr(e.definition_en, 1, 420) AS definition_preview
         FROM ar_ling_lane_quality_index q
-        JOIN ar_ling_lexicon_entries e ON e.id = q.lexicon_entry_id
+        JOIN ar_ling_lexicon_entry e ON e.id = q.lexicon_entry_id
         WHERE q.root_text = ?
           AND q.issue_count > 0
         ORDER BY q.repair_priority DESC, q.page_no ASC, q.source_entry_seq ASC
@@ -448,7 +448,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
   // via the Workers Cache API. Cache key = full request URL.
   router.get('/al/lexicon/dict/sources', (req, env) => cached(req, async () => {
     // Single source of truth: ar_ling_lexicon_root_entries. The legacy
-    // path joined ar_ling_source_chunks which double-misfires here —
+    // path joined ar_ling_source_chunk which double-misfires here —
     //   • qomra_jamharat_al_lugha has 2,908 chunks but no root_entries
     //     (legacy import never migrated to v2), so listing it sends
     //     users to an empty reader.
@@ -508,7 +508,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       .prepare(`
         SELECT id, source_slug, heading_norm, root_id,
                text_ar, text_en, page_no, volume_no, chunk_seq, meta_json
-        FROM   ar_ling_source_chunks
+        FROM   ar_ling_source_chunk
         WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry', 'lexicon_entry', 'root_entry')
           AND  heading_norm = ?
           ${ph}
@@ -554,13 +554,13 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       const { results: lemmaRows } = await env.DB_AL
         .prepare(`SELECT l.id, l.lemma_text, l.lemma_text_bare, l.part_of_speech,
                          l.verb_form, l.is_quran_word, l.frequency_quran
-                  FROM   ar_ling_lemmas l
+                  FROM   ar_ling_root_lemma l
                   WHERE  l.root_id = ?
                   UNION
                   SELECT l.id, l.lemma_text, l.lemma_text_bare, l.part_of_speech,
                          l.verb_form, l.is_quran_word, l.frequency_quran
-                  FROM   ar_ling_lemmas l
-                  JOIN   ar_ling_lemma_root_links lr ON lr.lemma_id = l.id
+                  FROM   ar_ling_root_lemma l
+                  JOIN   ar_ling_root_lemma_link lr ON lr.lemma_id = l.id
                   WHERE  lr.root_id = ?
                   ORDER BY frequency_quran DESC, lemma_text`)
         .bind(rootRow.id, rootRow.id)
@@ -608,7 +608,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
     const row = await env.DB_AL
       .prepare(`SELECT id, source_slug, heading_norm, root_id,
                        text_ar, text_en, page_no, volume_no, chunk_seq, meta_json
-                FROM   ar_ling_source_chunks WHERE id = ?`)
+                FROM   ar_ling_source_chunk WHERE id = ?`)
       .bind(chunkId)
       .first<Record<string, unknown>>();
 
@@ -643,7 +643,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       env.DB_AL.prepare(`
         SELECT id, source_slug, heading_norm, root_id,
                text_ar, text_en, page_no, volume_no, chunk_seq, meta_json
-        FROM   ar_ling_source_chunks
+        FROM   ar_ling_source_chunk
         WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry', 'lexicon_entry', 'root_entry')
           AND  heading_norm = ? ${ph}
         LIMIT ?
@@ -652,7 +652,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
       env.DB_AL.prepare(`
         SELECT id, source_slug, heading_norm, root_id,
                text_ar, text_en, page_no, volume_no, chunk_seq, meta_json
-        FROM   ar_ling_source_chunks
+        FROM   ar_ling_source_chunk
         WHERE  chunk_kind IN ('lexical_entry', 'lexical_word_entry', 'lexicon_entry', 'root_entry')
           AND  heading_norm != ?
           AND  (text_ar LIKE ? OR text_en LIKE ? OR heading_norm LIKE ?)
@@ -673,7 +673,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
 
   // ── /al/lexicon/entries/* — structured lexicon entries, UI-ready ─────────────
   //
-  // Reads ar_ling_lexicon_entries + cleaner_json (cleanup pipeline v2).
+  // Reads ar_ling_lexicon_entry + cleaner_json (cleanup pipeline v2).
   // Returns a flat, display-ready shape — no internal fields.
   //
   //   GET /al/lexicon/entries/root/:rootText   ?source=<slug>  ?limit=
@@ -755,7 +755,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
           MAX(CASE WHEN b.block_type = 'page_ref'        THEN b.text_en  END) AS page_label,
           MAX(CASE WHEN b.block_type = 'raw_collapsible' THEN b.text_en  END) AS raw_label,
           COUNT(b.id)                                                          AS block_count
-        FROM  ar_ling_lexicon_entries e
+        FROM  ar_ling_lexicon_entry e
         JOIN  ar_ling_roots r ON r.id = e.root_id
         LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
         WHERE r.root_text = ?
@@ -775,7 +775,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
   // GET /al/lexicon/entries/root/:rootText — REMOVED.
   // Both apps (Ionic + desktop) now call /al/lex/v2/roots/:root_norm
   // (handled by lexiconV2Routes). The old route queried the retired
-  // ar_ling_lexicon_entries table and produced a parallel response shape;
+  // ar_ling_lexicon_entry table and produced a parallel response shape;
   // removing it prevents accidental re-use and forces a single code path
   // through ar_ling_lexicon_root_entries.
 
@@ -802,7 +802,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                MAX(CASE WHEN b.block_type = 'heading'     THEN b.text_ar END) AS heading_ar,
                MAX(CASE WHEN b.block_type = 'arabic_form' THEN b.text_ar END) AS arabic_forms_raw,
                MAX(CASE WHEN b.block_type = 'page_ref'    THEN b.text_en END) AS page_label
-        FROM   ar_ling_lexicon_entries e
+        FROM   ar_ling_lexicon_entry e
         LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
         WHERE  (e.display_heading_ar = ?
              OR json_extract(e.cleaner_json, '$.definition_clean') LIKE ?
@@ -837,9 +837,9 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                MAX(CASE WHEN b.block_type = 'heading'     THEN b.text_ar END) AS heading_ar,
                MAX(CASE WHEN b.block_type = 'arabic_form' THEN b.text_ar END) AS arabic_forms_raw,
                MAX(CASE WHEN b.block_type = 'page_ref'    THEN b.text_en END) AS page_label
-        FROM   ar_ling_lexicon_entries e
+        FROM   ar_ling_lexicon_entry e
         LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
-        LEFT JOIN ar_ling_lemmas l ON l.id = e.lemma_id
+        LEFT JOIN ar_ling_root_lemma l ON l.id = e.lemma_id
         LEFT JOIN ar_ling_roots  r ON r.id = e.root_id
         WHERE  e.id = ?
         GROUP BY e.id

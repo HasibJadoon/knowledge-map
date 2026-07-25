@@ -139,7 +139,7 @@ export function lexiconMufradatRoutes(router: Router<ArLinguisticsEnv>) {
       const sectionsRaw = (await env.DB_AL.prepare(
         `SELECT id, section_seq, heading_ar, heading_norm, section_type,
                 text_ar, page_no
-         FROM ar_ling_lexicon_entry_sections
+         FROM ar_ling_lexicon_entry_section
          WHERE source_slug = ? AND root_norm = ?
          ORDER BY section_seq`
       ).bind(SOURCE_SLUG, root_norm).all<any>()).results ?? [];
@@ -147,7 +147,7 @@ export function lexiconMufradatRoutes(router: Router<ArLinguisticsEnv>) {
       const blocks = (await env.DB_AL.prepare(
         `SELECT id, section_id, parent_block_id, block_seq, block_type,
                 title_ar, text_plain, data_json
-         FROM ar_ling_lexicon_blocks
+         FROM ar_ling_lexicon_block
          WHERE source_slug = ? AND root_norm = ?
          ORDER BY block_seq`
       ).bind(SOURCE_SLUG, root_norm).all<any>()).results ?? [];

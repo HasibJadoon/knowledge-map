@@ -59,7 +59,7 @@ export class WordAnalysisRepo {
       query<{ root_norm: string; nuance_gems_json: string | null; near_synonyms_json: string | null }>(
         this.db, `SELECT root_norm, nuance_gems_json, near_synonyms_json FROM ar_ling_vocab_depth WHERE root_norm IN (${ph})`, uniq).catch(() => []),
       query<{ root_norm: string; antonym_ar: string; antonym_en: string | null; antonym_root: string | null }>(
-        this.db, `SELECT root_norm, antonym_ar, antonym_en, antonym_root FROM ar_ling_root_antonyms WHERE root_norm IN (${ph}) ORDER BY sort_order`, uniq).catch(() => []),
+        this.db, `SELECT root_norm, antonym_ar, antonym_en, antonym_root FROM ar_ling_root_didd WHERE root_norm IN (${ph}) ORDER BY sort_order`, uniq).catch(() => []),
       query<{ root_norm: string; title: string | null; caption_md: string | null; palette: string | null; svg_inline: string | null }>(
         this.db, `SELECT root_norm, title, caption_md, palette, svg_inline FROM ar_ling_vocab_illustrations WHERE root_norm IN (${ph})`, uniq).catch(() => []),
       query<{ root_norm: string; diagram_kind: string | null; spec_json: string | null; renderer_key: string | null }>(
@@ -68,7 +68,7 @@ export class WordAnalysisRepo {
         this.db, `SELECT root_norm, source_slug, raw_text, entry_text_ar, page_start FROM ar_ling_lexicon_root_entries WHERE root_norm IN (${ph}) AND source_slug IN (?,?,?,?,?)`,
         [...uniq, LENS_SLUG.maqayis, LENS_SLUG.mufradat, LENS_SLUG.lane, LENS_SLUG.sinai, FIVE_LENS_SLUG]).catch(() => []),
       query<{ root_norm: string; heading_norm: string | null; text_ar: string | null }>(
-        this.db, `SELECT root_norm, heading_norm, text_ar FROM ar_ling_lexicon_entry_sections WHERE root_norm IN (${ph}) AND source_slug = ?`, [...uniq, FIVE_LENS_SLUG]).catch(() => []),
+        this.db, `SELECT root_norm, heading_norm, text_ar FROM ar_ling_lexicon_entry_section WHERE root_norm IN (${ph}) AND source_slug = ?`, [...uniq, FIVE_LENS_SLUG]).catch(() => []),
     ]);
 
     const rootMap = new Map(rootsRows.map(r => [r.root_text, r]));

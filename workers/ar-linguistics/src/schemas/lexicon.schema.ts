@@ -1,10 +1,10 @@
 // ─── Lexicon / Semantics schemas & types ──────────────────────────────────────
-// Tables: ar_ling_lexicon_entries, ar_ling_senses, ar_ling_sense_relations,
-//         ar_ling_semantic_fields, ar_ling_near_synonym_sets,
-//         ar_ling_near_synonym_members, ar_ling_lexicon_evidence,
+// Tables: ar_ling_lexicon_entry, ar_ling_root_sense, ar_ling_sense_relations,
+//         ar_ling_semantic_fields, ar_ling_root_lemma_furuq_set,
+//         ar_ling_root_lemma_furuq_member, ar_ling_lexicon_evidence,
 //         ar_ling_lexicon_morphology
 
-// ── ar_ling_lexicon_entries ───────────────────────────────────────────────────
+// ── ar_ling_lexicon_entry ───────────────────────────────────────────────────
 
 export interface ArLingLexiconEntry {
   id: string;
@@ -107,11 +107,11 @@ export function validateArLingLexiconEntryCreate(
   };
 }
 
-// ── ar_ling_senses ────────────────────────────────────────────────────────────
+// ── ar_ling_root_sense ────────────────────────────────────────────────────────────
 
 export interface ArLingSense {
   id: string;                      // AL:ULID
-  lexicon_entry_id: string;        // FK → ar_ling_lexicon_entries.id
+  lexicon_entry_id: string;        // FK → ar_ling_lexicon_entry.id
   sense_number: number;            // ordering within the entry
   gloss_ar: string | null;
   gloss_en: string;
@@ -167,8 +167,8 @@ export function validateArLingSenseCreate(
 
 export interface ArLingSenseRelation {
   id: string;              // AL:ULID
-  from_sense_id: string;   // FK → ar_ling_senses.id
-  to_sense_id: string;     // FK → ar_ling_senses.id
+  from_sense_id: string;   // FK → ar_ling_root_sense.id
+  to_sense_id: string;     // FK → ar_ling_root_sense.id
   relation_type: string;   // 'synonym'|'near_synonym'|'antonym'|'hyponym'|'hypernym'|'related'
   nuance_note: string | null;
 }
@@ -245,7 +245,7 @@ export function validateArLingSemanticFieldCreate(
   };
 }
 
-// ── ar_ling_near_synonym_sets ─────────────────────────────────────────────────
+// ── ar_ling_root_lemma_furuq_set ─────────────────────────────────────────────────
 
 export interface ArLingNearSynonymSet {
   id: string;              // AL:ULID
@@ -281,12 +281,12 @@ export function validateArLingNearSynonymSetCreate(
   };
 }
 
-// ── ar_ling_near_synonym_members ──────────────────────────────────────────────
+// ── ar_ling_root_lemma_furuq_member ──────────────────────────────────────────────
 
 export interface ArLingNearSynonymMember {
   id: string;              // AL:ULID
-  set_id: string;          // FK → ar_ling_near_synonym_sets.id
-  lemma_id: string;        // FK → ar_ling_lemmas.id
+  set_id: string;          // FK → ar_ling_root_lemma_furuq_set.id
+  lemma_id: string;        // FK → ar_ling_root_lemma.id
   nuance_note: string;     // what distinguishes this word from siblings
 }
 
@@ -320,14 +320,14 @@ export function validateArLingNearSynonymMemberCreate(
 
 export interface ArLingLexiconEvidence {
   id: string;                      // AL:ULID
-  lexicon_entry_id: string;        // FK → ar_ling_lexicon_entries.id
-  sense_id: string | null;         // FK → ar_ling_senses.id (optional)
+  lexicon_entry_id: string;        // FK → ar_ling_lexicon_entry.id
+  sense_id: string | null;         // FK → ar_ling_root_sense.id (optional)
   evidence_type: string;
   // 'quran'|'hadith'|'classical_poetry'|'classical_prose'|'lexicon_citation'|'other'
   text_ar: string;
   text_en: string | null;
   qr_ref: string | null;           // QR:surah:ayah or QR:<ULID>
-  source_ref: string | null;       // AL:<ar_ling_sources.id>
+  source_ref: string | null;       // AL:<ar_ling_source.id>
   note_md: string | null;
   created_at: string;
 }
@@ -370,7 +370,7 @@ export function validateArLingLexiconEvidenceCreate(
 
 export interface ArLingLexiconMorphology {
   id: string;                  // AL:ULID
-  lexicon_entry_id: string;    // FK → ar_ling_lexicon_entries.id
+  lexicon_entry_id: string;    // FK → ar_ling_lexicon_entry.id
   morphology_id: string;       // FK → ar_ling_morphology.id
   inflected_form: string | null;
 }

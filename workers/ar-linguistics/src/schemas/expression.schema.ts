@@ -56,7 +56,7 @@ export interface ArLingExpression {
   expression_ar: string;
   expression_en: string;
   expression_type_id: string | null;  // FK → ar_ling_expression_types.id
-  primary_lemma_id: string | null;    // FK → ar_ling_lemmas.id
+  primary_lemma_id: string | null;    // FK → ar_ling_root_lemma.id
   explanation_md: string | null;
   qr_refs_json: string | null;        // JSON [{qr_ref, note}]
   created_at: string;
@@ -115,7 +115,7 @@ export interface ArLingExpressionToken {
   expression_id: string;   // FK → ar_ling_expressions.id
   token_position: number;
   token_text: string;
-  lemma_id: string | null; // FK → ar_ling_lemmas.id
+  lemma_id: string | null; // FK → ar_ling_root_lemma.id
   note_md: string | null;
 }
 
@@ -156,8 +156,8 @@ export function validateArLingExpressionTokenCreate(
 
 export interface ArLingCollocation {
   id: string;                  // AL:ULID
-  lemma_a_id: string;          // FK → ar_ling_lemmas.id
-  lemma_b_id: string;          // FK → ar_ling_lemmas.id
+  lemma_a_id: string;          // FK → ar_ling_root_lemma.id
+  lemma_b_id: string;          // FK → ar_ling_root_lemma.id
   collocation_type: string;
   // 'general'|'verb_object'|'noun_adjective'|'idafa'|'verb_particle'|'other'
   frequency_note: string | null;

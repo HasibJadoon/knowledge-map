@@ -39,7 +39,7 @@ interface LaneSourceMeta {
   bilingual: true;
 }
 
-/** Resolve the Lane display metadata from ar_ling_sources. The route is
+/** Resolve the Lane display metadata from ar_ling_source. The route is
  *  edge-cached, so this runs once per cache miss and the result is included
  *  in the cached response body — no per-request hit in the steady state. */
 async function fetchLaneMeta(db: D1Database): Promise<LaneSourceMeta> {
@@ -181,7 +181,7 @@ export function lexiconLaneRoutes(router: Router<ArLinguisticsEnv>) {
       const sectionsRaw = (await env.DB_AL.prepare(
         `SELECT id, section_seq, heading_ar, heading_norm, section_type,
                 text_ar, page_no
-         FROM ar_ling_lexicon_entry_sections
+         FROM ar_ling_lexicon_entry_section
          WHERE source_slug = ? AND root_norm = ?
          ORDER BY section_seq`
       ).bind(SOURCE_SLUG, root_norm).all<any>()).results ?? [];
@@ -189,34 +189,34 @@ export function lexiconLaneRoutes(router: Router<ArLinguisticsEnv>) {
       const blocks = (await env.DB_AL.prepare(
         `SELECT id, section_id, parent_block_id, block_seq, block_type,
                 title_ar, text_plain, text_html, data_json, printed_page
-         FROM ar_ling_lexicon_blocks
+         FROM ar_ling_lexicon_block
          WHERE source_slug = ? AND root_norm = ?
          ORDER BY block_seq`
       ).bind(SOURCE_SLUG, root_norm).all<any>()).results ?? [];
 
       const quranRefs = (await env.DB_AL.prepare(
         `SELECT block_id, surah, ayah, raw_ref, context_snippet
-         FROM ar_ling_lexicon_quran_refs
+         FROM ar_ling_lexicon_quran_ref
          WHERE source_slug = ? AND root_norm = ?
          ORDER BY surah, ayah`
       ).bind(SOURCE_SLUG, root_norm).all<any>()).results ?? [];
 
       const authorityLinks = (await env.DB_AL.prepare(
         `SELECT from_block_id, to_authority_code, label
-         FROM ar_ling_lexicon_block_links
+         FROM ar_ling_lexicon_block_link
          WHERE source_slug = ? AND link_kind = 'authority'
            AND from_block_id IN (
-             SELECT id FROM ar_ling_lexicon_blocks
+             SELECT id FROM ar_ling_lexicon_block
              WHERE source_slug = ? AND root_norm = ?
            )`
       ).bind(SOURCE_SLUG, SOURCE_SLUG, root_norm).all<any>()).results ?? [];
 
       const rootLinks = (await env.DB_AL.prepare(
         `SELECT to_root_norm, label, COUNT(*) AS n
-         FROM ar_ling_lexicon_block_links
+         FROM ar_ling_lexicon_block_link
          WHERE source_slug = ? AND link_kind = 'root'
            AND from_block_id IN (
-             SELECT id FROM ar_ling_lexicon_blocks
+             SELECT id FROM ar_ling_lexicon_block
              WHERE source_slug = ? AND root_norm = ?
            )
          GROUP BY to_root_norm`
@@ -530,7 +530,7 @@ function tokenize(text: string,
   // NB: deliberately do NOT append Quran chips inline at the end of the
   // token stream. Lane already writes its native `[ii. 143]` style refs
   // INTO the prose where they belong — those survive as plain text. The
-  // pre-resolved (surah, ayah) verses from `ar_ling_lexicon_quran_refs`
+  // pre-resolved (surah, ayah) verses from `ar_ling_lexicon_quran_ref`
   // are surfaced cleanly in the right-rail "Qur'ān citations" panel,
   // which is the right place for them. Appending them inline at the
   // paragraph tail produced an ugly trailing chip cluster.

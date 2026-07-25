@@ -1,4 +1,4 @@
-// ─── AlSourceRepo — ar_ling_sources + editions + chunks + toc + index + evidence
+// ─── AlSourceRepo — ar_ling_source + editions + chunks + toc + index + evidence
 //                   + tokens + sentences + token_lexicon_link ──────────────────
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
@@ -190,9 +190,9 @@ export class AlSourceRepo {
       this.db,
       `SELECT id, title_ar, title_en, source_type, author_ref,
               author_name, period_label, note_md, created_at
-       FROM ar_ling_sources
+       FROM ar_ling_source
        ORDER BY title_ar`,
-      `SELECT COUNT(*) AS count FROM ar_ling_sources`,
+      `SELECT COUNT(*) AS count FROM ar_ling_source`,
       [],
       opts,
     );
@@ -203,7 +203,7 @@ export class AlSourceRepo {
       this.db,
       `SELECT id, title_ar, title_en, source_type, author_ref,
               author_name, period_label, note_md, created_at
-       FROM ar_ling_sources WHERE id = ?`,
+       FROM ar_ling_source WHERE id = ?`,
       [id],
     );
   }
@@ -213,10 +213,10 @@ export class AlSourceRepo {
       this.db,
       `SELECT id, title_ar, title_en, source_type, author_ref,
               author_name, period_label, note_md, created_at
-       FROM ar_ling_sources
+       FROM ar_ling_source
        WHERE source_type = ?
        ORDER BY title_ar`,
-      `SELECT COUNT(*) AS count FROM ar_ling_sources WHERE source_type = ?`,
+      `SELECT COUNT(*) AS count FROM ar_ling_source WHERE source_type = ?`,
       [sourceType],
       opts,
     );
@@ -226,7 +226,7 @@ export class AlSourceRepo {
     const id = typedId('AL');
     await execute(
       this.db,
-      `INSERT INTO ar_ling_sources
+      `INSERT INTO ar_ling_source
          (id, title_ar, title_en, source_type, author_ref,
           author_name, period_label, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -263,7 +263,7 @@ export class AlSourceRepo {
     values.push(id);
     await execute(
       this.db,
-      `UPDATE ar_ling_sources SET ${fields.join(', ')} WHERE id = ?`,
+      `UPDATE ar_ling_source SET ${fields.join(', ')} WHERE id = ?`,
       values,
     );
     return this.findById(id);
@@ -275,7 +275,7 @@ export class AlSourceRepo {
     return query<AlSourceEdition>(
       this.db,
       `SELECT id, source_id, edition_label, publisher, year, volume_count, note_md
-       FROM ar_ling_source_editions
+       FROM ar_ling_source_edition
        WHERE source_id = ?
        ORDER BY year`,
       [sourceId],
@@ -286,7 +286,7 @@ export class AlSourceRepo {
     const id = typedId('AL');
     await execute(
       this.db,
-      `INSERT INTO ar_ling_source_editions
+      `INSERT INTO ar_ling_source_edition
          (id, source_id, edition_label, publisher, year, volume_count, note_md)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
       [
@@ -302,7 +302,7 @@ export class AlSourceRepo {
     return (await queryOne<AlSourceEdition>(
       this.db,
       `SELECT id, source_id, edition_label, publisher, year, volume_count, note_md
-       FROM ar_ling_source_editions WHERE id = ?`,
+       FROM ar_ling_source_edition WHERE id = ?`,
       [id],
     ))!;
   }
@@ -315,10 +315,10 @@ export class AlSourceRepo {
       `SELECT id, source_id, edition_id, chunk_kind, chunk_seq,
               heading_norm, text_ar, text_en, page_no, volume_no,
               tokens_approx, is_embedded, qdrant_id, meta_json, created_at
-       FROM ar_ling_source_chunks
+       FROM ar_ling_source_chunk
        WHERE source_id = ?
        ORDER BY chunk_seq`,
-      `SELECT COUNT(*) AS count FROM ar_ling_source_chunks WHERE source_id = ?`,
+      `SELECT COUNT(*) AS count FROM ar_ling_source_chunk WHERE source_id = ?`,
       [sourceId],
       opts,
     );
@@ -330,7 +330,7 @@ export class AlSourceRepo {
       `SELECT id, source_id, edition_id, chunk_kind, chunk_seq,
               heading_norm, text_ar, text_en, page_no, volume_no,
               tokens_approx, is_embedded, qdrant_id, meta_json, created_at
-       FROM ar_ling_source_chunks
+       FROM ar_ling_source_chunk
        WHERE is_embedded = 0
        ORDER BY source_id, chunk_seq
        LIMIT ?`,
@@ -341,7 +341,7 @@ export class AlSourceRepo {
   async markEmbedded(chunkId: string, qdrantId: string): Promise<void> {
     await execute(
       this.db,
-      `UPDATE ar_ling_source_chunks
+      `UPDATE ar_ling_source_chunk
        SET is_embedded = 1, qdrant_id = ?
        WHERE id = ?`,
       [qdrantId, chunkId],
@@ -352,7 +352,7 @@ export class AlSourceRepo {
     const id = typedId('AL');
     await execute(
       this.db,
-      `INSERT INTO ar_ling_source_chunks
+      `INSERT INTO ar_ling_source_chunk
          (id, source_id, edition_id, chunk_kind, chunk_seq,
           heading_norm, text_ar, text_en, page_no, volume_no,
           tokens_approx, meta_json)
@@ -377,7 +377,7 @@ export class AlSourceRepo {
       `SELECT id, source_id, edition_id, chunk_kind, chunk_seq,
               heading_norm, text_ar, text_en, page_no, volume_no,
               tokens_approx, is_embedded, qdrant_id, meta_json, created_at
-       FROM ar_ling_source_chunks WHERE id = ?`,
+       FROM ar_ling_source_chunk WHERE id = ?`,
       [id],
     ))!;
   }
