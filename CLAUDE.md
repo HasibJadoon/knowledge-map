@@ -55,6 +55,7 @@ Domain workers:
 - `workers/content/` - `km-content-worker`, binding `DB_CM`, database `km_content`
 - `workers/planner/` - `km-planner-worker`, binding `DB_PL`, database `km_planner`
 - `workers/core/` - `km-core-worker`, binding `DB_CORE`, database `km_core`
+- `workers/studio/` - `km-studio-worker`, binding `DB_ST`, database `km_studio`
 
 Worker rules:
 
@@ -85,6 +86,7 @@ Hard ownership boundaries:
 - CM owns authored content: documents, notes, captures, sources, media, publications.
 - PL owns operational planning: plans, tasks, lanes, reviews, packets.
 - CORE owns identity, workspaces, policies, roles, grants, and auth.
+- ST owns studio production: episodes, sections, talking points, capture log.
 
 Typed references are the cross-domain contract:
 
@@ -159,7 +161,19 @@ Morphology ingestion:
 - Foreign key declarations document intent; do not rely on runtime enforcement.
 - Add explicit indexes for production query paths.
 - Keep domain migrations close to the domain worker when possible.
-- Use `workers/*/schema.sql` as current schema snapshots.
+- Use `workers/*/schema.sql` as current schema snapshots. These are currently
+  stale — they still describe the pre-rename schema. Treat the live database as
+  the source of truth and see `docs/d1-drift-report.md`.
+
+Table naming follows the post-rename convention: singular table names, grouped
+by family prefix (`qr_surah_profile`, `ar_ling_root_lemma`,
+`ar_curriculum_lesson`, `ar_learn_mastery`). Before writing SQL against a
+domain, confirm the table exists:
+
+```bash
+wrangler d1 execute km_quran --remote --command \
+  "SELECT name FROM sqlite_master WHERE type='table' ORDER BY name;"
+```
 
 Useful commands:
 
