@@ -1,4 +1,4 @@
-// ─── BridgeRepo — ar_ling_quran_links + arabic_links + content_links + projection_cache ──
+// ─── BridgeRepo — ar_ling_root_lemma_word_quran_link + arabic_links + content_links + projection_cache ──
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -88,10 +88,10 @@ export class BridgeRepo {
       this.db,
       `SELECT id, al_entity_ref, al_entity_type, qr_scope_ref,
               link_type, note_md, confidence, created_at
-       FROM ar_ling_quran_links
+       FROM ar_ling_root_lemma_word_quran_link
        WHERE al_entity_ref = ?
        ORDER BY confidence DESC, created_at DESC`,
-      `SELECT COUNT(*) AS count FROM ar_ling_quran_links WHERE al_entity_ref = ?`,
+      `SELECT COUNT(*) AS count FROM ar_ling_root_lemma_word_quran_link WHERE al_entity_ref = ?`,
       [alRef],
       opts,
     );
@@ -103,10 +103,10 @@ export class BridgeRepo {
       this.db,
       `SELECT id, al_entity_ref, al_entity_type, qr_scope_ref,
               link_type, note_md, confidence, created_at
-       FROM ar_ling_quran_links
+       FROM ar_ling_root_lemma_word_quran_link
        WHERE qr_scope_ref = ?
        ORDER BY al_entity_type, confidence DESC`,
-      `SELECT COUNT(*) AS count FROM ar_ling_quran_links WHERE qr_scope_ref = ?`,
+      `SELECT COUNT(*) AS count FROM ar_ling_root_lemma_word_quran_link WHERE qr_scope_ref = ?`,
       [qrRef],
       opts,
     );
@@ -116,7 +116,7 @@ export class BridgeRepo {
     const id = typedId('AL');
     await execute(
       this.db,
-      `INSERT INTO ar_ling_quran_links
+      `INSERT INTO ar_ling_root_lemma_word_quran_link
          (id, al_entity_ref, al_entity_type, qr_scope_ref,
           link_type, note_md, confidence)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -134,7 +134,7 @@ export class BridgeRepo {
       this.db,
       `SELECT id, al_entity_ref, al_entity_type, qr_scope_ref,
               link_type, note_md, confidence, created_at
-       FROM ar_ling_quran_links WHERE id = ?`,
+       FROM ar_ling_root_lemma_word_quran_link WHERE id = ?`,
       [id],
     ))!;
   }
@@ -142,7 +142,7 @@ export class BridgeRepo {
   async removeQuranLink(id: string): Promise<void> {
     await execute(
       this.db,
-      `DELETE FROM ar_ling_quran_links WHERE id = ?`,
+      `DELETE FROM ar_ling_root_lemma_word_quran_link WHERE id = ?`,
       [id],
     );
   }

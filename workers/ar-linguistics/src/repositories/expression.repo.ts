@@ -1,4 +1,4 @@
-// ─── ExpressionRepo — ar_ling_expression_types + expressions + tokens + collocations ──
+// ─── ExpressionRepo — ar_ling_root_lemma_tabir_kind + expressions + tokens + collocations ──
 
 import { query, queryOne, execute, paginate } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
@@ -87,9 +87,9 @@ export class ExpressionRepo {
     return paginate<ExpressionType>(
       this.db,
       `SELECT id, type_key, name_ar, name_en, description_md
-       FROM ar_ling_expression_types
+       FROM ar_ling_root_lemma_tabir_kind
        ORDER BY name_en`,
-      `SELECT COUNT(*) AS count FROM ar_ling_expression_types`,
+      `SELECT COUNT(*) AS count FROM ar_ling_root_lemma_tabir_kind`,
       [],
       opts,
     );
@@ -99,7 +99,7 @@ export class ExpressionRepo {
     return queryOne<ExpressionType>(
       this.db,
       `SELECT id, type_key, name_ar, name_en, description_md
-       FROM ar_ling_expression_types WHERE id = ?`,
+       FROM ar_ling_root_lemma_tabir_kind WHERE id = ?`,
       [id],
     );
   }
@@ -108,7 +108,7 @@ export class ExpressionRepo {
     return queryOne<ExpressionType>(
       this.db,
       `SELECT id, type_key, name_ar, name_en, description_md
-       FROM ar_ling_expression_types WHERE type_key = ?`,
+       FROM ar_ling_root_lemma_tabir_kind WHERE type_key = ?`,
       [typeKey],
     );
   }
@@ -117,7 +117,7 @@ export class ExpressionRepo {
     const id = typedId('AL');
     await execute(
       this.db,
-      `INSERT INTO ar_ling_expression_types (id, type_key, name_ar, name_en, description_md)
+      `INSERT INTO ar_ling_root_lemma_tabir_kind (id, type_key, name_ar, name_en, description_md)
        VALUES (?, ?, ?, ?, ?)`,
       [
         id,
@@ -139,10 +139,10 @@ export class ExpressionRepo {
       this.db,
       `SELECT id, expression_ar, expression_en, expression_type_id,
               primary_lemma_id, explanation_md, qr_refs_json, created_at
-       FROM ar_ling_expressions
+       FROM ar_ling_root_lemma_tabir
        ${where}
        ORDER BY expression_ar`,
-      `SELECT COUNT(*) AS count FROM ar_ling_expressions ${where}`,
+      `SELECT COUNT(*) AS count FROM ar_ling_root_lemma_tabir ${where}`,
       params,
       opts,
     );
@@ -153,7 +153,7 @@ export class ExpressionRepo {
       this.db,
       `SELECT id, expression_ar, expression_en, expression_type_id,
               primary_lemma_id, explanation_md, qr_refs_json, created_at
-       FROM ar_ling_expressions WHERE id = ?`,
+       FROM ar_ling_root_lemma_tabir WHERE id = ?`,
       [id],
     );
   }
@@ -162,7 +162,7 @@ export class ExpressionRepo {
     const id = typedId('AL');
     await execute(
       this.db,
-      `INSERT INTO ar_ling_expressions
+      `INSERT INTO ar_ling_root_lemma_tabir
          (id, expression_ar, expression_en, expression_type_id,
           primary_lemma_id, explanation_md, qr_refs_json)
        VALUES (?, ?, ?, ?, ?, ?, ?)`,
@@ -209,7 +209,7 @@ export class ExpressionRepo {
     values.push(id);
     await execute(
       this.db,
-      `UPDATE ar_ling_expressions SET ${fields.join(', ')} WHERE id = ?`,
+      `UPDATE ar_ling_root_lemma_tabir SET ${fields.join(', ')} WHERE id = ?`,
       values,
     );
     return this.findById(id);

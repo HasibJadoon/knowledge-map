@@ -68,7 +68,7 @@ export class WordViewRepo {
               e.expression_ar AS ar,
               e.expression_en AS en,
               e.expression_type_id AS type
-       FROM ar_ling_expressions e, json_each(e.qr_refs_json) j
+       FROM ar_ling_root_lemma_tabir e, json_each(e.qr_refs_json) j
        WHERE substr(j.value, 1, instr(j.value, ':') - 1) = ?
          AND CAST(substr(j.value, instr(j.value, ':') + 1) AS INTEGER) BETWEEN ? AND ?
        ORDER BY ayah, e.id`,
@@ -76,13 +76,13 @@ export class WordViewRepo {
     );
   }
 
-  /** ar_ling_expressions (Mir verbal idioms) for the root, via lemma → root. */
+  /** ar_ling_root_lemma_tabir (Mir verbal idioms) for the root, via lemma → root. */
   expressionsByRoot(root: string) {
     return query<IdiomRow>(
       this.db,
       `SELECT e.expression_ar AS phraseAr, e.expression_en AS en,
               'Mir · Verbal Idioms' AS sourceLabel
-       FROM ar_ling_expressions e
+       FROM ar_ling_root_lemma_tabir e
        JOIN ar_ling_root_lemma l ON l.id = e.primary_lemma_id
        JOIN ar_ling_roots  r ON r.id = l.root_id
        WHERE r.root_text = ?

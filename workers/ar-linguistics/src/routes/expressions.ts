@@ -1,5 +1,5 @@
 // ─── /al/expressions routes ───────────────────────────────────────────────────
-// ar_ling_expressions: idioms, collocations, fixed phrases
+// ar_ling_root_lemma_tabir: idioms, collocations, fixed phrases
 
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, badRequest, paginated } from '../../../shared/src/response';
@@ -32,10 +32,10 @@ export function expressionRoutes(router: Router<ArLinguisticsEnv>) {
       await paginate<Expression>(
         env.DB_AL,
         `SELECT id, expression_ar, expression_type, gloss_en, notes
-         FROM ar_ling_expressions
+         FROM ar_ling_root_lemma_tabir
          WHERE (expression_ar LIKE ? OR gloss_en LIKE ?) ${typeWhere}
          ORDER BY expression_ar`,
-        `SELECT COUNT(*) AS count FROM ar_ling_expressions
+        `SELECT COUNT(*) AS count FROM ar_ling_root_lemma_tabir
          WHERE (expression_ar LIKE ? OR gloss_en LIKE ?) ${typeWhere}`,
         params,
         parsePagination(url),
@@ -48,7 +48,7 @@ export function expressionRoutes(router: Router<ArLinguisticsEnv>) {
     const row = await queryOne<Expression>(
       env.DB_AL,
       `SELECT id, expression_ar, expression_type, gloss_en, notes
-       FROM ar_ling_expressions WHERE id = ?`,
+       FROM ar_ling_root_lemma_tabir WHERE id = ?`,
       [id],
     );
     return row ? ok(row) : notFound(`expression ${id}`);

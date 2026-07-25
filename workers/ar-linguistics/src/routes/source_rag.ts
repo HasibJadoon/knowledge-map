@@ -4,7 +4,7 @@
 // This worker owns DB_AL (km_arabic_linguistic) only.
 // It covers:
 //   - ar_ling_source_chunk  → lexicon / irab / balagha / near-synonym chunks
-//   - ar_ling_vector_records → links to qr_tafsir_entries + qr_translations
+//   - ar_ling_lexicon_entry_embedding → links to qr_tafsir_entries + qr_translations
 //     (text for those lives in km_quran, resolved by the backend proxy)
 //
 // Endpoints:
@@ -89,7 +89,7 @@ export function sourceRagRoutes(router: Router<ArLinguisticsEnv>) {
       .prepare('SELECT COUNT(*) as cnt FROM ar_ling_source_chunk WHERE is_embedded=1')
       .first<{ cnt: number }>();
     const vr = await env.DB_AL
-      .prepare('SELECT COUNT(*) as cnt FROM ar_ling_vector_records')
+      .prepare('SELECT COUNT(*) as cnt FROM ar_ling_lexicon_entry_embedding')
       .first<{ cnt: number }>();
     return ok({
       status: 'ok',
@@ -171,7 +171,7 @@ export function sourceRagRoutes(router: Router<ArLinguisticsEnv>) {
   });
 
   // ── GET /al/source-rag/vector-links ────────────────────────────────────────
-  // Returns ar_ling_vector_records for surah/ayah — includes refs to
+  // Returns ar_ling_lexicon_entry_embedding for surah/ayah — includes refs to
   // qr_tafsir_entries and qr_translations in km_quran.
   // The backend proxy uses these to fetch actual text from km_quran worker.
   // Query params:
@@ -209,7 +209,7 @@ export function sourceRagRoutes(router: Router<ArLinguisticsEnv>) {
       SELECT id, target_db, target_table, target_id,
              work_id, scholar_id, chunk_kind, source_slug,
              surah_no, ayah_start, ayah_end
-      FROM ar_ling_vector_records
+      FROM ar_ling_lexicon_entry_embedding
       WHERE ${conditions.join(' AND ')}
       ORDER BY chunk_kind, ayah_start
       LIMIT ?
@@ -277,7 +277,7 @@ export function sourceRagRoutes(router: Router<ArLinguisticsEnv>) {
       SELECT id, target_db, target_table, target_id,
              work_id, scholar_id, chunk_kind, source_slug,
              surah_no, ayah_start, ayah_end
-      FROM ar_ling_vector_records
+      FROM ar_ling_lexicon_entry_embedding
       WHERE surah_no = ? ${ayahCondition}
         AND target_table = 'qr_tafsir_entries'
       ORDER BY work_id, ayah_start
@@ -289,7 +289,7 @@ export function sourceRagRoutes(router: Router<ArLinguisticsEnv>) {
       SELECT id, target_db, target_table, target_id,
              work_id, scholar_id, chunk_kind, source_slug,
              surah_no, ayah_start, ayah_end
-      FROM ar_ling_vector_records
+      FROM ar_ling_lexicon_entry_embedding
       WHERE surah_no = ? ${ayahCondition}
         AND chunk_kind = 'translation'
       ORDER BY source_slug, ayah_start

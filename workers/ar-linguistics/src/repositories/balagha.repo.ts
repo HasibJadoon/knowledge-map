@@ -1,4 +1,10 @@
-// ─── BalaghaRepo — ar_ling_balagha_concepts + branches + examples ─────────────
+// ─── BalaghaRepo — ar_ling_gram_term (discipline = 'balagha') ────────────────
+//
+// Balāgha concepts share the grammar-term table with naḥw after the AL rename;
+// `discipline` separates them. The branch (bayān | badīʿ | maʿānī) is what
+// `category_key` holds, and examples live in ar_ling_gram_term_example.
+//
+// The BalaghaConcept / BalaghaExample shapes callers see are unchanged.
 
 import { query, queryOne, paginate } from '../../../shared/src/db';
 import type { PaginateOptions } from '../../../shared/src/types';
@@ -21,17 +27,35 @@ export interface BalaghaExample {
   explanation: string | null;
 }
 
+const CONCEPT_COLS = `
+  id,
+  term_key       AS concept_key,
+  name_ar        AS label_ar,
+  name_en        AS label_en,
+  category_key   AS branch,
+  definition_en  AS description,
+  parent_term_id AS parent_id`;
+
+const DISCIPLINE = `discipline = 'balagha'`;
+
+const EXAMPLE_COLS = `
+  id,
+  term_id     AS concept_id,
+  example_ar  AS text_ar,
+  COALESCE(qr_ref, source_ref) AS source_ref,
+  gloss_en    AS explanation`;
+
 export class BalaghaRepo {
   constructor(private db: D1Database) {}
 
   listConcepts(branch?: string, opts: PaginateOptions = {}) {
-    const where = branch ? `WHERE branch = ?` : '';
+    const where  = branch ? `WHERE ${DISCIPLINE} AND category_key = ?` : `WHERE ${DISCIPLINE}`;
     const params = branch ? [branch] : [];
     return paginate<BalaghaConcept>(
       this.db,
-      `SELECT id, concept_key, label_ar, label_en, branch, description, parent_id
-       FROM ar_ling_balagha_concepts ${where} ORDER BY branch, label_ar`,
-      `SELECT COUNT(*) AS count FROM ar_ling_balagha_concepts ${where}`,
+      `SELECT ${CONCEPT_COLS}
+       FROM ar_ling_gram_term ${where} ORDER BY category_key, name_ar`,
+      `SELECT COUNT(*) AS count FROM ar_ling_gram_term ${where}`,
       params,
       opts,
     );
@@ -40,8 +64,8 @@ export class BalaghaRepo {
   findById(id: string): Promise<BalaghaConcept | null> {
     return queryOne<BalaghaConcept>(
       this.db,
-      `SELECT id, concept_key, label_ar, label_en, branch, description, parent_id
-       FROM ar_ling_balagha_concepts WHERE id = ?`,
+      `SELECT ${CONCEPT_COLS}
+       FROM ar_ling_gram_term WHERE id = ? AND ${DISCIPLINE}`,
       [id],
     );
   }
@@ -49,8 +73,8 @@ export class BalaghaRepo {
   examplesByConcept(conceptId: string): Promise<BalaghaExample[]> {
     return query<BalaghaExample>(
       this.db,
-      `SELECT id, concept_id, text_ar, source_ref, explanation
-       FROM ar_ling_balagha_examples WHERE concept_id = ?`,
+      `SELECT ${EXAMPLE_COLS}
+       FROM ar_ling_gram_term_example WHERE term_id = ? ORDER BY sort_order`,
       [conceptId],
     );
   }

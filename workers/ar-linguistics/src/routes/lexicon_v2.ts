@@ -1,7 +1,7 @@
 // ─── /al/lex/v2/* routes ─────────────────────────────────────────────────────
 //
 // Source-agnostic root-based lexicon API. Reads from the new clean tables:
-//   ar_ling_lexicon_root_entries
+//   ar_ling_lexicon_entry
 //   ar_ling_lexicon_entry_section
 //   ar_ling_lexicon_block
 //   ar_ling_lexicon_block_link
@@ -135,7 +135,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
   router.get('/al/lex/v2/sources', (req, env) => cached(req, async () => {
     const rows = (await env.DB_AL.prepare(
       `SELECT source_slug, COUNT(*) AS roots
-       FROM ar_ling_lexicon_root_entries
+       FROM ar_ling_lexicon_entry
        GROUP BY source_slug`
     ).all<{ source_slug: string; roots: number }>()).results ?? [];
 
@@ -172,13 +172,13 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
     const whereSql = where.length ? `WHERE ${where.join(' AND ')}` : '';
 
     const total = (await env.DB_AL.prepare(
-      `SELECT COUNT(*) AS n FROM ar_ling_lexicon_root_entries ${whereSql}`
+      `SELECT COUNT(*) AS n FROM ar_ling_lexicon_entry ${whereSql}`
     ).bind(...binds).first<{ n: number }>())?.n ?? 0;
 
     const rows = (await env.DB_AL.prepare(
       `SELECT id, source_slug, root_text, root_norm, root_id,
               page_start, page_end, volume_no
-       FROM ar_ling_lexicon_root_entries
+       FROM ar_ling_lexicon_entry
        ${whereSql}
        ORDER BY root_norm, source_slug
        LIMIT ? OFFSET ?`
@@ -195,7 +195,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
     const entries = (await env.DB_AL.prepare(
       `SELECT id, source_slug, root_text, root_norm, root_id,
               page_start, page_end, volume_no
-       FROM ar_ling_lexicon_root_entries
+       FROM ar_ling_lexicon_entry
        WHERE root_norm = ?
        ORDER BY source_slug`
     ).bind(root_norm).all()).results ?? [];
@@ -211,7 +211,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
                  WHERE b.root_norm = ? AND b.source_slug = e.source_slug) AS blocks,
               (SELECT COUNT(*) FROM ar_ling_lexicon_quran_ref q
                  WHERE q.root_norm = ? AND q.source_slug = e.source_slug) AS quran_refs
-       FROM ar_ling_lexicon_root_entries e
+       FROM ar_ling_lexicon_entry e
        WHERE root_norm = ?`
     ).bind(root_norm, root_norm, root_norm, root_norm).all()).results ?? [];
 
@@ -255,7 +255,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
       `SELECT id, source_slug, root_text, root_norm, root_id,
               raw_text, page_start, page_end, volume_no, source_url,
               source_native_id, status
-       FROM ar_ling_lexicon_root_entries
+       FROM ar_ling_lexicon_entry
        WHERE source_slug = ? AND root_norm = ? LIMIT 1`
     ).bind(slug, root_norm).first<any>();
     if (!entry) return notFound('entry not found');
@@ -400,7 +400,7 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
       const sourceFilter = wanted ? `AND source_slug IN (${[...wanted].map(() => '?').join(',')})` : '';
       const sql = `SELECT id, source_slug, root_text, root_norm,
                           page_start, page_end, volume_no
-                   FROM ar_ling_lexicon_root_entries
+                   FROM ar_ling_lexicon_entry
                    WHERE root_norm LIKE ? ${sourceFilter}
                    ORDER BY root_norm, source_slug LIMIT ?`;
       const binds: unknown[] = [q + '%'];

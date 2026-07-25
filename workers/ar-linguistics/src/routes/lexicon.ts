@@ -238,7 +238,7 @@ async function rebuildLaneQualityForRoot(
              e.cleaner_json,
              EXISTS (
                SELECT 1
-               FROM ar_ling_source_lexicon_display_blocks b
+               FROM ar_ling_lexicon_block b
                WHERE b.lexicon_entry_id = e.id
                  AND b.block_type = 'arabic_form'
              ) AS has_arabic_form_block
@@ -447,7 +447,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
   // changes on ingest, so the response is edge-cached for 10 minutes
   // via the Workers Cache API. Cache key = full request URL.
   router.get('/al/lexicon/dict/sources', (req, env) => cached(req, async () => {
-    // Single source of truth: ar_ling_lexicon_root_entries. The legacy
+    // Single source of truth: ar_ling_lexicon_entry. The legacy
     // path joined ar_ling_source_chunk which double-misfires here —
     //   • qomra_jamharat_al_lugha has 2,908 chunks but no root_entries
     //     (legacy import never migrated to v2), so listing it sends
@@ -463,7 +463,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                COUNT(*) AS total,
                COUNT(*) AS roots,
                0        AS embedded
-        FROM   ar_ling_lexicon_root_entries r
+        FROM   ar_ling_lexicon_entry r
         WHERE  r.source_slug IS NOT NULL
         GROUP BY r.source_slug
         ORDER BY total DESC
@@ -757,7 +757,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
           COUNT(b.id)                                                          AS block_count
         FROM  ar_ling_lexicon_entry e
         JOIN  ar_ling_roots r ON r.id = e.root_id
-        LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
+        LEFT JOIN ar_ling_lexicon_block b ON b.lexicon_entry_id = e.id
         WHERE r.root_text = ?
           AND e.source_slug = 'lane_lexicon'
         GROUP BY
@@ -777,7 +777,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
   // (handled by lexiconV2Routes). The old route queried the retired
   // ar_ling_lexicon_entry table and produced a parallel response shape;
   // removing it prevents accidental re-use and forces a single code path
-  // through ar_ling_lexicon_root_entries.
+  // through ar_ling_lexicon_entry.
 
   // GET /al/lexicon/entries/search?q=&source=&limit=
   // Searches heading_ar and definition_clean.
@@ -803,7 +803,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                MAX(CASE WHEN b.block_type = 'arabic_form' THEN b.text_ar END) AS arabic_forms_raw,
                MAX(CASE WHEN b.block_type = 'page_ref'    THEN b.text_en END) AS page_label
         FROM   ar_ling_lexicon_entry e
-        LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
+        LEFT JOIN ar_ling_lexicon_block b ON b.lexicon_entry_id = e.id
         WHERE  (e.display_heading_ar = ?
              OR json_extract(e.cleaner_json, '$.definition_clean') LIKE ?
              OR e.definition_en LIKE ?)
@@ -838,7 +838,7 @@ export function lexiconRoutes(router: Router<ArLinguisticsEnv>) {
                MAX(CASE WHEN b.block_type = 'arabic_form' THEN b.text_ar END) AS arabic_forms_raw,
                MAX(CASE WHEN b.block_type = 'page_ref'    THEN b.text_en END) AS page_label
         FROM   ar_ling_lexicon_entry e
-        LEFT JOIN ar_ling_source_lexicon_display_blocks b ON b.lexicon_entry_id = e.id
+        LEFT JOIN ar_ling_lexicon_block b ON b.lexicon_entry_id = e.id
         LEFT JOIN ar_ling_root_lemma l ON l.id = e.lemma_id
         LEFT JOIN ar_ling_roots  r ON r.id = e.root_id
         WHERE  e.id = ?

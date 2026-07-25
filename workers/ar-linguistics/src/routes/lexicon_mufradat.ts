@@ -131,7 +131,7 @@ export function lexiconMufradatRoutes(router: Router<ArLinguisticsEnv>) {
       const entry = await env.DB_AL.prepare(
         `SELECT id, root_text, root_norm, root_id, raw_text,
                 page_start, page_end, volume_no, source_url, source_native_id
-         FROM ar_ling_lexicon_root_entries
+         FROM ar_ling_lexicon_entry
          WHERE source_slug = ? AND root_norm = ? LIMIT 1`
       ).bind(SOURCE_SLUG, root_norm).first<any>();
       if (!entry) return notFound('entry not found in Mufradat');

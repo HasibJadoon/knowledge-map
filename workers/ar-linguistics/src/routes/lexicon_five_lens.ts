@@ -155,7 +155,7 @@ export function lexiconFiveLensRoutes(router: Router<ArLinguisticsEnv>) {
     const entry = await env.DB_AL
       .prepare(
         `SELECT id, root_text, entry_text_ar, entry_text_en, status
-           FROM ar_ling_lexicon_root_entries
+           FROM ar_ling_lexicon_entry
           WHERE source_slug = ?1 AND root_norm = ?2
           LIMIT 1`,
       )
