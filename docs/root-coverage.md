@@ -31,15 +31,17 @@ registry, and the links.
 
 ## How a carrier reaches a root
 
-Discovered at runtime from `pragma_table_info`, in this precedence:
+Also data. `ar_ling_reg_root_key` maps a column name to the identity value to
+bind, in precedence order; the resolver reads it and matches against
+`pragma_table_info`. A new carrier convention is a row insert, not a deploy.
 
-| Strategy | Columns | Bound value |
+| `column_name` | `bind_kind` | Bound value |
 |---|---|---|
-| direct | `root_norm`, `root_text`, `root_ar` | root text (Arabic) |
-| direct | `root_id`, `used_root_id` | `ar_ling_roots.id` |
-| direct | `root_bw` | `ar_ling_roots.buckwalter` |
-| lemma | `lemma_id`, `primary_lemma_id` | via `ar_ling_root_lemma.root_id` |
-| none | — | reported as `no_carrier`, excluded from the percentage |
+| `root_norm`, `root_text`, `root_ar` | `root_norm` | root text (Arabic) |
+| `root_id`, `used_root_id` | `root_id` | `ar_ling_roots.id` |
+| `root_bw` | `buckwalter` | `ar_ling_roots.buckwalter` |
+| `lemma_id`, `primary_lemma_id` | `lemma` | via `ar_ling_root_lemma.root_id` |
+| *(no match)* | — | `no_carrier`, excluded from the percentage |
 
 The discovered map doubles as an allow-list: a table that isn't in it is never
 interpolated into SQL, so a stale registry row cannot reach the query builder.
@@ -85,6 +87,28 @@ empty. Check it after any migration that renames or adds tables — the 2026-07
 rename left 39 applied migrations without repo files and orphaned every worker
 query against the old plural table names, which is how this whole class of
 problem stayed invisible for months.
+
+## Word-card labels are data too
+
+Nothing in a word card is a hardcoded string. The QAC tag on
+`qr_word_occurrence.morphology_tag_json` carries feature flags; each resolves
+through `ar_ling_gram_term.qac_flag`:
+
+```
+N    → اِسْم      pos            #6bbf8f
+GEN  → مَجْرُور    case           #c9a24b
+M    → مُذَكَّر    gender         #6b9080
+Al+  → مَعْرِفَة   definiteness   #e0897f
+(absent) → مُفْرَد  number        #7ea8d8
+```
+
+- **Label** — `name_ar` / `name_en` / `name_ur`, trilingual on all 262 terms.
+- **Colour** — `badge_color`, populated per category. Change the chip palette
+  with an UPDATE, never in CSS.
+- **Order** — `ar_ling_gram_category.display_order`.
+- **Absent features** — `is_default_when_absent`. QAC omits number on singular
+  nouns; `number/singular` carries the flag, so مُفْرَد is a lookup rather than
+  an `if (!flags.includes('P'))` in a view.
 
 ## Endpoints
 

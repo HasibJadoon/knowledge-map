@@ -5,29 +5,27 @@
 // sub-layer or a carrier to the registry makes it appear here with no code
 // change — which is the point.
 //
-// Carriers reach a root three ways, matching reg_sub_layer.scope_level:
-//   direct  root_norm | root_text | root_ar | root_id | used_root_id | root_bw
-//   lemma   lemma_id  | primary_lemma_id  → ar_ling_root_lemma.root_id
-//   none    genuinely not root-scoped (source/display metadata, global wazn
-//           templates keyed on root_type, and *_src/_kind child tables)
+// How a carrier reaches a root is itself data: ar_ling_reg_root_key maps a
+// column name to the identity value to bind, in precedence order. A table with
+// none of those columns is reported as no_carrier and excluded from the
+// percentage — currently 22-BAB (global wazn templates keyed on root_type) and
+// 50-META (source/display metadata), both correctly not per-root.
 
 import { query } from '../../../shared/src/db';
 
-/** Direct root-key columns → which identity value to bind. Order = precedence. */
-const DIRECT_KEYS: Array<{ column: string; bind: 'norm' | 'id' | 'bw' }> = [
-  { column: 'root_norm', bind: 'norm' },
-  { column: 'root_text', bind: 'norm' },
-  { column: 'root_ar', bind: 'norm' },
-  { column: 'root_id', bind: 'id' },
-  { column: 'used_root_id', bind: 'id' },
-  { column: 'root_bw', bind: 'bw' },
-];
+/** How a carrier column reaches a root. Seeded in ar_ling_reg_root_key — this
+ *  is a registry lookup, not a constant, so a new carrier convention is a row
+ *  insert rather than a deploy. */
+type BindKind = 'root_norm' | 'root_id' | 'buckwalter' | 'lemma';
 
-/** Lemma-scope columns, resolved through ar_ling_root_lemma.root_id. */
-const LEMMA_KEYS = ['lemma_id', 'primary_lemma_id'];
+interface RootKeyRule {
+  column_name: string;
+  bind_kind: BindKind;
+  precedence: number;
+}
 
 type Resolver =
-  | { kind: 'direct'; column: string; bind: 'norm' | 'id' | 'bw' }
+  | { kind: 'direct'; column: string; bind: Exclude<BindKind, 'lemma'> }
   | { kind: 'lemma'; column: string };
 
 export interface RootIdentity {
@@ -98,7 +96,16 @@ export class CoverageRepo {
    * the query builder.
    */
   async resolvers(): Promise<Map<string, Resolver>> {
-    const wanted = [...DIRECT_KEYS.map((k) => k.column), ...LEMMA_KEYS];
+    const rules = await query<RootKeyRule>(
+      this.db,
+      `SELECT column_name, bind_kind, precedence
+         FROM ar_ling_reg_root_key
+        WHERE status = 'live'
+        ORDER BY precedence`,
+    );
+    if (rules.length === 0) return new Map();
+
+    const wanted = rules.map((r) => r.column_name);
     const rows = await query<{ tbl: string; col: string }>(
       this.db,
       `SELECT m.name AS tbl, p.name AS col
@@ -118,13 +125,15 @@ export class CoverageRepo {
 
     const out = new Map<string, Resolver>();
     for (const [tbl, cols] of byTable) {
-      const direct = DIRECT_KEYS.find((k) => cols.has(k.column));
-      if (direct) {
-        out.set(tbl, { kind: 'direct', column: direct.column, bind: direct.bind });
-        continue;
-      }
-      const lemma = LEMMA_KEYS.find((c) => cols.has(c));
-      if (lemma) out.set(tbl, { kind: 'lemma', column: lemma });
+      // rules are precedence-ordered, so the first match wins
+      const rule = rules.find((r) => cols.has(r.column_name));
+      if (!rule) continue;
+      out.set(
+        tbl,
+        rule.bind_kind === 'lemma'
+          ? { kind: 'lemma', column: rule.column_name }
+          : { kind: 'direct', column: rule.column_name, bind: rule.bind_kind },
+      );
     }
     return out;
   }
@@ -205,7 +214,11 @@ export class CoverageRepo {
           .bind(id.root_id);
       }
       const value =
-        r.bind === 'id' ? id.root_id : r.bind === 'bw' ? id.buckwalter : id.root_norm;
+        r.bind === 'root_id'
+          ? id.root_id
+          : r.bind === 'buckwalter'
+            ? id.buckwalter
+            : id.root_norm;
       return this.db
         .prepare(`SELECT COUNT(*) AS n FROM ${table} WHERE ${r.column} = ?`)
         .bind(value);
