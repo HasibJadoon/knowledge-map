@@ -25,6 +25,7 @@ import { nearSynonymRoutes } from './routes/near_synonyms';
 import { sourceRagRoutes } from './routes/source_rag';
 import { wordViewRoutes } from './routes/word_view';
 import { wordAnalysisRoutes } from './routes/word_analysis';
+import { coverageRoutes } from './routes/coverage';
 
 const router = new Router<ArLinguisticsEnv>();
 
@@ -51,6 +52,7 @@ nearSynonymRoutes(router);
 sourceRagRoutes(router);
 wordViewRoutes(router);          // /al/verb-government/:root, /al/root-antonyms/:root, /al/expressions/by-root/:root
 wordAnalysisRoutes(router);      // /al/word-analysis?roots= — deep root layer for the word modal
+coverageRoutes(router);          // /al/coverage/* — registry-driven root completeness + drift
 
 export default {
   fetch: (request: Request, env: ArLinguisticsEnv) => router.handle(request, env),
