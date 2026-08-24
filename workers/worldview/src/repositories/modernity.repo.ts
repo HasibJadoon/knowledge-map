@@ -12,7 +12,7 @@
 //        wv_false_transcendence_profiles, wv_counterfeit_redemption_claims,
 //        wv_discernment_rules
 
-import { query, queryOne, execute, paginate } from '../../../shared/src/db';
+import { query, queryOne, execute, paginate, buildPatch } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
 import type { PaginateOptions } from '../../../shared/src/types';
 
@@ -405,13 +405,6 @@ const CRC_COLS  = `id, title, claim_text, stream_id, project_type, redemption_pr
 const DR_COLS   = `id, slug, title, tradition_id, rule_type, rule_text, scriptural_basis, warning_indicators, created_at`;
 
 // ─── Patch helpers ─────────────────────────────────────────────────────────────
-
-function buildPatch(patch: Record<string, unknown>): { setClauses: string; values: unknown[] } {
-  const keys = Object.keys(patch).filter(k => patch[k] !== undefined);
-  const setClauses = keys.map(k => `${k} = ?`).join(', ');
-  const values = keys.map(k => patch[k] ?? null);
-  return { setClauses, values };
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // ModernityRepo

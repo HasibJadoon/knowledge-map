@@ -7,7 +7,7 @@
 // L5B: wv_exemplar_cases, wv_case_scope_links, wv_moral_case_patterns,
 //      wv_household_models, wv_charity_infrastructures, wv_memory_traditions
 
-import { query, queryOne, execute, paginate } from '../../../shared/src/db';
+import { query, queryOne, execute, paginate, buildPatch } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
 import type { PaginateOptions } from '../../../shared/src/types';
 
@@ -277,13 +277,6 @@ const CI_COLS   = `id, slug, title, tradition_id, infra_type, period_id, locatio
 const MT_COLS   = `id, case_id, tradition_id, memory_type, description_md, vehicle, created_at`;
 
 // ─── Patch helper ──────────────────────────────────────────────────────────────
-
-function buildPatch(patch: Record<string, unknown>): { setClauses: string; values: unknown[] } {
-  const keys = Object.keys(patch).filter(k => patch[k] !== undefined);
-  const setClauses = keys.map(k => `${k} = ?`).join(', ');
-  const values = keys.map(k => patch[k] ?? null);
-  return { setClauses, values };
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // EventRepo

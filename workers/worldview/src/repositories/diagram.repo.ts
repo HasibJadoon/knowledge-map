@@ -8,7 +8,7 @@
 //      wv_orientalism_image_chains, wv_exemplar_case_timelines,
 //      wv_discernment_diagram_views
 
-import { query, queryOne, execute, paginate } from '../../../shared/src/db';
+import { query, queryOne, execute, paginate, buildPatch } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
 import type { PaginateOptions } from '../../../shared/src/types';
 
@@ -263,13 +263,6 @@ const ECT_COLS = `id, slug, title, case_ids_json, tradition_ids, timeline_view_i
 const DDV_COLS = `id, slug, title, tradition_id, adversarial_pattern_ids, moral_inversion_ids, counterfeit_ids, diagram_spec_id, description_md, created_at`;
 
 // ─── Patch helper ──────────────────────────────────────────────────────────────
-
-function buildPatch(patch: Record<string, unknown>): { setClauses: string; values: unknown[] } {
-  const keys = Object.keys(patch).filter(k => patch[k] !== undefined);
-  const setClauses = keys.map(k => `${k} = ?`).join(', ');
-  const values = keys.map(k => patch[k] ?? null);
-  return { setClauses, values };
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // DiagramRepo

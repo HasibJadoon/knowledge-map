@@ -53,7 +53,6 @@ Domain workers:
 - `workers/arabic/` - `km-arabic-worker`, binding `DB_AR`, database `km_arabic`
 - `workers/worldview/` - `km-worldview-worker`, binding `DB_WV`, database `km_worldview`
 - `workers/content/` - `km-content-worker`, binding `DB_CM`, database `km_content`
-- `workers/planner/` - `km-planner-worker`, binding `DB_PL`, database `km_planner`
 - `workers/core/` - `km-core-worker`, binding `DB_CORE`, database `km_core`
 - `workers/studio/` - `km-studio-worker`, binding `DB_ST`, database `km_studio`
 
@@ -84,7 +83,10 @@ Hard ownership boundaries:
 - AR owns Arabic learning: curriculum, lessons, exercises, SRS, learner workflow.
 - WV owns worldview reasoning: traditions, thinkers, claims, institutions, events, diagrams.
 - CM owns authored content: documents, notes, captures, sources, media, publications.
-- PL owns operational planning: plans, tasks, lanes, reviews, packets.
+- Planning is NOT a domain worker. It lives in the CYB control loop
+  (`cyb_*` tables in `km_core`). The old `km-planner-worker` and its
+  `km_planner` database were retired on 2026-08-24; see
+  `database/exports/km_planner-retirement/`.
 - CORE owns identity, workspaces, policies, roles, grants, and auth.
 - ST owns studio production: episodes, sections, talking points, capture log.
 
@@ -96,7 +98,6 @@ AL:<id>
 AR:<id>
 WV:<id>
 CM:<id>
-PL:<id>
 CORE:<id>
 ```
 
@@ -125,7 +126,6 @@ database/migrations/km-arabic-linguistics/
 database/migrations/km-content/
 database/migrations/km-core/
 database/migrations/km-lexicon/
-database/migrations/km-planner/
 database/migrations/km-quran/
 database/migrations/km-worldview/
 ```
@@ -161,9 +161,10 @@ Morphology ingestion:
 - Foreign key declarations document intent; do not rely on runtime enforcement.
 - Add explicit indexes for production query paths.
 - Keep domain migrations close to the domain worker when possible.
-- Use `workers/*/schema.sql` as current schema snapshots. These are currently
-  stale — they still describe the pre-rename schema. Treat the live database as
-  the source of truth and see `docs/d1-drift-report.md`.
+- `workers/*/schema.sql` are generated dumps of the live databases, not
+  hand-maintained files. Regenerate after applying migrations rather than
+  editing them; the query is in each file's header. See
+  `docs/d1-drift-report.md` for the current code-vs-schema audit.
 
 Table naming follows the post-rename convention: singular table names, grouped
 by family prefix (`qr_surah_profile`, `ar_ling_root_lemma`,

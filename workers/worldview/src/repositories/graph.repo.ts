@@ -2,7 +2,7 @@
 // wv_clusters, wv_cluster_members, wv_graph_projections,
 // wv_graph_views, wv_node_scope_links
 
-import { query, queryOne, execute, paginate } from '../../../shared/src/db';
+import { query, queryOne, execute, paginate, buildPatch } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
 import type { PaginateOptions } from '../../../shared/src/types';
 
@@ -82,13 +82,6 @@ const GV_COLS  = `id, projection_id, title, layout_type, renderer_hint, filter_j
 const NSL_COLS = `id, node_id, scope_type, scope_ref, link_role, note, created_at`;
 
 // ─── Patch helper ──────────────────────────────────────────────────────────────
-
-function buildPatch(patch: Record<string, unknown>): { setClauses: string; values: unknown[] } {
-  const keys = Object.keys(patch).filter(k => patch[k] !== undefined);
-  const setClauses = keys.map(k => `${k} = ?`).join(', ');
-  const values = keys.map(k => patch[k] ?? null);
-  return { setClauses, values };
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // GraphRepo

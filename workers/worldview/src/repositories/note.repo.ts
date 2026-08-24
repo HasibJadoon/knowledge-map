@@ -8,7 +8,7 @@
 // wv_note_relations columns:
 //   id, note_id, target_type, target_id, relation_role, created_at
 
-import { query, queryOne, execute, paginate } from '../../../shared/src/db';
+import { query, queryOne, execute, paginate, buildPatch } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
 import type { PaginateOptions } from '../../../shared/src/types';
 
@@ -69,13 +69,6 @@ const NOTE_COLS = `id, note_type, title, body_md, tradition_id, topic_id, moral_
 const NR_COLS   = `id, note_id, target_type, target_id, relation_role, created_at`;
 
 // ─── Patch helper ──────────────────────────────────────────────────────────────
-
-function buildPatch(patch: Record<string, unknown>): { setClauses: string; values: unknown[] } {
-  const keys = Object.keys(patch).filter(k => patch[k] !== undefined);
-  const setClauses = keys.map(k => `${k} = ?`).join(', ');
-  const values = keys.map(k => patch[k] ?? null);
-  return { setClauses, values };
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // NoteRepo

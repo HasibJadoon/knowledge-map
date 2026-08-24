@@ -92,3 +92,19 @@ export async function exists(
   const row = await db.prepare(sql).bind(...params).first<{ n: number }>();
   return (row?.n ?? 0) > 0;
 }
+
+/**
+ * Build the `SET` clause of an UPDATE from a partial patch object.
+ *
+ * Keys whose value is `undefined` are skipped, so callers can pass a patch
+ * with optional fields and only the supplied ones are written. A key present
+ * with value `null` IS written, as an explicit null.
+ */
+export function buildPatch(
+  patch: Record<string, unknown>,
+): { setClauses: string; values: unknown[] } {
+  const keys = Object.keys(patch).filter(k => patch[k] !== undefined);
+  const setClauses = keys.map(k => `${k} = ?`).join(', ');
+  const values = keys.map(k => patch[k] ?? null);
+  return { setClauses, values };
+}

@@ -5,7 +5,7 @@
 //      wv_geocultural_zones, wv_route_layers, wv_route_features,
 //      wv_expansion_maps, wv_timeline_events
 
-import { query, queryOne, execute, paginate } from '../../../shared/src/db';
+import { query, queryOne, execute, paginate, buildPatch } from '../../../shared/src/db';
 import { typedId } from '../../../shared/src/ulid';
 import type { PaginateOptions } from '../../../shared/src/types';
 
@@ -217,13 +217,6 @@ const EM_COLS  = `id, slug, title, map_type, tradition_id, colonial_project_id, 
 const TE_COLS  = `id, title, event_type, year_exact, year_start, year_end, is_approximate, century, location_id, tradition_id, person_id, wv_event_id, description_md, significance, meta_json, created_at`;
 
 // ─── Patch helper ──────────────────────────────────────────────────────────────
-
-function buildPatch(patch: Record<string, unknown>): { setClauses: string; values: unknown[] } {
-  const keys = Object.keys(patch).filter(k => patch[k] !== undefined);
-  const setClauses = keys.map(k => `${k} = ?`).join(', ');
-  const values = keys.map(k => patch[k] ?? null);
-  return { setClauses, values };
-}
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // MapRepo
