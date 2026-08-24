@@ -4,7 +4,7 @@ import type { Router } from '../../../shared/src/router';
 import {
   ok, notFound, created, badRequest, forbidden, conflict, noContent, paginated,
 } from '../../../shared/src/response';
-import { parsePagination } from '../../../shared/src/validate';
+import { parsePagination, readJsonObject } from '../../../shared/src/validate';
 import { requireAuth, requireAdmin } from '../../../shared/src/auth';
 import type { AuthContext } from '../../../shared/src/types';
 import type { CoreEnv } from '../env';
@@ -16,16 +16,6 @@ import { validateWorkspaceCreate, validateWorkspacePatch } from '../schemas/work
 const MEMBERSHIP_ROLES = ['owner', 'admin', 'member', 'guest'];
 const MEMBER_STATUSES = ['active', 'invited', 'suspended'];
 
-async function readJson(req: Request): Promise<Record<string, unknown> | null> {
-  try {
-    const body = await req.json();
-    return body && typeof body === 'object' && !Array.isArray(body)
-      ? (body as Record<string, unknown>)
-      : null;
-  } catch {
-    return null;
-  }
-}
 
 /** Best-effort activity log — never let an audit write break the action. */
 async function logEvent(
@@ -90,7 +80,7 @@ export function workspaceRoutes(router: Router<CoreEnv>) {
   router.post('/core/workspaces', async (req, env) => {
     const ctx = await requireAuth(req, env.JWT_SECRET);
     if (ctx instanceof Response) return ctx;
-    const body = await readJson(req);
+    const body = await readJsonObject(req);
     if (!body) return badRequest('Request body must be a JSON object');
     const result = validateWorkspaceCreate(body);
     if ('error' in result) return badRequest(result.error);
@@ -108,7 +98,7 @@ export function workspaceRoutes(router: Router<CoreEnv>) {
     if (!ws) return notFound(`workspace ${id}`);
     if (!canManage(ctx, ws.owner_id)) return forbidden('Admin or workspace owner required');
 
-    const body = await readJson(req);
+    const body = await readJsonObject(req);
     if (!body) return badRequest('Request body must be a JSON object');
     const result = validateWorkspacePatch(body);
     if ('error' in result) return badRequest(result.error);
@@ -127,7 +117,7 @@ export function workspaceRoutes(router: Router<CoreEnv>) {
     if (!ws) return notFound(`workspace ${id}`);
     if (!canManage(ctx, ws.owner_id)) return forbidden('Admin or workspace owner required');
 
-    const body = await readJson(req);
+    const body = await readJsonObject(req);
     if (!body) return badRequest('Request body must be a JSON object');
 
     const userRepo = new UserRepo(env.DB_CORE);
@@ -163,7 +153,7 @@ export function workspaceRoutes(router: Router<CoreEnv>) {
     if (!canManage(ctx, ws.owner_id)) return forbidden('Admin or workspace owner required');
     if (!(await repo.findMemberById(memberId))) return notFound(`member ${memberId}`);
 
-    const body = await readJson(req);
+    const body = await readJsonObject(req);
     if (!body) return badRequest('Request body must be a JSON object');
     const patch: { membership_role?: string; status?: string } = {};
     if (body['membership_role'] !== undefined) {

@@ -9,17 +9,8 @@ import { typedId } from '../../../shared/src/ulid';
 import type { PlannerEnv } from '../env';
 import { SprintRepo, type SprintRow } from '../repositories/sprint.repo';
 import { actorRef } from '../auth';
+import { readJsonObject } from '../../../shared/src/validate';
 
-async function readJson(req: Request): Promise<Record<string, unknown>> {
-  try {
-    const body = await req.json();
-    return body && typeof body === 'object' && !Array.isArray(body)
-      ? (body as Record<string, unknown>)
-      : {};
-  } catch {
-    return {};
-  }
-}
 
 function parseJson(text: string): Record<string, unknown> {
   try {
@@ -139,7 +130,7 @@ export function sprintRoutes(router: Router<PlannerEnv>) {
   router.post('/planner/week', async (req, env) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const body = await readJson(req);
+    const body = await readJsonObject(req) ?? {};
     const weekStart = typeof body['week_start'] === 'string' ? body['week_start'] : '';
     if (!weekStart) return badRequest('week_start required');
     const repo = new SprintRepo(env.DB_PL);
@@ -151,7 +142,7 @@ export function sprintRoutes(router: Router<PlannerEnv>) {
   router.post('/week/ensure', async (req, env) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const body = await readJson(req);
+    const body = await readJsonObject(req) ?? {};
     const weekStart = new URL(req.url).searchParams.get('week_start')
       ?? (typeof body['week_start'] === 'string' ? body['week_start'] : '');
     if (!weekStart) return badRequest('week_start required');
@@ -164,7 +155,7 @@ export function sprintRoutes(router: Router<PlannerEnv>) {
   router.put('/week/plan', async (req, env) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const body = await readJson(req);
+    const body = await readJsonObject(req) ?? {};
     const weekStart = typeof body['week_start'] === 'string' ? body['week_start'] : '';
     if (!weekStart) return badRequest('week_start required');
     const repo = new SprintRepo(env.DB_PL);
@@ -184,7 +175,7 @@ export function sprintRoutes(router: Router<PlannerEnv>) {
   router.post('/planner/task', async (req, env) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const body = await readJson(req);
+    const body = await readJsonObject(req) ?? {};
     const weekStart = typeof body['week_start'] === 'string' ? body['week_start'] : '';
     if (!weekStart) return badRequest('week_start required');
     if (!body['item_json'] || typeof body['item_json'] !== 'object') {
@@ -214,7 +205,7 @@ export function sprintRoutes(router: Router<PlannerEnv>) {
   router.put('/planner/task/:id', async (req, env, { id }) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const body = await readJson(req);
+    const body = await readJsonObject(req) ?? {};
     const repo = new SprintRepo(env.DB_PL);
     if (!(await repo.findById(user, id))) return notFound(`task ${id}`);
     const fields: { item_json?: string; related_type?: string | null; related_id?: string | null } = {};
@@ -235,7 +226,7 @@ export function sprintRoutes(router: Router<PlannerEnv>) {
   router.post('/planner/task/:id/complete', async (req, env, { id }) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const body = await readJson(req);
+    const body = await readJsonObject(req) ?? {};
     const repo = new SprintRepo(env.DB_PL);
     const existing = await repo.findById(user, id);
     if (!existing) return notFound(`task ${id}`);
@@ -264,7 +255,7 @@ export function sprintRoutes(router: Router<PlannerEnv>) {
   router.post('/planner/review', async (req, env) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const body = await readJson(req);
+    const body = await readJsonObject(req) ?? {};
     const weekStart = typeof body['week_start'] === 'string' ? body['week_start'] : '';
     if (!weekStart) return badRequest('week_start required');
     if (!body['item_json'] || typeof body['item_json'] !== 'object') {

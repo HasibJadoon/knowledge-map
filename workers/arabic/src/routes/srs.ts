@@ -10,6 +10,7 @@ import type { ArabicEnv } from '../env';
 import { SrsRepo, type SrsCard } from '../repositories/srs.repo';
 import { schedule, isRating, previewIntervals } from '../srs/scheduler';
 import { actorRef } from '../auth';
+import { readJsonObject } from '../../../shared/src/validate';
 
 const DECK_TYPES = new Set([
   'vocabulary', 'morphology', 'translation', 'theology', 'topic', 'idiom',
@@ -23,16 +24,6 @@ const CARD_TEMPLATES = new Set([
   'freeform',
 ]);
 
-async function readJson(req: Request): Promise<Record<string, unknown> | undefined> {
-  try {
-    const body = await req.json();
-    return typeof body === 'object' && body !== null && !Array.isArray(body)
-      ? body as Record<string, unknown>
-      : undefined;
-  } catch {
-    return undefined;
-  }
-}
 
 function str(v: unknown): string | undefined {
   return typeof v === 'string' ? v : undefined;
@@ -89,7 +80,7 @@ export function srsRoutes(router: Router<ArabicEnv>) {
   router.post('/ar/srs/decks', async (req, env) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const b = await readJson(req);
+    const b = await readJsonObject(req);
     if (!b) return badRequest('Request body must be a JSON object');
     const title = str(b['title'])?.trim();
     if (!title) return badRequest('title is required');
@@ -122,7 +113,7 @@ export function srsRoutes(router: Router<ArabicEnv>) {
     const deck = await repo.findDeckById(id);
     if (!deck) return notFound(`deck ${id}`);
     if (deck.core_user_ref !== user) return forbidden('Not your deck');
-    const b = await readJson(req);
+    const b = await readJsonObject(req);
     if (!b) return badRequest('Request body must be a JSON object');
     if (b['deck_type'] !== undefined && !DECK_TYPES.has(String(b['deck_type'])))
       return badRequest(`deck_type must be one of: ${[...DECK_TYPES].join(', ')}`);
@@ -187,7 +178,7 @@ export function srsRoutes(router: Router<ArabicEnv>) {
   router.post('/ar/srs/cards', async (req, env) => {
     const user = actorRef(req);
     if (!user) return unauthorized('Authenticated user required');
-    const b = await readJson(req);
+    const b = await readJsonObject(req);
     if (!b) return badRequest('Request body must be a JSON object');
     const deckId = str(b['deck_id']);
     if (!deckId) return badRequest('deck_id is required');
@@ -226,7 +217,7 @@ export function srsRoutes(router: Router<ArabicEnv>) {
     const card = await repo.findCardById(id);
     if (!card) return notFound(`card ${id}`);
     if (card.core_user_ref !== user) return forbidden('Not your card');
-    const b = await readJson(req);
+    const b = await readJsonObject(req);
     if (!b) return badRequest('Request body must be a JSON object');
 
     const updated = await repo.updateCard(id, {
@@ -260,7 +251,7 @@ export function srsRoutes(router: Router<ArabicEnv>) {
     if (!card) return notFound(`card ${id}`);
     if (card.core_user_ref !== user) return forbidden('Not your card');
 
-    const b = await readJson(req);
+    const b = await readJsonObject(req);
     const rating = b?.['rating'];
     if (!isRating(rating)) return badRequest('rating must be 1 (Again), 2 (Hard), 3 (Good) or 4 (Easy)');
     const durationSecs = typeof b?.['duration_secs'] === 'number' ? Math.round(b['duration_secs'] as number) : null;

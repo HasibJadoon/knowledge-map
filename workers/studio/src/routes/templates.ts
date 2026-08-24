@@ -6,14 +6,8 @@ import type { StudioEnv } from '../env';
 import { TemplateRepo, TemplateRow } from '../repositories/template.repo';
 import { EPISODE_FORMATS } from '../repositories/episode.repo';
 import { actorRef } from '../auth';
+import { readJson } from '../../../shared/src/validate';
 
-async function readJson(req: Request): Promise<unknown> {
-  try {
-    return await req.json();
-  } catch {
-    return undefined;
-  }
-}
 
 function isObj(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);

@@ -7,14 +7,8 @@ import { ok, notFound, created, badRequest } from '../../../shared/src/response'
 import type { PlannerEnv } from '../env';
 import { PlanScopeRepo } from '../repositories/plan-scope.repo';
 import { validatePlanScopeCreate, validatePlanScopePatch } from '../schemas/plan-scope.schema';
+import { readJson } from '../../../shared/src/validate';
 
-async function readJson(req: Request): Promise<unknown> {
-  try {
-    return await req.json();
-  } catch {
-    return undefined;
-  }
-}
 
 export function planScopeRoutes(router: Router<PlannerEnv>) {
 

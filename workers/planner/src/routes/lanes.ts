@@ -7,14 +7,8 @@ import { ok, notFound, created, badRequest } from '../../../shared/src/response'
 import type { PlannerEnv } from '../env';
 import { LaneRepo } from '../repositories/lane.repo';
 import { validateLaneCreate } from '../schemas/lane.schema';
+import { readJson } from '../../../shared/src/validate';
 
-async function readJson(req: Request): Promise<unknown> {
-  try {
-    return await req.json();
-  } catch {
-    return undefined;
-  }
-}
 
 export function laneRoutes(router: Router<PlannerEnv>) {
 

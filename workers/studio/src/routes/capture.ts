@@ -15,16 +15,10 @@ import {
   type MarkerInput, type MarkerPatch,
 } from '../repositories/capture.repo';
 import { actorRef } from '../auth';
+import { readJson } from '../../../shared/src/validate';
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-async function readJson(req: Request): Promise<unknown> {
-  try {
-    return await req.json();
-  } catch {
-    return undefined;
-  }
-}
 
 function isObj(v: unknown): v is Record<string, unknown> {
   return typeof v === 'object' && v !== null && !Array.isArray(v);

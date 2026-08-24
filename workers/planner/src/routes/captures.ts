@@ -10,14 +10,8 @@ import {
   isCaptureNoteStatus,
 } from '../repositories/capture.repo';
 import { actorRef } from '../auth';
+import { readJson } from '../../../shared/src/validate';
 
-async function readJson(req: Request): Promise<unknown> {
-  try {
-    return await req.json();
-  } catch {
-    return undefined;
-  }
-}
 
 function safeParse(value: string | null): unknown {
   if (value === null) return null;

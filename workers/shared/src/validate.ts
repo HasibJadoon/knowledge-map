@@ -71,3 +71,34 @@ export function parseIntParam(value: string): number | null {
 export function requireParam(url: URL, name: string): string | null {
   return url.searchParams.get(name) || null;
 }
+
+/**
+ * Read a JSON request body, returning `undefined` when the body is absent or
+ * not valid JSON. Use when the caller does its own shape checking; use
+ * `readJsonObject` when it just needs "an object or nothing".
+ */
+export async function readJson(req: Request): Promise<unknown> {
+  try {
+    return await req.json();
+  } catch {
+    return undefined;
+  }
+}
+
+/**
+ * Read a JSON request body that must be a plain object. Returns `null` for a
+ * missing, malformed, non-object or array body, so callers can reject with a
+ * single falsy check.
+ */
+export async function readJsonObject(
+  req: Request,
+): Promise<Record<string, unknown> | null> {
+  try {
+    const body = await req.json();
+    return body && typeof body === 'object' && !Array.isArray(body)
+      ? (body as Record<string, unknown>)
+      : null;
+  } catch {
+    return null;
+  }
+}

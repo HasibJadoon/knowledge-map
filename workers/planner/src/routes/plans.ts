@@ -2,19 +2,12 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, created, badRequest, paginated, unauthorized } from '../../../shared/src/response';
-import { parsePagination } from '../../../shared/src/validate';
+import { parsePagination, readJson } from '../../../shared/src/validate';
 import type { PlannerEnv } from '../env';
 import { PlanRepo } from '../repositories/plan.repo';
 import { validatePlanCreate, validatePlanPatch } from '../schemas/plan.schema';
 import { actorRef } from '../auth';
 
-async function readJson(req: Request): Promise<unknown> {
-  try {
-    return await req.json();
-  } catch {
-    return undefined;
-  }
-}
 
 export function planRoutes(router: Router<PlannerEnv>) {
 

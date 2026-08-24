@@ -2,7 +2,7 @@
 
 import type { Router } from '../../../shared/src/router';
 import { ok, notFound, created, badRequest, paginated } from '../../../shared/src/response';
-import { parsePagination } from '../../../shared/src/validate';
+import { parsePagination, readJson } from '../../../shared/src/validate';
 import type { PlannerEnv } from '../env';
 import { ReviewCycleRepo } from '../repositories/review-cycle.repo';
 import {
@@ -12,13 +12,6 @@ import {
   validateReviewEventUpdate,
 } from '../schemas/review-cycle.schema';
 
-async function readJson(req: Request): Promise<unknown> {
-  try {
-    return await req.json();
-  } catch {
-    return undefined;
-  }
-}
 
 export function reviewCycleRoutes(router: Router<PlannerEnv>) {
 

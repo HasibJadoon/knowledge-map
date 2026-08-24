@@ -14,6 +14,7 @@ import { UserRepo } from '../repositories/user.repo';
 import { issueSessionToken } from '../jwt';
 import { verifyGoogleIdToken, verifyAppleIdToken, type OAuthIdentity } from '../oauth/verify';
 import type { User } from '../schemas/user.schema';
+import { readJsonObject } from '../../../shared/src/validate';
 
 /** Parse a comma-separated env var into a trimmed, non-empty list. */
 function clientIds(value: string | undefined): string[] {
@@ -76,16 +77,6 @@ async function loginWithIdentity(
   return ok({ token, expires_in, user });
 }
 
-async function readJson(req: Request): Promise<Record<string, unknown> | null> {
-  try {
-    const body = await req.json();
-    return body && typeof body === 'object' && !Array.isArray(body)
-      ? (body as Record<string, unknown>)
-      : null;
-  } catch {
-    return null;
-  }
-}
 
 export function oauthRoutes(router: Router<CoreEnv>) {
 
@@ -115,7 +106,7 @@ export function oauthRoutes(router: Router<CoreEnv>) {
     const ids = clientIds(env.GOOGLE_CLIENT_ID);
     if (ids.length === 0) return badRequest('Google sign-in is not configured');
 
-    const body = await readJson(req);
+    const body = await readJsonObject(req);
     const idToken = body && typeof body['id_token'] === 'string' ? body['id_token'].trim() : '';
     if (!idToken) return badRequest('id_token is required');
 
@@ -131,7 +122,7 @@ export function oauthRoutes(router: Router<CoreEnv>) {
     const ids = clientIds(env.APPLE_CLIENT_ID);
     if (ids.length === 0) return badRequest('Apple sign-in is not configured');
 
-    const body = await readJson(req);
+    const body = await readJsonObject(req);
     const idToken = body && typeof body['id_token'] === 'string' ? body['id_token'].trim() : '';
     if (!idToken) return badRequest('id_token is required');
     const name = body && typeof body['name'] === 'string' ? body['name'] : undefined;
