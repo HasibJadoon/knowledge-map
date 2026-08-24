@@ -1,6 +1,16 @@
--- Schema for km_worldview.
--- Generated from remote Cloudflare D1 sqlite_schema with data excluded.
--- Internal D1 bookkeeping tables and FTS5 shadow tables are omitted.
+-- km_worldview - schema snapshot
+--
+-- Generated from the live database, which is the source of truth:
+--   SELECT type, name, sql FROM sqlite_master WHERE sql IS NOT NULL
+--   ORDER BY CASE type WHEN 'table' THEN 0 WHEN 'view' THEN 1 ELSE 2 END, name;
+--
+-- Binding: DB_WV. Regenerate after applying migrations rather than
+-- editing by hand. Excludes d1_migrations (wrangler's ledger), _cf_KV, and
+-- FTS5 shadow tables, which their virtual tables recreate automatically.
+--
+-- 158 tables, 3 views, 159 indexes.
+
+-- Tables ------------------------------------------------------------------
 
 CREATE TABLE wv_abrahamic_morality_matrices (
   id              TEXT PRIMARY KEY,
@@ -870,10 +880,9 @@ CREATE TABLE wv_highlights (
   color           TEXT,
   moral_axis_id   TEXT,
   topic_id        TEXT,
-  core_user_ref   TEXT NOT NULL,
-  core_ws_ref     TEXT,
-  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  reading_session_id TEXT REFERENCES wv_reading_sessions(id),
+  core_user_ref   TEXT NOT NULL,                  
+  core_ws_ref     TEXT,                           
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')), reading_session_id TEXT REFERENCES wv_reading_sessions(id),
   FOREIGN KEY (source_id)      REFERENCES wv_sources(id),
   FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
   FOREIGN KEY (moral_axis_id)  REFERENCES wv_moral_axes(id),
@@ -1654,6 +1663,28 @@ CREATE TABLE wv_questions (
   FOREIGN KEY (tradition_id) REFERENCES wv_traditions(id)
 );
 
+CREATE TABLE wv_reading_sessions (
+  id              TEXT PRIMARY KEY,
+  source_id       TEXT NOT NULL,
+  source_unit_id  TEXT,
+  title           TEXT,
+  session_type    TEXT NOT NULL DEFAULT 'reading',
+  status          TEXT NOT NULL DEFAULT 'active',
+  focus_mode      TEXT,
+  started_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  ended_at        TEXT,
+  last_position   TEXT,
+  duration_secs   INTEGER,
+  summary_md      TEXT,
+  core_user_ref   TEXT NOT NULL,
+  core_ws_ref     TEXT,
+  meta_json       TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (source_id)      REFERENCES wv_sources(id),
+  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id)
+);
+
 CREATE TABLE wv_regions (
   id             TEXT PRIMARY KEY,
   slug           TEXT NOT NULL UNIQUE,
@@ -1893,6 +1924,23 @@ CREATE TABLE wv_source_people (
   UNIQUE (source_id, person_id, role)
 );
 
+CREATE TABLE wv_source_unit_illustrations (
+  id              TEXT PRIMARY KEY,
+  source_unit_id  TEXT NOT NULL,
+  source_id       TEXT,
+  slug            TEXT,
+  order_index     INTEGER NOT NULL DEFAULT 0,
+  title           TEXT,
+  caption         TEXT,
+  theme           TEXT NOT NULL DEFAULT 'dark',
+  html_content    TEXT NOT NULL,
+  meta_json       TEXT,
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT NOT NULL DEFAULT (datetime('now')), reading_session_id TEXT REFERENCES wv_reading_sessions(id),
+  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
+  FOREIGN KEY (source_id)      REFERENCES wv_sources(id)
+);
+
 CREATE TABLE wv_source_units (
   id              TEXT PRIMARY KEY,
   source_id       TEXT NOT NULL,
@@ -1911,82 +1959,20 @@ CREATE TABLE wv_source_units (
   FOREIGN KEY (parent_id) REFERENCES wv_source_units(id)
 );
 
-CREATE TABLE wv_source_unit_illustrations (
-  id              TEXT PRIMARY KEY,
-  source_unit_id  TEXT NOT NULL,
-  source_id       TEXT,
-  slug            TEXT,
-  order_index     INTEGER NOT NULL DEFAULT 0,
-  title           TEXT,
-  caption         TEXT,
-  theme           TEXT NOT NULL DEFAULT 'dark',
-  html_content    TEXT NOT NULL,
-  meta_json       TEXT,
-  reading_session_id TEXT,
-  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
-  FOREIGN KEY (source_id)      REFERENCES wv_sources(id)
+CREATE TABLE wv_source_units_trash(
+  id TEXT,
+  source_id TEXT,
+  parent_id TEXT,
+  unit_type TEXT,
+  title TEXT,
+  unit_index INT,
+  page_start INT,
+  page_end INT,
+  text_excerpt TEXT,
+  description_md TEXT,
+  meta_json TEXT,
+  created_at TEXT
 );
-
-CREATE TABLE wv_unit_attachments (
-  id              TEXT PRIMARY KEY,
-  source_unit_id  TEXT NOT NULL,
-  source_id       TEXT,
-  attachment_type TEXT NOT NULL DEFAULT 'document',   -- document | content | episode
-  target_ref      TEXT NOT NULL,                      -- typed CM ref: CM:doc-…, CM:src-…, CM:asset-…, CM:pub-…
-  target_kind     TEXT,                               -- cm_document | cm_source | cm_media_asset | cm_publication
-  title           TEXT,
-  subtitle        TEXT,
-  summary         TEXT,
-  thumbnail_url   TEXT,
-  media_url       TEXT,
-  duration_sec    REAL,
-  locator         TEXT,
-  link_role       TEXT NOT NULL DEFAULT 'related',
-  order_index     INTEGER NOT NULL DEFAULT 0,
-  status          TEXT NOT NULL DEFAULT 'active',
-  meta_json       TEXT,
-  block_ref       TEXT,
-  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
-  FOREIGN KEY (source_id)      REFERENCES wv_sources(id)
-);
-CREATE INDEX idx_wv_unit_attachments_unit   ON wv_unit_attachments (source_unit_id, attachment_type, order_index);
-CREATE INDEX idx_wv_unit_attachments_source ON wv_unit_attachments (source_id, attachment_type);
-CREATE INDEX idx_wv_unit_attachments_target ON wv_unit_attachments (target_ref);
-CREATE VIEW wv_unit_documents AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'document' AND status = 'active' ORDER BY source_unit_id, order_index;
-CREATE VIEW wv_unit_content   AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'content'  AND status = 'active' ORDER BY source_unit_id, order_index;
-CREATE VIEW wv_unit_episodes  AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'episode'  AND status = 'active' ORDER BY source_unit_id, order_index;
-
-CREATE TABLE wv_unit_blocks (
-  id              TEXT PRIMARY KEY,
-  source_unit_id  TEXT NOT NULL,
-  source_id       TEXT,
-  parent_block_id TEXT,                              -- nesting: a block's owning heading / section node
-  block_type      TEXT NOT NULL,                     -- heading|subheading|paragraph|quote|list|table|separator|callout|image|audio|link
-  heading_level   INTEGER,                           -- 1..6 for heading / subheading
-  order_index     INTEGER NOT NULL DEFAULT 0,
-  text            TEXT,
-  cite            TEXT,
-  href            TEXT,
-  label           TEXT,
-  src             TEXT,
-  alt             TEXT,
-  title           TEXT,
-  ordered         INTEGER,
-  items_json      TEXT,                              -- list items: ["…","…"]
-  table_json      TEXT,                              -- {"headerRow":[…],"rows":[[…],…]}
-  anchor_slug     TEXT,
-  meta_json       TEXT,
-  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  FOREIGN KEY (source_unit_id)  REFERENCES wv_source_units(id),
-  FOREIGN KEY (parent_block_id) REFERENCES wv_unit_blocks(id)
-);
-CREATE INDEX idx_wv_unit_blocks_unit   ON wv_unit_blocks (source_unit_id, order_index);
-CREATE INDEX idx_wv_unit_blocks_parent ON wv_unit_blocks (parent_block_id, order_index);
 
 CREATE TABLE wv_sources (
   id              TEXT PRIMARY KEY,
@@ -2014,28 +2000,6 @@ CREATE TABLE wv_sources (
 
 CREATE VIRTUAL TABLE wv_sources_fts USING fts5(
   title, title_ar, description_md, content='wv_sources', content_rowid='rowid'
-);
-
-CREATE TABLE wv_reading_sessions (
-  id              TEXT PRIMARY KEY,
-  source_id       TEXT NOT NULL,
-  source_unit_id  TEXT,
-  title           TEXT,
-  session_type    TEXT NOT NULL DEFAULT 'reading',
-  status          TEXT NOT NULL DEFAULT 'active',
-  focus_mode      TEXT,
-  started_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  ended_at        TEXT,
-  last_position   TEXT,
-  duration_secs   INTEGER,
-  summary_md      TEXT,
-  core_user_ref   TEXT NOT NULL,
-  core_ws_ref     TEXT,
-  meta_json       TEXT,
-  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at      TEXT NOT NULL DEFAULT (datetime('now')),
-  FOREIGN KEY (source_id)      REFERENCES wv_sources(id),
-  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id)
 );
 
 CREATE TABLE wv_spiritual_agents (
@@ -2227,6 +2191,56 @@ CREATE TABLE wv_transition_sequences (
   created_at      TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
+CREATE TABLE wv_unit_attachments (
+  id TEXT PRIMARY KEY,
+  source_unit_id TEXT NOT NULL,
+  source_id TEXT,
+  attachment_type TEXT NOT NULL DEFAULT 'document',
+  target_ref TEXT NOT NULL,
+  target_kind TEXT,
+  title TEXT,
+  subtitle TEXT,
+  summary TEXT,
+  thumbnail_url TEXT,
+  media_url TEXT,
+  duration_sec REAL,
+  locator TEXT,
+  link_role TEXT NOT NULL DEFAULT 'related',
+  order_index INTEGER NOT NULL DEFAULT 0,
+  status TEXT NOT NULL DEFAULT 'active',
+  meta_json TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')), block_ref TEXT,
+  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
+  FOREIGN KEY (source_id) REFERENCES wv_sources(id)
+);
+
+CREATE TABLE wv_unit_blocks (
+  id TEXT PRIMARY KEY,
+  source_unit_id TEXT NOT NULL,
+  source_id TEXT,
+  parent_block_id TEXT,
+  block_type TEXT NOT NULL,
+  heading_level INTEGER,
+  order_index INTEGER NOT NULL DEFAULT 0,
+  text TEXT,
+  cite TEXT,
+  href TEXT,
+  label TEXT,
+  src TEXT,
+  alt TEXT,
+  title TEXT,
+  ordered INTEGER,
+  items_json TEXT,
+  table_json TEXT,
+  anchor_slug TEXT,
+  meta_json TEXT,
+  created_at TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at TEXT NOT NULL DEFAULT (datetime('now')),
+  FOREIGN KEY (source_unit_id) REFERENCES wv_source_units(id),
+  FOREIGN KEY (parent_block_id) REFERENCES wv_unit_blocks(id)
+);
+
 CREATE TABLE wv_value_positions (
   id              TEXT PRIMARY KEY,
   moral_axis_id   TEXT NOT NULL,
@@ -2272,6 +2286,16 @@ CREATE TABLE wv_virtue_profiles (
   FOREIGN KEY (tradition_id) REFERENCES wv_traditions(id),
   FOREIGN KEY (moral_axis_id) REFERENCES wv_moral_axes(id)
 );
+
+-- Views -------------------------------------------------------------------
+
+CREATE VIEW wv_unit_content AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'content' AND status = 'active' ORDER BY source_unit_id, order_index;
+
+CREATE VIEW wv_unit_documents AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'document' AND status = 'active' ORDER BY source_unit_id, order_index;
+
+CREATE VIEW wv_unit_episodes AS SELECT * FROM wv_unit_attachments WHERE attachment_type = 'episode' AND status = 'active' ORDER BY source_unit_id, order_index;
+
+-- Indexes -----------------------------------------------------------------
 
 CREATE INDEX idx_wv_aff_entity ON wv_affiliations(entity_ref, entity_type);
 
@@ -2384,6 +2408,8 @@ CREATE INDEX idx_wv_ev_trad  ON wv_events(tradition_id);
 CREATE INDEX idx_wv_ev_years ON wv_events(start_year, end_year);
 
 CREATE INDEX idx_wv_gtl_loc ON wv_geo_timeline_links(location_id);
+
+CREATE INDEX idx_wv_highlight_session ON wv_highlights(reading_session_id);
 
 CREATE INDEX idx_wv_hl_axis     ON wv_highlights(moral_axis_id);
 
@@ -2503,6 +2529,12 @@ CREATE INDEX idx_wv_pr_type ON wv_practices(practice_type);
 
 CREATE INDEX idx_wv_q_topic ON wv_questions(topic_id);
 
+CREATE INDEX idx_wv_reading_session_src    ON wv_reading_sessions(source_id, started_at);
+
+CREATE INDEX idx_wv_reading_session_status ON wv_reading_sessions(status);
+
+CREATE INDEX idx_wv_reading_session_user   ON wv_reading_sessions(core_user_ref, status);
+
 CREATE INDEX idx_wv_reg_parent ON wv_regions(parent_id);
 
 CREATE INDEX idx_wv_rf_layer ON wv_route_features(route_layer_id);
@@ -2537,15 +2569,15 @@ CREATE INDEX idx_wv_src_type   ON wv_sources(source_type);
 
 CREATE INDEX idx_wv_srm_trad ON wv_salvation_redemption_models(tradition_id);
 
-CREATE INDEX idx_wv_su_source ON wv_source_units(source_id);
-
-CREATE INDEX idx_wv_su_illus_unit ON wv_source_unit_illustrations(source_unit_id, order_index);
-
-CREATE INDEX idx_wv_su_illus_source ON wv_source_unit_illustrations(source_id);
+CREATE INDEX idx_wv_su_illus_rsession ON wv_source_unit_illustrations(reading_session_id, order_index);
 
 CREATE UNIQUE INDEX idx_wv_su_illus_slug ON wv_source_unit_illustrations(slug) WHERE slug IS NOT NULL;
 
-CREATE INDEX idx_wv_su_illus_rsession ON wv_source_unit_illustrations(reading_session_id, order_index);
+CREATE INDEX idx_wv_su_illus_source ON wv_source_unit_illustrations(source_id);
+
+CREATE INDEX idx_wv_su_illus_unit ON wv_source_unit_illustrations(source_unit_id, order_index);
+
+CREATE INDEX idx_wv_su_source ON wv_source_units(source_id);
 
 CREATE INDEX idx_wv_tb_trad ON wv_tradition_branches(tradition_id);
 
@@ -2568,6 +2600,16 @@ CREATE INDEX idx_wv_tpl_person ON wv_thinker_period_links(person_id);
 CREATE INDEX idx_wv_trad_parent ON wv_traditions(parent_id);
 
 CREATE INDEX idx_wv_trad_type   ON wv_traditions(tradition_type);
+
+CREATE INDEX idx_wv_unit_attachments_source ON wv_unit_attachments (source_id, attachment_type);
+
+CREATE INDEX idx_wv_unit_attachments_target ON wv_unit_attachments (target_ref);
+
+CREATE INDEX idx_wv_unit_attachments_unit ON wv_unit_attachments (source_unit_id, attachment_type, order_index);
+
+CREATE INDEX idx_wv_unit_blocks_parent ON wv_unit_blocks (parent_block_id, order_index);
+
+CREATE INDEX idx_wv_unit_blocks_unit ON wv_unit_blocks (source_unit_id, order_index);
 
 CREATE INDEX idx_wv_vp_axis ON wv_value_positions(moral_axis_id);
 

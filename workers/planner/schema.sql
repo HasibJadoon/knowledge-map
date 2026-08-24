@@ -1,6 +1,135 @@
--- Schema for km_planner.
--- Generated from remote Cloudflare D1 sqlite_schema with data excluded.
--- Internal D1 bookkeeping tables and FTS5 shadow tables are omitted.
+-- km_planner - schema snapshot
+--
+-- Generated from the live database, which is the source of truth:
+--   SELECT type, name, sql FROM sqlite_master WHERE sql IS NOT NULL
+--   ORDER BY CASE type WHEN 'table' THEN 0 WHEN 'view' THEN 1 ELSE 2 END, name;
+--
+-- Binding: DB_PL. Regenerate after applying migrations rather than
+-- editing by hand. Excludes d1_migrations (wrangler's ledger), _cf_KV, and
+-- FTS5 shadow tables, which their virtual tables recreate automatically.
+--
+-- 30 tables, 5 views, 44 indexes.
+
+-- Tables ------------------------------------------------------------------
+
+CREATE TABLE cp_build_job (
+  id             TEXT PRIMARY KEY,
+  node_id        TEXT NOT NULL REFERENCES cp_node(id) ON DELETE CASCADE,
+  op             TEXT NOT NULL CHECK (op IN ('mine','promote','compile','link','render','seed')),
+  seq            INTEGER NOT NULL DEFAULT 0,
+  depends_on_json TEXT NOT NULL DEFAULT '[]' CHECK (json_valid(depends_on_json)),
+  readiness      TEXT NOT NULL DEFAULT 'not_ready' CHECK (readiness IN ('ready','not_ready')),
+  status         TEXT NOT NULL DEFAULT 'queued' CHECK (status IN ('queued','running','done','parked','archived','failed')),
+  actuator       TEXT NOT NULL DEFAULT 'claude' CHECK (actuator IN ('claude','human')),
+  skill          TEXT,
+  attempts       INTEGER NOT NULL DEFAULT 0,
+  progress_pct   INTEGER NOT NULL DEFAULT 0,
+  priority       INTEGER NOT NULL DEFAULT 50,
+  result_ref     TEXT,
+  note_md        TEXT,
+  created_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
+  updated_at     TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
+  started_at     TEXT,
+  finished_at    TEXT
+);
+
+CREATE TABLE cp_config (
+  key   TEXT PRIMARY KEY,
+  value TEXT NOT NULL,
+  note  TEXT
+);
+
+CREATE TABLE cp_domain (
+  domain   TEXT PRIMARY KEY,
+  db_name  TEXT NOT NULL,
+  db_uuid  TEXT NOT NULL,
+  role     TEXT NOT NULL CHECK (role IN ('content','infra','control')),
+  fixed    INTEGER NOT NULL DEFAULT 1,
+  note     TEXT
+);
+
+CREATE TABLE cp_edge (
+  id         TEXT PRIMARY KEY,
+  from_node  TEXT NOT NULL REFERENCES cp_node(id) ON DELETE CASCADE,
+  to_node    TEXT NOT NULL REFERENCES cp_node(id) ON DELETE CASCADE,
+  kind       TEXT NOT NULL CHECK (kind IN ('requires','feeds','attaches','produces','rollup')),
+  note       TEXT,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
+  UNIQUE (from_node, to_node, kind)
+);
+
+CREATE TABLE cp_gauge (
+  id          TEXT PRIMARY KEY,
+  node_id     TEXT NOT NULL REFERENCES cp_node(id) ON DELETE CASCADE,
+  gauge_kind  TEXT NOT NULL CHECK (gauge_kind IN ('recite','quiz','reflection')),
+  score       INTEGER NOT NULL CHECK (score BETWEEN 0 AND 100),
+  actor       TEXT NOT NULL DEFAULT 'hasib',
+  srs_card_id TEXT REFERENCES cp_srs_card(id) ON DELETE SET NULL,
+  attempt_at  TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
+  meta_json   TEXT NOT NULL DEFAULT '{}' CHECK (json_valid(meta_json))
+);
+
+CREATE TABLE cp_lane (
+  lane        TEXT PRIMARY KEY CHECK (lane IN ('quran','language','worldview')),
+  title       TEXT NOT NULL,
+  domain      TEXT NOT NULL,
+  build_verb  TEXT NOT NULL,
+  study_verb  TEXT NOT NULL,
+  unit_kind   TEXT NOT NULL,
+  seq         INTEGER NOT NULL DEFAULT 0,
+  note        TEXT
+);
+
+CREATE TABLE cp_node (
+  id            TEXT PRIMARY KEY,
+  domain        TEXT NOT NULL CHECK (domain IN ('quran','ling','arabic','wv','doc','studio')),
+  target_kind   TEXT NOT NULL CHECK (target_kind IN ('surah','passage','root','word','unit','node','episode','document')),
+  target_ref    TEXT NOT NULL,
+  layer         TEXT CHECK (layer IS NULL OR layer IN ('reading','vocabulary','ss','structure','tafsir','worldview')),
+  parent_id     TEXT REFERENCES cp_node(id) ON DELETE CASCADE,
+  label         TEXT,
+  setpoint_json TEXT NOT NULL DEFAULT '{}' CHECK (json_valid(setpoint_json)),
+  build_state   TEXT NOT NULL DEFAULT 'empty'  CHECK (build_state IN ('empty','seeded','mined','compiled')),
+  study_state   TEXT NOT NULL DEFAULT 'unseen' CHECK (study_state IN ('unseen','learning','mastered','taught','published')),
+  build_pct     INTEGER NOT NULL DEFAULT 0,
+  study_pct     INTEGER NOT NULL DEFAULT 0,
+  readiness     TEXT NOT NULL DEFAULT 'ready' CHECK (readiness IN ('ready','not_ready','blocked')),
+  priority      INTEGER NOT NULL DEFAULT 50,
+  due_at        TEXT,
+  last_signal_at TEXT,
+  meta_json     TEXT NOT NULL DEFAULT '{}' CHECK (json_valid(meta_json)),
+  created_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
+  updated_at    TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')), lane TEXT NOT NULL DEFAULT 'quran' CHECK (lane IN ('quran','language','worldview')), piece_kind TEXT
+  CHECK (piece_kind IS NULL OR piece_kind IN ('root','word','expression','verbal_idiom','sinai_key','nuance','ss_sentence')),
+  UNIQUE (domain, target_ref, layer)
+);
+
+CREATE TABLE cp_production (
+  id           TEXT PRIMARY KEY,
+  node_id      TEXT NOT NULL REFERENCES cp_node(id) ON DELETE CASCADE,
+  lane         TEXT NOT NULL DEFAULT 'quran' CHECK (lane IN ('quran','language','worldview')),
+  format       TEXT NOT NULL DEFAULT 'document' CHECK (format IN ('document','video','episode','podcast','short','film','lesson','teach')),
+  target_domain TEXT CHECK (target_domain IN ('doc','studio')),
+  output_ref   TEXT,
+  youtube_ref  TEXT,
+  state        TEXT NOT NULL DEFAULT 'planned' CHECK (state IN ('planned','drafted','taught','recorded','edited','uploaded','published')),
+  with_whom    TEXT,
+  planned_at   TEXT,
+  published_at TEXT,
+  meta_json    TEXT NOT NULL DEFAULT '{}' CHECK (json_valid(meta_json)),
+  created_at   TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
+  updated_at   TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+);
+
+CREATE TABLE cp_tick_log (
+  id            TEXT PRIMARY KEY,
+  ran_at        TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%SZ','now')),
+  trigger       TEXT NOT NULL CHECK (trigger IN ('cron','chat','code')),
+  nodes_touched INTEGER NOT NULL DEFAULT 0,
+  jobs_actuated INTEGER NOT NULL DEFAULT 0,
+  cards_due     INTEGER NOT NULL DEFAULT 0,
+  note_md       TEXT
+);
 
 CREATE TABLE pl_calendar_entries (
   id              TEXT PRIMARY KEY,
@@ -22,6 +151,19 @@ CREATE TABLE pl_calendar_entries (
   FOREIGN KEY (plan_id)   REFERENCES pl_plans(id),
   FOREIGN KEY (task_id)   REFERENCES pl_tasks(id),
   FOREIGN KEY (session_id) REFERENCES pl_sessions(id)
+);
+
+CREATE TABLE pl_capture_notes (
+  id            TEXT PRIMARY KEY,
+  core_user_ref TEXT NOT NULL,
+  core_ws_ref   TEXT,
+  status        TEXT NOT NULL DEFAULT 'inbox',
+  title         TEXT,
+  doc_json      TEXT NOT NULL,
+  text          TEXT NOT NULL DEFAULT '',
+  meta_json     TEXT,
+  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at    TEXT NOT NULL DEFAULT (datetime('now'))
 );
 
 CREATE TABLE pl_goal_snapshots (
@@ -324,11 +466,95 @@ CREATE TABLE pl_tasks (
   FOREIGN KEY (parent_task_id) REFERENCES pl_tasks(id)
 );
 
+CREATE TABLE sp_planner (
+  id              TEXT PRIMARY KEY,
+  canonical_input TEXT NOT NULL UNIQUE,
+  core_user_ref   TEXT NOT NULL,
+  item_type       TEXT NOT NULL DEFAULT 'task',
+  week_start      TEXT,
+  period_start    TEXT,
+  period_end      TEXT,
+  related_type    TEXT,
+  related_id      TEXT,
+  item_json       TEXT NOT NULL DEFAULT '{}',
+  status          TEXT NOT NULL DEFAULT 'active',
+  created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+  updated_at      TEXT
+);
+
+-- Views -------------------------------------------------------------------
+
+CREATE VIEW cp_coupling_violation AS
+SELECT n.id AS node_id, n.domain, n.target_ref, n.layer, n.build_state, n.study_state,
+       'study advanced past build' AS reason
+FROM cp_node n
+WHERE n.study_state <> 'unseen' AND n.build_state <> 'compiled'
+UNION ALL
+SELECT p.node_id, n.domain, n.target_ref, n.layer, n.build_state, n.study_state,
+       'produced without mastery' AS reason
+FROM cp_production p JOIN cp_node n ON n.id = p.node_id
+WHERE p.state IN ('recorded','edited','uploaded','published')
+  AND n.study_state NOT IN ('mastered','taught','published');
+
+CREATE VIEW cp_lane_status AS
+SELECT l.lane, l.title,
+  (SELECT COUNT(*) FROM cp_node n WHERE n.lane=l.lane) nodes,
+  (SELECT COUNT(*) FROM cp_node n WHERE n.lane=l.lane AND n.build_state='compiled') built,
+  (SELECT COUNT(*) FROM cp_node n WHERE n.lane=l.lane AND n.study_state IN ('mastered','taught','published')) mastered,
+  (SELECT COUNT(*) FROM cp_build_job j JOIN cp_node n ON n.id=j.node_id WHERE n.lane=l.lane AND j.status='queued') build_queue,
+  (SELECT COUNT(*) FROM cp_production p WHERE p.lane=l.lane) outputs,
+  (SELECT COUNT(*) FROM cp_production p WHERE p.lane=l.lane AND p.state='published') published
+FROM cp_lane l ORDER BY l.seq;
+
+CREATE VIEW cp_queue AS
+SELECT n.lane, n.id AS node_id, n.domain, n.target_ref, n.layer, n.label,
+       n.build_state, n.build_pct, n.priority
+FROM cp_node n
+WHERE n.build_state <> 'compiled' AND (n.layer IS NOT NULL OR n.target_kind IN ('unit','node'))
+ORDER BY n.lane, (n.build_pct > 0) DESC, n.priority DESC, n.build_pct DESC;
+
+CREATE VIEW cp_stage_study AS
+SELECT
+  n.id AS node_id, n.parent_id, n.target_ref, n.layer, n.build_pct,
+  CASE n.layer WHEN 'reading' THEN 'recite'
+               WHEN 'vocabulary' THEN 'quiz'
+               WHEN 'ss' THEN 'quiz'
+               ELSE 'reflection' END AS gauge_kind,
+  COALESCE((SELECT CAST(AVG(score) AS INT) FROM cp_gauge g WHERE g.node_id=n.id),0) AS study_pct,
+  (SELECT COUNT(*) FROM cp_gauge g WHERE g.node_id=n.id) AS attempts,
+  COALESCE((SELECT MIN(interval_days) FROM cp_srs_card c
+            WHERE c.node_id=n.id OR c.node_id IN (SELECT id FROM cp_node ch WHERE ch.parent_id=n.id)),0) AS retention_days,
+  CASE
+    WHEN n.layer='reading'
+      AND COALESCE((SELECT MAX(score) FROM cp_gauge g WHERE g.node_id=n.id),0) >= 100 THEN 1
+    WHEN n.layer<>'reading'
+      AND COALESCE((SELECT AVG(score) FROM cp_gauge g WHERE g.node_id=n.id),0)
+          >= CAST((SELECT value FROM cp_config WHERE key='mastery_threshold') AS INTEGER)
+      AND COALESCE((SELECT MIN(interval_days) FROM cp_srs_card c
+            WHERE c.node_id=n.id OR c.node_id IN (SELECT id FROM cp_node ch WHERE ch.parent_id=n.id)),0)
+          >= CAST((SELECT value FROM cp_config WHERE key='retention_days') AS INTEGER)
+    THEN 1 ELSE 0 END AS mastered
+FROM cp_node n
+WHERE n.layer IS NOT NULL AND n.piece_kind IS NULL AND n.target_kind='passage';
+
+CREATE VIEW cp_study_due AS
+SELECT c.id AS card_id, c.node_id, n.domain, n.target_ref, n.layer, c.card_kind,
+       c.due_at, c.interval_days, c.ease
+FROM cp_srs_card c JOIN cp_node n ON n.id = c.node_id
+WHERE c.suspended = 0 AND (c.due_at IS NULL OR c.due_at <= strftime('%Y-%m-%dT%H:%M:%SZ','now'))
+ORDER BY c.due_at ASC;
+
+-- Indexes -----------------------------------------------------------------
+
 CREATE INDEX idx_pl_cal_plan  ON pl_calendar_entries(plan_id);
 
 CREATE INDEX idx_pl_cal_start ON pl_calendar_entries(start_datetime);
 
 CREATE INDEX idx_pl_cal_user  ON pl_calendar_entries(core_user_ref);
+
+CREATE INDEX idx_pl_capture_inbox ON pl_capture_notes(core_user_ref, status, created_at);
+
+CREATE INDEX idx_pl_capture_user ON pl_capture_notes(core_user_ref);
 
 CREATE INDEX idx_pl_goals_plan   ON pl_goals(plan_id);
 
@@ -406,19 +632,4 @@ CREATE INDEX idx_pl_tr_resource ON pl_task_resources(resource_ref);
 
 CREATE INDEX idx_pl_tr_task     ON pl_task_resources(task_id);
 
-CREATE TABLE pl_capture_notes (
-  id            TEXT PRIMARY KEY,
-  core_user_ref TEXT NOT NULL,
-  core_ws_ref   TEXT,
-  status        TEXT NOT NULL DEFAULT 'draft',
-  title         TEXT,
-  doc_json      TEXT NOT NULL,
-  text          TEXT NOT NULL DEFAULT '',
-  meta_json     TEXT,
-  created_at    TEXT NOT NULL DEFAULT (datetime('now')),
-  updated_at    TEXT NOT NULL DEFAULT (datetime('now'))
-);
-
-CREATE INDEX idx_pl_capture_user  ON pl_capture_notes(core_user_ref);
-
-CREATE INDEX idx_pl_capture_inbox ON pl_capture_notes(core_user_ref, status, created_at);
+CREATE INDEX idx_sp_planner_lookup ON sp_planner (core_user_ref, item_type, week_start);

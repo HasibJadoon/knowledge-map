@@ -440,10 +440,10 @@ export function lexiconV2Routes(router: Router<ArLinguisticsEnv>) {
       try {
         const sql = `SELECT s.id AS section_id, s.source_slug, s.root_text, s.root_norm,
                             s.section_seq, s.heading_ar, s.page_no,
-                            snippet(ar_ling_lexicon_entry_sections_fts, 1, '<mark>', '</mark>', '…', 12) AS snippet
-                     FROM ar_ling_lexicon_entry_sections_fts f
+                            snippet(ar_ling_lexicon_entry_section_fts, 1, '<mark>', '</mark>', '…', 12) AS snippet
+                     FROM ar_ling_lexicon_entry_section_fts f
                      JOIN ar_ling_lexicon_entry_section s ON s.rowid = f.rowid
-                     WHERE ar_ling_lexicon_entry_sections_fts MATCH ?
+                     WHERE ar_ling_lexicon_entry_section_fts MATCH ?
                      ${wanted ? `AND s.source_slug IN (${[...wanted].map(() => '?').join(',')})` : ''}
                      LIMIT ?`;
         const binds: unknown[] = [q];
