@@ -19,7 +19,6 @@ const TABS: Tab[] = [
   { path: '/quran',         icon: 'book-outline',     label: 'Quran',     match: '/quran' },
   { path: '/arabic',        icon: 'language-outline', label: 'Arabic',    match: '/arabic' },
   { path: '/worldview',     icon: 'globe-outline',    label: 'Worldview', match: '/worldview' },
-  { path: '/planner',       icon: 'calendar-outline', label: 'Planner',   match: '/planner' },
 ];
 
 @Component({

@@ -18,6 +18,3 @@ service = "km-ar-linguistics-worker"
 binding = "QURAN"
 service = "km-quran-worker"
 
-[[services]]
-binding = "PLANNER"
-service = "km-planner-worker"

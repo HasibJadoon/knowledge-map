@@ -26,7 +26,6 @@ import {
 } from '../../../../../shared/services/quran/quran-surah.service';
 import { QuranStateService } from '../../../../../shared/services/quran/quran-state.service';
 import { UiSettingsService } from '../../../../../shared/services/ui-settings.service';
-import { WeeklyTaskService } from '../../../../planner/services/weekly-task.service';
 import { StudyExpressionsStepComponent } from './steps/expressions/study-expressions-step.component';
 import { StudyPassageStructureStepComponent } from './steps/passage-structure/study-passage-structure-step.component';
 import { StudyReadingStepComponent } from './steps/reading/study-reading-step.component';
@@ -227,9 +226,7 @@ export class SurahStudyDetailComponent
   private readonly svc = inject(QuranSurahService);
   private readonly quranState = inject(QuranStateService);
   private readonly uiSettings = inject(UiSettingsService);
-  private readonly weeklyTaskService = inject(WeeklyTaskService);
 
-  readonly pushingToWeekly = signal(false);
 
   @ViewChild('sceneEl') sceneEl?: ElementRef<HTMLElement>;
   @ViewChild('panelEl') panelEl?: ElementRef<HTMLElement>;
@@ -1492,35 +1489,4 @@ export class SurahStudyDetailComponent
   }
 
   // ── Push to Weekly Task ────────────────────────────────────────────────────
-
-  pushToWeeklyTask(): void {
-    if (this.pushingToWeekly()) return;
-    this.pushingToWeekly.set(true);
-
-    const surahId = this.surahId();
-    const passageNo = this.passageNo();
-    const unitId = `quran_s${surahId}_p${passageNo}`;
-    const displayName = `Surah ${surahId} — Passage ${passageNo}`;
-    const uri = `/quran/surahs/${surahId}/study/${passageNo}`;
-
-    this.weeklyTaskService.pushToWeeklyTask({
-      workspace_id: 1, // TODO: replace with auth workspace context
-      unit_id: unitId,
-      container_id: `quran_s${surahId}`,
-      origin_type: 'quran_unit',
-      display_name: displayName,
-      uri,
-      task_scope: 'unit',
-      target_bucket: 'ar',
-      subtasks: WeeklyTaskService.buildQuranSubtasks(),
-    }).subscribe({
-      next: (result) => {
-        this.pushingToWeekly.set(false);
-        this.router.navigate(['/planner'], {
-          queryParams: { view: 'plan', task: result.task_id },
-        });
-      },
-      error: () => { this.pushingToWeekly.set(false); },
-    });
-  }
 }

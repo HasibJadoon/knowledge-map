@@ -53,17 +53,6 @@ const routes: Routes = [
   },
   
   
-   // ── Planner ──────────────────────────────────────────────────────────────────
-  {
-    path: 'planner',
-    loadChildren: () => import('./features/planner/planner.module').then(m => m.PlannerModule),
-    canActivate: [AuthGuard]
-  },
-  {
-    path: 'review/:weekStart',
-    loadComponent: () => import('./features/planner/pages/review/review.page').then((m) => m.ReviewPage),
-    canActivate: [AuthGuard]
-  },
   // ── Docs ─────────────────────────────────────────────────────────────────────
   {
     path: 'docs',

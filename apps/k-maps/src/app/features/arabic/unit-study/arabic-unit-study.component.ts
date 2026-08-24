@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import gsap from 'gsap';
-import { WeeklyTaskService } from '../../planner/services/weekly-task.service';
 
 type ArabicUnitType = 'book' | 'media' | 'literature';
 
@@ -37,13 +36,11 @@ export class ArabicUnitStudyComponent implements AfterViewInit, OnDestroy {
 
   private route = inject(ActivatedRoute);
   private router = inject(Router);
-  private weeklyTaskService = inject(WeeklyTaskService);
 
   readonly containerId = signal('');
   readonly unitId = signal('');
   readonly unitType = signal<ArabicUnitType>('book');
   readonly activeTask = signal('');
-  readonly pushing = signal(false);
 
   readonly subtasks = computed<UnitSubtask[]>(() => {
     const type = this.unitType();
@@ -122,42 +119,6 @@ export class ArabicUnitStudyComponent implements AfterViewInit, OnDestroy {
     } else {
       this.activeTask.set(key);
     }
-  }
-
-  pushToWeeklyTask(): void {
-    if (this.pushing()) return;
-    this.pushing.set(true);
-
-    const type = this.unitType();
-    const originTypeMap: Record<ArabicUnitType, 'arabic_book_unit' | 'arabic_multimedia_unit' | 'arabic_literature_unit'> = {
-      book:        'arabic_book_unit',
-      media:       'arabic_multimedia_unit',
-      literature:  'arabic_literature_unit',
-    };
-    const originType = originTypeMap[type];
-    const subtaskBuilders = {
-      arabic_book_unit:       WeeklyTaskService.buildArabicBookSubtasks,
-      arabic_multimedia_unit: WeeklyTaskService.buildArabicMultimediaSubtasks,
-      arabic_literature_unit: WeeklyTaskService.buildArabicLiteratureSubtasks,
-    };
-
-    this.weeklyTaskService.pushToWeeklyTask({
-      workspace_id: 1, // TODO: replace with auth workspace context
-      unit_id: `${type}_${this.containerId()}_${this.unitId()}`,
-      container_id: this.containerId(),
-      origin_type: originType,
-      display_name: this.displayName(),
-      uri: this.router.url.split('?')[0],
-      task_scope: 'unit',
-      target_bucket: 'ar',
-      subtasks: subtaskBuilders[originType](),
-    }).subscribe({
-      next: (result) => {
-        this.pushing.set(false);
-        this.router.navigate(['/planner'], { queryParams: { view: 'plan', task: result.task_id } });
-      },
-      error: () => this.pushing.set(false),
-    });
   }
 
   private formatSlug(slug: string): string {

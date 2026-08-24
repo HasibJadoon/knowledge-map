@@ -22,17 +22,9 @@ export type { QuranRelation } from './arabic/quran-relation.model';
 export { RootModel } from './arabic/root.model';
 export type { Root } from './arabic/root.model';
 
-export { SprintReviewModel } from './planner/planner-review.model';
-export type { SprintReview } from './planner/planner-review.model';
 
-export { UserActivityLogModel } from './planner/user-activity-log.model';
-export type { UserActivityLog } from './planner/user-activity-log.model';
 
-export { UserStateModel } from './planner/user-state.model';
-export type { UserState } from './planner/user-state.model';
 
 export { UserModel } from './core/user.model';
 export type { User } from './core/user.model';
 
-export { WeeklyTaskModel } from './planner/weekly-task.model';
-export type { WeeklyTask } from './planner/weekly-task.model';

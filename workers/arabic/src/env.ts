@@ -10,7 +10,6 @@ export interface ArabicEnv {
   // Service bindings
   AR_LINGUISTICS?: Fetcher; // AL — roots, lemmas, sarf, nahw, balagha
   QURAN?: Fetcher;           // QR — passage/ayah display material
-  PLANNER?: Fetcher;         // PL — lesson plan integration
 
   // Secrets
   JWT_SECRET?: string;

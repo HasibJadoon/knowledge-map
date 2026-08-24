@@ -7,11 +7,11 @@
 import type { BackendEnv } from './env';
 
 export type ModuleKey =
-  | 'qr' | 'wv' | 'worldview' | 'ar' | 'al' | 'cm' | 'pl' | 'core'
-  | 'planner' | 'week' | 'st' | 'studio';
+  | 'qr' | 'wv' | 'worldview' | 'ar' | 'al' | 'cm' | 'core'
+  | 'st' | 'studio';
 
 export interface ModuleConfig {
-  binding:   keyof Pick<BackendEnv, 'QURAN' | 'WORLDVIEW' | 'ARABIC' | 'AR_LINGUISTICS' | 'CONTENT' | 'PLANNER' | 'STUDIO' | 'CORE'>;
+  binding:   keyof Pick<BackendEnv, 'QURAN' | 'WORLDVIEW' | 'ARABIC' | 'AR_LINGUISTICS' | 'CONTENT' | 'STUDIO' | 'CORE'>;
   publicGet: boolean;
 }
 
@@ -22,11 +22,7 @@ export const MODULE_MAP: Record<ModuleKey, ModuleConfig> = {
   ar:   { binding: 'ARABIC',         publicGet: false },
   al:   { binding: 'AR_LINGUISTICS', publicGet: true  },
   cm:   { binding: 'CONTENT',        publicGet: false },
-  pl:   { binding: 'PLANNER',        publicGet: false },
   core: { binding: 'CORE',           publicGet: true  }, // login / register are public
-  // Weekly-sprint planner API (sp_planner) — same worker as `pl`.
-  planner: { binding: 'PLANNER',     publicGet: false },
-  week:    { binding: 'PLANNER',     publicGet: false },
   // Episode Studio — build podcast / tutorial / talking-head episodes.
   st:     { binding: 'STUDIO',       publicGet: false },
   studio: { binding: 'STUDIO',       publicGet: false },

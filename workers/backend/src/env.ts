@@ -9,7 +9,6 @@ export interface BackendEnv {
   ARABIC:         Fetcher;
   AR_LINGUISTICS: Fetcher;
   CONTENT:        Fetcher;
-  PLANNER:        Fetcher;
   STUDIO:         Fetcher;
   CORE:           Fetcher;
 

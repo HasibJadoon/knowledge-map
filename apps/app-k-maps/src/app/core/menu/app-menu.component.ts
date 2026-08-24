@@ -4,7 +4,6 @@ import { IonicModule } from '@ionic/angular';
 import { RouterModule } from '@angular/router';
 import {
   bookOutline,
-  calendarOutline,
   documentTextOutline,
   filmOutline,
   flashOutline,
@@ -29,7 +28,6 @@ const MENU_ENTRIES: ReadonlyArray<MenuEntry> = [
   { title: 'Quran',      icon: bookOutline,         route: ['/quran'] },
   { title: 'Arabic',     icon: flashOutline,        route: ['/arabic', 'lessons'] },
   { title: 'Worldview',  icon: globeOutline,        route: ['/worldview'] },
-  { title: 'Planner',    icon: calendarOutline,     route: ['/planner'] },
   { title: 'Docs',       icon: documentTextOutline, route: ['/docs'] },
   { title: 'Hub',        icon: layersOutline,       route: ['/hub'] },
   { title: 'Workspace',  icon: peopleOutline,       route: ['/workspace'] },

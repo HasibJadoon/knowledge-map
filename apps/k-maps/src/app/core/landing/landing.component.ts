@@ -60,7 +60,6 @@ export class LandingComponent implements AfterViewInit, OnDestroy {
     { id: 'quran',     label: 'Quran',     route: '/quran',          icon: '◉', glyph: '☽' },
     { id: 'arabic',    label: 'Arabic',    route: '/arabic',         icon: '◆', glyph: 'ع' },
     { id: 'worldview', label: 'Worldview', route: '/worldview',      icon: '◎', glyph: '◉' },
-    { id: 'planner',   label: 'Planner',   route: '/planner',        icon: '▦', glyph: '⊞' },
     { id: 'srs',       label: 'SRS',       route: '/srs',            icon: '↻', glyph: '↻' },
     { id: 'content',   label: 'Content',   route: '/content',        icon: '▷', glyph: '▶' },
   ];
