@@ -16,12 +16,6 @@ export function morphologyRoutes(router: Router<ArLinguisticsEnv>) {
     return ok(await new MorphologyRepo(env.DB_AL).byLemma(lemmaId));
   });
 
-  // GET /al/morphology/:id — single morphology entry
-  router.get('/al/morphology/:id', async (_req, env, { id }) => {
-    const entry = await new MorphologyRepo(env.DB_AL).findById(id);
-    return entry ? ok(entry) : notFound(`morphology entry ${id}`);
-  });
-
   // GET /al/morphology/paradigms?category=verb — form paradigm catalog
   router.get('/al/morphology/paradigms', async (req, env) => {
     const url = new URL(req.url);
@@ -30,4 +24,11 @@ export function morphologyRoutes(router: Router<ArLinguisticsEnv>) {
       await new MorphologyRepo(env.DB_AL).listParadigms(category, parsePagination(url)),
     );
   });
+
+  // GET /al/morphology/:id — single morphology entry
+  router.get('/al/morphology/:id', async (_req, env, { id }) => {
+    const entry = await new MorphologyRepo(env.DB_AL).findById(id);
+    return entry ? ok(entry) : notFound(`morphology entry ${id}`);
+  });
+
 }

@@ -20,12 +20,6 @@ export function vocabularyRoutes(router: Router<ArabicEnv>) {
     );
   });
 
-  // GET /ar/vocabulary/:id
-  router.get('/ar/vocabulary/:id', async (_req, env, { id }) => {
-    const row = await new VocabularyRepo(env.DB_AR).findById(id);
-    return row ? ok(row) : notFound(`vocab card ${id}`);
-  });
-
   // GET /ar/vocabulary/due?container=AR:ULID&limit=20 — SRS review queue
   router.get('/ar/vocabulary/due', async (req, env) => {
     const url         = new URL(req.url);
@@ -34,6 +28,13 @@ export function vocabularyRoutes(router: Router<ArabicEnv>) {
     const limit = Math.min(50, parseInt(url.searchParams.get('limit') ?? '20', 10) || 20);
     return ok(await new VocabularyRepo(env.DB_AR).dueCards(containerId, limit));
   });
+
+  // GET /ar/vocabulary/:id
+  router.get('/ar/vocabulary/:id', async (_req, env, { id }) => {
+    const row = await new VocabularyRepo(env.DB_AR).findById(id);
+    return row ? ok(row) : notFound(`vocab card ${id}`);
+  });
+
 
   // POST /ar/vocabulary
   router.post('/ar/vocabulary', async (req, env) => {
