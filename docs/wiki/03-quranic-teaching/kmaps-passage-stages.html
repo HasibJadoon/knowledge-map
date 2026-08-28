@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Passage Stages — al-Dukhān 44:1–9</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Amiri:wght@700&display=swap');
+  :root{
+    --bg:#080808; --s1c:#141414; --s2c:#1a1a1a;
+    --gold:#c9a84c; --gold-b:#e8c96a; --gold-d:#7a6432; --bd:rgba(201,168,76,.28); --bd-hi:rgba(201,168,76,.6);
+    --text:#f3e7d1; --t2:#c9b79a; --t3:#8a7b68; --arab:#f8eeda;
+    --reading:#e8c96a; --morph:#4dd9a8; --ss:#6bbaff; --expr:#ff7bac; --struct:#a0e060; --tafsir:#c084f5; --srs:#ff9f6b; --result:#f1591f;
+    --serif:'Cinzel',Georgia,serif; --ar:'Amiri','Scheherazade New','Noto Naskh Arabic','Geeza Pro',serif;
+  }
+  *{box-sizing:border-box}
+  html,body{max-width:100%; overflow-x:hidden}
+  body{margin:0; color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",system-ui,Roboto,Arial,sans-serif;
+    background:radial-gradient(1100px 560px at 50% -160px,#171308,var(--bg) 60%); background-attachment:fixed; min-height:100vh; padding:0 16px 70px; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:960px; margin:0 auto}
+  .ar{font-family:var(--ar); color:var(--arab)}
+  h1{font-family:var(--serif); font-weight:700; font-size:clamp(23px,4.4vw,32px); text-align:center; color:var(--gold-b); margin:32px 0 4px; text-shadow:0 0 26px rgba(201,168,76,.12)}
+  .sub{text-align:center; color:var(--t2); font-size:14px; margin:0 0 6px}
+  .sub .ar{font-size:1.2em; color:var(--gold)}
+
+  /* pages / router */
+  .page{display:none}
+  .page.active{display:block; animation:fwd .32s ease}
+  .page.active.back{animation:bwd .32s ease}
+  @keyframes fwd{from{opacity:0; transform:translateX(20px)}}
+  @keyframes bwd{from{opacity:0; transform:translateX(-20px)}}
+
+  /* ---- linear 3D stage rail (home) ---- */
+  /* S-shape serpentine rail */
+  .rail-s{position:relative; margin:24px 0 8px; padding:8px 0}
+  .s-line{position:absolute; inset:0; width:100%; height:100%; z-index:0; pointer-events:none}
+  .s-row{display:flex; position:relative; z-index:1}
+  .s-row.top{justify-content:flex-start}
+  .s-row.bot{justify-content:flex-end; margin-top:30px}
+  .s-row .stage{flex:0 0 25%; display:flex; flex-direction:column; align-items:center; position:relative; padding:0 8px}
+  /* mobile: drop the S-line, wrap into a 3-per-row grid that fits any width */
+  @media(max-width:640px){
+    .s-line{display:none}
+    .s-row{flex-wrap:wrap; justify-content:center !important; gap:14px 0; margin-top:0 !important}
+    .s-row.bot{margin-top:14px !important}
+    .s-row .stage{flex:0 0 33.33%; padding:0 5px}
+  }
+  .orb{width:74px; height:74px; border-radius:50%; position:relative; z-index:2; cursor:pointer;
+    display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,.14);
+    box-shadow:0 10px 20px rgba(0,0,0,.55), 0 2px 0 rgba(255,255,255,.12) inset, 0 -8px 14px rgba(0,0,0,.35) inset; transition:transform .18s, box-shadow .18s}
+  .orb::before{content:''; position:absolute; top:9px; left:16px; width:30px; height:20px; border-radius:50%; background:radial-gradient(closest-side, rgba(255,255,255,.55), transparent); filter:blur(1px)}
+  .orb:hover{transform:translateY(-5px); box-shadow:0 16px 30px rgba(0,0,0,.6), 0 0 24px var(--glowc), 0 2px 0 rgba(255,255,255,.14) inset}
+  .orb svg{width:34px; height:34px; filter:drop-shadow(0 1px 1px rgba(0,0,0,.4))}
+  .orb .num{position:absolute; top:-6px; right:-6px; width:22px; height:22px; border-radius:50%; background:#0c0c0c; border:2px solid var(--bd-hi); font-family:var(--serif); font-size:11px; color:var(--gold-b); display:flex; align-items:center; justify-content:center; z-index:3}
+  .snap{font-size:12px; font-weight:600; color:var(--t2); margin-top:12px; text-align:center; line-height:1.2}
+  .snap .a{display:block; font-family:var(--ar); color:var(--t3); font-size:12px}
+  .pbar{width:60px; height:5px; border-radius:4px; background:#222; margin-top:6px; overflow:hidden}
+  .pbar i{display:block; height:100%; border-radius:4px}
+  .fb{width:100%; height:150px; margin-top:2px; min-width:760px; display:block}
+  .fb text{font-family:var(--serif); font-size:11px; letter-spacing:.05em}
+  .hint{text-align:center; color:var(--t3); font-size:12.5px; margin-top:16px}
+  .foot{text-align:center; color:var(--t3); font-size:12px; margin-top:8px; font-family:var(--serif); letter-spacing:.04em}
+
+  /* ---- stage page ---- */
+  .topbar{display:flex; align-items:center; gap:12px; padding:22px 0 4px; flex-wrap:wrap}
+  .backbtn{border:1px solid var(--bd); background:var(--s1c); color:var(--text); font:inherit; font-weight:600; font-size:13.5px; padding:7px 14px; border-radius:20px; cursor:pointer}
+  .backbtn:hover{border-color:var(--bd-hi)}
+  .crumb{font-size:13px; color:var(--t3)} .crumb b{color:var(--t2)}
+  .card{border:1px solid var(--bd); border-radius:18px; background:linear-gradient(180deg,var(--s1c),#0d0d0d); padding:22px 24px 24px; box-shadow:0 14px 40px rgba(0,0,0,.5); margin-top:10px}
+  .dhead{display:flex; align-items:center; gap:16px; flex-wrap:wrap}
+  .dorb{width:60px; height:60px; border-radius:50%; flex:0 0 auto; display:flex; align-items:center; justify-content:center; border:2px solid rgba(255,255,255,.14); box-shadow:0 8px 16px rgba(0,0,0,.55), 0 1px 0 rgba(255,255,255,.15) inset}
+  .dorb svg{width:30px; height:30px}
+  .dttl{flex:1; min-width:180px}
+  .dttl .k{font-family:var(--serif); font-size:11px; letter-spacing:.2em; text-transform:uppercase; color:var(--gold-d)}
+  .dttl h2{font-family:var(--serif); margin:2px 0 0; font-size:24px; color:var(--gold-b)}
+  .dttl h2 .ar{font-size:.92em; color:var(--t2); margin-left:8px; font-weight:400}
+  .badge{font-family:var(--serif); font-size:12px; font-weight:600; color:#0c0c0c; padding:6px 14px; border-radius:20px}
+  .ddesc{font-size:14.5px; color:var(--t2); line-height:1.55; margin:14px 0 2px}
+  .dstat{display:flex; gap:10px; flex-wrap:wrap; margin:14px 0 4px}
+  .dstat .c{background:var(--s2c); border:1px solid rgba(255,255,255,.06); border-radius:12px; padding:9px 14px; text-align:center}
+  .dstat .c b{font-family:var(--serif); font-size:19px; display:block} .dstat .c span{font-size:11px; color:var(--t3)}
+  /* per-stage feedback loop strip */
+  .loopstrip{display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:16px 0 2px; padding:12px 14px; background:var(--s2c); border:1px solid rgba(255,255,255,.06); border-radius:14px}
+  .lchip{background:#0f0f0f; border:1px solid rgba(255,255,255,.09); border-radius:20px; padding:5px 12px; font-size:12.5px; color:var(--t2)}
+  .lchip.fbk{border-color:var(--bd-hi); color:var(--gold-b); font-weight:600}
+  .loopstrip .arr{color:var(--gold-d); font-weight:700}
+  .fbnote{border-left:3px solid var(--gold); background:rgba(201,168,76,.05); padding:9px 14px; border-radius:0 10px 10px 0; margin:12px 0 2px; font-size:13.5px; color:var(--t2)}
+  .fbnote b{color:var(--gold-b)}
+  .clabel{font-family:var(--serif); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--gold-d); margin:20px 0 10px}
+
+  .rootgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(124px,1fr)); gap:10px}
+  .rcard{background:linear-gradient(180deg,#191919,#111); border:1px solid rgba(255,255,255,.07); border-radius:14px; padding:12px; position:relative; box-shadow:0 6px 14px rgba(0,0,0,.45), 0 1px 0 rgba(255,255,255,.05) inset; transition:transform .15s, border-color .15s}
+  .rcard:hover{transform:translateY(-3px); border-color:var(--bd-hi)}
+  .rcard .rar{font-family:var(--ar); font-size:26px; font-weight:700; text-align:center; color:var(--arab); line-height:1.1}
+  .rcard .rbk{font-size:11px; color:var(--t3); text-align:center; margin-top:3px; font-variant-numeric:tabular-nums}
+  .rcard .rb{height:6px; border-radius:4px; background:#262626; margin-top:8px; overflow:hidden}
+  .rcard .rb i{display:block; height:100%; border-radius:4px}
+  .rcard .rst{position:absolute; top:8px; right:9px; font-size:9px; font-weight:800; letter-spacing:.05em; text-transform:uppercase}
+  .rcard.done{border-color:rgba(77,217,168,.4)} .rcard.done .rar{color:#8ff0cf} .rcard.done .rst{color:var(--morph)}
+  .rcard.active{border-color:rgba(232,201,106,.55)} .rcard.active .rst{color:var(--gold-b)}
+  .rcard.q .rst{color:var(--t3)}
+  .rcard.verb{border-left:3px solid var(--gold)} .rcard.verb .rst{color:var(--gold-b)}
+  .rcard.noun{border-left:3px solid var(--morph)} .rcard.noun .rst{color:var(--morph)}
+  .rcard.clickable{cursor:pointer}
+  /* restore outer box per stage */
+  .stagebody{border:1px solid var(--bd-hi); background:linear-gradient(180deg,var(--s1c),#0d0d0d); padding:22px 24px 24px; margin-top:10px; box-shadow:9px 9px 0 rgba(0,0,0,.45), inset 2px 2px 0 rgba(255,255,255,.06), inset -3px -3px 0 rgba(0,0,0,.55)}
+  /* sentence-structure + structure cards */
+  .sscard{background:linear-gradient(180deg,#171717,#0f0f0f); border:1px solid rgba(255,255,255,.06); border-left:3px solid var(--ss); padding:13px 15px; margin-bottom:9px; box-shadow:5px 5px 0 rgba(0,0,0,.4)}
+  .sscard.anchor{border-left-color:var(--reading)}
+  .ss-head{display:flex; align-items:center; gap:10px; flex-wrap:wrap}
+  .ss-no{width:24px; height:24px; flex:0 0 auto; display:flex; align-items:center; justify-content:center; background:var(--ss); color:#0c0c0c; font-family:var(--serif); font-weight:700; font-size:12px}
+  .ss-ay{font-family:var(--serif); color:var(--gold-b); font-size:13px; font-variant-numeric:tabular-nums}
+  .ss-kind{font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; padding:2px 8px; border:1px solid rgba(255,255,255,.1)}
+  .ss-kind.nominal{color:var(--morph)} .ss-kind.verbal{color:var(--gold-b)} .ss-kind.virtual_muqaddar{color:var(--srs)}
+  .ss-role{font-size:12.5px; color:var(--t2)}
+  .ss-ar{font-family:var(--ar); font-size:25px; color:var(--arab); direction:rtl; text-align:right; line-height:1.9; margin:8px 0 6px}
+  .ss-label{font-size:14px; color:var(--text); margin-top:6px}
+  .ss-cl{display:flex; flex-wrap:wrap; gap:6px}
+  .clause{font-size:11.5px; color:var(--t2); border:1px solid rgba(255,255,255,.09); padding:3px 9px; background:#0e0e0e}
+  .clause b{color:var(--ss); text-transform:capitalize} .clause .ar{font-size:13px; color:var(--arab)} .clause i{color:var(--srs)}
+  /* root detail: layers + membean memlet */
+  .rootdetail-head{display:flex; align-items:center; gap:16px; margin:6px 0 2px}
+  .rd-root{font-family:var(--ar); font-size:44px; color:var(--gold-b); line-height:1}
+  .rd-meta{color:var(--t2); font-size:13px}
+  .layerlist .lrow{display:flex; align-items:center; gap:11px; padding:10px 2px; border-top:1px solid rgba(201,168,76,.1); font-size:14px}
+  .layerlist .lrow:first-child{border-top:0}
+  .lrow .ld{width:20px; height:20px; flex:0 0 auto; border:1px solid var(--bd); display:flex; align-items:center; justify-content:center; font-size:11px; color:#0c0c0c}
+  .lrow.built .ld{background:var(--morph); border-color:var(--morph)}
+  .lrow .lst{margin-left:auto; font-size:10.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em}
+  .lrow.built .lst{color:var(--morph)} .lrow.pend .lst{color:var(--t3)}
+  .memlet{display:flex; gap:16px; flex-wrap:wrap; background:linear-gradient(180deg,#151310,#0d0b09); border:1px solid rgba(201,168,76,.22); padding:16px; box-shadow:5px 5px 0 rgba(0,0,0,.4)}
+  .memlet-art{width:118px; height:118px; flex:0 0 auto; display:flex; flex-direction:column; align-items:center; justify-content:center; border:1px solid var(--bd); background:#0e0e0e; font-size:50px}
+  .memlet-art .cap{font-size:9px; color:var(--t3); text-transform:uppercase; letter-spacing:.1em; margin-top:8px; font-family:var(--serif)}
+  .memlet-body{flex:1; min-width:220px}
+  .memlet-word{font-family:var(--ar); font-size:32px; color:var(--gold-b)}
+  .memlet-word .tr{font-family:var(--serif); font-size:12px; color:var(--t3); margin-right:10px; text-transform:uppercase; letter-spacing:.08em}
+  .memlet-mn{font-size:14.5px; color:var(--text); line-height:1.55; margin:8px 0}
+  .memlet-row{font-size:13px; color:var(--t2); margin-top:6px} .memlet-row b{color:var(--gold-b)} .memlet-row .ar{font-family:var(--ar); font-size:17px; color:var(--arab)}
+  /* Membean-style memlet */
+  .memlet-wrap .mlsec{border:1px solid rgba(255,255,255,.08); background:#0f0f0f; padding:13px 15px; margin-bottom:10px; box-shadow:4px 4px 0 rgba(0,0,0,.35)}
+  .memlet-wrap .mlsec .h{font-family:var(--serif); font-size:10.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--gold-d); margin-bottom:10px}
+  .ml-top{display:flex; align-items:center; gap:15px; margin-bottom:12px}
+  .ml-root{font-family:var(--ar); font-size:44px; color:var(--gold-b); line-height:1}
+  .ml-pron{font-family:var(--serif); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--t3)}
+  .ml-core{font-size:14px; color:var(--text); margin-top:3px}
+  .ml-img{margin-left:auto; font-size:40px}
+  .ingr-row{display:flex; align-items:center; gap:12px; margin-bottom:9px; flex-wrap:wrap}
+  .ingr-chip{display:inline-flex; flex-direction:column; align-items:center; border:1px solid var(--bd); background:#161616; padding:6px 14px; min-width:78px}
+  .ingr-chip .ar{font-family:var(--ar); font-size:20px; color:var(--gold-b)}
+  .ingr-chip .tag{font-size:9px; text-transform:uppercase; letter-spacing:.08em; color:var(--t3); margin-top:2px}
+  .ingr-row .arrow{color:var(--gold-d); font-weight:700; font-size:16px}
+  .ingr-mean{font-size:13.5px; color:var(--t2)}
+  .ingr-syn{margin-top:8px; padding-top:9px; border-top:1px dashed rgba(201,168,76,.2); font-size:14px; color:var(--text)}
+  .ingr-syn .ar{font-family:var(--ar); font-size:19px; color:var(--gold-b); margin-left:4px}
+  .sarf{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:8px}
+  .sarfc{border:1px solid rgba(255,255,255,.07); background:#141414; padding:8px 11px; direction:rtl; text-align:right}
+  .sarfc .sl{font-size:10px; color:var(--t3); text-transform:uppercase; letter-spacing:.04em; unicode-bidi:plaintext} .sarfc .sl .ar{font-family:var(--ar); font-size:13px; color:var(--t2); text-transform:none}
+  .sarfc .sv{font-family:var(--ar); font-size:20px; color:var(--gold-b); margin-top:3px}
+  .hook{display:flex; gap:14px; align-items:center}
+  .hook .hk-art{width:58px; height:58px; flex:0 0 auto; border:1px solid var(--bd); display:flex; align-items:center; justify-content:center; font-size:30px; background:#0c0c0c}
+  .hook .hk-mn{font-size:14px; color:var(--text); line-height:1.5}
+  .exlist .ex{font-size:14px; color:var(--t2); padding:6px 0; border-top:1px solid rgba(255,255,255,.05)}
+  .exlist .ex:first-child{border-top:0}
+  .exlist .ex .ar{font-family:var(--ar); font-size:19px; color:var(--arab); margin-left:4px} .exlist .ex .ex-t{color:var(--t3); font-size:11px; text-transform:uppercase; letter-spacing:.05em}
+  .mlsec .h .src{font-family:-apple-system,system-ui,sans-serif; font-size:8.5px; letter-spacing:.05em; text-transform:none; color:var(--t3); margin-left:8px; opacity:.8; font-weight:600}
+  .qforms{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:7px}
+  .qform{display:flex; align-items:baseline; gap:8px; border:1px solid rgba(255,255,255,.07); border-inline-start:2px solid var(--gold-d); padding:7px 11px; background:#141414; direction:rtl}
+  .qform .qf-w{font-family:var(--ar); font-size:20px; color:var(--gold-b); line-height:1}
+  .qform .qf-p{font-family:var(--ar); font-size:14px; color:var(--morph); opacity:.85}
+  .qform .qf-c{font-size:11px; color:var(--t3); font-weight:700; white-space:nowrap; margin-inline-start:auto; direction:ltr}
+  .senses{display:flex; flex-direction:column; gap:8px}
+  .sense{border:1px solid rgba(255,255,255,.07); border-left:2px solid rgba(255,255,255,.12); padding:9px 12px; background:#141414; position:relative}
+  .sense.core{border-left-color:var(--gold)}
+  .sense .core-tag{position:absolute; top:9px; right:11px; font-size:8.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--bg); background:var(--gold); padding:1px 7px; font-weight:800}
+  .sense .s-ar{font-family:var(--ar); font-size:19px; color:var(--arab); direction:rtl; text-align:right; line-height:1.7}
+  .sense .s-en{font-size:13px; color:var(--t2); margin-top:4px; line-height:1.5}
+  .sense .s-key{font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-d); font-weight:800; margin-bottom:3px; direction:ltr; text-align:left}
+  /* ═══════ ROOT INFORMATION MEMLET · presentation layer ═══════ */
+  .rinfo{display:flex; flex-direction:column}
+  .ri-note{border:1px solid var(--bd); border-left:3px solid var(--gold-d); background:#111; padding:11px 14px; margin-bottom:12px; font-size:12.5px; color:var(--t2); line-height:1.55}
+  /* HERO — entry point; states the conclusion first (Pyramid Principle) */
+  .ri-hero{border:1px solid var(--bd-hi); background:radial-gradient(130% 150% at 100% 0,rgba(201,168,76,.11),transparent 55%),linear-gradient(180deg,#141210,#0b0b0b); padding:22px 24px; box-shadow:6px 6px 0 rgba(0,0,0,.42), inset 0 1px 0 rgba(255,255,255,.05); position:relative}
+  .ri-radicals{display:flex; align-items:center; gap:9px; justify-content:flex-end; direction:rtl}
+  .ri-radicals .rad{font-family:var(--ar); font-size:42px; color:var(--gold-b); line-height:1; text-shadow:0 2px 14px rgba(201,168,76,.28)}
+  .ri-radicals .rad-dot{color:var(--gold-d); font-size:22px}
+  .ri-head{font-family:var(--serif); font-size:clamp(15px,2.1vw,19px); color:var(--gold-b); margin-top:13px; line-height:1.42; letter-spacing:.01em}
+  .ri-core{margin-top:12px; padding-top:11px; border-top:1px solid rgba(201,168,76,.18); display:flex; flex-direction:column; gap:4px}
+  .ri-core .ar{font-family:var(--ar); font-size:21px; color:var(--arab); direction:rtl; text-align:right; line-height:1.5}
+  .ri-core-en{font-size:12.5px; color:var(--t2); font-style:italic; line-height:1.5}
+  /* ACT divider — segments the arc (SCR/DIA), sets reading rhythm */
+  .ri-act{display:flex; align-items:center; gap:12px; margin:30px 0 14px}
+  .ri-act::after{content:''; flex:1; height:1px; background:linear-gradient(90deg,var(--gold-d),transparent)}
+  .act-k{font-family:var(--serif); font-size:11px; letter-spacing:.18em; color:var(--bg); background:var(--gold); padding:3px 11px; font-weight:700}
+  .act-t{font-family:var(--serif); font-size:12px; letter-spacing:.11em; text-transform:uppercase; color:var(--gold-d); white-space:nowrap}
+  /* SECTION card — Gestalt grouping + breathing room */
+  .ri-sec{border:1px solid rgba(255,255,255,.07); border-left:2px solid var(--gold-d); background:#0e0e0e; padding:16px 18px 17px; margin-bottom:12px; box-shadow:4px 4px 0 rgba(0,0,0,.32)}
+  .ri-sec-h{display:flex; align-items:baseline; justify-content:space-between; gap:12px; margin-bottom:14px; padding-bottom:10px; border-bottom:1px solid rgba(255,255,255,.06)}
+  .ri-sec-t{font-family:var(--serif); font-size:13.5px; letter-spacing:.02em; color:var(--gold-b); line-height:1.3}
+  .ri-story{font-size:13.5px; color:var(--text); line-height:1.72} .ri-story .ar{font-family:var(--ar); color:var(--arab)}
+  .ri-foot{margin-top:12px; padding-top:9px; border-top:1px dashed rgba(201,168,76,.16)}
+  .ri-anchor{font-size:10.5px; color:var(--t3); font-style:italic; letter-spacing:.03em}
+  /* POLES as a spectrum axis — a continuum, not two boxes (shape the data) */
+  .ri-axis{display:flex; align-items:flex-start; margin-bottom:15px}
+  .ax-pole{display:flex; flex-direction:column; gap:3px; flex:0 0 auto} .ax-pole.r{text-align:right; align-items:flex-end}
+  .ax-pole .ar{font-family:var(--ar); font-size:20px; color:var(--gold-b); line-height:1} .ax-en{font-size:10px; text-transform:uppercase; letter-spacing:.08em; color:var(--t3)}
+  .ax-track{flex:1; height:3px; margin:11px 16px 0; background:linear-gradient(90deg,var(--gold),var(--gold-b)); position:relative}
+  .ax-track::before,.ax-track::after{content:''; position:absolute; top:50%; width:7px; height:7px; background:var(--gold-b); transform:translateY(-50%) rotate(45deg)} .ax-track::before{left:-3px} .ax-track::after{right:-3px}
+  .pole-x{color:var(--gold); font-weight:700; font-size:15px}
+  /* SENSE-AXIS proportional bars */
+  .axes{display:flex; flex-direction:column; gap:9px}
+  .axrow{display:flex; align-items:center; gap:12px}
+  .axk{font-size:11px; color:var(--t2); text-transform:uppercase; letter-spacing:.07em; width:96px; flex:0 0 auto}
+  .axbar{flex:1; height:10px; background:#191919; border:1px solid rgba(255,255,255,.06); position:relative} .axbar i{display:block; height:100%; background:linear-gradient(90deg,var(--gold-d),var(--gold))}
+  .axv{font-size:11px; color:var(--gold-b); font-weight:700; width:32px; text-align:right} .axv em{color:var(--t3); font-style:normal; font-weight:400}
+  /* CONTRONYM pair */
+  .ri-pair{display:flex; align-items:center; gap:12px; margin:13px 0 4px} .ri-pair .rchip .ar{font-size:18px}
+  .addad-tag{font-family:var(--ar); font-size:15px; color:var(--result); border:1px solid rgba(241,89,31,.4); padding:2px 10px}
+  /* FORM FAMILIES — tags + occurrence-frequency bars (mini bar chart) */
+  .ri-forms{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px}
+  .formtag{font-family:var(--serif); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--gold-d); border:1px solid var(--bd); padding:3px 10px; background:#111}
+  .ffbars{display:flex; flex-direction:column; gap:8px}
+  .ffrow{display:flex; align-items:center; gap:12px}
+  .ff-w{font-family:var(--ar); font-size:21px; color:var(--gold-b); width:76px; flex:0 0 auto; text-align:right; direction:rtl; line-height:1}
+  .ff-bar{flex:1; height:9px; background:#191919; border:1px solid rgba(255,255,255,.06)} .ff-bar i{display:block; height:100%; background:linear-gradient(90deg,var(--gold-d),var(--gold))}
+  .ff-c{font-size:11.5px; color:var(--t2); width:50px; text-align:right; font-weight:700; white-space:nowrap} .ff-c em{color:var(--t3); font-style:normal; font-weight:400}
+  .ri-allforms{font-size:11px; color:var(--t3); margin-top:10px; font-style:italic}
+  /* CONSTELLATION chip groups */
+  .chipgroup{display:flex; align-items:baseline; gap:12px; margin-top:10px}
+  .cg-lab{font-size:9.5px; text-transform:uppercase; letter-spacing:.1em; color:var(--gold-d); width:62px; flex:0 0 auto; font-weight:800}
+  .rchip.alt{border-color:rgba(107,186,255,.32)} .rchip.alt .ar{color:var(--ss)}
+  /* EXAMPLES — reference chip + gloss */
+  .ri-exlist{margin-top:2px}
+  .ri-ex{display:flex; gap:14px; align-items:baseline; padding:9px 0; border-top:1px solid rgba(255,255,255,.05)} .ri-exlist .ri-ex:first-child{border-top:0}
+  .ri-ref{font-family:var(--serif); font-size:11.5px; color:var(--bg); background:var(--gold); font-weight:700; padding:2px 8px; white-space:nowrap; min-width:38px; text-align:center; flex:0 0 auto}
+  .ri-ext{font-size:13px; color:var(--text); line-height:1.55} .ri-ext .ar{font-family:var(--ar); font-size:17px; color:var(--arab)}
+  .ri-poetry{margin-top:12px; padding-top:10px; border-top:1px dashed rgba(201,168,76,.18); font-size:12.5px; color:var(--t2); font-style:italic}
+  /* ATTESTATION witnesses */
+  .ri-sources{display:flex; gap:6px; flex-wrap:wrap; margin-top:12px} .wtag{font-size:11px; color:var(--t2); border:1px solid var(--bd); padding:3px 11px; background:#141414}
+  /* VERB GOVERNMENT — transitivity table */
+  .ri-gov-sum{font-size:12.5px; color:var(--t2); line-height:1.55; margin-bottom:12px; padding:9px 12px; border-left:2px solid var(--gold-d); background:#141414}
+  .govtable{display:flex; flex-direction:column; gap:6px}
+  .govrow{display:grid; grid-template-columns:34px 88px 96px 74px 1fr 46px; align-items:center; gap:10px; padding:7px 10px; border:1px solid rgba(255,255,255,.06); background:#141414}
+  @media(max-width:620px){.govrow{grid-template-columns:30px 1fr auto; grid-auto-rows:auto} .govrow .gv-en,.govrow .gv-ref{grid-column:2/4}}
+  .gv-f{font-family:var(--serif); font-size:11px; color:var(--gold-d); font-weight:700}
+  .gv-v{font-family:var(--ar); font-size:20px; color:var(--gold-b)}
+  .gv-tr{font-family:var(--ar); font-size:15px; display:flex; flex-direction:column; line-height:1.1} .gv-tr em{font-family:-apple-system,sans-serif; font-size:8.5px; font-style:normal; letter-spacing:.05em; text-transform:uppercase; margin-top:2px}
+  .gv-tr.t{color:var(--morph)} .gv-tr.t em{color:var(--morph)} .gv-tr.i{color:var(--t3)} .gv-tr.i em{color:var(--t3)}
+  .gv-tr.b{color:var(--gold-b)} .gv-tr.b em{color:var(--gold-d)}
+  .gv-tr.d{color:var(--result)} .gv-tr.d em{color:var(--result)} .gv-tr.p{color:var(--t3)} .gv-tr.p em{color:var(--t3)}
+  .gv-route{font-family:var(--ar); font-size:15px; color:var(--ss)}
+  .gv-en{font-size:12px; color:var(--text)} .gv-ref{font-size:10px; color:var(--gold); font-weight:700; text-align:right; white-space:nowrap}
+  /* ═══════ WORD MEMLET · مُبِين — word-focused ═══════ */
+  .ri-hero.word{background:radial-gradient(130% 150% at 0 0,rgba(201,168,76,.11),transparent 55%),linear-gradient(180deg,#141210,#0b0b0b)}
+  .wh-top{display:flex; align-items:center; justify-content:space-between; gap:14px; direction:rtl}
+  .wh-word{font-family:var(--ar); font-size:46px; color:var(--gold-b); line-height:1; text-shadow:0 2px 14px rgba(201,168,76,.28)}
+  .wh-id{display:flex; flex-direction:column; gap:3px; align-items:flex-start; direction:ltr}
+  .wh-tr{font-size:13px; color:var(--t2); letter-spacing:.08em} .wh-pos{font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--gold-d); font-weight:700}
+  .wh-morph{display:flex; gap:6px; flex-wrap:wrap; margin:13px 0 11px}
+  .wh-tag{font-size:10.5px; color:var(--t2); border:1px solid var(--bd); padding:3px 10px; background:#141414} .wh-tag.ar{font-family:var(--ar); font-size:14px; color:var(--gold-b)}
+  /* dictionary entry (lemma-level) */
+  .wdict .wd-line{margin-bottom:11px} .wd-ar{font-family:var(--ar); font-size:21px; color:var(--arab); direction:rtl; text-align:right; display:block; line-height:1.6}
+  .wd-sense{border:1px solid rgba(255,255,255,.07); border-left:2px solid var(--gold); background:#141414; padding:11px 13px; display:flex; flex-direction:column; gap:6px}
+  .wd-sense .s-key{font-size:9.5px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-d); font-weight:800}
+  .wd-ar2{font-family:var(--ar); font-size:19px; color:var(--gold-b); direction:rtl; text-align:right} .wd-en{font-size:13px; color:var(--t2); line-height:1.5}
+  .wd-note{font-size:12.5px; color:var(--t2); margin-top:10px; font-style:italic; line-height:1.55} .wd-note b{color:var(--gold-b); font-style:normal}
+  /* word sum */
+  .wsum{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:center; padding:6px 0}
+  .wsum-part,.wsum-raw,.wsum-out{font-family:var(--ar); font-size:22px; padding:5px 12px; border:1px solid var(--bd); background:#141414}
+  .wsum-part{color:var(--t2)} .wsum-raw{color:var(--t3); opacity:.8} .wsum-out{color:var(--gold-b); border-color:var(--bd-hi)}
+  .wsum-op{color:var(--gold-d); font-weight:700; font-size:15px}
+  .wsum-ilal{margin-top:10px; font-size:12px; color:var(--t2)} .il-lab{font-size:9px; letter-spacing:.1em; text-transform:uppercase; color:var(--bg); background:var(--gold-d); padding:2px 7px; margin-right:7px; font-weight:800}
+  /* family frequency (reuse ffbars) + gloss column */
+  .ffrow .ff-g{font-size:11px; color:var(--t3); flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+  /* near-syn / opposite grid */
+  .wsyn-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px} @media(max-width:560px){.wsyn-grid{grid-template-columns:1fr}}
+  .cg-lab{font-size:9.5px; text-transform:uppercase; letter-spacing:.1em; font-weight:800; margin-bottom:8px} .cg-lab.simi{color:var(--morph)} .cg-lab.oppo{color:var(--result)}
+  .wsyn{display:flex; align-items:baseline; gap:9px; padding:6px 10px; border:1px solid rgba(255,255,255,.06); border-left:2px solid rgba(77,217,168,.4); background:#141414; margin-bottom:6px}
+  .wsyn.lex{border-left-color:rgba(77,217,168,.2)} .wsyn.opp{border-left-color:rgba(241,89,31,.45)}
+  .ws-ar{font-family:var(--ar); font-size:18px; color:var(--gold-b)} .ws-en{font-size:11.5px; color:var(--t3)}
+  /* collocations */
+  .wcols{display:flex; flex-direction:column; gap:8px} .wcol{display:flex; align-items:baseline; gap:12px; padding:9px 12px; border:1px solid rgba(255,255,255,.07); border-left:2px solid var(--gold-d); background:#141414; direction:rtl}
+  .wcol-ar{font-family:var(--ar); font-size:20px; color:var(--gold-b)} .wcol-en{font-size:12.5px; color:var(--t2); direction:ltr}
+  /* iʿrāb usage example */
+  .wirab-ay{display:flex; align-items:center; gap:12px; margin-bottom:10px; direction:rtl; justify-content:flex-start} .wirab-ay .ar{font-family:var(--ar); font-size:22px; color:var(--arab)}
+  /* wrong-answer review bar */
+  .wrongbar{margin-top:12px; padding-top:10px; border-top:1px dashed rgba(241,89,31,.25); font-size:11.5px}
+  .wrong-k{color:var(--result); font-weight:700} .wrong-ok{color:var(--t3); font-style:italic}
+  .fq-tag{display:inline-block; font-size:9px; letter-spacing:.12em; text-transform:uppercase; color:var(--gold-d); border:1px solid var(--bd); padding:2px 8px; margin-bottom:9px; font-weight:800}
+  /* ═══════ EXPRESSIONS · balāghah layer (meaning depth) ═══════ */
+  .exprgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:12px}
+  .excard{border:1px solid rgba(255,255,255,.08); border-left:2px solid var(--gold); background:#0e0e0e; padding:14px 16px 15px; box-shadow:4px 4px 0 rgba(0,0,0,.32); display:flex; flex-direction:column}
+  .ex-h{display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:11px}
+  .ex-dev{font-family:var(--serif); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--gold-d); font-weight:700} .ex-dev .ar{font-family:var(--ar); font-size:14px; color:var(--gold-b); text-transform:none; letter-spacing:0; margin-inline-start:4px}
+  .ex-ref{font-family:var(--serif); font-size:11px; color:var(--bg); background:var(--gold); padding:2px 8px; font-weight:700; white-space:nowrap}
+  .ex-ar{font-family:var(--ar); font-size:26px; color:var(--gold-b); direction:rtl; text-align:right; line-height:1.7; margin-bottom:6px}
+  .ex-g{font-size:13px; color:var(--text); font-style:italic; margin-bottom:9px}
+  .ex-depth{font-size:12.5px; color:var(--t2); line-height:1.6; padding-top:9px; border-top:1px dashed rgba(201,168,76,.18)} .ex-depth .ar{font-family:var(--ar)}
+  .ex-src{margin-top:10px; font-size:10px; color:var(--t3)} .ex-src .ar{font-family:var(--ar); font-size:13px; color:var(--gold-d)}
+  .excard.idiom{border-left-color:var(--morph)} .excard.idiom.inpassage{border-left-color:var(--gold-b); box-shadow:4px 4px 0 rgba(0,0,0,.32), 0 0 0 1px rgba(201,168,76,.25)}
+  .in-tag{font-size:9px; letter-spacing:.08em; text-transform:uppercase; color:var(--bg); background:var(--gold-b); padding:1px 6px; font-weight:800; margin-inline-end:5px}
+  /* lexicon coverage */
+  .lxgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:8px 18px}
+  .lxrow{display:flex; align-items:center; gap:10px} .lx-r{font-family:var(--ar); font-size:19px; color:var(--gold-b); width:44px; text-align:right; direction:rtl; flex:0 0 auto}
+  .lx-bar{flex:1; height:8px; background:#191919; border:1px solid rgba(255,255,255,.06)} .lx-bar i{display:block; height:100%; background:linear-gradient(90deg,var(--gold-d),var(--gold))}
+  .lx-n{font-size:11px; color:var(--t2); font-weight:700; width:38px; text-align:right} .lx-n em{color:var(--t3); font-style:normal; font-weight:400}
+  .lxsrc{display:flex; gap:6px; flex-wrap:wrap; margin-top:13px; padding-top:12px; border-top:1px dashed rgba(201,168,76,.16)}
+  .constel-wrap{display:flex; justify-content:center} svg.constel{width:100%; max-width:360px; height:auto}
+  .rel{display:flex; gap:24px; flex-wrap:wrap}
+  .rel .col{flex:1; min-width:150px} .rel .lab{font-size:10.5px; text-transform:uppercase; letter-spacing:.06em; font-weight:800; margin-bottom:7px}
+  .rel .lab.simi{color:var(--morph)} .rel .lab.oppo{color:var(--result)}
+  .rchips{display:flex; flex-wrap:wrap; gap:6px} .rchip{border:1px solid rgba(77,217,168,.3); padding:4px 11px; background:#141414} .rchip.oppo{border-color:rgba(241,89,31,.35)} .rchip .ar{font-family:var(--ar); font-size:16px; color:var(--arab)}
+  .varlist{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:8px}
+  .varc{border:1px solid rgba(255,255,255,.07); padding:8px 11px; background:#141414}
+  .varc .vw{font-family:var(--ar); font-size:19px; color:var(--gold-b)} .varc .vg{font-size:11.5px; color:var(--t3); margin-top:2px}
+  .quiz .q{font-size:14px; margin-bottom:6px} .quiz .q .ar{font-family:var(--ar); font-size:19px; color:var(--gold-b)}
+  .quiz .opt{border:1px solid var(--bd); background:#141414; padding:9px 13px; margin-top:7px; cursor:pointer; font-size:13.5px; color:var(--t2)}
+  .quiz .opt:hover{border-color:var(--bd-hi)}
+  .quiz .opts.answered .opt{cursor:default}
+  .quiz .opt.right{border-color:var(--morph); color:var(--morph); background:rgba(77,217,168,.08)}
+  .quiz .opt.wrong{border-color:var(--result); color:var(--result); background:rgba(241,89,31,.08)}
+  .quiz .h{display:flex; align-items:center; gap:8px}
+  .quiz .newq{margin-left:auto; border:1px solid var(--bd); background:#141414; color:var(--gold-b); font:inherit; font-size:11px; font-weight:600; padding:5px 13px; cursor:pointer}
+  .quiz .newq.next{background:var(--morph); color:#0c0c0c; border-color:var(--morph)}
+  .quiz .newq:hover{filter:brightness(1.12)}
+  .quiz .opt.unsure{color:var(--t3); font-style:italic}
+  .quiz .opt .ar{font-family:var(--ar); font-size:21px; color:var(--gold-b)}
+  .spell{margin-top:6px}
+  .spell .slots{display:flex; gap:10px; justify-content:center; margin:8px 0 16px; direction:rtl}
+  .spell .slot{width:46px; height:50px; border:1px solid var(--bd); border-bottom:2px solid var(--gold); background:#141414; display:flex; align-items:center; justify-content:center; font-family:var(--ar); font-size:28px; color:var(--gold-b)}
+  .spell .tiles{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; direction:rtl}
+  .spell .tile{width:46px; height:46px; border:1px solid var(--bd-hi); background:#1a1a1a; color:var(--arab); font-family:var(--ar); font-size:26px; cursor:pointer}
+  .spell .tile:hover{border-color:var(--gold)} .spell .tile.used{opacity:.22; cursor:default}
+  .spell-msg{text-align:center; margin-top:12px; font-weight:600; font-size:13px}
+  .spell.right .slot{border-color:var(--morph); color:var(--morph)} .spell.right .spell-msg{color:var(--morph)}
+  .spell.wrong .slot{border-color:var(--result)} .spell.wrong .spell-msg{color:var(--result)}
+  .spell [data-clear]{display:block; margin:14px auto 0}
+  .chips{display:flex; flex-wrap:wrap; gap:7px}
+  .chip{font-size:12.5px; padding:5px 11px; border-radius:20px; border:1px solid rgba(255,255,255,.09); color:var(--t2); background:var(--s2c)}
+  .chip .ar{font-size:14px}
+  .lens{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:9px}
+  .lensc{background:var(--s2c); border:1px solid rgba(255,255,255,.07); border-left-width:3px; border-radius:11px; padding:10px 12px; box-shadow:0 5px 12px rgba(0,0,0,.4)}
+  .lensc .ln{font-weight:600; font-size:13px} .lensc .ls{font-size:10.5px; color:var(--t3); margin-top:2px}
+  .pagenav{display:flex; justify-content:space-between; gap:10px; margin-top:20px}
+  .pagenav button{border:1px solid var(--bd); background:var(--s1c); color:var(--text); font:inherit; font-weight:600; font-size:13.5px; padding:10px 16px; border-radius:14px; cursor:pointer}
+  .pagenav button:hover:not(:disabled){border-color:var(--bd-hi)} .pagenav button:disabled{opacity:.3; cursor:default}
+  /* morphology toggles */
+  .morphbar{display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:18px 0 6px}
+  .seg2{display:inline-flex; border:1px solid var(--bd); border-radius:22px; overflow:hidden}
+  .seg2 button{font:inherit; font-weight:600; font-size:13px; padding:8px 16px; border:0; background:var(--s1c); color:var(--t2); cursor:pointer; border-left:1px solid var(--bd)}
+  .seg2 button:first-child{border-left:0}
+  .seg2 button.on{background:var(--morph); color:#0c0c0c}
+  .seg2.sub button.on{background:var(--gold); color:#0c0c0c}
+  .mlcard{background:linear-gradient(180deg,#191919,#111); border:1px solid rgba(255,255,255,.07); border-left:3px solid var(--morph); border-radius:12px; padding:12px 14px; box-shadow:0 6px 14px rgba(0,0,0,.4)}
+  .mlcard .r{font-family:var(--ar); font-size:23px; font-weight:700; color:var(--arab)}
+  .mlcard .h{font-size:12.5px; color:var(--t2); margin-top:5px; line-height:1.4}
+  .mlcard .k{font-size:10px; color:var(--gold-d); text-transform:uppercase; letter-spacing:.06em; margin-top:6px; font-family:var(--serif)}
+  .mlcard.clickable{cursor:pointer; transition:transform .15s, border-color .15s} .mlcard.clickable:hover{transform:translateY(-3px); border-color:var(--bd-hi)}
+  .wgrp{margin:10px 0}
+  .wgrp h5{font-family:var(--serif); font-size:12.5px; color:var(--gold-d); margin:10px 0 6px; letter-spacing:.06em}
+  .wgrp .chip .ar{font-size:16px; color:var(--arab)}
+  /* reading mushaf */
+  .mushaf{margin-top:6px}
+  .ayarow{display:flex; gap:14px; align-items:flex-start; padding:14px 16px; background:linear-gradient(180deg,#161616,#0e0e0e); border:1px solid rgba(255,255,255,.06); border-left:3px solid var(--reading); margin-bottom:9px}
+  .ayanum{width:30px; height:30px; flex:0 0 auto; display:flex; align-items:center; justify-content:center; font-family:var(--serif); font-size:13px; color:#0c0c0c; background:var(--reading); font-weight:700}
+  .ayacol{flex:1; min-width:0}
+  .ayaar{font-family:var(--ar); font-size:28px; line-height:2; color:var(--arab); direction:rtl; text-align:right}
+  .ayatr{font-size:13.5px; color:var(--t2); margin-top:6px; line-height:1.5}
+  /* mushaf-style continuous reading */
+  .mushafpage{font-family:var(--ar); font-size:31px; line-height:2.5; color:var(--arab); direction:rtl; text-align:justify; text-align-last:right; padding:20px 18px; border:1px solid rgba(201,168,76,.22); background:linear-gradient(180deg,#151310,#0d0b09); box-shadow:5px 5px 0 rgba(0,0,0,.4), inset 1px 1px 0 rgba(255,255,255,.04)}
+  .ayamark{display:inline-flex; align-items:center; justify-content:center; min-width:27px; height:27px; padding:0 5px; margin:0 5px; border:1.5px solid var(--gold); color:var(--gold-b); font-family:var(--serif); font-size:13px; vertical-align:middle; box-shadow:2px 2px 0 rgba(0,0,0,.4)}
+  .stagebody{margin-top:2px}
+  /* big outer container */
+  .bigcard{border:1px solid var(--bd-hi); background:linear-gradient(180deg,#131313,#0a0a0a); padding:6px 22px 30px; margin-top:8px; box-shadow:14px 14px 0 rgba(0,0,0,.5), inset 2px 2px 0 rgba(255,255,255,.06), inset -3px -3px 0 rgba(0,0,0,.6)}
+  /* RECTANGLE 3D — no round corners */
+  .bigcard,.card,.dstat .c,.chip,.lchip,.badge,.rcard,.lensc,.fbnote,.loopstrip,.backbtn,.pagenav button,.seg2,.seg2 button,.mlcard,.orb,.orb .num,.dorb,.pbar,.pbar i,.rb,.rb i,.ayarow,.ayanum,.mushafpage,.ayamark,.stagebody,.sscard,.ss-no,.ss-kind,.clause,.memlet,.memlet-art,.lrow .ld,.mlsec,.ingr-chip,.hk-art,.varc,.rchip,.quiz .opt,.spell .slot,.spell .tile,.newq,.ml-img,.qform,.sense,.sense .core-tag,.ri-hero,.ri-note,.axbar,.axbar i,.formtag,.wtag,.addad-tag,.ri-sec,.act-k,.ri-ref,.ff-bar,.ff-bar i,.ax-track,.wh-tag,.wd-sense,.wsum-part,.wsum-raw,.wsum-out,.il-lab,.wsyn,.wcol,.excard,.ex-ref,.lx-bar,.lx-bar i,.in-tag,.govrow,.ri-gov-sum{border-radius:0 !important}
+  .orb::before{border-radius:0}
+  .card{border:1px solid var(--bd-hi); box-shadow:9px 9px 0 rgba(0,0,0,.45), inset 2px 2px 0 rgba(255,255,255,.07), inset -3px -3px 0 rgba(0,0,0,.55) !important}
+  .rcard,.mlcard,.lensc,.dstat .c,.ayarow{box-shadow:5px 5px 0 rgba(0,0,0,.4), inset 1px 1px 0 rgba(255,255,255,.05) !important}
+  .badge,.chip,.lchip,.backbtn,.pagenav button,.seg2 button{box-shadow:3px 3px 0 rgba(0,0,0,.4)}
+  .orb{box-shadow:6px 6px 0 rgba(0,0,0,.5), inset 2px 2px 0 rgba(255,255,255,.2), inset -3px -3px 0 rgba(0,0,0,.4) !important}
+  .orb:hover{transform:translateY(-4px)}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+const ICON={
+ book:'<path d="M3 5c3-1.5 6-1.5 9 0 3-1.5 6-1.5 9 0v13c-3-1.5-6-1.5-9 0-3-1.5-6-1.5-9 0z"/><path d="M12 5v13"/>',
+ tree:'<path d="M12 3v18"/><path d="M12 8c-2-3-6-2-6-2s0 4 3 4.5"/><path d="M12 8c2-3 6-2 6-2s0 4-3 4.5"/><path d="M8 21h8"/>',
+ graph:'<circle cx="6" cy="7" r="2.3"/><circle cx="18" cy="8" r="2.3"/><circle cx="9" cy="18" r="2.3"/><circle cx="17" cy="17" r="2.3"/><path d="M8 8.5l8-.8M8.5 16l7-6.5M11 18l4-.6"/>',
+ chat:'<path d="M4 5h16v11H9l-4 4v-4H4z"/><circle cx="9" cy="10.5" r="1"/><circle cx="12.5" cy="10.5" r="1"/><circle cx="16" cy="10.5" r="1"/>',
+ blocks:'<rect x="9" y="3" width="6" height="6" rx="1"/><rect x="3" y="11" width="6" height="6" rx="1"/><rect x="15" y="11" width="6" height="6" rx="1"/><path d="M6 15h12"/>',
+ bulb:'<path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.3 1 2.5h6c0-1.2.3-1.8 1-2.5A6 6 0 0 0 12 3z"/>',
+ review:'<polyline points="3 5 3 11 9 11"/><path d="M4.5 15.5a8 8 0 1 0 .5-6"/>',
+ target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/>'
+};
+function ic(p,c){return `<svg viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${p}</svg>`;}
+const cvar=v=>getComputedStyle(document.documentElement).getPropertyValue(v).trim();
+function shade(hex,amt){if(!hex.startsWith('#'))return hex;let n=parseInt(hex.slice(1),16);let r=(n>>16)+amt,g=((n>>8)&255)+amt,b=(n&255)+amt;r=Math.max(0,Math.min(255,r));g=Math.max(0,Math.min(255,g));b=Math.max(0,Math.min(255,b));return '#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1);}
+
+const ROOTS=[["بين",23,23,"done"],["كتب",4,11,"active"],["حكم",10,11,"q"],["برك",9,11,"q"],["لعب",9,11,"q"],["نزل",8,11,"q"],["يقن",8,11,"q"],["اله",8,11,"q"],["اول",6,11,"q"],["سمو",5,11,"q"],["ابو",4,11,"q"],["امر",2,11,"q"],["ربب",2,11,"q"],["سمع",2,11,"q"],["علم",2,11,"q"],["ارض",2,11,"q"],["ليل",1,11,"q"],["نذر",1,11,"q"],["فرق",1,11,"q"],["رسل",1,11,"q"],["رحم",1,11,"q"],["حيي",1,11,"q"],["موت",1,11,"q"],["شكك",1,11,"q"]];
+const AYAT_FULL=[
+ [1,"حمٓ","Ḥā, Mīm."],
+ [2,"وَٱلۡكِتَٰبِ ٱلۡمُبِينِ","By the clear Book —"],
+ [3,"إِنَّآ أَنزَلۡنَٰهُ فِي لَيۡلَةٖ مُّبَٰرَكَةٍۚ إِنَّا كُنَّا مُنذِرِينَ","Indeed, We sent it down on a blessed night. Indeed, We were warning."],
+ [4,"فِيهَا يُفۡرَقُ كُلُّ أَمۡرٍ حَكِيمٍ","On it every wise matter is made distinct —"],
+ [5,"أَمۡرٗا مِّنۡ عِندِنَآۚ إِنَّا كُنَّا مُرۡسِلِينَ","a command from Us. Indeed, We were sending [messengers] —"],
+ [6,"رَحۡمَةٗ مِّن رَّبِّكَۚ إِنَّهُۥ هُوَ ٱلسَّمِيعُ ٱلۡعَلِيمُ","as a mercy from your Lord. Indeed, He is the All-Hearing, the All-Knowing,"],
+ [7,"رَبِّ ٱلسَّمَٰوَٰتِ وَٱلۡأَرۡضِ وَمَا بَيۡنَهُمَآۖ إِن كُنتُم مُّوقِنِينَ","Lord of the heavens and the earth and all that is between them, if you would be certain."],
+ [8,"لَآ إِلَٰهَ إِلَّا هُوَ يُحۡيِۦ وَيُمِيتُۖ رَبُّكُمۡ وَرَبُّ ءَابَآئِكُمُ ٱلۡأَوَّلِينَ","There is no god but Him; He gives life and causes death — your Lord and the Lord of your forefathers."],
+ [9,"بَلۡ هُمۡ فِي شَكّٖ يَلۡعَبُونَ","Yet they are in doubt, playing."]
+];
+const AYAT_BARE=[[1,"حم"],[2,"والكتاب المبين"],[3,"انا انزلناه في ليلة مباركة انا كنا منذرين"],[4,"فيها يفرق كل امر حكيم"],[5,"امرا من عندنا انا كنا مرسلين"],[6,"رحمة من ربك انه هو السميع العليم"],[7,"رب السماوات والارض وما بينهما ان كنتم موقنين"],[8,"لا اله الا هو يحيي ويميت ربكم ورب ابائكم الاولين"],[9,"بل هم في شك يلعبون"]];
+const ROOT_HOOKS={"بين":"separate → distinguish → made CLEAR","كتب":"write · inscribe · the decree WRITTEN","حكم":"judge · a WISE, firm decree","برك":"kneel firm → abiding good → BLESSED","لعب":"play · jest · idle PLAY","نزل":"come down → SEND down","يقن":"firm knowledge → CERTAINTY","اله":"worship → the DEITY","اول":"return to first → the FORMER","سمو":"height → the HEAVENS","ابو":"FATHER · forefathers","امر":"command · a decreed MATTER","ربب":"nurture → master → LORD","سمع":"HEARING · the All-Hearing","علم":"KNOWLEDGE · the All-Knowing","ارض":"the EARTH","ليل":"NIGHT","نذر":"WARN · the warners","فرق":"split → DISTINGUISH · decided","رسل":"send → MESSENGERS","رحم":"womb → MERCY","حيي":"LIFE · gives life","موت":"DEATH · causes death","شكك":"DOUBT · uncertainty"};
+const WORD_MEMLETS=[
+ {word:"ٱلۡكِتَٰبِ",root:"كتب",hook:"the clear Book — k·t·b, \"written\""},
+ {word:"ٱلۡمُبِينِ",root:"بين",hook:"made evident — b·y·n, \"clear\""},
+ {word:"لَيۡلَةٖ",root:"ليل",hook:"a night — l·y·l"},
+ {word:"مُّبَٰرَكَةٍ",root:"برك",hook:"blessed — b·r·k, \"abiding good\""},
+ {word:"مُنذِرِينَ",root:"نذر",hook:"warners — n·dh·r"},
+ {word:"يُفۡرَقُ",root:"فرق",hook:"is made distinct — f·r·q"},
+ {word:"حَكِيمٍ",root:"حكم",hook:"wise / decisive — ḥ·k·m"},
+ {word:"رَحۡمَةٗ",root:"رحم",hook:"a mercy — r·ḥ·m"},
+ {word:"ٱلسَّمِيعُ",root:"سمع",hook:"the All-Hearing — s·m·ʿ"},
+ {word:"ٱلۡعَلِيمُ",root:"علم",hook:"the All-Knowing — ʿ·l·m"},
+ {word:"مُّوقِنِينَ",root:"يقن",hook:"certain ones — y·q·n"},
+ {word:"يَلۡعَبُونَ",root:"لعب",hook:"they play — l·ʿ·b"}
+];
+const WORDS_NV=[
+ {w:"ٱلۡكِتَٰبِ",t:"noun",root:"كتب",g:"the Book"},
+ {w:"ٱلۡمُبِينِ",t:"noun",root:"بين",g:"the clear"},
+ {w:"أَنزَلۡنَٰهُ",t:"verb",root:"نزل",g:"We sent it down"},
+ {w:"لَيۡلَةٖ",t:"noun",root:"ليل",g:"a night"},
+ {w:"مُّبَٰرَكَةٍ",t:"noun",root:"برك",g:"blessed"},
+ {w:"كُنَّا",t:"verb",root:"كون",g:"We were"},
+ {w:"مُنذِرِينَ",t:"noun",root:"نذر",g:"warners"},
+ {w:"يُفۡرَقُ",t:"verb",root:"فرق",g:"is made distinct"},
+ {w:"أَمۡرٍ",t:"noun",root:"امر",g:"a matter"},
+ {w:"حَكِيمٍ",t:"noun",root:"حكم",g:"wise"},
+ {w:"أَمۡرٗا",t:"noun",root:"امر",g:"a command"},
+ {w:"مُرۡسِلِينَ",t:"noun",root:"رسل",g:"senders"},
+ {w:"رَحۡمَةٗ",t:"noun",root:"رحم",g:"a mercy"},
+ {w:"رَّبِّكَ",t:"noun",root:"ربب",g:"your Lord"},
+ {w:"ٱلسَّمِيعُ",t:"noun",root:"سمع",g:"the All-Hearing"},
+ {w:"ٱلۡعَلِيمُ",t:"noun",root:"علم",g:"the All-Knowing"},
+ {w:"ٱلسَّمَٰوَٰتِ",t:"noun",root:"سمو",g:"the heavens"},
+ {w:"ٱلۡأَرۡضِ",t:"noun",root:"ارض",g:"the earth"},
+ {w:"كُنتُم",t:"verb",root:"كون",g:"you were"},
+ {w:"مُّوقِنِينَ",t:"noun",root:"يقن",g:"certain ones"},
+ {w:"إِلَٰهَ",t:"noun",root:"اله",g:"a god"},
+ {w:"يُحۡيِۦ",t:"verb",root:"حيي",g:"gives life"},
+ {w:"يُمِيتُ",t:"verb",root:"موت",g:"causes death"},
+ {w:"رَبُّكُمۡ",t:"noun",root:"ربب",g:"your Lord"},
+ {w:"ءَابَآئِكُمُ",t:"noun",root:"ابو",g:"your forefathers"},
+ {w:"ٱلۡأَوَّلِينَ",t:"noun",root:"اول",g:"the former"},
+ {w:"شَكّٖ",t:"noun",root:"شكك",g:"doubt"},
+ {w:"يَلۡعَبُونَ",t:"verb",root:"لعب",g:"they play"}
+];
+const ROOT_MEMLET={
+ "بين":{img:"📏",mn:"A line drawn <b>betwee-N</b> two points marks the boundary — everything becomes <b>clear</b>.",forms:"بيَّن · مُبين · بَين · تِبيان"},
+ "كتب":{img:"✍️",mn:"A scribe <b>writes</b> (kataba) the decree into a lasting <b>kitāb</b>.",forms:"كتَب · كِتاب · مكتوب · كاتِب"},
+ "حكم":{img:"⚖️",mn:"A wise judge (ḥākim) hands down a firm, <b>wise</b> ruling (ḥukm).",forms:"حكَم · حُكم · حكيم · حِكمة"},
+ "برك":{img:"🌱",mn:"A camel <b>kneels</b> (baraka) and settles — abiding good, a <b>blessing</b>.",forms:"بارَك · مُبارَك · بَركة"},
+ "لعب":{img:"🎲",mn:"Children at <b>play</b> (laʿiba) — idle, not in earnest.",forms:"لعِب · لاعِب · مَلعَب"},
+ "نزل":{img:"⬇️",mn:"Rain comes <b>down</b> (nazala) — the revelation <b>sent down</b>.",forms:"نزَل · أنزَل · تنزيل"},
+ "يقن":{img:"✅",mn:"Rock-firm knowing (yaqīn) — <b>certainty</b> with no doubt.",forms:"أيقَن · يقين · مُوقِن"},
+ "اله":{img:"☝️",mn:"The One truly <b>worshipped</b> (ilāh) — the sole deity.",forms:"إله · أُلوهية · تألُّه"},
+ "اول":{img:"1️⃣",mn:"Return to the <b>first</b> (awwal) — the origin, the former.",forms:"أوَّل · أُولى · أوَّلين"},
+ "سمو":{img:"☁️",mn:"Rising <b>high</b> (samā) — the lofty <b>heavens</b>.",forms:"سما · سماء · أسماء"},
+ "ابو":{img:"👨‍👦",mn:"The <b>father</b> (ab) and the line of forefathers (ābāʾ).",forms:"أب · آباء · أبوَّة"},
+ "امر":{img:"📜",mn:"A commanding voice issues an <b>order</b> (amr) — a decreed matter.",forms:"أمَر · أمر · مأمور"},
+ "ربب":{img:"👑",mn:"One who <b>nurtures</b> and masters (rabb) — the <b>Lord</b>.",forms:"ربّ · ربَّى · تربية"},
+ "سمع":{img:"👂",mn:"An ear <b>hears</b> (samiʿa) — the All-<b>Hearing</b>.",forms:"سمِع · سَمع · سميع"},
+ "علم":{img:"🧠",mn:"A mind that <b>knows</b> (ʿalima) — the All-<b>Knowing</b>.",forms:"علِم · عِلم · عليم"},
+ "ارض":{img:"🌍",mn:"The <b>earth</b> (arḍ) spread out beneath the heavens.",forms:"أرض · أرَضون · أرضي"},
+ "ليل":{img:"🌙",mn:"Darkness falls — the <b>night</b> (layl), when it was sent down.",forms:"ليل · ليلة · ليالٍ"},
+ "نذر":{img:"⚠️",mn:"A watchman <b>warns</b> (anẕara) of what is coming.",forms:"أنذَر · نَذير · مُنذِر"},
+ "فرق":{img:"✂️",mn:"A blade <b>separates</b> (faraqa) — distinguishes and decides.",forms:"فرَق · فُرقان · تفريق"},
+ "رسل":{img:"✉️",mn:"One <b>sent</b> (rasūl) carries the message onward.",forms:"أرسَل · رسول · رِسالة"},
+ "رحم":{img:"💧",mn:"From the womb (raḥim) flows tender <b>mercy</b> (raḥma).",forms:"رحِم · رحمة · رحيم"},
+ "حيي":{img:"🌿",mn:"A seed sprouts — <b>life</b> (ḥayāh) given by Him.",forms:"حيِيَ · أحيا · حياة · حيّ"},
+ "موت":{img:"🕳️",mn:"Stillness — <b>death</b> (mawt) that ends the living.",forms:"مات · أمات · موت · ميّت"},
+ "شكك":{img:"❓",mn:"A pricking <b>doubt</b> (shakk) — wavering uncertainty.",forms:"شكَّ · شكّ · مشكوك"}
+};
+const SS_SENTENCES=[
+ {id:"QR:SS:44:1:s1",ayah:1,kind:"nominal",role:"muqattaat_opener"},
+ {id:"QR:SS:44:2:s1",ayah:2,kind:"verbal",role:"qasam_ibtidaiyya"},
+ {id:"QR:SS:44:3:s1",ayah:3,kind:"nominal",role:"jawab_qasam"},
+ {id:"QR:SS:44:3:s2",ayah:3,kind:"nominal",role:"disputed_jawab2_itirad"},
+ {id:"QR:SS:44:4:s1",ayah:4,kind:"verbal",role:"elaboration_taqdim"},
+ {id:"QR:SS:44:5:s1",ayah:5,kind:"nominal",role:"tafkhim_talil"},
+ {id:"QR:SS:44:6:s1",ayah:6,kind:"verbal",role:"purpose_rahma"},
+ {id:"QR:SS:44:6:s2",ayah:6,kind:"nominal",role:"itiradiyya_hasr"},
+ {id:"QR:SS:44:7:s1",ayah:7,kind:"nominal",role:"predication_shart"},
+ {id:"QR:SS:44:7:jawab_mahdhuf",ayah:7,kind:"virtual_muqaddar",role:"elided_conditional"},
+ {id:"QR:SS:44:8:s1",ayah:8,kind:"nominal",role:"creed_hasr"},
+ {id:"QR:SS:44:9:s1",ayah:9,kind:"nominal",role:"idrab_pivot"}
+];
+const SS_CLAUSES={
+ "QR:SS:44:1:s1":[["parenthetical","ibtidaiyya","حم",0]],
+ "QR:SS:44:2:s1":[["main","qasamiyya","واو القسم",1]],
+ "QR:SS:44:3:s1":[["main","jawab_qasam","إنّ",0],["subordinate","khabar_inna","أنزل",0]],
+ "QR:SS:44:3:s2":[["main","jawab_thani_aw_itiradiyya","إنّ",0],["subordinate","khabar_inna","كان",0]],
+ "QR:SS:44:4:s1":[["main","mustanafa_aw_sifa","في",0]],
+ "QR:SS:44:5:s1":[["elliptical","nasb_mutanaza","",1],["main","talil","إنّ",0],["subordinate","khabar_inna","كان",0]],
+ "QR:SS:44:6:s1":[["elliptical","nasb_mutanaza","",1]],
+ "QR:SS:44:6:s2":[["parenthetical","itiradiyya_aw_talil","إنّ",0],["subordinate","khabar_inna","",0]],
+ "QR:SS:44:7:s1":[["main","badal_aw_qat","",1],["conditional","shart","إنْ",1]],
+ "QR:SS:44:8:s1":[["main","istinafiyya","لا",1],["main","istinaf_bayani","",0],["main","khabar","",1]],
+ "QR:SS:44:9:s1":[["main","idrabiyya","بل",1],["subordinate","khabar_thani_aw_hal","",0]]
+};
+const KIND_LABEL={nominal:"Nominal · jumla ismiyya",verbal:"Verbal · jumla fiʿliyya",virtual_muqaddar:"Implied · muqaddar"};
+const ROLE_LABEL={muqattaat_opener:"Muqaṭṭaʿāt opener",qasam_ibtidaiyya:"Oath · qasam",jawab_qasam:"Answer to the oath",disputed_jawab2_itirad:"2nd answer / iʿtirāḍ (disputed)",elaboration_taqdim:"Elaboration · fronting",tafkhim_talil:"Magnification · taʿlīl",purpose_rahma:"Purpose — “as a mercy”",itiradiyya_hasr:"Parenthesis · ḥaṣr",predication_shart:"Predication · conditional",elided_conditional:"Elided answer to the conditional",creed_hasr:"Creed · exclusivity (ḥaṣr)",idrab_pivot:"Pivot · iḍrāb — “but rather”"};
+const FN_LABEL={ibtidaiyya:"ibtidāʾiyya",qasamiyya:"qasamiyya (oath)",jawab_qasam:"jawāb al-qasam",khabar_inna:"khabar inna",jawab_thani_aw_itiradiyya:"2nd jawāb / iʿtirāḍ",mustanafa_aw_sifa:"istiʾnāf / ṣifa",nasb_mutanaza:"tanāzuʿ (naṣb)",talil:"taʿlīl",itiradiyya_aw_talil:"iʿtirāḍ / taʿlīl",badal_aw_qat:"badal / qaṭʿ",shart:"sharṭ",istinafiyya:"istiʾnāfiyya",istinaf_bayani:"istiʾnāf bayānī",khabar:"khabar",idrabiyya:"iḍrābiyya",khabar_thani_aw_hal:"khabar / ḥāl"};
+const STRUCT_UNITS=[
+ {i:1,from:1,to:9,role:"opening_thesis",label:"The Oath, the Night, the Doubters"},
+ {i:2,from:10,to:16,role:"warning",label:"The Smoke and the seized respite — fartaqib I"},
+ {i:3,from:17,to:33,role:"precedent",label:"Musa and Pharaoh: the tested people before them"},
+ {i:4,from:34,to:42,role:"disputation",label:"These deniers: no second death, creation with truth"},
+ {i:5,from:43,to:50,role:"punishment_panel",label:"The tree of Zaqqūm — taste, you the mighty"},
+ {i:6,from:51,to:57,role:"reward_panel",label:"The muttaqīn in a secure station — antithesis"},
+ {i:7,from:58,to:59,role:"coda",label:"Eased in your tongue — fartaqib II"}
+];
+const TAFSIR_SCHOLARS=["al-Ṭabarī","al-Zamakhsharī","al-Rāzī","Ibn ʿAṭiyya","Ibn Kathīr","Ibn ʿĀshūr","Abū Ḥayyān","al-Ālūsī"];
+function fnLabel(f){return FN_LABEL[f]||f.replace(/_/g,' ');}
+function prettyRole(r){return r.replace(/_/g,' ');}
+/* EXPRESSIONS — the balāghah layer: metaphor / idiom / rhetorical figures with MEANING depth,
+   not grammatical tags. Only the non-obvious, thought-bearing turns of phrase. */
+const PASSAGE_EXPR=[
+ {x:"لَيْلَةٍ مُّبَارَكَةٍ",ref:"44:3",g:"a blessed night",dev:"kināyah",dev_ar:"كناية",root:"برك",
+  depth:"Not a date but a worth: the night is named by the abiding good it carries (Laylat al-Qadr), so barakah is ascribed to *time* — the vessel named for what it holds.",src:"balāghah"},
+ {x:"أَمْرٍ حَكِيمٍ",ref:"44:4",g:"a wise decree",dev:"majāz ʿaqlī",dev_ar:"مجاز عقلي",root:"حكم",
+  depth:"Ḥikmah belongs to the Decreer, yet it is ascribed to the decree itself — the ruling wears its Author's wisdom. The verb يُفْرَقُ (‘is parted / made distinct’) is a D1 verbal idiom for issuing a decree.",src:"balāghah + D1 verbal_idiom"},
+ {x:"رَحْمَةً مِّن رَّبِّكَ",ref:"44:6",g:"a mercy from your Lord",dev:"majāz — naming by effect",dev_ar:"تسمية بالأثر",root:"رحم",
+  depth:"The revelation is not *described as* merciful — it is called ‘a mercy’ outright, the thing named for what it does. Sending = mercy.",src:"balāghah"},
+ {x:"ٱلسَّمِيعُ ٱلْعَلِيمُ",ref:"44:6",g:"the All-Hearing, the All-Knowing",dev:"iqtirān — attribute pairing",dev_ar:"اقتران الصفات",root:"سمع",
+  depth:"The pair is not decorative: hearing covers the spoken, knowing covers the hidden — together they close every gap between word and thought.",src:"D1 attribute_pairing"},
+ {x:"رَبِّ ٱلسَّمَٰوَٰتِ وَٱلْأَرْضِ وَمَا بَيْنَهُمَا",ref:"44:7",g:"Lord of the heavens, the earth, and all between",dev:"merism — totality",dev_ar:"ذكر الكل بالطرفين",root:"ربب",
+  depth:"Naming the two poles and ‘what is between’ is a figure for *everything that exists* — the whole cosmos invoked by its extremes.",src:"balāghah"},
+ {x:"لَا إِلَٰهَ إِلَّا هُوَ",ref:"44:8",g:"no god but He",dev:"qaṣr — exclusive restriction",dev_ar:"قصر بالنفي والاستثناء",root:"اله",
+  depth:"Negation then exception (nafy + istithnāʾ) is the strongest Arabic frame for exclusivity: it empties the field, then admits one — total, not partial, tawḥīd.",src:"balāghah"},
+ {x:"يُحْىِۦ وَيُمِيتُ",ref:"44:8",g:"He gives life and gives death",dev:"ṭibāq — antithesis",dev_ar:"طباق",root:"حيي",
+  depth:"Two opposites paired name the whole span of being — command over the entire arc from first breath to last is claimed in three words.",src:"balāghah"},
+ {x:"فِى شَكٍّ يَلْعَبُونَ",ref:"44:9",g:"in doubt, playing",dev:"istiʿārah — metaphor",dev_ar:"استعارة",root:"شكك",
+  depth:"‘Playing’ is borrowed for the gravest thing treated as trifling — doubt dramatized as a child's game, the metaphor carrying the whole rebuke.",src:"balāghah"}
+];
+/* VERBAL IDIOMS — global scope, deduped live rows from D1 · ar_ling_expressions (Sinai / Islāhī reading).
+   Each distinct idiom appears once with its total occurrences and sample refs; passage:1 = attested in al-Dukhān. */
+const EXPR_IDIOMS={
+ "فرق":[
+  {x:"فَرَقَ",en:"to decide / apportion a matter",occ:2,refs:"44:4 · 17:106",note:"the decisive parting of a decree — the passage's يُفْرَقُ",passage:1},
+  {x:"فَرَّقَ بَيْنَ",en:"to draw distinctions between people (partiality)",occ:5,refs:"2:136 · 2:285 · 3:84 · 4:150 · 4:152"}],
+ "حيي":[
+  {x:"أَحْيَا",en:"to revive — make barren land vegetate; raise the dead",occ:16,refs:"2:164 · 36:78 · 41:39 · 50:11",note:"the life-giving of 44:8 يُحْيِۦ",passage:1}],
+ "سمع":[
+  {x:"ٱسْتَمَعَ إِلَى",en:"to lend an ear — interest that may be feigned",occ:4,refs:"6:25 · 10:42 · 17:47 · 47:16"},
+  {x:"ٱسْتَمَعَ لِ",en:"to listen with genuine interest",occ:3,refs:"7:204 · 20:13 · 22:73",note:"contrast: لِ = genuine vs إلى = may be casual"},
+  {x:"سَمِعَ",en:"‘we hear & obey’ (submission) — vs admiration, vs defiant parody",occ:5,refs:"2:285 · 4:46 · 5:7 · 24:51",note:"ٱلسَّمِيع of 44:6 presides over all these",passage:1},
+  {x:"يَسَّمَّعُ إِلَى",en:"to strain to eavesdrop (the satanic host)",occ:1,refs:"37:8"}],
+ "كشف":[
+  {x:"كَشَفَ",en:"to relieve / rid of distress — lit. to bare the shanks for battle",occ:12,refs:"7:134 · 10:12 · 44:12 · 68:42",note:"idiom origin: baring the leg = the earnest onset of hardship",passage:1}],
+ "نزل":[
+  {x:"أَنزَلَ",en:"to send down sanction; to serve as host; to bring ashore",occ:3,refs:"12:40 · 23:29"},
+  {x:"نَزَّلَ",en:"(of God) to send down sanction for",occ:5,refs:"3:151 · 6:81 · 7:33 · 22:71"}],
+ "كتب":[
+  {x:"كَتَبَ عَلَى",en:"to make obligatory upon; to predestine for",occ:2,refs:"2:216 · 3:154"},
+  {x:"كَتَبَ لِ",en:"to decree for; to credit to one's account",occ:2,refs:"4:127 · 9:121"},
+  {x:"كَاتَبَ",en:"to make a manumission contract with a slave",occ:1,refs:"24:33"}]
+};
+/* LEXICON COVERAGE — distinct classical sources per root · ar_ling_lexicon_root_entries */
+const LEX_SOURCES=["Lane","al-Rāghib (Mufradāt)","al-Khalīl (Kitāb al-ʿAyn)","Ibn Durayd (Jamharah)","Maqāyīs","al-Jawharī (Ṣiḥāḥ)","al-Qāmūs","Ibn Manẓūr (Lisān)","al-Zabīdī (Tāj)","al-Fayyūmī (Miṣbāḥ)","Sinai (key terms)"];
+const LEX_COVER={"بين":12,"حكم":11,"فرق":11,"برك":10,"رحم":10,"سمع":10,"كتب":10,"كشف":10,"نذر":10,"اله":9,"ليل":9,"نزل":9,"شكك":8,"ربب":7,"حيي":6};
+/* VERB GOVERNMENT — real D1 rows, one per construction · ar_ling_verb_government.
+   transitivity: intransitive | transitive | both (ذو وجهين) | ditrans (بمفعولين) | passive.
+   col order: [form, verb, transitivity, harf/route, meaning_en, qr_ref] */
+const GOVERNMENT={
+ "بين":{ summary:"Five forms — three are ذو وجهين (both lāzim & mutaʿaddī). D1 stores each construction as its own row, so one verb can hold both readings.",
+   note:"D1 gap flagged & corrected: بين's أَبَانَ is stored transitive-only; classically it goes both ways — al-Jawharī, Ṣiḥāḥ: «أبان الشيءُ … وأبَنْتُه أنا، يتعدَّى ولا يتعدَّى». Same for V & X.",
+   rows:[["I","بَانَ","intransitive","لازم","became distinct · parted","—"],["II","بَيَّنَ","transitive","بالتضعيف","made it clear","2:219"],["IV","أَبَانَ","both","بالهمزة","intr. ‘became manifest’ · tr. ‘made manifest’","—"],["V","تَبَيَّنَ","both","لازم/تعدٍّ","intr. ‘became evident’ · tr. ‘ascertained it’","2:256"],["X","ٱسْتَبَانَ","both","الاستفعال","intr. ‘became plain’ · tr. ‘discerned it’","6:55"]] },
+ "برك":{ summary:"Six forms · III governs directly and by لـ/في/على · VI is lāzim and predicated of God alone.",
+   rows:[["I","بَرَكَ","intransitive","لازم","to kneel & settle; whatever stays firm","—"],["II","بَرَّكَ","transitive","عَلَى","to invoke blessing (barraka ʿalayh)","—"],["III","بَارَكَ","transitive","لـ / في / على","to place abiding good in","21:71 · 17:1"],["III","بُورِكَ","passive","مبني للمجهول","to be blessed","27:8"],["V","تَبَرَّكَ","transitive","بـ","to seek blessing from","—"],["VI","تَبَارَكَ","intransitive","لازم · لله وحده","to be blessed & exalted — of God alone","7:54 · 25:1"]] },
+ "كتب":{ summary:"Form I alone governs five ways — directly (بنفسه) and by على / لـ / في / مع. The ḥarf shifts the whole meaning.",
+   rows:[["I","كَتَبَ","transitive","بنفسه","to write / record","3:181"],["I","كَتَبَ","transitive","عَلَى","to make obligatory / ordain upon","2:216 · 3:154"],["I","كَتَبَ","transitive","لِ","to decree in one's favour / credit to","4:127 · 9:121"],["I","كَتَبَ","transitive","فِي","to inscribe / entrench in","21:105 · 58:22"],["I","كَتَبَ","transitive","مَعَ","to enrol / count among","3:53"],["III","كَاتَبَ","transitive","بنفسه","to make a manumission contract","24:33"],["VIII","ٱكْتَتَبَ","transitive","بنفسه","to have written / copied for oneself","25:5"]] },
+ "نذر":{ summary:"Seven forms · IV أَنْذَرَ is doubly-transitive (متعدٍّ بمفعولين) — it also governs by بـ.",
+   rows:[["I","نَذَرَ","transitive","لـ / بنفسه","to vow, bind on oneself","19:26 · 3:35"],["I","نَذِرَ","transitive","بـ","to come to know & take heed","54:36"],["IV","أَنْذَرَ","ditrans","بمفعولين / بـ","to warn (of) — governs two objects","92:14 · 46:21"],["IV","أُنْذِرَ","passive","مبني للمجهول","to be warned","46:3"],["VI","تَنَاذَرَ","transitive","تفاعل — للمشاركة","to warn one another","—"],["X","ٱسْتَنْذَرَ","transitive","إلى","to offer warning to","—"]] },
+ "نزل":{ summary:"Eight forms · I is lāzim, made transitive three ways — by ḥarf, by hamza, or by taḍʿīf (al-Miṣbāḥ's taʿdiya set).",
+   rows:[["I","نَزَلَ","intransitive","لازم","to descend / alight","26:193"],["I","نَزَلَ","transitive","عَن","to relinquish / step down from","—"],["II","نَزَّلَ","transitive","بالتضعيف — تكثير","to send down piecemeal (tanjīm)","3:3"],["IV","أَنْزَلَ","transitive","بالهمزة — عامّ","to send down (general)","44:3"],["IV","أَنْزَلَ","transitive","بنفسه","to lodge / host; to bring ashore","12:59 · 23:29"],["V","تَنَزَّلَ","intransitive","مطاوع نزّل","to descend gradually","97:4"],["X","ٱسْتَنْزَلَ","transitive","عَن","to bring down / seek to make relinquish","—"]] },
+ "ليل":{ summary:"Denominal — the root is overwhelmingly nominal; only a lāzim verb is attested.",
+   rows:[["I","لالَ / أَلْيَلَ","intransitive","لازم — والأصل اسمي","to grow dark, to become night","—"]] }
+};
+const MEMLET_EXTRA={
+ "بين":{pron:"b–y–n",syn:["فرق","فصل","وضح"],ant:["خفي","غمض"],var:[["مُبِين","clear · manifest"],["بَيَان","exposition"],["بَيِّنة","clear proof"],["تِبْيان","full elucidation"]]},
+ "كتب":{pron:"k–t–b",syn:["سطّر","دوّن","خطّ"],ant:["محا","طمس"],var:[["كِتاب","book · scripture"],["كاتِب","scribe"],["مكتوب","written · decreed"]]},
+ "حكم":{pron:"ḥ–k–m",syn:["قضى","فصل","أتقن"],ant:["جهل","عبث"],var:[["حُكم","ruling"],["حِكمة","wisdom"],["حكيم","wise"]]},
+ "برك":{pron:"b–r–k",syn:["نما","زاد","ثبت"],ant:["محق","نزع"],var:[["بَرَكة","blessing"],["مبارَك","blessed"],["تبارَك","exalted is He"]]},
+ "لعب":{pron:"l–ʿ–b",syn:["عبث","لها","هزل"],ant:["جدّ"],var:[["لَعِب","play"],["لاعِب","player"],["مَلعَب","playground"]]},
+ "نزل":{pron:"n–z–l",syn:["هبط","حلّ","أنزل"],ant:["رفع","صعد"],var:[["تنزيل","sending down"],["منزِل","abode"],["نُزول","descent"]]},
+ "يقن":{pron:"y–q–n",syn:["أيقن","تيقّن"],ant:["شكّ","ظنّ"],var:[["يقين","certainty"],["موقِن","certain one"],["مُستيقِن","fully sure"]]},
+ "اله":{pron:"ʾ–l–h",syn:["عبد","تألّه"],ant:["كفر","جحد"],var:[["إله","deity"],["ألوهية","divinity"],["تألُّه","deification"]]},
+ "اول":{pron:"ʾ–w–l",syn:["بدأ","رجع"],ant:["آخِر"],var:[["أوّل","first"],["أُولى","former"],["تأويل","interpretation"]]},
+ "سمو":{pron:"s–m–w",syn:["علا","ارتفع"],ant:["سفل","هبط"],var:[["سماء","sky · heaven"],["اسم","name"],["سُمُوّ","loftiness"]]},
+ "ابو":{pron:"ʾ–b–w",syn:["والد"],ant:["ابن"],var:[["أب","father"],["آباء","forefathers"],["أبوّة","fatherhood"]]},
+ "امر":{pron:"ʾ–m–r",syn:["قضى","وجّه"],ant:["نهى"],var:[["أمر","command · matter"],["آمِر","commander"],["إمارة","authority"]]},
+ "ربب":{pron:"r–b–b",syn:["ساس","ربّى","ملك"],ant:["عبد"],var:[["ربّ","Lord"],["تربية","nurture"],["ربّاني","divine"]]},
+ "سمع":{pron:"s–m–ʿ",syn:["أصغى","أنصت"],ant:["صمّ"],var:[["سَمْع","hearing"],["سميع","all-hearing"],["مسموع","heard"]]},
+ "علم":{pron:"ʿ–l–m",syn:["عرف","درى"],ant:["جهل","نكر"],var:[["عِلم","knowledge"],["عليم","all-knowing"],["معلوم","known"]]},
+ "ارض":{pron:"ʾ–r–ḍ",syn:["تربة","ثرى"],ant:["سماء"],var:[["أرض","earth"],["أرَضون","lands"],["أرضي","earthly"]]},
+ "ليل":{pron:"l–y–l",syn:["ظلام","دُجى"],ant:["نهار"],var:[["ليل","night"],["ليلة","a night"],["ليالٍ","nights"]]},
+ "نذر":{pron:"n–dh–r",syn:["حذّر","خوّف"],ant:["بشّر"],var:[["نذير","warner"],["إنذار","warning"],["منذِر","one who warns"]]},
+ "فرق":{pron:"f–r–q",syn:["فصل","ميّز","قسم"],ant:["جمع","وصل"],var:[["فُرقان","criterion"],["فِرقة","group"],["تفريق","separation"]]},
+ "رسل":{pron:"r–s–l",syn:["بعث","أرسل"],ant:["أمسك","حبس"],var:[["رسول","messenger"],["رسالة","message"],["مُرسَل","sent"]]},
+ "رحم":{pron:"r–ḥ–m",syn:["رأف","عطف","حنّ"],ant:["قسا","غلظ"],var:[["رحمة","mercy"],["رحيم","merciful"],["رحمٰن","most-gracious"]]},
+ "حيي":{pron:"ḥ–y–y",syn:["عاش","أحيا"],ant:["مات"],var:[["حياة","life"],["حيّ","living"],["مَحيا","life-source"]]},
+ "موت":{pron:"m–w–t",syn:["هلك","قضى نحبه"],ant:["حيي"],var:[["موت","death"],["ميّت","dead"],["مُميت","giver of death"]]},
+ "شكك":{pron:"sh–k–k",syn:["ارتاب","ظنّ"],ant:["تيقّن","جزم"],var:[["شكّ","doubt"],["شاكّ","doubter"],["مشكوك","doubtful"]]}
+};
+const INGREDIENTS={
+ "بين":{rootM:"separation → clarity",patt:"مُفْعِل",pattM:"form IV active participle — 'the one making X'",word:"مُبِين",wordM:"making it clear · manifest"},
+ "كتب":{rootM:"writing · inscribing",patt:"فِعَال",pattM:"noun of result — 'the thing done'",word:"كِتَاب",wordM:"a written Book · scripture"},
+ "حكم":{rootM:"judging · firm wisdom",patt:"فَعِيل",pattM:"intensive adjective — 'full of X'",word:"حَكِيم",wordM:"wise · decisive"},
+ "برك":{rootM:"kneel-firm → abiding good",patt:"مُفَاعَلة",pattM:"form III passive participle — 'made full of X'",word:"مُبَارَكَة",wordM:"blessed"},
+ "لعب":{rootM:"play · jest",patt:"يَفْعَلُونَ",pattM:"imperfect 3rd-pl — 'they keep doing X'",word:"يَلْعَبُونَ",wordM:"they keep playing"},
+ "نزل":{rootM:"coming down",patt:"أَفْعَلَ",pattM:"form IV — 'to cause X'",word:"أَنزَلَ",wordM:"He sent it down"},
+ "يقن":{rootM:"firm knowing",patt:"مُفْعِلِين",pattM:"form IV participle, plural — 'those doing X'",word:"مُوقِنِين",wordM:"those who are certain"},
+ "اله":{rootM:"worship",patt:"فِعَال",pattM:"object noun — 'the thing X-ed'",word:"إِلَٰه",wordM:"an object of worship · god"},
+ "اول":{rootM:"firstness · priority",patt:"أَفْعَل",pattM:"elative, plural — 'the earliest'",word:"ٱلْأَوَّلِين",wordM:"the earliest · forefathers"},
+ "سمو":{rootM:"height · loftiness",patt:"فَعَالَات",pattM:"broken plural — 'the high expanses'",word:"سَمَاوَات",wordM:"heavens"},
+ "ابو":{rootM:"fatherhood",patt:"أَفْعَال",pattM:"broken plural — 'plural of X'",word:"ءَابَاء",wordM:"forefathers"},
+ "امر":{rootM:"commanding · affair",patt:"فَعْل",pattM:"verbal noun — 'the act/thing'",word:"أَمْر",wordM:"a command · a matter"},
+ "ربب":{rootM:"nurturing mastery",patt:"فَعْل",pattM:"agent noun — 'the one who X'",word:"رَبّ",wordM:"Lord · Sustainer"},
+ "سمع":{rootM:"hearing",patt:"فَعِيل",pattM:"intensive adjective — 'constantly X'",word:"ٱلسَّمِيع",wordM:"the All-Hearing"},
+ "علم":{rootM:"knowing",patt:"فَعِيل",pattM:"intensive adjective — 'constantly X'",word:"ٱلْعَلِيم",wordM:"the All-Knowing"},
+ "ارض":{rootM:"the ground",patt:"فَعْل",pattM:"simple noun — 'the thing itself'",word:"ٱلْأَرْض",wordM:"the earth"},
+ "ليل":{rootM:"night · darkness",patt:"فَعْلَة",pattM:"unit noun — 'a single instance'",word:"لَيْلَة",wordM:"a [single] night"},
+ "نذر":{rootM:"warning",patt:"مُفْعِلِين",pattM:"form IV participle, plural — 'those doing X'",word:"مُنذِرِين",wordM:"warners"},
+ "فرق":{rootM:"separating · distinguishing",patt:"يُفْعَلُ",pattM:"imperfect passive — 'is X-ed'",word:"يُفْرَقُ",wordM:"is made distinct · decided"},
+ "رسل":{rootM:"sending",patt:"مُفْعِلِين",pattM:"form IV participle, plural — 'those doing X'",word:"مُرْسِلِين",wordM:"senders"},
+ "رحم":{rootM:"womb-tenderness → mercy",patt:"فَعْلَة",pattM:"instance noun — 'an act of X'",word:"رَحْمَة",wordM:"a mercy"},
+ "حيي":{rootM:"life",patt:"يُفْعِي",pattM:"form IV imperfect — 'He causes X'",word:"يُحْيِ",wordM:"He gives life"},
+ "موت":{rootM:"death",patt:"يُفْعِل",pattM:"form IV imperfect — 'He causes X'",word:"يُمِيت",wordM:"He causes death"},
+ "شكك":{rootM:"doubt · wavering",patt:"فَعْل",pattM:"verbal noun — 'the thing'",word:"شَكّ",wordM:"a doubt"}
+};
+const SARF={
+ "بين":{f:"IV",madi:"أَبَانَ",mud:"يُبِينُ",amr:"أَبِنْ",masdar:"إِبَانَة",fail:"مُبِين",maful:"مُبَان"},
+ "كتب":{f:"I",madi:"كَتَبَ",mud:"يَكْتُبُ",amr:"اُكْتُبْ",masdar:"كِتَابَة",fail:"كَاتِب",maful:"مَكْتُوب"},
+ "حكم":{f:"I",madi:"حَكَمَ",mud:"يَحْكُمُ",amr:"اُحْكُمْ",masdar:"حُكْم",fail:"حَاكِم",maful:"مَحْكُوم"},
+ "برك":{f:"III",madi:"بَارَكَ",mud:"يُبَارِكُ",amr:"بَارِكْ",masdar:"مُبَارَكَة",fail:"مُبَارِك",maful:"مُبَارَك"},
+ "لعب":{f:"I",madi:"لَعِبَ",mud:"يَلْعَبُ",amr:"اِلْعَبْ",masdar:"لَعِب",fail:"لَاعِب",maful:"مَلْعُوب"},
+ "نزل":{f:"IV",madi:"أَنْزَلَ",mud:"يُنْزِلُ",amr:"أَنْزِلْ",masdar:"إِنْزَال",fail:"مُنْزِل",maful:"مُنْزَل"},
+ "يقن":{f:"IV",madi:"أَيْقَنَ",mud:"يُوقِنُ",amr:"أَيْقِنْ",masdar:"إِيقَان",fail:"مُوقِن",maful:"مُوقَن"},
+ "اله":{f:"I",madi:"أَلَهَ",mud:"يَأْلَهُ",amr:"اِئْلَهْ",masdar:"إِلَاهَة",fail:"آلِه",maful:"مَأْلُوه"},
+ "اول":{f:"II",madi:"أَوَّلَ",mud:"يُؤَوِّلُ",amr:"أَوِّلْ",masdar:"تَأْوِيل",fail:"مُؤَوِّل",maful:"مُؤَوَّل"},
+ "سمو":{f:"I",madi:"سَمَا",mud:"يَسْمُو",amr:"اُسْمُ",masdar:"سُمُوّ",fail:"سَامٍ",maful:"مَسْمُوّ"},
+ "ابو":{f:"—",noun:1,masdar:"أُبُوَّة"},
+ "امر":{f:"I",madi:"أَمَرَ",mud:"يَأْمُرُ",amr:"مُرْ",masdar:"أَمْر",fail:"آمِر",maful:"مَأْمُور"},
+ "ربب":{f:"I",madi:"رَبَّ",mud:"يَرُبُّ",amr:"اُرْبُبْ",masdar:"رَبّ",fail:"رَابّ",maful:"مَرْبُوب"},
+ "سمع":{f:"I",madi:"سَمِعَ",mud:"يَسْمَعُ",amr:"اِسْمَعْ",masdar:"سَمْع",fail:"سَامِع",maful:"مَسْمُوع"},
+ "علم":{f:"I",madi:"عَلِمَ",mud:"يَعْلَمُ",amr:"اِعْلَمْ",masdar:"عِلْم",fail:"عَالِم",maful:"مَعْلُوم"},
+ "ارض":{f:"—",noun:1,masdar:"أَرْض"},
+ "ليل":{f:"—",noun:1,masdar:"لَيْل"},
+ "نذر":{f:"IV",madi:"أَنْذَرَ",mud:"يُنْذِرُ",amr:"أَنْذِرْ",masdar:"إِنْذَار",fail:"مُنْذِر",maful:"مُنْذَر"},
+ "فرق":{f:"I",madi:"فَرَقَ",mud:"يَفْرُقُ",amr:"اُفْرُقْ",masdar:"فَرْق",fail:"فَارِق",maful:"مَفْرُوق"},
+ "رسل":{f:"IV",madi:"أَرْسَلَ",mud:"يُرْسِلُ",amr:"أَرْسِلْ",masdar:"إِرْسَال",fail:"مُرْسِل",maful:"مُرْسَل"},
+ "رحم":{f:"I",madi:"رَحِمَ",mud:"يَرْحَمُ",amr:"اِرْحَمْ",masdar:"رَحْمَة",fail:"رَاحِم",maful:"مَرْحُوم"},
+ "حيي":{f:"IV",madi:"أَحْيَا",mud:"يُحْيِي",amr:"أَحْيِ",masdar:"إِحْيَاء",fail:"مُحْيٍ",maful:"مُحْيًى"},
+ "موت":{f:"IV",madi:"أَمَاتَ",mud:"يُمِيتُ",amr:"أَمِتْ",masdar:"إِمَاتَة",fail:"مُمِيت",maful:"مُمَات"},
+ "شكك":{f:"I",madi:"شَكَّ",mud:"يَشُكُّ",amr:"اُشْكُكْ",masdar:"شَكّ",fail:"شَاكّ",maful:"مَشْكُوك"}
+};
+/* real Qurʾān forms per root (qr_lemmas) — [lemma, wazn, occurrences] */
+const QURAN_FORMS={
+ "بين":[["بَيْن","فَعْل",266],["مُّبِين","مُفْعِل",119],["بَيِّنَة","فَعِّلَة",71],["بَيَّنَ","فَعَّلَ",35],["تَبَيَّنَ","تَفَعَّلَ",18],["بَيَان","فَعَال",3],["مُّبَيِّنَٰت","مُّفَعِّل",3],["يُبِينُ","أَفْعَلَ",1],["تِبْيَٰن","تِفْعَٰل",1]],
+ "كتب":[["كِتَٰب","فِعَٰل",260],["كَتَبَ","فَعَلَ",49],["كَاتِب","فَاعِل",6],["مَكْتُوب","مَفْعُول",1],["اكْتَتَبَ","اِفْتَعَلَ",1]],
+ "حكم":[["حَكِيم","فَعِيل",97],["حَكَمَ","فَعَلَ",45],["حُكْم","فُعْل",30],["حِكْمَة","فِعْلَة",20],["حَٰكِمِين","فَاعِل",5],["أَحْكَم","أَفْعَل",2],["مُّحْكَمَٰت","مُفْعَل",1]],
+ "برك":[["تَبَارَكَ","تَفَاعَلَ",9],["بَٰرَكَ","فَاعَلَ",8],["مُبَارَك","مُفَاعَل",8],["مُّبَٰرَكَة","مُّفَٰعَلَة",4],["بَرَكَٰت","فَعَلَٰت",3]],
+ "لعب":[["يَلْعَبْ","فَعَلَ",9],["لَعِب","فَعِل",8],["لَٰعِبِين","فَاعِل",3]],
+ "نزل":[["أَنزَلَ","أَفْعَلَ",183],["نَزَّلَ","فَعَّلَ",62],["تَنزِيل","تَفْعِيل",15],["نُزُل","فُعُل",8]],
+ "يقن":[["يُوقِنُ","أَفْعَلَ",12],["يَقِين","فَعِيل",8],["مُّوقِنِين","مُفْعِل",5],["اسْتَيْقَنَتْ","اِسْتَفْعَلَ",2]],
+ "اله":[["اللَّه","علم",2698],["إِلَٰه","فِعَٰل",147],["اللَّهُمَّ","نداء",5]],
+ "اول":[["أَوَّل","فَعَّل",82],["أُولِى","فُعلِى",45],["ءَال","فَعَل",20],["تَأْوِيل","تَفْعِيل",17]],
+ "سمو":[["سَمَآء","فَعَال",310],["اسْم","فِعْل",39],["مُّسَمًّى","مُفَعَّل",21],["سَمَّىٰ","فَعَّلَ",8],["سَمِيّ","فَعِيل",2]],
+ "ابو":[["آبَاء","أَفْعَال",64],["أَبٌ","فَعْل",46],["أَبَوَان","فَعَلَان",7]],
+ "امر":[["أَمْر","فَعْل",166],["أَمَرَ","فَعَلَ",77],["أَمَّارَة","فَعَّالَة",1],["ءَامِرُون","فَاعِل",1]],
+ "ربب":[["رَبّ","فَعّ",975],["رَبَّٰنِيِّن","فَعَّٰنِيّ",3],["رِبِّيُّون","فِعِّيّ",1]],
+ "سمع":[["سَمِعَ","فَعَلَ",78],["سَمِيع","فَعِيل",47],["سَمْع","فَعْل",22],["اسْتَمَعَ","اِفْتَعَلَ",16],["أَسْمَعَ","أَفْعَلَ",13]],
+ "علم":[["عَلِمَ","فَعَلَ",382],["عَلِيم","فَعِيل",163],["عِلْم","فِعْل",105],["عَٰلَمِين","فَٰعَل",73],["أَعْلَم","أَفْعَل",49],["عَلَّمَ","فَعَّلَ",41],["عَٰلِم","فَاعِل",16],["مَّعْلُوم","مَفْعُول",11]],
+ "ارض":[["أَرْض","فَعْل",461]],
+ "ليل":[["لَيْل","فَعْل",84],["لَيْلَة","فَعْلَة",8]],
+ "نذر":[["نَذِير","فَعِيل",58],["أَنذَرَ","أَفْعَلَ",44],["مُنذِر","مُفْعِل",15],["مُنذَرِين","مُفْعَل",5],["نَذَرْ","فَعَلَ",4],["نَّذْر","فَّعْل",2]],
+ "فرق":[["فُرْقَان","فُعْلَان",7],["فَرَّقَ","فَعَّلَ",6],["فَرَقَ","فَعَلَ",5],["فَرِيق","فَعِيل",5],["فِرْقَة","فِعْلَة",3]],
+ "رسل":[["رَسُول","فَعُول",332],["أَرْسَلَ","أَفْعَلَ",130],["مُّرْسَل","مُفْعَل",35],["رِسَٰلَٰت","فِعَٰلَٰت",6],["رِسَالَة","فِعَالَة",4],["مُرْسِل","مُفْعِل",4]],
+ "رحم":[["رَّحِيم","فَّعِيل",116],["رَحْمَة","فَعْلَة",114],["رَّحْمَٰن","فَّعْلَٰن",57],["رَّحِمَ","فَعَلَ",28],["أَرْحَام","أَفْعَال",12],["أَرْحَم","أَفْعَل",4]],
+ "حيي":[["حَيَوٰة","فَعَلَة",76],["أَحْيَا","أَفْعَلَ",51],["حَيّ","فَعّ",24],["يَسْتَحْىِ","اِسْتَفْعَلَ",9],["تَحِيَّة","تَفْعِيل",6],["يَحْيَىٰ","يَفْعَلٰ",5]],
+ "موت":[["مَوْت","فَعْل",50],["مَّاتَ","فَعَلَ",39],["مَّيِّت","فَيْعِل",38],["أَمَاتَ","أَفْعَلَ",21],["مَيْتَة","فَعْلَة",6],["مَمَات","مَفْعَل",3]],
+ "شكك":[["شَكّ","فَعّ",15]]
+};
+/* real lexicon unique senses per root (ar_ling_root_senses) — [is_core, en, ar] */
+const LEX_SENSES={
+ "برك":[[1,"fixity & settling — whatever stays and holds firm has baraka-ed","الثبوت واللزوم: كل شيء ثبت وأقام فقد بَرَك"],[0,"baraka — the abiding of divine good, growth and increase","البَرَكة: ثبوتُ الخير الإلهي والنماءُ والزيادة"],[0,"the couching of a camel — pressing its breast to the ground","بُروكُ البعير: أن يُلصق بَرْكَه بالأرض"],[0,"birka — a water-reservoir dug into the ground","البِرْكة: محبسُ الماء؛ حوضٌ يُحفر في الأرض"],[0,"tabāraka — loftiness & exaltation, of God alone","تَبارَكَ: العلوُّ والتمجيدُ (لله وحده)"],[0,"baraka — felicity and lasting good fortune","البَرَكة: السعادة"]],
+ "كتب":[[1,"joining — bringing one thing to another","الجمعُ وضمُّ الشيء إلى الشيء"],[0,"writing — joining letters by script","الكتابةُ: خطُّ الحروف وضمُّها"],[0,"a Book / scripture (Torah, Qurʾān)","الكِتاب: الصحيفةُ والتوراةُ والقرآن"],[0,"decree — ordaining, ruling, destiny","الفَرْضُ والحُكْمُ والقَدَر"],[0,"manumission contract (mukātaba)","المكاتبةُ: عَقْدُ العبدِ على نفسه"],[0,"a squadron / troop of horse (the gathered)","الكَتِيبةُ: جماعةُ الخيلِ المجتمعة"]],
+ "ليل":[[1,"al-layl — the night, the opposite of day","اللَّيل: خلافُ النهار"],[0,"darkness & blackness; layala = to grow dark","الظلمةُ والسوادُ؛ اللَّيلُ يَليلُ إذا أظلم"],[0,"the laylah — sunset to the break of dawn","اللَّيلة: من غروب الشمس إلى طلوع الفجر"],[0,"the blessed night — Laylat al-Qadr, in which the Book was sent down","الليلةُ المباركةُ: ليلةُ القدر"],[0,"an intensely dark night (laylun alyal)","ليلٌ ألْيَلُ: شديدةُ الظُّلمة"]],
+ "نذر":[[1,"indhār — an informing that carries fear, the counterpart of glad-tidings","الإنذارُ: إخبارٌ فيه تخويف"],[0,"al-nadhīr — the warner, human or otherwise","النَّذيرُ: المُنذِر"],[0,"al-nadhr — the vow, binding on oneself what is not obligatory","النَّذْرُ: إيجابُ ما ليس بواجبٍ على النفس"],[0,"nadhira bi — to come to know a thing and take heed of it","نَذِرَ بالشيء: عَلِمه فحَذِره"],[0,"the army's scout who warns of the enemy","نَذيرةُ الجيش: طليعتُهم الذي يُنذرهم"]],
+ "نزل":[[1,"descent — a coming-down and befalling from a height","النزول: هبوطٌ ووقوعٌ من عُلوّ"],[0,"alighting and lodging (manzil, nazīl)","الحلول: حطُّ الرحلِ (المنزل، النزيل)"],[0,"the sending-down of revelation & scripture","الإنزال والتنزيل: إنزالُ الوحيِ والكتاب"],[0,"nuzul — the hospitality-fare prepared for a guest","النُّزُل: طعامُ النزيلِ"],[0,"relinquishing (tanāzala = abdicate, condescend)","النزولُ عن الأمر: تركُه"]]
+};
+
+/* ROOT INFORMATION MEMLET — every field projected from already-built D1 root-scope rows.
+   dna: ar_ling_root_dna · axes: ar_ling_root_sense_axes · blocks: ar_ling_memlets(scope='root') · vocab: ar_ling_root_vocab */
+const ROOT_INFO={
+ "بين":{
+  radicals:["ب","ي","ن"],
+  dna:{ src:"ar_ling_root_dna",
+    headline:"to part is to become plain — a separation that discloses",
+    core:"the distance of a thing and its disclosure — separation that reveals",
+    core_ar:"الفصلُ ثم الوضوحُ ثم البرهان",
+    story:"The root بين pictures a gap opening between two things — and in that very parting, what was hidden steps into view. Separation and disclosure are a single motion: to part is to become distinct, and to become distinct is to be seen. So بَيْن is the dividing middle, بَيان is the making-plain, and المُبين is what is clear in itself and clarifies all else.",
+    poles:[["الانفصال","separation"],["الظهور","disclosure"]] },
+  axes:{ src:"ar_ling_root_sense_axes", rows:[["clarity",3],["separation",3],["betweenness",2]] },
+  senses:{ src:"ar_ling_syn_sense", rows:[
+    [1,"separation","Separation, severance, cutting off — a wife made separate by divorce (bāʾin).","الفراق والانفصال والقطع؛ ومنه بانت المرأة بالطلاق والبَيْنونة"],
+    [0,"union","Union & connexion — the contrary sense that makes bayn one of the aḍdād.","الوصل والاتصال، وهو الضدُّ من الأضداد؛ ومنه ذاتُ البَيْن"],
+    [1,"clarity","Manifestness, clarity, exposition & proof — bayān, bayyina, tibyān, mubīn.","الظهور والوضوح والإفصاح والحُجّة؛ ومنه البَيان والبَيِّنة والمُبين"],
+    [0,"distance","Distance, extent, interval & gap — a tract of land as far as the eye reaches.","البُعد والمسافة والامتداد والفُرْجة؛ ومنه البِين والبَون"] ] },
+  hook:{ src:"ar_ling_root_vocab", text:"Mubīn draws the boundary clear: bayān separates so meaning shows itself." },
+  root_image:{ src:"ar_ling_memlets · root_image", title:"The etymon: distance that discloses",
+    body:"The oldest concrete image of the root: a well so deep the rope parts from its walls. A physical clean parting that gives birth to clarity.",
+    anchor:"44:2" },
+  related:{ src:"ar_ling_memlets · related", title:"The contronym at the root",
+    body:"The root turns against itself: the same gesture that parts (faṣl) is the one that joins at the seam (waṣl). The paradox is the plot.",
+    pair:["فصل","وصل"], addad:true, dispute:"Ibn Fāris single-origin vs jumhūr" },
+  variants:{ src:"ar_ling_memlets · variants", title:"12 lemmas across 5 forms",
+    body:"The root branches into twelve attested lemmas across five verb-forms.",
+    forms:["I","II","IV","V","X"], count:12,
+    top:[["بَيْن",266],["مُبِين",119],["بَيِّنَة",71],["بَيَّنَ",35],["تَبَيَّنَ",17]] },
+  constellation:{ src:"ar_ling_memlets · constellation", title:"The web of clarity",
+    body:"The root anchors a family of clarity-words and near-kin, parted by fine furūq.",
+    family:["بان","أعرب","فَصُح","وضَح","ظهر"], near_syn:["بيّنة","برهان","حجّة","دليل"], authority:"Ibn Jinnī" },
+  examples:{ src:"ar_ling_memlets · examples", title:"Occurrences & witnesses",
+    body:"In the Qurʾān the root spans both faces — rupture and a middle course — and the same split drives the poetry.",
+    quran:[["6:94","لَّقَد تَّقَطَّعَ بَيْنَكُم — the bond is severed (rupture)"],["2:68","عَوَانٌۢ بَيْنَ ذَٰلِكَ — a middle course (betweenness)"],["44:2","وَٱلْكِتَٰبِ ٱلْمُبِينِ — the Manifest Book (clarity)"]],
+    poetry:"Imru al-Qays, Muʿallaqa: bayna al-Daḵūl fa-Ḥawmal" },
+  attestation:{ src:"ar_ling_memlets · attestation", title:"Twelve witnesses", count:12,
+    body:"Nine classical lexica from al-ʿAyn to the Tāj, Lane's English synthesis, and Sinai's modern reading — each classical entry held verbatim.",
+    sources:["al-Khalīl","Ibn Durayd","Maqāyīs","Ṣiḥāḥ","Mufradāt","Miṣbāḥ","Qāmūs","Lisān","Tāj","Lane","Sinai"] }
+ }
+};
+
+/* WORD MEMLET — focus on the WORD (not the root). Every field is real D1, keyed by root→lead word.
+   identity+family: ar_ling_syn_lemma · sense: ar_ling_syn_sense · memlets: ar_ling_memlets(scope='lemma')
+   collocations: ar_ling_near_synonym_sets · opposites(root aḍdād): ar_ling_root_antonyms */
+const WORD_INFO={
+ "بين":{
+  word:"مُبِين", bare:"مبين", translit:"mu-BEEN",
+  pos:"adjective · active participle", wazn:"مُفْعِل", form:"IV",
+  derived:"من أَبانَ (الرباعي)", occ:119, sense:"clarity",
+  gloss:"the one making [it] clear — manifest, evident",
+  gloss_ar:"المُبين: البَيِّن بنفسه، المُوضِّح لغيره",
+  wordsum:{ src:"ar_ling_memlets · word_sum + wazn_operation", root:"b·y·n", pattern:"مُفْعِل",
+    raw:"مُبْيِن", ilal:"iʿlāl — naql al-ḥaraka (the kasra shifts onto the yāʾ)", surface:"مُبِين",
+    line:"root b·y·n + pattern mufʿil → mubyin → (vowel-shift) → mubīn, ‘one who makes plain’", authority:"Ibn Jinnī" },
+  dict:{ src:"ar_ling_syn_sense · clarity", core:true,
+    en:"Manifestness, clarity, exposition & proof — the sense-branch this word carries.",
+    ar:"الظهور والوضوح والإفصاح والحُجّة",
+    note:"مُبِين is two-in-one: <b>clear in itself</b> and <b>clarifying all else</b>." },
+  family:{ src:"ar_ling_syn_lemma · root بين", note:"Clarity-branch of the بين family — 12 lemmas across 5 forms. مُبِين is the Form IV active participle.",
+    siblings:[["بَيِّنَة","noun · proof",71],["بَيَّنَ","verb II · explains",35],["تَبَيَّنَ","verb V · ascertains",17],["بَيَان","noun · exposition",3],["مُبَيِّنَة","act. part. II",6],["بَيِّن","adj · self-evident",1]] },
+  nearSyn:{ src:"ar_ling_syn_lemma (D1 clarity siblings) + lexical", d1:[["بَيِّن","self-evident"],["مُسْتَبِين","made manifest"],["مُبَيِّنَة","making clear"]],
+    lex:[["وَاضِح","clear"],["ظَاهِر","apparent"],["جَلِيّ","plain"],["لَائِح","showing forth"]] },
+  opposite:{ src:"ar_ling_root_antonyms (aḍdād) + lexical", d1:[["الوَصْل","union — the contronym pole"],["الخَفَاء","concealment vs ẓuhūr"]],
+    lex:[["خَفِيّ","hidden"],["غَامِض","obscure"],["مُبْهَم","ambiguous"],["مَسْتُور","concealed"]] },
+  irab:{ src:"ar_ling_memlets · irab", ayah:"44:2", text:"وَٱلْكِتَٰبِ ٱلْمُبِينِ",
+    parse:"the wāw is <b>wāw al-qasam</b> (oath); ٱلْكِتَٰبِ is <b>majrūr</b> by it; ٱلْمُبِينِ is its <b>naʿt</b> (adjective), majrūr with kasra.", authority:"Ibn ʿĀshūr" },
+  collocations:{ src:"ar_ling_near_synonym_sets", rows:[["كِتَابٌ مُبِين","a Manifest Book — a name of the Qurʾān"],["إِمَامٌ مُبِين","a Manifest Record — the preserved tablet"]] },
+  cloze:{ src:"ar_ling_memlets · context", items:[["44:2","وَٱلْكِتَٰبِ ٱل—————","ٱلْمُبِين"],["2:256","قَد تَّ————— ٱلرُّشْدُ","تَبَيَّنَ"]] },
+  keepsake:"the gap that divides is the gap that reveals"
+ }
+};
+let WRONG_LOG=[];  /* wrong quiz picks — held for review; on the platform POSTs to ar_ling_question_items / review_queue */
+
+const STAGES=[
+ {key:'reading',no:1,name:'Reading',ar:'القراءة',icon:'book',cvar:'--reading',prog:100,snap:'text in',
+  phases:['Present','Recite','Check','Internalise'], fb:'Not fluent yet? → recite again',
+  desc:"The passage text of 44:1–9, seeded and recitable — the one closed stage. Its feedback (fluency) reopens it every session.",
+  stat:[['9','āyāt'],['✓','seeded']], body:'reading'},
+ {key:'morph',no:2,name:'Morphology & Expression',ar:'الصرف والتعبير',icon:'tree',cvar:'--morph',prog:41,snap:'1/24 built',
+  phases:['Extract','Build','Nuance','Link'], fb:'Missing a sense? → re-open the root',
+  desc:"Build every root across the classical dictionaries, add each nuance, and catch the passage's key expressions — roots, words and expressions share one word-analysis surface.",
+  stat:[['24','roots'],['28','words'],['8','expressions'],['112/276','book passes']], body:'roots'},
+ {key:'ss',no:3,name:'Sentence Structure',ar:'النحو',icon:'graph',cvar:'--ss',prog:16,snap:'12 sentences',
+  phases:['Parse','Tag roles','Single','Weave','Reconnect'], fb:'Thread breaks? → find where it reconnects',
+  desc:"Give every word its role (ṣifa, ḥāl…), then weave the units into one concept — tracking where the discourse skips and reconnects.",
+  stat:[['12','sentences'],['346','tree nodes']], body:'ss'},
+ {key:'struct',no:4,name:'Structures',ar:'بناء المقطع',icon:'blocks',cvar:'--struct',prog:30,snap:'7 units',
+  phases:['Segment','Map','Relate','Pattern'], fb:'Pattern off? → resegment',
+  desc:"Segment the passage, map its structure units and relations, and surface its patterns — symmetry, ring, pivots.",
+  stat:[['7','structure units']], body:'struct'},
+ {key:'tafsir',no:5,name:'Tafsīr Key Points',ar:'التفسير',icon:'bulb',cvar:'--tafsir',prog:22,snap:'143 notes',
+  phases:['Gather','Extract','Classify','Map','Synthesise'], fb:'New key point? → reclassify',
+  desc:"Gather the tafsīr, extract the key points āyah by āyah, and classify them by lens — theology, law, ethics, and more.",
+  stat:[['143','notes'],['8','books'],['8','scholars'],['4','madhabs']], body:'lens'},
+ {key:'srs',no:6,name:'SRS · Memory',ar:'المراجعة',icon:'review',cvar:'--srs',prog:5,snap:'cards due',
+  phases:['Make cards','Recall','Grade','Schedule'], fb:'Forgot it? → it comes back sooner',
+  desc:"Turn the roots and words into spaced-repetition cards — recall, grade, and let the forgetting curve schedule the next review.",
+  stat:[['—','cards yet'],['SRS','from morphology']], body:'srs'},
+ {key:'result',no:7,name:'Understanding',ar:'الفهم',icon:'target',cvar:'--result',prog:5,snap:'the target',
+  phases:['Teach','Film','Sense','Refine'], fb:'What landed with Ali / your kid? → refine the passage',
+  desc:"The result: understanding you can teach and film — the scene with Ali, the lesson with your kid. It feeds all three loops back.",
+  stat:[['5%','built'],['0','scenes']], body:'plain'}
+];
+
+const $=(s,e=document)=>e.querySelector(s);
+const app=$('#app');
+
+/* ---------- HOME page ---------- */
+function homeHTML(){
+  const orb = s=>{
+    const col=cvar(s.cvar); const bg=`radial-gradient(circle at 34% 28%, ${col}, ${shade(col,-40)})`;
+    return `<div class="stage">
+      <div class="orb" data-go="${s.key}" style="background:${bg}; --glowc:${col}66">
+        <span class="num">${s.no}</span>${ic(ICON[s.icon],'#101010')}</div>
+      <div class="snap">${s.name}<span class="a">${s.ar}</span></div>
+      <div class="pbar"><i style="width:${s.prog}%;background:${col}"></i></div></div>`;
+  };
+  // S-shape serpentine: 4 across the top, then the line turns down and 3 flow back right→left
+  const top=STAGES.slice(0,4), bot=STAGES.slice(4).reverse();
+  const sLine=`<svg class="s-line" viewBox="0 0 1000 300" preserveAspectRatio="none"><path d="M 125 52 H 875 C 946 52 946 248 875 248 H 375" fill="none" stroke="var(--gold-d)" stroke-width="2.5" vector-effect="non-scaling-stroke" opacity=".55"/></svg>`;
+  return `<section class="page active" id="page-home">
+    <h1>The Passage — Seven Stages</h1>
+    <p class="sub"><span class="ar">الدخان</span> al-Dukhān 44:1–9 · a linear build that feeds back on itself · live from D1</p>
+    <div class="rail-s">${sLine}
+      <div class="s-row top">${top.map(orb).join('')}</div>
+      <div class="s-row bot">${bot.map(orb).join('')}</div>
+    </div>
+  </section>`;
+}
+
+/* ---------- STAGE body detail ---------- */
+function bodyHTML(s){
+  if(s.body==='reading') return `<div class="clabel">The passage · read it aloud</div>
+    <div class="morphbar"><div class="seg2 sub" id="tashkeelToggle"><button data-tk="on" class="on">Tashkīl</button><button data-tk="off">No tashkīl</button></div></div>
+    <div class="mushaf" id="mushafView"></div>`;
+  if(s.body==='roots') return morphControls();
+  if(s.body==='ss') return `<div class="clabel">Sentence by sentence · 12 sentences · with their clauses</div>` +
+    SS_SENTENCES.map((ss,i)=>{const ay=AYAT_FULL.find(a=>a[0]===ss.ayah), cls=SS_CLAUSES[ss.id]||[];
+      return `<div class="sscard"><div class="ss-head"><span class="ss-no">${i+1}</span><span class="ss-ay">44:${ss.ayah}</span><span class="ss-kind ${ss.kind}">${KIND_LABEL[ss.kind]}</span><span class="ss-role">${ROLE_LABEL[ss.role]||ss.role}</span></div>
+        <div class="ss-ar">${ay?ay[1]:'—'}</div>
+        ${cls.length?`<div class="ss-cl">${cls.map(([ty,fn,gp,ell])=>`<span class="clause ${ty}"><b>${ty}</b> · ${fnLabel(fn)}${gp?` · <span class="ar">${gp}</span>`:''}${ell?' · <i>elided</i>':''}</span>`).join('')}</div>`:''}
+      </div>`;}).join('');
+  if(s.body==='struct') return `<div class="clabel">Structure units · whole sūra · this passage = unit 1</div>` +
+    STRUCT_UNITS.map(u=>`<div class="sscard ${u.i===1?'anchor':''}"><div class="ss-head"><span class="ss-no">${u.i}</span><span class="ss-ay">44:${u.from}–${u.to}</span><span class="ss-role">${prettyRole(u.role)}</span></div><div class="ss-label">${u.label}</div></div>`).join('');
+  if(s.body==='lens'){const L=[['Theology','kalām · ʿaqīda','--tafsir'],['Law','fiqh · aḥkām','--gold-b'],['Ethics','akhlāq','--morph'],['History','sīra · asbāb','--result'],['Sociology','society','--gold'],['Psychology','the self · heart','--ss'],['Worldview','wv covered','--srs'],['Topic','theme flow','--struct']];
+    return `<div class="clabel">Tafsīr gathered · 143 blocks · 8 classical books</div><div class="chips" style="margin-bottom:14px">${TAFSIR_SCHOLARS.map(sc=>`<span class="chip">${sc}</span>`).join('')}</div>
+    <div class="clabel">Key points by lens</div><div class="lens">${L.map(([n,ss,c])=>`<div class="lensc" style="border-left-color:${cvar(c)}"><div class="ln">${n}</div><div class="ls">${ss}</div></div>`).join('')}</div>`;}
+  if(s.body==='srs') return `<div class="clabel">Why it is a feedback loop</div>
+    <div class="fbnote">Spaced repetition <b>is</b> a control loop: grade a card <i>hard</i> and it resurfaces sooner; <i>easy</i> and it spaces out. The cards are fed from the Morphology stage.</div>`;
+  return '';
+}
+function stageHTML(s,i){
+  const col=cvar(s.cvar); const prev=STAGES[i-1], next=STAGES[i+1];
+  const loop=`<div class="loopstrip">${s.phases.map(p=>`<span class="lchip">${p}</span>`).join('<span class="arr">→</span>')}<span class="arr">↺</span><span class="lchip fbk">feedback</span></div>`;
+  return `<section class="page" id="page-${s.key}">
+    <div class="topbar"><button class="backbtn" data-go="home" data-back="1">← All stages</button>
+      <span class="crumb"><span class="ar" style="font-size:15px">الدخان</span> 44:1–9 <b>›</b> Stage ${s.no} of 7</span></div>
+    <div class="stagebody">
+      <div class="dhead">
+        <div class="dorb" style="background:radial-gradient(circle at 34% 28%, ${col}, ${shade(col,-40)})">${ic(ICON[s.icon],'#101010')}</div>
+        <div class="dttl"><div class="k">Stage ${s.no}${s.key==='result'?' · result':''}</div><h2>${s.name} <span class="ar">${s.ar}</span></h2></div>
+        <span class="badge" style="background:${col}">${Math.round(s.prog)}% built</span>
+      </div>
+      <div class="ddesc">${s.desc}</div>
+      <div class="dstat">${s.stat.map(([b,l])=>`<div class="c"><b style="color:${col}">${b}</b><span>${l}</span></div>`).join('')}</div>
+      <div class="clabel" style="margin-bottom:6px">This stage's feedback loop</div>
+      ${loop}
+      <div class="fbnote">↺ <b>Feedback:</b> ${s.fb}</div>
+      ${(s.key!=='srs'&&s.key!=='result')?`<div class="fbnote" style="border-left-color:var(--srs)">↺ <b style="color:var(--srs)">Memory recall:</b> this tier also stocks the <b>SRS</b> deck — every stage feeds spaced-repetition.</div>`:''}
+      ${bodyHTML(s)}
+      <div class="pagenav">
+        <button ${prev?`data-go="${prev.key}" data-back="1"`:'disabled'}>${prev?'← '+prev.no+'. '+prev.name:''}</button>
+        <button ${next?`data-go="${next.key}"`:'disabled'}>${next?next.no+'. '+next.name+' →':''}</button>
+      </div>
+    </div>
+  </section>`;
+}
+
+/* morphology 4-view toggle: Root|Word × Info|Memlets */
+function wc(){return AYAT_BARE.reduce((a,[,t])=>a+t.split(' ').length,0);}
+function morphControls(){
+  return `<div class="morphbar">
+    <div class="seg2" id="morphEntity"><button data-e="root" class="on">Roots · 24</button><button data-e="word">Words · ${WORDS_NV.length}</button><button data-e="expr">Expressions · ${PASSAGE_EXPR.length}</button></div>
+    <div class="seg2 sub" id="morphMode"><button data-m="info" class="on">Info</button><button data-m="memlets" id="mmMemlets">Memlets · 25</button></div>
+  </div><div id="morphView"></div>`;
+}
+const VIEWS={
+ root:{
+  info:()=>`<div class="clabel">All 24 roots · tap a card for its Info &amp; Memlet</div><div class="rootgrid">${ROOTS.map(([a,d,t,st])=>{const pc=Math.round(d/t*100);const lab=st==='done'?'done':st==='active'?'active':'queued';return `<div class="rcard ${st} clickable" data-root="${a}"><div class="rst">${lab}</div><div class="rar">${a}</div><div class="rbk">${d} / ${t} books · ${pc}%</div><div class="rb"><i style="width:${pc}%;background:${st==='done'?cvar('--morph'):st==='active'?cvar('--gold-b'):cvar('--gold-d')}"></i></div></div>`;}).join('')}</div>`,
+  memlets:()=>`<div class="clabel">Root memlets · 25 memlets · 14 kinds · tap to open</div><div class="rootgrid">${ROOTS.map(([a])=>`<div class="mlcard clickable" data-root="${a}" data-tab="memlet"><div class="r">${a}</div><div class="h">${ROOT_HOOKS[a]||'—'}</div><div class="k">memory hook →</div></div>`).join('')}</div>`
+ },
+ word:{
+  info:()=>`<div class="clabel">Words · nouns &amp; verbs only · tap for the word memlet</div><div class="rootgrid">${WORDS_NV.map(({w,t,root,g})=>`<div class="rcard ${t} clickable" data-root="${root}" data-word="${w}" data-tab="word"><div class="rst">${t}</div><div class="rar">${w}</div><div class="rbk">${g}</div><div class="rbk" style="color:var(--gold-d)">${g} →</div></div>`).join('')}</div>`,
+  memlets:()=>`<div class="clabel">Word memlets · tap to open</div><div class="rootgrid">${WORD_MEMLETS.map(m=>`<div class="mlcard clickable" data-root="${m.root}" data-word="${m.word}" data-tab="word"><div class="r">${m.word}</div><div class="h">${m.hook}</div><div class="k">${m.word} →</div></div>`).join('')}</div>`
+ },
+ expr:{
+  info:()=>exprView(),
+  memlets:()=>exprView()
+ }
+};
+let morphState={e:'root',m:'info'}, morphRoot=null, morphRootTab='info', morphWord=null;
+/* EXPRESSIONS view — verbal idioms (D1, global, deduped) + balāghah figures + lexicon coverage */
+function exprView(){
+  const idiomCards=Object.keys(EXPR_IDIOMS).map(root=>EXPR_IDIOMS[root].map(x=>
+    `<div class="excard idiom${x.passage?' inpassage':''}"><div class="ex-h"><span class="ex-dev">verbal idiom <span class="ar">${root}</span></span><span class="ex-ref">${x.occ}×</span></div><div class="ex-ar ar">${x.x}</div><div class="ex-g">${x.en}</div>${x.note?`<div class="ex-depth">${x.passage?'<span class="in-tag">in al-Dukhān</span> ':''}${x.note}</div>`:''}<div class="ex-src"><span class="src">ar_ling_expressions · Sinai/Islāhī</span> · ${x.refs}</div></div>`
+  ).join('')).join('');
+  const balCards=PASSAGE_EXPR.map(e=>`<div class="excard"><div class="ex-h"><span class="ex-dev">${e.dev} <span class="ar">${e.dev_ar}</span></span><span class="ex-ref">${e.ref}</span></div><div class="ex-ar ar">${e.x}</div><div class="ex-g">${e.g}</div><div class="ex-depth">${e.depth}</div><div class="ex-src"><span class="src">${e.src}</span> · root <span class="ar">${e.root}</span></div></div>`).join('');
+  const lexRows=Object.keys(LEX_COVER).map(r=>`<div class="lxrow"><span class="lx-r ar">${r}</span><span class="lx-bar"><i style="width:${(LEX_COVER[r]/12*100).toFixed(0)}%"></i></span><span class="lx-n">${LEX_COVER[r]}<em>/12</em></span></div>`).join('');
+  return `<div class="rinfo">
+    <div class="ri-act"><span class="act-k">A</span><span class="act-t">Verbal idioms · global scope, deduped from D1</span></div>
+    <div class="ri-note">Every distinct <b>live</b> idiom for the passage roots, pulled corpus-wide from <span class="src">ar_ling_expressions</span> and shown once with its total occurrences — the Sinai / Islāhī reading. Those attested in al-Dukhān are flagged.</div>
+    <div class="exprgrid">${idiomCards}</div>
+    <div class="ri-act"><span class="act-k">B</span><span class="act-t">Balāghah figures in the passage · 44:1–9</span></div>
+    <div class="exprgrid">${balCards}</div>
+    <div class="ri-act"><span class="act-k">C</span><span class="act-t">Lexicon coverage · classical sources per root</span></div>
+    <section class="ri-sec"><header class="ri-sec-h"><span class="ri-sec-t">Distinct dictionaries backing each root</span><span class="src">ar_ling_lexicon_root_entries</span></header>
+      <div class="lxgrid">${lexRows}</div>
+      <div class="lxsrc">${LEX_SOURCES.map(s=>`<span class="wtag">${s}</span>`).join('')}</div>
+    </section>
+  </div>`;
+}
+function rootExample(a){const w=WORDS_NV.find(x=>x.root===a); return w?`<span class="ar">${w.w}</span> — ${w.g}`:'—';}
+function constellation(center, syn, ant){
+  const W=320,H=210,cx=W/2,cy=H/2;
+  const place=(arr,a0,a1,r,cls)=>arr.map((w,i)=>{const t=arr.length===1?(a0+a1)/2:a0+(a1-a0)*i/(arr.length-1);const rad=t*Math.PI/180;return {w,x:cx+r*Math.cos(rad),y:cy+r*Math.sin(rad),cls};});
+  const nodes=[...place(syn,-158,-22,80,'simi'),...place(ant,22,158,94,'oppo')];
+  const lines=nodes.map(n=>`<line x1="${cx}" y1="${cy}" x2="${n.x.toFixed(0)}" y2="${n.y.toFixed(0)}" stroke="${n.cls==='simi'?'rgba(77,217,168,.35)':'rgba(241,89,31,.35)'}" stroke-width="1"/>`).join('');
+  const dots=nodes.map(n=>{const anchor=n.x<cx?'end':'start',lx=n.x+(n.x<cx?-8:8);return `<circle cx="${n.x.toFixed(0)}" cy="${n.y.toFixed(0)}" r="4" fill="${n.cls==='simi'?'var(--morph)':'var(--result)'}"/><text x="${lx.toFixed(0)}" y="${(n.y+5).toFixed(0)}" text-anchor="${anchor}" font-family="var(--ar)" font-size="15" fill="${n.cls==='simi'?'#bff0df':'#f0b09f'}">${n.w}</text>`;}).join('');
+  return `<svg class="constel" viewBox="0 0 ${W} ${H}"><circle cx="${cx}" cy="${cy}" r="80" fill="none" stroke="rgba(255,255,255,.05)"/><circle cx="${cx}" cy="${cy}" r="46" fill="rgba(201,168,76,.05)" stroke="rgba(255,255,255,.05)"/>${lines}${dots}<text x="${cx}" y="${cy+9}" text-anchor="middle" font-family="var(--ar)" font-size="28" font-weight="700" fill="var(--gold-b)">${center}</text></svg>`;
+}
+const ARLET='ابتثجحخدذرزسشصضطظعغفقكلمنهوي';
+function _shuf(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function _pick(arr,n){const p=arr.slice(),o=[];while(o.length<n&&p.length){o.push(p.splice(Math.floor(Math.random()*p.length),1)[0]);}return o;}
+function _scramble(root){const arr=[...root];if(arr.length>=2&&Math.random()<0.5){const i=Math.floor(Math.random()*arr.length);let j=Math.floor(Math.random()*arr.length);while(j===i)j=Math.floor(Math.random()*arr.length);[arr[i],arr[j]]=[arr[j],arr[i]];}else{const i=Math.floor(Math.random()*arr.length);let c=ARLET[Math.floor(Math.random()*ARLET.length)];while(c===arr[i])c=ARLET[Math.floor(Math.random()*ARLET.length)];arr[i]=c;}return arr.join('');}
+function genQuiz(a,type){
+  const core=ROOT_HOOKS[a]||'',I=INGREDIENTS[a],X=MEMLET_EXTRA[a]||{},allR=ROOTS.map(r=>r[0]).filter(r=>r!==a); let q,opts;
+  if(type==='meaning'){q=`What does <span class="ar">${a}</span> convey?`;const ds=_pick(allR,2).map(r=>({t:ROOT_HOOKS[r],ok:0}));opts=_shuf([{t:core,ok:1},...ds]);}
+  else if(type==='reverse'){q=`Which root means “<b>${core}</b>”?`;const ds=_pick(allR,2).map(r=>({t:r,ok:0,ar:1}));opts=_shuf([{t:a,ok:1,ar:1},...ds]);}
+  else if(type==='pattern'){q=`In <span class="ar">${I.word}</span>, the pattern <span class="ar">${I.patt}</span> adds:`;const others=Object.values(INGREDIENTS).map(x=>x.pattM).filter(p=>p!==I.pattM);const ds=_pick(others,2).map(d=>({t:d,ok:0}));opts=_shuf([{t:I.pattM,ok:1},...ds]);}
+  else if(type==='usage'){q=`In the passage, <span class="ar">${I.word}</span> means:`;const ds=_pick(allR,2).map(r=>({t:ROOT_HOOKS[r],ok:0}));opts=_shuf([{t:I.wordM,ok:1},...ds]);}
+  else{const s=X.syn[Math.floor(Math.random()*X.syn.length)];q=`Which is closest in meaning to <span class="ar">${a}</span>?`;const dpool=[...(X.ant||[]),..._pick(allR,3)];const ds=_pick(dpool,2).map(d=>({t:d,ok:0,ar:1}));opts=_shuf([{t:s,ok:1,ar:1},...ds]);}
+  opts.push({t:"I'm not sure",ok:0,unsure:1});
+  return {q,opts};
+}
+function spellHTML(a){
+  const letters=[...a], distract=_pick(ARLET.split('').filter(l=>!letters.includes(l)),2), tiles=_shuf([...letters,...distract]);
+  return `<div class="q">Spell the root — <b>${ROOT_HOOKS[a]||''}</b>. Tap the letters in order; say it aloud too.</div>
+    <div class="spell" data-answer="${a}"><div class="slots">${letters.map(()=>`<span class="slot"></span>`).join('')}</div>
+    <div class="tiles">${tiles.map(l=>`<button class="tile" data-l="${l}">${l}</button>`).join('')}</div>
+    <div class="spell-msg"></div><button class="newq" data-clear="1">clear</button></div>`;
+}
+function quizHTML(a){
+  const X=MEMLET_EXTRA[a]||{}, types=['meaning','reverse','spell']; if(INGREDIENTS[a])types.push('pattern','usage'); if(X.syn&&X.syn.length)types.push('synonym');
+  const type=types[Math.floor(Math.random()*types.length)];
+  if(type==='spell') return spellHTML(a);
+  const qz=genQuiz(a,type); return `<div class="q">${qz.q}</div><div class="opts">${qz.opts.map(o=>`<div class="opt${o.unsure?' unsure':''}" data-ok="${o.ok}">${o.ar?`<span class="ar">${o.t}</span>`:o.t}</div>`).join('')}</div>`;
+}
+/* FAMILY QUIZ — generated across the root's real D1 data: senses · attested forms · verb government · constellation.
+   (D1 also holds a curated bank in ar_ling_question_items — currently seeded for نذر.) */
+function familyQuizHTML(root){
+  const G=GOVERNMENT[root], QF=QURAN_FORMS[root]||[], R=ROOT_INFO[root];
+  const senses = R ? R.senses.rows.map(r=>({core:r[0],en:r[2]})) : (LEX_SENSES[root]||[]).map(r=>({core:r[0],en:r[1]}));
+  const idioms=EXPR_IDIOMS[root]||[], lexS=LEX_SENSES[root]||[];
+  const types=[];
+  if(G&&G.rows.length) types.push('gov');
+  if(QF.length>=3) types.push('freq');
+  if(senses.length>=3) types.push('sense');
+  if(R&&R.constellation) types.push('constel');
+  if(idioms.length) types.push('idiom');       // build from D1 verbal idioms
+  if(lexS.length) types.push('lexicon');        // build from D1 lexicon senses
+  if(!types.length) return quizHTML(root);
+  const type=types[Math.floor(Math.random()*types.length)];
+  let q,opts,tag;
+  if(type==='gov'){ tag='government';
+    const row=_pick(G.rows,1)[0], correct=(TR_LABEL[row[2]]||TR_LABEL.intransitive)[0];
+    const pool=['لازم','متعدٍّ','ذو وجهين','بمفعولين','مبني للمجهول'].filter(x=>x!==correct);
+    opts=_shuf([{t:correct,ok:1,ar:1},..._pick(pool,2).map(t=>({t,ok:0,ar:1}))]);
+    q=`Form ${row[0]} · <span class="ar">${row[1]}</span> — its government is:`;
+  } else if(type==='freq'){ tag='forms';
+    const sorted=[...QF].sort((x,y)=>y[2]-x[2]), top=sorted[0];
+    opts=_shuf([{t:top[0],ok:1,ar:1},..._pick(sorted.slice(1),2).map(d=>({t:d[0],ok:0,ar:1}))]);
+    q=`Which form of <span class="ar">${root}</span> occurs most in the Qurʾān?`;
+  } else if(type==='sense'){ tag='senses';
+    const core=senses.find(s=>s.core)||senses[0], others=senses.filter(s=>s!==core);
+    opts=_shuf([{t:core.en,ok:1},..._pick(others,2).map(s=>({t:s.en,ok:0}))]);
+    q=`Which is the <b>core</b> sense of <span class="ar">${root}</span>?`;
+  } else if(type==='constel'){ tag='constellation';
+    const fam=R.constellation.family.concat(R.constellation.near_syn), near=_pick(fam,1)[0];
+    const opp=R.related?R.related.pair[1]:'—', other=_pick(ROOTS.map(r=>r[0]).filter(r=>r!==root),1)[0];
+    opts=_shuf([{t:near,ok:1,ar:1},{t:opp,ok:0,ar:1},{t:other,ok:0,ar:1}]);
+    q=`Which word belongs to the <span class="ar">${root}</span> constellation?`;
+  } else if(type==='idiom'){ tag='verbal idiom';
+    const it=_pick(idioms,1)[0];
+    const pool=Object.keys(EXPR_IDIOMS).filter(r=>r!==root).flatMap(r=>EXPR_IDIOMS[r]).map(x=>x.en);
+    opts=_shuf([{t:it.en,ok:1},..._pick(pool,2).map(t=>({t,ok:0}))]);
+    q=`The verbal idiom <span class="ar">${it.x}</span> (${it.occ}× in the Qurʾān) means:`;
+  } else { tag='lexicon';
+    const s=_pick(lexS,1)[0];
+    const pool=Object.keys(LEX_SENSES).filter(r=>r!==root).flatMap(r=>LEX_SENSES[r]).map(x=>x[1]);
+    opts=_shuf([{t:s[1],ok:1},..._pick(pool,2).map(t=>({t,ok:0}))]);
+    q=`Which sense do the classical lexica record for <span class="ar">${root}</span>?`;
+  }
+  opts.push({t:"I'm not sure",ok:0,unsure:1});
+  return `<div class="fq-tag">${tag}</div><div class="q">${q}</div><div class="opts">${opts.map(o=>`<div class="opt${o.unsure?' unsure':''}" data-ok="${o.ok}">${o.ar?`<span class="ar">${o.t}</span>`:o.t}</div>`).join('')}</div>`;
+}
+function renderRootDetail(){
+  const a=morphRoot, row=ROOTS.find(r=>r[0]===a)||[a,0,11,'q'], d=row[1], t=row[2], status=row[3];
+  const pc=t?Math.round(d/t*100):0, built=status==='done'?7:Math.max(2,Math.round(pc/100*7));
+  const info=renderRootInfo(a);
+  const M=ROOT_MEMLET[a]||{img:'✳️',mn:ROOT_HOOKS[a]||'',forms:''};
+  const X=MEMLET_EXTRA[a]||{pron:'',syn:[],ant:[],var:[]}, I=INGREDIENTS[a];
+  const others=ROOTS.map(r=>r[0]).filter(x=>x!==a), correct=ROOT_HOOKS[a]||'';
+  const dA=ROOT_HOOKS[others[(built+5)%others.length]]||'—', dB=ROOT_HOOKS[others[(built+11)%others.length]]||'—';
+  const optArr=[[correct,1],[dA,0],[dB,0]], rot=built%3, opts=optArr.slice(rot).concat(optArr.slice(0,rot));
+  const exs=WORDS_NV.filter(w=>w.root===a);
+  const QF=QURAN_FORMS[a]||[];
+  const quranHTML=QF.length?`<div class="mlsec"><div class="h">④ In the Qurʾān · every attested form <span class="src">from D1 · km_quran.qr_lemmas</span></div><div class="qforms">${QF.map(([lem,wz,ct])=>`<div class="qform"><span class="qf-w ar">${lem}</span><span class="qf-p ar">${wz}</span><span class="qf-c">${ct}×</span></div>`).join('')}</div></div>`:'';
+  const LX=LEX_SENSES[a]||[];
+  const lexHTML=LX.length?`<div class="mlsec"><div class="h">⑤ Lexicon · unique senses <span class="src">from D1 · ar_ling_root_senses</span></div><div class="senses">${LX.map(([core,en,ar])=>`<div class="sense${core?' core':''}">${core?'<span class="core-tag">core</span>':''}<div class="s-ar ar">${ar}</div><div class="s-en">${en}</div></div>`).join('')}</div></div>`:'';
+  const S=SARF[a];
+  const sarfHTML=S?`<div class="mlsec"><div class="h">② Ṣarf ṣaghīr · small paradigm${S.f&&S.f!=='—'?' · form '+S.f:''}</div>${S.noun?`<div class="ingr-mean">Primarily a noun — <span class="ar">${S.masdar}</span> — no full verbal paradigm.</div>`:`<div class="sarf">${[['الماضي','past',S.madi],['المضارع','present',S.mud],['الأمر','command',S.amr],['المصدر','maṣdar',S.masdar],['اسم الفاعل','act. part.',S.fail],['اسم المفعول','pass. part.',S.maful]].map(([ar,en,v])=>`<div class="sarfc"><div class="sl"><span class="ar">${ar}</span> · ${en}</div><div class="sv">${v||'—'}</div></div>`).join('')}</div>`}</div>`:'';
+  const memlet=`<div class="memlet-wrap">
+    <div class="ml-top"><span class="ml-root">${a}</span><div class="ml-id"><div class="ml-pron">Trilateral root · ${X.pron}</div><div class="ml-core">${correct}</div></div><div class="ml-img">${M.img}</div></div>
+    <div class="mlsec"><div class="h">① Word ingredients · root + pattern</div>
+      ${I?`<div class="ingr-row"><span class="ingr-chip"><span class="ar">${[...a].join(' ')}</span><span class="tag">root</span></span><span class="arrow">→</span><span class="ingr-mean">${I.rootM}</span></div>
+      <div class="ingr-row"><span class="ingr-chip"><span class="ar">${I.patt}</span><span class="tag">pattern</span></span><span class="arrow">→</span><span class="ingr-mean">${I.pattM}</span></div>
+      <div class="ingr-syn"><span class="ar">${I.word}</span> = ${I.wordM}</div>`:`<div class="ingr-mean">${correct}</div>`}
+    </div>
+    ${sarfHTML}
+    <div class="mlsec"><div class="h">③ Memory hook</div><div class="hook"><div class="hk-art">${M.img}</div><div class="hk-mn">${M.mn}</div></div></div>
+    ${quranHTML}
+    ${lexHTML}
+    <div class="mlsec"><div class="h">⑥ Word constellation</div><div class="constel-wrap">${constellation(a, X.syn||[], X.ant||[])}</div></div>
+    <div class="mlsec"><div class="h">⑦ Related words</div><div class="rel">
+      <div class="col"><div class="lab simi">▍ Similar sense</div><div class="rchips">${(X.syn||[]).map(s=>`<span class="rchip"><span class="ar">${s}</span></span>`).join('')||'—'}</div></div>
+      <div class="col"><div class="lab oppo">▍ Opposite sense</div><div class="rchips">${(X.ant||[]).map(s=>`<span class="rchip oppo"><span class="ar">${s}</span></span>`).join('')||'—'}</div></div>
+    </div></div>
+    ${X.var&&X.var.length?`<div class="mlsec"><div class="h">⑧ Word variants</div><div class="varlist">${X.var.map(([vw,vg])=>`<div class="varc"><div class="vw">${vw}</div><div class="vg">→ ${vg}</div></div>`).join('')}</div></div>`:''}
+    <div class="mlsec quiz"><div class="h">⑨ Family quiz — senses · forms · government · constellation <button class="newq next" data-fq="1">Next ▶</button></div><div id="famQuizBox">${familyQuizHTML(a)}</div><div class="wrongbar" id="wrongBar">${wrongBarHTML()}</div></div>
+  </div>`;
+  // entity-scoped: a WORD context (clicked a word) vs a ROOT context.
+  const isWord = !!morphWord;
+  const wnv = isWord ? (WORDS_NV.find(x=>x.w===morphWord)||WORD_MEMLETS.find(m=>m.word===morphWord)||{}) : {};
+  const headAr = isWord ? morphWord : a;
+  const headSub = isWord ? `${wnv.g||wnv.gloss||''} · root <span class="ar">${a}</span>` : `${d} / ${t} books · ${pc}% · ${status==='done'?'complete':status==='active'?'in build':'queued'}`;
+  const labInfo = isWord ? '◆ Word info' : '◆ Root information';
+  const labMem  = isWord ? '◈ Word memlets' : '◈ Root memlets';
+  // body = Info (pure information, never the memlet) vs Memlets (the projection)
+  let body;
+  if(isWord){ body = morphRootTab==='info' ? renderWordInfo(a, morphWord, wnv) : (WORD_INFO[a] ? renderWordMemlet(a) : renderWordMemletFallback(a, morphWord, wnv)); }
+  else { body = morphRootTab==='info' ? info : memlet; }
+  return `<button class="backbtn" data-rootback="1" style="margin-bottom:12px">← Back</button>
+    <div class="rootdetail-head"><div class="rd-root">${headAr}</div><div><div class="rd-meta">${headSub}</div><div class="clabel" style="margin:5px 0 0">${isWord?'Word — info & memlets':'Root — info & memlets'}</div></div></div>
+    <div class="seg2 sub" style="margin:8px 0 14px"><button data-rt="info" class="${morphRootTab==='info'?'on':''}">${labInfo}</button><button data-rt="memlet" class="${morphRootTab==='memlet'?'on':''}">${labMem}</button></div>
+    ${body}`;
+}
+
+const _wsec=(t,src,inner)=>`<section class="ri-sec"><header class="ri-sec-h"><span class="ri-sec-t">${t}</span>${src?`<span class="src">${src}</span>`:''}</header>${inner}</section>`;
+const _wact=(k,t)=>`<div class="ri-act"><span class="act-k">${k}</span><span class="act-t">${t}</span></div>`;
+function wordHero(o){return `<div class="ri-hero word">
+    <div class="wh-top"><span class="wh-word ar">${o.word}</span><div class="wh-id">${o.translit?`<span class="wh-tr">${o.translit}</span>`:''}${o.pos?`<span class="wh-pos">${o.pos}</span>`:''}</div></div>
+    ${(o.form||o.wazn||o.occ||o.derived)?`<div class="wh-morph">${o.form?`<span class="wh-tag">Form ${o.form}</span>`:''}${o.wazn?`<span class="wh-tag ar">${o.wazn}</span>`:''}${o.derived?`<span class="wh-tag">${o.derived}</span>`:''}${o.occ?`<span class="wh-tag">${o.occ}× in Qurʾān</span>`:''}</div>`:''}
+    ${o.gloss?`<div class="ri-head">${o.gloss}</div>`:''}
+  </div>`;}
+
+/* WORD INFO — pure information about the WORD (no memlet). ar_ling_syn_lemma + ar_ling_syn_sense */
+function renderWordInfo(a, word, wnv){
+  const W=WORD_INFO[a]; wnv=wnv||{};
+  if(!W){
+    const LX=LEX_SENSES[a]||[], QF=QURAN_FORMS[a]||[];
+    return `<div class="rinfo wordmemlet">${wordHero({word:word||a, gloss:(wnv.g||wnv.gloss||''), pos:wnv.t||''})}
+      <div class="ri-note">The full word-level projection is built for <span class="ar">مُبِين</span>. This lemma’s dedicated page is pending — showing what is attested for its root <span class="ar">${a}</span>. <span class="src">ar_ling_syn_lemma</span></div>
+      ${LX.length?_wsec('Dictionary — senses of the root','ar_ling_root_senses',`<div class="senses">${LX.map(([core,en,ar])=>`<div class="sense${core?' core':''}">${core?'<span class="core-tag">core</span>':''}<div class="s-ar ar">${ar}</div><div class="s-en">${en}</div></div>`).join('')}</div>`):''}
+      ${QF.length?_wsec('Family — attested forms','km_quran.qr_lemmas',`<div class="qforms">${QF.map(([l,w,c])=>`<div class="qform"><span class="qf-w ar">${l}</span><span class="qf-p ar">${w}</span><span class="qf-c">${c}×</span></div>`).join('')}</div>`):''}</div>`;
+  }
+  const chip=(ar,en,cls='')=>`<div class="wsyn ${cls}"><span class="ws-ar ar">${ar}</span><span class="ws-en">${en}</span></div>`;
+  const dHTML=`<div class="wdict"><div class="wd-line"><span class="wd-ar ar">${W.gloss_ar}</span></div><div class="wd-sense"><span class="s-key">${W.dict.core?'core sense · ':''}${W.sense}</span><span class="wd-ar2 ar">${W.dict.ar}</span><span class="wd-en">${W.dict.en}</span></div><div class="wd-note">${W.dict.note}</div></div>`;
+  const famHTML=`<p class="ri-story">${W.family.note}</p><div class="ffbars" style="margin-top:11px">${(()=>{const mx=Math.max.apply(null,W.family.siblings.map(s=>s[2]));return W.family.siblings.map(([w,g,c])=>`<div class="ffrow"><span class="ff-w ar">${w}</span><span class="ff-bar"><i style="width:${(c/mx*100).toFixed(0)}%"></i></span><span class="ff-g">${g}</span><span class="ff-c">${c}<em>×</em></span></div>`).join('');})()}</div>`;
+  const synHTML=`<div class="wsyn-grid"><div class="wsyn-col"><div class="cg-lab simi">Near sense · D1</div>${W.nearSyn.d1.map(([ar,en])=>chip(ar,en)).join('')}</div><div class="wsyn-col"><div class="cg-lab simi">Near sense · lexical</div>${W.nearSyn.lex.map(([ar,en])=>chip(ar,en,'lex')).join('')}</div></div>`;
+  const oppHTML=`<div class="wsyn-grid"><div class="wsyn-col"><div class="cg-lab oppo">Opposite · D1 aḍdād</div>${W.opposite.d1.map(([ar,en])=>chip(ar,en,'opp')).join('')}</div><div class="wsyn-col"><div class="cg-lab oppo">Opposite · lexical</div>${W.opposite.lex.map(([ar,en])=>chip(ar,en,'opp')).join('')}</div></div>`;
+  const colHTML=W.collocations.rows.map(([ar,en])=>`<div class="wcol"><span class="wcol-ar ar">${ar}</span><span class="wcol-en">${en}</span></div>`).join('');
+  return `<div class="rinfo wordmemlet">${wordHero(W)}
+    ${_wact('I','Meaning · dictionary level')}
+    ${_wsec('Dictionary entry — lemma sense','ar_ling_syn_sense · clarity', dHTML)}
+    ${_wact('II','Where it sits among words')}
+    ${_wsec('Which family it comes from','ar_ling_syn_lemma · بين', famHTML)}
+    ${_wsec('Near-synonyms of the word','ar_ling_syn_lemma + lexical', synHTML)}
+    ${_wsec('Opposites','ar_ling_root_antonyms + lexical', oppHTML)}
+    ${_wact('III','How it combines')}
+    ${_wsec('Collocations','ar_ling_near_synonym_sets', `<div class="wcols">${colHTML}</div>`)}
+  </div>`;
+}
+
+/* WORD MEMLET — the memory/interactive projection of the WORD. ar_ling_memlets(scope='lemma') */
+function renderWordMemlet(a){
+  const W=WORD_INFO[a];
+  const WS=W.wordsum;
+  const wsHTML=`<div class="wsum"><span class="wsum-part ar">${WS.root}</span><span class="wsum-op">+</span><span class="wsum-part ar">${WS.pattern}</span><span class="wsum-op">→</span><span class="wsum-raw ar">${WS.raw}</span><span class="wsum-op">→</span><span class="wsum-out ar">${WS.surface}</span></div><p class="ri-story" style="margin-top:10px">${WS.line}</p><div class="wsum-ilal"><span class="il-lab">iʿlāl</span> ${WS.ilal}</div><footer class="ri-foot"><span class="ri-anchor">authority · ${WS.authority}</span></footer>`;
+  const ir=W.irab, irHTML=`<div class="wirab"><div class="wirab-ay"><span class="ri-ref">${ir.ayah}</span><span class="ar">${ir.text}</span></div><p class="ri-story">${ir.parse}</p><footer class="ri-foot"><span class="ri-anchor">authority · ${ir.authority} · context-level example</span></footer></div>`;
+  const clHTML=`<div class="wcols">${W.cloze.items.map(([ref,txt,ans])=>`<div class="wcol"><span class="ri-ref">${ref}</span><span class="wcol-ar ar">${txt}</span><span class="wcol-en">= ${ans}</span></div>`).join('')}</div>`;
+  return `<div class="rinfo wordmemlet">${wordHero(W)}
+    ${_wact('I','Build the form')}
+    ${_wsec('Word sum — how the form is built','ar_ling_memlets · word_sum + wazn_operation', wsHTML)}
+    ${_wact('II','See it whole')}
+    ${_wsec('Word constellation','projected · centred on the word', `<div class="constel-wrap">${wordConstellation(W)}</div>`)}
+    ${_wsec('Iʿrāb — a usage example','ar_ling_memlets · irab', irHTML)}
+    ${_wsec('Cloze recall','ar_ling_memlets · context', clHTML)}
+    ${_wact('III','Recall')}
+    ${_wsec('Quick check — same word, new question','quiz · wrong picks saved for review', `<div class="quiz"><div class="h" style="border:0;justify-content:flex-end;display:flex"><button class="newq next" data-newq="1">Next ▶</button></div><div id="quizBox">${quizHTML(a)}</div><div class="wrongbar" id="wrongBar">${wrongBarHTML()}</div></div>`)}
+  </div>`;
+}
+function renderWordMemletFallback(a, word, wnv){wnv=wnv||{};
+  return `<div class="rinfo wordmemlet">${wordHero({word:word||a, gloss:(wnv.g||wnv.gloss||''), pos:wnv.t||''})}
+    <div class="ri-note">The word memlet (word sum, constellation, cloze, quiz) is fully built for <span class="ar">مُبِين</span>; this lemma is pending. <span class="src">ar_ling_memlets(scope='lemma')</span></div>
+    ${_wsec('Quick check','quiz · wrong picks saved for review', `<div class="quiz"><div class="h" style="border:0;justify-content:flex-end;display:flex"><button class="newq next" data-newq="1">Next ▶</button></div><div id="quizBox">${quizHTML(a)}</div><div class="wrongbar" id="wrongBar">${wrongBarHTML()}</div></div>`)}
+  </div>`;
+}
+function wrongBarHTML(){return WRONG_LOG.length?`<span class="wrong-k">⚑ ${WRONG_LOG.length} marked wrong → review</span> <span class="src">saved to review queue</span>`:`<span class="wrong-ok">no misses yet — wrong picks are logged for review</span>`;}
+/* word-centred constellation: the WORD at centre, near-syn (green) above, opposites (ember) below */
+function wordConstellation(W){
+  const cx=190,cy=150,near=W.nearSyn.d1.concat(W.nearSyn.lex).slice(0,5), opp=W.opposite.lex.slice(0,4);
+  let s=`<svg class="constel" viewBox="0 0 380 300">`;
+  s+=`<circle cx="${cx}" cy="${cy}" r="120" fill="none" stroke="rgba(255,255,255,.05)"/><circle cx="${cx}" cy="${cy}" r="72" fill="rgba(201,168,76,.05)" stroke="rgba(255,255,255,.05)"/>`;
+  near.forEach((n,i)=>{const ang=Math.PI*(0.72+ (i/(near.length-1||1))*(0.86-0.14) - 0.72)-Math.PI; const a2=Math.PI+(-0.7)+ (i/(Math.max(1,near.length-1)))*(1.4); const x=cx+Math.cos(a2)*120, y=cy+Math.sin(a2)*95 - 40;
+    s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(77,217,168,.4)"/><circle cx="${x}" cy="${y}" r="4" fill="#4dd9a8"/><text x="${x}" y="${y-9}" fill="#cfe8dd" font-size="13" text-anchor="middle" font-family="'Amiri',serif">${n[0]}</text>`;});
+  opp.forEach((n,i)=>{const a2=(-0.5)+ (i/(Math.max(1,opp.length-1)))*(1.0); const x=cx+Math.cos(a2)*120, y=cy+Math.sin(a2)*90 + 55;
+    s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(241,89,31,.4)"/><circle cx="${x}" cy="${y}" r="4" fill="#f1591f"/><text x="${x}" y="${y+18}" fill="#f0b49a" font-size="13" text-anchor="middle" font-family="'Amiri',serif">${n[0]}</text>`;});
+  s+=`<text x="${cx}" y="${cy+9}" fill="#e8c96a" font-size="30" text-anchor="middle" font-family="'Amiri',serif">${W.word}</text></svg>`;
+  return s;
+}
+
+/* Verb government table — real D1 rows (one per construction), keyed by root. */
+const TR_LABEL={transitive:['متعدٍّ','transitive','t'],intransitive:['لازم','intransitive','i'],both:['ذو وجهين','both','b'],ditrans:['بمفعولين','ditransitive','d'],passive:['مبني للمجهول','passive','p']};
+function governmentHTML(a){
+  const G=GOVERNMENT[a]; if(!G) return '';
+  const rows=G.rows.map(([f,v,tr,route,en,ref])=>{const L=TR_LABEL[tr]||TR_LABEL.intransitive;return `<div class="govrow"><span class="gv-f">${f}</span><span class="gv-v ar">${v}</span><span class="gv-tr ${L[2]}">${L[0]}<em>${L[1]}</em></span><span class="gv-route ar">${route}</span><span class="gv-en">${en}</span><span class="gv-ref">${ref}</span></div>`;}).join('');
+  return `<div class="ri-gov-sum">${G.summary}</div><div class="govtable">${rows}</div>${G.note?`<footer class="ri-foot"><span class="ri-anchor">${G.note}</span></footer>`:''}`;
+}
+/* ROOT INFORMATION MEMLET — projects the already-built root-scope D1 rows for the root. */
+function renderRootInfo(a){
+  const R=ROOT_INFO[a];
+  const QF=QURAN_FORMS[a]||[];
+  if(!R){
+    // graceful fallback for roots not yet projected in D1
+    const LX=LEX_SENSES[a]||[]; const gv=governmentHTML(a);
+    return `<div class="rinfo"><div class="ri-note">Root-scope memlets for <span class="ar">${a}</span> are not yet projected in D1 — showing what is attested. <span class="src">pipeline proven on بين · نذر</span></div>
+    ${QF.length?`<div class="mlsec"><div class="h">Form family <span class="src">km_quran.qr_lemmas</span></div><div class="qforms">${QF.map(([l,w,c])=>`<div class="qform"><span class="qf-w ar">${l}</span><span class="qf-p ar">${w}</span><span class="qf-c">${c}×</span></div>`).join('')}</div></div>`:''}
+    ${LX.length?`<div class="mlsec"><div class="h">Unique senses <span class="src">ar_ling_root_senses</span></div><div class="senses">${LX.map(([core,en,ar])=>`<div class="sense${core?' core':''}">${core?'<span class="core-tag">core</span>':''}<div class="s-ar ar">${ar}</div><div class="s-en">${en}</div></div>`).join('')}</div></div>`:''}
+    ${gv?`<div class="mlsec"><div class="h">Verb government · transitivity &amp; ḥarf <span class="src">ar_ling_verb_government</span></div>${gv}</div>`:''}</div>`;
+  }
+  const D=R.dna;
+  // helpers — a section card + an act divider (narrative arc: Pyramid lead → segmented acts)
+  const sec=(t,src,inner)=>`<section class="ri-sec"><header class="ri-sec-h"><span class="ri-sec-t">${t}</span>${src?`<span class="src">${src}</span>`:''}</header>${inner}</section>`;
+  const act=(k,t)=>`<div class="ri-act"><span class="act-k">${k}</span><span class="act-t">${t}</span></div>`;
+  // shaped data ----------------------------------------------------------
+  const poleAxis=`<div class="ri-axis"><span class="ax-pole"><span class="ar">${D.poles[0][0]}</span><span class="ax-en">${D.poles[0][1]}</span></span><span class="ax-track"></span><span class="ax-pole r"><span class="ar">${D.poles[1][0]}</span><span class="ax-en">${D.poles[1][1]}</span></span></div>`;
+  const axHTML=`<div class="axes">${R.axes.rows.map(([k,w])=>`<div class="axrow"><span class="axk">${k}</span><span class="axbar"><i style="width:${(w/3*100).toFixed(0)}%"></i></span><span class="axv">${w}<em>/3</em></span></div>`).join('')}</div>`;
+  const senseHTML=`<div class="senses">${R.senses.rows.map(([core,key,en,ar])=>`<div class="sense${core?' core':''}">${core?'<span class="core-tag">core</span>':''}<div class="s-key">${key}</div><div class="s-ar ar">${ar}</div><div class="s-en">${en}</div></div>`).join('')}</div>`;
+  const maxc=Math.max.apply(null,R.variants.top.map(t=>t[1]));
+  const ffHTML=`<div class="ri-forms">${R.variants.forms.map(f=>`<span class="formtag">Form ${f}</span>`).join('')}</div><div class="ffbars">${R.variants.top.map(([w,c])=>`<div class="ffrow"><span class="ff-w ar">${w}</span><span class="ff-bar"><i style="width:${(c/maxc*100).toFixed(0)}%"></i></span><span class="ff-c">${c}<em>×</em></span></div>`).join('')}</div>${QF.length?`<div class="ri-allforms">all ${QF.length} attested forms → Word memlet tab</div>`:''}`;
+  const famHTML=`<div class="chipgroup"><span class="cg-lab">Family</span><div class="rchips">${R.constellation.family.map(w=>`<span class="rchip"><span class="ar">${w}</span></span>`).join('')}</div></div><div class="chipgroup"><span class="cg-lab">Near-kin</span><div class="rchips">${R.constellation.near_syn.map(w=>`<span class="rchip alt"><span class="ar">${w}</span></span>`).join('')}</div></div>`;
+  const exHTML=R.examples.quran.map(([ref,txt])=>`<div class="ri-ex"><span class="ri-ref">${ref}</span><span class="ri-ext">${txt}</span></div>`).join('');
+  const govHTML=governmentHTML(a);
+  return `<div class="rinfo">
+    <div class="ri-hero">
+      <div class="ri-radicals">${R.radicals.map(x=>`<span class="rad ar">${x}</span>`).join('<span class="rad-dot">·</span>')}</div>
+      <div class="ri-head">${D.headline}</div>
+      <div class="ri-core"><span class="ar">${D.core_ar}</span><span class="ri-core-en">${D.core}</span></div>
+    </div>
+
+    ${act('I','What the root fundamentally is')}
+    ${sec('Root DNA','ar_ling_root_dna', `${poleAxis}<p class="ri-story">${D.story}</p>`)}
+    ${sec('Sense axes — the DNA, scored','ar_ling_root_sense_axes', axHTML)}
+
+    ${act('II','How the one idea fans into senses')}
+    ${sec('Unique senses','ar_ling_syn_sense', senseHTML)}
+    ${sec('Root image — the etymon','ar_ling_memlets · root_image', `<p class="ri-story">${R.root_image.body}</p><footer class="ri-foot"><span class="ri-anchor">anchor · ${R.root_image.anchor}</span></footer>`)}
+    ${sec('The contronym','ar_ling_memlets · related', `<p class="ri-story">${R.related.body}</p><div class="ri-pair"><span class="rchip"><span class="ar">${R.related.pair[0]}</span></span><span class="pole-x">↔</span><span class="rchip oppo"><span class="ar">${R.related.pair[1]}</span></span>${R.related.addad?'<span class="addad-tag">أضداد</span>':''}</div><footer class="ri-foot"><span class="ri-anchor">${R.related.dispute}</span></footer>`)}
+
+    ${act('III','Its reach across the language')}
+    ${sec(`Form families — ${R.variants.count} lemmas · ${R.variants.forms.length} forms`,'ar_ling_memlets · variants', ffHTML)}
+    ${govHTML?sec('Verb government — transitivity & how it is reached','ar_ling_verb_government', govHTML):''}
+    ${sec('Constellation — the web of clarity','ar_ling_memlets · constellation', `<p class="ri-story">${R.constellation.body}</p>${famHTML}<footer class="ri-foot"><span class="ri-anchor">authority · ${R.constellation.authority}</span></footer>`)}
+    ${sec('Examples — range across senses','ar_ling_memlets · examples', `<div class="ri-exlist">${exHTML}</div><div class="ri-poetry">‟ ${R.examples.poetry} ”</div>`)}
+    ${sec(`Attestation — ${R.attestation.count} witnesses`,'ar_ling_memlets · attestation', `<p class="ri-story">${R.attestation.body}</p><div class="ri-sources">${R.attestation.sources.map(s=>`<span class="wtag">${s}</span>`).join('')}</div>`)}
+  </div>`;
+}
+function renderMorph(){const el=document.querySelector('#morphView'); if(!el) return; el.innerHTML = morphRoot ? renderRootDetail() : VIEWS[morphState.e][morphState.m]();}
+let readingTk=true;
+function renderReading(){const el=document.querySelector('#mushafView'); if(!el) return;
+  const src = readingTk ? AYAT_FULL.map(a=>[a[0],a[1]]) : AYAT_BARE;
+  const AN='٠١٢٣٤٥٦٧٨٩', num=n=>String(n).split('').map(d=>AN[+d]).join('');
+  el.innerHTML = `<div class="mushafpage">` + src.map(([n,ar])=>`${ar} <span class="ayamark">${num(n)}</span>`).join(' ') + `</div>`;
+}
+
+/* render all pages — each its own box, no outer container */
+app.innerHTML = homeHTML() + STAGES.map((s,i)=>stageHTML(s,i)).join('');
+renderMorph(); renderReading();
+
+/* router — real page switch, no modals */
+function go(key,back){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active','back'));
+  const el=$('#page-'+key); el.classList.add('active'); if(back) el.classList.add('back');
+  window.scrollTo(0,0);
+}
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-go]'); if(t){ go(t.dataset.go, t.dataset.back==='1'); return; }
+  const op=e.target.closest('.quiz .opt'); if(op){ const box=op.closest('.opts'); if(!box.classList.contains('answered')){ box.classList.add('answered'); box.querySelectorAll('.opt').forEach(o=>{ if(o.dataset.ok==='1') o.classList.add('right'); }); if(op.dataset.ok!=='1'&&!op.classList.contains('unsure')){ op.classList.add('wrong'); const w=WORD_INFO[morphRoot]; WRONG_LOG.push({word:w?w.word:morphRoot, root:morphRoot, q:box.previousElementSibling?box.previousElementSibling.textContent:'', picked:op.textContent.trim(), t:Date.now()}); const wb=document.querySelector('#wrongBar'); if(wb) wb.innerHTML=wrongBarHTML(); } } return; }
+  const nq=e.target.closest('[data-newq]'); if(nq){ const box=document.querySelector('#quizBox'); if(box&&morphRoot) box.innerHTML=quizHTML(morphRoot); return; }
+  const fq=e.target.closest('[data-fq]'); if(fq){ const box=document.querySelector('#famQuizBox'); if(box&&morphRoot) box.innerHTML=familyQuizHTML(morphRoot); return; }
+  const tile=e.target.closest('.spell .tile'); if(tile && !tile.disabled){ const sp=tile.closest('.spell'), slots=[...sp.querySelectorAll('.slot')], empty=slots.find(s=>!s.textContent); if(empty){ empty.textContent=tile.dataset.l; tile.disabled=true; tile.classList.add('used'); if(slots.every(s=>s.textContent)){ const ok=slots.map(s=>s.textContent).join('')===sp.dataset.answer; sp.classList.add(ok?'right':'wrong'); sp.querySelector('.spell-msg').textContent=ok?'✓ correct — say it aloud':'✗ not quite — clear and retry'; } } return; }
+  const clr=e.target.closest('.spell [data-clear]'); if(clr){ const sp=clr.closest('.spell'); sp.classList.remove('right','wrong'); sp.querySelectorAll('.slot').forEach(s=>s.textContent=''); sp.querySelectorAll('.tile').forEach(tt=>{tt.disabled=false;tt.classList.remove('used');}); sp.querySelector('.spell-msg').textContent=''; return; }
+  const rc=e.target.closest('[data-root]'); if(rc){ morphRoot=rc.dataset.root; morphWord=rc.dataset.word||null; morphRootTab=(rc.dataset.tab==='memlet'||morphState.m==='memlets')?'memlet':'info'; renderMorph(); return; }
+  const rb=e.target.closest('[data-rootback]'); if(rb){ morphRoot=null; morphWord=null; renderMorph(); return; }
+  const rt=e.target.closest('[data-rt]'); if(rt){ morphRootTab=rt.dataset.rt; renderMorph(); return; }
+  const be=e.target.closest('[data-e]'); if(be){ morphRoot=null; morphWord=null; morphState.e=be.dataset.e; be.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===be));
+    const mm=document.querySelector('#mmMemlets'); if(mm){ if(morphState.e==='expr'){ mm.style.display='none'; morphState.m='info'; document.querySelectorAll('#morphMode button').forEach(x=>x.classList.toggle('on',x.dataset.m==='info')); } else mm.style.display=''; }
+    renderMorph(); return; }
+  const bm=e.target.closest('[data-m]'); if(bm){ morphState.m=bm.dataset.m; if(morphRoot)morphRootTab=bm.dataset.m==='memlets'?'memlet':'info'; else morphWord=null; bm.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===bm)); renderMorph(); return; }
+  const tk=e.target.closest('[data-tk]'); if(tk){ readingTk=tk.dataset.tk==='on'; tk.parentElement.querySelectorAll('button').forEach(x=>x.classList.toggle('on',x===tk)); renderReading(); return; }
+});
+</script>
+</body>
+</html>
