@@ -105,34 +105,14 @@ export class StudyPassageStructureStepComponent implements OnInit, AfterViewInit
   ngOnInit(): void {
     this.loadStoredFontScale();
     this.ref = this.refFromUnit();
-    const task = this.lesson?.tasks?.find(t => t.task_type === 'passage_structure');
-    if (!task) return;
 
-    // 1. Check if root task_json contains all sections
-    const rootParsed = this.parsePayload(task.task_json);
-    const rootSections = rootParsed?.analysis?.sections ?? rootParsed?.sections ?? [];
-    if (Array.isArray(rootSections) && rootSections.length) {
-      this.sections = rootSections;
-      const s = rootParsed?.scope?.ref;
-      if (s) this.ref = `${s.surah}:${s.verses}`;
-      return;
+    // Table-sourced: the per-step endpoint supplies the analysis cards from
+    // qr_passage_sections (no task_json). Each card is { key, title, badge,
+    // tone, renderer, data } — exactly the deck's PassageSection shape.
+    const sections = this.lesson?.passageStructure ?? [];
+    if (Array.isArray(sections) && sections.length) {
+      this.sections = sections as unknown as PassageSection[];
     }
-
-    // 2. Aggregate one section per child
-    const aggregated: PassageSection[] = [];
-    for (const child of task.children ?? []) {
-      const parsed = this.parsePayload(child.task_json);
-      if (!parsed) continue;
-      const sections = parsed?.analysis?.sections ?? parsed?.sections ?? [];
-      if (Array.isArray(sections)) {
-        aggregated.push(...sections);
-        if (!this.ref || this.ref === this.refFromUnit()) {
-          const s = parsed?.scope?.ref;
-          if (s) this.ref = `${s.surah}:${s.verses}`;
-        }
-      }
-    }
-    this.sections = aggregated;
   }
 
   ngAfterViewInit(): void {

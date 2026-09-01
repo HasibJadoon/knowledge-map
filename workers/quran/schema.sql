@@ -1706,3 +1706,18 @@ CREATE VIRTUAL TABLE qr_ss_scope_reading_fts USING fts5(
   reading_text,
   reading_text_ar
 );
+
+CREATE TABLE qr_passage_sections (
+  id           TEXT PRIMARY KEY,
+  passage_id   TEXT NOT NULL,
+  surah        INTEGER NOT NULL,
+  sort_order   INTEGER NOT NULL DEFAULT 0,
+  section_key  TEXT,
+  title        TEXT,
+  badge        TEXT,
+  tone         TEXT,
+  renderer     TEXT NOT NULL,
+  data_json    TEXT,
+  status       TEXT NOT NULL DEFAULT 'active',
+  created_at   TEXT NOT NULL DEFAULT (datetime('now'))
+);
