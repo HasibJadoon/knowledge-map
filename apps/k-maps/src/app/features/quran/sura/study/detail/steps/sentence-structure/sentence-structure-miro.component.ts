@@ -35,6 +35,7 @@ interface LayoutNode {
   color:     string;        // accent colour
   clause?:   SsClauseNodeVm;
   word?:     SsClauseWordVm;
+  audit?:    SsConstituencyNodeVm['audit'];   // role vs classical iʿrāb books
   children:  LayoutNode[];
 }
 
@@ -142,8 +143,18 @@ export class SentenceStructureMiroComponent {
       title: n.name,
       subtitle: n.label_ar ?? undefined,
       color: (n.term_id && this.termColors()[n.term_id]) || GOLD,
+      audit: n.audit,
       children: (n.children ?? []).map((k) => this.constituencyLayout(k)),
     };
+  }
+
+  /** Badge glyph for a node's iʿrāb-book audit status (empty when not audited). */
+  auditMark(node: LayoutNode): string {
+    switch (node.audit?.status) {
+      case 'corroborated': return '✓';
+      case 'divergent':    return '⚠';
+      default:             return '';
+    }
   }
 
   private clauseLayout(c: SsClauseNodeVm): LayoutNode {

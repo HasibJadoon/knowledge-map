@@ -134,6 +134,8 @@ export interface SsConstituencyNode {
   label_ar?: string;                 // grammatical role label, e.g. 'مبتدأ'
   note?:     string;
   word_id?:  string;                 // leaf → its word occurrence (lexicon cross-ref)
+  // Audit of this node's role against the classical iʿrāb books for its ayah.
+  audit?:    { status: 'corroborated' | 'divergent' | 'unverified'; books: { book: string; role: string }[] };
   children?: SsConstituencyNode[];
 }
 
@@ -898,6 +900,30 @@ export class StudyRepo {
       irabAyahByAyah.set(e.ayah, list);
     }
 
+    // ── Audit: cross-check each authored constituency role against the books ────
+    // For every node whose role label is a recognized iʿrāb role, find the
+    // classical books whose parsed phrase (same ayah) contains this node's text,
+    // and compare roles: corroborated (a book agrees), divergent (books assign a
+    // different role), or unverified (no book covers it). Diacritics are stripped
+    // on both sides for matching.
+    const auditConstituency = (node: SsConstituencyNode, ayah: number): void => {
+      const role = node.label_ar;
+      if (role && IRAB_ROLES.has(role)) {
+        const nb = stripTashkeel(node.name);
+        const books = nb
+          ? (irabAyahByAyah.get(ayah) ?? [])
+              .filter((e) => e.role && stripTashkeel(e.phrase ?? '').includes(nb))
+              .map((e) => ({ book: e.book, role: e.role as string }))
+          : [];
+        // Synonym-aware agreement (e.g. naʿt ≡ ṣifa) avoids false divergence.
+        const agree = books.some((b) => normRole(b.role) === normRole(role));
+        node.audit = books.length
+          ? { status: agree ? 'corroborated' : 'divergent', books }
+          : { status: 'unverified', books: [] };
+      }
+      node.children?.forEach((c) => auditConstituency(c, ayah));
+    };
+
     // ── tafsīr per ayah, attributed per work/mufassir ──────────────────────────
     const tafsirByAyah = new Map<number, { work: string | null; scholar: string | null; text: string | null }[]>();
     for (const t of tafsirRows) {
@@ -933,12 +959,15 @@ export class StudyRepo {
       };
       const trees = treesBySentence.get(s.id) ?? [];
       if (trees.length) {
-        trees.forEach((t, i) => sentences.push({
-          ...base,
-          id: trees.length > 1 ? `${s.id}#${i + 1}` : s.id,
-          grounding: t.grounding ?? 'authored',
-          tree: t.node,                                      // authored word-level constituency
-        }));
+        trees.forEach((t, i) => {
+          if (t.node) auditConstituency(t.node, s.ayah_from);  // audit roles vs the books
+          sentences.push({
+            ...base,
+            id: trees.length > 1 ? `${s.id}#${i + 1}` : s.id,
+            grounding: t.grounding ?? 'authored',
+            tree: t.node,                                    // authored word-level constituency
+          });
+        });
       } else {
         sentences.push({
           ...base,
@@ -1418,6 +1447,30 @@ const IRAB_BOOKS: Record<string, string> = {
   qul_irab_darwish:     'إعراب القرآن وبيانه (درويش)',
   tibyan_ukbari_irab:   'التبيان في إعراب القرآن (العكبري)',
 };
+
+// Recognized grammatical-role labels (qr_ss_term role keys) used to decide which
+// authored constituency nodes carry an iʿrāb role worth auditing against books.
+const IRAB_ROLES = new Set([
+  'مبتدأ', 'خبر', 'فاعل', 'نائب فاعل', 'مفعول به', 'مفعول مطلق', 'مضاف إليه',
+  'نعت', 'بدل', 'توكيد', 'عطف', 'حال', 'تمييز', 'ظرف', 'متعلق', 'جار ومجرور',
+  'منادى', 'صلة الموصول', 'جواب الشرط', 'جواب النداء',
+]);
+
+// Equivalent role labels — classical books and the authored trees sometimes use
+// different names for the same function (naʿt/ṣifa, mafʿūl muṭlaq/cognate, …).
+const ROLE_SYNONYM: Record<string, string> = {
+  'صفة': 'نعت',
+  'مفعول فيه': 'ظرف',
+};
+function normRole(r: string): string {
+  return ROLE_SYNONYM[r.trim()] ?? r.trim();
+}
+
+// Strip Arabic diacritics (ḥarakāt, tanwīn, dagger alif, tatweel, Qurʾānic marks)
+// so authored node text and book phrase text match by skeleton.
+function stripTashkeel(s: string | null | undefined): string {
+  return (s ?? '').replace(/[\u0617-\u061A\u064B-\u065F\u0670\u06D6-\u06ED\u0640]/g, '').trim();
+}
 
 const ROMAN = new Set(['I','II','III','IV','V','VI','VII','VIII','IX','X','XI','XII']);
 const ASPECT: Record<string, string> = { PERF: 'perfect', IMPF: 'imperfect', IMPV: 'imperative' };

@@ -133,3 +133,13 @@
 .ssm-legend { display: flex; flex-wrap: wrap; gap: 6px 12px; }
 .ssm-legend__item { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-family: 'Amiri', serif; color: var(--text); }
 .ssm-legend__dot { width: 11px; height: 11px; border-radius: 3px; }
+
+// iʿrāb audit
+.ssm-node__audit {
+  position: absolute; top: 6px; left: 8px; font-size: 12px; line-height: 1;
+  color: #6fcf7f; opacity: .9;
+  &.is-warn { color: #e0a64c; }
+}
+.ssm-audit.is-warn { border-color: #6a5326; }
+.ssm-ok   { color: #6fcf7f; }
+.ssm-warn { color: #e0a64c; }

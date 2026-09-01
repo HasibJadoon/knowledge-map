@@ -57,6 +57,10 @@
             @if (p.node.chip) {
               <span class="ssm-node__chip" dir="rtl">{{ p.node.chip }}</span>
             }
+            @if (auditMark(p.node)) {
+              <span class="ssm-node__audit" [class.is-warn]="p.node.audit?.status === 'divergent'"
+                    [title]="'iʿrāb books: ' + p.node.audit?.status">{{ auditMark(p.node) }}</span>
+            }
           </div>
         }
       </div>
@@ -112,6 +116,27 @@
             <p class="ssm-muted">Select a clause or word to inspect its grammar. The full analysis is in the panels below.</p>
           }
         </section>
+
+        <!-- iʿrāb audit: this node's role checked against the classical books -->
+        @if (sel.audit; as au) {
+          <section class="ssm-card ssm-audit" [class.is-warn]="au.status === 'divergent'">
+            <p class="ssm-label">
+              iʿrāb audit ·
+              <span [class.ssm-ok]="au.status === 'corroborated'" [class.ssm-warn]="au.status === 'divergent'">{{ au.status }}</span>
+            </p>
+            @if (au.books.length) {
+              <p class="ssm-muted" dir="rtl">{{ sel.subtitle }}</p>
+              @for (b of au.books; track $index) {
+                <div class="ssm-irab__head">
+                  <span class="ssm-irab__book" dir="rtl">{{ b.book }}</span>
+                  <span class="ssm-irab__role" dir="rtl">{{ b.role }}</span>
+                </div>
+              }
+            } @else {
+              <p class="ssm-muted">No classical book parses this span — unverified.</p>
+            }
+          </section>
+        }
       }
 
       <!-- Sentence synthesis: mode + note -->
